@@ -10,6 +10,7 @@ import {
 } from "../../../lib/points/actions";
 import { ProgramLogo } from "../../../lib/points/program-logo";
 import { PrintQr } from "../../../lib/points/print-qr";
+import { ProgramPreview } from "../../../lib/points/program-preview";
 export const dynamic = "force-dynamic";
 export default async function PointsPanel({
   searchParams,
@@ -171,6 +172,7 @@ export default async function PointsPanel({
           />
         </ActionForm>
       </section>
+      <ProgramPreview business={b.name} program={program} reward={rewards.find((r) => r.active)} />
       <section className="reviewBox">
         <h2>Tu equipo</h2>
         <p>
