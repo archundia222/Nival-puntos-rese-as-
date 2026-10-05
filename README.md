@@ -21,11 +21,11 @@ npm run dev
 - Captura manual de reseñas, clasificación positiva/neutral/negativa y confirmación de respuesta publicada en Google.
 - Resumen mensual calculado desde los registros, con descarga JSON.
 - Conserva clientes y puntos anteriores; no inventa fechas de visitas faltantes. Los reportes anteriores siguen guardados.
-- El panel de Google aún es una pantalla de prueba pública; no representa un acceso de administrador protegido.
+- Las rutas de demostración son públicas y usan datos locales; el panel real del operador en `/panel/nival` requiere permisos verificados.
 
 ## Verificación
 ```bash
-node --test tests/metrics.test.cjs
+node --test tests/metrics.test.cjs tests/monthly-report.test.cjs tests/database.test.mjs
 npx tsc --noEmit
 npm run build
 ```
@@ -42,6 +42,7 @@ npm run build
 - `/acceso`: registro y login con Supabase Auth.
 - `/panel`: negocio autenticado, clientes, visitas, canjes y recompensa.
 - `/panel/nival`: captura de reseñas por operador, bandeja de todos los negocios.
+- `/panel/reporte`: resumen mensual privado por negocio, selección de mes e impresión para guardar PDF. Cuenta visitas con horario de Ciudad de México; el promedio corresponde solo a reseñas capturadas, no a la calificación global de Google. Los meses anteriores reflejan el estado actual del historial, no una instantánea congelada.
 - `database/bootstrap.sql`: esquema nuevo con RLS, permisos por columna, puntos no negativos e historial protegido contra modificaciones.
 - Las rutas reales requieren las variables de `.env.example`. Si faltan, el acceso explica que está pendiente y ofrece la demo.
 - Las rutas de demostración conservan sus datos locales. No se migran automáticamente datos de navegador a cuentas reales.
