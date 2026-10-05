@@ -31,8 +31,8 @@ function waReminder(b:any){
  return 'https://wa.me/52'+String(b.phone||'').replace(/\D/g,'')+'?text='+encodeURIComponent(msg);
 }
 function waQuote(b:any,plan:any){
- const msg=`Hola, quiero cotizar o activar Nival Tech.%0A%0ANegocio: ${b.name}%0AGiro: ${b.giro||'—'}%0ADueño: ${b.owner_name||'—'}%0ATeléfono: ${b.phone||'—'}%0ACorreo: ${b.email||'—'}%0AID: ${b.id}%0APlan: ${plan?.name||'Sin plan'}`;
- return 'https://wa.me/525539044788?text='+msg;
+ const msg=`Hola, quiero cotizar o activar Nival Tech.\n\nNegocio: ${b.name}\nGiro: ${b.giro||'—'}\nDueño: ${b.owner_name||'—'}\nTeléfono: ${b.phone||'—'}\nCorreo: ${b.email||'—'}\nID: ${b.id}\nPlan: ${plan?.name||'Sin plan'}`;
+ return 'https://wa.me/525539044788?text='+encodeURIComponent(msg);
 }
 
 export default async function Admin({searchParams}:{searchParams:Promise<{business?:string;q?:string;status?:string}>}){
@@ -49,7 +49,7 @@ export default async function Admin({searchParams}:{searchParams:Promise<{busine
   count(*) filter(where b.status='activo')::int active,
   coalesce(sum(case when b.status='activo' and p.interval='month' then p.price_mxn else 0 end),0) mrr,
   count(*) filter(where b.status='activo' and b.paid_until between now() and now()+interval '7 days')::int expiring,
-  (select count(*)::int from nival_pr.tasks t where t.status<>'completada' and t.due_date=(now() at time zone 'America/Mexico_City')::date) tasks_today
+  (select count(*)::int from nival_pr.tasks t where t.status in ('pendiente','en_progreso') and t.due_date=(now() at time zone 'America/Mexico_City')::date) tasks_today
   from nival_pr.businesses b left join nival_pr.plans p on p.id=b.plan_id`);
  const businesses=await query(actor,`select b.*,p.name plan_name,p.price_mxn,p.interval
   from nival_pr.businesses b left join nival_pr.plans p on p.id=b.plan_id

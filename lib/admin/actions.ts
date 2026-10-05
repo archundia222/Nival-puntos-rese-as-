@@ -71,11 +71,11 @@ export async function registerPayment30(_:Result,f:FormData):Promise<Result>{
  try{
   const rows=await transaction(actor,[{text:`with updated as (
     update nival_pr.businesses
-    set status='activo',paid_until=greatest(coalesce(paid_until,now()),now())+interval '30 days'
+    set status='activo',paid_until=coalesce((nullif($5,'')::date::timestamp at time zone 'America/Mexico_City'),greatest(coalesce(paid_until,now()),now()))+interval '30 days'
     where id=$1 returning paid_until
    )
    insert into nival_pr.payments(business_id,amount,method,reference,period_start,period_end,registered_by)
-   select $1,$2,$3,nullif($4,''),coalesce(nullif($5,'')::date,(now() at time zone 'America/Mexico_City')::date),(u.paid_until at time zone 'America/Mexico_City')::date,$6
+   select $1,$2,$3,nullif($4,''),((u.paid_until-interval '30 days') at time zone 'America/Mexico_City')::date,(u.paid_until at time zone 'America/Mexico_City')::date,$6
    from updated u returning id,period_start,period_end`,values:[businessId,amount,method,reference,start,actor.id]}]);
   const payment=rows[0]?.[0];if(!payment)return {error:'Negocio no encontrado.'};
   await seedRecurringTasks(actor,businessId);
@@ -133,13 +133,21 @@ export async function createTask(_:Result,f:FormData):Promise<Result>{
 export async function moveTask(taskId:string,status:string):Promise<{ok:boolean}>{
  const actor=await requireRole('superadmin');
  if(!uuid(taskId)||!taskStates.includes(status))return {ok:false};
- const [row]=await query(actor,'update nival_pr.tasks set status=$2 where id=$1 returning id,business_id,title,due_date,recurrence',[taskId,status]);
- if(!row)return {ok:false};
- if(status==='completada'&&row.recurrence){
-  await query(actor,`insert into nival_pr.tasks(business_id,title,status,due_date,recurrence)
-   values($1,$2,'pendiente',case $4 when 'daily' then coalesce($3::date,current_date)+1 when 'weekly' then coalesce($3::date,current_date)+7 else (coalesce($3::date,current_date)+interval '1 month')::date end,$4)`,[row.business_id,row.title,row.due_date,row.recurrence]);
- }
- await audit(actor,'task.status_changed','tasks',row.business_id||null,{task_id:taskId,status,title:row.title});
+ const results=await transaction(actor,[{text:`with changed as (
+  update nival_pr.tasks set status=$2 where id=$1 and status<>$2
+  returning id,business_id,title,due_date,recurrence
+ ), next_task as (
+  insert into nival_pr.tasks(business_id,title,status,due_date,recurrence)
+  select business_id,title,'pendiente',case recurrence
+   when 'daily' then greatest(coalesce(due_date,current_date),current_date)+1
+   when 'weekly' then greatest(coalesce(due_date,current_date),current_date)+7
+   else (greatest(coalesce(due_date,current_date),current_date)+interval '1 month')::date end,recurrence
+  from changed where $2='completada' and recurrence is not null
+ )
+ insert into nival_pr.audit_log(actor_id,action,entity,business_id,data)
+ select $3,'task.status_changed','tasks',business_id,jsonb_build_object('task_id',id,'status',$2,'title',title)
+ from changed returning id`,values:[taskId,status,actor.id]}]);
+ if(!results[0]?.length)return {ok:false};
  revalidatePath('/admin');return {ok:true};
 }
 
@@ -168,8 +176,9 @@ export async function publishContent(_:Result,f:FormData):Promise<Result>{
 
 export async function saveGoogleReport(_:Result,f:FormData):Promise<Result>{
  const actor=await requireRole('superadmin');const businessId=val(f,'businessId'),period=val(f,'period'),rating=Number(val(f,'rating')),total=Number(val(f,'total')),fresh=Number(val(f,'new')),answered=Number(val(f,'answered')),notes=val(f,'notes'),changes=val(f,'changes');
- if(!uuid(businessId)||!/^\d{4}-\d{2}$/.test(period)||rating<1||rating>5||[total,fresh,answered].some(n=>!Number.isInteger(n)||n<0))return {error:'Revisa las métricas.'};
+ if(!uuid(businessId)||!/^\d{4}-\d{2}$/.test(period)||!Number.isFinite(rating)||rating<1||rating>5||[total,fresh,answered].some(n=>!Number.isInteger(n)||n<0))return {error:'Revisa las métricas.'};
  const distribution={1:Number(val(f,'star1')||0),2:Number(val(f,'star2')||0),3:Number(val(f,'star3')||0),4:Number(val(f,'star4')||0),5:Number(val(f,'star5')||0)};
+ if(Object.values(distribution).some(n=>!Number.isInteger(n)||n<0)||fresh>total||answered>total)return {error:'Revisa la distribución y los totales de reseñas.'};
  const checklist={horarios:f.get('check_hours')==='on',categoria:f.get('check_category')==='on',fotos:f.get('check_photos')==='on',descripcion:f.get('check_description')==='on'};
  try{
   await transaction(actor,[

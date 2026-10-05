@@ -22,3 +22,24 @@ test('PIN hashes and signed role hints resist guessing/tampering',async()=>{cons
 test('choose locks one customer goal; sequence enforces next reward',async()=>{const db=await setup();try{await db.query("insert into nival_pr.rewards(program_id,name,points_cost,position) select id,'Segundo premio',2,1 from nival_pr.programs where business_id=$1",[ba]);const rewards=(await db.query('select r.id from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 order by r.position',[ba])).rows;await db.query("update nival_pr.programs set mode='choose' where business_id=$1",[ba]);await as(db,'npr_v2_staff',ids.staff);for(let i=0;i<4;i++)await visit(db);const redeem=r=>db.query("insert into nival_pr.point_ledger(business_id,customer_id,type,points,staff_id,reward_id) values($1,$2,'redeem',-2,$3,$4)",[ba,ca,ids.staff,r]);await assert.rejects(redeem(rewards[0].id),/Selecciona tu meta/);await as(db,'npr_v2_auth');await db.query('select nival_pr_private.choose_goal($1,$2,$3)',[ba,'a'.repeat(64),rewards[0].id]);await assert.rejects(db.query('select nival_pr_private.choose_goal($1,$2,$3)',[ba,'a'.repeat(64),rewards[1].id]),/Goal locked/);await db.exec('reset role');await db.query("update nival_pr.programs set mode='sequence' where business_id=$1",[ba]);await as(db,'npr_v2_staff',ids.staff);await assert.rejects(redeem(rewards[1].id),/Premio fuera de secuencia/);await redeem(rewards[0].id);await redeem(rewards[1].id);await assert.rejects(redeem(rewards[0].id),/Premio fuera de secuencia/);}finally{await db.close();}});
 test('audit rolls back with business state transaction and can only read own business audit',async()=>{const db=await setup();try{await as(db,'npr_v2_admin',ids.admin);await db.exec('begin');await db.query("update nival_pr.businesses set status='pausado' where id=$1",[bb]);await db.exec('rollback');assert.equal((await db.query('select id from nival_pr.audit_log')).rows.length,0);await db.query("update nival_pr.businesses set status='pausado' where id=$1",[bb]);await as(db,'npr_v2_owner',ids.a);assert.equal((await db.query('select id from nival_pr.audit_log')).rows.length,0);await as(db,'npr_v2_owner',ids.b);assert.equal((await db.query('select id from nival_pr.audit_log')).rows.length,1);}finally{await db.close();}});
 test('expired staff sessions fail and owner role cannot use staff-only membership',async()=>{const db=await setup();try{await as(db,'npr_v2_auth');await db.query('select nival_pr_private.issue_staff_session($1,$2,$3)',[ids.staff,ba,'d'.repeat(64)]);await db.exec('reset role');await db.query("update nival_pr_private.staff_sessions set expires_at=now()-interval '1 hour'");await as(db,'npr_v2_auth');assert.equal((await db.query('select * from nival_pr_private.staff_session($1)',['d'.repeat(64)])).rows.length,0);await db.exec('reset role');await db.query("update nival_pr.memberships set role='staff' where user_id=$1",[ids.a]);await as(db,'npr_v2_owner',ids.a);assert.equal((await db.query('select id from nival_pr.businesses')).rows.length,0);}finally{await db.close();}});
+
+ test('recurring completion is atomic and repeat completion creates no duplicate',async()=>{const db=await setup();try{
+ await as(db,'npr_v2_admin',ids.admin);
+ const task=(await db.query("insert into nival_pr.tasks(business_id,title,recurrence,due_date) values($1,'Semanal','weekly',current_date-30) returning id",[ba])).rows[0];
+ const source=readFileSync('lib/admin/actions.ts','utf8');
+ const sql=source.match(/with changed as \([\s\S]*?from changed returning id/)[0];
+ await db.query(sql,[task.id,'completada',ids.admin]);
+ await db.query(sql,[task.id,'completada',ids.admin]);
+ const tasks=(await db.query("select status,due_date from nival_pr.tasks where title='Semanal'")).rows;
+ assert.equal(tasks.length,2);assert.equal(tasks.filter(t=>t.status==='pendiente').length,1);
+ assert.equal((await db.query("select count(*)::int n from nival_pr.audit_log where action='task.status_changed'")).rows[0].n,1);
+ }finally{await db.close();}});
+
+test('activation codes expire and a claimed code activates only once',async()=>{const db=await setup();try{
+ await db.query("insert into nival_pr.activation_codes(code,business_id,plan_id,expires_at,created_by) select 'NIV-AAAA-BBBB',$1,id,now()+interval '1 hour',$2 from nival_pr.plans limit 1",[ba,ids.admin]);
+ const source=readFileSync('lib/admin/actions.ts','utf8');const sql=source.match(/with claimed as \([\s\S]*?select \* from activated/)[0];
+ assert.equal((await db.query(sql,['NIV-AAAA-BBBB',ba])).rows.length,1);
+ assert.equal((await db.query(sql,['NIV-AAAA-BBBB',ba])).rows.length,0);
+ await db.query("insert into nival_pr.activation_codes(code,business_id,plan_id,expires_at,created_by) select 'NIV-CCCC-DDDD',$1,id,now()-interval '1 hour',$2 from nival_pr.plans limit 1",[ba,ids.admin]);
+ assert.equal((await db.query(sql,['NIV-CCCC-DDDD',ba])).rows.length,0);
+ }finally{await db.close();}});
