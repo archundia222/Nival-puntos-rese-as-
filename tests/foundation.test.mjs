@@ -43,3 +43,11 @@ test('activation codes expire and a claimed code activates only once',async()=>{
  await db.query("insert into nival_pr.activation_codes(code,business_id,plan_id,expires_at,created_by) select 'NIV-CCCC-DDDD',$1,id,now()-interval '1 hour',$2 from nival_pr.plans limit 1",[ba,ids.admin]);
  assert.equal((await db.query(sql,['NIV-CCCC-DDDD',ba])).rows.length,0);
  }finally{await db.close();}});
+
+test('payment activates a registered business for 30 days with consistent period',async()=>{const db=await setup();try{
+ await as(db,'npr_v2_admin',ids.admin);await db.query("update nival_pr.businesses set status='registrado',paid_until=null where id=$1",[ba]);
+ const source=readFileSync('lib/admin/actions.ts','utf8');const sql=source.match(/with updated as \([\s\S]*?returning id,period_start,period_end/)[0];
+ const row=(await db.query(sql,[ba,399,'transferencia','TEST','2026-10-05',ids.admin])).rows[0];
+ assert.equal(new Date(row.period_start).toISOString().slice(0,10),'2026-10-05');assert.equal(new Date(row.period_end).toISOString().slice(0,10),'2026-11-04');
+ assert.equal((await db.query('select status from nival_pr.businesses where id=$1',[ba])).rows[0].status,'activo');
+ }finally{await db.close();}});

@@ -71,11 +71,11 @@ export async function registerPayment30(_:Result,f:FormData):Promise<Result>{
  try{
   const rows=await transaction(actor,[{text:`with updated as (
     update nival_pr.businesses
-    set status='activo',paid_until=coalesce((nullif($5,'')::date::timestamp at time zone 'America/Mexico_City'),greatest(coalesce(paid_until,now()),now()))+interval '30 days'
+    set status='activo',paid_until=(coalesce(nullif($5,'')::date::timestamp,greatest(coalesce(paid_until,now()),now()) at time zone 'America/Mexico_City')+interval '30 days') at time zone 'America/Mexico_City'
     where id=$1 returning paid_until
    )
    insert into nival_pr.payments(business_id,amount,method,reference,period_start,period_end,registered_by)
-   select $1,$2,$3,nullif($4,''),((u.paid_until-interval '30 days') at time zone 'America/Mexico_City')::date,(u.paid_until at time zone 'America/Mexico_City')::date,$6
+   select $1,$2,$3,nullif($4,''),(u.paid_until at time zone 'America/Mexico_City')::date-30,(u.paid_until at time zone 'America/Mexico_City')::date,$6
    from updated u returning id,period_start,period_end`,values:[businessId,amount,method,reference,start,actor.id]}]);
   const payment=rows[0]?.[0];if(!payment)return {error:'Negocio no encontrado.'};
   await seedRecurringTasks(actor,businessId);
