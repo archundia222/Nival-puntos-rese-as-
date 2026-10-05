@@ -40,7 +40,7 @@ npm run build
 
 ## Backend independiente preparado (aún sin activar)
 - `/acceso`: registro y login con Supabase Auth.
-- `/panel`: negocio autenticado, clientes, visitas, canjes y recompensa.
+- `/panel`: negocio autenticado, clientes, búsqueda por nombre/teléfono, visitas, canjes con confirmación y recompensa. Última visita con horario de Ciudad de México.
 - `/panel/nival`: captura de reseñas por operador, bandeja de todos los negocios.
 - `database/diagnostics.sql`: diagnóstico manual con historial, lectura por negocio y escritura exclusiva del operador. Aplicar después de `bootstrap.sql` en la base independiente.
 - `/panel/reporte`: resumen mensual privado por negocio, selección de mes e impresión para guardar PDF. Cuenta visitas con horario de Ciudad de México; el promedio corresponde solo a reseñas capturadas, no a la calificación global de Google. Los meses anteriores reflejan el estado actual del historial, no una instantánea congelada.
