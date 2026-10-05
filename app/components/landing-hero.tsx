@@ -25,17 +25,17 @@ function Star() {
 
 export default function LandingHero() {
   const reduceMotion = useReducedMotion();
-  const { hero, navigation, brand } = landingContent;
+  const { hero, navigation, brand, brandHomeLabel } = landingContent;
 
   return (
     <div className={styles.landing}>
       <header className={styles.header}>
-        <a className={styles.brand} href="/" aria-label="Nival, inicio">
+        <a className={styles.brand} href="/" aria-label={brandHomeLabel}>
           <BrandMark />
           <span className={styles.brandName}>{brand}</span>
           <span className={styles.brandProduct}>{navigation.product}</span>
         </a>
-        <nav className={styles.navigation} aria-label="Navegación principal">
+        <nav className={styles.navigation} aria-label={navigation.label}>
           <a className={styles.demoLink} href="/demo">{navigation.demo}</a>
           <a className={styles.accessLink} href="/acceso">{navigation.access}</a>
         </nav>
@@ -61,10 +61,10 @@ export default function LandingHero() {
             </a>
             <a className={styles.secondaryButton} href="/demo">{navigation.demo}</a>
           </div>
-          <p className={styles.quickNote}>Para cafeterías y restaurantes de barrio.</p>
+          <p className={styles.quickNote}>{hero.quickNote}</p>
         </div>
 
-        <div className={styles.visual} role="img" aria-label="Ejemplo ficticio de una tarjeta de puntos en el celular y una nueva reseña de cinco estrellas">
+        <div className={styles.visual} role="img" aria-label={hero.visualAlt}>
           <div className={styles.visualLabel}>
             <span className={styles.labelRule} />
             <span>{hero.visualLabel}</span>
@@ -85,16 +85,16 @@ export default function LandingHero() {
             <div className={styles.phoneFrame}>
               <div className={styles.phoneTop}>
                 <span className={styles.phoneCamera} />
-                <span className={styles.phoneTime}>9:41</span>
-                <span className={styles.phoneSignal}>•••</span>
+                <span className={styles.phoneTime}>{hero.phoneTime}</span>
+                <span className={styles.phoneSignal} aria-hidden="true"><i /><i /><i /></span>
               </div>
               <div className={styles.phoneScreen}>
                 <div className={styles.storeHeader}>
-                  <span className={styles.storeMonogram}>C</span>
-                  <span className={styles.storeType}>CAFÉ · PUNTOS</span>
+                  <span className={styles.storeMonogram}>{hero.businessInitial}</span>
+                  <span className={styles.storeType}>{hero.productLabel}</span>
                 </div>
                 <h2 className={styles.storeName}>{hero.businessName}</h2>
-                <p className={styles.welcome}>Hola, {hero.customerName}</p>
+                <p className={styles.welcome}>{hero.greeting}, {hero.customerName}</p>
 
                 <div className={styles.pointsCard}>
                   <div className={styles.pointsTopline}>
@@ -120,11 +120,11 @@ export default function LandingHero() {
                 </div>
 
                 <div className={styles.visitRow}>
-                  <span className={styles.visitDot} />
-                  <span>Visita registrada</span>
+                  <span className={styles.visitDot} aria-hidden="true" />
+                  <span>{hero.visitRecorded}</span>
                   <strong>{hero.pointsBadge}</strong>
                 </div>
-                <div className={styles.phoneBottom}>
+                <div className={styles.phoneBottom} aria-hidden="true">
                   <span className={styles.homeBar} />
                 </div>
               </div>
@@ -138,11 +138,11 @@ export default function LandingHero() {
             transition={reduceMotion ? undefined : { duration: 6.8, repeat: Infinity, repeatDelay: 1.4, times: [0, 0.16, 0.78, 1], ease: "easeInOut" }}
           >
             <div className={styles.toastTop}>
-              <span className={styles.toastMark}>G</span>
+              <span className={styles.toastMark} aria-hidden="true">G</span>
               <span className={styles.toastTitle}>{hero.reviewTitle}</span>
-              <span className={styles.toastNow}>ahora</span>
+              <span className={styles.toastNow}>{hero.reviewTime}</span>
             </div>
-            <div className={styles.stars} aria-label="5 de 5 estrellas">
+            <div className={styles.stars} aria-label={hero.reviewStarsLabel}>
               {[0, 1, 2, 3, 4].map((star) => <Star key={star} />)}
             </div>
             <p className={styles.reviewAuthor}>{hero.reviewAuthor}</p>
@@ -150,9 +150,9 @@ export default function LandingHero() {
           </motion.div>
 
           <div className={styles.cornerNote} aria-hidden="true">
-            <span>01</span>
+            <span>{hero.cornerNumber}</span>
             <span className={styles.cornerLine} />
-            <span>CLIENTES QUE VUELVEN</span>
+            <span>{hero.cornerLabel}</span>
           </div>
         </div>
       </main>
