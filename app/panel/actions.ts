@@ -5,10 +5,10 @@ import {cardTokenValid} from '../../lib/customer-card';
 import {googleReviewUrl} from '../../lib/review-link';
 import {redirect} from 'next/navigation';
 import {revalidatePath} from 'next/cache';
-import {createClient} from '../../lib/supabase/server';
-import {supabaseConfigured} from '../../lib/supabase/config';
+import {createClient} from '../../lib/backend/server';
+import {backendConfigured} from '../../lib/backend/config';
 export type ActionResult={error?:string;success?:string};
-async function authenticated(){if(!supabaseConfigured())throw Error('setup');const client=await createClient();const{data,error}=await client.auth.getUser();if(error||!data.user)throw Error('auth');return {client,user:data.user};}
+async function authenticated(){if(!backendConfigured())throw Error('setup');const client=await createClient();const{data,error}=await client.auth.getUser();if(error||!data.user)throw Error('auth');return {client,user:data.user};}
 export async function createBusiness(_:ActionResult,form:FormData):Promise<ActionResult>{
  const name=String(form.get('name')||'').trim();if(name.length<1||name.length>150)return {error:'Escribe un nombre de negocio válido.'};
  try{const{client,user}=await authenticated();const{error}=await client.from('npr_businesses').insert({owner_id:user.id,name});if(error)return {error:'No se pudo crear el negocio. Revisa si ya registraste uno.'};}catch{return {error:'Inicia sesión para registrar tu negocio.'};}
@@ -37,7 +37,7 @@ export async function saveReviewLink(_:ActionResult,form:FormData):Promise<Actio
   if(readError)return {error:'La configuración de enlaces todavía está pendiente.'};
   const values={display_name:displayName,google_url:googleUrl,active:form.get('active')==='on'};
   const result=existing?await client.from('npr_review_links').update(values).eq('id',existing.id).select('id').single():await client.from('npr_review_links').insert({...values,business_id:business.id}).select('id').single();
-  if(result.error)return {error:'No se pudo guardar el enlace. Inténtalo nuevamente.'};
+  if(result.error||!result.data)return {error:'No se pudo guardar el enlace. Inténtalo nuevamente.'};
   revalidatePath('/panel');revalidatePath(`/opinar/${result.data.id}`);
   return {success:values.active?'Enlace guardado. Ya puedes compartirlo.':'Página desactivada.'};
  }catch{return {error:'Inicia sesión para configurar el enlace.'};}

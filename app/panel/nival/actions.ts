@@ -1,7 +1,7 @@
 'use server';
 import {validDate} from '../../../lib/diagnostics';
 import {mexicoDate} from '../../../lib/monthly-report';
-import {createClient} from '../../../lib/supabase/server';
+import {createClient} from '../../../lib/backend/server';
 import {revalidatePath} from 'next/cache';
 import type {ActionResult} from '../actions';
 async function operator(){const client=await createClient();const{data,error}=await client.auth.getUser();if(error||!data.user)throw Error('auth');const{data:role,error:roleError}=await client.from('npr_operators').select('user_id').eq('user_id',data.user.id).maybeSingle();if(roleError||!role)throw Error('role');return client;}

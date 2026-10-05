@@ -1,13 +1,13 @@
 import {redirect} from 'next/navigation';
-import {createClient} from '../../../lib/supabase/server';
-import {supabaseConfigured} from '../../../lib/supabase/config';
+import {createClient} from '../../../lib/backend/server';
+import {backendConfigured} from '../../../lib/backend/config';
 import {readAll} from '../../../lib/supabase/read-all';
 import {mexicoDate,monthlyReport,validMonth} from '../../../lib/monthly-report';
 import {diagnosticsForMonth} from '../../../lib/diagnostics';
 import {PrintButton} from './print-button';
 export const dynamic='force-dynamic';
 export default async function Report({searchParams}:{searchParams:Promise<{mes?:string}>}){
- if(!supabaseConfigured())redirect('/acceso');
+ if(!backendConfigured())redirect('/acceso');
  const client=await createClient();const{data,error}=await client.auth.getClaims();if(error||!data?.claims.sub)redirect('/acceso');
  const{data:business,error:businessError}=await client.from('npr_businesses').select('id,name').eq('owner_id',data.claims.sub).maybeSingle();
  if(businessError)return <main className="dashboard"><h1>Resumen mensual</h1><p role="alert">No se pudo consultar tu negocio.</p><a href="/panel">Volver al panel</a></main>;

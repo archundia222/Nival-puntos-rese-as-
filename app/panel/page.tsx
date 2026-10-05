@@ -4,13 +4,13 @@ import {mexicoDate} from '../../lib/monthly-report';
 import {CustomerList} from './customer-list';
 import {readAll} from '../../lib/supabase/read-all';
 import {redirect} from 'next/navigation';
-import {createClient} from '../../lib/supabase/server';
-import {supabaseConfigured} from '../../lib/supabase/config';
+import {createClient} from '../../lib/backend/server';
+import {backendConfigured} from '../../lib/backend/config';
 import {BusinessForm,CustomerForm,RewardForm} from './forms';
 import {logout} from './actions';
 export const dynamic='force-dynamic';
 export default async function Panel(){
- if(!supabaseConfigured())redirect('/acceso');
+ if(!backendConfigured())redirect('/acceso');
  const client=await createClient();const{data:claims,error:authError}=await client.auth.getClaims();if(authError||!claims?.claims.sub)redirect('/acceso');
  const{data:business,error}=await client.from('npr_businesses').select('id,name,reward_goal,reward_name,risk_days').eq('owner_id',claims.claims.sub).maybeSingle();
  if(error)return <main className="dashboard"><h1>Tu panel</h1><p role="alert">No se pudo consultar tu negocio. La base independiente puede estar pendiente de configuración.</p><a href="/acceso">Volver al acceso</a></main>;

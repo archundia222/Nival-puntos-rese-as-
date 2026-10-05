@@ -1,6 +1,6 @@
 'use client';
 import {useState} from 'react';
-import {createClient} from '../../lib/supabase/client';
+import {authClient} from '../../lib/backend/client';
 type Mode='login'|'register'|'recover'|'resend';
 const titles={login:'Iniciar sesión',register:'Crear cuenta',recover:'Recuperar contraseña',resend:'Confirmar mi correo'};
 const buttons={login:'Entrar',register:'Crear cuenta',recover:'Enviar enlace de recuperación',resend:'Reenviar confirmación'};
@@ -10,20 +10,20 @@ export default function AccessForm(){
  async function submit(event:React.FormEvent){
   event.preventDefault();if(busy)return;setBusy(true);setNotice('');setFailed(false);
   try{
-   const client=createClient();const address=email.trim();const callback=new URL('/auth/confirm',window.location.origin).href;
+   const client=authClient;const address=email.trim();
    if(mode==='register'){
-    const {data,error}=await client.auth.signUp({email:address,password,options:{emailRedirectTo:callback}});if(error)throw error;
-    if(data.session){window.location.href='/panel';return;}
+    const {data,error}=await client.signUp.email({email:address,password,name:address.split('@')[0],callbackURL:new URL('/panel',window.location.origin).href});if(error)throw error;
+    if(data?.user){window.location.href='/panel';return;}
     setNotice('Revisa tu correo para confirmar tu cuenta. Si ya la tienes, inicia sesión.');
    }else if(mode==='login'){
-    const {error}=await client.auth.signInWithPassword({email:address,password});
+    const {error}=await client.signIn.email({email:address,password});
     if(error){setFailed(true);setNotice('No se pudo iniciar sesión. Revisa tus datos o confirma tu correo.');return;}
     window.location.href='/panel';
    }else if(mode==='recover'){
-    const {error}=await client.auth.resetPasswordForEmail(address,{redirectTo:`${callback}?flow=recovery`});if(error)throw error;
+    const {error}=await client.requestPasswordReset({email:address,redirectTo:new URL('/restablecer',window.location.origin).href});if(error)throw error;
     setNotice('Si existe una cuenta con ese correo, recibirás un enlace para cambiar tu contraseña. Revisa también la carpeta de spam.');
    }else{
-    const {error}=await client.auth.resend({type:'signup',email:address,options:{emailRedirectTo:callback}});if(error)throw error;
+    const {error}=await client.sendVerificationEmail({email:address,callbackURL:new URL('/panel',window.location.origin).href});if(error)throw error;
     setNotice('Si tu cuenta necesita confirmación, recibirás un nuevo correo. Revisa también la carpeta de spam.');
    }
   }catch{setFailed(true);setNotice('No se pudo completar la solicitud. Espera un minuto y vuelve a intentarlo.');}finally{setBusy(false);}
