@@ -34,7 +34,9 @@ export async function changeBusinessStatus(_:Result,f:FormData):Promise<Result>{
  const actor=await requireRole('superadmin');const businessId=val(f,'businessId'),status=val(f,'status');
  if(!uuid(businessId)||!states.includes(status))return {error:'Estado inválido.'};
  try{
-  const [row]=await query(actor,'update nival_pr.businesses set status=$2 where id=$1 returning id,status',[businessId,status]);
+  const [row]=await query(actor,`update nival_pr.businesses
+   set status=$2,paid_until=case when $2='activo' and (paid_until is null or paid_until<=now()) then now()+interval '30 days' else paid_until end
+   where id=$1 returning id,status,paid_until`,[businessId,status]);
   if(!row)return {error:'Negocio no encontrado.'};
   if(status==='activo')await seedRecurringTasks(actor,businessId);
   revalidatePath('/admin');revalidatePath('/panel');
