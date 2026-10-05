@@ -1,19 +1,121 @@
-import {cookies} from 'next/headers';
-import {notFound} from 'next/navigation';
-import {query,authScope,foundationEnabled} from '../../../lib/foundation/db';
-import {sha256} from '../../../lib/foundation/security.mjs';
-import {enroll,consentCard,chooseGoal} from '../../../lib/foundation/actions';
-import {ActionForm} from '../../../lib/foundation/forms';
-import {Field,Hidden} from '../../../lib/foundation/fields';
-export const dynamic='force-dynamic';
-export default async function Customer({params}:{params:Promise<{slug:string}>}){
- const {slug}=await params;if(!foundationEnabled())return <main className="dashboard"><h1>Programa en preparación</h1><a href="/demo">Ver demostración</a></main>;
- const [row]=await query(authScope(),'select nival_pr_private.public_business($1) as data',[slug]);if(!row?.data)notFound();const b=row.data;
- const token=(await cookies()).get('nival_customer_'+b.id)?.value;
- const hash=token&&/^[A-Za-z0-9_-]{43}$/.test(token)?sha256(token):null;
- const [customer]=hash?await query({role:'customer',tokenHash:hash},'select id from nival_pr.customers where business_id=$1',[b.id]):[];
- const [valid]=hash&&!customer?await query(authScope(),'select nival_pr_private.customer_token_valid($1,$2) as valid',[b.id,hash]):[];
- const [balance]=customer&&hash?await query({role:'customer',tokenHash:hash},'select nival_pr.point_balance($1) as points',[customer.id]):[];
- const googleUrl=typeof b.google_maps_url==='string'&&/^https:\/\/(?:g\.page|maps\.app\.goo\.gl|(?:www\.)?google\.com)\//.test(b.google_maps_url)?b.google_maps_url:null;
- return <main className="dashboard publicReview pointCard"><header><small>NIVAL · LEALTAD</small><h1>{b.name}</h1><p>{b.program?.name||'Tus recompensas'}</p></header>{!b.active?<section className="reviewBox"><h2>Programa no disponible</h2><p>Consulta al negocio para conocer la disponibilidad del servicio.</p></section>:customer?<section className="reviewBox"><h2>Tu tarjeta</h2><p className="pointBalance">{String(balance?.points||0)} <span>puntos disponibles</span></p><p>El personal suma tus puntos después de tu visita.</p></section>:valid?.valid?<section className="reviewBox"><h2>Activa tu tarjeta</h2><ActionForm action={consentCard} label="Consultar mis puntos"><Hidden name="slug" value={slug}/><label className="wide"><input name="consent" type="checkbox" required/>Acepto que {b.name} registre mi nombre, teléfono y visitas para administrar este programa de lealtad. Puedo solicitar la baja directamente al negocio.</label></ActionForm></section>:<section className="reviewBox"><h2>Obtén tu tarjeta</h2><p>Sin descargar aplicaciones. Tu tarjeta quedará vinculada a este navegador.</p><ActionForm action={enroll} label="Crear mi tarjeta"><Hidden name="slug" value={slug}/><Field name="name" label="Tu nombre"/><Field name="phone" label="Teléfono" type="tel"/><label className="wide"><input type="checkbox" name="consent" required/>Acepto que {b.name} registre mi nombre, teléfono y visitas para administrar este programa de lealtad. Puedo solicitar la baja directamente al negocio.</label></ActionForm></section>}{customer&&b.active&&b.program?.mode==='choose'&&<section className="reviewBox"><h2>Elige tu meta</h2><ActionForm action={chooseGoal} label="Elegir este premio"><Hidden name="slug" value={slug}/><label>Premio<select name="rewardId">{(b.rewards||[]).map((r:any)=><option key={r.id} value={r.id}>{r.name} · {r.points_cost} puntos</option>)}</select></label></ActionForm></section>}<section className="reviewBox"><h2>Recompensas</h2>{(b.rewards||[]).map((r:any)=><p key={r.id}><strong>{r.name}</strong> · {r.points_cost} puntos</p>)}{!b.rewards?.length&&<p>El negocio está preparando sus premios.</p>}</section>{googleUrl&&<p><a className="reviewCta" href={googleUrl} target="_blank" rel="noopener noreferrer">Dejar una reseña en Google</a></p>}<p className="notice">Si cambias de teléfono o borras las cookies, pide al negocio un nuevo acceso. Tu saldo no se borra.</p></main>;
+import { cookies } from "next/headers";
+import { notFound } from "next/navigation";
+import QRCode from "qrcode";
+import {
+  foundationEnabled,
+  query,
+  authScope,
+} from "../../../lib/foundation/db";
+import { publicBusiness, card } from "../../../lib/points/security";
+import { sha256 } from "../../../lib/foundation/security.mjs";
+import { CardView } from "../../../lib/points/card-view";
+import { enroll, consentCard } from "../../../lib/foundation/actions";
+import { ActionForm } from "../../../lib/foundation/forms";
+import { Field, Hidden } from "../../../lib/foundation/fields";
+export const dynamic = "force-dynamic";
+export default async function Customer({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  if (!foundationEnabled())
+    return (
+      <main className="dashboard">
+        <h1>Programa en preparación</h1>
+      </main>
+    );
+  const b = await publicBusiness(slug);
+  if (!b) notFound();
+  const c = await card(b.id);
+  const token = (await cookies()).get("nival_customer_" + b.id)?.value;
+  const [valid] =
+    token && /^[A-Za-z0-9_-]{43}$/.test(token)
+      ? await query(
+          authScope(),
+          "select nival_pr_private.customer_token_valid($1,$2) valid",
+          [b.id, sha256(token)],
+        )
+      : [];
+  const qr = c
+    ? await QRCode.toDataURL("NIVAL:" + c.id, {
+        errorCorrectionLevel: "M",
+        width: 320,
+        margin: 4,
+      })
+    : "";
+  return (
+    <main className="loyaltyShell">
+      <header className="loyaltyHeader">
+        <a href={"/b/" + slug}>{b.name}</a>
+        <span>Tu lealtad tiene premio</span>
+      </header>
+      {!b.active ? (
+        <section className="reviewBox">
+          <h1>Programa no disponible</h1>
+          <p>Consulta al negocio. Tus puntos se conservan.</p>
+        </section>
+      ) : c ? (
+        <CardView business={b} initial={c} qr={qr} />
+      ) : (
+        <section className="enrollCard">
+          <small>BIENVENIDO A {b.name.toUpperCase()}</small>
+          <h1>
+            {valid?.valid
+              ? "Activa tu tarjeta"
+              : "Tus visitas merecen algo más."}
+          </h1>
+          <p>
+            Tu tarjeta digital, siempre contigo. Sin descargar aplicaciones.
+          </p>
+          <ActionForm
+            action={valid?.valid ? consentCard : enroll}
+            label={valid?.valid ? "Activar mi tarjeta" : "Crear mi tarjeta"}
+          >
+            <Hidden name="slug" value={slug} />
+            {!valid?.valid && (
+              <>
+                <Field name="name" label="Tu nombre" />
+                <label>
+                  Teléfono de México (+52)
+                  <input
+                    name="phone"
+                    type="tel"
+                    inputMode="tel"
+                    autoComplete="tel"
+                    placeholder="55 1234 5678"
+                    required
+                    maxLength={18}
+                  />
+                </label>
+              </>
+            )}
+            <label className="wide consentLabel">
+              <input name="consent" type="checkbox" required />
+              <span>
+                Acepto el registro de mis datos y visitas para este programa de
+                lealtad. Leí el{" "}
+                <a
+                  href={"/privacidad?negocio=" + encodeURIComponent(b.name)}
+                  target="_blank"
+                  rel="noopener"
+                >
+                  aviso de privacidad
+                </a>
+                .
+              </span>
+            </label>
+          </ActionForm>
+        </section>
+      )}
+      <footer className="loyaltyFooter">
+        <p>
+          Si cambias de celular, pide al mesero que te reenvíe tu tarjeta. Tus
+          puntos se conservan.
+        </p>
+        <a href="/privacidad">Privacidad</a>
+        <span>Hecho con Nival Tech</span>
+      </footer>
+    </main>
+  );
 }

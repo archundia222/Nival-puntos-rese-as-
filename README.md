@@ -50,3 +50,7 @@ Código en la rama `feature/cimiento-neon-roles`. Preview READY: https://nival-p
 Guía: [docs/DESPLIEGUE.md](docs/DESPLIEGUE.md). Pruebas manuales: [docs/PRUEBAS-MANUALES.md](docs/PRUEBAS-MANUALES.md). Evidencia y límites: [docs/VALIDACION.md](docs/VALIDACION.md).
 
 Los SQL anteriores de Supabase son históricos: no aplicarlos en Neon. No ejecutar el cimiento en bases de otros productos.
+
+## Fase 3 — Nival Puntos
+
+Implementación en Neon de la tarjeta `/b/{slug}`, escáner `/staff`, fotos privadas de evidencia y configuración del owner en `/panel/puntos`. Detalles y aceptación: [docs/PUNTOS-FASE3.md](docs/PUNTOS-FASE3.md). Las tres migraciones incrementales de puntos ya se aplicaron en la base independiente; el código de esta fase está preparado localmente y pendiente de autorización para publicarlo en GitHub público/Preview. No volver a ejecutar el cimiento ni utilizar bases de Nival Pay o Nival Links.

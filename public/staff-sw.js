@@ -1,0 +1,1 @@
+self.addEventListener('install',()=>self.skipWaiting());self.addEventListener('activate',event=>event.waitUntil(self.clients.claim()));/* No cache: customer data, photos, sessions and writes always require network. */
