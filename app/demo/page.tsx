@@ -1,10 +1,6 @@
-import { DM_Sans, Fraunces } from "next/font/google";
 import Link from "next/link";
 import "@fontsource-variable/dm-sans";\nimport "@fontsource-variable/fraunces";\nimport { landingContent } from "../content";
 import styles from "./demo.module.css";
-
-const displayFont = Fraunces({ subsets: ["latin"], variable: "--font-display" });
-const textFont = DM_Sans({ subsets: ["latin"], variable: "--font-body" });
 
 function Stars() {
   return (
