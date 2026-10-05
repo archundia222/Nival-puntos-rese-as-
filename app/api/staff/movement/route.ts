@@ -1,3 +1,4 @@
+import {evidenceStorage,saveEvidence} from "../../../../lib/storage/evidence.mjs";
 import { kickWalletJobs } from "../../../../lib/wallet/server";
 import { NextResponse } from "next/server";
 import { randomUUID } from "node:crypto";
@@ -61,11 +62,9 @@ export async function POST(req: Request) {
         );
       const { bytes, ext, type: mime } = await validatePhoto(file);
       const path = b + "/" + c + "/" + randomUUID() + "." + ext;
-      await query(
-        authScope(actor.id),
-        "select nival_pr_private.store_photo($1,$2,$3,$4,$5)",
-        [b, c, path, bytes.toString("base64"), mime],
-      );
+      await saveEvidence({path,bytes,mime,storage:evidenceStorage(),register:async({key,size,hash}:{key:string;size:number;hash:string})=>{
+        await query(authScope(actor.id),"select nival_pr_private.store_photo_object($1,$2,$3,$4,$5,$6,$7)",[b,c,path,key,mime,size,hash]);
+      }});
       uploaded = path;
     }
     const text =

@@ -1,4 +1,5 @@
 "use client";
+import {compressPhoto} from "./compress-photo";
 import { useEffect, useRef, useState } from "react";
 import { BrowserQRCodeReader, type IScannerControls } from "@zxing/browser";
 export function Scanner({ businessId }: { businessId: string }) {
@@ -96,9 +97,10 @@ export function Scanner({ businessId }: { businessId: string }) {
     f.set("businessId", businessId);
     f.set("customerId", customer.id);
     f.set("type", type);
-    if (photo) f.set("photo", photo);
+
     if (confirmed) f.set("confirm", "yes");
     try {
+      if(type==="redeem"&&photo)f.set("photo",await compressPhoto(photo));
       const r = await fetch("/api/staff/movement", { method: "POST", body: f });
       const d = await r.json();
       if (!r.ok) throw Error(d.error);

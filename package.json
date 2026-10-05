@@ -13,6 +13,8 @@
     "db:admin": "node --env-file=.env.local scripts/bootstrap-admin.mjs --grant"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1146.0",
+    "@aws-sdk/s3-request-presigner": "^3.1146.0",
     "@neondatabase/auth": "0.5.0-beta",
     "@neondatabase/serverless": "1.2.0",
     "@supabase/ssr": "0.12.7",
@@ -24,6 +26,7 @@
     "qrcode": "1.5.4",
     "react": "19.3.0",
     "react-dom": "19.3.0",
+    "sharp": "^0.35.5",
     "tailwindcss": "4.3.3"
   },
   "devDependencies": {
