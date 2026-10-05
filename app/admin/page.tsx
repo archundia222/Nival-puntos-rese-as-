@@ -69,7 +69,7 @@ export default async function Admin({searchParams}:{searchParams:Promise<{busine
  const reviewRows=await query(actor,`select t.id,t.title,t.status,t.due_date,b.name business_name,b.id business_id
    from nival_pr.tasks t join nival_pr.businesses b on b.id=t.business_id
    where t.title like 'REVIEW:%' order by case when t.status='completada' then 1 else 0 end,t.created_at desc limit 100`);
- const reviews=reviewRows.map(r=>({...r,review:reviewPayload(r.title)})).filter(r=>r.review);
+ const reviews:any[]=reviewRows.map(r=>({...r,review:reviewPayload(r.title)})).filter(r=>r.review);
  const contents=await query(actor,'select key,value_draft,value_published,published_at from nival_pr.site_content order by key');
  const contentMap=new Map(contents.map(c=>[c.key,c]));
  const shortLinks=await query(actor,'select s.code,s.target_url,s.business_id,b.name business_name from nival_pr.short_links s left join nival_pr.businesses b on b.id=s.business_id order by s.code limit 100');
