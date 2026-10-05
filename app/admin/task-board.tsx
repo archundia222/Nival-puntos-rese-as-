@@ -1,6 +1,6 @@
 'use client';
 import {useMemo,useState,useTransition} from 'react';
-import {moveTask} from '../../../lib/admin/actions';
+import {moveTask} from '../../lib/admin/actions';
 
 type Task={id:string;title:string;status:string;due_date:string|null;business_name?:string|null;recurrence?:string|null};
 const columns=[
