@@ -42,6 +42,7 @@ npm run build
 - `/acceso`: registro y login con Supabase Auth.
 - `/panel`: negocio autenticado, clientes, visitas, canjes y recompensa.
 - `/panel/nival`: captura de reseñas por operador, bandeja de todos los negocios.
+- `database/diagnostics.sql`: diagnóstico manual con historial, lectura por negocio y escritura exclusiva del operador. Aplicar después de `bootstrap.sql` en la base independiente.
 - `/panel/reporte`: resumen mensual privado por negocio, selección de mes e impresión para guardar PDF. Cuenta visitas con horario de Ciudad de México; el promedio corresponde solo a reseñas capturadas, no a la calificación global de Google. Los meses anteriores reflejan el estado actual del historial, no una instantánea congelada.
 - `database/bootstrap.sql`: esquema nuevo con RLS, permisos por columna, puntos no negativos e historial protegido contra modificaciones.
 - Las rutas reales requieren las variables de `.env.example`. Si faltan, el acceso explica que está pendiente y ofrece la demo.
@@ -52,7 +53,8 @@ npm run build
 2. Revisar tablas existentes y confirmar que los nombres `npr_*` no estén ocupados. Aplicar `database/bootstrap.sql` una sola vez en el proyecto independiente.
 3. Configurar URL y clave publicable del proyecto separado, redirecciones de Auth y el correo de confirmación. La plantilla de confirmación debe apuntar a `/auth/confirm?token_hash={{ .TokenHash }}&type=signup` en el dominio del nuevo sitio. Verificar envío de correos antes de vender.
 4. Dar permisos al operador insertando su UUID verificado de Auth en `npr_operators` desde la administración de la base; nadie puede darse ese permiso desde la web.
-5. Probar registro, confirmación, login, separación entre dos negocios, visita, canje, captura y lectura de reseñas en la base real.
+5. Aplicar `database/diagnostics.sql` y probar diagnóstico y comparación entre revisiones. No se conecta a la API de Google.
+6. Probar registro, confirmación, login, separación entre dos negocios, visita, canje, captura y lectura de reseñas en la base real.
 
 ### Pruebas de permisos sin tocar bases externas
 `node --test tests/database.test.mjs` ejecuta el esquema en PostgreSQL embebido con usuarios ficticios. Comprueba aislamiento de negocios, bloqueo de autopromoción a operador, permisos de reseñas y canjes sin saldo. No sustituye la prueba de conexión, correo y cookies contra Supabase real.
