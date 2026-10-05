@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - feature/cimiento-neon-roles
+      - feature/piloto-bloque-1
   pull_request:
 jobs:
   validate:
