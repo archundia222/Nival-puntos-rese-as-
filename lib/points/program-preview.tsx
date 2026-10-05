@@ -1,4 +1,4 @@
-export function ProgramPreview({business,program,reward}:{business:string;program?:{name?:string;color?:string;logo_url?:string|null};reward?:{name:string;points_cost:number}}){
+export function ProgramPreview({business,program,reward}:{business:string;program?:{name?:string;color?:string;logo_url?:string|null};reward?:Record<string, any>}){
  const color=program?.color||'#164d3b',name=program?.name||'Mis recompensas';
  return <section className="reviewBox" aria-label="Vista previa de tarjeta">
   <small>VISTA PREVIA · ASÍ LA VERÁ TU CLIENTE</small>
