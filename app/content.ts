@@ -31,7 +31,7 @@ export const landingContent = {
   },
   hero: {
     eyebrow: "Para cafeterías y restaurantes",
-    titleStart: "Haz que tus clientes",
+    titleStart: "Consigue más clientes y haz que",
     titleEnd: "vuelvan",
     subtitle: "Más visitas frecuentes y más reseñas de Google para tu negocio.",
     whatsappLabel: "Cotizar por WhatsApp",
