@@ -1,4 +1,5 @@
 "use server";
+import { kickWalletJobs } from "../wallet/server";
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
@@ -185,6 +186,7 @@ export async function movement(_: Result, f: FormData): Promise<Result> {
     return failure(e);
   }
   revalidatePath("/panel");
+  kickWalletJobs();
   revalidatePath("/staff");
   return {
     success:
@@ -249,6 +251,7 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
     return failure(e);
   }
   revalidatePath("/panel");
+  kickWalletJobs();
   return { success: "Programa guardado." };
 }
 export async function addReward(_: Result, f: FormData): Promise<Result> {

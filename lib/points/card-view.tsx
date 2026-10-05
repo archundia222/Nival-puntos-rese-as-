@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { WalletButton } from "../wallet/button";
 import { ActionForm } from "../foundation/forms";
 import { Hidden } from "../foundation/fields";
 import { chooseGoal } from "../foundation/actions";
@@ -154,6 +155,7 @@ export function CardView({
           </div>
         )}
       </article>
+      <WalletButton slug={business.slug} />
       <section className="personalQr">
         <div>
           <small>TU QR PERSONAL</small>

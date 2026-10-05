@@ -1,3 +1,4 @@
+import { kickWalletJobs } from "../../../../lib/wallet/server";
 import { NextResponse } from "next/server";
 import { randomUUID } from "node:crypto";
 import {
@@ -79,6 +80,7 @@ export async function POST(req: Request) {
         : [b, c, actor.id, customer.reward.id, uploaded],
     );
     if (!movement) throw Error("Programa no configurado");
+    kickWalletJobs();
     const [updated] = await query(
       authScope(actor.id),
       "select nival_pr_private.staff_customer($1,null,$2) data",

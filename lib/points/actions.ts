@@ -1,4 +1,5 @@
 "use server";
+import { kickWalletJobs } from "../wallet/server";
 import { revalidatePath } from "next/cache";
 import { query, authScope } from "../foundation/db";
 import { requireRole, requireBusiness } from "../foundation/session";
@@ -48,6 +49,7 @@ export async function reviewRedemption(
       "select nival_pr_private.review_redemption($1,$2,$3)",
       [b, d, op],
     );
+    kickWalletJobs();
     revalidatePath("/panel/puntos");
     return {
       success:
