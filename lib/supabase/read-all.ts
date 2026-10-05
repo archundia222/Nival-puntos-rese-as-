@@ -1,0 +1,2 @@
+// Read explicit pages so a provider row cap cannot silently change report totals.
+export async function readAll<T>(fetchPage:(start:number,end:number)=>PromiseLike<{data:T[]|null;error:unknown}>,maximum=20000){const rows:T[]=[];for(let start=0;start<maximum;start+=500){const{data,error}=await fetchPage(start,start+499);if(error)return {data:null,error};if(!data)return {data:null,error:new Error('No data response')};rows.push(...data);if(data.length<500)return {data:rows,error:null};}return {data:null,error:new Error('Report limit reached; aggregate queries required')};}

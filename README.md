@@ -36,3 +36,22 @@ npm run build
 3. Enlace público de reseñas y tarjeta de puntos con identificador seguro.
 4. Despliegue de prueba y recorrido móvil completo antes de admitir clientes reales.
 5. Integración de Google Business Profile después de validar ingresos, según la instrucción del dueño.
+
+
+## Backend independiente preparado (aún sin activar)
+- `/acceso`: registro y login con Supabase Auth.
+- `/panel`: negocio autenticado, clientes, visitas, canjes y recompensa.
+- `/panel/nival`: captura de reseñas por operador, bandeja de todos los negocios.
+- `database/bootstrap.sql`: esquema nuevo con RLS, permisos por columna, puntos no negativos e historial protegido contra modificaciones.
+- Las rutas reales requieren las variables de `.env.example`. Si faltan, el acceso explica que está pendiente y ofrece la demo.
+- Las rutas de demostración conservan sus datos locales. No se migran automáticamente datos de navegador a cuentas reales.
+
+### Activación pendiente
+1. Reactivar y revisar el proyecto de pruebas antes de aplicar el SQL. No ejecutar el esquema en bases existentes de Nival Pay, Nival Tech o Nival Links.
+2. Revisar tablas existentes y confirmar que los nombres `npr_*` no estén ocupados. Aplicar `database/bootstrap.sql` una sola vez en el proyecto independiente.
+3. Configurar URL y clave publicable del proyecto separado, redirecciones de Auth y el correo de confirmación. La plantilla de confirmación debe apuntar a `/auth/confirm?token_hash={{ .TokenHash }}&type=signup` en el dominio del nuevo sitio. Verificar envío de correos antes de vender.
+4. Dar permisos al operador insertando su UUID verificado de Auth en `npr_operators` desde la administración de la base; nadie puede darse ese permiso desde la web.
+5. Probar registro, confirmación, login, separación entre dos negocios, visita, canje, captura y lectura de reseñas en la base real.
+
+### Pruebas de permisos sin tocar bases externas
+`node --test tests/database.test.mjs` ejecuta el esquema en PostgreSQL embebido con usuarios ficticios. Comprueba aislamiento de negocios, bloqueo de autopromoción a operador, permisos de reseñas y canjes sin saldo. No sustituye la prueba de conexión, correo y cookies contra Supabase real.

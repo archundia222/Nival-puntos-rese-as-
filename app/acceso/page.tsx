@@ -1,0 +1,3 @@
+import AccessForm from './form';
+import {supabaseConfigured} from '../../lib/supabase/config';
+export default function Access(){return <main className="dashboard"><header className="dashHead"><div><small>NIVAL · PUNTOS + RESEÑAS</small><h1>Acceso a tu negocio</h1><p>Tu cuenta para administrar clientes y consultar resultados.</p></div><a href="/">Inicio</a></header>{supabaseConfigured()?<AccessForm/>:<section className="reviewBox"><h2>Acceso real en preparación</h2><p>La base independiente necesita activarse antes de habilitar cuentas. Mientras tanto puedes recorrer la demostración con datos ficticios.</p><a className="primary" href="/registro">Probar la demostración</a></section>}</main>}
