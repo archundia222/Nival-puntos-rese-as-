@@ -312,9 +312,21 @@
 }
 
 .phoneSignal {
-  font-size: 8px;
-  letter-spacing: 2px;
+  display: flex;
+  height: 9px;
+  align-items: flex-end;
+  gap: 2px;
 }
+
+.phoneSignal i {
+  width: 2px;
+  height: 4px;
+  border-radius: 2px;
+  background: #e8eee7;
+}
+
+.phoneSignal i:nth-child(2) { height: 6px; }
+.phoneSignal i:nth-child(3) { height: 8px; }
 
 .phoneScreen {
   position: relative;
