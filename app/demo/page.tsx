@@ -1,5 +1,7 @@
 import Link from "next/link";
-import "@fontsource-variable/dm-sans";\nimport "@fontsource-variable/fraunces";\nimport { landingContent } from "../content";
+import "@fontsource-variable/dm-sans";
+import "@fontsource-variable/fraunces";
+import { landingContent } from "../content";
 import styles from "./demo.module.css";
 
 function Stars() {
