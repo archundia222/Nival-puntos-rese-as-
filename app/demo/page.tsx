@@ -23,7 +23,7 @@ export default function DemoPage() {
         <Link className={styles.brand} href="/">
           <span className={styles.brandMark} aria-hidden="true">N</span>
           <span>{brand}</span>
-          <span className={styles.brandSuffix}>Puntos + Reseñas</span>
+          <span className={styles.brandSuffix}>{landingContent.navigation.product}</span>
         </Link>
         <Link className={styles.backLink} href="/">{demo.back}</Link>
       </header>
@@ -52,7 +52,7 @@ export default function DemoPage() {
                   <p className={styles.customerName}>{demo.customerName}</p>
                   <p className={styles.customerDetail}>{demo.customerDetail}</p>
                 </div>
-                <span className={styles.customerInitial} aria-hidden="true">M</span>
+                <span className={styles.customerInitial} aria-hidden="true">{demo.customerName.charAt(0)}</span>
               </div>
               <h2 id="demo-points-title">{demo.visitsLabel}</h2>
               <div className={styles.visitsValue}>{demo.visitsValue}</div>
