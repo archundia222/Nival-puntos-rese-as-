@@ -472,3 +472,27 @@ test("legacy ten-digit phone is searchable without admitting duplicate registrat
     await db.close();
   }
 });
+
+test("program identity is business-scoped and public card receives saved name, color, logo and rewards", async () => {
+  const { db } = await setup();
+  try {
+    const logo="data:image/png;base64,iVBORw0KGgo=";
+    await scope(db, "npr_v2_owner", owner);
+    await db.query("update nival_pr.programs set name=$1,color=$2,logo_url=$3,points_per_visit=3,rules=$4::jsonb where business_id=$5",["Club Café","#123456",logo,JSON.stringify({min_hours_between_visits:8,max_visits_per_day:2}),b]);
+    await scope(db, "npr_v2_auth");
+    const data=(await db.query("select nival_pr_private.public_business($1) data",["cafe-prueba"])).rows[0].data;
+    assert.equal(data.program.name,"Club Café");
+    assert.equal(data.program.color,"#123456");
+    assert.equal(data.program.logo_url,logo);
+    assert.equal(data.rewards[0].name,"Café");
+    await db.exec("reset role");
+    const saved=(await db.query("select points_per_visit,rules from nival_pr.programs where business_id=$1",[b])).rows[0];
+    assert.equal(saved.points_per_visit,3);
+    assert.equal(saved.rules.min_hours_between_visits,8);
+    assert.equal(saved.rules.max_visits_per_day,2);
+    await scope(db, "npr_v2_owner", other);
+    assert.equal((await db.query("select id from nival_pr.programs where business_id=$1",[b])).rows.length,0);
+  } finally {
+    await db.close();
+  }
+});
