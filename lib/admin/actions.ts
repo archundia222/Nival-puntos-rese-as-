@@ -20,13 +20,14 @@ function cleanError(error:unknown){
 async function audit(actor:Actor,action:string,entity:string,businessId:string|null,data:Record<string,unknown>={}){
  await query(actor,'insert into nival_pr.audit_log(actor_id,action,entity,business_id,data) values($1,$2,$3,$4,$5::jsonb)',[actor.id,action,entity,businessId,JSON.stringify(data)]);
 }
-async function seedRecurringTasks(actor:Actor,businessId:string){
- await transaction(actor,[
-  {text:"insert into nival_pr.tasks(business_id,title,status,due_date,recurrence) select $1,'Responder reseñas','pendiente',(current_date+7),'weekly' where not exists(select 1 from nival_pr.tasks where business_id=$1 and title='Responder reseñas' and status in ('pendiente','en_progreso'))",values:[businessId]},
-  {text:"insert into nival_pr.tasks(business_id,title,status,due_date,recurrence) select $1,'Cargar reporte de Google','pendiente',(current_date+interval '1 month')::date,'monthly' where not exists(select 1 from nival_pr.tasks where business_id=$1 and title='Cargar reporte de Google' and status in ('pendiente','en_progreso'))",values:[businessId]},
-  {text:"insert into nival_pr.tasks(business_id,title,status,due_date,recurrence) select id,'Cobrar mensualidad','pendiente',(paid_until at time zone 'America/Mexico_City')::date,'monthly' from nival_pr.businesses where id=$1 and paid_until is not null and not exists(select 1 from nival_pr.tasks where business_id=$1 and title='Cobrar mensualidad' and status in ('pendiente','en_progreso'))",values:[businessId]},
-  {text:"insert into nival_pr.tasks(business_id,title,status,due_date,recurrence) select $1,'Revisar canjes sospechosos','pendiente',(current_date+7),'weekly' where not exists(select 1 from nival_pr.tasks where business_id=$1 and title='Revisar canjes sospechosos' and status in ('pendiente','en_progreso'))",values:[businessId]},
- ]);
+async function seedRecurringTasks(_actor:Actor,businessId:string){
+ const sql=[
+  "insert into nival_pr.tasks(business_id,title,status,due_date,recurrence) select $1,'Responder reseñas','pendiente',(current_date+7),'weekly' where not exists(select 1 from nival_pr.tasks where business_id=$1 and title='Responder reseñas' and status in ('pendiente','en_progreso'))",
+  "insert into nival_pr.tasks(business_id,title,status,due_date,recurrence) select $1,'Cargar reporte de Google','pendiente',(current_date+interval '1 month')::date,'monthly' where not exists(select 1 from nival_pr.tasks where business_id=$1 and title='Cargar reporte de Google' and status in ('pendiente','en_progreso'))",
+  "insert into nival_pr.tasks(business_id,title,status,due_date,recurrence) select id,'Cobrar mensualidad','pendiente',(paid_until at time zone 'America/Mexico_City')::date,'monthly' from nival_pr.businesses where id=$1 and paid_until is not null and not exists(select 1 from nival_pr.tasks where business_id=$1 and title='Cobrar mensualidad' and status in ('pendiente','en_progreso'))",
+  "insert into nival_pr.tasks(business_id,title,status,due_date,recurrence) select $1,'Revisar canjes sospechosos','pendiente',(current_date+7),'weekly' where not exists(select 1 from nival_pr.tasks where business_id=$1 and title='Revisar canjes sospechosos' and status in ('pendiente','en_progreso'))"
+ ];
+ for(const text of sql)await systemQuery(text,[businessId]);
 }
 
 export async function changeBusinessStatus(_:Result,f:FormData):Promise<Result>{
