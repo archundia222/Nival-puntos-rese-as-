@@ -92,7 +92,7 @@ export async function generateActivationCode(_:Result,f:FormData):Promise<Result
    returning code,expires_at`,[businessId,code,hours,actor.id]);
   if(!row)return {error:'Asigna un plan al negocio antes de generar el código.'};
   await audit(actor,'activation_code.generated','activation_codes',businessId,{code,expires_at:row.expires_at});
-  revalidatePath('/admin');return {success:`Código: ${code} · vence ${new Date(row.expires_at).toLocaleString('es-MX',{timeZone:'America/Mexico_City'})}`,link:code};
+  revalidatePath('/admin');return {success:`Código: ${code} · vence ${new Date(row.expires_at).toLocaleString('es-MX',{timeZone:'America/Mexico_City'})}`};
  }catch(e){return {error:cleanError(e)}}
 }
 
