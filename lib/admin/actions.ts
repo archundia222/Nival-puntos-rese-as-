@@ -4,6 +4,7 @@ import {randomBytes} from 'node:crypto';
 import {revalidatePath} from 'next/cache';
 import {query,systemQuery,transaction,type Actor} from '../foundation/db';
 import {requireBusiness,requireRole} from '../foundation/session';
+import {periodRange,validateGoogle,checklistLabels} from '../owner/domain.mjs';
 import type {Result} from '../foundation/actions';
 
 const val=(f:FormData,k:string)=>String(f.get(k)||'').trim();
@@ -175,20 +176,20 @@ export async function publishContent(_:Result,f:FormData):Promise<Result>{
 }
 
 export async function saveGoogleReport(_:Result,f:FormData):Promise<Result>{
- const actor=await requireRole('superadmin');const businessId=val(f,'businessId'),period=val(f,'period'),rating=Number(val(f,'rating')),total=Number(val(f,'total')),fresh=Number(val(f,'new')),answered=Number(val(f,'answered')),notes=val(f,'notes'),changes=val(f,'changes');
- if(!uuid(businessId)||!/^\d{4}-\d{2}$/.test(period)||!Number.isFinite(rating)||rating<1||rating>5||[total,fresh,answered].some(n=>!Number.isInteger(n)||n<0))return {error:'Revisa las métricas.'};
- const distribution={1:Number(val(f,'star1')||0),2:Number(val(f,'star2')||0),3:Number(val(f,'star3')||0),4:Number(val(f,'star4')||0),5:Number(val(f,'star5')||0)};
- if(Object.values(distribution).some(n=>!Number.isInteger(n)||n<0)||fresh>total||answered>total)return {error:'Revisa la distribución y los totales de reseñas.'};
- const checklist={horarios:f.get('check_hours')==='on',categoria:f.get('check_category')==='on',fotos:f.get('check_photos')==='on',descripcion:f.get('check_description')==='on'};
+ const actor=await requireRole('superadmin');
+ const businessId=val(f,'businessId'),kind=val(f,'periodKind')||'month',inputPeriod=val(f,'period'),range=periodRange(kind,inputPeriod);
+ const rating=Number(val(f,'rating')),total=Number(val(f,'total')),fresh=Number(val(f,'new')),answered=Number(val(f,'answered')),notes=val(f,'notes'),changes=val(f,'changes');
+ if(!uuid(businessId)||range.kind!==kind||range.key!==inputPeriod||notes.length>5000||changes.length>5000)return {error:'Revisa el negocio, el periodo y la longitud de los textos.'};
+ const distribution=Object.fromEntries([1,2,3,4,5].map(n=>[n,Number(val(f,'star'+n))]));
+ const error=validateGoogle({rating,total,fresh,answered,distribution});if(error)return {error};
+ const checklist=Object.fromEntries(Object.keys(checklistLabels).map(k=>[k,f.get('check_'+k)==='on']));
  try{
-  await transaction(actor,[
-   {text:`insert into nival_pr.review_reports(business_id,period,rating,total_reviews,new_reviews,answered,distribution,profile_checklist,notes,created_by)
-    values($1,($2||'-01')::date,$3,$4,$5,$6,$7::jsonb,$8::jsonb,$9,$10)
-    on conflict(business_id,period) do update set rating=excluded.rating,total_reviews=excluded.total_reviews,new_reviews=excluded.new_reviews,answered=excluded.answered,distribution=excluded.distribution,profile_checklist=excluded.profile_checklist,notes=excluded.notes,created_by=excluded.created_by`,values:[businessId,period,rating,total,fresh,answered,JSON.stringify(distribution),JSON.stringify(checklist),notes,actor.id]},
-   ...(changes?[{text:'insert into nival_pr.changelog(business_id,description) values($1,$2)',values:[businessId,changes]}]:[])
-  ]);
-  await audit(actor,'google_report.saved','review_reports',businessId,{period,rating,total,new:fresh,answered});
-  revalidatePath('/admin');revalidatePath('/panel');return {success:'Reporte guardado.'};
+ await transaction(actor,[{text:`insert into nival_pr.review_reports(business_id,period,period_kind,rating,total_reviews,new_reviews,answered,distribution,profile_checklist,notes,created_by,answered_scope)
+ values($1,$2::date,$3,$4,$5,$6,$7,$8::jsonb,$9::jsonb,$10,$11,'period')
+ on conflict(business_id,period,period_kind) do update set rating=excluded.rating,total_reviews=excluded.total_reviews,new_reviews=excluded.new_reviews,answered=excluded.answered,distribution=excluded.distribution,profile_checklist=excluded.profile_checklist,notes=excluded.notes,created_by=excluded.created_by,answered_scope=excluded.answered_scope`,values:[businessId,range.start,kind,rating,total,fresh,answered,JSON.stringify(distribution),JSON.stringify(checklist),notes,actor.id]},
+ ...(changes?[{text:"insert into nival_pr.changelog(business_id,date,description) values($1,($2::date::timestamp at time zone 'America/Mexico_City'),$3)",values:[businessId,val(f,'changeDate')||range.today,changes]}]:[])]);
+ await audit(actor,'google_report.saved','review_reports',businessId,{period:range.key,kind,rating,total,new:fresh,answered});
+ revalidatePath('/admin');revalidatePath('/panel');return {success:'Reporte guardado. Ya está disponible en el panel del dueño.'};
  }catch(e){return {error:cleanError(e)}}
 }
 

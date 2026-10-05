@@ -1,3 +1,4 @@
+import {GoogleReportForm} from '../../lib/owner/google-form';
 import {redirect} from 'next/navigation';
 import {foundationEnabled,query,transaction} from '../../lib/foundation/db';
 import {requireRole} from '../../lib/foundation/session';
@@ -129,9 +130,8 @@ export default async function Admin({searchParams}:{searchParams:Promise<{busine
 
   <section className="adminSection">
    <div className="sectionTitle"><div><small>GOOGLE BUSINESS PROFILE</small><h2>Cargar reporte</h2></div></div>
-   <ActionForm action={saveGoogleReport} label="Guardar reporte"><label>Negocio<select name="businessId" required>{businesses.map(b=><option key={b.id} value={b.id}>{b.name}</option>)}</select></label><Field name="period" label="Periodo" type="month"/><label>Calificación<input name="rating" type="number" min="1" max="5" step="0.1" required/></label><Field name="total" label="Reseñas totales" type="number" min={0}/><Field name="new" label="Nuevas" type="number" min={0}/><Field name="answered" label="Respondidas" type="number" min={0}/>{[1,2,3,4,5].map(n=><Field key={n} name={'star'+n} label={n+' estrellas'} type="number" min={0} value={0}/>)}
-   <label className="wide checkRow"><input type="checkbox" name="check_hours"/> Horarios revisados</label><label className="wide checkRow"><input type="checkbox" name="check_category"/> Categoría revisada</label><label className="wide checkRow"><input type="checkbox" name="check_photos"/> Fotos revisadas</label><label className="wide checkRow"><input type="checkbox" name="check_description"/> Descripción revisada</label>
-   <label className="wide">Notas y consejos<textarea name="notes" maxLength={5000}/></label><label className="wide">Cambios hechos / bitácora<textarea name="changes" maxLength={5000}/></label></ActionForm>
+   <GoogleReportForm businesses={businesses.map(b=>({id:b.id,name:b.name}))}/>
+
   </section>
 
   <section className="adminSection">

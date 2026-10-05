@@ -405,7 +405,7 @@ export async function report(_: Result, f: FormData): Promise<Result> {
   try {
     await query(
       actor,
-      "insert into nival_pr.review_reports(business_id,period,rating,total_reviews,new_reviews,answered,notes,created_by) values($1,($2||'-01')::date,$3,$4,$5,$6,$7,$8) on conflict(business_id,period) do update set rating=excluded.rating,total_reviews=excluded.total_reviews,new_reviews=excluded.new_reviews,answered=excluded.answered,notes=excluded.notes,created_by=excluded.created_by",
+      "insert into nival_pr.review_reports(business_id,period,rating,total_reviews,new_reviews,answered,notes,created_by) values($1,($2||'-01')::date,$3,$4,$5,$6,$7,$8) on conflict(business_id,period,period_kind) do update set rating=excluded.rating,total_reviews=excluded.total_reviews,new_reviews=excluded.new_reviews,answered=excluded.answered,notes=excluded.notes,created_by=excluded.created_by",
       [b, period, rating, total, fresh, answered, notes, actor.id],
     );
   } catch (e) {

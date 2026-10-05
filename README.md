@@ -54,3 +54,7 @@ Los SQL anteriores de Supabase son históricos: no aplicarlos en Neon. No ejecut
 ## Fase 3 — Nival Puntos
 
 Implementación en Neon de la tarjeta `/b/{slug}`, escáner `/staff`, fotos privadas de evidencia y configuración del owner en `/panel/puntos`. Detalles y aceptación: [docs/PUNTOS-FASE3.md](docs/PUNTOS-FASE3.md). Las tres migraciones incrementales de puntos ya se aplicaron en la base independiente; el código de esta fase está preparado localmente y pendiente de autorización para publicarlo en GitHub público/Preview. No volver a ejecutar el cimiento ni utilizar bases de Nival Pay o Nival Links.
+
+### Fase 4 · panel del dueño (Neon)
+
+`/panel` incluye Resumen, Google y Clientes. `/admin` carga los reportes y el dueño los consulta con RLS. Hay umbrales por negocio, 15 consejos, contacto individual editable por WhatsApp y comparación de periodos de México. Consulta [la documentación](docs/PANEL-FASE4.md) y prueba `/demo/panel` con 20 clientes ficticios.
