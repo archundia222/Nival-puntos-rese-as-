@@ -1,7 +1,7 @@
 // Generates synthetic presentation fixtures from the exact PostgreSQL analytics queries.
 import {ownerFixture} from '../tests/owner-fixture.mjs';
 import {ownerStatements} from '../lib/owner/queries.mjs';
-import {periodRange} from '../lib/owner/domain.mjs';
+import {periodRange,googleSelection} from '../lib/owner/domain.mjs';
 import {writeFileSync} from 'node:fs';
 const {db,owner,b}=await ownerFixture();
 try{
@@ -13,9 +13,7 @@ try{
  const range=periodRange(kind,'',new Date('2026-10-05T12:00:00Z'));
  const rows=[];for(const st of ownerStatements(b,range))rows.push((await db.query(st.text,st.values)).rows);
  const [settings,segments,metrics,ranking,reports,changes,templates]=rows;
- const inPeriod=reports.filter(r=>String(r.period).slice(0,10)>=range.start),resolution=(kind==='year'?['year','month','day']:kind==='month'?['month','day']:['day']).find(k=>inPeriod.some(r=>r.period_kind===k));
- const selected=inPeriod.filter(r=>r.period_kind===resolution);
- result[kind]={settings:settings[0]||null,segments:segments.map(c=>({...c,phone:''})),metrics,ranking:ranking.map(r=>({...r,name:'Equipo de Café Demo'})),last:reports.at(-1)||null,google:selected.length?{fresh:selected.reduce((s,r)=>s+Number(r.new_reviews),0),answered:selected.reduce((s,r)=>s+Number(r.answered),0),resolution}:null,changes,templates,reports:inPeriod};
+ result[kind]={settings:settings[0]||null,segments:segments.map(c=>({...c,phone:''})),metrics,ranking:ranking.map(r=>({...r,name:'Equipo de Café Demo'})),...googleSelection(reports,range),changes,templates};
  }
  writeFileSync('lib/owner/demo-fixtures.json',JSON.stringify(result,null,2)+'\n');console.log('Demo generated: 20 synthetic customers; real SQL analytics.');
 }finally{await db.close();}

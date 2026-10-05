@@ -10,7 +10,7 @@
 
 Umbrales por negocio: nuevos 14 días; frecuentes >=3 visitas en 30 días; riesgo de 31 a 60 días desde la última visita con >=2 visitas en total; perdidos >60 días. Los límites de días cuentan fechas de calendario de México. «Últimos 14 días» incluye hoy y los 13 días previos. Los umbrales se guardan con RLS en `segment_settings`.
 
-`generateAdvice(segment, businessContext)` vive en `lib/owner/domain.mjs`. Consume las plantillas de `advice_templates`, inserta `{n}` y ofrece tres variantes por segmento. Este es el punto único para sustituir la selección por una llamada futura de IA. No existe integración de IA ni envío de mensajes. Cada contacto permite editar el texto y después abrir click-to-chat.
+`generateAdvice(segment, businessContext)` vive en `lib/owner/domain.mjs`. Consume las plantillas de `advice_templates`, inserta `{n}` y ofrece tres variantes por segmento. Devuelve una promesa: la interfaz ya espera su respuesta asíncrona y descarta respuestas obsoletas. Este es el punto único para sustituir la selección por una llamada futura de IA. No existe integración de IA ni envío de mensajes. Cada contacto permite editar el texto y después abrir click-to-chat.
 
 ## Carga desde admin
 

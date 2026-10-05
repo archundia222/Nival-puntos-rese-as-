@@ -21,7 +21,7 @@ test('20 customers: manual SQL has correct five segments, editable thresholds an
  assert.equal(result[4][0].notes,'Consejo manual');assert.equal(result[5][0].description,'Actualizamos horarios');
  const {rows:templates}=await db.query('select segment,text from nival_pr.advice_templates');
  for(const k of ['new','frequent','risk','lost','absent'])assert.equal(templates.filter(x=>x.segment===k).length,3);
- assert.ok(generateAdvice('risk',{templates,count:4,variant:1}).includes('4 clientes'));
+ assert.ok((await generateAdvice('risk',{templates,count:4,variant:1})).includes('4 clientes'));
  const {rows:[report]}=await db.query('select * from nival_pr.review_reports where business_id=$1',[b]);assert.equal(report.notes,'Consejo manual');assert.equal(Number(report.rating),4.5);assert.equal(report.profile_checklist.fotos,true);
  await db.query('insert into nival_pr.segment_settings(business_id,new_days) values($1,2)',[b]);
  assert.equal((await db.query("select count(*)::int n from nival_pr.customer_segments($1,'2026-10-05') where is_new",[b])).rows[0].n,1);
@@ -38,11 +38,11 @@ test('periods use Mexico dates and previous calendar periods including leap days
  assert.equal(periodRange('day','2024-02-29').end,'2024-03-01');assert.equal(periodRange('year','2026').previous,'2025-01-01');
  assert.equal(periodRange('day','2026-02-31',now).key,'2026-09-30');
 });
-test('Google rejects invented distribution and response totals; advice preserves count and variants',()=>{
+test('Google rejects invented distribution and response totals; advice preserves count and variants',async()=>{
  const valid={rating:4.5,total:10,fresh:3,answered:2,distribution:{1:1,2:0,3:0,4:2,5:7}};
  assert.equal(validateGoogle(valid),null);assert.ok(validateGoogle({...valid,answered:4}));assert.ok(validateGoogle({...valid,total:11}));
  const templates=[{segment:'new',text:'Tienes {n} nuevos.'},{segment:'new',text:'Revisa {n} tarjetas.'}];
- assert.equal(generateAdvice('new',{templates,count:20,variant:1}),'Revisa 20 tarjetas.');
+ assert.equal(await generateAdvice('new',{templates,count:20,variant:1}),'Revisa 20 tarjetas.');
 });
 
 test('actual admin save action persists complete Google data; owner reads it and invalid totals are rejected',async()=>{
@@ -65,4 +65,14 @@ test('actual admin save action persists complete Google data; owner reads it and
  f.set('answered','2');f.set('periodKind','day');f.set('period','2026-10-01');assert.ok((await action({},f)).success);
  await db.exec('set role npr_v2_owner');assert.equal((await db.query('select * from nival_pr.review_reports where business_id=$1',[b])).rows.length,2);
  }finally{await db.close();}
+});
+
+test('Google selects only filtered periods with Date or string dates and does not double count granularities',async()=>{
+ const {googleSelection}=await import('../lib/owner/domain.mjs');
+ const reports=[{period:new Date('2026-09-01T00:00:00Z'),period_kind:'month',new_reviews:12,answered:10,answered_scope:'period'}, {period:'2026-10-01',period_kind:'month',new_reviews:10,answered:7,answered_scope:'period'},{period:'2026-10-02',period_kind:'day',new_reviews:2,answered:1,answered_scope:'period'}];
+ const selected=googleSelection(reports,periodRange('month','2026-10'));assert.deepEqual(selected.google,{fresh:10,answered:7,resolution:'month'});assert.equal(selected.reports.length,2);
+ assert.equal(googleSelection(reports,periodRange('year','2026')).google.fresh,22);
+ assert.equal(googleSelection(reports,periodRange('day','2026-10-02')).google.fresh,2);
+ assert.equal(googleSelection(reports,periodRange('day','2026-10-03')).google,null);
+ assert.equal(googleSelection([{...reports[1],answered_scope:'legacy_total'}],periodRange('month','2026-10')).google.answered,null);
 });
