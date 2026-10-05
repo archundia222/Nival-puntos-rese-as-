@@ -130,8 +130,12 @@ export async function createTask(_:Result,f:FormData):Promise<Result>{
 export async function moveTask(taskId:string,status:string):Promise<{ok:boolean}>{
  const actor=await requireRole('superadmin');
  if(!uuid(taskId)||!taskStates.includes(status))return {ok:false};
- const [row]=await query(actor,'update nival_pr.tasks set status=$2 where id=$1 returning id,business_id,title',[taskId,status]);
+ const [row]=await query(actor,'update nival_pr.tasks set status=$2 where id=$1 returning id,business_id,title,due_date,recurrence',[taskId,status]);
  if(!row)return {ok:false};
+ if(status==='completada'&&row.recurrence){
+  await query(actor,`insert into nival_pr.tasks(business_id,title,status,due_date,recurrence)
+   values($1,$2,'pendiente',case $4 when 'daily' then coalesce($3::date,current_date)+1 when 'weekly' then coalesce($3::date,current_date)+7 else (coalesce($3::date,current_date)+interval '1 month')::date end,$4)`,[row.business_id,row.title,row.due_date,row.recurrence]);
+ }
  await audit(actor,'task.status_changed','tasks',row.business_id||null,{task_id:taskId,status,title:row.title});
  revalidatePath('/admin');return {ok:true};
 }
