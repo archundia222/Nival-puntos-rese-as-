@@ -44,3 +44,10 @@ Las pruebas de esquema usan PostgreSQL embebido con cuentas ficticias. Comprueba
 Base y autenticación creadas. Esquema real aplicado; pruebas locales y compilación verificadas. El proyecto web no se ha publicado todavía: la conexión de Vercel disponible rechazó la creación del proyecto por falta de permisos. Pendiente conectar Vercel con autorización de escritura y completar el recorrido publicado.
 
 Los archivos anteriores `database/bootstrap.sql`, `database/diagnostics.sql`, `database/review-links.sql` y `database/customer-cards.sql` corresponden al backend Supabase abandonado. No aplicarlos en Neon. Se conservan como historial de implementación.
+
+## Nuevo cimiento por roles (entrega preparada)
+La arquitectura aprobada se conserva en Neon. database/foundation-neon.sql agrega el esquema nival_pr sin modificar public.npr_*. Incluye superadmin, owner, staff por PIN y cliente por token; las rutas nuevas se activan con FOUNDATION_ENABLED=true tras migrar y verificar.
+
+Guía completa: [docs/DESPLIEGUE.md](docs/DESPLIEGUE.md). Aceptación: [docs/PRUEBAS-MANUALES.md](docs/PRUEBAS-MANUALES.md).
+
+La conexión Neon remota debe completarse antes de aplicar el cimiento y crear el seed. El cambio no está publicado ni probado con correo real todavía. No ejecutar el SQL en proyectos de otros productos.

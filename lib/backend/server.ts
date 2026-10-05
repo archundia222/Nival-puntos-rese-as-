@@ -1,7 +1,9 @@
 import 'server-only';
+import {foundationEnabled} from '../foundation/db';
 import {getAuth} from './auth';
 import {scopedClient} from './query';
 export async function createClient(){
+ if(foundationEnabled())throw Error('El backend anterior está deshabilitado; usa el nuevo panel.');
  const auth=getAuth();const {data,error}=await auth.getSession();const user=data?.user||null;
  if(error)throw Error('Session unavailable');
  const client=scopedClient(user?'npr_app':'npr_anon',user?.id||'');

@@ -12,18 +12,18 @@ export default function AccessForm(){
   try{
    const client=authClient;const address=email.trim();
    if(mode==='register'){
-    const {data,error}=await client.signUp.email({email:address,password,name:address.split('@')[0],callbackURL:new URL('/panel',window.location.origin).href});if(error)throw error;
-    if(data?.user){window.location.href='/panel';return;}
+    const {data,error}=await client.signUp.email({email:address,password,name:address.split('@')[0],callbackURL:new URL('/entrar',window.location.origin).href});if(error)throw error;
+    if(data?.user){window.location.href='/entrar';return;}
     setNotice('Revisa tu correo para confirmar tu cuenta. Si ya la tienes, inicia sesión.');
    }else if(mode==='login'){
     const {error}=await client.signIn.email({email:address,password});
     if(error){setFailed(true);setNotice('No se pudo iniciar sesión. Revisa tus datos o confirma tu correo.');return;}
-    window.location.href='/panel';
+    window.location.href='/entrar';
    }else if(mode==='recover'){
     const {error}=await client.requestPasswordReset({email:address,redirectTo:new URL('/restablecer',window.location.origin).href});if(error)throw error;
     setNotice('Si existe una cuenta con ese correo, recibirás un enlace para cambiar tu contraseña. Revisa también la carpeta de spam.');
    }else{
-    const {error}=await client.sendVerificationEmail({email:address,callbackURL:new URL('/panel',window.location.origin).href});if(error)throw error;
+    const {error}=await client.sendVerificationEmail({email:address,callbackURL:new URL('/entrar',window.location.origin).href});if(error)throw error;
     setNotice('Si tu cuenta necesita confirmación, recibirás un nuevo correo. Revisa también la carpeta de spam.');
    }
   }catch{setFailed(true);setNotice('No se pudo completar la solicitud. Espera un minuto y vuelve a intentarlo.');}finally{setBusy(false);}

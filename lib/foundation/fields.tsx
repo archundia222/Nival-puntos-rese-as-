@@ -1,0 +1,2 @@
+export function Field({name,label,type='text',value,required=true,min,max}:{name:string;label:string;type?:string;value?:string|number;required?:boolean;min?:number;max?:number}){return <label>{label}<input name={name} type={type} defaultValue={value} required={required} min={min} max={max} maxLength={type==='text'?150:undefined}/></label>;}
+export const Hidden=({name,value}:{name:string;value:string})=><input type="hidden" name={name} value={value}/>;
