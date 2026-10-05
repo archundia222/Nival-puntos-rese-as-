@@ -1,3 +1,4 @@
+import {legalDefaults} from "../../lib/foundation/legal.mjs";
 import {quoteUrl} from "../../lib/foundation/registration.mjs";
 import {GoogleReportForm} from '../../lib/owner/google-form';
 import {redirect} from 'next/navigation';
@@ -21,6 +22,7 @@ const contentFields=[
  ['whatsapp','WhatsApp','5539044788'],
  ['testimonials','Testimonios',''],
  ['faq','Preguntas frecuentes',''],
+ ...Object.entries(legalDefaults).map(([key,text])=>[key,key==='legal_terms'?'Términos':key==='legal_privacy'?'Privacidad':'Consentimiento del cliente',text]),
 ] as const;
 
 function mxn(value:unknown){return new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN',maximumFractionDigits:0}).format(Number(value||0))}

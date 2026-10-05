@@ -442,8 +442,8 @@ export async function enroll(_: Result, f: FormData): Promise<Result> {
     if (!b?.data?.active) return { error: "Este programa no está disponible." };
     await query(
       authScope(),
-      "select nival_pr_private.enroll_customer($1,$2,$3,$4)",
-      [slug, name, phone, sha256(token)],
+      "select nival_pr_private.enroll_customer_legal($1,$2,$3,$4,$5)",
+      [slug, name, phone, sha256(token), f.get("marketing_consent")==="on"],
     );
     (await cookies()).set("nival_customer_" + b.data.id, token, {
       ...cookieOptions,
@@ -475,8 +475,8 @@ export async function consentCard(_: Result, f: FormData): Promise<Result> {
       throw Error("Invalid token");
     await query(
       authScope(),
-      "select nival_pr_private.consent_customer($1,$2)",
-      [row.data.id, sha256(token)],
+      "select nival_pr_private.consent_customer_legal($1,$2,$3)",
+      [row.data.id, sha256(token), f.get("marketing_consent")==="on"],
     );
   } catch (e) {
     return failure(e);

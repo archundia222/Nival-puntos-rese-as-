@@ -1,1 +1,3 @@
-export default function Terms(){return <main className="dashboard"><h1>Términos del servicio</h1><p role="alert">Borrador pendiente de revisión legal. Documento completo pendiente del bloque 2. El registro técnico no autoriza todavía el inicio de un piloto con datos reales.</p><p>Nival Puntos + Reseñas proporciona un programa de lealtad y seguimiento manual de reseñas para negocios con clientes recurrentes. El plan y su activación se confirman por WhatsApp; registrarte no genera un cobro ni activa el servicio.</p><a href="/privacidad">Aviso de Privacidad</a><p><a href="/panel">Volver al registro</a></p></main>}
+import {LegalPage} from '../../lib/foundation/legal-page';
+export const dynamic='force-dynamic';
+export default function Terms(){return <LegalPage contentKey="legal_terms" title="Términos del servicio"/>;}

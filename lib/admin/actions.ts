@@ -1,5 +1,6 @@
 'use server';
 
+import {validateLegalDraft} from '../foundation/legal.mjs';
 import {randomBytes} from 'node:crypto';
 import {revalidatePath} from 'next/cache';
 import {query,systemQuery,transaction,type Actor} from '../foundation/db';
@@ -154,9 +155,9 @@ export async function moveTask(taskId:string,status:string):Promise<{ok:boolean}
 
 export async function saveContentDraft(_:Result,f:FormData):Promise<Result>{
  const actor=await requireRole('superadmin');const key=val(f,'key'),text=val(f,'value');
- if(!/^[a-z0-9_]{2,80}$/.test(key)||text.length>12000)return {error:'Contenido inválido.'};
+ if(!/^[a-z0-9_]{2,80}$/.test(key)||text.length>20000||!validateLegalDraft(key,text))return {error:'Contenido inválido.'};
  try{
-  await query(actor,`insert into nival_pr.site_content(key,value_draft) values($1,jsonb_build_object('text',$2))
+  await query(actor,`insert into nival_pr.site_content(key,value_draft) values($1,jsonb_build_object('text',$2::text))
    on conflict(key) do update set value_draft=excluded.value_draft`,[key,text]);
   await audit(actor,'site_content.draft_saved','site_content',null,{key});
   revalidatePath('/admin');return {success:'Borrador guardado.'};
@@ -170,8 +171,8 @@ export async function publishContent(_:Result,f:FormData):Promise<Result>{
   const [row]=await query(actor,'update nival_pr.site_content set value_published=value_draft,published_at=now() where key=$1 returning key',[key]);
   if(!row)return {error:'Guarda primero un borrador.'};
   await audit(actor,'site_content.published','site_content',null,{key});
-  revalidatePath('/');revalidatePath('/admin');
-  return {success:'Publicado. La landing ya usa este valor.'};
+  revalidatePath('/');revalidatePath('/admin');revalidatePath('/terminos');revalidatePath('/privacidad');
+  return {success:'Publicado. La página correspondiente ya usa este valor.'};
  }catch(e){return {error:cleanError(e)}}
 }
 

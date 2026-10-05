@@ -1,3 +1,5 @@
+import {legalText} from "../../../lib/foundation/legal-page";
+import {marketingConsent} from "../../../lib/foundation/legal.mjs";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import QRCode from "qrcode";
@@ -93,18 +95,10 @@ export default async function Customer({
             <label className="wide consentLabel">
               <input name="consent" type="checkbox" required />
               <span>
-                Acepto el registro de mis datos y visitas para este programa de
-                lealtad. Leí el{" "}
-                <a
-                  href={"/privacidad?negocio=" + encodeURIComponent(b.name)}
-                  target="_blank"
-                  rel="noopener"
-                >
-                  aviso de privacidad
-                </a>
-                .
+                {await legalText('legal_customer_consent')} <a href="/terminos" target="_blank" rel="noreferrer">Términos</a> · <a href="/privacidad" target="_blank" rel="noreferrer">Aviso de Privacidad</a>
               </span>
             </label>
+            <label className="wide consentLabel"><input name="marketing_consent" type="checkbox"/><span>{marketingConsent}</span></label>
           </ActionForm>
         </section>
       )}
