@@ -1,0 +1,1 @@
+export default function DemoNotice(){return <aside className="demoNotice" role="note"><strong>Versión de prueba</strong> · Los datos se guardan únicamente en este navegador. Las cuentas y el panel interno todavía no tienen acceso privado. Usa datos ficticios.</aside>}

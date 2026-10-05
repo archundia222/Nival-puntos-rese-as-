@@ -1,0 +1,10 @@
+const assert=require('node:assert/strict');
+const test=require('node:test');
+const ts=require('typescript');
+const fs=require('node:fs');
+const mod={exports:{}};
+new Function('module','exports',ts.transpile(fs.readFileSync('lib/metrics.ts','utf8'),{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}))(mod,mod.exports);
+const {loyaltyMetrics,reviewMetrics}=mod.exports;
+test('neutral reviews are included and month boundaries are respected',()=>{const rows=[1,2,3,4,5].map((rating,i)=>({id:String(i),rating,date:'2026-10-01',answeredAt:i===0?'2026-10-02':null}));rows.push({rating:5,date:'2026-09-30',answeredAt:null});assert.deepEqual(reviewMetrics(rows,'2026-10'),{total:5,positive:2,neutral:1,negative:2,answered:1});});
+test('only visits count toward return and points; redemptions do not',()=>{const clients=[{id:1,createdAt:'2026-09-01'},{id:2,createdAt:'2026-10-01'},{id:3}];const rows=[{customerId:1,kind:'visit',points:1,at:'2026-09-01T12:00:00Z'},{customerId:1,kind:'visit',points:1,at:'2026-10-01T12:00:00Z'},{customerId:1,kind:'redeem',points:-5,at:'2026-10-02T12:00:00Z'},{customerId:2,kind:'visit',points:1,at:'2026-10-01T12:00:00Z'}];const r=loyaltyMetrics(clients,rows,'2026-10',30,new Date('2026-10-05'));assert.equal(r.visits,2);assert.equal(r.returning,1);assert.equal(r.points,2);assert.equal(r.newCustomers,1);assert.equal(r.risk.length,0);});
+test('risk uses last visit and preserves unknown legacy dates',()=>{const r=loyaltyMetrics([{id:1,createdAt:'2026-08-01'},{id:2}],[],'2026-10',30,new Date('2026-10-05'));assert.equal(r.risk.length,1);assert.equal(r.newCustomers,0);});

@@ -1,0 +1,5 @@
+import type {Customer,Movement,Review} from './metrics';
+const record=(v:unknown):v is Record<string,unknown>=>typeof v==='object'&&v!==null;
+export const customersValid=(v:unknown):v is Customer[]=>Array.isArray(v)&&v.every(c=>record(c)&&typeof c.id==='number'&&typeof c.nombre==='string'&&typeof c.telefono==='string'&&typeof c.puntos==='number'&&Number.isFinite(c.puntos)&&c.puntos>=0);
+export const movementsValid=(v:unknown):v is Movement[]=>Array.isArray(v)&&v.every(m=>record(m)&&typeof m.id==='string'&&typeof m.customerId==='number'&&['visit','redeem','adjust'].includes(String(m.kind))&&typeof m.points==='number'&&Number.isFinite(m.points)&&typeof m.at==='string'&&Number.isFinite(Date.parse(m.at)));
+export const reviewsValid=(v:unknown):v is Review[]=>Array.isArray(v)&&v.every(r=>record(r)&&typeof r.id==='string'&&typeof r.author==='string'&&typeof r.text==='string'&&typeof r.rating==='number'&&Number.isInteger(r.rating)&&r.rating>=1&&r.rating<=5&&typeof r.date==='string'&&Number.isFinite(Date.parse(r.date))&&(r.answeredAt===null||typeof r.answeredAt==='string'));

@@ -1,20 +1,29 @@
-"use client";
-import {useEffect,useState} from "react";
-type Cliente={id:number;nombre:string;telefono:string;puntos:number};
-type Config={meta:number;premio:string;resenas:string};
-export default function Negocio(){
- const [clientes,setClientes]=useState<Cliente[]>([]);
- const [nombre,setNombre]=useState(""); const [telefono,setTelefono]=useState("");
- const [config,setConfig]=useState<Config>({meta:5,premio:"Premio por definir",resenas:""});
- const [cargado,setCargado]=useState(false);
- useEffect(()=>{try{const c=localStorage.getItem("nival-clientes");const f=localStorage.getItem("nival-config");if(c)setClientes(JSON.parse(c));if(f)setConfig(JSON.parse(f))}finally{setCargado(true)}},[]);
- useEffect(()=>{if(cargado)localStorage.setItem("nival-clientes",JSON.stringify(clientes))},[clientes,cargado]);
- useEffect(()=>{if(cargado)localStorage.setItem("nival-config",JSON.stringify(config))},[config,cargado]);
- function alta(e:React.FormEvent){e.preventDefault();if(!nombre.trim())return;setClientes([...clientes,{id:Date.now(),nombre:nombre.trim(),telefono,puntos:0}]);setNombre("");setTelefono("")}
- function sumar(id:number){setClientes(clientes.map(c=>c.id===id?{...c,puntos:c.puntos+1}:c))}
- function restar(id:number){setClientes(clientes.map(c=>c.id===id?{...c,puntos:Math.max(0,c.puntos-1)}:c))}
- return <main className="dashboard"><header className="dashHead"><div><small>NIVAL · PUNTOS</small><h1>Mi programa de puntos</h1><p>Clientes, puntos y recompensa</p></div><a href="/negocio">← Mi negocio</a></header>
- <section className="panel"><div><h2>Nuevo cliente</h2><p>Registra al cliente y comienza a llevar sus puntos.</p></div><form onSubmit={alta}><input value={nombre} onChange={e=>setNombre(e.target.value)} placeholder="Nombre"/><input value={telefono} onChange={e=>setTelefono(e.target.value)} placeholder="Teléfono (opcional)"/><button>Registrar</button></form></section>
- <section className="businesses"><h2>Clientes</h2>{clientes.length===0&&<div className="empty">Todavía no hay clientes. Registra el primero arriba.</div>}{clientes.map(c=><article key={c.id}><div><h3>{c.nombre}</h3><p>{c.telefono||"Sin teléfono"} · {c.puntos>=config.meta?"Premio disponible":"Faltan "+(config.meta-c.puntos)+" puntos"}</p></div><div className="points"><button onClick={()=>restar(c.id)}>−</button><strong>{c.puntos} pts</strong><button onClick={()=>sumar(c.id)}>+</button></div></article>)}</section>
- <section className="reviewBox"><h2>Configuración de puntos</h2><div className="configGrid"><label>Meta de puntos<input type="number" min="1" value={config.meta} onChange={e=>setConfig({...config,meta:Math.max(1,Number(e.target.value))})}/></label><label>Premio<input value={config.premio} onChange={e=>setConfig({...config,premio:e.target.value})}/></label></div><p>Los datos y seguimiento de Google se administran por separado desde Nival.</p></section>
- </main>}
+'use client';
+import {useState,useEffect} from 'react';
+import {useLocalData} from '../../lib/use-local-data';
+import {customersValid,movementsValid} from '../../lib/validators';
+import {loyaltyMetrics,type Customer,type Movement} from '../../lib/metrics';
+import DemoNotice from '../components/demo-notice';
+const emptyCustomers:Customer[]=[];
+const emptyMovements:Movement[]=[];
+export default function Points(){
+ const customers=useLocalData('nival-clientes',emptyCustomers,customersValid);
+ const movements=useLocalData('nival-movements-v1',emptyMovements,movementsValid);
+ const [name,setName]=useState('');const[phone,setPhone]=useState('');const[message,setMessage]=useState('');
+ const [goal,setGoal]=useState(5);const[reward,setReward]=useState('Premio por definir');const[riskDays,setRiskDays]=useState(30);
+ const [month,setMonth]=useState('');const[query,setQuery]=useState('');const[configError,setConfigError]=useState('');
+ useEffect(()=>{setMonth(new Date().toISOString().slice(0,7));try{const raw=localStorage.getItem('nival-config');if(raw){const c=JSON.parse(raw);if(Number.isInteger(c.meta)&&c.meta>0)setGoal(c.meta);if(typeof c.premio==='string')setReward(c.premio);if(Number.isInteger(c.riskDays)&&c.riskDays>0)setRiskDays(c.riskDays);}}catch{setConfigError('No se pudo leer la configuración anterior.');}},[]);
+ function add(e:React.FormEvent){e.preventDefault();if(customers.error||movements.error)return;const normalized=phone.replace(/\D/g,'');if(normalized&&customers.data.some(c=>c.telefono.replace(/\D/g,'')===normalized)){setMessage('Este teléfono ya está registrado. Busca al cliente en la lista.');return;}if(customers.save([...customers.data,{id:Date.now(),nombre:name.trim(),telefono:normalized,puntos:0,createdAt:new Date().toISOString()}])){setName('');setPhone('');setMessage('Cliente registrado.');}}
+ function move(c:Customer,kind:Movement['kind']){if(customers.error||movements.error||!Number.isInteger(goal)||goal<1)return;const points=kind==='redeem'?-goal:1;if(c.puntos+points<0)return;const next:Movement={id:crypto.randomUUID(),customerId:c.id,kind,points,at:new Date().toISOString()};const previous=movements.data;if(!movements.save([...previous,next]))return;if(!customers.save(customers.data.map(x=>x.id===c.id?{...x,puntos:x.puntos+points}:x))){movements.save(previous);return;}setMessage(kind==='redeem'?'Premio canjeado.':'Visita registrada: +1 punto.');}
+ function configure(e:React.FormEvent){e.preventDefault();try{const previous=JSON.parse(localStorage.getItem('nival-config')||'{}');localStorage.setItem('nival-config',JSON.stringify({...previous,meta:goal,premio:reward.trim(),riskDays}));setConfigError('');setMessage('Configuración guardada.');}catch{setConfigError('No se pudo guardar la configuración.');}}
+ if(!customers.ready||!movements.ready)return <main className="dashboard">Cargando programa…</main>;
+ const metrics=loyaltyMetrics(customers.data,movements.data,month,riskDays);
+ return <main className="dashboard"><DemoNotice/><header className="dashHead"><div><small>NIVAL · PUNTOS</small><h1>Clientes que vuelven</h1><p>Cada visita queda en el historial.</p></div><a href="/negocio">Mi negocio</a></header>
+ <label className="filter">Mes del reporte<input type="month" required value={month} onChange={e=>setMonth(e.target.value)}/></label>
+ <section className="stats"><article><span>Clientes nuevos</span><b>{metrics.newCustomers}</b></article><article><span>Clientes que regresaron</span><b>{metrics.returning}</b></article><article><span>En riesgo · más de {riskDays} días</span><b>{metrics.risk.length}</b></article><article><span>Visitas del mes</span><b>{metrics.visits}</b></article><article><span>Puntos otorgados</span><b>{metrics.points}</b></article><article><span>Clientes registrados</span><b>{customers.data.length}</b></article></section>
+ <p role="status">{message}</p>{[customers.error,movements.error,configError].filter(Boolean).map((e,i)=><p className="error" role="alert" key={i}>{e}</p>)}
+ <section className="panel"><div><h2>Nuevo cliente</h2><p>El teléfono es opcional.</p></div><form onSubmit={add}><label>Nombre<input required maxLength={100} value={name} onChange={e=>setName(e.target.value)} /></label><label>Teléfono<input type="tel" maxLength={20} value={phone} onChange={e=>setPhone(e.target.value)}/></label><button disabled={!name.trim()||!!customers.error||!!movements.error}>Registrar</button></form></section>
+ <section className="businesses"><h2>Clientes</h2><label className="filter">Buscar por nombre o teléfono<input type="search" value={query} onChange={e=>setQuery(e.target.value)}/></label>{customers.data.length===0&&<p className="empty">Registra tu primer cliente para comenzar.</p>}{customers.data.filter(c=>(c.nombre+' '+c.telefono).toLowerCase().includes(query.toLowerCase())).map(c=><article key={c.id}><div><h3>{c.nombre}</h3><p>{c.telefono||'Sin teléfono'} · {c.puntos} puntos</p><p>{metrics.risk.some(r=>r.id===c.id)?'En riesgo de no volver':c.puntos>=goal?'Premio disponible':`Faltan ${goal-c.puntos} puntos`}</p></div><div className="actions"><button disabled={!!customers.error||!!movements.error} onClick={()=>move(c,'visit')}>Registrar visita +1</button><button disabled={c.puntos<goal||!!customers.error||!!movements.error} onClick={()=>move(c,'redeem')}>Canjear {goal} pts</button></div></article>)}</section>
+ <section className="reviewBox"><h2>Tu recompensa</h2><form className="configGrid" onSubmit={configure}><label>Puntos necesarios<input required type="number" min="1" max="100000" step="1" value={goal} onChange={e=>setGoal(Number(e.target.value))}/></label><label>Premio<input required maxLength={150} value={reward} onChange={e=>setReward(e.target.value)}/></label><label>Días sin visitar para estar en riesgo<input required type="number" min="1" max="365" step="1" value={riskDays} onChange={e=>setRiskDays(Number(e.target.value))}/></label><button>Guardar configuración</button></form></section>
+ <section className="businesses"><h2>Últimos movimientos</h2>{movements.data.length===0?<p>Las visitas y canjes nuevos aparecerán aquí.</p>:movements.data.slice(-20).reverse().map(m=><article key={m.id}><div><h3>{customers.data.find(c=>c.id===m.customerId)?.nombre||'Cliente'}</h3><p>{m.kind==='visit'?'Visita':m.kind==='redeem'?'Canje':'Ajuste'} · {new Date(m.at).toLocaleString('es-MX')}</p></div><strong>{m.points>0?'+':''}{m.points} pts</strong></article>)}</section><p className="notice">Los clientes anteriores conservan sus puntos. Las estadísticas de visitas comienzan con el nuevo historial; no se inventan fechas anteriores.</p></main>;
+}
