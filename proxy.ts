@@ -14,4 +14,4 @@ export async function proxy(request:NextRequest){
  }
  return response;
 }
-export const config={matcher:['/tarjeta/:path*','/panel/:path*','/acceso','/auth/:path*']};
+export const config={matcher:['/restablecer','/tarjeta/:path*','/panel/:path*','/acceso','/auth/:path*']};

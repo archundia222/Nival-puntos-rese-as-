@@ -75,3 +75,12 @@ npm run build
 - La consulta no registra visitas ni canjes. El saldo se calcula desde movimientos, no desde datos enviados por el visitante.
 - La ruta no se indexa y no envía el enlace como referencia a otras páginas. Incluye cabeceras privadas sin caché; verificar también el despliegue antes de compartir tarjetas reales.
 - Pruebas locales cubren permisos, desactivación, rotación y límites de recompensa; sigue pendiente el recorrido en Supabase y alojamiento reales.
+
+## Recuperación de acceso preparada
+- `/acceso` incluye recuperación de contraseña y reenvío de confirmación; las respuestas no confirman si un correo está registrado.
+- `/auth/confirm` valida OTP de tipo `signup` o `recovery`, o intercambia códigos PKCE. Sus destinos son fijos; ignora redirecciones arbitrarias.
+- `/restablecer` exige una sesión verificada antes de mostrar el cambio de contraseña. Los enlaces caducados permiten solicitar uno nuevo.
+- Configurar Site URL del proyecto independiente al dominio nuevo y permitir `/auth/confirm` y `/auth/confirm?flow=recovery` en Redirect URLs.
+- Plantilla «Confirm signup»: `<a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=signup">Confirmar mi cuenta</a>`.
+- Plantilla «Reset password»: `<a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=recovery">Cambiar contraseña</a>`.
+- No cambiar las plantillas ni la configuración de Auth de las aplicaciones existentes. Todavía se requiere verificar entrega real de correos, enlaces y cookies cuando se active la base independiente.
