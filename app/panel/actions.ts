@@ -1,4 +1,5 @@
 'use server';
+import {googleReviewUrl} from '../../lib/review-link';
 import {redirect} from 'next/navigation';
 import {revalidatePath} from 'next/cache';
 import {createClient} from '../../lib/supabase/server';
@@ -20,3 +21,21 @@ export async function recordMovement(_:ActionResult,form:FormData):Promise<Actio
 }
 export async function updateReward(_:ActionResult,form:FormData):Promise<ActionResult>{const goal=Number(form.get('goal'));const risk=Number(form.get('risk'));const reward=String(form.get('reward')||'').trim();if(!Number.isInteger(goal)||goal<1||goal>100000||!Number.isInteger(risk)||risk<1||risk>365||!reward||reward.length>150)return {error:'Revisa la meta, el premio y los días de riesgo.'};try{const{client,user}=await authenticated();const{data,error}=await client.from('npr_businesses').update({reward_goal:goal,reward_name:reward,risk_days:risk}).eq('owner_id',user.id).select('id');if(error||!data?.length)return {error:'No se pudo guardar la configuración.'};revalidatePath('/panel');return {success:'Configuración guardada.'};}catch{return {error:'Inicia sesión para continuar.'};}}
 export async function logout(){const{client}=await authenticated();const{error}=await client.auth.signOut();if(error)throw Error('No se pudo cerrar sesión.');redirect('/acceso');}
+
+export async function saveReviewLink(_:ActionResult,form:FormData):Promise<ActionResult>{
+ const displayName=String(form.get('displayName')||'').trim();
+ const googleUrl=googleReviewUrl(String(form.get('googleUrl')||''));
+ if(!displayName||displayName.length>150||!googleUrl)return {error:'Revisa el nombre y pega el enlace de «Pedir reseñas» de Google.'};
+ try{
+  const {client,user}=await authenticated();
+  const {data:business,error:be}=await client.from('npr_businesses').select('id').eq('owner_id',user.id).single();
+  if(be||!business)return {error:'Primero registra tu negocio.'};
+  const {data:existing,error:readError}=await client.from('npr_review_links').select('id').eq('business_id',business.id).maybeSingle();
+  if(readError)return {error:'La configuración de enlaces todavía está pendiente.'};
+  const values={display_name:displayName,google_url:googleUrl,active:form.get('active')==='on'};
+  const result=existing?await client.from('npr_review_links').update(values).eq('id',existing.id).select('id').single():await client.from('npr_review_links').insert({...values,business_id:business.id}).select('id').single();
+  if(result.error)return {error:'No se pudo guardar el enlace. Inténtalo nuevamente.'};
+  revalidatePath('/panel');revalidatePath(`/opinar/${result.data.id}`);
+  return {success:values.active?'Enlace guardado. Ya puedes compartirlo.':'Página desactivada.'};
+ }catch{return {error:'Inicia sesión para configurar el enlace.'};}
+}

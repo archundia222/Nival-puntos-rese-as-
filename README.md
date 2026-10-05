@@ -33,7 +33,7 @@ npm run build
 ## Siguiente fase
 1. Backend independiente, cuentas reales y aislamiento por negocio; sin reutilizar recursos de Nival Pay.
 2. Panel privado de Nival con bandeja global, diagnóstico manual y comparación de competencia.
-3. Enlace público de reseñas y tarjeta de puntos con identificador seguro.
+3. Tarjeta pública de puntos con identificador seguro.
 4. Despliegue de prueba y recorrido móvil completo antes de admitir clientes reales.
 5. Integración de Google Business Profile después de validar ingresos, según la instrucción del dueño.
 
@@ -58,3 +58,11 @@ npm run build
 
 ### Pruebas de permisos sin tocar bases externas
 `node --test tests/database.test.mjs` ejecuta el esquema en PostgreSQL embebido con usuarios ficticios. Comprueba aislamiento de negocios, bloqueo de autopromoción a operador, permisos de reseñas y canjes sin saldo. No sustituye la prueba de conexión, correo y cookies contra Supabase real.
+
+## Enlaces públicos de reseñas preparados
+- `database/review-links.sql`: aplicar después de `bootstrap.sql` únicamente en la base independiente.
+- El dueño configura el nombre público y el enlace de «Pedir reseñas» en `/panel`, copia su página `/opinar/[id]` y puede desactivarla sin cambiar el QR.
+- La página pública ofrece el mismo acceso a Google para todos; no selecciona visitantes según su calificación ni registra una reseña por abrir el enlace.
+- Se publica exclusivamente nombre y destino Google. Los teléfonos, puntos, historiales y datos privados permanecen protegidos.
+- Enlaces admitidos: `g.page/r/.../review`, `maps.app.goo.gl/...` y `search.google.com/local/writereview?placeid=...`. El dueño debe comprobar que el enlace corto lleve a su ficha antes de imprimir.
+- Esta función está preparada en código; requiere activar la base, aplicar el SQL y verificar el flujo en el despliegue independiente.
