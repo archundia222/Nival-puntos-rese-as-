@@ -1,0 +1,27 @@
+export const landingContent = {
+  brand: "Nival",
+  navigation: {
+    product: "Puntos + Reseñas",
+    demo: "Ver demo",
+    access: "Acceso a mi negocio",
+  },
+  hero: {
+    eyebrow: "Para cafeterías y restaurantes",
+    titleStart: "Haz que tus clientes",
+    titleEnd: "vuelvan",
+    subtitle: "Más visitas frecuentes y más reseñas de Google para tu negocio.",
+    whatsappLabel: "Cotizar por WhatsApp",
+    whatsappPhone: "525539044788",
+    whatsappMessage: "Hola Nival, quiero cotizar Puntos + Reseñas para mi negocio.",
+    visualLabel: "Vista de cliente · ejemplo ficticio",
+    businessName: "Café de la Esquina",
+    customerName: "Mariana",
+    visitsLabel: "Visitas",
+    visitsCount: "3 de 6",
+    reward: "Una bebida de regalo",
+    pointsBadge: "+1 visita",
+    reviewTitle: "Nueva reseña",
+    reviewAuthor: "Mariana G.",
+    reviewText: "Volver por mi café ahora tiene premio.",
+  },
+} as const;
