@@ -1,5 +1,5 @@
 .landing {
-  --forest: #123d32;
+  --font-display: "Fraunces Variable";\n  --font-body: "DM Sans Variable";\n  --forest: #123d32;
   --forest-deep: #0c3028;
   --cream: #f4f0e5;
   --paper: #fffdf7;
