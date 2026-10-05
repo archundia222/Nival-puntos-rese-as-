@@ -8,6 +8,7 @@ export default async function Privacy({
     <main className="dashboard">
       <small>NIVAL PUNTOS · AVISO DE PRIVACIDAD</small>
       <h1>Tu tarjeta, tus datos</h1>
+      <p role="alert">Borrador pendiente de revisión legal. La versión completa para el piloto se preparará en el bloque 2.</p>
       <p>Versión del 5 de octubre de 2026.</p>
       <section className="reviewBox">
         <h2>Responsables y contacto</h2>

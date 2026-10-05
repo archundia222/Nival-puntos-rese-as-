@@ -1,3 +1,4 @@
+import {quoteUrl} from "../../lib/foundation/registration.mjs";
 import {GoogleReportForm} from '../../lib/owner/google-form';
 import {redirect} from 'next/navigation';
 import {foundationEnabled,query,transaction} from '../../lib/foundation/db';
@@ -31,10 +32,8 @@ function waReminder(b:any){
  const msg=`Hola ${b.owner_name||''}, te escribo de Nival Tech sobre ${b.name}. Tu servicio ${b.paid_until?'vence/venció el '+date(b.paid_until):'está pendiente de activación'}. ¿Te apoyo para renovarlo?`;
  return 'https://wa.me/52'+String(b.phone||'').replace(/\D/g,'')+'?text='+encodeURIComponent(msg);
 }
-function waQuote(b:any,plan:any){
- const msg=`Hola, quiero cotizar o activar Nival Tech.\n\nNegocio: ${b.name}\nGiro: ${b.giro||'—'}\nDueño: ${b.owner_name||'—'}\nTeléfono: ${b.phone||'—'}\nCorreo: ${b.email||'—'}\nID: ${b.id}\nPlan: ${plan?.name||'Sin plan'}`;
- return 'https://wa.me/525539044788?text='+encodeURIComponent(msg);
-}
+function waQuote(b:any,plan:any){return quoteUrl(b,plan);}
+
 
 export default async function Admin({searchParams}:{searchParams:Promise<{business?:string;q?:string;status?:string}>}){
  if(!foundationEnabled())redirect('/demo/admin');

@@ -16,6 +16,7 @@ import {
 import { randomToken, sha256, verifyPin, signedHint } from "./security.mjs";
 import { mexicoPhone } from "../points/security";
 import { getAuth } from "../backend/auth";
+import {validateRegistration, legalVersion} from "./registration.mjs";
 export type Result = { error?: string; success?: string; link?: string };
 const val = (f: FormData, k: string) => String(f.get(k) || "").trim();
 const uuid = (s: string) =>
@@ -101,25 +102,12 @@ export async function registerBusiness(
   f: FormData,
 ): Promise<Result> {
   const actor = await requireRole("owner");
-  const name = val(f, "name"),
-    slug = val(f, "slug").toLowerCase(),
-    giro = val(f, "giro");
-  if (
-    !name ||
-    name.length > 150 ||
-    !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug) ||
-    slug.length > 100
-  )
-    return {
-      error:
-        "Escribe un nombre y un enlace válido (letras, números y guiones).",
-    };
+  const {data,error}=validateRegistration(f);
+  if(error)return {error};
   try {
-    await query(
-      authScope(actor.id),
-      "select nival_pr_private.register_business($1,$2,$3)",
-      [slug, name, giro],
-    );
+    await query(authScope(actor.id),
+      "select nival_pr_private.register_business_complete($1,$2,$3,$4,$5,$6,$7,$8,$9)",
+      [data.slug,data.name,data.giro,data.owner_name,data.phone,data.email,data.google_maps_url,true,legalVersion]);
   } catch (e) {
     return failure(e);
   }
