@@ -1,4 +1,7 @@
 'use server';
+import {randomUUID} from 'node:crypto';
+import {customerCardsConfigured} from '../../lib/supabase/customer-card';
+import {cardTokenValid} from '../../lib/customer-card';
 import {googleReviewUrl} from '../../lib/review-link';
 import {redirect} from 'next/navigation';
 import {revalidatePath} from 'next/cache';
@@ -38,4 +41,19 @@ export async function saveReviewLink(_:ActionResult,form:FormData):Promise<Actio
   revalidatePath('/panel');revalidatePath(`/opinar/${result.data.id}`);
   return {success:values.active?'Enlace guardado. Ya puedes compartirlo.':'Página desactivada.'};
  }catch{return {error:'Inicia sesión para configurar el enlace.'};}
+}
+
+export async function manageCustomerCard(_:ActionResult,form:FormData):Promise<ActionResult>{
+ const id=String(form.get('customerId')||'');const operation=String(form.get('operation')||'');
+ if(!cardTokenValid(id)||!['enable','disable','rotate'].includes(operation))return {error:'Tarjeta inválida.'};
+ if(!customerCardsConfigured())return {error:'La consulta de tarjetas todavía está pendiente de activación.'};
+ try{
+  const {client,user}=await authenticated();
+  const {data:business,error:be}=await client.from('npr_businesses').select('id').eq('owner_id',user.id).single();
+  if(be||!business)return {error:'Negocio no disponible.'};
+  const values=operation==='rotate'?{card_token:randomUUID(),card_enabled:true}:{card_enabled:operation==='enable'};
+  const {data,error}=await client.from('npr_customers').update(values).eq('id',id).eq('business_id',business.id).select('id').single();
+  if(error||!data)return {error:'No se pudo actualizar la tarjeta. Revisa la configuración.'};
+  revalidatePath('/panel');return {success:operation==='disable'?'Tarjeta desactivada.':operation==='rotate'?'Nuevo enlace creado. El anterior ya no funciona.':'Tarjeta activada.'};
+ }catch{return {error:'Inicia sesión para administrar las tarjetas.'};}
 }

@@ -33,7 +33,7 @@ npm run build
 ## Siguiente fase
 1. Backend independiente, cuentas reales y aislamiento por negocio; sin reutilizar recursos de Nival Pay.
 2. Panel privado de Nival con bandeja global, diagnóstico manual y comparación de competencia.
-3. Tarjeta pública de puntos con identificador seguro.
+3. Activar y verificar tarjetas de puntos en el despliegue independiente.
 4. Despliegue de prueba y recorrido móvil completo antes de admitir clientes reales.
 5. Integración de Google Business Profile después de validar ingresos, según la instrucción del dueño.
 
@@ -66,3 +66,12 @@ npm run build
 - Se publica exclusivamente nombre y destino Google. Los teléfonos, puntos, historiales y datos privados permanecen protegidos.
 - Enlaces admitidos: `g.page/r/.../review`, `maps.app.goo.gl/...` y `search.google.com/local/writereview?placeid=...`. El dueño debe comprobar que el enlace corto lleve a su ficha antes de imprimir.
 - Esta función está preparada en código; requiere activar la base, aplicar el SQL y verificar el flujo en el despliegue independiente.
+
+## Tarjetas de puntos del cliente preparadas
+- Aplicar `database/customer-cards.sql` después de `bootstrap.sql` en la base independiente. No cambia datos de los proyectos existentes.
+- Configurar `SUPABASE_SECRET_KEY` solo en el servidor del nuevo sitio. Nunca usar prefijo `NEXT_PUBLIC_` para esta clave, ni incluirla en Git.
+- El negocio activa la tarjeta por cliente, copia `/tarjeta/[token]`, la desactiva o genera otro enlace para revocar el anterior. Nace desactivada.
+- El enlace funciona como llave de consulta: quien lo tenga verá únicamente nombre del negocio, puntos y premio; no nombres de clientes, teléfonos ni historial.
+- La consulta no registra visitas ni canjes. El saldo se calcula desde movimientos, no desde datos enviados por el visitante.
+- La ruta no se indexa y no envía el enlace como referencia a otras páginas. Incluye cabeceras privadas sin caché; verificar también el despliegue antes de compartir tarjetas reales.
+- Pruebas locales cubren permisos, desactivación, rotación y límites de recompensa; sigue pendiente el recorrido en Supabase y alojamiento reales.
