@@ -3,7 +3,7 @@
 Esta implementación usa la base Neon PostgreSQL existente y Neon Auth, conforme a la alternativa aprobada. No depende de Supabase para funcionar. El repositorio y la base son independientes de Nival Pay y Nival Links.
 
 ## Estado entregado
-El SQL, los accesos por rol y el seed están preparados en el código. La migración se probó en PostgreSQL embebido. No se ha aplicado al Neon remoto ni creado el seed remoto porque la conexión autorizada a Neon está pendiente. No hay despliegue READY nuevo que pueda afirmarse sin estas comprobaciones.
+El cimiento está aplicado en Neon real y el seed está creado. Las 39 pruebas, typecheck y build pasaron. Correo y PIN se verificaron con la base remota desde el servidor local. Preview Vercel READY; producción pendiente de autorización explícita para reemplazar el despliegue activo. Ver docs/VALIDACION.md.
 
 ## Archivos
 | Archivo | Propósito |

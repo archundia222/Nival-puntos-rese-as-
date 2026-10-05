@@ -40,14 +40,13 @@ Las pruebas de esquema usan PostgreSQL embebido con cuentas ficticias. Comprueba
 5. Registrar la cuenta del operador y agregar su UUID verificado a `npr_operators` mediante la administración de esta base nueva. No basar ese permiso en un correo sin verificar.
 6. Probar dos negocios, búsqueda, puntos, canje, captura de reseñas, diagnóstico, resumen y páginas públicas antes de recibir datos reales.
 
-## Estado
-Base y autenticación creadas. Esquema real aplicado; pruebas locales y compilación verificadas. El proyecto web no se ha publicado todavía: la conexión de Vercel disponible rechazó la creación del proyecto por falta de permisos. Pendiente conectar Vercel con autorización de escritura y completar el recorrido publicado.
+## Estado actual del cimiento
+La arquitectura aprobada usa Neon y Neon Auth existentes. `database/foundation-neon.sql` está aplicado al esquema `nival_pr`, sin modificar `public.npr_*` ni otros productos. Incluye RLS, historial inmutable, auditoría de estados y roles superadmin/owner/staff/cliente por token.
 
-Los archivos anteriores `database/bootstrap.sql`, `database/diagnostics.sql`, `database/review-links.sql` y `database/customer-cards.sql` corresponden al backend Supabase abandonado. No aplicarlos en Neon. Se conservan como historial de implementación.
+Seed remoto creado: Café Demo, owner, dos meseros y 20 clientes. Un segundo negocio permite verificar aislamiento. Las 39 pruebas, typecheck y build pasaron; correo y PIN se comprobaron contra Neon real.
 
-## Nuevo cimiento por roles (entrega preparada)
-La arquitectura aprobada se conserva en Neon. database/foundation-neon.sql agrega el esquema nival_pr sin modificar public.npr_*. Incluye superadmin, owner, staff por PIN y cliente por token; las rutas nuevas se activan con FOUNDATION_ENABLED=true tras migrar y verificar.
+Código en la rama `feature/cimiento-neon-roles`. Preview READY: https://nival-puntos-resenas-241loqm2n-nival-tech.vercel.app . Producción pendiente de aprobación explícita para sustituir el despliegue activo. Falta registrar y verificar la cuenta real del superadmin.
 
-Guía completa: [docs/DESPLIEGUE.md](docs/DESPLIEGUE.md). Aceptación: [docs/PRUEBAS-MANUALES.md](docs/PRUEBAS-MANUALES.md).
+Guía: [docs/DESPLIEGUE.md](docs/DESPLIEGUE.md). Pruebas manuales: [docs/PRUEBAS-MANUALES.md](docs/PRUEBAS-MANUALES.md). Evidencia y límites: [docs/VALIDACION.md](docs/VALIDACION.md).
 
-La conexión Neon remota debe completarse antes de aplicar el cimiento y crear el seed. El cambio no está publicado ni probado con correo real todavía. No ejecutar el SQL en proyectos de otros productos.
+Los SQL anteriores de Supabase son históricos: no aplicarlos en Neon. No ejecutar el cimiento en bases de otros productos.
