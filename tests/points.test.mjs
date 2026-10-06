@@ -496,3 +496,31 @@ test("program identity is business-scoped and public card receives saved name, c
     await db.close();
   }
 });
+
+test("pilot journey: customer entry, staff visit, repeat rejection, photographed redemption and owner review stay consistent", async()=>{
+ const {db,rewards}=await setup("single",{min_hours_between_visits:6,max_visits_per_day:2});
+ try{
+  await scope(db,"npr_v2_auth");
+  const publicData=(await db.query("select nival_pr_private.public_business($1) data",["cafe-prueba"])).rows[0].data;
+  assert.equal(publicData.slug,"cafe-prueba");assert.equal(publicData.active,true);
+  const token="9".repeat(64);
+  const enrolled=(await db.query("select nival_pr_private.enroll_customer($1,$2,$3,$4) id",["cafe-prueba","Piloto","525500001234",token])).rows[0].id;
+  await scope(db,"npr_v2_auth",staff);
+  const lookup=(await db.query("select nival_pr_private.staff_customer($1,null,$2) data",[b,enrolled])).rows[0].data;
+  assert.equal(lookup.name,"Piloto");assert.equal(Number(lookup.balance),0);
+  await scope(db,"npr_v2_staff",staff);
+  await db.query("insert into nival_pr.point_ledger(business_id,customer_id,type,points,staff_id) values($1,$2,'visit',1,$3)",[b,enrolled,staff]);
+  await assert.rejects(db.query("insert into nival_pr.point_ledger(business_id,customer_id,type,points,staff_id) values($1,$2,'visit',1,$3)",[b,enrolled,staff]),/Visita demasiado reciente/);
+  await db.exec("reset role");await db.query("update nival_pr.point_ledger set created_at=now()-interval '7 hours' where customer_id=$1",[enrolled]);
+  await scope(db,"npr_v2_staff",staff);
+  await db.query("insert into nival_pr.point_ledger(business_id,customer_id,type,points,staff_id) values($1,$2,'visit',1,$3)",[b,enrolled,staff]);
+  const path=b+"/"+enrolled+"/99999999-9999-4999-8999-999999999999.png";
+  await scope(db,"npr_v2_auth",staff);await db.query("select nival_pr_private.store_photo($1,$2,$3,$4,$5)",[b,enrolled,path,Buffer.from("1234567890123456").toString("base64"),"image/png"]);
+  await scope(db,"npr_v2_staff",staff);
+  const ledger=(await db.query("insert into nival_pr.point_ledger(business_id,customer_id,type,points,staff_id,reward_id,evidence_path) values($1,$2,'redeem',-2,$3,$4,$5) returning id",[b,enrolled,staff,rewards[0].id,path])).rows[0];
+  await scope(db,"npr_v2_auth");const card=(await db.query("select nival_pr_private.customer_card($1,$2) data",[b,token])).rows[0].data;
+  assert.equal(Number(card.balance),0);assert.equal(card.history[0].type,"redeem");
+  await db.exec("reset role");const redemption=(await db.query("select id,status from nival_pr.redemptions where ledger_id=$1",[ledger.id])).rows[0];assert.equal(redemption.status,"pendiente");
+  await scope(db,"npr_v2_auth",owner);assert.equal((await db.query("select mime from nival_pr_private.read_photo($1)",[redemption.id])).rows[0].mime,"image/png");
+ }finally{await db.close();}
+});
