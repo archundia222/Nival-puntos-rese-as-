@@ -22,6 +22,7 @@ export default async function Customer({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  const turnstileSiteKey = process.env.TURNSTILE_SITE_KEY || "";
   if (!foundationEnabled())
     return (
       <main className="dashboard">
@@ -100,7 +101,7 @@ export default async function Customer({
               </span>
             </label>
             <label className="wide consentLabel"><input name="marketing_consent" type="checkbox"/><span>{marketingConsent}</span></label>
-            {!valid?.valid&&<TurnstileWidget/>}
+            {!valid?.valid&&<TurnstileWidget siteKey={turnstileSiteKey}/>}
           </ActionForm>
         </section>
       )}
