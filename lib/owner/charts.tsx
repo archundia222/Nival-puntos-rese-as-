@@ -1,7 +1,7 @@
 const fmt=(v:number)=>v.toLocaleString('es-MX');
-export function Bars({title,items}:{title:string;items:{label:string;value:number;color:string}[]}){
+export function Bars({title,items,unit='Cantidad de reseñas'}:{title:string;unit?:string;items:{label:string;value:number;color:string}[]}){
  const max=Math.max(1,...items.map(x=>x.value));
- return <figure className="ownerChart" aria-label={title}><figcaption>{title}</figcaption>{items.map(x=><div className="chartBar" key={x.label}><span>{x.label}</span><div><i style={{width:`${x.value/max*100}%`,background:x.color}}/></div><b>{fmt(x.value)}</b></div>)}<span className="chartHint">Cantidad de reseñas</span></figure>;
+ return <figure className="ownerChart" aria-label={title}><figcaption>{title}</figcaption>{items.map(x=><div className="chartBar" key={x.label}><span>{x.label}</span><div><i style={{width:`${x.value/max*100}%`,background:x.color}}/></div><b>{fmt(x.value)}</b></div>)}<span className="chartHint">{unit}</span></figure>;
 }
 export function RatingLine({reports}:{reports:Record<string,any>[]}){
  const data=reports.map(r=>({date:String(r.period).slice(0,10),rating:Number(r.rating)})).filter(r=>Number.isFinite(r.rating));

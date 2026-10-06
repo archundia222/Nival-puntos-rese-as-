@@ -1,3 +1,6 @@
+import {DashboardShell} from "../../../lib/owner/shell";
+import {logout} from "../../../lib/foundation/actions";
+import {Icon} from "../../../lib/owner/icons";
 import { query, authScope } from "../../../lib/foundation/db";
 import { requireRole, requireBusiness } from "../../../lib/foundation/session";
 import { ActionForm } from "../../../lib/foundation/forms";
@@ -54,7 +57,8 @@ export default async function PointsPanel({
     [b.id],
   );
   return (
-    <main className="dashboard">
+    <DashboardShell name={b.name} owner={actor.name} status="Mi cuenta" demo={false} initialSection="ajustes" homeUrl={'/panel?business='+b.id} logout={<form action={logout}><button className="logoutButton" aria-label="Cerrar sesión"><Icon name="logout" size={18}/></button></form>}>
+    <main className="dashboard programWorkspace">
       <header className="dashHead">
         <div>
           <small>NIVAL PUNTOS · CONFIGURACIÓN</small>
@@ -69,7 +73,8 @@ export default async function PointsPanel({
           </a>
         ))}
       </nav>
-      <section className="reviewBox">
+      <nav className="programTabs" aria-label="Configuración del programa"><a href="#programa">Programa y premios</a><a href="#personal">Equipo</a><a href="#canjes">Canjes</a><a href="#qr">QR del negocio</a></nav>
+      <section className="reviewBox" id="programa">
         <h2>Una tarjeta con tu identidad</h2>
         <ActionForm action={saveProgram} label="Guardar programa">
           <Hidden name="businessId" value={b.id} />
@@ -174,7 +179,7 @@ export default async function PointsPanel({
         </ActionForm>
       </section>
       <ProgramPreview business={b.name} program={program} reward={rewards.find((r) => r.active)} />
-      <section className="reviewBox">
+      <section className="reviewBox" id="personal">
         <h2>Tu equipo</h2>
         <p>
           Cada mesero recibe su identificador y un PIN individual de 6 a 8
@@ -217,7 +222,7 @@ export default async function PointsPanel({
           </article>
         ))}
       </section>
-      <section className="reviewBox">
+      <section className="reviewBox" id="canjes">
         <h2>Canjes y evidencia</h2>
         {!redemptions.length && (
           <p>Aquí aparecerán los premios entregados por tu equipo.</p>
@@ -273,10 +278,10 @@ export default async function PointsPanel({
         ))}
       </section>
       <NfcSetup name={b.name} slug={b.slug} />
-      <section className="reviewBox">
+      <section className="reviewBox" id="qr">
         <h2>QR para tu mostrador</h2>
         <PrintQr name={b.name} slug={b.slug} logo={program?.logo_url} />
       </section>
-    </main>
+    </main></DashboardShell>
   );
 }
