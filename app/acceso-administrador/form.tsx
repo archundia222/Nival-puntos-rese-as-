@@ -1,6 +1,6 @@
 'use client';
 import {useState} from 'react';
-import {authClient} from '../../../lib/backend/client';
+import {authClient} from '../../lib/backend/client';
 
 export default function AdminAccessForm(){
  const [email,setEmail]=useState('');const [password,setPassword]=useState('');const [busy,setBusy]=useState(false);const [notice,setNotice]=useState('');
