@@ -20,7 +20,7 @@ test('real admin actions keep drafts private, publish to public reader and rejec
  const query=async(a,sql,values=[])=>{await db.exec('reset role');await db.query("select set_config('npr.user_id',$1,false)",[a.id]);await db.exec('set role '+(a.role==='superadmin'?'npr_v2_admin':'npr_v2_owner'));return (await db.query(sql,values)).rows;};
  const mod={exports:{}};
  const code=ts.transpile(readFileSync('lib/admin/actions.ts','utf8'),{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022});
- new Function('require','module','exports',code)(id=>id.includes('legal.mjs')?{validateLegalDraft}:id==='next/cache'?{revalidatePath:p=>invalidations.push(p)}:id.includes('/session')?{requireRole:async(role)=>{if(actor.role!==role)throw Error('Forbidden');return actor;}}:id.includes('/db')?{query}:id==='node:crypto'?{}:{},mod,mod.exports);
+ new Function('require','module','exports',code)(id=>id.includes('legal.mjs')?{validateLegalDraft}:id==='next/cache'?{revalidatePath:p=>invalidations.push(p)}:id.includes('/action-guard')?{guardAction:async(roles)=>{if(!roles.includes(actor.role))throw Error('Forbidden');return actor;}}:id.includes('/session')?{requireRole:async(role)=>{if(actor.role!==role)throw Error('Forbidden');return actor;}}:id.includes('/db')?{query}:id==='node:crypto'?{}:{},mod,mod.exports);
  const f=new FormData();f.set('key','legal_terms');f.set('value',draftNotice+'\nPrueba publicada');
  const saved=await mod.exports.saveContentDraft({},f);assert.ok(saved.success,JSON.stringify(saved));
  await db.exec('reset role');let row=(await db.query("select * from nival_pr.site_content where key='legal_terms'")).rows[0];assert.equal(publishedLegal('legal_terms',row),legalDefaults.legal_terms);
