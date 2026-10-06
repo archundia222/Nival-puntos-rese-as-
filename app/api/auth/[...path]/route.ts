@@ -5,11 +5,12 @@ import {query,authScope} from '../../../../lib/foundation/db';
 import {secret} from '../../../../lib/foundation/session';
 import {verifyTurnstileCookie} from '../../../../lib/security/turnstile-cookie.mjs';
 import {assertSameOrigin} from '../../../../lib/points/security';
+import {trustedClientIp} from '../../../../lib/security/client-ip';
 export const dynamic='force-dynamic';
 export async function GET(request:Request,context:any){return getAuth().handler().GET(request,context);}
 function validEmail(value:unknown){const s=String(value||'').trim().toLowerCase();return s.length<=254&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s)?s:'';}
 async function loginAllowed(request:Request){
- const h=await headers();const ip=process.env.VERCEL?(h.get('x-vercel-forwarded-for')||'unknown').split(',')[0].trim():'local';
+ const h=await headers();const ip=trustedClientIp(h);
  let email='';try{email=validEmail((await request.clone().json())?.email);}catch{}
  const hash=(v:string)=>createHmac('sha256',secret()).update(v).digest('hex');
  const keys=[hash('auth-ip:'+ip),...(email?[hash('auth-email:'+email)]:[])];
