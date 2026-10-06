@@ -3,6 +3,7 @@ import {createHmac} from 'node:crypto';
 import {getAuth} from '../../../../lib/backend/auth';
 import {query,authScope} from '../../../../lib/foundation/db';
 import {secret} from '../../../../lib/foundation/session';
+import {verifyTurnstileCookie} from '../../../../lib/security/turnstile-cookie.mjs';
 import {assertSameOrigin} from '../../../../lib/points/security';
 export const dynamic='force-dynamic';
 export async function GET(request:Request,context:any){return getAuth().handler().GET(request,context);}
@@ -20,7 +21,7 @@ export async function POST(request:Request,context:any){
  if(path.endsWith('/sign-in/email')||path.endsWith('/sign-up/email')){try{await assertSameOrigin();}catch{return Response.json({message:'Solicitud no autorizada.'},{status:403});}}
  if(path.endsWith('/sign-in/email')&&!await loginAllowed(request))return Response.json({message:'Demasiados intentos. Espera 15 minutos.'},{status:429});
  if(path.endsWith('/sign-up/email')){
-  const jar=await cookies();if(jar.get('nival_turnstile')?.value!=='verified')return Response.json({message:'Verificación anti-bot requerida.'},{status:403});
+  const jar=await cookies();if(!verifyTurnstileCookie(jar.get('nival_turnstile')?.value,secret()))return Response.json({message:'Verificación anti-bot requerida.'},{status:403});
  }
  const response=await getAuth().handler().POST(request,context);
  if(path.endsWith('/sign-up/email'))response.headers.append('Set-Cookie','nival_turnstile=; Max-Age=0; Path=/api/auth; HttpOnly; Secure; SameSite=Strict');

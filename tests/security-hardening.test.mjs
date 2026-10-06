@@ -29,3 +29,14 @@ test('public customer enrollment verifies Turnstile before database enrollment',
 test('Wallet resources are namespaced away from other Nival products',()=>{
  const s=readFileSync('lib/wallet/google.mjs','utf8');assert.ok(s.includes(".puntos_business_"));assert.ok(s.includes(".puntos_customer_"));assert.ok(!s.includes(".npr_business_"));
 });
+
+import {issueTurnstileCookie,verifyTurnstileCookie} from '../lib/security/turnstile-cookie.mjs';
+test('Turnstile gate cookie is HMAC signed, expires, and rejects forgery',()=>{
+ const secret='0123456789abcdef0123456789abcdef',now=1_800_000_000_000;
+ const cookie=issueTurnstileCookie(secret,now);
+ assert.equal(verifyTurnstileCookie(cookie,secret,now+299_000),true);
+ assert.equal(verifyTurnstileCookie(cookie,secret,now+301_000),false);
+ const forged=cookie.replace(/.$/,cookie.endsWith('A')?'B':'A');
+ assert.equal(verifyTurnstileCookie(forged,secret,now),false);
+ assert.equal(verifyTurnstileCookie(cookie,'abcdef0123456789abcdef0123456789',now),false);
+});
