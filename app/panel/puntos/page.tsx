@@ -11,6 +11,7 @@ import {
 import { ProgramLogo } from "../../../lib/points/program-logo";
 import { PrintQr } from "../../../lib/points/print-qr";
 import { ProgramPreview } from "../../../lib/points/program-preview";
+import { NfcSetup } from "../../../lib/points/nfc-setup";
 export const dynamic = "force-dynamic";
 export default async function PointsPanel({
   searchParams,
@@ -271,6 +272,7 @@ export default async function PointsPanel({
           </article>
         ))}
       </section>
+      <NfcSetup name={b.name} slug={b.slug} />
       <section className="reviewBox">
         <h2>QR para tu mostrador</h2>
         <PrintQr name={b.name} slug={b.slug} logo={program?.logo_url} />
