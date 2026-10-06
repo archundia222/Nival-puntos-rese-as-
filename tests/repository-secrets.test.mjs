@@ -1,0 +1,4 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {readdirSync,readFileSync,statSync} from 'node:fs';import {join} from 'node:path';
+const skip=new Set(['.git','node_modules','.next']);const exts=/\.(?:ts|tsx|js|mjs|cjs|json|md|sql|yml|yaml|example)$/;
+function files(dir='.'){return readdirSync(dir).flatMap(n=>{if(skip.has(n))return[];const p=join(dir,n),s=statSync(p);return s.isDirectory()?files(p):exts.test(p)?[p]:[];});}
+test('repository tree contains no common committed secret material',()=>{const patterns=[/-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/,/postgres(?:ql)?:\/\/[^:\s]+:[^@\s]+@/i,/\bghp_[A-Za-z0-9]{20,}\b/,/\bsk_live_[A-Za-z0-9_-]{12,}\b/,/(?:SESSION_SECRET|R2_SECRET_ACCESS_KEY|GOOGLE_WALLET_PRIVATE_KEY|NEON_AUTH_COOKIE_SECRET)\s*=\s*[^\s#]{12,}/];const hits=[];for(const f of files()){const s=readFileSync(f,'utf8');for(const p of patterns)if(p.test(s))hits.push(f+':'+p);}assert.deepEqual(hits,[]);});
