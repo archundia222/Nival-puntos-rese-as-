@@ -19,6 +19,7 @@ import {guardAction,guardPublicAction} from "./action-guard";
 import { getAuth } from "../backend/auth";
 import {validateRegistration, legalVersion} from "./registration.mjs";
 import {verifyTurnstile} from "../security/turnstile.mjs";
+import {trustedClientIp} from "../security/client-ip";
 export type Result = { error?: string; success?: string; link?: string };
 const val = (f: FormData, k: string) => String(f.get(k) || "").trim();
 const uuid = (s: string) =>
@@ -48,9 +49,7 @@ export async function loginStaff(_: Result, f: FormData): Promise<Result> {
     return { error: "Revisa el negocio, tu identificador y el PIN." };
   try {
     const h = await headers();
-    const ip = process.env.VERCEL
-      ? h.get("x-vercel-forwarded-for") || "unknown"
-      : "local";
+    const ip = trustedClientIp(h);
     const hash = (v: string) =>
       createHmac("sha256", secret()).update(v).digest("hex");
     const limits = await transaction(authScope(), [
@@ -413,7 +412,7 @@ export async function report(_: Result, f: FormData): Promise<Result> {
 export async function enroll(_: Result, f: FormData): Promise<Result> {
   await guardPublicAction();
   const hdr = await headers();
-  const ip = process.env.VERCEL ? hdr.get("x-vercel-forwarded-for")?.split(",")[0]?.trim() || "unknown" : "local";
+  const ip = trustedClientIp(hdr);
   if(!await verifyTurnstile(val(f,"cf-turnstile-response"),ip).catch(()=>false))return {error:"Confirma que no eres un robot."};
   const slug = val(f, "slug"),
     name = val(f, "name"),
