@@ -25,6 +25,6 @@ export default async function Home(){
 
   <section className="publicSection faqStory"><div><span>05 · PREGUNTAS</span><h2>Lo esencial, sin vueltas.</h2></div><div className="faqList"><details open><summary>¿Para qué negocios sirve?</summary><p>Para negocios con clientes recurrentes: cafeterías, restaurantes, barberías, estéticas y más.</p></details><details><summary>¿El cliente descarga una app?</summary><p>No. Abre su tarjeta desde QR o NFC directamente en la web.</p></details><details><summary>¿Debo regalar puntos por reseñar?</summary><p>No. Las reseñas funcionan separadas de puntos y recompensas.</p></details><details><summary>¿Cómo empiezo?</summary><p>Escríbenos por WhatsApp y configuramos el servicio contigo.</p></details></div></section>
 
-  <footer className="publicFooter"><div><b>NIVAL</b><p>Clientes que regresan. Experiencias que recomiendan.</p></div><div><a href="/acceso">Acceso a mi negocio</a><a href="/staff/acceso">Acceso del personal</a><a href="/terminos">Términos</a><a href="/privacidad">Aviso de privacidad</a></div><a className="publicCta" href={wa} target="_blank" rel="noreferrer">Cotizar por WhatsApp</a></footer>
+  <footer className="publicFooter"><div><b>NIVAL</b><p>Clientes que regresan. Experiencias que recomiendan.</p></div><div><a href="/acceso">Acceso a mi negocio</a><a href="/staff/acceso">Acceso del personal</a><a href="/terminos">Términos</a><a href="/privacidad">Aviso de privacidad</a></div></footer>
  </main>
 }
