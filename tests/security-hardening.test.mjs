@@ -61,3 +61,11 @@ test('all exported server mutations use the common action guard',()=>{
   }
  }
 });
+
+import {trustedClientIp} from '../lib/security/client-ip';
+test('rate limiting uses the Vercel-overwritten x-forwarded-for header',()=>{
+ const h=new Headers({'x-forwarded-for':'203.0.113.9, 10.0.0.1'});
+ assert.equal(trustedClientIp(h,true),'203.0.113.9');
+ assert.equal(trustedClientIp(h,false),'local');
+ for(const file of ['app/api/auth/[...path]/route.ts','app/api/security/turnstile/route.ts','lib/foundation/actions.ts'])assert.ok(!readFileSync(file,'utf8').includes('x-vercel-forwarded-for'));
+});
