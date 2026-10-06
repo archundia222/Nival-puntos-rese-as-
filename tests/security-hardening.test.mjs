@@ -1,0 +1,18 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';import {verifyTurnstile} from '../lib/security/turnstile.mjs';import {parseDsn,captureServerError} from '../lib/monitoring/sentry.mjs';
+test('Turnstile verification fails closed and sends secret only to Cloudflare',async()=>{
+ await assert.rejects(verifyTurnstile('token','1.2.3.4',{},async()=>Response.json({success:true})),/TURNSTILE_NOT_CONFIGURED/);
+ let sent;assert.equal(await verifyTurnstile('token','1.2.3.4',{TURNSTILE_SECRET_KEY:'server-secret'},async(url,o)=>{sent={url,o};return Response.json({success:true});}),true);
+ assert.equal(sent.url,'https://challenges.cloudflare.com/turnstile/v0/siteverify');assert.ok(String(sent.o.body).includes('secret=server-secret'));
+});
+test('Sentry DSN remains server-only and monitoring fails safely when unconfigured',async()=>{
+ assert.equal(parseDsn('bad'),null);assert.equal(await captureServerError(Error('x'),{}, {},async()=>{throw Error('must not call')}),false);
+ const d=parseDsn('https://publickey@o1.ingest.sentry.io/123');assert.equal(d.endpoint,'https://o1.ingest.sentry.io/api/123/envelope/');
+});
+test('global security headers include CSP anti-framing MIME and permissions protections',()=>{
+ const s=readFileSync('next.config.ts','utf8');for(const h of ['Content-Security-Policy','X-Frame-Options','X-Content-Type-Options','Permissions-Policy','Referrer-Policy'])assert.ok(s.includes(h));
+ assert.ok(s.includes("frame-ancestors 'none'"));assert.ok(s.includes('challenges.cloudflare.com'));
+});
+test('session cookies and auth protections are server-side secure defaults',()=>{
+ const s=readFileSync('lib/foundation/session.ts','utf8');assert.ok(/httpOnly:true/.test(s));assert.ok(/sameSite:'lax'/.test(s));assert.ok(/secure:process\.env\.NODE_ENV==='production'/.test(s));assert.ok(/maxAge:8\*3600/.test(s));
+ const p=readFileSync('lib/points/security.ts','utf8');assert.ok(p.includes('assertSameOrigin'));
+});
