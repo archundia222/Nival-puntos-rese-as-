@@ -5,8 +5,8 @@ import {TurnstileWidget} from '../../lib/security/turnstile-widget';
 type Mode='login'|'register'|'recover'|'resend';
 const titles={login:'Iniciar sesión',register:'Crear cuenta',recover:'Recuperar contraseña',resend:'Confirmar mi correo'};
 const buttons={login:'Entrar',register:'Crear cuenta',recover:'Enviar enlace de recuperación',resend:'Reenviar confirmación'};
-export default function AccessForm({turnstileSiteKey}:{turnstileSiteKey:string}){
- const [mode,setMode]=useState<Mode>('login');const [email,setEmail]=useState('');const [password,setPassword]=useState('');const [busy,setBusy]=useState(false);const [notice,setNotice]=useState('');const [failed,setFailed]=useState(false);
+export default function AccessForm({turnstileSiteKey,initialMode='login'}:{turnstileSiteKey:string;initialMode?:'login'|'register'}){
+ const [mode,setMode]=useState<Mode>(initialMode);const [email,setEmail]=useState('');const [password,setPassword]=useState('');const [busy,setBusy]=useState(false);const [notice,setNotice]=useState('');const [failed,setFailed]=useState(false);
  function changeMode(value:Mode){setMode(value);setNotice('');setFailed(false);setPassword('');}
  async function submit(event:React.FormEvent<HTMLFormElement>){
   event.preventDefault();if(busy)return;setBusy(true);setNotice('');setFailed(false);
