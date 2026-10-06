@@ -177,12 +177,12 @@ export default async function PointsPanel({
       <section className="reviewBox">
         <h2>Tu equipo</h2>
         <p>
-          Cada mesero recibe su identificador y un PIN individual de 6 a 8
+          Cada integrante recibe su identificador y un PIN individual de 6 a 8
           dígitos. El PIN se guarda mediante hash con una función de derivación.
         </p>
-        <ActionForm action={manageStaff} label="Crear mesero">
+        <ActionForm action={manageStaff} label="Crear integrante">
           <Hidden name="businessId" value={b.id} />
-          <Field name="name" label="Nombre del mesero" />
+          <Field name="name" label="Nombre del integrante" />
           <label>
             PIN
             <input

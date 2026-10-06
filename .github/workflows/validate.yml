@@ -4,6 +4,7 @@ on:
     branches:
       - feature/cimiento-neon-roles
       - feature/piloto-bloque-1
+      - feature/rediseno-publico
   pull_request:
 jobs:
   validate:
