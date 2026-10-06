@@ -134,7 +134,7 @@ export async function createTask(_:Result,f:FormData):Promise<Result>{
 }
 
 export async function moveTask(taskId:string,status:string):Promise<{ok:boolean}>{
- const actor=await guardAction(['superadmin'],f);
+ const actor=await guardAction(['superadmin']);
  if(!uuid(taskId)||!taskStates.includes(status))return {ok:false};
  const results=await transaction(actor,[{text:`with changed as (
   update nival_pr.tasks set status=$2 where id=$1 and status<>$2
