@@ -1,2 +1,5 @@
-import DemoNotice from '../components/demo-notice';
-export default function Demo(){return <main className="dashboard"><DemoNotice/><header className="dashHead"><div><small>NIVAL · DEMOSTRACIÓN</small><h1>Conoce Nival</h1><p>Recorre el programa de puntos y el seguimiento de reseñas.</p></div><a href="/acceso">Entrar a mi cuenta</a></header><section className="reviewBox"><h2>Prueba el recorrido</h2><div className="actions"><a href="/demo/panel">Ver panel del dueño · 20 clientes</a><a className="primary" href="/registro">Configurar Café Demo</a><a href="/puntos">Probar visitas y premios</a><a href="/nival">Ver reseñas</a></div><p>Los cambios de esta demostración se guardan solo en tu navegador.</p></section></main>}
+import {redirect} from 'next/navigation';
+
+export default function Demo(){
+ redirect('/demo/panel');
+}
