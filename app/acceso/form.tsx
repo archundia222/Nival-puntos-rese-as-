@@ -8,7 +8,7 @@ const buttons={login:'Entrar',register:'Crear cuenta',recover:'Enviar enlace de 
 export default function AccessForm(){
  const [mode,setMode]=useState<Mode>('login');const [email,setEmail]=useState('');const [password,setPassword]=useState('');const [busy,setBusy]=useState(false);const [notice,setNotice]=useState('');const [failed,setFailed]=useState(false);
  function changeMode(value:Mode){setMode(value);setNotice('');setFailed(false);setPassword('');}
- async function submit(event:React.FormEvent){
+ async function submit(event:React.FormEvent<HTMLFormElement>){
   event.preventDefault();if(busy)return;setBusy(true);setNotice('');setFailed(false);
   try{
    const client=authClient;const address=email.trim();
