@@ -24,3 +24,9 @@ test('demo and program settings reuse the same shell with explicit demo status a
  assert.ok(html.includes('data-section="ajustes"'));assert.ok(html.includes('Estás explorando la demo.'));assert.ok(html.includes('Datos de ejemplo'));
  assert.ok(html.includes('href="/acceso"'));
 });
+
+test('mobile preview keeps the closed drawer out of keyboard navigation',()=>{
+ const html=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Café Demo',owner:'Ana',status:'Activo',demo:true,logout:null,mobilePreview:true},'Contenido'));
+ assert.match(html,/<aside[^>]+inert=""/);
+ assert.ok(html.includes('aria-label="Abrir menú"'));assert.ok(html.includes('aria-expanded="false"'));
+});
