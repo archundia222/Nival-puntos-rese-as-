@@ -30,7 +30,7 @@ export async function saveReviewLink(_:ActionResult,form:FormData):Promise<Actio
  const googleUrl=googleReviewUrl(String(form.get('googleUrl')||''));
  if(!displayName||displayName.length>150||!googleUrl)return {error:'Revisa el nombre y pega el enlace de «Pedir reseñas» de Google.'};
  try{
-  const {client,user}=await authenticated();
+  const {client,user}=await guardLegacyOwnerAction();
   const {data:business,error:be}=await client.from('npr_businesses').select('id').eq('owner_id',user.id).single();
   if(be||!business)return {error:'Primero registra tu negocio.'};
   const {data:existing,error:readError}=await client.from('npr_review_links').select('id').eq('business_id',business.id).maybeSingle();
@@ -48,7 +48,7 @@ export async function manageCustomerCard(_:ActionResult,form:FormData):Promise<A
  if(!cardTokenValid(id)||!['enable','disable','rotate'].includes(operation))return {error:'Tarjeta inválida.'};
  if(!customerCardsConfigured())return {error:'La consulta de tarjetas todavía está pendiente de activación.'};
  try{
-  const {client,user}=await authenticated();
+  const {client,user}=await guardLegacyOwnerAction();
   const {data:business,error:be}=await client.from('npr_businesses').select('id').eq('owner_id',user.id).single();
   if(be||!business)return {error:'Negocio no disponible.'};
   const values=operation==='rotate'?{card_token:randomUUID(),card_enabled:true}:{card_enabled:operation==='enable'};
