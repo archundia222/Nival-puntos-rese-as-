@@ -82,3 +82,25 @@
 @media (max-width:390px){
 .n4HeroCopy{padding-left:22px;padding-right:22px}.n4Hero h1{font-size:42px}.n4HeroCopy>p{font-size:17px}.n4HeroCopy .n4Buttons{grid-template-columns:1fr}.n4HeroProduct{min-height:415px}.n4HeroSearch{width:70%;left:-9%}.n4HeroPhone{width:180px;right:-5%}
 }
+
+/* Mobile hero v7 — tighter, cleaner, product visible above the fold */
+@media (max-width:430px){
+.n4Header{height:54px;padding:0 22px}.n4Brand i{width:30px;height:30px}.n4Brand b{font-size:16px}.n4Header summary{width:38px;height:38px}
+.n4Hero{background:var(--paper)}
+.n4HeroCopy{margin:0;padding:30px 24px 22px;min-height:0;text-align:left;align-items:flex-start}
+.n4HeroCopy>.n4Kicker{font-size:10px;letter-spacing:.14em}
+.n4Hero h1{font-size:clamp(39px,10.2vw,44px);line-height:.94;max-width:355px;margin:13px 0 16px;text-align:left}
+.n4HeroCopy>p{font-size:16px;line-height:1.48;max-width:355px;text-align:left}
+.n4HeroCopy .n4Buttons{grid-template-columns:1fr;gap:8px;margin-top:19px}
+.n4HeroCopy .n4Buttons a{min-height:50px;font-size:14px}
+.n4HeroProof{display:grid;grid-template-columns:1fr 1fr;align-items:start;gap:8px 14px;max-width:none;margin:15px 0 0}
+.n4HeroProof span{font-size:12px;padding-left:14px}.n4HeroProof span:before{width:6px;height:6px;top:5px}
+.n4HeroProduct{min-height:355px;margin:0 16px 28px;background:var(--ink);border-radius:0}
+.n4HeroSearch{width:70%;left:5%;top:34px;transform:rotate(-2deg)}
+.n4HeroPhone{width:166px;right:3%;bottom:16px;transform:rotate(1deg)}
+.n4HeroSearch>small,.n4HeroPhone>small{color:#c3d0ca;font-size:8px}
+.n4HeroProduct .n4Search,.n4HeroProduct .n4Phone{box-shadow:0 18px 42px #0004}
+}
+@media (max-width:390px){
+.n4HeroCopy{padding:27px 22px 20px}.n4Hero h1{font-size:39px}.n4HeroCopy>p{font-size:16px}.n4HeroProduct{min-height:340px;margin-left:14px;margin-right:14px}.n4HeroPhone{width:158px}.n4HeroSearch{width:72%}
+}
