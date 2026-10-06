@@ -27,3 +27,30 @@
 @media(max-width:430px){.n4HeroProduct{min-height:540px}.n4HeroPhone{width:210px}.n4GoogleDemo{min-height:500px}}
 @media(max-width:390px){.n4HeroProduct{min-height:520px}.n4HeroPhone{width:200px}.n4GoogleDemo{min-height:480px}.n4PointsStage>.n4Phone{width:210px}}
 @media(max-width:350px){.n4HeroProduct{min-height:490px}.n4HeroPhone{width:185px}.n4StoryCanvas article,.n4StoryCanvas article:first-of-type,.n4StoryReturn{min-width:88%}.n4GoogleDemo>.n4Search{width:94%}.n4PointsStage>.n4Phone{width:195px}}
+
+/* Mobile usability pass: readable by default, no swipe-required product story */
+@media(max-width:600px){
+.n4{font-size:16px}
+.n4Kicker,.n4StoryHead>span,.n4PriceTop>div>span,.n4Close>div:first-child>span{font-size:12px;line-height:1.35}
+.n4HeroCopy>p,.n4FeatureCopy>p,.n4PanelIntro>p,.n4StoryHead p,.n4PriceTop>p,.n4Close>div:last-child>p{font-size:16px;line-height:1.55}
+.n4Buttons a{font-size:14px;min-height:52px}
+.n4HeroProof span{font-size:12px}
+.n4StoryCanvas{display:grid;grid-template-columns:1fr 1fr;overflow:visible;scroll-snap-type:none;padding-bottom:0}
+.n4StoryCanvas article,.n4StoryCanvas article:first-of-type,.n4StoryReturn{min-width:0;min-height:155px;scroll-snap-align:none;grid-column:auto}
+.n4StoryCanvas article:first-of-type,.n4StoryReturn{grid-column:1/-1}
+.n4StoryCanvas article>small{font-size:10px}.n4MiniSearch{font-size:11px}.n4StorySearch>span,.n4StoryVisit span,.n4StoryTap span,.n4StoryPoint span,.n4StoryReturn em{font-size:11px}
+.n4FeatureRows b,.n4FeatureRows span{font-size:14px;line-height:1.4}.n4FeatureCopy>small,.n4PanelIntro>small{font-size:12px;line-height:1.5}
+.n4GoogleLabels span{font-size:11px}.n4Care span{font-size:12px}.n4Care small{font-size:9px}
+.n4PointSteps span,.n4PointSteps b{font-size:12px}
+.n4PhysicalCard small,.n4PhysicalCard span,.n4Toast small,.n4Prize small{font-size:9px}.n4Toast b{font-size:12px}.n4Prize span{font-size:11px}
+.n4PanelMeta small,.n4PanelNote,.n4Metrics small,.n4Metrics span,.n4PanelBody header,.n4Days{font-size:10px}
+.n4PriceGrid span{font-size:14px}.n4PriceGrid b{font-size:18px}.n4PriceBottom>p{font-size:14px}
+.n4FaqList summary{font-size:17px;min-height:54px}.n4FaqList p{font-size:14px;line-height:1.55}
+.n4Footer>p{font-size:13px}.n4Footer nav a{font-size:12px}.n4Footer>small{font-size:11px}
+}
+@media(max-width:390px){
+.n4StoryCanvas{grid-template-columns:1fr}
+.n4StoryCanvas article:first-of-type,.n4StoryReturn{grid-column:auto}
+.n4StoryCanvas article{min-height:135px}
+.n4Hero h1{font-size:44px}
+}
