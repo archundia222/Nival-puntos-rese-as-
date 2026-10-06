@@ -5,3 +5,5 @@
 @media(max-width:390px){.nxHero h1{font-size:41px}.nxHeroCopy>p{font-size:17px}.nxActions{grid-template-columns:1fr}.nxHeroVisual{min-height:415px}.nxHeroPhone{width:170px;right:4%}.nxHeroCard{width:145px;left:-2%}.nxFloatReview{left:1%;min-width:125px}.nxFloatReview .stars{font-size:10px}.nxFloatPoint{right:-3%}.nxFloatReward{right:1%}.nxSection,.nxBand{padding-left:18px;padding-right:18px}.nxSectionHead h2,.nxBandCopy h2{font-size:37px}.nxBandVisual>.nxSearchMock{width:100%}.nxLoyaltyStage>.nxPhone{width:185px}.nxStageCard{width:138px;left:-2%}}
 @media(prefers-reduced-motion:reduce){.nx *,.nx *:before,.nx *:after{animation:none!important;transition:none!important}}
 .nxHeader nav{gap:16px}.nxHeader .nxContactCta{font-size:12px;white-space:nowrap}.nxFooter .nxAdminLink{font-size:11px;opacity:.65}.nxActions{flex-wrap:wrap}.nxHeader .nxNavCta{white-space:nowrap}
+
+.nxHeader nav .nxMenuAdmin{font-size:11px;color:#5f786c}.nxHeader details .nxMenuAdmin{font-size:12px;color:#d4e3db;margin-top:6px;border-bottom:0}.nxHeader details[open]>div{max-height:calc(100dvh - 90px);overflow-y:auto}
