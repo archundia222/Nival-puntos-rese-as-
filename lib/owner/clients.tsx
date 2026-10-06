@@ -2,13 +2,13 @@
 import {useState,useEffect} from 'react';
 import {generateAdvice} from './domain.mjs';
 export function SegmentCard({title,description,segment,customers,templates,businessName,demo=false}:{title:string;description:string;segment:string;customers:Record<string,any>[];templates:{segment:string;text:string}[];businessName:string;demo?:boolean}){
- const [variant,setVariant]=useState(0),[limit,setLimit]=useState(5),[advice,setAdvice]=useState('');
+ const [variant,setVariant]=useState(0),[page,setPage]=useState(1),[advice,setAdvice]=useState('');
  const count=customers.length;
  useEffect(()=>{let current=true;generateAdvice(segment,{count,templates,variant,businessName}).then(text=>{if(current)setAdvice(text);}).catch(()=>{if(current)setAdvice('No se pudo cargar el consejo. Inténtalo de nuevo.');});return ()=>{current=false;};},[segment,count,templates,variant,businessName]);
  return <article className="ownerCard segmentCard"><div className="segmentHead"><div><h3>{title}</h3><p>{description}</p></div><strong>{customers.length}</strong></div>
  {customers.length>0?<><div className="ownerAdvice"><p>{advice||'Preparando consejo…'}</p><button type="button" onClick={()=>setVariant(v=>(v+1)%3)}>Otro consejo</button></div>
- <ul className="segmentList">{customers.slice(0,limit).map(c=><CustomerContact key={c.id} customer={c} businessName={businessName} demo={demo}/>)}</ul>
- {customers.length>limit&&<button type="button" onClick={()=>setLimit(l=>l+20)}>Mostrar más · {customers.length-limit} restantes</button>}</>:
+ <ul className="segmentList">{customers.slice((page-1)*10,page*10).map(c=><CustomerContact key={c.id} customer={c} businessName={businessName} demo={demo}/>)}</ul>
+ {customers.length>10&&<nav className="customerPagination" aria-label="Páginas de contactos"><button type="button" disabled={page===1} onClick={()=>setPage(v=>v-1)}>Anterior</button><span>Página {page} de {Math.ceil(count/10)}</span><button type="button" disabled={page*10>=count} onClick={()=>setPage(v=>v+1)}>Siguiente</button></nav>}</>:
  <p className="ownerEmpty">No hay clientes en este segmento. Se actualizará al registrar visitas con el QR personal.</p>}</article>;
 }
 function CustomerContact({customer:c,businessName,demo=false}:{customer:Record<string,any>;businessName:string;demo?:boolean}){

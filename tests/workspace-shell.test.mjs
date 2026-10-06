@@ -38,3 +38,14 @@ test('guided demo covers every panel section and starts with clear next and free
  assert.ok(html.includes('Paso 1 de 6'));assert.ok(html.includes('Siguiente paso'));assert.ok(html.includes('Explorar libremente'));
  const final=renderToStaticMarkup(React.createElement(tour.DemoTour,{section:'ajustes',active:true,navigate:()=>{},setActive:()=>{}}));assert.ok(final.includes('Terminar recorrido'));
 });
+
+test('customer groups have independent navigation and demo exit remains available without the tour',()=>{
+ for(const section of ['clientes','clientes-new','clientes-frequent','clientes-risk','clientes-lost','clientes-absent']){
+ const html=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Café Demo',owner:'Ana',status:'Activo',demo:true,logout:null,initialSection:section},'Contenido'));
+ assert.ok(html.includes('data-section="'+section+'"'));
+ for(const label of ['Todos los clientes','Nuevos','Frecuentes','En riesgo','Perdidos','Sin visita este mes'])assert.ok(html.includes(label));
+ assert.match(html,/<a[^>]+href="\/"[^>]*>Finalizar demo<\/a>/);
+ }
+ const group=renderToStaticMarkup(React.createElement(tour.DemoTour,{section:'clientes-risk',active:true,navigate:()=>{},setActive:()=>{}}));
+ assert.ok(group.includes('Paso 2 de 6'));
+});
