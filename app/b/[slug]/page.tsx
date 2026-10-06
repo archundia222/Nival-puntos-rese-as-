@@ -14,6 +14,7 @@ import { CardView } from "../../../lib/points/card-view";
 import { enroll, consentCard } from "../../../lib/foundation/actions";
 import { ActionForm } from "../../../lib/foundation/forms";
 import { Field, Hidden } from "../../../lib/foundation/fields";
+import {TurnstileWidget} from "../../../lib/security/turnstile-widget";
 export const dynamic = "force-dynamic";
 export default async function Customer({
   params,
@@ -99,6 +100,7 @@ export default async function Customer({
               </span>
             </label>
             <label className="wide consentLabel"><input name="marketing_consent" type="checkbox"/><span>{marketingConsent}</span></label>
+            {!valid?.valid&&<TurnstileWidget/>}
           </ActionForm>
         </section>
       )}
