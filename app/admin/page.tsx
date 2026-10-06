@@ -3,7 +3,7 @@ import {quoteUrl} from "../../lib/foundation/registration.mjs";
 import {GoogleReportForm} from '../../lib/owner/google-form';
 import {redirect} from 'next/navigation';
 import {foundationEnabled,query,transaction} from '../../lib/foundation/db';
-import {requireRole} from '../../lib/foundation/session';
+import {requireAdminRole} from '../../lib/foundation/session';
 import {logout} from '../../lib/foundation/actions';
 import {ActionForm} from '../../lib/foundation/forms';
 import {Field,Hidden} from '../../lib/foundation/fields';
@@ -39,7 +39,7 @@ function waQuote(b:any,plan:any){return quoteUrl(b,plan);}
 
 export default async function Admin({searchParams}:{searchParams:Promise<{business?:string;q?:string;status?:string}>}){
  if(!foundationEnabled())redirect('/demo/admin');
- const actor=await requireRole('superadmin');
+ const actor=await requireAdminRole();
  const params=await searchParams;
  // Sin cron externo, cada entrada de superadmin sincroniza el estado de cobro.
  await transaction(actor,[
