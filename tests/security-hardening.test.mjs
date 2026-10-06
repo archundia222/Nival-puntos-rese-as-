@@ -16,3 +16,16 @@ test('session cookies and auth protections are server-side secure defaults',()=>
  const s=readFileSync('lib/foundation/session.ts','utf8');assert.ok(/httpOnly:true/.test(s));assert.ok(/sameSite:'lax'/.test(s));assert.ok(/secure:process\.env\.NODE_ENV==='production'/.test(s));assert.ok(/maxAge:8\*3600/.test(s));
  const p=readFileSync('lib/points/security.ts','utf8');assert.ok(p.includes('assertSameOrigin'));
 });
+
+test('owner/admin email login is rate limited and business signup consumes a verified anti-bot gate',()=>{
+ const s=readFileSync('app/api/auth/[...path]/route.ts','utf8');
+ assert.ok(s.includes("endsWith('/sign-in/email')"));assert.ok(s.includes('claim_pin_attempt'));assert.ok(s.includes("'auth-ip:'"));assert.ok(s.includes("'auth-email:'"));assert.ok(s.includes('status:429'));
+ assert.ok(s.includes("endsWith('/sign-up/email')"));assert.ok(s.includes("nival_turnstile"));assert.ok(s.includes('status:403'));
+});
+test('public customer enrollment verifies Turnstile before database enrollment',()=>{
+ const a=readFileSync('lib/foundation/actions.ts','utf8'),p=readFileSync('app/b/[slug]/page.tsx','utf8');
+ assert.ok(a.indexOf('verifyTurnstile(val(f,"cf-turnstile-response")')<a.indexOf('enroll_customer_legal'));assert.ok(p.includes('<TurnstileWidget/>'));
+});
+test('Wallet resources are namespaced away from other Nival products',()=>{
+ const s=readFileSync('lib/wallet/google.mjs','utf8');assert.ok(s.includes(".puntos_business_"));assert.ok(s.includes(".puntos_customer_"));assert.ok(!s.includes(".npr_business_"));
+});
