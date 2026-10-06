@@ -14,7 +14,7 @@ test('server JWT signature, old split env and JSON config; pass contains ledger 
  assert.equal(configuration({GOOGLE_WALLET_ISSUER_ID:config.issuer,GOOGLE_WALLET_SERVICE_ACCOUNT_JSON:JSON.stringify({client_email:config.email,private_key:config.key})}).email,config.email);
  assert.throws(()=>configuration({}));
  const pass=resources(config,b,c,'https://example.com');
- assert.equal(pass.loyaltyObject.barcode.value,'NIVAL:'+c.id);assert.equal(pass.loyaltyObject.loyaltyPoints.balance.string,'12');assert.equal(pass.loyaltyClass.hexBackgroundColor,b.program.color);
+ assert.equal(pass.loyaltyObject.barcode.value,'NIVAL:'+c.id);assert.equal(pass.loyaltyObject.loyaltyPoints.balance.string,'12');assert.equal(pass.loyaltyClass.hexBackgroundColor,b.program.color);assert.ok(pass.classId.includes('.puntos_business_'));assert.ok(pass.objectId.includes('.puntos_customer_'));
  assert.notEqual(pass.classId,resources(config,{...b,id:'business-2'},c,'https://example.com').classId);
  const jwt=saveUrl(config,pass,'https://example.com').split('/').at(-1),parts=jwt.split('.');
  assert.ok(verify('RSA-SHA256',Buffer.from(parts.slice(0,2).join('.')),publicKey,Buffer.from(parts[2],'base64url')));
