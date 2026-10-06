@@ -17,7 +17,7 @@ import { randomToken, sha256, verifyPin, signedHint } from "./security.mjs";
 import { mexicoPhone } from "../points/security";
 import {guardAction,guardPublicAction} from "./action-guard";
 import { getAuth } from "../backend/auth";
-import {validateRegistration, legalVersion} from "./registration.mjs";
+import {validateRegistration, businessSlug, legalVersion} from "./registration.mjs";
 import {verifyTurnstile} from "../security/turnstile.mjs";
 import {trustedClientIp} from "../security/client-ip";
 export type Result = { error?: string; success?: string; link?: string };
@@ -105,6 +105,7 @@ export async function registerBusiness(
   f: FormData,
 ): Promise<Result> {
   const actor = await guardAction(["owner"],f);
+  if (!val(f, "slug")) f.set("slug", businessSlug(val(f, "name"), randomUUID()));
   const {data,error}=validateRegistration(f);
   if(error)return {error};
   try {

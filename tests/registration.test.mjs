@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {PGlite} from '@electric-sql/pglite';
-import {validateRegistration,quoteUrl,legalVersion} from '../lib/foundation/registration.mjs';
+import {validateRegistration,quoteUrl,legalVersion,businessSlug} from '../lib/foundation/registration.mjs';
 const values={name:'Café & Sol',slug:'cafe-sol',giro:'Cafetería / restaurante',owner_name:'Ana Pérez',phone:'+52 55 1234 5678',email:'ana@example.com',google_maps_url:'https://maps.app.goo.gl/abcd',accept_legal:'on'};
 const form=(v=values)=>{const f=new FormData();for(const [k,x] of Object.entries(v))f.set(k,x);return f;};
 test('registration validates every field and mandatory legal consent',()=>{
@@ -40,4 +40,16 @@ test('complete database registration saves all fields, membership, plan and immu
  const {rows:[audit]}=await db.query('select data from nival_pr.audit_log where business_id=$1',[r.id]);assert.equal(audit.data.version,legalVersion);assert.ok(audit.data.accepted_at);
  assert.equal((await db.query('select count(*)::int n from nival_pr.businesses')).rows[0].n,1);
  }finally{await db.close();}
+});
+
+test('automatic business links handle accents, punctuation, long names and duplicate names',()=>{
+ const id='00000000-0000-4000-8000-000000000001';
+ for(const name of ['Tacos Demo','Café & Sol','Árbol Ñandú','🍕','a'.repeat(150)]){
+  const slug=businessSlug(name,id);
+  assert.match(slug,/^[a-z0-9]+(-[a-z0-9]+)*$/);
+  assert.ok(slug.length<=100);
+  assert.equal(validateRegistration(form({...values,slug})).error,'');
+ }
+ assert.equal(businessSlug('Tacos Demo',id),'tacos-demo-'+id);
+ assert.notEqual(businessSlug('Tacos Demo',id),businessSlug('Tacos Demo','00000000-0000-4000-8000-000000000002'));
 });
