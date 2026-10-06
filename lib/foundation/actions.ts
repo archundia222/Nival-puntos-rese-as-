@@ -17,6 +17,7 @@ import { randomToken, sha256, verifyPin, signedHint } from "./security.mjs";
 import { mexicoPhone } from "../points/security";
 import { getAuth } from "../backend/auth";
 import {validateRegistration, legalVersion} from "./registration.mjs";
+import {verifyTurnstile} from "../security/turnstile.mjs";
 export type Result = { error?: string; success?: string; link?: string };
 const val = (f: FormData, k: string) => String(f.get(k) || "").trim();
 const uuid = (s: string) =>
@@ -407,6 +408,9 @@ export async function report(_: Result, f: FormData): Promise<Result> {
   return { success: "Reporte mensual guardado." };
 }
 export async function enroll(_: Result, f: FormData): Promise<Result> {
+  const hdr = await headers();
+  const ip = process.env.VERCEL ? hdr.get("x-vercel-forwarded-for")?.split(",")[0]?.trim() || "unknown" : "local";
+  if(!await verifyTurnstile(val(f,"cf-turnstile-response"),ip).catch(()=>false))return {error:"Confirma que no eres un robot."};
   const slug = val(f, "slug"),
     name = val(f, "name"),
     phone = mexicoPhone(val(f, "phone"));
@@ -419,10 +423,7 @@ export async function enroll(_: Result, f: FormData): Promise<Result> {
   )
     return { error: "Completa tus datos y acepta el registro para continuar." };
   try {
-    const hdr = await headers();
-    const ip = process.env.VERCEL
-      ? hdr.get("x-vercel-forwarded-for") || "unknown"
-      : "local";
+
     const key = createHmac("sha256", secret())
       .update("enroll:" + ip)
       .digest("hex");
