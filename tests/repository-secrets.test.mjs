@@ -37,6 +37,7 @@ test('empty env assignments and explanatory lines are not treated as secrets',()
 test('repository tree contains no common committed secret material',()=>{
  const hits=[];
  for(const f of files()){
+  if(f.endsWith('tests/repository-secrets.test.mjs'))continue;
   const s=readFileSync(f,'utf8');
   for(const pattern of patterns)if(pattern.test(s))hits.push(f+':'+pattern);
  }
