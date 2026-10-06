@@ -68,6 +68,11 @@ export default async function Admin({searchParams}:{searchParams:Promise<{busine
  const tasks=await query(actor,`select t.id,t.title,t.status,t.due_date,t.recurrence,b.name business_name
    from nival_pr.tasks t left join nival_pr.businesses b on b.id=t.business_id
    where t.status<>'cancelada' and t.title not like 'REVIEW:%' order by t.due_date nulls last,t.created_at desc limit 150`);
+ const todayTasks=await query(actor,`select t.id,t.title,t.status,t.due_date,t.recurrence,b.name business_name
+   from nival_pr.tasks t left join nival_pr.businesses b on b.id=t.business_id
+   where t.status in ('pendiente','en_progreso') and t.title not like 'REVIEW:%'
+     and (t.due_date is null or t.due_date<=(now() at time zone 'America/Mexico_City')::date)
+   order by t.due_date nulls first,t.created_at asc limit 80`);
  const reviewRows=await query(actor,`select t.id,t.title,t.status,t.due_date,b.name business_name,b.id business_id
    from nival_pr.tasks t join nival_pr.businesses b on b.id=t.business_id
    where t.title like 'REVIEW:%' order by case when t.status='completada' then 1 else 0 end,t.created_at desc limit 100`);
@@ -113,7 +118,9 @@ export default async function Admin({searchParams}:{searchParams:Promise<{busine
   </section>
 
   <section id="tareas" className="adminSection">
-   <div className="sectionTitle"><div><small>OPERACIÓN</small><h2>Tareas</h2></div></div>
+   <div className="sectionTitle"><div><small>OPERACIÓN DIARIA</small><h2>Lo que tienes que hacer hoy</h2><p>Trabajo manual pendiente para mantener actualizados los paneles de tus clientes.</p></div></div>
+   <TaskBoard tasks={todayTasks as any}/>
+   <div className="sectionTitle"><div><small>AGENDA</small><h2>Todas las tareas</h2><p>Crea tareas por negocio para mensajes, reseñas, reportes, seguimiento o cualquier proceso que aún no esté automatizado.</p></div></div>
    <ActionForm action={createTask} label="Crear tarea"><Field name="title" label="Tarea"/><label>Negocio<select name="businessId" defaultValue=""><option value="">General</option>{businesses.map(b=><option key={b.id} value={b.id}>{b.name}</option>)}</select></label><Field name="dueDate" label="Fecha" type="date" required={false}/><label>Recurrencia<select name="recurrence" defaultValue=""><option value="">Sin recurrencia</option><option value="daily">Diaria</option><option value="weekly">Semanal</option><option value="monthly">Mensual</option></select></label></ActionForm>
    <TaskBoard tasks={tasks as any}/>
   </section>
