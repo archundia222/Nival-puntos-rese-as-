@@ -1,3 +1,5 @@
+import * as insights from '../lib/owner/review-insights.mjs';
+import * as explorer from '../lib/owner/explorer.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -48,4 +50,24 @@ test('customer groups have independent navigation and demo exit remains availabl
  }
  const group=renderToStaticMarkup(React.createElement(tour.DemoTour,{section:'clientes-risk',active:true,navigate:()=>{},setActive:()=>{}}));
  assert.ok(group.includes('Paso 2 de 6'));
+});
+
+const {CustomerExplorer}=component('customer-explorer.tsx',{'./icons':icons,'./explorer.mjs':explorer});
+test('large customer directory bounds rendered rows and segment pages do not offer other group filters',()=>{
+ const customers=Array.from({length:43},(_,i)=>({id:String(i),name:'Cliente '+i,visits:1,is_risk:true}));
+ const html=renderToStaticMarkup(React.createElement(CustomerExplorer,{customers,fixedSegment:'risk'}));
+ assert.equal((html.match(/data-label="Visitas"/g)||[]).length,20);
+ assert.ok(html.includes('Página 1 de 3'));assert.ok(html.includes('43 de 43'));
+ assert.ok(!html.includes('Tipo de cliente'));
+ const empty=renderToStaticMarkup(React.createElement(CustomerExplorer,{customers:[],fixedSegment:'risk'}));
+ assert.ok(empty.includes('No encontramos clientes'));assert.ok(!empty.includes('Página 0'));
+});
+
+const {ReviewInsights}=component('review-insights.tsx',{'./review-insights.mjs':insights});
+test('review report displays grounded themes and actions, legacy report makes no inferred text claims',()=>{
+ const f=new FormData();for(const [key,value] of Object.entries({analyzed:'5',positiveTheme0:'Servicio amable',positiveCount0:'4',negativeTheme0:'Espera',negativeCount0:'2',improve:'Medir tiempos',keep:'Mantener el saludo'}))f.set(key,value);
+ const html=renderToStaticMarkup(React.createElement(ReviewInsights,{notes:insights.encodeReviewInsights(f,10).value}));
+ for(const text of ['Elogios más frecuentes','Quejas más frecuentes','Servicio amable','4 de 5','Qué mejorar','Medir tiempos','Qué seguir haciendo','Mantener el saludo'])assert.ok(html.includes(text),text);
+ const legacy=renderToStaticMarkup(React.createElement(ReviewInsights,{notes:'Consejo manual'}));
+ assert.ok(legacy.includes('Pendiente de análisis'));assert.ok(legacy.includes('Consejo manual'));assert.ok(!legacy.includes('Servicio amable'));
 });
