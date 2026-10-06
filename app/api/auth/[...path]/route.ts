@@ -1,4 +1,26 @@
+import {cookies,headers} from 'next/headers';
+import {createHmac} from 'node:crypto';
 import {getAuth} from '../../../../lib/backend/auth';
+import {query,authScope} from '../../../../lib/foundation/db';
+import {secret} from '../../../../lib/foundation/session';
 export const dynamic='force-dynamic';
 export async function GET(request:Request,context:any){return getAuth().handler().GET(request,context);}
-export async function POST(request:Request,context:any){return getAuth().handler().POST(request,context);}
+function validEmail(value:unknown){const s=String(value||'').trim().toLowerCase();return s.length<=254&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s)?s:'';}
+async function loginAllowed(request:Request){
+ const h=await headers();const ip=process.env.VERCEL?(h.get('x-vercel-forwarded-for')||'unknown').split(',')[0].trim():'local';
+ let email='';try{email=validEmail((await request.clone().json())?.email);}catch{}
+ const hash=(v:string)=>createHmac('sha256',secret()).update(v).digest('hex');
+ const keys=[hash('auth-ip:'+ip),...(email?[hash('auth-email:'+email)]:[])];
+ for(const key of keys){const [row]=await query(authScope(),'select nival_pr_private.claim_pin_attempt($1) accepted',[key]);if(!row?.accepted)return false;}
+ return true;
+}
+export async function POST(request:Request,context:any){
+ const path=new URL(request.url).pathname;
+ if(path.endsWith('/sign-in/email')&&!await loginAllowed(request))return Response.json({message:'Demasiados intentos. Espera 15 minutos.'},{status:429});
+ if(path.endsWith('/sign-up/email')){
+  const jar=await cookies();if(jar.get('nival_turnstile')?.value!=='verified')return Response.json({message:'Verificación anti-bot requerida.'},{status:403});
+ }
+ const response=await getAuth().handler().POST(request,context);
+ if(path.endsWith('/sign-up/email'))response.headers.append('Set-Cookie','nival_turnstile=; Max-Age=0; Path=/api/auth; HttpOnly; Secure; SameSite=Strict');
+ return response;
+}
