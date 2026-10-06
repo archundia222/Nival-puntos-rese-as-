@@ -52,8 +52,8 @@ test('actual admin save action persists complete Google data; owner reads it and
  const compiled=ts.transpileModule(source.slice(a,z).replace('export async','async'),{compilerOptions:{target:ts.ScriptTarget.ES2022}}).outputText;
  const {checklistLabels}=await import('../lib/owner/domain.mjs');
  const actor={id:owner,role:'superadmin'};
- const action=new Function('requireRole','val','uuid','periodRange','validateGoogle','checklistLabels','transaction','audit','revalidatePath','cleanError',compiled+';return saveGoogleReport;')(
- async()=>actor,(f,k)=>String(f.get(k)||'').trim(),s=>/^[a-f0-9-]{36}$/.test(s),periodRange,validateGoogle,checklistLabels,
+ const action=new Function('guardAction','val','uuid','periodRange','validateGoogle','checklistLabels','transaction','audit','revalidatePath','cleanError',compiled+';return saveGoogleReport;')(
+ async roles=>{if(!roles.includes(actor.role))throw Error('Forbidden');return actor;},(f,k)=>String(f.get(k)||'').trim(),s=>/^[a-f0-9-]{36}$/.test(s),periodRange,validateGoogle,checklistLabels,
  async(_actor,statements)=>{await db.exec('set role npr_v2_admin');await db.query("select set_config('npr.user_id',$1,false)",[owner]);await db.exec('begin');try{for(const st of statements)await db.query(st.text,st.values);await db.exec('commit');}catch(e){await db.exec('rollback');throw e;}},async()=>{},()=>{},e=>e.message);
  const f=new FormData();for(const [k,v] of Object.entries({businessId:b,periodKind:'month',period:'2026-10',rating:'4.5',total:'10',new:'3',answered:'2',star1:'1',star2:'0',star3:'0',star4:'2',star5:'7',notes:'Mejora la descripción',changes:'Nival actualizó los horarios',changeDate:'2026-10-03',check_fotos:'on',check_horarios:'on',check_categoria:'on',check_menu:'on',check_reservas:'on'}))f.set(k,v);
  assert.ok((await action({},f)).success);
