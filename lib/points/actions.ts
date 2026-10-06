@@ -2,13 +2,14 @@
 import { kickWalletJobs } from "../wallet/server";
 import { revalidatePath } from "next/cache";
 import { query, authScope } from "../foundation/db";
-import { requireRole, requireBusiness } from "../foundation/session";
+import { requireBusiness } from "../foundation/session";
+import { guardAction } from "../foundation/action-guard";
 import { hashPin } from "../foundation/security.mjs";
 import { uuid, message } from "./security";
 import type { Result } from "../foundation/actions";
 const val = (f: FormData, k: string) => String(f.get(k) || "").trim();
 export async function manageStaff(_: Result, f: FormData): Promise<Result> {
-  const actor = await requireRole("owner");
+  const actor = await guardAction(["owner"], f);
   const b = val(f, "businessId"),
     id = val(f, "staffId"),
     name = val(f, "name");
@@ -36,7 +37,7 @@ export async function reviewRedemption(
   _: Result,
   f: FormData,
 ): Promise<Result> {
-  const actor = await requireRole("owner");
+  const actor = await guardAction(["owner"], f);
   const b = val(f, "businessId"),
     d = val(f, "redemptionId"),
     op = val(f, "operation");
@@ -63,7 +64,7 @@ export async function reviewRedemption(
 }
 
 export async function editReward(_: Result, f: FormData): Promise<Result> {
-  const actor = await requireRole("owner"),
+  const actor = await guardAction(["owner"], f),
     b = val(f, "businessId"),
     id = val(f, "rewardId"),
     name = val(f, "name"),

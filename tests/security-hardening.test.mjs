@@ -40,3 +40,24 @@ test('Turnstile gate cookie is HMAC signed, expires, and rejects forgery',()=>{
  assert.equal(verifyTurnstileCookie(forged,secret,now),false);
  assert.equal(verifyTurnstileCookie(cookie,'abcdef0123456789abcdef0123456789',now),false);
 });
+
+test('all exported server mutations use the common action guard',()=>{
+ const groups=[
+  ['lib/foundation/actions.ts',['loginStaff','logout','registerBusiness','addCustomer','movement','saveProgram','addReward','customerLink','setBusinessStatus','registerPayment','report','enroll','consentCard','chooseGoal']],
+  ['lib/admin/actions.ts',['changeBusinessStatus','setBusinessPlan','saveBusinessNotes','registerPayment30','generateActivationCode','redeemActivationCode','createTask','moveTask','saveContentDraft','publishContent','saveGoogleReport','createReviewTask','markReviewResponded','upsertShortLink']],
+  ['lib/owner/actions.ts',['saveSegments']],
+  ['lib/points/actions.ts',['manageStaff','reviewRedemption','editReward']],
+  ['app/panel/actions.ts',['createBusiness','addCustomer','recordMovement','updateReward','logout','saveReviewLink','manageCustomerCard']],
+  ['app/panel/nival/actions.ts',['captureReview','confirmResponse','captureDiagnostic']],
+ ];
+ for(const [file,names] of groups){
+  const source=readFileSync(file,'utf8');
+  for(const name of names){
+   const start=source.indexOf('export async function '+name);
+   assert.ok(start>=0,file+' must export '+name);
+   const next=source.indexOf('export async function ',start+22);
+   const body=source.slice(start,next<0?source.length:next);
+   assert.match(body,/guard(?:Action|PublicAction|LegacyOwnerAction|LegacyOperatorAction)\(/,file+':'+name+' must invoke a common action guard');
+  }
+ }
+});

@@ -15,6 +15,7 @@ import {
 } from "./session";
 import { randomToken, sha256, verifyPin, signedHint } from "./security.mjs";
 import { mexicoPhone } from "../points/security";
+import {guardAction,guardPublicAction} from "./action-guard";
 import { getAuth } from "../backend/auth";
 import {validateRegistration, legalVersion} from "./registration.mjs";
 import {verifyTurnstile} from "../security/turnstile.mjs";
@@ -39,6 +40,7 @@ function failure(error: unknown): Result {
   };
 }
 export async function loginStaff(_: Result, f: FormData): Promise<Result> {
+  await guardPublicAction();
   const slug = val(f, "slug"),
     id = val(f, "staffId"),
     pin = val(f, "pin");
@@ -85,6 +87,7 @@ export async function loginStaff(_: Result, f: FormData): Promise<Result> {
   redirect("/staff");
 }
 export async function logout() {
+  await guardAction(["superadmin","owner","staff"]);
   const jar = await cookies();
   const token = jar.get(staffCookie)?.value;
   if (token)
@@ -102,7 +105,7 @@ export async function registerBusiness(
   _: Result,
   f: FormData,
 ): Promise<Result> {
-  const actor = await requireRole("owner");
+  const actor = await guardAction(["owner"],f);
   const {data,error}=validateRegistration(f);
   if(error)return {error};
   try {
@@ -119,7 +122,7 @@ export async function registerBusiness(
   };
 }
 export async function addCustomer(_: Result, f: FormData): Promise<Result> {
-  const actor = await requireRole("owner");
+  const actor = await guardAction(["owner"],f);
   const b = val(f, "businessId"),
     name = val(f, "name"),
     phone = mexicoPhone(val(f, "phone"));
@@ -142,7 +145,7 @@ export async function addCustomer(_: Result, f: FormData): Promise<Result> {
   };
 }
 export async function movement(_: Result, f: FormData): Promise<Result> {
-  const actor = await requireRole("owner", "staff");
+  const actor = await guardAction(["owner", "staff"],f);
   const b = val(f, "businessId"),
     c = val(f, "customerId"),
     kind = val(f, "type"),
@@ -185,7 +188,7 @@ export async function movement(_: Result, f: FormData): Promise<Result> {
   };
 }
 export async function saveProgram(_: Result, f: FormData): Promise<Result> {
-  const actor = await requireRole("owner");
+  const actor = await guardAction(["owner"],f);
   const b = val(f, "businessId"),
     name = val(f, "name"),
     mode = val(f, "mode"),
@@ -244,7 +247,7 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
   return { success: "Programa guardado." };
 }
 export async function addReward(_: Result, f: FormData): Promise<Result> {
-  const actor = await requireRole("owner");
+  const actor = await guardAction(["owner"],f);
   const b = val(f, "businessId"),
     name = val(f, "name"),
     cost = Number(val(f, "cost")),
@@ -274,7 +277,7 @@ export async function addReward(_: Result, f: FormData): Promise<Result> {
   return { success: "Premio agregado." };
 }
 export async function customerLink(_: Result, f: FormData): Promise<Result> {
-  const actor = await requireRole("owner", "superadmin");
+  const actor = await guardAction(["owner", "superadmin"],f);
   const b = val(f, "businessId"),
     c = val(f, "customerId"),
     op = val(f, "operation");
@@ -308,7 +311,7 @@ export async function setBusinessStatus(
   _: Result,
   f: FormData,
 ): Promise<Result> {
-  const actor = await requireRole("superadmin");
+  const actor = await guardAction(["superadmin"],f);
   const b = val(f, "businessId"),
     status = val(f, "status");
   if (
@@ -338,7 +341,7 @@ export async function setBusinessStatus(
   return { success: "Estado actualizado y auditado." };
 }
 export async function registerPayment(_: Result, f: FormData): Promise<Result> {
-  const actor = await requireRole("superadmin");
+  const actor = await guardAction(["superadmin"],f);
   const b = val(f, "businessId"),
     amount = Number(val(f, "amount")),
     method = val(f, "method"),
@@ -374,7 +377,7 @@ export async function registerPayment(_: Result, f: FormData): Promise<Result> {
   return { success: "Pago registrado y vigencia actualizada." };
 }
 export async function report(_: Result, f: FormData): Promise<Result> {
-  const actor = await requireRole("superadmin");
+  const actor = await guardAction(["superadmin"],f);
   const b = val(f, "businessId"),
     period = val(f, "period"),
     rating = Number(val(f, "rating")),
@@ -408,6 +411,7 @@ export async function report(_: Result, f: FormData): Promise<Result> {
   return { success: "Reporte mensual guardado." };
 }
 export async function enroll(_: Result, f: FormData): Promise<Result> {
+  await guardPublicAction();
   const hdr = await headers();
   const ip = process.env.VERCEL ? hdr.get("x-vercel-forwarded-for")?.split(",")[0]?.trim() || "unknown" : "local";
   if(!await verifyTurnstile(val(f,"cf-turnstile-response"),ip).catch(()=>false))return {error:"Confirma que no eres un robot."};
@@ -461,6 +465,7 @@ export async function enroll(_: Result, f: FormData): Promise<Result> {
 }
 
 export async function consentCard(_: Result, f: FormData): Promise<Result> {
+  await guardPublicAction();
   const slug = val(f, "slug");
   if (f.get("consent") !== "on")
     return { error: "Acepta el registro para consultar tus puntos." };
@@ -487,6 +492,7 @@ export async function consentCard(_: Result, f: FormData): Promise<Result> {
 }
 
 export async function chooseGoal(_: Result, f: FormData): Promise<Result> {
+  await guardPublicAction();
   const slug = val(f, "slug"),
     reward = val(f, "rewardId");
   if (!uuid(reward)) return { error: "Premio inválido." };

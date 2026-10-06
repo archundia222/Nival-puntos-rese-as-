@@ -4,7 +4,8 @@ import {validateLegalDraft} from '../foundation/legal.mjs';
 import {randomBytes} from 'node:crypto';
 import {revalidatePath} from 'next/cache';
 import {query,systemQuery,transaction,type Actor} from '../foundation/db';
-import {requireBusiness,requireRole} from '../foundation/session';
+import {requireBusiness} from '../foundation/session';
+import {guardAction} from '../foundation/action-guard';
 import {periodRange,validateGoogle,checklistLabels} from '../owner/domain.mjs';
 import type {Result} from '../foundation/actions';
 
@@ -33,7 +34,7 @@ async function seedRecurringTasks(_actor:Actor,businessId:string){
 }
 
 export async function changeBusinessStatus(_:Result,f:FormData):Promise<Result>{
- const actor=await requireRole('superadmin');const businessId=val(f,'businessId'),status=val(f,'status');
+ const actor=await guardAction(['superadmin'],f);const businessId=val(f,'businessId'),status=val(f,'status');
  if(!uuid(businessId)||!states.includes(status))return {error:'Estado inválido.'};
  try{
   const [row]=await query(actor,`update nival_pr.businesses
@@ -47,7 +48,7 @@ export async function changeBusinessStatus(_:Result,f:FormData):Promise<Result>{
 }
 
 export async function setBusinessPlan(_:Result,f:FormData):Promise<Result>{
- const actor=await requireRole('superadmin');const businessId=val(f,'businessId'),planId=val(f,'planId');
+ const actor=await guardAction(['superadmin'],f);const businessId=val(f,'businessId'),planId=val(f,'planId');
  if(!uuid(businessId)||!uuid(planId))return {error:'Plan inválido.'};
  try{
   const [row]=await query(actor,'update nival_pr.businesses set plan_id=$2 where id=$1 returning id',[businessId,planId]);
@@ -58,7 +59,7 @@ export async function setBusinessPlan(_:Result,f:FormData):Promise<Result>{
 }
 
 export async function saveBusinessNotes(_:Result,f:FormData):Promise<Result>{
- const actor=await requireRole('superadmin');const businessId=val(f,'businessId'),notes=val(f,'notes');
+ const actor=await guardAction(['superadmin'],f);const businessId=val(f,'businessId'),notes=val(f,'notes');
  if(!uuid(businessId)||notes.length>10000)return {error:'Notas inválidas.'};
  try{
   await query(actor,'update nival_pr.businesses set notes=$2 where id=$1',[businessId,notes]);
@@ -68,7 +69,7 @@ export async function saveBusinessNotes(_:Result,f:FormData):Promise<Result>{
 }
 
 export async function registerPayment30(_:Result,f:FormData):Promise<Result>{
- const actor=await requireRole('superadmin');const businessId=val(f,'businessId'),amount=Number(val(f,'amount')),method=val(f,'method'),reference=val(f,'reference'),start=val(f,'periodStart');
+ const actor=await guardAction(['superadmin'],f);const businessId=val(f,'businessId'),amount=Number(val(f,'amount')),method=val(f,'method'),reference=val(f,'reference'),start=val(f,'periodStart');
  if(!uuid(businessId)||!Number.isFinite(amount)||amount<=0||amount>1000000||!methods.includes(method)||(start&&!/^\d{4}-\d{2}-\d{2}$/.test(start)))return {error:'Revisa monto, método y periodo.'};
  try{
   const rows=await transaction(actor,[{text:`with updated as (
@@ -88,7 +89,7 @@ export async function registerPayment30(_:Result,f:FormData):Promise<Result>{
 }
 
 export async function generateActivationCode(_:Result,f:FormData):Promise<Result>{
- const actor=await requireRole('superadmin');const businessId=val(f,'businessId'),hours=Number(val(f,'expiresHours')||'72');
+ const actor=await guardAction(['superadmin'],f);const businessId=val(f,'businessId'),hours=Number(val(f,'expiresHours')||'72');
  if(!uuid(businessId)||!Number.isFinite(hours)||hours<1||hours>720)return {error:'Vencimiento inválido.'};
  const code=`NIV-${randomBytes(2).toString('hex').toUpperCase()}-${randomBytes(2).toString('hex').toUpperCase()}`;
  try{
@@ -102,7 +103,7 @@ export async function generateActivationCode(_:Result,f:FormData):Promise<Result
 }
 
 export async function redeemActivationCode(_:Result,f:FormData):Promise<Result>{
- const actor=await requireRole('owner');const businessId=val(f,'businessId'),code=val(f,'code').toUpperCase();
+ const actor=await guardAction(['owner'],f);const businessId=val(f,'businessId'),code=val(f,'code').toUpperCase();
  if(!uuid(businessId)||!/^NIV-[A-F0-9]{4}-[A-F0-9]{4}$/.test(code))return {error:'Código inválido.'};
  await requireBusiness(actor,businessId);
  try{
@@ -123,7 +124,7 @@ export async function redeemActivationCode(_:Result,f:FormData):Promise<Result>{
 }
 
 export async function createTask(_:Result,f:FormData):Promise<Result>{
- const actor=await requireRole('superadmin');const businessId=val(f,'businessId'),title=val(f,'title'),due=val(f,'dueDate'),recurrence=val(f,'recurrence');
+ const actor=await guardAction(['superadmin'],f);const businessId=val(f,'businessId'),title=val(f,'title'),due=val(f,'dueDate'),recurrence=val(f,'recurrence');
  if(!title||title.length>240||(businessId&&!uuid(businessId))||(due&&!/^\d{4}-\d{2}-\d{2}$/.test(due))||(recurrence&&!['daily','weekly','monthly'].includes(recurrence)))return {error:'Revisa la tarea.'};
  try{
   const [row]=await query(actor,'insert into nival_pr.tasks(business_id,title,due_date,recurrence) values(nullif($1,\'\')::uuid,$2,nullif($3,\'\')::date,nullif($4,\'\')) returning id',[businessId,title,due,recurrence]);
@@ -133,7 +134,7 @@ export async function createTask(_:Result,f:FormData):Promise<Result>{
 }
 
 export async function moveTask(taskId:string,status:string):Promise<{ok:boolean}>{
- const actor=await requireRole('superadmin');
+ const actor=await guardAction(['superadmin'],f);
  if(!uuid(taskId)||!taskStates.includes(status))return {ok:false};
  const results=await transaction(actor,[{text:`with changed as (
   update nival_pr.tasks set status=$2 where id=$1 and status<>$2
@@ -154,7 +155,7 @@ export async function moveTask(taskId:string,status:string):Promise<{ok:boolean}
 }
 
 export async function saveContentDraft(_:Result,f:FormData):Promise<Result>{
- const actor=await requireRole('superadmin');const key=val(f,'key'),text=val(f,'value');
+ const actor=await guardAction(['superadmin'],f);const key=val(f,'key'),text=val(f,'value');
  if(!/^[a-z0-9_]{2,80}$/.test(key)||text.length>20000||!validateLegalDraft(key,text))return {error:'Contenido inválido.'};
  try{
   await query(actor,`insert into nival_pr.site_content(key,value_draft) values($1,jsonb_build_object('text',$2::text))
@@ -165,7 +166,7 @@ export async function saveContentDraft(_:Result,f:FormData):Promise<Result>{
 }
 
 export async function publishContent(_:Result,f:FormData):Promise<Result>{
- const actor=await requireRole('superadmin');const key=val(f,'key');
+ const actor=await guardAction(['superadmin'],f);const key=val(f,'key');
  if(!/^[a-z0-9_]{2,80}$/.test(key))return {error:'Clave inválida.'};
  try{
   const [row]=await query(actor,'update nival_pr.site_content set value_published=value_draft,published_at=now() where key=$1 returning key',[key]);
@@ -177,7 +178,7 @@ export async function publishContent(_:Result,f:FormData):Promise<Result>{
 }
 
 export async function saveGoogleReport(_:Result,f:FormData):Promise<Result>{
- const actor=await requireRole('superadmin');
+ const actor=await guardAction(['superadmin'],f);
  const businessId=val(f,'businessId'),kind=val(f,'periodKind')||'month',inputPeriod=val(f,'period'),range=periodRange(kind,inputPeriod);
  const rating=Number(val(f,'rating')),total=Number(val(f,'total')),fresh=Number(val(f,'new')),answered=Number(val(f,'answered')),notes=val(f,'notes'),changes=val(f,'changes');
  if(!uuid(businessId)||range.kind!==kind||range.key!==inputPeriod||notes.length>5000||changes.length>5000)return {error:'Revisa el negocio, el periodo y la longitud de los textos.'};
@@ -195,7 +196,7 @@ export async function saveGoogleReport(_:Result,f:FormData):Promise<Result>{
 }
 
 export async function createReviewTask(_:Result,f:FormData):Promise<Result>{
- const actor=await requireRole('superadmin');const businessId=val(f,'businessId'),reviewer=val(f,'reviewer'),text=val(f,'text'),stars=Number(val(f,'stars'));
+ const actor=await guardAction(['superadmin'],f);const businessId=val(f,'businessId'),reviewer=val(f,'reviewer'),text=val(f,'text'),stars=Number(val(f,'stars'));
  if(!uuid(businessId)||!reviewer||reviewer.length>120||text.length>1500||!Number.isInteger(stars)||stars<1||stars>5)return {error:'Revisa la reseña.'};
  const payload='REVIEW:'+JSON.stringify({reviewer,stars,text});
  try{
@@ -206,7 +207,7 @@ export async function createReviewTask(_:Result,f:FormData):Promise<Result>{
 }
 
 export async function markReviewResponded(_:Result,f:FormData):Promise<Result>{
- const actor=await requireRole('superadmin');const taskId=val(f,'taskId');
+ const actor=await guardAction(['superadmin'],f);const taskId=val(f,'taskId');
  if(!uuid(taskId))return {error:'Reseña inválida.'};
  try{
   const [row]=await query(actor,"update nival_pr.tasks set status='completada' where id=$1 and title like 'REVIEW:%' returning business_id",[taskId]);
@@ -217,7 +218,7 @@ export async function markReviewResponded(_:Result,f:FormData):Promise<Result>{
 }
 
 export async function upsertShortLink(_:Result,f:FormData):Promise<Result>{
- const actor=await requireRole('superadmin');const code=val(f,'code'),target=val(f,'targetUrl'),businessId=val(f,'businessId');
+ const actor=await guardAction(['superadmin'],f);const code=val(f,'code'),target=val(f,'targetUrl'),businessId=val(f,'businessId');
  if(!/^[A-Za-z0-9_-]{3,64}$/.test(code)||(businessId&&!uuid(businessId)))return {error:'Código inválido.'};
  try{const u=new URL(target);if(u.protocol!=='https:')throw Error('url');}catch{return {error:'La URL debe comenzar con https://'}};
  try{
