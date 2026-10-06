@@ -17,14 +17,14 @@ function hitsIn(text){return patterns.filter(pattern=>pattern.test(text));}
 
 test('secret scanner detects representative fake credentials',()=>{
  const fake=[
-  '-----BEGIN PRIVATE KEY-----',
-  'postgresql://demo:fake-password-123@db.example.invalid/app',
-  'ghp_1234567890abcdefghijklmnopqrstuv',
-  'sk_live_fake_key_123456789',
-  'SESSION_SECRET=fake-session-secret-1234567890',
-  'R2_SECRET_ACCESS_KEY=fake-r2-secret-1234567890',
-  'GOOGLE_WALLET_PRIVATE_KEY=fake-wallet-private-key-123456',
-  'NEON_AUTH_COOKIE_SECRET=fake-neon-cookie-secret-123456',
+  ['-----BEGIN',' PRIVATE KEY-----'].join(''),
+  ['postgresql://demo:', 'fake-password-123', '@db.example.invalid/app'].join(''),
+  ['ghp_1234567890','abcdefghijklmnopqrstuv'].join(''),
+  ['sk_live_','fake_key_123456789'].join(''),
+  ['SESSION_SECRET=','fake-session-secret-1234567890'].join(''),
+  ['R2_SECRET_ACCESS_KEY=','fake-r2-secret-1234567890'].join(''),
+  ['GOOGLE_WALLET_PRIVATE_KEY=','fake-wallet-private-key-123456'].join(''),
+  ['NEON_AUTH_COOKIE_SECRET=','fake-neon-cookie-secret-123456'].join(''),
  ];
  for(const value of fake)assert.ok(hitsIn(value).length>0,'expected scanner to detect '+value.split('=')[0]);
 });
