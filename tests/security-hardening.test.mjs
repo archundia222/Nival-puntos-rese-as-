@@ -62,7 +62,7 @@ test('all exported server mutations use the common action guard',()=>{
  }
 });
 
-import {trustedClientIp} from '../lib/security/client-ip';
+import {trustedClientIp} from '../lib/security/client-ip.ts';
 test('rate limiting uses the Vercel-overwritten x-forwarded-for header',()=>{
  const h=new Headers({'x-forwarded-for':'203.0.113.9, 10.0.0.1'});
  assert.equal(trustedClientIp(h,true),'203.0.113.9');
