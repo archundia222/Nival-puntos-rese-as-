@@ -69,3 +69,18 @@ test('rate limiting uses the Vercel-overwritten x-forwarded-for header',()=>{
  assert.equal(trustedClientIp(h,false),'local');
  for(const file of ['app/api/auth/[...path]/route.ts','app/api/security/turnstile/route.ts','lib/foundation/actions.ts'])assert.ok(!readFileSync(file,'utf8').includes('x-vercel-forwarded-for'));
 });
+
+
+test('administrator access cannot register or promote public users',()=>{
+ const form=readFileSync('app/admin/acceso/form.tsx','utf8');
+ const page=readFileSync('app/admin/page.tsx','utf8');
+ const session=readFileSync('lib/foundation/session.ts','utf8');
+ const db=readFileSync('database/foundation-neon.sql','utf8');
+ assert.ok(form.includes('authClient.signIn.email'));
+ assert.ok(!form.includes('signUp'));
+ assert.ok(!form.includes('Crear una cuenta'));
+ assert.ok(page.includes('requireAdminRole()'));
+ assert.ok(session.includes("actor.role!=='superadmin'"));
+ assert.ok(db.includes("values(u,'owner'"));
+ assert.ok(db.includes('Nunca se asigna superadmin desde la web'));
+});
