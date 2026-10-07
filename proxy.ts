@@ -13,7 +13,7 @@ export async function proxy(request:NextRequest){
  if(foundation&&(protectedEmail||protectedStaff)){
   // Solo orienta la navegación. Páginas y acciones vuelven a consultar permisos reales.
   const hint=hintRole(request.cookies.get('nival_route')?.value,process.env.SESSION_SECRET);
-  const wrongRole=hint&&((path.startsWith('/admin')&&hint!=='superadmin')||(path.startsWith('/panel')&&hint!=='owner')||(protectedStaff&&hint!=='staff'));
+  const wrongRole=hint&&((path.startsWith('/panel')&&hint!=='owner')||(protectedStaff&&hint!=='staff'));
   if(wrongRole)response=NextResponse.redirect(new URL(roleHome(hint),request.url));
   else if(protectedStaff){if(!request.cookies.get('nival_staff'))response=NextResponse.redirect(new URL('/staff/acceso',request.url));}
   else if(backendConfigured())response=await getAuth().middleware({loginUrl})(request);
