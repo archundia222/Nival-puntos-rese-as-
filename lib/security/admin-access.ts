@@ -2,7 +2,7 @@ import 'server-only';
 import {cookies,headers} from 'next/headers';
 import {createHmac} from 'node:crypto';
 import {getAuth} from '../backend/auth';
-import {authScope, query, systemQuery} from '../foundation/db';
+import {authScope, query} from '../foundation/db';
 import {secret, staffCookie, routeCookie, adminCookie, cookieOptions} from '../foundation/session';
 import {signedHint} from '../foundation/security.mjs';
 import {signAdminProof} from './admin-proof.mjs';
@@ -32,8 +32,9 @@ export async function authorizeOwnAdministrator() {
   const {data, error} = await getAuth().getSession();
   if (error || !isAdministratorIdentity(data?.user) || !data?.session?.id) return false;
   const user = data!.user;
-  // The email is checked against the provider's verified session, never a form value.
-  await systemQuery("insert into nival_pr.profiles(id,role,full_name) values($1,'superadmin',$2) on conflict(id) do update set role='superadmin'", [user.id, user.name || 'Rodrigo']);
+  // Authentication only verifies an existing privileged profile; it never assigns roles.
+  const [profile]=await query(authScope(user.id),'select id,role from nival_pr.profiles where id=$1',[user.id]);
+  if(profile?.role!=='superadmin')return false;
   (await cookies()).delete(staffCookie);
   (await cookies()).set(routeCookie,signedHint('superadmin',secret()),cookieOptions);
   (await cookies()).set(adminCookie,signAdminProof(user.id,data!.session.id,secret()),cookieOptions);
