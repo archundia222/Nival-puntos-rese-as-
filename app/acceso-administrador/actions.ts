@@ -2,7 +2,7 @@
 import {getAuth} from '../../lib/backend/auth';
 import {randomBytes} from 'node:crypto';
 import {systemQuery} from '../../lib/foundation/db';
-import {limitAdminAccess, authorizeOwnAdministrator} from '../../lib/security/admin-access';
+import {limitAdminAccess, registerFailedAdminLogin, authorizeOwnAdministrator} from '../../lib/security/admin-access';
 export type AdminResult = {ok: boolean; message: string; enter?: boolean};
 export async function administratorAccess(mode: 'login'|'setup'|'recover', form: FormData): Promise<AdminResult> {
   try {
@@ -30,7 +30,13 @@ export async function administratorAccess(mode: 'login'|'setup'|'recover', form:
       return {ok:true,message:'Si tu cuenta está configurada, recibirás un enlace para recuperar tu acceso.'};
     }
     const {error} = await getAuth().signIn.email({email,password});
-    if (error) return {ok:false,message:'Correo o contraseña incorrectos.'};
+    if (error) {
+      console.error('founder login rejected', {message:error.message,status:'status' in error?error.status:undefined,code:'code' in error?error.code:undefined});
+      try { await registerFailedAdminLogin(); } catch (limitError) {
+        if (limitError instanceof Error && limitError.message.includes('15 minutos')) return {ok:false,message:'Demasiados intentos incorrectos. Espera 15 minutos y vuelve a intentarlo una sola vez.'};
+      }
+      return {ok:false,message:'Correo o contraseña incorrectos.'};
+    }
     if (!await authorizeOwnAdministrator()) {
       await getAuth().signOut();
       return {ok:false,message:'La cuenta inició sesión, pero no tiene autorización de fundador.'};
