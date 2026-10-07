@@ -21,8 +21,8 @@ function SceneArt({ kind }: { kind: string }) {
       <div className="nxStoryMap">
         <span className="nxStoryRoad nxStoryRoad--one" />
         <span className="nxStoryRoad nxStoryRoad--two" />
-        <i className="nxStoryPin nxStoryPin--one" />
-        <i className="nxStoryPin nxStoryPin--two" />
+        <i className="nxStoryMapPin nxStoryMapPin--one" />
+        <i className="nxStoryMapPin nxStoryMapPin--two" />
         <div className="nxStoryPlace"><b>N</b><span><small>NEGOCIO LOCAL</small><strong>Café Nival</strong><em>★★★★☆</em></span></div>
       </div>
       <div className="nxStoryPerson"><i/><b/><span/></div>
