@@ -20,7 +20,7 @@ export default function AdminAccessForm({initialError=''}:{initialError?:string}
     <span className="adminAccessBadge">Acceso privado · Fundador</span>
     <h2>{mode==='setup'?'Configura tu acceso privado':mode==='recover'?'Recupera tu acceso':'Tu centro de operación'}</h2>
     <p>{mode==='setup'?'Recibe en tu correo autorizado los enlaces para confirmar tu identidad y definir tu contraseña privada.':mode==='recover'?'El enlace de recuperación se envía al correo autorizado.':'Solo la cuenta autorizada y confirmada puede entrar a la administración de Nival.'}</p>
-    <form key={mode} className="configGrid" action={mode==='login'?'/acceso-administrador/login':undefined} method={mode==='login'?'post':undefined} onSubmit={mode==='login'?undefined:submit}>
+    <form key={mode} className="configGrid" onSubmit={submit}>
       <label>Tu correo autorizado<input name="email" type="email" autoComplete="username" required maxLength={254} disabled={busy}/></label>
       {mode==='login'&&<label>Tu contraseña<input name="password" type="password" required maxLength={128} autoComplete="current-password" disabled={busy}/></label>}
       <button disabled={busy}>{busy?'Verificando…':mode==='setup'?'Recibir mis enlaces privados':mode==='recover'?'Enviar enlace privado':'Abrir mi administración'}</button>
