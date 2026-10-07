@@ -87,7 +87,7 @@ export async function loginStaff(_: Result, f: FormData): Promise<Result> {
   redirect("/staff");
 }
 export async function logout() {
-  await guardAction(["superadmin","owner","staff"]);
+  const actor=await guardAction(["superadmin","owner","staff"]);
   const jar = await cookies();
   const token = jar.get(staffCookie)?.value;
   if (token)
@@ -100,7 +100,7 @@ export async function logout() {
   jar.delete(routeCookie);
   jar.delete(adminCookie);
   await getAuth().signOut();
-  redirect("/acceso");
+  redirect(actor.role==="superadmin"?"/acceso-administrador":"/acceso");
 }
 export async function registerBusiness(
   _: Result,
