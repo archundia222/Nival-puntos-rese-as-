@@ -7,3 +7,19 @@
 .nxHeader nav{gap:16px}.nxHeader .nxContactCta{font-size:12px;white-space:nowrap}.nxFooter .nxAdminLink{font-size:11px;opacity:.65}.nxActions{flex-wrap:wrap}.nxHeader .nxNavCta{white-space:nowrap}
 
 .nxHeader nav .nxMenuAdmin{font-size:11px;color:#5f786c}.nxHeader details .nxMenuAdmin{font-size:12px;color:#d4e3db;margin-top:6px;border-bottom:0}.nxHeader details[open]>div{max-height:calc(100dvh - 90px);overflow-y:auto}
+
+
+.nxPriceGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:stretch}
+.nxPlanCard{background:var(--paper);color:var(--forest);border:1px solid #d4ddd5;border-radius:24px;padding:26px;display:flex;flex-direction:column;box-shadow:0 18px 45px #16372916}
+.nxPlanCard>span{font-size:10px;font-weight:900;letter-spacing:.16em;color:#657d70}
+.nxPlanCard h3{font:400 clamp(28px,2.4vw,36px)/1.1 Georgia,serif;margin:12px 0}
+.nxPlanCard h3 small{font:700 12px Arial,sans-serif;color:#65776e;white-space:nowrap}
+.nxPlanCard>p{font-size:13px;line-height:1.5;color:#566b60;min-height:40px;margin:0}
+.nxPlanCard ul{list-style:none;margin:17px 0 20px;padding:0}
+.nxPlanCard li{display:flex;gap:9px;align-items:flex-start;padding:10px 0;border-bottom:1px solid #e0e5e1;font-size:12px;line-height:1.4}
+.nxPlanCard li svg{width:17px;height:17px;flex:0 0 17px;color:#68831f}
+.nxPlanCard .nxPlanNote{font-size:11px;font-weight:700;min-height:0;margin:auto 0 12px}
+.nxPlanCard>a{margin-top:auto;min-height:48px;padding:0 14px;background:var(--forest);color:#fff;border-radius:10px;text-decoration:none;display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px;font-weight:800}
+.nxPlanCard>a svg{width:17px;color:var(--lime);flex:0 0 17px}
+@media(max-width:900px){.nxPriceGrid{grid-template-columns:1fr;max-width:680px;margin-inline:auto}.nxPlanCard{padding:30px}.nxPlanCard h3{font-size:38px}}
+@media(max-width:600px){.nxPlanCard{padding:24px;border-radius:20px}.nxPlanCard h3{font-size:34px}.nxPlanCard>p{font-size:15px}.nxPlanCard li{font-size:14px;padding:11px 0}.nxPlanCard>a{font-size:14px;min-height:54px}}
