@@ -4,7 +4,7 @@ import {Icon} from './icons';
 import {DemoTour} from './tour';
 const clientMenus=[['clientes','Todos los clientes','Directorio completo'],['clientes-new','Nuevos','Primeras visitas'],['clientes-frequent','Frecuentes','Tu comunidad más fiel'],['clientes-risk','En riesgo','Recupera su próxima visita'],['clientes-lost','Perdidos','Vuelve a conectar'],['clientes-absent','Sin visita este mes','Clientes por invitar']] as const;
 const menus=[['inicio','Inicio','Tu negocio de un vistazo'],['clientes','Clientes','Conoce quién vuelve'],['google','Google y reseñas','Tu reputación, en orden'],['equipo','Equipo','Visitas y canjes'],['compartir','QR y tarjeta','Invita a tus clientes'],['ajustes','Configuración','Tu cuenta y programa']] as const;
-export function DashboardShell({name,owner,status,demo,logout,children,initialSection='inicio',homeUrl,mobilePreview=false}:{name:string;owner:string;status:string;demo:boolean;logout:React.ReactNode;children:React.ReactNode;initialSection?:string;homeUrl?:string;mobilePreview?:boolean}){
+export function DashboardShell({name,owner,status,demo,logout,children,initialSection='inicio',homeUrl,mobilePreview=false,pointsOnly=false}:{name:string;owner:string;status:string;demo:boolean;logout:React.ReactNode;children:React.ReactNode;initialSection?:string;homeUrl?:string;mobilePreview?:boolean;pointsOnly?:boolean}){
  const [mounted,setMounted]=useState(false);
  useEffect(()=>setMounted(true),[]);
  const [tour,setTour]=useState(true);
@@ -26,7 +26,7 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
    <details className="workspaceMenuGroup" open={clientsOpen} onToggle={event=>setClientsOpen(event.currentTarget.open)}><summary title="Clientes" aria-current={section.startsWith('clientes')?'page':undefined}><Icon name="clientes"/><span><strong>Clientes</strong><small>Personas y grupos</small></span><i aria-hidden="true"/></summary><div className="clientSubmenu" aria-label="Grupos de clientes">{clientMenus.map(([id,label,hint])=><button key={id} title={label} onClick={()=>navigate(id)} aria-current={id===section?'page':undefined}><span><strong>{label}</strong><small>{hint}</small></span></button>)}</div></details>
   </div>
   <div className="workspaceNavGroup"><div className="workspaceNavCaption">HACER CRECER</div>
-   <button title="Google y reseñas" onClick={()=>navigate('google')} aria-current={section==='google'?'page':undefined}><Icon name="google"/><span><strong>Google y reseñas</strong><small>Reputación y opiniones</small></span>{section==='google'&&<i/>}</button>
+   {!pointsOnly&&<button title="Google y reseñas" onClick={()=>navigate("google")} aria-current={section==="google"?'page':undefined}><Icon name="google"/><span><strong>Google y reseñas</strong><small>Reputación y opiniones</small></span>{section==="google"&&<i/>}</button>}
    <button title="QR y tarjeta" onClick={()=>navigate('compartir')} aria-current={section==='compartir'?'page':undefined}><Icon name="compartir"/><span><strong>QR y tarjeta</strong><small>Invita a tus clientes</small></span>{section==='compartir'&&<i/>}</button>
   </div>
   <div className="workspaceNavGroup"><div className="workspaceNavCaption">ADMINISTRAR</div>
