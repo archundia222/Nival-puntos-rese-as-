@@ -3,7 +3,7 @@ test('public landing keeps legal links and contextual WhatsApp CTAs, direct regi
  const s=readFileSync('app/page.tsx','utf8');
  assert.ok(s.includes("https://wa.me/52"));
  assert.ok(s.includes('const waContact=wa;'));
- assert.equal((s.match(/href="\/acceso\?modo=registro"/g)||[]).length,4);
+ assert.equal((s.match(/href="\/acceso\?modo=registro"/g)||[]).length,3);
  assert.ok(s.includes('Acceso de administradores'));assert.ok(s.includes('href="/acceso-administrador"'));
  assert.ok(s.includes('Nombre del negocio: ____'));assert.ok(s.includes('contratación y la activación'));
  assert.ok(readFileSync('app/acceso/page.tsx','utf8').includes("modo==='registro'?'register':'login'"));
@@ -24,4 +24,16 @@ test('hero offers only registration and demo; both menus expose contact and admi
  assert.equal((header.match(/href="\/acceso">Iniciar sesión<\/a>/g)||[]).length,0);
  const access=readFileSync('app/acceso/page.tsx','utf8');
  assert.ok(access.includes("modo==='registro'?'Crear tu cuenta':'Iniciar sesión'"));
+});
+
+test('pricing clearly separates points-only from review plans and communicates each cap',()=>{
+ const s=readFileSync('app/page.tsx','utf8');
+ assert.ok(s.includes("name:'Puntos',price:299"));
+ assert.ok(s.includes("name:'Esencial',price:399"));
+ assert.ok(s.includes("name:'Plus',price:499"));
+ assert.ok(s.includes('Hasta 30 respuestas manuales por periodo de 30 días'));
+ assert.ok(s.includes('Hasta 100 respuestas manuales por periodo de 30 días'));
+ assert.ok(s.includes('La tarjeta NFC física se cotiza por separado.'));
+ assert.ok(s.includes('Preguntar por este plan'));
+ assert.ok(s.includes('Puntos cuesta $299 por 30 días'));
 });
