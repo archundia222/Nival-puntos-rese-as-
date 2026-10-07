@@ -21,7 +21,7 @@ export async function limitAdminEmailRequest(purpose:'setup'|'recover') {
   if(!attempt?.accepted) throw Error('Espera 15 minutos antes de solicitar otro correo.');
 }
 
-export async function registerFailedAdminLogin() {
+export async function claimAdminLoginAttempt() {
   const ip=trustedClientIp(await headers());
   const key = createHmac('sha256', secret()).update('admin-access:' + administratorEmail + ':' + ip).digest('hex');
   const [attempt] = await query(authScope(), 'select nival_pr_private.claim_pin_attempt($1) accepted', [key]);
