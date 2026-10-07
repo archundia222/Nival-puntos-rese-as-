@@ -10,7 +10,7 @@ import {administratorEmail, isAdministratorIdentity} from './admin-policy.mjs';
 
 export async function limitAdminAccess(email: string) {
   if (email.trim().toLowerCase() !== administratorEmail) throw Error('Acceso reservado.');
-  return process.env.APP_URL || 'https://nival-puntos-resenas.vercel.app';
+  return 'https://nival-puntos-resenas.vercel.app';
 }
 
 export async function registerFailedAdminLogin() {
