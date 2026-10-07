@@ -8,7 +8,7 @@ test('all legal drafts include review notice, generic scope, identities, rights 
  for(const [key,text] of Object.entries(legalDefaults)){assert.ok(text.startsWith(draftNotice),key);assert.ok(text.length<20000);assert.ok(!/\b(platillo|mesero|mesa)\b/.test(text));assert.ok(validateLegalDraft(key,text));assert.ok(!validateLegalDraft(key,'Documento sin advertencia'));}
  for(const x of ['domicilio','responsable','encargado','ARCO','20 días hábiles','15 días hábiles','Cookies','Transferencias','secundarias'])assert.ok(legalDefaults.legal_privacy.toLowerCase().includes(x.toLowerCase()),x);
  for(const text of [legalDefaults.legal_terms,legalDefaults.legal_privacy])for(const field of ['[RAZÓN SOCIAL]','[RFC]','[DOMICILIO]','[CORREO]'])assert.ok(!text.includes(field),field);
- for(const x of ['30 días','7 días','solo lectura','exportación','incentivos','no filtra','México'])assert.ok(legalDefaults.legal_terms.toLowerCase().includes(x.toLowerCase()),x);
+ for(const x of ['Nival Solo Puntos, $299 MXN','Esencial, $399 MXN','Plus, $499 MXN','30 respuestas manuales','100 respuestas manuales','tarjeta NFC física se cotiza por separado','30 días','7 días','solo lectura','exportación','incentivos','no filtra','México'])assert.ok(legalDefaults.legal_terms.toLowerCase().includes(x.toLowerCase()),x);
  assert.ok(marketingConsent.includes('Opcional'));assert.ok(marketingConsent.includes('BAJA'));
  assert.equal(publishedLegal('legal_terms',{value_draft:{text:'secreto'}}),legalDefaults.legal_terms);
  assert.equal(publishedLegal('legal_terms',{value_published:{text:'Versión publicada'}}),'Versión publicada');
