@@ -2,7 +2,7 @@
 import {getAuth} from '../../lib/backend/auth';
 import {randomBytes} from 'node:crypto';
 import {systemQuery} from '../../lib/foundation/db';
-import {limitAdminAccess, limitAdminEmailRequest, registerFailedAdminLogin} from '../../lib/security/admin-access';
+import {limitAdminAccess, limitAdminEmailRequest, claimAdminLoginAttempt} from '../../lib/security/admin-access';
 export type AdminResult = {ok: boolean; message: string; enter?: boolean};
 export async function administratorAccess(mode: 'login'|'setup'|'recover', form: FormData): Promise<AdminResult> {
   try {
@@ -31,16 +31,16 @@ export async function administratorAccess(mode: 'login'|'setup'|'recover', form:
       if(recovery.error)return {ok:false,message:'No se pudo enviar el enlace de recuperación. Intenta de nuevo más tarde.'};
       return {ok:true,message:'Si tu cuenta está configurada, recibirás un enlace para recuperar tu acceso.'};
     }
+    // Enforce a per-client limit before contacting the identity provider.
+    await claimAdminLoginAttempt();
     const {error} = await getAuth().signIn.email({email,password});
     if (error) {
       console.error('founder login rejected', {message:error.message,status:'status' in error?error.status:undefined,code:'code' in error?error.code:undefined});
-      try { await registerFailedAdminLogin(); } catch (limitError) {
-        if (limitError instanceof Error && limitError.message.includes('15 minutos')) return {ok:false,message:'Demasiados intentos incorrectos. Espera 15 minutos y vuelve a intentarlo una sola vez.'};
-      }
       return {ok:false,message:'Correo o contraseña incorrectos.'};
     }
     return {ok:true,enter:true,message:'Credenciales verificadas. Completando sesión privada…'};
   } catch (error) {
+    if(error instanceof Error && error.message.includes('15 minutos'))return {ok:false,message:'Demasiados intentos. Espera 15 minutos antes de volver a intentar.'};
     console.error('administratorAccess failed', error instanceof Error ? error.message : 'unknown');
     return {ok:false,message:'No se pudo completar el acceso. Intenta nuevamente en unos minutos.'};
   }
