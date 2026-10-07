@@ -11,7 +11,7 @@ export default function AdminAccessForm({initialError=''}:{initialError?:string}
     event.preventDefault(); if(busy)return;
     const form=new FormData(event.currentTarget);
     setBusy(true);setNotice('');
-    try{const result=await administratorAccess(mode,form);setFailed(!result.ok);setNotice(result.message);if(result.enter)window.location.assign('/admin');}
+    try{const result=await administratorAccess(mode,form);setFailed(!result.ok);setNotice(result.message);if(result.enter)window.location.assign('/acceso-administrador/completar');}
     catch{setFailed(true);setNotice('No se pudo completar la solicitud. Intenta de nuevo.');}
     finally{setBusy(false);}
   }
