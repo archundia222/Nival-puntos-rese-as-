@@ -9,7 +9,9 @@ export async function POST(request: Request) {
   const password=String(form.get('password')||'');
   if(!email||!password||password.length>128){back.searchParams.set('error','Escribe tu correo y contraseña.');return NextResponse.redirect(back,303);}
   await limitAdminAccess(email);
+  console.log('founder login checkpoint: limiter passed');
   const {error}=await getAuth().signIn.email({email,password});
+  console.log('founder login checkpoint: auth returned', Boolean(error));
   if(error){back.searchParams.set('error','Correo o contraseña incorrectos.');return NextResponse.redirect(back,303);}
   if(!await authorizeOwnAdministrator()){await getAuth().signOut();back.searchParams.set('error','La cuenta inició sesión, pero no tiene autorización de fundador.');return NextResponse.redirect(back,303);}
   return NextResponse.redirect(new URL('/admin',request.url),303);
