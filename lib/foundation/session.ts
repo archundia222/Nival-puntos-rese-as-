@@ -14,8 +14,6 @@ export function secret(){const value=process.env.SESSION_SECRET||'';if(value.len
 export async function emailActor():Promise<Actor|null>{
  const {data,error}=await getAuth().getSession();if(error)throw Error('No se pudo verificar tu sesión.');if(!data?.user)return null;
  const user=data.user;
- // Asignación mínima: nuevo usuario puede ser owner; nunca staff/superadmin.
- await query(authScope(user.id),'select nival_pr_private.ensure_owner($1)',[user.name]);
  const [profile]=await query(authScope(user.id),'select id,role,full_name from nival_pr.profiles where id=$1',[user.id]);
  if(!profile||!['superadmin','owner'].includes(profile.role))return null;
  if(profile.role==='superadmin'&&!canEnterAdministration(user,profile))return null;
