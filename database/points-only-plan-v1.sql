@@ -1,3 +1,4 @@
+-- Adds the monthly Nival Solo Puntos plan with no reputation features.
 begin;
 update nival_pr.plans
 set price_mxn=299, interval='month',
