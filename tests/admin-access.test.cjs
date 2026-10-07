@@ -19,3 +19,11 @@ test('first access creates an unknowable password, revokes auto-signup session a
  const form=new FormData();form.set('email','rodrigoarchundia379@gmail.com');form.set('password','attacker-chosen');
  const result=await mod.administratorAccess('setup',form);assert.equal(result.ok,true);assert.equal(result.enter,undefined);assert.notEqual(calls[0][1].password,'attacker-chosen');assert.equal(calls[0][1].password.length,64);assert.equal(calls[1][0],'signout');assert.equal(calls[2][1].email,'rodrigoarchundia379@gmail.com');assert.equal(calls[3][1].redirectTo,'https://nival.example/acceso-administrador/restablecer');
 });
+
+test('founder login enforces throttle before calling password provider',async()=>{
+ let signIns=0;
+ const mod=load('app/acceso-administrador/actions.ts',{'../../lib/backend/auth':{getAuth:()=>({signIn:{email:async()=>{signIns++;return {};}}})},'node:crypto':require('node:crypto'),'../../lib/foundation/db':{},'../../lib/security/admin-access':{limitAdminAccess:async()=> 'https://nival.example',claimAdminLoginAttempt:async()=>{throw Error('Espera 15 minutos antes de intentar de nuevo.')}}});
+ const form=new FormData();form.set('email','rodrigoarchundia379@gmail.com');form.set('password','my-private-password');
+ const result=await mod.administratorAccess('login',form);
+ assert.equal(result.ok,false);assert.match(result.message,/15 minutos/);assert.equal(signIns,0);
+});
