@@ -192,3 +192,23 @@
 @media(max-width:900px){.nxStoryCta{display:flex;flex-direction:column;align-items:stretch}.nxStoryCta>div{justify-content:flex-start}.nxPriceGrid{gap:18px}.nxSectionHead.compact{margin-bottom:30px}}
 @media(max-width:600px){.nxStoryFinal{inset:9% 7%;gap:9px;padding:18px;border-radius:18px}.nxStoryFinalBrand{font-size:9px}.nxStoryFinal strong{font-size:clamp(23px,6vw,31px)}.nxStoryFinal small{font-size:11px;max-width:210px}.nxStoryFinalArrow{font-size:26px;right:15px;top:12px}.nxStoryCta{padding:35px 22px;gap:17px}.nxStoryCta p{font-size:19px;line-height:1.4}.nxStoryCta a{font-size:15px;min-height:52px}.nxSectionHead.compact p{font-size:16px}.nxPricing,.nxIntegrity,.nxService{padding-top:70px;padding-bottom:70px}.nxPriceGrid{gap:24px}.nxPlanCard{padding:28px 24px}.nxPlanCard h3{font-size:36px}.nxPlanCard h4{font-size:24px}.nxPlanCard li{font-size:15px;line-height:1.55;min-height:0;margin:14px 0}.nxIntegrityFlow{flex-direction:column;align-items:stretch}.nxIntegrityFlow article{min-height:0;padding:22px}.nxIntegrityFlow>i{align-self:center}.nxIntegrityFlow article b{font-size:22px}.nxIntegrityFlow article small{font-size:14px}.nxServiceGrid{gap:15px}.nxServiceGrid article{padding:25px}.nxServiceGrid article b{font-size:23px}.nxServiceGrid article p{font-size:16px}.nxActivation{padding:27px 23px}.nxActivation p{font-size:15px;line-height:1.7}.nxContact h2{font-size:clamp(36px,10vw,48px);line-height:1.08}.nxContact>div:last-child p{font-size:17px;line-height:1.65}.nxFooter{gap:20px}.nxFooter nav{gap:10px 18px}}
 @media(prefers-reduced-motion:reduce){.nxStoryStatic .nxStoryFinal{opacity:1;transform:none}.nxStoryStatic .nxStoryArt--cycle .nxStoryPhone{opacity:0}}
+
+
+@media(max-width:900px){
+.nxSectionHead.compact{display:flex;flex-direction:column;align-items:stretch;gap:12px}
+.nxSectionHead.compact>span,.nxSectionHead.compact>h2,.nxSectionHead.compact>p{grid-column:auto;width:100%;max-width:100%;margin:0}
+.nxSectionHead.compact h2{font-size:clamp(36px,6vw,52px);line-height:1.12}
+.nxSectionHead.compact p{font-size:17px;line-height:1.6}
+}
+@media(max-width:600px){
+.nxSectionHead.compact{display:flex!important;flex-direction:column!important;gap:12px!important;align-items:stretch!important;margin-bottom:28px!important}
+.nxSectionHead.compact>span,.nxSectionHead.compact>h2,.nxSectionHead.compact>p{grid-column:auto!important;width:100%!important;max-width:100%!important;margin:0!important}
+.nxSectionHead.compact h2{font-size:38px!important;line-height:1.1!important}
+.nxSectionHead.compact p{font-size:16px!important;line-height:1.6!important}
+.nxPriceGrid,.nxServiceGrid{grid-template-columns:minmax(0,1fr)!important}
+.nxPlanCard{padding:26px 23px!important}
+.nxPlanCard li{font-size:15px!important;line-height:1.6!important}
+.nxServiceGrid article{padding:25px 24px!important}
+.nxServiceGrid article b{font-size:23px!important;line-height:1.25!important}
+.nxServiceGrid article p,.nxActivation p{font-size:16px!important;line-height:1.7!important}
+}
