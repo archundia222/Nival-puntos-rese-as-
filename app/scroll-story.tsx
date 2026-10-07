@@ -9,7 +9,7 @@ const scenes = [
   { title: 'Después de una buena visita, puedes pedir una reseña.', text: 'La invitación es amable y libre: cada cliente decide si quiere compartir su experiencia.', kind: 'ask' },
   { title: 'Una reseña honesta puede ayudar a otras personas.', text: 'Los comentarios reales dan contexto a quienes todavía están buscando.', kind: 'growth' },
   { title: 'Los puntos se ganan por visitar y comprar.', text: 'El personal registra una visita válida. Los puntos no dependen de dejar una reseña.', kind: 'points' },
-  { title: 'Tres días después… vuelve.', text: 'En cada visita válida, el equipo registra un punto y el progreso se acerca a una meta.', kind: 'progress' },
+  { title: 'Cada visita acerca a tu cliente a su premio.', text: 'El avance queda visible en su tarjeta digital: un motivo claro para elegirte de nuevo, cuando lo necesite.', kind: 'progress' },
   { title: 'Llega el momento de canjear su premio.', text: 'El premio corresponde al avance en puntos, sin relación con reseñas ni calificaciones.', kind: 'reward' },
   { title: 'Una buena experiencia se comparte.', text: 'El cliente vuelve, disfruta y puede recomendar el negocio a más personas.', kind: 'recommend' },
   { title: 'Nival ayuda a que te encuentren y a que vuelvan.', text: 'Ver el progreso hacia una meta puede animar a continuar; una experiencia recíproca ayuda a construir una relación. No prometemos resultados numéricos.', kind: 'cycle' },
@@ -29,8 +29,8 @@ function SceneArt({ kind }: { kind: string }) {
       <div className="nxStoryPhone"><div className="nxStoryPhoneTop"/><small>NIVAL PUNTOS</small><strong>3 de 4</strong><div className="nxStoryStampDots"><i/><i/><i/><i/></div><span>Premio por tus visitas</span></div>
       <div className="nxStoryReview"><b>★★★★★</b><span>Una gran experiencia</span><small>Opinión de una persona</small></div>
       <div className="nxStoryReward"><i>✓</i><span><small>PREMIO CANJEADO</small><b>Un café de la casa</b></span></div>
-      <div className="nxStoryTime">3 días después…</div>
-      <div className="nxStoryCycle"><i/><i/><i/><b>+</b></div>
+      <div className="nxStoryTime">UNA VISITA MÁS</div>
+      <div className="nxStoryFinal"><span className="nxStoryFinalBrand">NIVAL</span><strong>Que te encuentren.<br/>Que vuelvan.</strong><small>Más confianza. Más motivos para regresar.</small><span className="nxStoryFinalArrow">↗</span></div>
     </div>
   );
 }
