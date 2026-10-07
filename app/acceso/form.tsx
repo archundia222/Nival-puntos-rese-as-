@@ -5,7 +5,7 @@ import {TurnstileWidget} from '../../lib/security/turnstile-widget';
 type Mode='login'|'register'|'recover'|'resend';
 const titles={login:'Iniciar sesión',register:'Crear cuenta',recover:'Recuperar contraseña',resend:'Confirmar mi correo'};
 const buttons={login:'Entrar',register:'Crear cuenta',recover:'Enviar enlace de recuperación',resend:'Reenviar confirmación'};
-export default function AccessForm({turnstileSiteKey,initialMode='login'}:{turnstileSiteKey:string;initialMode?:'login'|'register'}){
+export default function AccessForm({turnstileSiteKey,initialMode='login'}:{turnstileSiteKey:string;initialMode?:'login'|'register'}) {
  const [mode,setMode]=useState<Mode>(initialMode);const [email,setEmail]=useState('');const [password,setPassword]=useState('');const [busy,setBusy]=useState(false);const [notice,setNotice]=useState('');const [failed,setFailed]=useState(false);
  function changeMode(value:Mode){setMode(value);setNotice('');setFailed(false);setPassword('');}
  async function submit(event:React.FormEvent<HTMLFormElement>){
@@ -15,7 +15,7 @@ export default function AccessForm({turnstileSiteKey,initialMode='login'}:{turns
    if(mode==='register'){
     const token=(event.currentTarget.elements.namedItem('cf-turnstile-response') as HTMLInputElement|null)?.value||'';
     const anti=await fetch('/api/security/turnstile',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token})});
-    if(!anti.ok){setFailed(true);setNotice('Confirma que no eres un robot.');return;}
+    if(!anti.ok){setFailed(true);setNotice('No se pudo validar la protección anti-bot. Revisa la conexión de Cloudflare y vuelve a intentarlo.');return;}
     const {data,error}=await client.signUp.email({email:address,password,name:address.split('@')[0],callbackURL:new URL('/entrar',window.location.origin).href});if(error)throw error;
     if(data?.user){window.location.href='/entrar';return;}
     setNotice('Revisa tu correo para confirmar tu cuenta. Si ya la tienes, inicia sesión.');
