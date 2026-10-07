@@ -70,7 +70,7 @@ export default async function Home() {
     </section>
 
     <section id="precio" className="nxPricing nxSection" aria-labelledby="pricing-title">
-      <div className="nxSectionHead compact"><span>PLANES NIVAL</span><h2 id="pricing-title">Elige lo que necesitas.</h2><p>Planes mensuales; cada activación cubre 30 días. Todos incluyen QR digital. La tarjeta NFC física se cotiza por separado.</p></div>
+      <div className="nxSectionHead compact"><span>PLANES NIVAL</span><h2 id="pricing-title">Encuentra el plan para tu negocio.</h2><p>Planes mensuales; cada activación cubre 30 días. Todos incluyen QR digital. La tarjeta NFC física se cotiza por separado.</p></div>
       <div className="nxPriceGrid">{plans.map(plan=><article className={`nxPlanCard ${plan.recommended?'is-recommended':''}`} key={plan.name}>
         <span>{plan.tag}</span>{plan.recommended&&<b className="nxRecommendedBadge">RECOMENDADO</b>}
         <h3>${plan.price} <small>MXN / mes</small></h3><h4>{plan.name}</h4>
@@ -86,13 +86,13 @@ export default async function Home() {
     </section>
 
     <section className="nxService nxSection" aria-labelledby="service-title">
-      <div className="nxSectionHead compact"><span>EL SERVICIO HOY</span><h2 id="service-title">Automatización con apoyo humano.</h2><p>Nival combina herramientas digitales con tareas acompañadas por el equipo.</p></div>
+      <div className="nxSectionHead compact"><span>EL SERVICIO HOY</span><h2 id="service-title">Herramientas digitales y atención cercana.</h2><p>Nival combina herramientas digitales con tareas con atención personalizada.</p></div>
       <div className="nxServiceGrid">
         <article><b>La plataforma organiza</b><p>Clientes, puntos, visitas, premios, canjes, roles e historial dentro del panel del negocio.</p></article>
-        <article><b>El equipo de Nival acompaña</b><p>La revisión de información de Google, el análisis del periodo y la preparación de respuestas a reseñas se trabajan de forma asistida.</p></article>
+        <article><b>Nival te acompaña</b><p>La revisión de información de Google, el análisis del periodo y la preparación de respuestas a reseñas se trabajan de forma asistida.</p></article>
         <article><b>Sin promesas de automatización de Google</b><p>La carga y revisión de datos es manual o asistida. No hay conexión automática con Google Business Profile ni respuestas automáticas publicadas por IA.</p></article>
       </div>
-      <div className="nxActivation"><h3>Pago y activación</h3><p>El negocio se registra y contacta a Nival. El equipo confirma el pago manual (transferencia o pago digital), lo registra y genera un código único de activación. Al ingresarlo, comienza un periodo de 30 días. Al vencer, el historial se conserva y las herramientas activas se pausan hasta renovar.</p></div>
+      <div className="nxActivation"><h3>Pago y activación</h3><p>El negocio se registra y contacta a Nival. Nival verifica el pago (transferencia o pago digital), lo registra y genera un código único de activación. Al ingresarlo, comienza un periodo de 30 días. Al vencer, el historial se conserva y las herramientas activas se pausan hasta renovar.</p></div>
     </section>
 
     <section id="contacto" className="nxContact nxFinal" aria-labelledby="contact-title">
