@@ -1,3 +1,6 @@
+import {DashboardShell} from "../../../lib/owner/shell";
+import {logout} from "../../../lib/foundation/actions";
+import {Icon} from "../../../lib/owner/icons";
 import { query, authScope } from "../../../lib/foundation/db";
 import { requireRole, requireBusiness } from "../../../lib/foundation/session";
 import { ActionForm } from "../../../lib/foundation/forms";
@@ -10,6 +13,8 @@ import {
 } from "../../../lib/points/actions";
 import { ProgramLogo } from "../../../lib/points/program-logo";
 import { PrintQr } from "../../../lib/points/print-qr";
+import { ProgramPreview } from "../../../lib/points/program-preview";
+import { NfcSetup } from "../../../lib/points/nfc-setup";
 export const dynamic = "force-dynamic";
 export default async function PointsPanel({
   searchParams,
@@ -43,7 +48,7 @@ export default async function PointsPanel({
   );
   const rewards = await query(
     actor,
-    "select r.id,r.name,r.points_cost,r.position,r.active from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 order by r.position",
+    "select r.id,r.name,r.points_cost,r.position,r.active,r.weight from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 order by r.position",
     [b.id],
   );
   const redemptions = await query(
@@ -52,7 +57,8 @@ export default async function PointsPanel({
     [b.id],
   );
   return (
-    <main className="dashboard">
+    <DashboardShell name={b.name} owner={actor.name} status="Mi cuenta" demo={false} initialSection="ajustes" homeUrl={'/panel?business='+b.id} logout={<form action={logout}><button className="logoutButton" aria-label="Cerrar sesión"><Icon name="logout" size={18}/></button></form>}>
+    <main className="dashboard programWorkspace">
       <header className="dashHead">
         <div>
           <small>NIVAL PUNTOS · CONFIGURACIÓN</small>
@@ -67,7 +73,8 @@ export default async function PointsPanel({
           </a>
         ))}
       </nav>
-      <section className="reviewBox">
+      <nav className="programTabs" aria-label="Configuración del programa"><a href="#programa">Programa y premios</a><a href="#personal">Equipo</a><a href="#canjes">Canjes</a><a href="#qr">QR del negocio</a></nav>
+      <section className="reviewBox" id="programa">
         <h2>Una tarjeta con tu identidad</h2>
         <ActionForm action={saveProgram} label="Guardar programa">
           <Hidden name="businessId" value={b.id} />
@@ -88,9 +95,9 @@ export default async function PointsPanel({
             <select name="mode" defaultValue={program?.mode || "single"}>
               <option value="single">Un premio para todos</option>
               <option value="choose">
-                El cliente elige y bloquea su premio
+                Premios a elegir
               </option>
-              <option value="sequence">Secuencia que se repite</option>
+              <option value="sequence">Premios por etapas</option><option value="surprise">Premio sorpresa</option>
             </select>
           </label>
           <Field
@@ -107,7 +114,7 @@ export default async function PointsPanel({
             type="number"
             min={0}
             max={720}
-            value={program?.rules?.min_hours_between_visits ?? 6}
+            value={program?.rules?.min_hours_between_visits ?? 0.0166666667}
           />
           <Field
             name="max"
@@ -115,10 +122,10 @@ export default async function PointsPanel({
             type="number"
             min={1}
             max={100}
-            value={program?.rules?.max_visits_per_day ?? 1}
+            value={program?.rules?.max_visits_per_day ?? 100}
           />
         </ActionForm>
-        <h3>Tus premios, en orden</h3>
+        <p>Premio sorpresa: los pesos se convierten en probabilidades proporcionales. Pesos iguales dan la misma probabilidad. El premio y su costo se muestran desde la asignación y no cambian al recargar. Los premios ya asignados se protegen hasta su canje.</p><h3>Tus premios, en orden</h3>
         {rewards.map((r) => (
           <article key={r.id} className="customerRow">
             <h3>
@@ -127,7 +134,7 @@ export default async function PointsPanel({
             <ActionForm action={editReward} label="Actualizar premio">
               <Hidden name="businessId" value={b.id} />
               <Hidden name="rewardId" value={r.id} />
-              <Field name="name" label="Nombre del premio" value={r.name} />
+              <Field name="name" label="Nombre del premio" value={r.name} /><Field name="weight" label="Peso para premio sorpresa (1 a 100)" type="number" min={1} max={100} value={r.weight||1}/>
               <Field
                 name="cost"
                 label="Puntos necesarios"
@@ -171,7 +178,8 @@ export default async function PointsPanel({
           />
         </ActionForm>
       </section>
-      <section className="reviewBox">
+      <ProgramPreview business={b.name} program={program} reward={rewards.find((r) => r.active)} />
+      <section className="reviewBox" id="personal">
         <h2>Tu equipo</h2>
         <p>
           Cada mesero recibe su identificador y un PIN individual de 6 a 8
@@ -214,7 +222,7 @@ export default async function PointsPanel({
           </article>
         ))}
       </section>
-      <section className="reviewBox">
+      <section className="reviewBox" id="canjes">
         <h2>Canjes y evidencia</h2>
         {!redemptions.length && (
           <p>Aquí aparecerán los premios entregados por tu equipo.</p>
@@ -269,10 +277,11 @@ export default async function PointsPanel({
           </article>
         ))}
       </section>
-      <section className="reviewBox">
+      <NfcSetup name={b.name} slug={b.slug} />
+      <section className="reviewBox" id="qr">
         <h2>QR para tu mostrador</h2>
         <PrintQr name={b.name} slug={b.slug} logo={program?.logo_url} />
       </section>
-    </main>
+    </main></DashboardShell>
   );
 }

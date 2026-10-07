@@ -1,4 +1,5 @@
 "use client";
+import {compressPhoto} from "./compress-photo";
 import { useEffect, useRef, useState } from "react";
 import { BrowserQRCodeReader, type IScannerControls } from "@zxing/browser";
 export function Scanner({ businessId }: { businessId: string }) {
@@ -6,7 +7,8 @@ export function Scanner({ businessId }: { businessId: string }) {
     controls = useRef<IScannerControls | null>(null),
     mounted = useRef(true),
     busyRef = useRef(false),
-    cameraGeneration = useRef(0);
+    cameraGeneration = useRef(0),
+    operation = useRef<string|null>(null);
   const [camera, setCamera] = useState(false),
     [busy, setBusy] = useState(false),
     [phone, setPhone] = useState(""),
@@ -37,6 +39,7 @@ export function Scanner({ businessId }: { businessId: string }) {
     setError("");
     setSuccess("");
     setCustomer(null);
+    operation.current=null;
     setWhatsapp("");
     setPhoto(null);
     setConfirmed(false);
@@ -82,7 +85,7 @@ export function Scanner({ businessId }: { businessId: string }) {
     } catch {
       setCamera(false);
       setError(
-        "No se pudo abrir la cámara. Permite su uso en el navegador o busca por teléfono.",
+        "No se pudo abrir la cámara. Permite su uso en el navegador o usa el código manual o teléfono.",
       );
     }
   }
@@ -96,13 +99,17 @@ export function Scanner({ businessId }: { businessId: string }) {
     f.set("businessId", businessId);
     f.set("customerId", customer.id);
     f.set("type", type);
-    if (photo) f.set("photo", photo);
+    if(!operation.current)operation.current=crypto.randomUUID();
+    f.set("operationId",operation.current);
+
     if (confirmed) f.set("confirm", "yes");
     try {
+      if(type==="redeem"&&photo)f.set("photo",await compressPhoto(photo));
       const r = await fetch("/api/staff/movement", { method: "POST", body: f });
       const d = await r.json();
       if (!r.ok) throw Error(d.error);
       setCustomer(d.customer);
+      operation.current=null;
       setPhoto(null);
       setConfirmed(false);
       setSuccess(
@@ -175,7 +182,7 @@ export function Scanner({ businessId }: { businessId: string }) {
         }}
       >
         <label>
-          O busca por teléfono (+52)
+          O usa el código manual o teléfono (+52)
           <input
             type="tel"
             autoComplete="off"

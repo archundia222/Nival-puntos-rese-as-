@@ -1,3 +1,4 @@
+import {evidenceStorage,saveEvidence} from "../../../../lib/storage/evidence.mjs";
 import { kickWalletJobs } from "../../../../lib/wallet/server";
 import { NextResponse } from "next/server";
 import { randomUUID } from "node:crypto";
@@ -39,6 +40,10 @@ export async function POST(req: Request) {
     );
     if (!r?.data) throw Error("Invalid customer");
     const customer = r.data;
+    const operation=String(f.get('operationId')||'');
+    if(!uuid(operation))throw Error('Identificador de operación inválido');
+    const [already]=await query(actor,'select id from nival_pr.point_ledger where business_id=$1 and customer_id=$2 and operation_id=$3',[b,c,operation]);
+    if(already)return NextResponse.json({success:'Esta operación ya estaba registrada',customer});
     if (type === "redeem") {
       if (f.get("confirm") !== "yes")
         return NextResponse.json(
@@ -61,23 +66,25 @@ export async function POST(req: Request) {
         );
       const { bytes, ext, type: mime } = await validatePhoto(file);
       const path = b + "/" + c + "/" + randomUUID() + "." + ext;
-      await query(
-        authScope(actor.id),
-        "select nival_pr_private.store_photo($1,$2,$3,$4,$5)",
-        [b, c, path, bytes.toString("base64"), mime],
-      );
+      if(process.env.R2_ACCOUNT_ID&&process.env.R2_ACCESS_KEY_ID&&process.env.R2_SECRET_ACCESS_KEY&&process.env.R2_EVIDENCE_BUCKET){
+        await saveEvidence({path,bytes,mime,storage:evidenceStorage(),register:async({key,size,hash}:{key:string;size:number;hash:string})=>{
+          await query(authScope(actor.id),"select nival_pr_private.store_photo_object($1,$2,$3,$4,$5,$6,$7)",[b,c,path,key,mime,size,hash]);
+        }});
+      }else{
+        await query(authScope(actor.id),'select nival_pr_private.store_photo($1,$2,$3,$4,$5)',[b,c,path,bytes.toString('base64'),mime]);
+      }
       uploaded = path;
     }
     const text =
       type === "visit"
-        ? "insert into nival_pr.point_ledger(business_id,customer_id,type,points,staff_id) select $1,$2,'visit',points_per_visit,$3 from nival_pr.programs where business_id=$1 returning id"
-        : "insert into nival_pr.point_ledger(business_id,customer_id,type,points,staff_id,reward_id,evidence_path) select $1,$2,'redeem',-r.points_cost,$3,r.id,$5 from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where r.id=$4 and p.business_id=$1 and r.active returning id";
+        ? "insert into nival_pr.point_ledger(business_id,customer_id,type,points,staff_id,operation_id) select $1,$2,'visit',points_per_visit,$3,$4 from nival_pr.programs where business_id=$1 returning id"
+        : "insert into nival_pr.point_ledger(business_id,customer_id,type,points,staff_id,reward_id,evidence_path,operation_id) select $1,$2,'redeem',-r.points_cost,$3,r.id,$5,$6 from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where r.id=$4 and p.business_id=$1 and r.active returning id";
     const [movement] = await query(
       actor,
       text,
       type === "visit"
-        ? [b, c, actor.id]
-        : [b, c, actor.id, customer.reward.id, uploaded],
+        ? [b, c, actor.id,operation]
+        : [b, c, actor.id, customer.reward.id, uploaded,operation],
     );
     if (!movement) throw Error("Programa no configurado");
     kickWalletJobs();

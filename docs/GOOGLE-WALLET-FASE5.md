@@ -1,6 +1,6 @@
 # Google Wallet — fase 5
 
-Implementación de Loyalty Class por negocio y Loyalty Object por cliente en Neon. IDs estables bajo el prefijo `npr_`, separados de la clase demo de otras webs Nival. El QR es `NIVAL:<customer UUID>` y no es un token de acceso. Continúan las reglas de visitas y auditoría por mesero.
+Implementación de Loyalty Class por negocio y Loyalty Object por cliente en Neon. IDs estables bajo el prefijo `puntos_`, separados de la clase demo de otras webs Nival. El QR es `NIVAL:<customer UUID>` y no es un token de acceso. Continúan las reglas de visitas y auditoría por mesero.
 
 ## Activación
 

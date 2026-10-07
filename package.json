@@ -10,9 +10,12 @@
     "typecheck": "tsc --noEmit",
     "db:migrate": "node --env-file=.env.local scripts/migrate.mjs --apply",
     "db:seed": "node --env-file=.env.local scripts/seed-demo.mjs",
-    "db:admin": "node --env-file=.env.local scripts/bootstrap-admin.mjs --grant"
+    "db:admin": "node --env-file=.env.local scripts/bootstrap-admin.mjs --grant",
+    "prebuild": "node scripts/prepare-ocr.mjs"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1146.0",
+    "@aws-sdk/s3-request-presigner": "^3.1146.0",
     "@neondatabase/auth": "0.5.0-beta",
     "@neondatabase/serverless": "1.2.0",
     "@supabase/ssr": "0.12.7",
@@ -20,15 +23,21 @@
     "@tailwindcss/postcss": "4.3.3",
     "@zxing/browser": "0.1.5",
     "next": "16.3.8",
-    "postcss": "8.5.6",
+    "pdfkit": "^0.17.2",
+    "postcss": "8.5.28",
     "qrcode": "1.5.4",
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "tailwindcss": "4.3.3"
+    "sharp": "^0.35.5",
+    "tailwindcss": "4.3.3",
+    "tesseract.js": "^6.0.1"
   },
   "devDependencies": {
     "@electric-sql/pglite": "0.5.8",
+    "@tesseract.js-data/eng": "1.0.0",
+    "@tesseract.js-data/spa": "1.0.0",
     "@types/node": "^20",
+    "@types/pdfkit": "^0.17.3",
     "@types/qrcode": "1.5.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",

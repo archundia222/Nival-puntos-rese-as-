@@ -72,6 +72,7 @@ export function CardView({
     ready = goal > 0 && points >= goal;
   return (
     <>
+      <p>Código manual de tu tarjeta: <strong>{card.manual_code||card.id}</strong></p>
       <article
         className={"loyaltyCard " + (pulse ? "cardPulse" : "")}
         style={
@@ -159,7 +160,7 @@ export function CardView({
       <section className="personalQr">
         <div>
           <small>TU QR PERSONAL</small>
-          <h2>Muéstralo al mesero</h2>
+          <h2>Muéstralo al trabajador</h2>
           <p>Para registrar tu visita o recibir tu premio.</p>
         </div>
         <img
@@ -172,7 +173,7 @@ export function CardView({
           Este QR identifica tu tarjeta. No concede acceso a tus datos.
         </small>
       </section>
-      {business.program?.mode === "choose" && !card.reward && (
+      {business.active && business.program?.mode === "choose" && !card.reward && (
         <section className="reviewBox">
           <h2>¿Cuál será tu próximo premio?</h2>
           <p>Tu elección queda bloqueada hasta canjearla.</p>

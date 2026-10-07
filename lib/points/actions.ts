@@ -2,13 +2,14 @@
 import { kickWalletJobs } from "../wallet/server";
 import { revalidatePath } from "next/cache";
 import { query, authScope } from "../foundation/db";
-import { requireRole, requireBusiness } from "../foundation/session";
+import { requireBusiness } from "../foundation/session";
+import { guardAction } from "../foundation/action-guard";
 import { hashPin } from "../foundation/security.mjs";
 import { uuid, message } from "./security";
 import type { Result } from "../foundation/actions";
 const val = (f: FormData, k: string) => String(f.get(k) || "").trim();
 export async function manageStaff(_: Result, f: FormData): Promise<Result> {
-  const actor = await requireRole("owner");
+  const actor = await guardAction(["owner"], f);
   const b = val(f, "businessId"),
     id = val(f, "staffId"),
     name = val(f, "name");
@@ -36,7 +37,7 @@ export async function reviewRedemption(
   _: Result,
   f: FormData,
 ): Promise<Result> {
-  const actor = await requireRole("owner");
+  const actor = await guardAction(["owner"], f);
   const b = val(f, "businessId"),
     d = val(f, "redemptionId"),
     op = val(f, "operation");
@@ -63,14 +64,16 @@ export async function reviewRedemption(
 }
 
 export async function editReward(_: Result, f: FormData): Promise<Result> {
-  const actor = await requireRole("owner"),
+  const actor = await guardAction(["owner"], f),
     b = val(f, "businessId"),
     id = val(f, "rewardId"),
     name = val(f, "name"),
     cost = Number(val(f, "cost")),
     position = Number(val(f, "position")),
-    active = f.get("active") === "on";
+    active = f.get("active") === "on",
+    weight = Number(val(f,"weight")||1);
   if (
+    !Number.isInteger(weight)||weight<1||weight>100||
     !uuid(b) ||
     !uuid(id) ||
     !name ||
@@ -96,8 +99,8 @@ export async function editReward(_: Result, f: FormData): Promise<Result> {
       };
     const [r] = await query(
       actor,
-      "update nival_pr.rewards r set name=$3,points_cost=$4,position=$5,active=$6 from nival_pr.programs p where r.id=$1 and p.id=r.program_id and p.business_id=$2 returning r.id",
-      [id, b, name, cost, position, active],
+      "update nival_pr.rewards r set name=$3,points_cost=$4,position=$5,active=$6,weight=$7 from nival_pr.programs p where r.id=$1 and p.id=r.program_id and p.business_id=$2 returning r.id",
+      [id, b, name, cost, position, active,weight],
     );
     if (!r) return { error: "No se encontró este premio." };
     revalidatePath("/panel/puntos");

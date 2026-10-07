@@ -16,6 +16,11 @@ export function GoogleReportForm({businesses}:{businesses:{id:string;name:string
  {[1,2,3,4,5].map(n=><label key={n}>{n} estrellas · total al cierre<input name={'star'+n} type="number" min="0" required defaultValue={0}/></label>)}
  <p className="wide">La distribución debe sumar el total. Las respuestas se cuentan sobre las reseñas nuevas. Guarda un reporte por periodo; al repetirlo se actualiza.</p>
  {Object.entries(checklistLabels).map(([k,label])=><label key={k} className="wide checkRow"><input type="checkbox" name={'check_'+k}/>{label} · revisado</label>)}
+ <p className="wide"><strong>Análisis de los textos de reseñas</strong> · Carga temas que hayas comprobado. Una misma reseña puede mencionar varios temas. No se deducen temas a partir de las estrellas.</p>
+ <label>Reseñas analizadas en este reporte<input name="analyzed" type="number" min="1" placeholder="Tamaño de la muestra"/></label>
+ {(['positive','negative'] as const).map(kind=>[0,1,2].map(i=><div className="wide" key={kind+i}><label>{kind==='positive'?'Elogio':'Queja'} frecuente {i+1}<input name={kind+'Theme'+i} maxLength={160} placeholder={kind==='positive'?'Ej. atención amable':'Ej. tiempo de espera'}/></label><label>Reseñas que mencionan este tema<input name={kind+'Count'+i} type="number" min="0" defaultValue={0}/></label></div>))}
+ <label className="wide">Qué mejorar · acciones concretas<textarea name="improve" maxLength={2000} placeholder="Acción, responsable y plazo sugerido"/></label>
+ <label className="wide">Qué seguir haciendo<textarea name="keep" maxLength={2000} placeholder="Prácticas positivas que conviene mantener"/></label>
  <label className="wide">Consejos para el dueño<textarea name="notes" maxLength={5000}/></label>
  <label>Fecha de los cambios<input name="changeDate" type="date" defaultValue={mexicoToday()}/></label>
  <label className="wide">Cambios realizados por Nival<textarea name="changes" maxLength={5000}/></label>

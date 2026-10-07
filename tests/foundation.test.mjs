@@ -35,7 +35,7 @@ test('expired staff sessions fail and owner role cannot use staff-only membershi
  assert.equal((await db.query("select count(*)::int n from nival_pr.audit_log where action='task.status_changed'")).rows[0].n,1);
  }finally{await db.close();}});
 
-test('activation codes expire and a claimed code activates only once',async()=>{const db=await setup();try{
+test('activation codes expire and a claimed code activates only once',async()=>{const db=await setup();try{await db.exec(readFileSync('database/reputation-v6.sql','utf8'));
  await db.query("insert into nival_pr.activation_codes(code,business_id,plan_id,expires_at,created_by) select 'NIV-AAAA-BBBB',$1,id,now()+interval '1 hour',$2 from nival_pr.plans limit 1",[ba,ids.admin]);
  const source=readFileSync('lib/admin/actions.ts','utf8');const sql=source.match(/with claimed as \([\s\S]*?select \* from activated/)[0];
  assert.equal((await db.query(sql,['NIV-AAAA-BBBB',ba])).rows.length,1);
@@ -44,10 +44,19 @@ test('activation codes expire and a claimed code activates only once',async()=>{
  assert.equal((await db.query(sql,['NIV-CCCC-DDDD',ba])).rows.length,0);
  }finally{await db.close();}});
 
-test('payment activates a registered business for 30 days with consistent period',async()=>{const db=await setup();try{
- await as(db,'npr_v2_admin',ids.admin);await db.query("update nival_pr.businesses set status='registrado',paid_until=null where id=$1",[ba]);
- const source=readFileSync('lib/admin/actions.ts','utf8');const sql=source.match(/with updated as \([\s\S]*?returning id,period_start,period_end/)[0];
- const row=(await db.query(sql,[ba,399,'transferencia','TEST','2026-10-05',ids.admin])).rows[0];
- assert.equal(new Date(row.period_start).toISOString().slice(0,10),'2026-10-05');assert.equal(new Date(row.period_end).toISOString().slice(0,10),'2026-11-04');
- assert.equal((await db.query('select status from nival_pr.businesses where id=$1',[ba])).rows[0].status,'activo');
- }finally{await db.close();}});
+test('payment records initial payment without starting service; renewal extends from expiry',async()=>{
+ const db=await setup();try{
+ await db.exec(readFileSync('database/reputation-v6.sql','utf8'));
+ await db.query("update nival_pr.businesses set status='registrado',paid_until=null where id=$1",[ba]);
+ await as(db,'npr_v2_admin',ids.admin);
+ const source=readFileSync('lib/admin/actions.ts','utf8').split('export async function registerPayment30')[1].split('export async function generateActivationCode')[0];
+ const sql=source.match(/text:`([\s\S]*?)`,values:/)[1];
+ const {rows:[payment]}=await db.query(sql,[ba,399,'transferencia','TEST',ids.admin]);assert.ok(payment.id);
+ const {rows:[b]}=await db.query('select * from nival_pr.businesses where id=$1',[ba]);assert.equal(b.status,'pago_pendiente');assert.equal(b.paid_until,null);
+ await db.query("update nival_pr.businesses set status='activo',paid_until=now()+interval '10 days' where id=$1",[ba]);
+ const before=(await db.query('select paid_until from nival_pr.businesses where id=$1',[ba])).rows[0].paid_until;
+ await db.query(sql,[ba,399,'transferencia','RENEW',ids.admin]);
+ const after=(await db.query('select paid_until from nival_pr.businesses where id=$1',[ba])).rows[0].paid_until;
+ assert.equal((new Date(after)-new Date(before))/86400000,30);
+ }finally{await db.close();}
+});

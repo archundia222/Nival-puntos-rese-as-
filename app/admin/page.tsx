@@ -1,7 +1,9 @@
+import {legalDefaults} from "../../lib/foundation/legal.mjs";
+import {quoteUrl} from "../../lib/foundation/registration.mjs";
 import {GoogleReportForm} from '../../lib/owner/google-form';
 import {redirect} from 'next/navigation';
 import {foundationEnabled,query,transaction} from '../../lib/foundation/db';
-import {requireRole} from '../../lib/foundation/session';
+import {requireAdminRole} from '../../lib/foundation/session';
 import {logout} from '../../lib/foundation/actions';
 import {ActionForm} from '../../lib/foundation/forms';
 import {Field,Hidden} from '../../lib/foundation/fields';
@@ -20,6 +22,7 @@ const contentFields=[
  ['whatsapp','WhatsApp','5539044788'],
  ['testimonials','Testimonios',''],
  ['faq','Preguntas frecuentes',''],
+ ...Object.entries(legalDefaults).map(([key,text])=>[key,key==='legal_terms'?'Términos':key==='legal_privacy'?'Privacidad':'Consentimiento del cliente',text]),
 ] as const;
 
 function mxn(value:unknown){return new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN',maximumFractionDigits:0}).format(Number(value||0))}
@@ -29,16 +32,15 @@ function reviewPayload(title:string){
 }
 function waReminder(b:any){
  const msg=`Hola ${b.owner_name||''}, te escribo de Nival Tech sobre ${b.name}. Tu servicio ${b.paid_until?'vence/venció el '+date(b.paid_until):'está pendiente de activación'}. ¿Te apoyo para renovarlo?`;
- return 'https://wa.me/52'+String(b.phone||'').replace(/\D/g,'')+'?text='+encodeURIComponent(msg);
+ const phone=String(b.phone||'').replace(/\D/g,'');
+ return 'https://wa.me/'+(phone.startsWith('52')?phone:'52'+phone)+'?text='+encodeURIComponent(msg);
 }
-function waQuote(b:any,plan:any){
- const msg=`Hola, quiero cotizar o activar Nival Tech.\n\nNegocio: ${b.name}\nGiro: ${b.giro||'—'}\nDueño: ${b.owner_name||'—'}\nTeléfono: ${b.phone||'—'}\nCorreo: ${b.email||'—'}\nID: ${b.id}\nPlan: ${plan?.name||'Sin plan'}`;
- return 'https://wa.me/525539044788?text='+encodeURIComponent(msg);
-}
+function waQuote(b:any,plan:any){return quoteUrl(b,plan);}
+
 
 export default async function Admin({searchParams}:{searchParams:Promise<{business?:string;q?:string;status?:string}>}){
  if(!foundationEnabled())redirect('/demo/admin');
- const actor=await requireRole('superadmin');
+ const actor=await requireAdminRole();
  const params=await searchParams;
  // Sin cron externo, cada entrada de superadmin sincroniza el estado de cobro.
  await transaction(actor,[
@@ -64,9 +66,14 @@ export default async function Admin({searchParams}:{searchParams:Promise<{busine
  const codes=selected?await query(actor,'select code,expires_at,used_at from nival_pr.activation_codes where business_id=$1 order by expires_at desc limit 20',[selected.id]):[];
  const audit=selected?await query(actor,'select action,data,created_at from nival_pr.audit_log where business_id=$1 order by created_at desc limit 40',[selected.id]):[];
  const globalAudit=await query(actor,`select a.action,a.created_at,a.data,b.name business_name from nival_pr.audit_log a left join nival_pr.businesses b on b.id=a.business_id order by a.created_at desc limit 40`);
- const tasks=await query(actor,`select t.id,t.title,t.status,t.due_date,t.recurrence,b.name business_name
+ const tasks=await query(actor,`select t.id,t.title,t.status,t.due_date,t.recurrence,b.name business_name,b.id business_id,b.slug business_code,b.phone business_phone,b.email business_email
    from nival_pr.tasks t left join nival_pr.businesses b on b.id=t.business_id
    where t.status<>'cancelada' and t.title not like 'REVIEW:%' order by t.due_date nulls last,t.created_at desc limit 150`);
+ const todayTasks=await query(actor,`select t.id,t.title,t.status,t.due_date,t.recurrence,b.name business_name,b.id business_id,b.slug business_code,b.phone business_phone,b.email business_email
+   from nival_pr.tasks t left join nival_pr.businesses b on b.id=t.business_id
+   where t.status in ('pendiente','en_progreso') and t.title not like 'REVIEW:%'
+     and (t.due_date is null or t.due_date<=(now() at time zone 'America/Mexico_City')::date)
+   order by t.due_date nulls first,t.created_at asc limit 80`);
  const reviewRows=await query(actor,`select t.id,t.title,t.status,t.due_date,b.name business_name,b.id business_id
    from nival_pr.tasks t join nival_pr.businesses b on b.id=t.business_id
    where t.title like 'REVIEW:%' order by case when t.status='completada' then 1 else 0 end,t.created_at desc limit 100`);
@@ -76,7 +83,7 @@ export default async function Admin({searchParams}:{searchParams:Promise<{busine
  const shortLinks=await query(actor,'select s.code,s.target_url,s.business_id,b.name business_name from nival_pr.short_links s left join nival_pr.businesses b on b.id=s.business_id order by s.code limit 100');
 
  return <main className="dashboard adminShell">
-  <header className="dashHead adminHead"><div><small>NIVAL · SUPERADMIN</small><h1>Centro de operación</h1><p>Ventas, activaciones, cobranza, reputación y contenido.</p></div><div className="actions"><a href="#negocios">Negocios</a><a href="#tareas">Tareas</a><a href="#contenido">Contenido</a><form action={logout}><button>Cerrar sesión</button></form></div></header>
+  <header className="dashHead adminHead"><div><small>NIVAL · SUPERADMIN</small><h1>Centro de operación</h1><p>Ventas, activaciones, cobranza, reputación y contenido.</p></div><div className="actions"><a href="#negocios">Negocios</a><a href="#tareas">Tareas</a><a href="/admin/reportes">Reseñas y reportes</a><a href="#contenido">Contenido</a><form action={logout}><button>Cerrar sesión</button></form></div></header>
 
   <section className="adminMetrics">
    <article><span>Negocios activos</span><b>{metric?.active||0}</b></article>
@@ -99,7 +106,7 @@ export default async function Admin({searchParams}:{searchParams:Promise<{busine
 
     <h3>Plan</h3><ActionForm action={setBusinessPlan} label="Cambiar plan"><Hidden name="businessId" value={selected.id}/><label>Plan<select name="planId" defaultValue={selected.plan_id||''}>{plans.map(p=><option key={p.id} value={p.id}>{p.name} · {mxn(p.price_mxn)}/{p.interval}</option>)}</select></label></ActionForm>
 
-    <h3>Registrar pago · +30 días</h3><ActionForm action={registerPayment30} label="Registrar pago y activar"><Hidden name="businessId" value={selected.id}/><Field name="amount" label="Monto MXN" type="number" min={1} value={Number(selectedPlan?.price_mxn||399)}/><label>Método<select name="method" defaultValue="transferencia"><option value="transferencia">Transferencia</option><option value="efectivo">Efectivo</option><option value="mercado_pago">Mercado Pago</option><option value="otro">Otro</option></select></label><Field name="reference" label="Referencia" required={false}/><Field name="periodStart" label="Inicio del periodo" type="date" required={false}/></ActionForm>
+    <h3>Registrar pago</h3><ActionForm action={registerPayment30} label="Registrar pago confirmado"><Hidden name="businessId" value={selected.id}/><Field name="amount" label="Monto MXN" type="number" min={1} value={Number(selectedPlan?.price_mxn||399)}/><label>Método<select name="method" defaultValue="transferencia"><option value="transferencia">Transferencia</option><option value="efectivo">Efectivo</option><option value="mercado_pago">Mercado Pago</option><option value="otro">Otro</option></select></label><Field name="reference" label="Referencia" required={false}/></ActionForm>
     <div className="historyList">{payments.map(p=><p key={p.id}><b>{mxn(p.amount)}</b> · {p.method} · {date(p.paid_at)}<small>{String(p.period_start).slice(0,10)} → {String(p.period_end).slice(0,10)} {p.reference?'· '+p.reference:''}</small></p>)}</div>
 
     <h3>Código de activación</h3><ActionForm action={generateActivationCode} label="Generar código"><Hidden name="businessId" value={selected.id}/><Field name="expiresHours" label="Vence en horas" type="number" min={1} max={720} value={72}/></ActionForm>
@@ -112,7 +119,9 @@ export default async function Admin({searchParams}:{searchParams:Promise<{busine
   </section>
 
   <section id="tareas" className="adminSection">
-   <div className="sectionTitle"><div><small>OPERACIÓN</small><h2>Tareas</h2></div></div>
+   <div className="sectionTitle"><div><small>OPERACIÓN DIARIA</small><h2>Lo que tienes que hacer hoy</h2><p>Trabajo manual pendiente para mantener actualizados los paneles de tus clientes.</p></div></div>
+   <TaskBoard tasks={todayTasks as any}/>
+   <div className="sectionTitle"><div><small>AGENDA</small><h2>Todas las tareas</h2><p>Crea tareas por negocio para mensajes, reseñas, reportes, seguimiento o cualquier proceso que aún no esté automatizado.</p></div></div>
    <ActionForm action={createTask} label="Crear tarea"><Field name="title" label="Tarea"/><label>Negocio<select name="businessId" defaultValue=""><option value="">General</option>{businesses.map(b=><option key={b.id} value={b.id}>{b.name}</option>)}</select></label><Field name="dueDate" label="Fecha" type="date" required={false}/><label>Recurrencia<select name="recurrence" defaultValue=""><option value="">Sin recurrencia</option><option value="daily">Diaria</option><option value="weekly">Semanal</option><option value="monthly">Mensual</option></select></label></ActionForm>
    <TaskBoard tasks={tasks as any}/>
   </section>
@@ -124,14 +133,8 @@ export default async function Admin({searchParams}:{searchParams:Promise<{busine
 
   <section className="adminSection">
    <div className="sectionTitle"><div><small>REPUTACIÓN</small><h2>Bandeja de reseñas</h2></div></div>
-   <ActionForm action={createReviewTask} label="Agregar reseña"><label>Negocio<select name="businessId" required>{businesses.map(b=><option key={b.id} value={b.id}>{b.name}</option>)}</select></label><Field name="reviewer" label="Nombre en Google"/><label>Estrellas<select name="stars" defaultValue="5">{[5,4,3,2,1].map(n=><option key={n} value={n}>{n} estrellas</option>)}</select></label><label className="wide">Texto<textarea name="text" maxLength={1500}/></label></ActionForm>
-   <div className="reviewInbox">{reviews.map(r=><article key={r.id} className={r.status==='completada'?'doneReview':''}><div><small>{r.business_name}</small><h3>{r.review.reviewer} · {'★'.repeat(r.review.stars)}</h3><p>{r.review.text||'Sin texto'}</p></div><div><span className="statusChip">{r.status==='completada'?'respondida':'pendiente'}</span>{r.status!=='completada'&&<ActionForm action={markReviewResponded} label="Marcar respondida"><Hidden name="taskId" value={r.id}/></ActionForm>}</div></article>)}</div>
-  </section>
-
-  <section className="adminSection">
-   <div className="sectionTitle"><div><small>GOOGLE BUSINESS PROFILE</small><h2>Cargar reporte</h2></div></div>
-   <GoogleReportForm businesses={businesses.map(b=>({id:b.id,name:b.name}))}/>
-
+   <a href="/admin/reportes">Cargar reseñas, preparar respuestas y generar PDF</a>
+   <div className="reviewInbox">{reviews.map(r=><article key={r.id} className={r.status==='completada'?'doneReview':''}><div><small>{r.business_name}</small><h3>{r.review.reviewer} · {'★'.repeat(r.review.stars)}</h3><p>{r.review.text||'Sin texto'}</p></div><div><span className="statusChip">{r.status==='completada'?'respondida':'pendiente'}</span><small>Historial conservado</small></div></article>)}</div>
   </section>
 
   <section className="adminSection">

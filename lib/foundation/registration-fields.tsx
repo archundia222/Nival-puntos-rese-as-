@@ -1,0 +1,10 @@
+import {giros} from './registration.mjs';
+export function RegistrationFields(){return <>
+<label>Nombre del negocio<input name="name" type="text" inputMode="text" required minLength={2} maxLength={150} autoComplete="organization" autoCapitalize="words" enterKeyHint="next" placeholder="Ejemplo: Tacos Demo"/><small>Crearemos automáticamente el enlace para tus clientes.</small></label>
+<label>¿Qué tipo de negocio tienes?<select name="giro" required defaultValue=""><option value="" disabled>Selecciona una opción</option>{giros.map(g=><option key={g}>{g}</option>)}</select></label>
+<label>Nombre del dueño o administrador<input name="owner_name" type="text" inputMode="text" required minLength={2} maxLength={150} autoComplete="name" autoCapitalize="words" enterKeyHint="next" placeholder="Nombre y apellido"/></label>
+<label>Teléfono de contacto<input name="phone" type="tel" inputMode="tel" required maxLength={20} placeholder="55 1234 5678" autoComplete="tel-national" enterKeyHint="next"/><small>Escribe tus 10 dígitos. Agregamos +52 automáticamente.</small></label>
+<label>Correo electrónico<input name="email" type="email" inputMode="email" required maxLength={254} autoComplete="email" autoCapitalize="none" autoCorrect="off" spellCheck={false} enterKeyHint="next" placeholder="tucorreo@ejemplo.com"/></label>
+<label>Enlace de tu negocio en Google Maps<input name="google_maps_url" type="url" inputMode="url" required maxLength={2048} autoCapitalize="none" autoCorrect="off" spellCheck={false} enterKeyHint="done" placeholder="https://maps.app.goo.gl/…"/><small>En Google Maps, abre tu negocio, toca Compartir y pega aquí el enlace.</small></label>
+<label>Plan<select name="plan_price" defaultValue="399"><option value="399">Esencial · $399 / 30 días · 30 respuestas</option><option value="499">Plus · $499 / 30 días · 100 respuestas</option></select></label><label className="wide"><input name="accept_legal" type="checkbox" required/>Acepto los <a href="/terminos" target="_blank" rel="noreferrer">Términos</a> y el <a href="/privacidad" target="_blank" rel="noreferrer">Aviso de Privacidad</a>.</label>
+</>}

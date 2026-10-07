@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { customerEntryUrl } from "./entry.mjs";
 export function PrintQr({
   name,
   slug,
@@ -11,6 +12,7 @@ export function PrintQr({
 }) {
   const [origin, setOrigin] = useState("");
   useEffect(() => setOrigin(window.location.origin), []);
+  const entry = origin ? customerEntryUrl(origin, slug) : "";
   return (
     <section className="qrPrintSection">
       <div className="qrPrintable">
@@ -30,7 +32,7 @@ export function PrintQr({
           Tus visitas tienen premio.
         </p>
         <small>
-          {origin}/b/{slug}
+          {entry}
         </small>
       </div>
       <div className="actions">

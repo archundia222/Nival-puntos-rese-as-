@@ -1,3 +1,5 @@
+import {legalText} from "../../../lib/foundation/legal-page";
+import {marketingConsent} from "../../../lib/foundation/legal.mjs";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import QRCode from "qrcode";
@@ -12,6 +14,7 @@ import { CardView } from "../../../lib/points/card-view";
 import { enroll, consentCard } from "../../../lib/foundation/actions";
 import { ActionForm } from "../../../lib/foundation/forms";
 import { Field, Hidden } from "../../../lib/foundation/fields";
+import {TurnstileWidget} from "../../../lib/security/turnstile-widget";
 export const dynamic = "force-dynamic";
 export default async function Customer({
   params,
@@ -19,6 +22,7 @@ export default async function Customer({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  const turnstileSiteKey = process.env.TURNSTILE_SITE_KEY || "";
   if (!foundationEnabled())
     return (
       <main className="dashboard">
@@ -50,13 +54,13 @@ export default async function Customer({
         <a href={"/b/" + slug}>{b.name}</a>
         <span>Tu lealtad tiene premio</span>
       </header>
-      {!b.active ? (
+      {!b.active && !c ? (
         <section className="reviewBox">
           <h1>Programa no disponible</h1>
           <p>Consulta al negocio. Tus puntos se conservan.</p>
         </section>
       ) : c ? (
-        <CardView business={b} initial={c} qr={qr} />
+        <>{!b.active&&<p role="status">El servicio está pausado. Puedes consultar tu tarjeta; tus puntos y premios se conservan. Nuevos puntos y canjes estarán disponibles al renovar.</p>}<CardView business={b} initial={c} qr={qr} /></>
       ) : (
         <section className="enrollCard">
           <small>BIENVENIDO A {b.name.toUpperCase()}</small>
@@ -93,18 +97,11 @@ export default async function Customer({
             <label className="wide consentLabel">
               <input name="consent" type="checkbox" required />
               <span>
-                Acepto el registro de mis datos y visitas para este programa de
-                lealtad. Leí el{" "}
-                <a
-                  href={"/privacidad?negocio=" + encodeURIComponent(b.name)}
-                  target="_blank"
-                  rel="noopener"
-                >
-                  aviso de privacidad
-                </a>
-                .
+                {await legalText('legal_customer_consent')} <a href="/terminos" target="_blank" rel="noreferrer">Términos</a> · <a href="/privacidad" target="_blank" rel="noreferrer">Aviso de Privacidad</a>
               </span>
             </label>
+            <label className="wide consentLabel"><input name="marketing_consent" type="checkbox"/><span>{marketingConsent}</span></label>
+            {!valid?.valid&&<TurnstileWidget siteKey={turnstileSiteKey}/>}
           </ActionForm>
         </section>
       )}

@@ -29,6 +29,9 @@ export async function currentActor():Promise<Actor|null>{
 export async function requireRole(...allowed:Role[]){
  const actor=await currentActor();if(!actor)redirect('/acceso');if(!allowed.includes(actor.role))redirect(roleHome(actor.role));return actor;
 }
+export async function requireAdminRole(){
+ const actor=await currentActor();if(!actor)redirect('/admin/acceso');if(actor.role!=='superadmin')redirect(roleHome(actor.role));return actor;
+}
 export async function requireBusiness(actor:Actor,id:string){
  if(!/^[0-9a-f-]{36}$/i.test(id))throw Error('Negocio inválido.');
  if(actor.role==='staff'&&actor.businessId!==id)throw Error('Negocio no autorizado.');

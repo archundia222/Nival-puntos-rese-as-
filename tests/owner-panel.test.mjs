@@ -1,3 +1,4 @@
+import {encodeReviewInsights,decodeReviewInsights} from '../lib/owner/review-insights.mjs';
 import {ownerFixture} from './owner-fixture.mjs';
 import {ownerStatements} from '../lib/owner/queries.mjs';
 import test from 'node:test';
@@ -52,8 +53,8 @@ test('actual admin save action persists complete Google data; owner reads it and
  const compiled=ts.transpileModule(source.slice(a,z).replace('export async','async'),{compilerOptions:{target:ts.ScriptTarget.ES2022}}).outputText;
  const {checklistLabels}=await import('../lib/owner/domain.mjs');
  const actor={id:owner,role:'superadmin'};
- const action=new Function('requireRole','val','uuid','periodRange','validateGoogle','checklistLabels','transaction','audit','revalidatePath','cleanError',compiled+';return saveGoogleReport;')(
- async()=>actor,(f,k)=>String(f.get(k)||'').trim(),s=>/^[a-f0-9-]{36}$/.test(s),periodRange,validateGoogle,checklistLabels,
+ const action=new Function('encodeReviewInsights','guardAction','val','uuid','periodRange','validateGoogle','checklistLabels','transaction','audit','revalidatePath','cleanError',compiled+';return saveGoogleReport;')(
+ encodeReviewInsights,async roles=>{if(!roles.includes(actor.role))throw Error('Forbidden');return actor;},(f,k)=>String(f.get(k)||'').trim(),s=>/^[a-f0-9-]{36}$/.test(s),periodRange,validateGoogle,checklistLabels,
  async(_actor,statements)=>{await db.exec('set role npr_v2_admin');await db.query("select set_config('npr.user_id',$1,false)",[owner]);await db.exec('begin');try{for(const st of statements)await db.query(st.text,st.values);await db.exec('commit');}catch(e){await db.exec('rollback');throw e;}},async()=>{},()=>{},e=>e.message);
  const f=new FormData();for(const [k,v] of Object.entries({businessId:b,periodKind:'month',period:'2026-10',rating:'4.5',total:'10',new:'3',answered:'2',star1:'1',star2:'0',star3:'0',star4:'2',star5:'7',notes:'Mejora la descripción',changes:'Nival actualizó los horarios',changeDate:'2026-10-03',check_fotos:'on',check_horarios:'on',check_categoria:'on',check_menu:'on',check_reservas:'on'}))f.set(k,v);
  assert.ok((await action({},f)).success);
@@ -61,6 +62,12 @@ test('actual admin save action persists complete Google data; owner reads it and
  const {rows:[report]}=await db.query('select * from nival_pr.review_reports where business_id=$1',[b]);
  assert.equal(report.notes,'Mejora la descripción');assert.equal(report.answered_scope,'period');assert.equal(Number(report.rating),4.5);assert.equal(report.new_reviews,3);assert.equal(report.answered,2);assert.equal(report.distribution[5],7);assert.equal(report.profile_checklist.reservas,true);
  assert.equal((await db.query('select description from nival_pr.changelog where business_id=$1',[b])).rows[0].description,'Nival actualizó los horarios');
+ f.set('analyzed','5');f.set('positiveTheme0','Atención amable');f.set('positiveCount0','3');f.set('negativeTheme0','Espera');f.set('negativeCount0','2');f.set('improve','Revisar tiempos');f.set('keep','Mantener el saludo');
+ assert.ok((await action({},f)).success);
+ await db.exec('set role npr_v2_owner');
+ const saved=(await db.query('select notes from nival_pr.review_reports where business_id=$1',[b])).rows[0].notes;
+ assert.equal(decodeReviewInsights(saved).analysis.positive[0].count,3);assert.equal(decodeReviewInsights(saved).analysis.improve,'Revisar tiempos');
+ f.set('positiveCount0','6');assert.ok((await action({},f)).error);f.set('positiveCount0','3');
  f.set('star5','8');assert.ok((await action({},f)).error);f.set('star5','7');f.set('answered','4');assert.ok((await action({},f)).error);
  f.set('answered','2');f.set('periodKind','day');f.set('period','2026-10-01');assert.ok((await action({},f)).success);
  await db.exec('set role npr_v2_owner');assert.equal((await db.query('select * from nival_pr.review_reports where business_id=$1',[b])).rows.length,2);
