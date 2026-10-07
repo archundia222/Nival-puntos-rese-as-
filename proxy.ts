@@ -5,6 +5,8 @@ import {foundationEnabled} from './lib/foundation/db';
 import {hintRole,roleHome} from './lib/foundation/security.mjs';
 export async function proxy(request:NextRequest){
  const path=request.nextUrl.pathname;let response=NextResponse.next({request});
+ const canonical='nival-puntos-resenas.vercel.app';
+ if(process.env.VERCEL_ENV==='production'&&(path.startsWith('/admin')||path.startsWith('/acceso-administrador'))&&request.nextUrl.host!==canonical){const url=new URL(request.url);url.protocol='https:';url.host=canonical;return NextResponse.redirect(url,308);}
  const loginUrl=path.startsWith('/admin')?'/acceso-administrador':'/acceso';
  const foundation=foundationEnabled();const protectedEmail=path.startsWith('/panel')||path.startsWith('/admin')||path==='/entrar';
  const protectedStaff=path.startsWith('/staff')&&path!=='/staff/acceso';
