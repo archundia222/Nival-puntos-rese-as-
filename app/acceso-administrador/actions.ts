@@ -2,7 +2,7 @@
 import {getAuth} from '../../lib/backend/auth';
 import {randomBytes} from 'node:crypto';
 import {systemQuery} from '../../lib/foundation/db';
-import {limitAdminAccess, registerFailedAdminLogin} from '../../lib/security/admin-access';
+import {limitAdminAccess, limitAdminEmailRequest, registerFailedAdminLogin} from '../../lib/security/admin-access';
 export type AdminResult = {ok: boolean; message: string; enter?: boolean};
 export async function administratorAccess(mode: 'login'|'setup'|'recover', form: FormData): Promise<AdminResult> {
   try {
@@ -12,6 +12,7 @@ export async function administratorAccess(mode: 'login'|'setup'|'recover', form:
     if (mode === 'login' && (password.length > 128 || password.length < 1)) return {ok:false,message:'Escribe tu contraseña privada.'};
     const origin = await limitAdminAccess(email);
     if (mode === 'setup') {
+      await limitAdminEmailRequest('setup');
       const [existing]=await systemQuery('select id from neon_auth."user" where lower(email)=$1',[email]);
       if(!existing){
         const {error} = await getAuth().signUp.email({email,password:randomBytes(48).toString('base64url'),name:'Rodrigo',callbackURL:origin+'/acceso-administrador'});
@@ -25,6 +26,7 @@ export async function administratorAccess(mode: 'login'|'setup'|'recover', form:
       return {ok:true,message:'Revisa tu correo para terminar de configurar tu acceso.'};
     }
     if (mode === 'recover') {
+      await limitAdminEmailRequest('recover');
       const recovery = await getAuth().requestPasswordReset({email,redirectTo:origin+'/acceso-administrador/restablecer'});
       if(recovery.error)return {ok:false,message:'No se pudo enviar el enlace de recuperación. Intenta de nuevo más tarde.'};
       return {ok:true,message:'Si tu cuenta está configurada, recibirás un enlace para recuperar tu acceso.'};
