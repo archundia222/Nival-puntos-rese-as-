@@ -30,15 +30,19 @@ export async function card(b: string) {
 export async function assertSameOrigin() {
   const h = await headers();
   const origin = h.get("origin");
-  const expected = process.env.APP_URL
-    ? new URL(process.env.APP_URL).origin
-    : null;
-  const host = h.get("host");
-  if (
-    !origin ||
-    ((!expected || origin !== expected) && new URL(origin).host !== host)
-  )
+  const host = h.get("x-forwarded-host") || h.get("host");
+  const site = h.get("sec-fetch-site");
+  if (!origin) {
+    if (site === "same-origin" || site === "same-site") return;
     throw Error("Solicitud no autorizada.");
+  }
+  let originHost: string;
+  try {
+    originHost = new URL(origin).host;
+  } catch {
+    throw Error("Solicitud no autorizada.");
+  }
+  if (!host || originHost !== host) throw Error("Solicitud no autorizada.");
 }
 export function message(e: unknown) {
   const s = String((e as Error).message);
