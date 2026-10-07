@@ -63,8 +63,8 @@
 .nxStoryRoad{position:absolute;height:8px;background:#f9f5eb;border:1px solid #d1dcd1;border-radius:20px;transform:rotate(-22deg)}
 .nxStoryRoad--one{width:120%;left:-10%;top:48%}
 .nxStoryRoad--two{width:90%;left:10%;top:63%;transform:rotate(35deg)}
-.nxStoryPin{position:absolute;width:13px;height:13px;border-radius:50% 50% 50% 0;background:#64806f;transform:rotate(-45deg)}
-.nxStoryPin--one{left:22%;top:25%}.nxStoryPin--two{right:23%;bottom:24%;background:#123d2e}
+.nxStoryMapPin{position:absolute;width:13px;height:13px;border-radius:50% 50% 50% 0;background:#64806f;transform:rotate(-45deg)}
+.nxStoryMapPin--one{left:22%;top:25%}.nxStoryMapPin--two{right:23%;bottom:24%;background:#123d2e}
 .nxStoryPlace{position:absolute;right:8%;top:14%;display:flex;gap:11px;align-items:center;padding:13px 16px;background:#fffdf8;border-radius:16px;box-shadow:0 14px 30px #16372922;transform:translateY(0);transition:transform .4s ease}
 .nxStoryPlace>b{width:42px;height:42px;display:grid;place-items:center;background:#123d2e;color:#fff;font:24px Georgia,serif}
 .nxStoryPlace small,.nxStoryPlace strong,.nxStoryPlace em{display:block}.nxStoryPlace small{font-size:9px;letter-spacing:.1em;color:#5d7167}.nxStoryPlace strong{font:20px Georgia,serif;color:#123d2e}.nxStoryPlace em{font-size:14px;letter-spacing:.13em;color:#758e28;font-style:normal}
