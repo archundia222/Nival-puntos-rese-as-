@@ -17,7 +17,12 @@ export async function limitAdminAccess(email: string) {
   const key = createHmac('sha256', secret()).update('admin-access:' + administratorEmail).digest('hex');
   const [attempt] = await query(authScope(), 'select nival_pr_private.claim_pin_attempt($1) accepted', [key]);
   if (!attempt?.accepted) throw Error('Espera 15 minutos antes de intentar de nuevo.');
-  return new URL(h.get('origin')!).origin;
+  const origin = h.get('origin');
+  const host = h.get('x-forwarded-host') || h.get('host');
+  const proto = h.get('x-forwarded-proto') || 'https';
+  if (origin) return new URL(origin).origin;
+  if (host) return `${proto}://${host}`;
+  return process.env.APP_URL || 'https://nival-puntos-resenas.vercel.app';
 }
 
 export async function authorizeOwnAdministrator() {
