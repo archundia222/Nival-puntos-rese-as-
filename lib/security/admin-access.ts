@@ -1,5 +1,5 @@
 import 'server-only';
-import {cookies} from 'next/headers';
+import {cookies,headers} from 'next/headers';
 import {createHmac} from 'node:crypto';
 import {getAuth} from '../backend/auth';
 import {authScope, query, systemQuery} from '../foundation/db';
@@ -7,6 +7,7 @@ import {secret, staffCookie, routeCookie, adminCookie, cookieOptions} from '../f
 import {signedHint} from '../foundation/security.mjs';
 import {signAdminProof} from './admin-proof.mjs';
 import {administratorEmail, isAdministratorIdentity} from './admin-policy.mjs';
+import {trustedClientIp} from './client-ip';
 
 export async function limitAdminAccess(email: string) {
   if (email.trim().toLowerCase() !== administratorEmail) throw Error('Acceso reservado.');
@@ -14,7 +15,8 @@ export async function limitAdminAccess(email: string) {
 }
 
 export async function registerFailedAdminLogin() {
-  const key = createHmac('sha256', secret()).update('admin-access:' + administratorEmail).digest('hex');
+  const ip=trustedClientIp(await headers());
+  const key = createHmac('sha256', secret()).update('admin-access:' + administratorEmail + ':' + ip).digest('hex');
   const [attempt] = await query(authScope(), 'select nival_pr_private.claim_pin_attempt($1) accepted', [key]);
   if (!attempt?.accepted) throw Error('Espera 15 minutos antes de intentar de nuevo.');
 }
