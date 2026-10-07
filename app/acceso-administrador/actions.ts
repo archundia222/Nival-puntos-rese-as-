@@ -2,7 +2,7 @@
 import {getAuth} from '../../lib/backend/auth';
 import {randomBytes} from 'node:crypto';
 import {systemQuery} from '../../lib/foundation/db';
-import {limitAdminAccess, registerFailedAdminLogin, authorizeOwnAdministrator} from '../../lib/security/admin-access';
+import {limitAdminAccess, registerFailedAdminLogin} from '../../lib/security/admin-access';
 export type AdminResult = {ok: boolean; message: string; enter?: boolean};
 export async function administratorAccess(mode: 'login'|'setup'|'recover', form: FormData): Promise<AdminResult> {
   try {
@@ -37,11 +37,7 @@ export async function administratorAccess(mode: 'login'|'setup'|'recover', form:
       }
       return {ok:false,message:'Correo o contraseña incorrectos.'};
     }
-    if (!await authorizeOwnAdministrator()) {
-      await getAuth().signOut();
-      return {ok:false,message:'La cuenta inició sesión, pero no tiene autorización de fundador.'};
-    }
-    return {ok:true,enter:true,message:'Acceso verificado.'};
+    return {ok:true,enter:true,message:'Credenciales verificadas. Completando sesión privada…'};
   } catch (error) {
     console.error('administratorAccess failed', error instanceof Error ? error.message : 'unknown');
     return {ok:false,message:'No se pudo completar el acceso. Intenta nuevamente en unos minutos.'};
