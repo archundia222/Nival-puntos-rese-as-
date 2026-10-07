@@ -46,6 +46,8 @@ test('scroll story contains the requested customer journey and a reduced-motion 
     'Nival ayuda a que te encuentren y a que vuelvan.',
   ]) assert.ok(story.includes(phrase), phrase);
   assert.ok(story.includes('aria-valuenow={active + 1}'));
+  assert.ok(story.includes('className="nxStoryMapPin nxStoryMapPin--one"'));
+  assert.match(css, /\.nxStoryMapPin\{/);
   assert.ok(story.includes('className="nxStoryStatic"'));
   assert.match(css, /@media\(prefers-reduced-motion:reduce\)[\s\S]*?\.nxStoryPin\{display:none\}[\s\S]*?\.nxStoryStatic\{display:grid/);
   assert.ok(css.includes('transition:transform'));
