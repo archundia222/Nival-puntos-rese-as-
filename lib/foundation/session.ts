@@ -4,6 +4,9 @@ import {redirect} from 'next/navigation';
 import {getAuth} from '../backend/auth';
 import {query,authScope,foundationEnabled,type Actor,type Role} from './db';
 import {sha256,roleHome} from './security.mjs';
+import {canEnterAdministration} from '../security/admin-policy.mjs';
+import {validAdminProof} from '../security/admin-proof.mjs';
+export const adminCookie='nival_admin_access';
 export const staffCookie='nival_staff';
 export const routeCookie='nival_route';
 export const cookieOptions={httpOnly:true,secure:process.env.NODE_ENV==='production',sameSite:'lax' as const,path:'/',maxAge:8*3600};
@@ -15,6 +18,8 @@ export async function emailActor():Promise<Actor|null>{
  await query(authScope(user.id),'select nival_pr_private.ensure_owner($1)',[user.name]);
  const [profile]=await query(authScope(user.id),'select id,role,full_name from nival_pr.profiles where id=$1',[user.id]);
  if(!profile||!['superadmin','owner'].includes(profile.role))return null;
+ if(profile.role==='superadmin'&&!canEnterAdministration(user,profile))return null;
+ if(profile.role==='superadmin'&&!validAdminProof((await cookies()).get(adminCookie)?.value,user.id,data.session.id,secret()))return null;
  return {id:profile.id,role:profile.role,name:profile.full_name};
 }
 export async function currentActor():Promise<Actor|null>{
@@ -27,10 +32,10 @@ export async function currentActor():Promise<Actor|null>{
  return emailActor();
 }
 export async function requireRole(...allowed:Role[]){
- const actor=await currentActor();if(!actor)redirect('/acceso');if(!allowed.includes(actor.role))redirect(roleHome(actor.role));return actor;
+ const actor=await currentActor();if(!actor)redirect(allowed.includes('superadmin')?'/acceso-administrador':'/acceso');if(!allowed.includes(actor.role))redirect(roleHome(actor.role));return actor;
 }
 export async function requireAdminRole(){
- const actor=await currentActor();if(!actor)redirect('/admin/acceso');if(actor.role!=='superadmin')redirect(roleHome(actor.role));return actor;
+ return requireRole('superadmin');
 }
 export async function requireBusiness(actor:Actor,id:string){
  if(!/^[0-9a-f-]{36}$/i.test(id))throw Error('Negocio inválido.');

@@ -6,6 +6,7 @@ import {secret} from '../../../../lib/foundation/session';
 import {verifyTurnstileCookie} from '../../../../lib/security/turnstile-cookie.mjs';
 import {assertSameOrigin} from '../../../../lib/points/security';
 import {trustedClientIp} from '../../../../lib/security/client-ip';
+import {administratorEmail} from '../../../../lib/security/admin-policy.mjs';
 export const dynamic='force-dynamic';
 export async function GET(request:Request,context:any){return getAuth().handler().GET(request,context);}
 function validEmail(value:unknown){const s=String(value||'').trim().toLowerCase();return s.length<=254&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s)?s:'';}
@@ -20,8 +21,14 @@ async function loginAllowed(request:Request){
 export async function POST(request:Request,context:any){
  const path=new URL(request.url).pathname;
  if(path.endsWith('/sign-in/email')||path.endsWith('/sign-up/email')){try{await assertSameOrigin();}catch{return Response.json({message:'Solicitud no autorizada.'},{status:403});}}
- if(path.endsWith('/sign-in/email')&&!await loginAllowed(request))return Response.json({message:'Demasiados intentos. Espera 15 minutos.'},{status:429});
+ if(path.endsWith('/sign-in/email')){
+  let email='';try{email=validEmail((await request.clone().json())?.email);}catch{}
+  if(email===administratorEmail)return Response.json({message:'Usa Administración privada para este acceso.'},{status:403});
+  if(!await loginAllowed(request))return Response.json({message:'Demasiados intentos. Espera 15 minutos.'},{status:429});
+ }
  if(path.endsWith('/sign-up/email')){
+  let email='';try{email=validEmail((await request.clone().json())?.email);}catch{}
+  if(email===administratorEmail)return Response.json({message:'Configura este acceso desde Administración privada.'},{status:403});
   const jar=await cookies();if(!verifyTurnstileCookie(jar.get('nival_turnstile')?.value,secret()))return Response.json({message:'Verificación anti-bot requerida.'},{status:403});
  }
  const response=await getAuth().handler().POST(request,context);

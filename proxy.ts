@@ -19,4 +19,4 @@ export async function proxy(request:NextRequest){
  }else if(path.startsWith('/panel')&&backendConfigured())response=await getAuth().middleware({loginUrl})(request);
  response.headers.set('Cache-Control','private, no-store, max-age=0');response.headers.set('Referrer-Policy','no-referrer');response.headers.set('X-Robots-Tag','noindex, nofollow');response.headers.set('X-Content-Type-Options','nosniff');return response;
 }
-export const config={matcher:['/admin/:path*','/panel/:path*','/staff/:path*','/b/:path*','/entrar','/tarjeta/:path*','/restablecer','/acceso','/api/auth/:path*','/auth/:path*']};
+export const config={matcher:['/admin/:path*','/panel/:path*','/staff/:path*','/b/:path*','/entrar','/tarjeta/:path*','/restablecer','/acceso','/acceso-administrador/:path*','/api/auth/:path*','/auth/:path*']};

@@ -39,3 +39,16 @@ Los IDs de este proyecto usan exclusivamente `puntos_business_` y `puntos_custom
 
 ## Secretos
 `.env.example` contiene únicamente nombres vacíos. Los secretos son server-only; no usar prefijo `NEXT_PUBLIC_` salvo la site key pública de Turnstile. Se revisaron los 100 commits visibles de la rama piloto buscando claves privadas, URLs Postgres con contraseña, tokens GitHub/Stripe y valores de secretos conocidos, sin coincidencias. CI mantiene un escaneo adicional del árbol actual.
+
+## Acceso privado del fundador
+
+- Ruta independiente: `/acceso-administrador`. `/admin/acceso` redirige a ella.
+- El registro de negocios sigue creando perfiles `owner`; no concede administración.
+- El primer acceso se configura exclusivamente con `rodrigoarchundia379@gmail.com` desde el formulario privado y requiere confirmar ese correo.
+- El servidor concede el perfil únicamente después de iniciar sesión con contraseña y comprobar la identidad confirmada devuelta por Neon Auth. No confía en un correo ni un rol enviado por el navegador.
+- Todas las páginas y acciones administrativas vuelven a exigir la identidad autorizada y el perfil `superadmin` asociado al mismo ID.
+- El formulario privado limita intentos por cuenta, verifica el origen de la solicitud y renueva la orientación de navegación al iniciar sesión. El permiso real siempre se consulta en servidor.
+- Configuración y recuperación tienen formularios propios. La recuperación no permite entrar al panel hasta iniciar sesión de nuevo y validar la identidad.
+- No se crean cuentas desde pruebas automáticas ni se cambia una contraseña del fundador. La entrega de correo y el primer acceso requieren la intervención del titular.
+- El correo reservado tampoco puede iniciar sesión mediante el endpoint público de negocios. La sesión administrativa requiere una prueba HMAC vinculada al usuario y a la sesión del proveedor, expira a las 8 horas y se guarda en una cookie HttpOnly/Secure/SameSite.
+- La configuración inicial genera una contraseña aleatoria desconocida para el solicitante, cierra la sesión creada y envía confirmación y definición de contraseña al correo autorizado. Evita que un tercero elija la contraseña del fundador antes de que este confirme su correo.
