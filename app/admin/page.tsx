@@ -15,6 +15,7 @@ import TaskBoard from './task-board';
 
 export const dynamic='force-dynamic';
 const states=['registrado','cotizando','pago_pendiente','activo','por_vencer','pausado','cancelado'];
+const stateLabels:Record<string,string>={registrado:'Registrado',cotizando:'En cotización',pago_pendiente:'Pago pendiente',activo:'Activo',por_vencer:'Por vencer',pausado:'Pausado',cancelado:'Cancelado'};
 const contentFields=[
  ['hero_title','Título del hero','Haz que tus clientes regresen y además te recomienden.'],
  ['hero_description','Descripción del hero','Premia visitas frecuentes y convierte buenas experiencias en reseñas de Google.'],
@@ -83,51 +84,63 @@ export default async function Admin({searchParams}:{searchParams:Promise<{busine
  const shortLinks=await query(actor,'select s.code,s.target_url,s.business_id,b.name business_name from nival_pr.short_links s left join nival_pr.businesses b on b.id=s.business_id order by s.code limit 100');
 
  return <main className="dashboard adminShell">
-  <header className="dashHead adminHead"><div><small>NIVAL · SUPERADMIN</small><h1>Centro de operación</h1><p>Ventas, activaciones, cobranza, reputación y contenido.</p></div><div className="actions"><a href="#negocios">Negocios</a><a href="#tareas">Tareas</a><a href="/admin/reportes">Reseñas y reportes</a><a href="#contenido">Contenido</a><form action={logout}><button>Cerrar sesión</button></form></div></header>
+  <header className="dashHead adminHead"><div><small>NIVAL · ADMINISTRACIÓN</small><h1>Centro de operación</h1><p>Un lugar para atender negocios, activaciones y tareas.</p></div><div className="actions"><span className="adminSignedIn">Sesión de administrador</span><form action={logout}><button>Cerrar sesión</button></form></div></header>
+  <div className="adminWorkspace">
+   <aside className="adminSidebar" aria-label="Menú de administración">
+    <a className="adminBrand" href="/admin"><span>N</span><b>Nival<small>ADMINISTRACIÓN</small></b></a>
+    <p className="adminNavLabel">TRABAJO DIARIO</p>
+    <nav><a href="#resumen"><span>01</span>Resumen</a><a href="#negocios"><span>02</span>Negocios</a><a href="#tareas"><span>03</span>Tareas</a></nav>
+    <p className="adminNavLabel">CLIENTES Y REPUTACIÓN</p>
+    <nav><a href="/admin/reportes"><span>04</span>Reseñas y reportes</a></nav>
+    <p className="adminNavLabel">SITIO Y HERRAMIENTAS</p>
+    <nav><a href="#contenido"><span>05</span>Contenido del sitio</a><a href="#links"><span>06</span>Links cortos</a></nav>
+    <div className="adminSidebarTip"><b>¿Por dónde empiezo?</b><p>Abre un negocio y sigue los pasos de activación de su ficha.</p></div>
+   </aside>
+   <div className="adminContent">
+   <section className="adminGuide" aria-labelledby="adminGuideTitle"><div><small>GUÍA RÁPIDA</small><h2 id="adminGuideTitle">Activa un negocio en cuatro pasos</h2><p>El orden importa: configura el plan, registra un pago que ya recibiste y después comparte el código.</p></div><ol><li><b>1</b><span><strong>Busca el negocio</strong><small>Ábrelo en la lista.</small></span></li><li><b>2</b><span><strong>Asigna el plan</strong><small>Usa el plan acordado.</small></span></li><li><b>3</b><span><strong>Confirma el pago</strong><small>Solo cuando ya se recibió.</small></span></li><li><b>4</b><span><strong>Genera el código</strong><small>El dueño lo canjea en su panel.</small></span></li></ol></section>
 
-  <section className="adminMetrics">
+  <section id="resumen" className="adminMetrics" aria-label="Resumen del servicio">
    <article><span>Negocios activos</span><b>{metric?.active||0}</b></article>
-   <article><span>MRR</span><b>{mxn(metric?.mrr)}</b></article>
+   <article><span>Ingreso mensual previsto</span><b>{mxn(metric?.mrr)}</b></article>
    <article><span>Por vencer · 7 días</span><b>{metric?.expiring||0}</b></article>
    <article><span>Tareas de hoy</span><b>{metric?.tasks_today||0}</b></article>
   </section>
 
   <section id="negocios" className="adminSection">
    <div className="sectionTitle"><div><small>CRM</small><h2>Negocios</h2></div><div className="actions"><a href="/admin/export/businesses">Exportar negocios CSV</a><a href="/admin/export/payments">Exportar pagos CSV</a></div></div>
-   <form className="adminFilters"><input name="q" defaultValue={q} placeholder="Buscar negocio, dueño o correo"/><select name="status" defaultValue={status}><option value="">Todos los estados</option>{states.map(s=><option key={s}>{s}</option>)}</select><button>Filtrar</button></form>
-   <div className="adminSplit"><div className="businessTableWrap"><table className="dataTable"><thead><tr><th>Negocio</th><th>Estado</th><th>Plan</th><th>Vigencia</th></tr></thead><tbody>{businesses.map(b=><tr key={b.id} className={selected?.id===b.id?'selectedRow':''}><td><a href={'/admin?business='+b.id+'&q='+encodeURIComponent(q)+'&status='+encodeURIComponent(status)}><b>{b.name}</b><small>{b.owner_name||b.email||b.slug}</small></a></td><td><span className={'statusChip status-'+b.status}>{b.status}</span></td><td>{b.plan_name||'—'}</td><td>{date(b.paid_until)}</td></tr>)}</tbody></table>{!businesses.length&&<p className="empty">No hay resultados.</p>}</div>
+   <form className="adminFilters"><input name="q" defaultValue={q} placeholder="Buscar negocio, dueño o correo"/><select name="status" defaultValue={status}><option value="">Todos los estados</option>{states.map(s=><option key={s} value={s}>{stateLabels[s]||s}</option>)}</select><button>Filtrar</button></form>
+   <div className="adminSplit"><div className="businessTableWrap"><table className="dataTable"><thead><tr><th>Negocio</th><th>Estado</th><th>Plan</th><th>Vigencia</th></tr></thead><tbody>{businesses.map(b=><tr key={b.id} className={selected?.id===b.id?'selectedRow':''}><td><a href={'/admin?business='+b.id+'&q='+encodeURIComponent(q)+'&status='+encodeURIComponent(status)}><b>{b.name}</b><small>{b.owner_name||b.email||b.slug}</small></a></td><td><span className={'statusChip status-'+b.status}>{stateLabels[b.status]||b.status}</span></td><td>{b.plan_name||'—'}</td><td>{date(b.paid_until)}</td></tr>)}</tbody></table>{!businesses.length&&<p className="empty">No hay resultados.</p>}</div>
    {selected&&<aside className="businessDetail">
-    <div className="sectionTitle"><div><small>FICHA</small><h2>{selected.name}</h2><p>{selected.giro||'Sin giro'} · {selected.owner_name||'Sin dueño'}</p></div><span className={'statusChip status-'+selected.status}>{selected.status}</span></div>
+    <div className="sectionTitle adminBusinessTitle"><div><small>FICHA DEL NEGOCIO</small><h2>{selected.name}</h2><p>{selected.giro||'Sin giro'} · {selected.owner_name||'Sin dueño'}</p></div><span className={'statusChip status-'+selected.status}>{stateLabels[selected.status]||selected.status}</span></div>
     <dl className="detailGrid"><div><dt>ID</dt><dd>{selected.id}</dd></div><div><dt>Slug</dt><dd>{selected.slug}</dd></div><div><dt>Teléfono</dt><dd>{selected.phone||'—'}</dd></div><div><dt>Correo</dt><dd>{selected.email||'—'}</dd></div><div><dt>Vigencia</dt><dd>{date(selected.paid_until)}</dd></div><div><dt>Creado</dt><dd>{date(selected.created_at)}</dd></div></dl>
-    <div className="actions"><a className="primary smallBtn" href={'/admin/negocio/'+selected.id}>Ver como este negocio</a><a href={waQuote(selected,selectedPlan)} target="_blank" rel="noreferrer">Cotizar/activar por WhatsApp</a>{selected.phone&&<a href={waReminder(selected)} target="_blank" rel="noreferrer">Recordar pago por WhatsApp</a>}</div>
+    <div className="actions"><a className="primary smallBtn" href={'/admin/negocio/'+selected.id}>Abrir vista del negocio</a><a href={waQuote(selected,selectedPlan)} target="_blank" rel="noreferrer">Cotizar/activar por WhatsApp</a>{selected.phone&&<a href={waReminder(selected)} target="_blank" rel="noreferrer">Recordar pago por WhatsApp</a>}</div>
 
-    <h3>Estado</h3><div className="quickActions">{['activo','pausado','cancelado'].map(s=><ActionForm key={s} action={changeBusinessStatus} label={s==='activo'?'Activar':s==='pausado'?'Pausar':'Cancelar'}><Hidden name="businessId" value={selected.id}/><Hidden name="status" value={s}/></ActionForm>)}</div>
-    <ActionForm action={changeBusinessStatus} label="Guardar estado"><Hidden name="businessId" value={selected.id}/><label>Estado<select name="status" defaultValue={selected.status}>{states.map(s=><option key={s}>{s}</option>)}</select></label></ActionForm>
+    <section className="adminFlowStep"><div className="adminStepHeading"><span>GESTIONAR SERVICIO</span><p>Activa o pausa el acceso cuando corresponda. Para cancelar, selecciona “Cancelado” y pulsa Guardar cambio; se aplicará de inmediato.</p></div><ActionForm action={changeBusinessStatus} label="Guardar cambio de estado"><Hidden name="businessId" value={selected.id}/><label>Estado del servicio<select name="status" defaultValue={selected.status}>{states.map(s=><option key={s} value={s}>{stateLabels[s]||s}</option>)}</select></label></ActionForm></section>
 
-    <h3>Plan</h3><ActionForm action={setBusinessPlan} label="Cambiar plan"><Hidden name="businessId" value={selected.id}/><label>Plan<select name="planId" defaultValue={selected.plan_id||''}>{plans.map(p=><option key={p.id} value={p.id}>{p.name} · {mxn(p.price_mxn)}/{p.interval}</option>)}</select></label></ActionForm>
+    <section className="adminFlowStep"><div className="adminStepHeading"><span>PASO 1 · PLAN</span><p>Elige el plan que acordaste con el negocio.</p></div><ActionForm action={setBusinessPlan} label="Guardar plan"><Hidden name="businessId" value={selected.id}/><label>Plan<select name="planId" defaultValue={selected.plan_id||''}>{plans.map(p=><option key={p.id} value={p.id}>{p.name} · {mxn(p.price_mxn)}/{p.interval}</option>)}</select></label></ActionForm></section>
 
-    <h3>Registrar pago</h3><ActionForm action={registerPayment30} label="Registrar pago confirmado"><Hidden name="businessId" value={selected.id}/><Field name="amount" label="Monto MXN" type="number" min={1} value={Number(selectedPlan?.price_mxn||399)}/><label>Método<select name="method" defaultValue="transferencia"><option value="transferencia">Transferencia</option><option value="efectivo">Efectivo</option><option value="mercado_pago">Mercado Pago</option><option value="otro">Otro</option></select></label><Field name="reference" label="Referencia" required={false}/></ActionForm>
-    <div className="historyList">{payments.map(p=><p key={p.id}><b>{mxn(p.amount)}</b> · {p.method} · {date(p.paid_at)}<small>{String(p.period_start).slice(0,10)} → {String(p.period_end).slice(0,10)} {p.reference?'· '+p.reference:''}</small></p>)}</div>
+    <section className="adminFlowStep adminPaymentStep"><div className="adminStepHeading"><span>PASO 2 · PAGO RECIBIDO</span><p>Registra el pago únicamente después de confirmar que el dinero llegó. Este registro extiende la vigencia del servicio.</p></div><ActionForm action={registerPayment30} label="Registrar pago confirmado"><Hidden name="businessId" value={selected.id}/><Field name="amount" label="Monto MXN" type="number" min={1} value={Number(selectedPlan?.price_mxn||399)}/><label>Método<select name="method" defaultValue="transferencia"><option value="transferencia">Transferencia</option><option value="efectivo">Efectivo</option><option value="mercado_pago">Mercado Pago</option><option value="otro">Otro</option></select></label><Field name="reference" label="Referencia" required={false}/></ActionForm>
+    <div className="historyList">{payments.map(p=><p key={p.id}><b>{mxn(p.amount)}</b> · {p.method} · {date(p.paid_at)}<small>{String(p.period_start).slice(0,10)} → {String(p.period_end).slice(0,10)} {p.reference?'· '+p.reference:''}</small></p>)}</div></section>
 
-    <h3>Código de activación</h3><ActionForm action={generateActivationCode} label="Generar código"><Hidden name="businessId" value={selected.id}/><Field name="expiresHours" label="Vence en horas" type="number" min={1} max={720} value={72}/></ActionForm>
-    <div className="historyList">{codes.map(c=><p key={c.code}><code>{c.code}</code><small>{c.used_at?'Usado '+date(c.used_at):'Vence '+date(c.expires_at)}</small></p>)}</div>
+    <section className="adminFlowStep adminCodeStep"><div className="adminStepHeading"><span>PASO 3 · ACTIVACIÓN</span><p>Genera un código y compártelo con el correo con el que el dueño iniciará sesión. El negocio lo canjea desde su panel.</p></div><ActionForm action={generateActivationCode} label="Generar código"><Hidden name="businessId" value={selected.id}/><Field name="expiresHours" label="Vence en horas" type="number" min={1} max={720} value={72}/></ActionForm>
+    <div className="historyList">{codes.map(c=><p key={c.code}><code>{c.code}</code><small>{c.used_at?'Usado '+date(c.used_at):'Vence '+date(c.expires_at)}</small></p>)}</div></section>
 
-    <h3>Notas</h3><ActionForm action={saveBusinessNotes} label="Guardar notas"><Hidden name="businessId" value={selected.id}/><label className="wide">Notas<textarea name="notes" defaultValue={selected.notes||''} maxLength={10000}/></label></ActionForm>
+    <details className="adminAdvanced"><summary>Notas y registro de actividad</summary><div><h3>Notas internas</h3><ActionForm action={saveBusinessNotes} label="Guardar notas"><Hidden name="businessId" value={selected.id}/><label className="wide">Notas<textarea name="notes" defaultValue={selected.notes||''} maxLength={10000}/></label></ActionForm>
 
-    <h3>Registro de actividad</h3><div className="activityList">{audit.map((a,i)=><p key={i}><time>{new Date(a.created_at).toLocaleString('es-MX',{timeZone:'America/Mexico_City'})}</time><b>{a.action}</b><small>{JSON.stringify(a.data)}</small></p>)}</div>
+    <h3>Registro de actividad</h3><div className="activityList">{audit.map((a,i)=><p key={i}><time>{new Date(a.created_at).toLocaleString('es-MX',{timeZone:'America/Mexico_City'})}</time><b>{a.action}</b><small>{JSON.stringify(a.data)}</small></p>)}</div></div></details>
    </aside>}</div>
   </section>
 
   <section id="tareas" className="adminSection">
-   <div className="sectionTitle"><div><small>OPERACIÓN DIARIA</small><h2>Lo que tienes que hacer hoy</h2><p>Trabajo manual pendiente para mantener actualizados los paneles de tus clientes.</p></div></div>
+   <div className="sectionTitle"><div><small>OPERACIÓN DIARIA</small><h2>Pendientes de hoy</h2><p>Revisa lo que falta, cambia cada tarea de estado cuando avances y marca “Hecho” al terminar.</p></div></div>
    <TaskBoard tasks={todayTasks as any}/>
-   <div className="sectionTitle"><div><small>AGENDA</small><h2>Todas las tareas</h2><p>Crea tareas por negocio para mensajes, reseñas, reportes, seguimiento o cualquier proceso que aún no esté automatizado.</p></div></div>
-   <ActionForm action={createTask} label="Crear tarea"><Field name="title" label="Tarea"/><label>Negocio<select name="businessId" defaultValue=""><option value="">General</option>{businesses.map(b=><option key={b.id} value={b.id}>{b.name}</option>)}</select></label><Field name="dueDate" label="Fecha" type="date" required={false}/><label>Recurrencia<select name="recurrence" defaultValue=""><option value="">Sin recurrencia</option><option value="daily">Diaria</option><option value="weekly">Semanal</option><option value="monthly">Mensual</option></select></label></ActionForm>
+   <div className="sectionTitle"><div><small>AGENDA</small><h2>Agenda de tareas</h2><p>Agrega un pendiente y asígnalo a un negocio. Si eliges “General”, no quedará ligado a un negocio.</p></div></div>
+   <ActionForm action={createTask} label="Crear tarea"><Field name="title" label="Qué hay que hacer"/><label>Negocio<select name="businessId" defaultValue=""><option value="">General</option>{businesses.map(b=><option key={b.id} value={b.id}>{b.name}</option>)}</select></label><Field name="dueDate" label="Fecha" type="date" required={false}/><label>Recurrencia<select name="recurrence" defaultValue=""><option value="">Sin recurrencia</option><option value="daily">Diaria</option><option value="weekly">Semanal</option><option value="monthly">Mensual</option></select></label></ActionForm>
    <TaskBoard tasks={tasks as any}/>
   </section>
 
   <section id="contenido" className="adminSection">
-   <div className="sectionTitle"><div><small>LANDING</small><h2>Contenido del sitio</h2><p>La landing pública lee únicamente <b>value_published</b>.</p></div></div>
+   <div className="sectionTitle"><div><small>LANDING</small><h2>Contenido del sitio</h2><p>Los cambios guardados como borrador no aparecen en el sitio hasta que pulses “Publicar”.</p></div></div>
    <div className="contentGrid">{contentFields.map(([key,label,fallback])=>{const row=contentMap.get(key);const draft=row?.value_draft?.text??fallback;const published=row?.value_published?.text??fallback;return <article key={key}><small>{label}</small><h3>Vista previa</h3><div className="draftPreview">{draft||'Sin contenido'}</div><ActionForm action={saveContentDraft} label="Guardar borrador"><Hidden name="key" value={key}/><label className="wide">Borrador<textarea name="value" defaultValue={draft}/></label></ActionForm><ActionForm action={publishContent} label="Publicar"><Hidden name="key" value={key}/></ActionForm><p><b>Publicado:</b> {published||'—'}</p></article>})}</div>
   </section>
 
@@ -137,7 +150,7 @@ export default async function Admin({searchParams}:{searchParams:Promise<{busine
    <div className="reviewInbox">{reviews.map(r=><article key={r.id} className={r.status==='completada'?'doneReview':''}><div><small>{r.business_name}</small><h3>{r.review.reviewer} · {'★'.repeat(r.review.stars)}</h3><p>{r.review.text||'Sin texto'}</p></div><div><span className="statusChip">{r.status==='completada'?'respondida':'pendiente'}</span><small>Historial conservado</small></div></article>)}</div>
   </section>
 
-  <section className="adminSection">
+  <section id="links" className="adminSection">
    <div className="sectionTitle"><div><small>UTILIDADES</small><h2>Links cortos</h2></div></div>
    <ActionForm action={upsertShortLink} label="Guardar link"><Field name="code" label="Código"/><Field name="targetUrl" label="URL destino"/><label>Negocio opcional<select name="businessId" defaultValue=""><option value="">Sin negocio</option>{businesses.map(b=><option key={b.id} value={b.id}>{b.name}</option>)}</select></label></ActionForm>
    <table className="dataTable"><thead><tr><th>Código</th><th>Destino</th><th>Negocio</th></tr></thead><tbody>{shortLinks.map(s=><tr key={s.code}><td><a href={'/r/'+s.code} target="_blank">/r/{s.code}</a></td><td className="breakCell">{s.target_url}</td><td>{s.business_name||'—'}</td></tr>)}</tbody></table>
@@ -147,5 +160,5 @@ export default async function Admin({searchParams}:{searchParams:Promise<{busine
    <div className="sectionTitle"><div><small>AUDITORÍA</small><h2>Actividad reciente</h2></div></div>
    <div className="activityList">{globalAudit.map((a,i)=><p key={i}><time>{new Date(a.created_at).toLocaleString('es-MX',{timeZone:'America/Mexico_City'})}</time><b>{a.business_name||'Sistema'} · {a.action}</b><small>{JSON.stringify(a.data)}</small></p>)}</div>
   </section>
- </main>;
+ </div></div></main>;
 }

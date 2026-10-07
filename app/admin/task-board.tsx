@@ -18,7 +18,7 @@ export default function TaskBoard({tasks}:{tasks:Task[]}){
   if(pending)return;setError('');const previous=items;setItems(v=>v.map(t=>t.id===id?{...t,status}:t));
   start(async()=>{try{const result=await moveTask(id,status);if(!result.ok){setItems(previous);setError('No se pudo mover la tarea.');}}catch{setItems(previous);setError('No se pudo mover la tarea.');}});
  }
- return <><p role="status">{error}</p><div className="kanban" aria-busy={pending}>{columns.map(col=><section className="kanbanCol" key={col.key} onDragOver={e=>e.preventDefault()} onDrop={e=>{e.preventDefault();const id=e.dataTransfer.getData('text/plain');if(id)drop(id,col.key)}}>
+ return <><p className="taskBoardHelp">Cambia el estado con el menú de cada tarea o arrástrala a otra columna. Puedes hacerlo sin perder su negocio ni su fecha.</p><p role="status">{error}</p><div className="kanban" aria-label="Tareas agrupadas por estado" aria-busy={pending}>{columns.map(col=><section className="kanbanCol" key={col.key} onDragOver={e=>e.preventDefault()} onDrop={e=>{e.preventDefault();const id=e.dataTransfer.getData('text/plain');if(id)drop(id,col.key)}}>
   <header><strong>{col.label}</strong><span>{grouped[col.key].length}</span></header>
   {grouped[col.key].map(task=><article draggable key={task.id} onDragStart={e=>e.dataTransfer.setData('text/plain',task.id)}>
    <b>{task.title}</b><label>Estado<select aria-label={'Estado de '+task.title} value={task.status} disabled={pending} onChange={e=>drop(task.id,e.target.value)}>{columns.map(c=><option key={c.key} value={c.key}>{c.label}</option>)}</select></label>

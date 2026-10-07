@@ -64,3 +64,105 @@
 .adminAccessCard .adminAccessFootnote{font-size:12px;padding-top:24px;border-top:1px solid #e9eeeb;margin-top:24px}
 .adminAccessNotice{padding:14px;background:#edf5ef;border-radius:10px}
 @media(max-width:700px){.adminAccessShell{padding:32px 20px;display:block}.adminAccessIntro>p:first-of-type{margin-top:32px}.adminAccessIntro h1{font-size:38px}.adminAccessIntro>a:last-child{margin:12px 0 28px}.adminAccessCard{padding:26px 22px;border-radius:16px}.adminAccessCard h2{font-size:25px}}
+
+
+/* Administrative workspace: persistent wayfinding and visible next steps. */
+.adminShell{width:100%;max-width:none;box-sizing:border-box;padding-inline:clamp(18px,3vw,48px)}
+.adminHead{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-block:22px}
+.adminHead h1{font-size:clamp(30px,3vw,42px);line-height:1.05;margin:8px 0}
+.adminHead .actions{align-items:center}
+.adminSignedIn{color:#65736d;font-size:13px}
+.adminWorkspace{display:grid;grid-template-columns:230px minmax(0,1fr);gap:clamp(22px,3vw,40px);align-items:start}
+.adminSidebar{position:sticky;top:128px;align-self:start;border:1px solid #dfe5df;border-radius:20px;background:#fff;padding:20px 14px;box-shadow:0 12px 32px #11271d08}
+.adminBrand{display:flex;align-items:center;gap:11px;padding:2px 8px 18px;color:#172820;text-decoration:none}
+.adminBrand>span{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:#1e5d45;color:#fff;font:800 20px Georgia,serif}
+.adminBrand>b{font-size:18px;line-height:1.05}
+.adminBrand small{display:block;margin-top:5px;color:#748079;font-family:inherit;font-size:9px;font-weight:800;line-height:1.2;letter-spacing:.15em}
+.adminNavLabel{margin:20px 8px 7px;color:#829087;font-size:9px;font-weight:800;letter-spacing:.13em}
+.adminSidebar nav{display:grid;gap:4px}
+.adminSidebar nav a{display:flex;align-items:center;gap:10px;min-height:40px;padding:9px 10px;border-radius:10px;color:#33463d;text-decoration:none;font-size:13px;font-weight:650;transition:background .16s,color .16s}
+.adminSidebar nav a:hover,.adminSidebar nav a:focus-visible{background:#edf4ef;color:#175b40;outline:none}
+.adminSidebar nav a span{color:#849189;font-size:9px;font-weight:800;letter-spacing:.08em}
+.adminSidebarTip{margin-top:24px;padding:13px;border-radius:12px;background:#f5f4ed;color:#304239;font-size:12px}
+.adminSidebarTip b{font-size:12px}.adminSidebarTip p{margin:5px 0 0;color:#68776d;line-height:1.5}
+.adminContent{min-width:0}
+.adminGuide{margin:4px 0 12px;padding:24px 26px;border:1px solid #dfd8c4;border-radius:18px;background:linear-gradient(130deg,#fffdf6,#f3f5ef);display:grid;grid-template-columns:minmax(200px,.85fr) minmax(0,1.5fr);gap:26px;align-items:center}
+.adminGuide>div>small{color:#8b743e;font-size:10px;font-weight:800;letter-spacing:.15em}
+.adminGuide h2{margin:8px 0;font-size:clamp(22px,2vw,30px);line-height:1.12;color:#182820}
+.adminGuide p{margin:0;color:#637168;font-size:13px;line-height:1.55}
+.adminGuide ol{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.adminGuide li{display:flex;align-items:flex-start;gap:9px;min-width:0}
+.adminGuide li>b{display:grid;place-items:center;flex:0 0 27px;height:27px;border-radius:50%;background:#27664d;color:#fff;font-size:12px}
+.adminGuide li strong,.adminGuide li small{display:block}
+.adminGuide li strong{font-size:11px;line-height:1.3;color:#22362c}
+.adminGuide li small{margin-top:4px;color:#748078;font-size:10px;line-height:1.35}
+#resumen,#negocios,#tareas,#contenido,#links{scroll-margin-top:110px}
+.adminMetrics{padding-top:14px}
+.adminMetrics article{box-shadow:0 6px 20px #17282006}
+.adminSplit{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:16px}
+.businessTableWrap,.businessDetail{border-color:#dce4dd;border-radius:16px}
+.businessDetail{position:static;max-height:none;overflow:visible;padding:clamp(16px,2vw,24px)}
+.adminBusinessTitle{align-items:center;padding-bottom:12px;border-bottom:1px solid #edf0eb}
+.adminBusinessTitle h2{font-size:24px}
+.adminBusinessTitle .statusChip{white-space:nowrap}
+.detailGrid dd{overflow-wrap:anywhere}
+.adminFlowStep{margin:20px 0;padding:16px;border:1px solid #e2e8e2;border-radius:14px;background:#fafbf8}
+.adminStepHeading{margin-bottom:12px}
+.adminStepHeading>span{display:block;color:#277050;font-size:10px;font-weight:850;letter-spacing:.13em}
+.adminStepHeading p{max-width:62ch;margin:5px 0 0;color:#6c7971;font-size:12px;line-height:1.55}
+.adminFlowStep form{display:flex;flex-wrap:wrap;align-items:end;gap:10px}
+.adminFlowStep form>label,.adminFlowStep form .field{flex:1 1 210px}
+.adminFlowStep form button{flex:0 0 auto}
+.adminPaymentStep{border-color:#eddfbc;background:#fffaf0}
+.adminCodeStep{border-color:#cbded1;background:#f3f8f3}
+.adminCodeStep .historyList code{display:inline-block;padding:7px 9px;border-radius:8px;background:#e8f2ea;color:#15583d;font-size:14px;font-weight:800;letter-spacing:.06em}
+.adminAdvanced{margin-top:18px;border:1px solid #e0e6e1;border-radius:14px;background:#fff;overflow:hidden}
+.adminAdvanced summary{cursor:pointer;padding:15px 17px;color:#294336;font-size:14px;font-weight:750;list-style:none}
+.adminAdvanced summary::-webkit-details-marker{display:none}
+.adminAdvanced summary::after{content:"＋";float:right;color:#4e735e}
+.adminAdvanced[open] summary::after{content:"−"}
+.adminAdvanced>div{padding:0 17px 18px;border-top:1px solid #edf0ed}
+.adminAdvanced h3{margin-top:18px}
+.adminContent .sectionTitle{align-items:center}
+.adminFilters{grid-template-columns:minmax(180px,1fr) minmax(150px,210px) auto}
+.adminSection{padding-block:34px}
+.kanban{grid-template-columns:repeat(3,minmax(0,1fr))}
+.kanbanCol{min-width:0}
+@media(max-width:1100px){
+ .adminWorkspace{grid-template-columns:190px minmax(0,1fr);gap:18px}
+ .adminGuide{grid-template-columns:1fr}
+ .adminGuide ol{max-width:850px}
+ .adminSplit{grid-template-columns:1fr}
+ .businessDetail{position:static}
+}
+@media(max-width:760px){
+ .adminShell{padding-inline:14px}
+ .adminHead{position:relative;align-items:flex-start;padding:18px 0}
+ .adminHead .actions{flex-direction:column;align-items:flex-end}
+ .adminSignedIn{display:none}
+ .adminWorkspace{grid-template-columns:minmax(0,1fr);gap:14px}
+ .adminSidebar{position:relative;top:auto;padding:12px;border-radius:14px}
+ .adminBrand{display:none}
+ .adminNavLabel{display:none}
+ .adminSidebar nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+ .adminSidebar nav a{flex:0 0 auto;min-height:36px;padding:8px 10px;background:#f4f7f3}
+ .adminSidebar nav a span{display:none}
+ .adminSidebar>nav:not(:first-of-type){margin-top:6px}
+ .adminSidebarTip{display:none}
+ .adminGuide{padding:18px}
+ .adminGuide ol{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 8px}
+ .adminMetrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .adminFilters{grid-template-columns:1fr 1fr}
+ .adminFilters input{grid-column:1/-1}
+ .adminFilters button{min-height:44px}
+ .businessTableWrap{overflow-x:auto;padding:10px}
+ .dataTable{min-width:530px}
+ .businessDetail{padding:15px}
+ .adminFlowStep{padding:13px}
+ .adminFlowStep form{display:grid;grid-template-columns:1fr}
+ .adminFlowStep form>*{width:100%;max-width:none}
+ .kanban{grid-template-columns:1fr}
+ .kanbanCol{min-height:120px}
+}
+
+.taskBoardHelp{margin:8px 0 12px;color:#6d7972;font-size:12px;line-height:1.5}
