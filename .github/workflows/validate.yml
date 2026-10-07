@@ -5,6 +5,7 @@ on:
       - feature/cimiento-neon-roles
       - feature/piloto-bloque-1
       - fix/admin-private-access
+      - feature/full-site-qa
   pull_request:
 jobs:
   validate:
