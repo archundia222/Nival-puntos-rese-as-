@@ -12,6 +12,7 @@ import {
   cookieOptions,
   staffCookie,
   routeCookie,
+  adminCookie,
 } from "./session";
 import { randomToken, sha256, verifyPin, signedHint } from "./security.mjs";
 import { mexicoPhone } from "../points/security";
@@ -97,6 +98,7 @@ export async function logout() {
     );
   jar.delete(staffCookie);
   jar.delete(routeCookie);
+  jar.delete(adminCookie);
   await getAuth().signOut();
   redirect("/acceso");
 }
