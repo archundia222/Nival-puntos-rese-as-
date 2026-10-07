@@ -1,5 +1,5 @@
 import 'server-only';
-import {headers, cookies} from 'next/headers';
+import {cookies} from 'next/headers';
 import {createHmac} from 'node:crypto';
 import {getAuth} from '../backend/auth';
 import {authScope, query, systemQuery} from '../foundation/db';
@@ -10,12 +10,13 @@ import {administratorEmail, isAdministratorIdentity} from './admin-policy.mjs';
 
 export async function limitAdminAccess(email: string) {
   if (email.trim().toLowerCase() !== administratorEmail) throw Error('Acceso reservado.');
-  const h = await headers();
-  // Per-account limit also applies across clients; forwarded IP is not trusted here.
+  return process.env.APP_URL || 'https://nival-puntos-resenas.vercel.app';
+}
+
+export async function registerFailedAdminLogin() {
   const key = createHmac('sha256', secret()).update('admin-access:' + administratorEmail).digest('hex');
   const [attempt] = await query(authScope(), 'select nival_pr_private.claim_pin_attempt($1) accepted', [key]);
   if (!attempt?.accepted) throw Error('Espera 15 minutos antes de intentar de nuevo.');
-  return process.env.APP_URL || 'https://nival-puntos-resenas.vercel.app';
 }
 
 export async function authorizeOwnAdministrator() {
