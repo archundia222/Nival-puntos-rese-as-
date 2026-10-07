@@ -12,7 +12,7 @@ export const routeCookie='nival_route';
 export const cookieOptions={httpOnly:true,secure:process.env.NODE_ENV==='production',sameSite:'lax' as const,path:'/',maxAge:8*3600};
 export function secret(){const value=process.env.SESSION_SECRET||'';if(value.length<32)throw Error('SESSION_SECRET no configurado.');return value;}
 export async function emailActor():Promise<Actor|null>{
- const {data,error}=await getAuth().getSession();if(error)throw Error('No se pudo verificar tu sesión.');if(!data?.user)return null;
+ const {data,error}=await getAuth().getSession();if(error||!data?.user||!data?.session?.id)return null;
  const user=data.user;
  const [profile]=await query(authScope(user.id),'select id,role,full_name from nival_pr.profiles where id=$1',[user.id]);
  if(!profile||!['superadmin','owner'].includes(profile.role))return null;
