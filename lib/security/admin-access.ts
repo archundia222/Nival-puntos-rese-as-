@@ -6,11 +6,9 @@ import {authScope, query, systemQuery} from '../foundation/db';
 import {secret, staffCookie, routeCookie, adminCookie, cookieOptions} from '../foundation/session';
 import {signedHint} from '../foundation/security.mjs';
 import {signAdminProof} from './admin-proof.mjs';
-import {assertSameOrigin} from '../points/security';
 import {administratorEmail, isAdministratorIdentity} from './admin-policy.mjs';
 
 export async function limitAdminAccess(email: string) {
-  await assertSameOrigin();
   if (email.trim().toLowerCase() !== administratorEmail) throw Error('Acceso reservado.');
   const h = await headers();
   // Per-account limit also applies across clients; forwarded IP is not trusted here.
