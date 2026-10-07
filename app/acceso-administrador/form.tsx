@@ -2,11 +2,11 @@
 import {useState} from 'react';
 import {administratorAccess} from './actions';
 type Mode='login'|'setup'|'recover';
-export default function AdminAccessForm(){
+export default function AdminAccessForm({initialError=''}:{initialError?:string}){
   const [mode,setMode]=useState<Mode>('login');
   const [busy,setBusy]=useState(false);
-  const [notice,setNotice]=useState('');
-  const [failed,setFailed]=useState(false);
+  const [notice,setNotice]=useState(initialError);
+  const [failed,setFailed]=useState(Boolean(initialError));
   async function submit(event:React.FormEvent<HTMLFormElement>){
     event.preventDefault(); if(busy)return;
     const form=new FormData(event.currentTarget);
