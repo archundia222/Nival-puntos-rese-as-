@@ -14,6 +14,13 @@ export async function limitAdminAccess(email: string) {
   return 'https://nival-puntos-resenas.vercel.app';
 }
 
+export async function limitAdminEmailRequest(purpose:'setup'|'recover') {
+  const ip=trustedClientIp(await headers());
+  const key=createHmac('sha256',secret()).update('admin-email:'+purpose+':'+administratorEmail+':'+ip).digest('hex');
+  const [attempt]=await query(authScope(),'select nival_pr_private.claim_pin_attempt($1) accepted',[key]);
+  if(!attempt?.accepted) throw Error('Espera 15 minutos antes de solicitar otro correo.');
+}
+
 export async function registerFailedAdminLogin() {
   const ip=trustedClientIp(await headers());
   const key = createHmac('sha256', secret()).update('admin-access:' + administratorEmail + ':' + ip).digest('hex');
