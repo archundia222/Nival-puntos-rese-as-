@@ -17,7 +17,7 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
     [success, setSuccess] = useState(""),
     [photo, setPhoto] = useState<File | null>(null),
     [confirmed, setConfirmed] = useState(false),
-    [whatsapp, setWhatsapp] = useState("");
+    [whatsapp, setWhatsapp] = useState(""),[completed,setCompleted]=useState(false);
   useEffect(() => {
     mounted.current = true;
     return () => {
@@ -37,7 +37,7 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
     stop();
     setBusy(true);
     setError("");
-    setSuccess("");
+    setSuccess("");setCompleted(false);
     setCustomer(null);
     operation.current=null;
     setWhatsapp("");
@@ -49,8 +49,9 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ businessId, phone, customerId: id }),
       });
+      if(!r.headers.get('content-type')?.includes('application/json'))throw Error('Tu sesión venció. Vuelve a entrar para continuar.');
       const d = await r.json();
-      if (!r.ok) throw Error(d.error);
+      if (!r.ok) throw Error(d.error||'No pudimos completar la operación. Inténtalo de nuevo.');
       setCustomer(d.customer);
     } catch (e) {
       setError((e as Error).message);
@@ -90,7 +91,7 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
     }
   }
   async function move(type: string) {
-    if (!customer || busyRef.current) return;
+    if (!customer || completed || busyRef.current) return;
     busyRef.current = true;
     setBusy(true);
     setError("");
@@ -106,9 +107,10 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
     try {
       if(type==="redeem"&&photo)f.set("photo",await compressPhoto(photo));
       const r = await fetch("/api/staff/movement", { method: "POST", body: f });
+      if(!r.headers.get('content-type')?.includes('application/json'))throw Error('Tu sesión venció. Vuelve a entrar para continuar.');
       const d = await r.json();
-      if (!r.ok) throw Error(d.error);
-      setCustomer(d.customer);
+      if (!r.ok) throw Error(d.error||'No pudimos completar la operación. Inténtalo de nuevo.');
+      setCustomer(d.customer);setCompleted(true);
       operation.current=null;
       setPhoto(null);
       setConfirmed(false);
@@ -129,13 +131,13 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
   }
   async function recover() {
     if (
-      !customer ||
+      !customer || busyRef.current ||
       !confirm(
         "¿Verificaste que estás atendiendo al titular de esta tarjeta? Envíala únicamente al teléfono registrado.",
       )
     )
       return;
-    setBusy(true);
+    busyRef.current=true;setBusy(true);
     setError("");
     try {
       const r = await fetch("/api/staff/recovery", {
@@ -147,13 +149,14 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
           confirm: true,
         }),
       });
+      if(!r.headers.get('content-type')?.includes('application/json'))throw Error('Tu sesión venció. Vuelve a entrar para continuar.');
       const d = await r.json();
-      if (!r.ok) throw Error(d.error);
+      if (!r.ok) throw Error(d.error||'No pudimos completar la operación. Inténtalo de nuevo.');
       setWhatsapp(d.whatsapp);
     } catch (e) {
       setError((e as Error).message);
     } finally {
-      setBusy(false);
+      busyRef.current=false;setBusy(false);
     }
   }
   return (
@@ -161,7 +164,7 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
       <div className="scannerIntro">
         <small>UNA VISITA, UN PASO MÁS</small>
         <h2>{mode==='visit'?'Sumar puntos':'Canjear premios'}</h2>
-        <p>Escanea el QR personal de la tarjeta del cliente.</p>
+        <p>{mode==='visit'?'1. Identifica al cliente. 2. Confirma su compra. 3. Suma sus puntos.':'1. Identifica al cliente. 2. Comprueba su premio. 3. Registra la entrega con una foto.'}</p><p>Usa el QR personal del cliente, no el QR del mostrador.</p>
         <button
           className="scanButton"
           disabled={busy}
@@ -184,9 +187,10 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
         <label>
           O usa el código manual o teléfono (+52)
           <input
-            type="tel"
+            type="text"
+            inputMode="numeric"
             autoComplete="off"
-            placeholder="55 1234 5678"
+            placeholder="Código de 8 dígitos o teléfono de 10"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             required
@@ -206,6 +210,7 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
           {success}
         </p>
       )}
+      {completed&&<button type="button" className="scanButton" onClick={()=>{setCustomer(null);setCompleted(false);setSuccess('');setPhone('');setPhoto(null);setWhatsapp('');operation.current=null;}}>Listo · atender al siguiente cliente</button>}
       {customer && (
         <article className="scannedCustomer">
           <small>CLIENTE IDENTIFICADO</small>
@@ -213,14 +218,14 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
           <p>
             <strong>{customer.balance}</strong> puntos actuales
           </p>
-          {mode==='visit'&&<button
+          {!completed&&mode==='visit'&&<button
             className="primary"
             disabled={busy}
             onClick={() => move("visit")}
           >
             Sumar puntos por esta visita
           </button>}
-          {mode==='redeem'&&<div className="redeemBox">
+          {!completed&&mode==='redeem'&&<div className="redeemBox">
             <h3>{customer.reward?.name || "Premio por elegir"}</h3>
             <p>
               {customer.reward

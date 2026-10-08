@@ -93,7 +93,7 @@ export async function generateActivationCode(_:Result,f:FormData):Promise<Result
    returning code,expires_at`,[businessId,code,hours,actor.id]);
   if(!row)return {error:'Confirma el pago y asigna un plan. Cada pago puede generar un solo código de activación.'};
   await audit(actor,'activation_code.generated','activation_codes',businessId,{code,expires_at:row.expires_at});
-  revalidatePath('/admin');return {success:`Código: ${code} · vence ${new Date(row.expires_at).toLocaleString('es-MX',{timeZone:'America/Mexico_City'})}`};
+  revalidatePath('/admin');return {success:`Código generado. Vence ${new Date(row.expires_at).toLocaleString('es-MX',{timeZone:'America/Mexico_City'})}. Entrega el código al dueño para que active sus 30 días.`,copyText:code,copyLabel:'Código de activación de este negocio'};
  }catch(e){return {error:cleanError(e)}}
 }
 

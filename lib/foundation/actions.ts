@@ -22,7 +22,7 @@ import { getAuth } from "../backend/auth";
 import {validateRegistration, businessSlug, legalVersion} from "./registration.mjs";
 import {verifyTurnstile} from "../security/turnstile.mjs";
 import {trustedClientIp} from "../security/client-ip";
-export type Result = { error?: string; success?: string; link?: string };
+export type Result = { error?: string; success?: string; link?: string; copyText?:string;copyLabel?:string };
 const val = (f: FormData, k: string) => String(f.get(k) || "").trim();
 const uuid = (s: string) =>
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(s);
@@ -245,7 +245,7 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
   } catch (e) {
     return failure(e);
   }
-  revalidatePath("/panel");
+  revalidatePath("/panel");revalidatePath("/panel/puntos");
   kickWalletJobs();
   return { success: "Programa guardado." };
 }
@@ -260,7 +260,7 @@ export async function addReward(_: Result, f: FormData): Promise<Result> {
     !name ||
     name.length > 150 ||
     !Number.isInteger(cost) ||
-    cost < 1 ||
+    cost < 1 || cost > 100000 ||
     !Number.isInteger(position) ||
     position < 0
   )
@@ -276,8 +276,8 @@ export async function addReward(_: Result, f: FormData): Promise<Result> {
   } catch (e) {
     return failure(e);
   }
-  revalidatePath("/panel");
-  return { success: "Premio agregado." };
+  revalidatePath("/panel");revalidatePath("/panel/puntos");
+  return { success: "Premio agregado. Tu tarjeta ya muestra el premio." };
 }
 export async function customerLink(_: Result, f: FormData): Promise<Result> {
   const actor = await guardAction(["owner", "superadmin"],f);
@@ -448,6 +448,7 @@ export async function enroll(_: Result, f: FormData): Promise<Result> {
       [slug],
     );
     if (!b?.data?.active) return { error: "Este programa no está disponible." };
+    if(!b.data.program?.id||!b.data.rewards?.length)return {error:"El negocio está preparando sus premios. Pídele que termine la configuración antes de crear tu tarjeta."};
     await query(
       authScope(),
       "select nival_pr_private.enroll_customer_legal($1,$2,$3,$4,$5)",

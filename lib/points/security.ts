@@ -64,6 +64,9 @@ export function message(e: unknown) {
       /Foto obligatoria|Evidencia no verificada/,
       "El canje requiere una foto de evidencia válida.",
     ],
+    [/Premio vencido/, "Este premio venció. Pide al dueño que revise los premios del programa."],
+    [/Premio agotado/, "Este premio está agotado. Consulta al dueño antes de entregarlo."],
+    [/Programa no configurado/, "El dueño debe guardar su programa y agregar un premio antes de registrar visitas."],
     [/Servicio no activo/, "El programa está suspendido o vencido."],
     [
       /Premio fuera|Selecciona tu meta/,

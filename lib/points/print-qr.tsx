@@ -27,9 +27,9 @@ export function PrintQr({
         )}
         <h2>{name}</h2>
         <p>
-          Escanea o acerca tu celular.
+          Escanea para crear tu tarjeta gratis.
           <br />
-          Tus visitas tienen premio.
+          Compra, muestra tu tarjeta y acumula puntos.
         </p>
         <small>
           {entry}
@@ -40,7 +40,7 @@ export function PrintQr({
           Descargar QR SVG
         </a>
         <button type="button" onClick={() => window.print()}>
-          Guardar cartel con logo en PDF
+          Imprimir cartel o guardar PDF
         </button>
       </div>
     </section>

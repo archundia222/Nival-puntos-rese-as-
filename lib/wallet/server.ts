@@ -9,7 +9,7 @@ export function walletReady() {
  try { configuration(process.env); return true; } catch { return false; }
 }
 function publicOrigin() {
- const value=process.env.GOOGLE_WALLET_PUBLIC_ORIGIN || (process.env.VERCEL_BRANCH_URL ? 'https://'+process.env.VERCEL_BRANCH_URL : process.env.VERCEL_URL ? 'https://'+process.env.VERCEL_URL : process.env.APP_URL);
+ const value=process.env.GOOGLE_WALLET_PUBLIC_ORIGIN || process.env.APP_URL || (process.env.VERCEL_BRANCH_URL ? 'https://'+process.env.VERCEL_BRANCH_URL : process.env.VERCEL_URL ? 'https://'+process.env.VERCEL_URL : process.env.APP_URL);
  const url=new URL(value || '');
  if(url.protocol!=='https:')throw Error('Wallet public HTTPS origin required');
  return url.origin;

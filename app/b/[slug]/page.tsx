@@ -1,3 +1,4 @@
+import {walletReady} from '../../../lib/wallet/server';
 import {legalText} from "../../../lib/foundation/legal-page";
 import {marketingConsent} from "../../../lib/foundation/legal.mjs";
 import { cookies } from "next/headers";
@@ -59,8 +60,8 @@ export default async function Customer({
           <h1>Programa no disponible</h1>
           <p>Consulta al negocio. Tus puntos se conservan.</p>
         </section>
-      ) : c ? (
-        <>{!b.active&&<p role="status">El servicio está pausado. Puedes consultar tu tarjeta; tus puntos y premios se conservan. Nuevos puntos y canjes estarán disponibles al renovar.</p>}<CardView business={b} initial={c} qr={qr} /></>
+      ) : !c&&(!b.program?.id||!b.rewards?.length) ? (<section className="enrollCard"><h1>Estamos preparando tus premios</h1><p>{b.name} está terminando su programa. Pregunta al personal cuándo podrás crear tu tarjeta.</p></section>) : c ? (
+        <>{!b.active&&<p role="status">El servicio está pausado. Puedes consultar tu tarjeta; tus puntos y premios se conservan. Nuevos puntos y canjes estarán disponibles al renovar.</p>}<CardView business={b} initial={c} qr={qr} walletAvailable={walletReady()} /></>
       ) : (
         <section className="enrollCard">
           <small>BIENVENIDO A {b.name.toUpperCase()}</small>
@@ -70,7 +71,7 @@ export default async function Customer({
               : "Tus visitas merecen algo más."}
           </h1>
           <p>
-            Tu tarjeta digital, siempre contigo. Sin descargar aplicaciones.
+            Crea tu tarjeta gratis. Muestra tu QR al personal después de cada compra y acumula puntos para tus premios.
           </p>
           <VerifiedActionForm
             siteKey={turnstileSiteKey}

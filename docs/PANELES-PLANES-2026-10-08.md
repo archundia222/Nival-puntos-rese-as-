@@ -13,4 +13,4 @@
 
 Validación: 140 pruebas automáticas; integración PostgreSQL de 499 → 399 → 299 → vencimiento → reactivación, deduplicación de tareas y conservación del historial; TypeScript, compilación y audit sin vulnerabilidades. Migración service-access-v3 probada en rama Neon de QA antes de aplicación.
 
-Publicación pendiente: la revisión automática bloqueó el push de la rama feature/paneles-planes-intuitivos a archundia222/Nival-puntos-rese-as- por falta de autorización explícita del envío. El esquema de producción ya contiene las migraciones aprobadas; la interfaz publicada sigue en a818a1f. No se cambiaron variables de entorno.
+Publicación: autorización recibida y cambios publicados en producción. La consulta de orden de reseñas se corrigió en dcfd3f5. El dominio habitual es https://nival-puntos-resenas.vercel.app; APP_URL apunta a ese dominio y el alias alternativo redirige a él para evitar el rechazo de Turnstile.

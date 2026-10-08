@@ -1,3 +1,4 @@
+import {StaffAccess} from '../../../lib/points/staff-access';
 import {entitlements} from '../../../lib/foundation/entitlements.mjs';
 import {AccountState} from '../../../lib/owner/account-state';
 import {redirect} from 'next/navigation';
@@ -52,7 +53,7 @@ export default async function PointsPanel({
   );
   const rewards = await query(
     actor,
-    "select r.id,r.name,r.points_cost,r.position,r.active,r.weight from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 order by r.position",
+    "select r.id,r.name,r.points_cost,r.position,r.active,r.weight,r.stock,to_char((r.expires_at at time zone 'America/Mexico_City')-interval '1 day','YYYY-MM-DD') expiry from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 order by r.position",
     [b.id],
   );
   const redemptions = await query(
@@ -79,7 +80,7 @@ export default async function PointsPanel({
       </nav>
       <nav className="programTabs" aria-label="Secciones del programa">{[['programa','Programa y premios'],['equipo','Personal'],['canjes','Canjes']].map(([key,label])=><a key={key} aria-current={view===key?'page':undefined} href={'/panel/puntos?business='+b.id+'&view='+key}>{label}</a>)}</nav>
       {view==='programa'&&<><section className="reviewBox" id="programa">
-        <h2>Una tarjeta con tu identidad</h2>
+        <h2>1. Personaliza tu tarjeta</h2><p>Empieza con un premio sencillo: por ejemplo, un café gratis después de 8 visitas. Guarda la tarjeta y después agrega el premio.</p>
         <ActionForm action={saveProgram} label="Guardar programa">
           <Hidden name="businessId" value={b.id} />
           <Field
@@ -113,12 +114,13 @@ export default async function PointsPanel({
             value={program?.points_per_visit || 1}
           />
           <Field
+            step="any"
             name="hours"
             label="Horas mínimas entre visitas"
             type="number"
             min={0}
             max={720}
-            value={program?.rules?.min_hours_between_visits ?? 0.0166666667}
+            value={program?.rules?.min_hours_between_visits ?? 4}
           />
           <Field
             name="max"
@@ -126,20 +128,19 @@ export default async function PointsPanel({
             type="number"
             min={1}
             max={100}
-            value={program?.rules?.max_visits_per_day ?? 100}
+            value={program?.rules?.max_visits_per_day ?? 1}
           />
         </ActionForm>
-        <p>Premio sorpresa: los pesos se convierten en probabilidades proporcionales. Pesos iguales dan la misma probabilidad. El premio y su costo se muestran desde la asignación y no cambian al recargar. Los premios ya asignados se protegen hasta su canje.</p><h3>Tus premios, en orden</h3>
+        <p>Para empezar, recomendamos un premio para todos, 1 punto por visita y una visita por día. Las reglas se aplican al registrar cada compra.</p><details><summary>¿Cómo funcionan los otros modos?</summary><p>Premios a elegir: cada cliente elige una meta. Por etapas: los premios se entregan en el orden configurado. Premio sorpresa: los pesos se convierten en probabilidades proporcionales. Pesos iguales dan la misma probabilidad. El premio y su costo se muestran desde la asignación y no cambian al recargar. Los premios ya asignados se protegen hasta su canje.</p></details><h3 id="premios">2. Agrega tus premios</h3>{!rewards.length&&<p className="ownerEmpty">Todavía no tienes un premio. Agrégalo antes de compartir la tarjeta con tus clientes.</p>}
         {rewards.map((r) => (
-          <article key={r.id} className="customerRow">
+          <details key={r.id} className="customerRow"><summary>{r.name} · {r.points_cost} puntos · {r.active?'Activo':'Desactivado'}</summary>
             <h3>
               {r.position + 1}. {r.name} {r.active ? "" : "· Desactivado"}
             </h3>
             <ActionForm action={editReward} label="Actualizar premio">
               <Hidden name="businessId" value={b.id} />
               <Hidden name="rewardId" value={r.id} />
-              <Field name="name" label="Nombre del premio" value={r.name} /><Field name="weight" label="Peso para premio sorpresa (1 a 100)" type="number" min={1} max={100} value={r.weight||1}/>
-              <Field
+              <Field name="name" label="Nombre del premio" value={r.name} />              <Field
                 name="cost"
                 label="Puntos necesarios"
                 type="number"
@@ -147,13 +148,14 @@ export default async function PointsPanel({
                 max={100000}
                 value={r.points_cost}
               />
+<details><summary>Opciones avanzadas de este premio</summary><Field name="weight" label="Peso para premio sorpresa (1 a 100)" type="number" min={1} max={100} value={r.weight||1}/><Field name="stock" label="Cantidad disponible (vacío: sin límite)" type="number" min={0} max={100000} required={false} value={r.stock??''}/><Field name="expiry" label="Válido hasta (opcional)" type="date" required={false} value={r.expiry||''}/>
               <Field
                 name="position"
                 label="Orden"
                 type="number"
                 min={0}
                 value={r.position}
-              />
+              /></details>
               <label className="consentLabel">
                 <input
                   name="active"
@@ -163,7 +165,7 @@ export default async function PointsPanel({
                 <span>Premio activo</span>
               </label>
             </ActionForm>
-          </article>
+          </details>
         ))}
         <ActionForm action={addReward} label="Agregar premio">
           <Hidden name="businessId" value={b.id} />
@@ -171,7 +173,7 @@ export default async function PointsPanel({
           <Field name="cost" label="Puntos necesarios" type="number" min={1} />
           <Field
             name="position"
-            label="Orden (empieza en 0)"
+            label="Orden del premio (0 es el primero)"
             type="number"
             min={0}
             value={
@@ -180,19 +182,18 @@ export default async function PointsPanel({
                 : 0
             }
           />
-        </ActionForm>
+        </ActionForm><a className="workspacePrimary" href={'/panel?business='+b.id+'#compartir'}>Siguiente: compartir QR y tarjeta →</a>
       </section>
       <ProgramPreview business={b.name} program={program} reward={rewards.find((r) => r.active)} />
       </>}
       {view==='equipo'&&<section className="reviewBox" id="personal">
-        <h2>Tu equipo</h2>
+        <h2>Tu equipo</h2><p>También puedes atender tú desde <a href={'/panel/operar?business='+b.id}>Puntos y canjes</a>. Crea un acceso solo para quienes van a registrar visitas o entregar premios.</p>
         <p>
-          Cada mesero recibe su identificador y un PIN individual de 6 a 8
-          dígitos. El PIN se guarda mediante hash con una función de derivación.
+          Cada integrante tiene su propio PIN de 6 a 8 dígitos. Comparte su enlace de acceso y entrega el PIN por separado.
         </p>
-        <ActionForm action={manageStaff} label="Crear mesero">
+        <ActionForm action={manageStaff} label="Crear acceso del empleado">
           <Hidden name="businessId" value={b.id} />
-          <Field name="name" label="Nombre del mesero" />
+          <Field name="name" label="Nombre del integrante" />
           <label>
             PIN
             <input
@@ -213,9 +214,7 @@ export default async function PointsPanel({
             <strong>
               {s.name} · {s.active ? "Activo" : "Desactivado"}
             </strong>
-            <p>
-              Identificador: <code>{s.id}</code>
-            </p>
+            <StaffAccess slug={b.slug} id={s.id} name={s.name}/>
             <ActionForm
               action={manageStaff}
               label={s.active ? "Desactivar al instante" : "Reactivar acceso"}

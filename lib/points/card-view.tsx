@@ -4,27 +4,30 @@ import { useRouter } from "next/navigation";
 import { WalletButton } from "../wallet/button";
 import { ActionForm } from "../foundation/forms";
 import { Hidden } from "../foundation/fields";
+import {cardColor} from "./card-color";
 import { chooseGoal } from "../foundation/actions";
 export function CardView({
   business,
   initial,
   qr,
+  walletAvailable=false,
 }: {
   business: any;
   initial: any;
-  qr: string;
+  qr: string;walletAvailable?:boolean;
 }) {
   const [card, setCard] = useState(initial),
     [pulse, setPulse] = useState(false),
-    [confetti, setConfetti] = useState(false);
+    [confetti, setConfetti] = useState(false),[syncMessage,setSyncMessage]=useState(''),[checking,setChecking]=useState(false);
+  const manualRefresh=useRef<(manual?:boolean)=>Promise<void>>(async()=>{});
   const router = useRouter();
   const previous = useRef(initial);
   useEffect(() => {
     let stopped = false;
     let busy = false;
-    const refresh = async () => {
+    const refresh = async (manual=false) => {
       if (document.hidden || busy) return;
-      busy = true;
+      busy = true;if(manual){setChecking(true);setSyncMessage('');}
       try {
         const r = await fetch("/api/points/card?slug=" + business.slug, {
           cache: "no-store",
@@ -49,18 +52,19 @@ export function CardView({
           }
         }
         previous.current = d.card;
-        setCard(d.card);
-      } catch {
+        setCard(d.card);if(manual)setSyncMessage('Tarjeta actualizada.');
+      } catch {if(manual)setSyncMessage('No pudimos actualizar ahora. Tu último saldo se conserva; vuelve a intentar.');
       } finally {
-        busy = false;
+        busy = false;if(manual)setChecking(false);
       }
     };
-    const timer = setInterval(refresh, 6000);
-    document.addEventListener("visibilitychange", refresh);
+    manualRefresh.current=refresh;const automatic=()=>void refresh();
+    const timer = setInterval(automatic, 6000);
+    document.addEventListener("visibilitychange", automatic);
     return () => {
       stopped = true;
       clearInterval(timer);
-      document.removeEventListener("visibilitychange", refresh);
+      document.removeEventListener("visibilitychange", automatic);
     };
   }, [business.slug, router]);
   useEffect(() => {
@@ -72,12 +76,12 @@ export function CardView({
     ready = goal > 0 && points >= goal;
   return (
     <>
-      <p>Código manual de tu tarjeta: <strong>{card.manual_code||card.id}</strong></p>
+      <p className="cardWelcome">Tu tarjeta está lista. Muéstrala después de tu compra para sumar puntos.</p>
       <article
         className={"loyaltyCard " + (pulse ? "cardPulse" : "")}
         style={
           {
-            "--card-color": business.program?.color || "#164d3b",
+            "--card-color": cardColor(business.program?.color),
           } as React.CSSProperties
         }
       >
@@ -156,11 +160,11 @@ export function CardView({
           </div>
         )}
       </article>
-      <WalletButton slug={business.slug} />
+      {walletAvailable&&<WalletButton slug={business.slug} />}
       <section className="personalQr">
         <div>
           <small>TU QR PERSONAL</small>
-          <h2>Muéstralo al trabajador</h2>
+          <h2>Muéstralo al personal</h2>
           <p>Para registrar tu visita o recibir tu premio.</p>
         </div>
         <img
@@ -170,8 +174,10 @@ export function CardView({
           height="210"
         />
         <small>
-          Este QR identifica tu tarjeta. No concede acceso a tus datos.
+          Si no pueden escanearlo, dicta tu código manual.
         </small>
+        <p className="manualCardCode">Código manual: <strong>{card.manual_code||card.id}</strong></p>
+        <button type="button" disabled={checking} onClick={()=>void manualRefresh.current(true)}>{checking?'Actualizando…':'Actualizar mis puntos'}</button>{syncMessage&&<p role="status">{syncMessage}</p>}
       </section>
       {business.active && business.program?.mode === "choose" && !card.reward && (
         <section className="reviewBox">
@@ -197,8 +203,9 @@ export function CardView({
           🔒 Elegiste {card.reward.name}. Podrás cambiarlo después de canjear.
         </p>
       )}
+      <details className="cardHelp"><summary>¿Cómo guardo o recupero mi tarjeta?</summary><p>Guarda esta página en los favoritos de este navegador. En Android también puedes usar “Agregar a pantalla de inicio”. Si cambias de celular o borras los datos del navegador, pide al personal que reenvíe tu acceso al teléfono registrado. Tus puntos siguen guardados.</p><p>Los puntos se suman por compras registradas por el negocio. Al entregar un premio se descuentan los puntos indicados; puedes revisar cada movimiento aquí.</p></details>
       <section className="cardHistory">
-        <h2>Tus últimas visitas</h2>
+        <h2>Tus últimos movimientos</h2>
         {!card.history.length ? (
           <p>Tu historia aquí empieza con tu primera visita.</p>
         ) : (
@@ -209,7 +216,7 @@ export function CardView({
                   ? "Visita registrada"
                   : m.type === "redeem"
                     ? "Premio canjeado"
-                    : "Canje revertido"}
+                    : "Ajuste de puntos"}
                 <small>
                   {new Date(m.created_at).toLocaleString("es-MX", {
                     timeZone: "America/Mexico_City",
