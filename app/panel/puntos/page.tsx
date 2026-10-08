@@ -9,14 +9,14 @@ import { query, authScope } from "../../../lib/foundation/db";
 import { requireRole, requireBusiness } from "../../../lib/foundation/session";
 import { ActionForm } from "../../../lib/foundation/forms";
 import { Field, Hidden } from "../../../lib/foundation/fields";
-import { saveProgram, addReward } from "../../../lib/foundation/actions";
+import { addReward } from "../../../lib/foundation/actions";
 import {
   manageStaff,
   reviewRedemption,
   editReward,
 } from "../../../lib/points/actions";
-import { ProgramLogo } from "../../../lib/points/program-logo";
-import { ProgramPreview } from "../../../lib/points/program-preview";
+
+import { ProgramEditor } from "../../../lib/points/program-editor";
 export const dynamic = "force-dynamic";
 export default async function PointsPanel({
   searchParams,
@@ -81,56 +81,7 @@ export default async function PointsPanel({
       <nav className="programTabs" aria-label="Secciones del programa">{[['programa','Programa y premios'],['equipo','Personal'],['canjes','Canjes']].map(([key,label])=><a key={key} aria-current={view===key?'page':undefined} href={'/panel/puntos?business='+b.id+'&view='+key}>{label}</a>)}</nav>
       {view==='programa'&&<><section className="reviewBox" id="programa">
         <h2>1. Personaliza tu tarjeta</h2><p>Empieza con un premio sencillo: por ejemplo, un café gratis después de 8 visitas. Guarda la tarjeta y después agrega el premio.</p>
-        <ActionForm action={saveProgram} label="Guardar programa">
-          <Hidden name="businessId" value={b.id} />
-          <Field
-            name="name"
-            label="Nombre del programa"
-            value={program?.name || "Mis recompensas"}
-          />
-          <Field
-            name="color"
-            label="Color de tu tarjeta"
-            type="color"
-            value={program?.color || "#164d3b"}
-          />
-          <ProgramLogo initial={program?.logo_url || ""} />
-          <label>
-            Modo de premio
-            <select name="mode" defaultValue={program?.mode || "single"}>
-              <option value="single">Un premio para todos</option>
-              <option value="choose">
-                Premios a elegir
-              </option>
-              <option value="sequence">Premios por etapas</option><option value="surprise">Premio sorpresa</option>
-            </select>
-          </label>
-          <Field
-            name="points"
-            label="Puntos por visita"
-            type="number"
-            min={1}
-            max={1000}
-            value={program?.points_per_visit || 1}
-          />
-          <Field
-            step="any"
-            name="hours"
-            label="Horas mínimas entre visitas"
-            type="number"
-            min={0}
-            max={720}
-            value={program?.rules?.min_hours_between_visits ?? 4}
-          />
-          <Field
-            name="max"
-            label="Máximo de visitas por día"
-            type="number"
-            min={1}
-            max={100}
-            value={program?.rules?.max_visits_per_day ?? 1}
-          />
-        </ActionForm>
+        <ProgramEditor businessId={b.id} business={b.name} program={program} reward={rewards.find((r) => r.active)} />
         <p>Para empezar, recomendamos un premio para todos, 1 punto por visita y una visita por día. Las reglas se aplican al registrar cada compra.</p><details><summary>¿Cómo funcionan los otros modos?</summary><p>Premios a elegir: cada cliente elige una meta. Por etapas: los premios se entregan en el orden configurado. Premio sorpresa: los pesos se convierten en probabilidades proporcionales. Pesos iguales dan la misma probabilidad. El premio y su costo se muestran desde la asignación y no cambian al recargar. Los premios ya asignados se protegen hasta su canje.</p></details><h3 id="premios">2. Agrega tus premios</h3>{!rewards.length&&<p className="ownerEmpty">Todavía no tienes un premio. Agrégalo antes de compartir la tarjeta con tus clientes.</p>}
         {rewards.map((r) => (
           <details key={r.id} className="customerRow"><summary>{r.name} · {r.points_cost} puntos · {r.active?'Activo':'Desactivado'}</summary>
@@ -184,7 +135,6 @@ export default async function PointsPanel({
           />
         </ActionForm><a className="workspacePrimary" href={'/panel?business='+b.id+'#compartir'}>Siguiente: compartir QR y tarjeta →</a>
       </section>
-      <ProgramPreview business={b.name} program={program} reward={rewards.find((r) => r.active)} />
       </>}
       {view==='equipo'&&<section className="reviewBox" id="personal">
         <h2>Tu equipo</h2><p>También puedes atender tú desde <a href={'/panel/operar?business='+b.id}>Puntos y canjes</a>. Crea un acceso solo para quienes van a registrar visitas o entregar premios.</p>
