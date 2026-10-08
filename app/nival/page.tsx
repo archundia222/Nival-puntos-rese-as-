@@ -1,6 +1,7 @@
 'use client';
 import {useEffect,useState} from 'react';
 import {useLocalData} from '../../lib/use-local-data';
+import {dateInMexico,monthInMexico} from '../../lib/mexico-date';
 import {reviewsValid} from '../../lib/validators';
 import {reviewMetrics,type Review} from '../../lib/metrics';
 import DemoNotice from '../components/demo-notice';
@@ -8,8 +9,8 @@ const empty:Review[]=[];
 export default function Reviews(){
  const reviews=useLocalData('nival-reviews-v1',empty,reviewsValid);
  const [author,setAuthor]=useState('');const[rating,setRating]=useState(5);const[text,setText]=useState('');const[date,setDate]=useState('');const[month,setMonth]=useState('');const[notice,setNotice]=useState('');const[onlyPending,setOnlyPending]=useState(true);
- useEffect(()=>{const today=new Date().toISOString().slice(0,10);setDate(today);setMonth(today.slice(0,7));},[]);
- function add(e:React.FormEvent){e.preventDefault();if(reviews.error)return;if(date>new Date().toISOString().slice(0,10)){setNotice('La fecha no puede estar en el futuro.');return;}if(reviews.data.some(r=>r.author===author.trim()&&r.date===date&&r.text===text.trim())){setNotice('Esta reseña ya está registrada.');return;}if(reviews.save([...reviews.data,{id:crypto.randomUUID(),author:author.trim(),rating,text:text.trim(),date,answeredAt:null}])){setAuthor('');setText('');setNotice('Reseña registrada.');}}
+ useEffect(()=>{const today=dateInMexico();setDate(today);setMonth(monthInMexico());},[]);
+ function add(e:React.FormEvent){e.preventDefault();if(reviews.error)return;if(date>dateInMexico()){setNotice('La fecha no puede estar en el futuro.');return;}if(reviews.data.some(r=>r.author===author.trim()&&r.date===date&&r.text===text.trim())){setNotice('Esta reseña ya está registrada.');return;}if(reviews.save([...reviews.data,{id:crypto.randomUUID(),author:author.trim(),rating,text:text.trim(),date,answeredAt:null}])){setAuthor('');setText('');setNotice('Reseña registrada.');}}
  const stats=reviewMetrics(reviews.data,month);
  const visible=reviews.data.filter(r=>r.date.slice(0,7)===month&&(!onlyPending||!r.answeredAt)).sort((a,b)=>b.date.localeCompare(a.date));
  return <main className="dashboard"><DemoNotice/><header className="dashHead"><div><small>NIVAL · SEGUIMIENTO MANUAL</small><h1>Reseñas de Google</h1><p>Captura lo que revisaste en Google y confirma las respuestas que publicaste.</p></div><a href="/negocio">Ver resumen</a></header><label className="filter">Mes<input type="month" value={month} onChange={e=>setMonth(e.target.value)}/></label><section className="stats"><article><span>Nuevas</span><b>{stats.total}</b></article><article><span>Positivas · 4 y 5 estrellas</span><b>{stats.positive}</b></article><article><span>Neutrales · 3 estrellas</span><b>{stats.neutral}</b></article><article><span>Negativas · 1 y 2 estrellas</span><b>{stats.negative}</b></article><article><span>Respondidas</span><b>{stats.answered}</b></article><article><span>Por responder</span><b>{stats.total-stats.answered}</b></article></section>

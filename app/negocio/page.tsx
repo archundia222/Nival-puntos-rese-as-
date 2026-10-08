@@ -1,6 +1,7 @@
 'use client';
 import {useEffect,useState} from 'react';
 import {useLocalData} from '../../lib/use-local-data';
+import {monthInMexico} from '../../lib/mexico-date';
 import {customersValid,movementsValid,reviewsValid} from '../../lib/validators';
 import {loyaltyMetrics,reviewMetrics,type Customer,type Movement,type Review} from '../../lib/metrics';
 import DemoNotice from '../components/demo-notice';
@@ -8,7 +9,7 @@ const emptyCustomers:Customer[]=[];const emptyMovements:Movement[]=[];const empt
 export default function Business(){
  const customers=useLocalData('nival-clientes',emptyCustomers,customersValid);const movements=useLocalData('nival-movements-v1',emptyMovements,movementsValid);const reviews=useLocalData('nival-reviews-v1',emptyReviews,reviewsValid);
  const[account,setAccount]=useState<{nombre:string;negocio:string}|null>(null);const[month,setMonth]=useState('');const[error,setError]=useState('');const[riskDays,setRiskDays]=useState(30);
- useEffect(()=>{setMonth(new Date().toISOString().slice(0,7));try{const raw=localStorage.getItem('nival-cuenta');if(raw){const c=JSON.parse(raw);if(typeof c.nombre==='string'&&typeof c.negocio==='string')setAccount(c);else throw Error('invalid');}const config=JSON.parse(localStorage.getItem('nival-config')||'{}');if(Number.isInteger(config.riskDays)&&config.riskDays>0)setRiskDays(config.riskDays);}catch{setError('No se pudo leer el perfil o la configuración guardada.');}},[]);
+ useEffect(()=>{setMonth(monthInMexico());try{const raw=localStorage.getItem('nival-cuenta');if(raw){const c=JSON.parse(raw);if(typeof c.nombre==='string'&&typeof c.negocio==='string')setAccount(c);else throw Error('invalid');}const config=JSON.parse(localStorage.getItem('nival-config')||'{}');if(Number.isInteger(config.riskDays)&&config.riskDays>0)setRiskDays(config.riskDays);}catch{setError('No se pudo leer el perfil o la configuración guardada.');}},[]);
  const r=reviewMetrics(reviews.data,month);const p=loyaltyMetrics(customers.data,movements.data,month,riskDays);
  function download(){if(!account||!month)return;const report={negocio:account.negocio,mes:month,resenas:r,puntos:{clientesNuevos:p.newCustomers,clientesRegresaron:p.returning,clientesEnRiesgo:p.risk.length,visitas:p.visits,puntosOtorgados:p.points},nota:'Resumen de datos capturados manualmente. No es una lectura automática de Google.'};const blob=new Blob([JSON.stringify(report,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`nival-resumen-${month}.json`;a.click();window.setTimeout(()=>URL.revokeObjectURL(url),1000);}
  if(!customers.ready||!movements.ready||!reviews.ready)return <main className="dashboard">Cargando resumen…</main>;
