@@ -81,8 +81,8 @@ export default async function Home() {
     </section>
 
     <section className="nxIntegrity nxSection" aria-labelledby="integrity-title">
-      <div><span>CLARO Y TRANSPARENTE</span><h2 id="integrity-title">¿Es legal? Sí: así lo hacemos.</h2><p>Pedimos reseñas auténticas después de una visita, sin premio ni presión. Los puntos se ganan por visitar y comprar; nunca se condicionan a escribir una reseña, a dejar cinco estrellas o a opinar positivamente.</p><a href="https://support.google.com/contributionpolicy/answer/7400114?hl=es" target="_blank" rel="noreferrer">Consulta la política de reseñas de Google <Arrow/></a></div>
-      <div className="nxIntegrityFlow"><article><span>01</span><b>Tu cliente visita y compra</b><small>El empleado registra un punto.</small></article><i aria-hidden="true">+</i><article><span>02</span><b>El negocio invita a opinar</b><small>La reseña es opcional y sin recompensa.</small></article></div>
+      <div><span>UNA EXPERIENCIA QUE CONECTA</span><h2 id="integrity-title">Haz que cada visita cuente.</h2><p>Reconoce a tus clientes frecuentes con puntos por sus compras y mantén una comunicación cercana con quienes conocen tu negocio. Dos formas de construir relaciones duraderas, desde un solo lugar.</p></div>
+      <div className="nxIntegrityFlow"><article><span>01</span><b>Premia su preferencia</b><small>Tu cliente acumula puntos por visitas válidas con compra y descubre sus próximos premios.</small></article><i aria-hidden="true">+</i><article><span>02</span><b>Escucha su experiencia</b><small>Invita a compartir opiniones auténticas y voluntarias, sin condicionar puntos ni premios.</small></article></div>
     </section>
 
     <section className="nxService nxSection" aria-labelledby="service-title">
