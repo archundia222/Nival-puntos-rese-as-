@@ -10,15 +10,17 @@ declare global {
     theme?: "light" | "dark" | "auto";
     "response-field"?: boolean;
     "response-field-name"?: string;
+    callback?: (token: string) => void;
     "error-callback"?: (errorCode: string) => void;
     "expired-callback"?: () => void;
+    "timeout-callback"?: () => void;
    }) => string;
    remove?: (widgetId: string) => void;
   };
  }
 }
 
-export function TurnstileWidget({siteKey}:{siteKey:string}){
+export function TurnstileWidget({siteKey,onTokenChange}:{siteKey:string;onTokenChange:(token:string)=>void}){
  const containerRef=useRef<HTMLDivElement>(null);
  const widgetIdRef=useRef<string|null>(null);
  const [scriptReady,setScriptReady]=useState(false);
@@ -32,14 +34,17 @@ export function TurnstileWidget({siteKey}:{siteKey:string}){
    theme:"light",
    "response-field":true,
    "response-field-name":"cf-turnstile-response",
-   "error-callback":(errorCode)=>setWidgetError(`Cloudflare no pudo completar la verificación (código ${errorCode}). Recarga la página; si continúa, comparte este código para revisar el dominio o la conexión.`),
-   "expired-callback":()=>setWidgetError("La verificación venció. Vuelve a intentarlo."),
+   callback:(token)=>{setWidgetError("");onTokenChange(token);},
+   "error-callback":(errorCode)=>{onTokenChange("");setWidgetError(`Cloudflare no pudo completar la verificación (código ${errorCode}). Revisa tu conexión e inténtalo de nuevo.`);},
+   "expired-callback":()=>{onTokenChange("");setWidgetError("La verificación venció. Espera a que se renueve para continuar.");},
+   "timeout-callback":()=>{onTokenChange("");setWidgetError("La verificación tardó demasiado. Inténtalo de nuevo.");},
   });
   return ()=>{
    if(widgetIdRef.current&&window.turnstile?.remove)window.turnstile.remove(widgetIdRef.current);
    widgetIdRef.current=null;
+   onTokenChange("");
   };
- },[scriptReady,siteKey]);
+ },[scriptReady,siteKey,onTokenChange]);
 
  if(!siteKey)return <p className="error" role="alert">Protección anti-bot pendiente de configuración.</p>;
 
@@ -48,7 +53,7 @@ export function TurnstileWidget({siteKey}:{siteKey:string}){
    src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
    strategy="afterInteractive"
    onLoad={()=>setScriptReady(true)}
-   onError={()=>setWidgetError("No se pudo cargar la verificación anti-bot. Revisa la conexión e intenta recargar la página.")}
+   onError={()=>{onTokenChange("");setWidgetError("No se pudo cargar la verificación anti-bot. Revisa la conexión e intenta recargar la página.");}}
   />
   <div ref={containerRef}/>
   {widgetError&&<p className="error" role="alert">{widgetError}</p>}
