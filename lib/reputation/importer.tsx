@@ -2,6 +2,7 @@
 import {useState} from 'react';
 import {ActionForm} from '../foundation/forms';
 import {importReviews} from './actions';
+import {offsetDateInMexico} from '../mexico-date';
 type Row={reviewer:string;stars:string;body:string;reviewed_on:string};
 const empty=():Row=>({reviewer:'',stars:'',body:'',reviewed_on:''});
 export function ReviewImporter({businessId}:{businessId:string}){
@@ -24,8 +25,7 @@ export function ReviewImporter({businessId}:{businessId:string}){
 export function CopyReply({text}:{text:string}){const [status,setStatus]=useState('');return <><button type="button" onClick={async()=>{try{await navigator.clipboard.writeText(text);setStatus('Copiado');}catch{setStatus('Selecciona y copia el texto de la respuesta.');}}}>Copiar borrador</button><span role="status">{status}</span></>;}
 
 export function ReportPeriod(){
- const now=new Date(),tomorrow=new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth(),now.getUTCDate()+1));
- const [kind,setKind]=useState('week'),[end,setEnd]=useState(tomorrow.toISOString().slice(0,10)),[start,setStart]=useState(new Date(tomorrow.getTime()-7*86400000).toISOString().slice(0,10));
+ const [kind,setKind]=useState('week'),[end,setEnd]=useState(offsetDateInMexico(1)),[start,setStart]=useState(offsetDateInMexico(-6));
  function change(k:string){setKind(k);const d=new Date(end);if(k==='diagnosis')d.setUTCMonth(d.getUTCMonth()-3);else d.setUTCDate(d.getUTCDate()-(k==='week'?7:30));setStart(d.toISOString().slice(0,10));}
  return <><label>Tipo<select name="kind" value={kind} onChange={e=>change(e.target.value)}><option value="week">Resumen semanal</option><option value="month">Reporte mensual</option><option value="diagnosis">Diagnóstico inicial (últimos tres meses)</option></select></label><label>Desde<input name="start" type="date" required value={start} onChange={e=>setStart(e.target.value)}/></label><label>Hasta (no incluido)<input name="end" type="date" required value={end} onChange={e=>setEnd(e.target.value)}/></label></>;
 }
