@@ -36,6 +36,9 @@ export async function administratorAccess(mode: 'login'|'setup'|'recover', form:
     const {error} = await getAuth().signIn.email({email,password});
     if (error) {
       console.error('founder login rejected', {message:error.message,status:'status' in error?error.status:undefined,code:'code' in error?error.code:undefined});
+      if (error.message === 'Invalid origin') {
+        return {ok:false,message:'No se pudo verificar este dominio. Abre la URL oficial de Nival: '+origin};
+      }
       return {ok:false,message:'Correo o contraseña incorrectos.'};
     }
     return {ok:true,enter:true,message:'Credenciales verificadas. Completando sesión privada…'};
