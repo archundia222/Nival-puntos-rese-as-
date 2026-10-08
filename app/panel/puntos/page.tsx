@@ -5,15 +5,14 @@ import { query, authScope } from "../../../lib/foundation/db";
 import { requireRole, requireBusiness } from "../../../lib/foundation/session";
 import { ActionForm } from "../../../lib/foundation/forms";
 import { Field, Hidden } from "../../../lib/foundation/fields";
-import { saveProgram, addReward } from "../../../lib/foundation/actions";
+import { addReward } from "../../../lib/foundation/actions";
 import {
   manageStaff,
   reviewRedemption,
   editReward,
 } from "../../../lib/points/actions";
-import { ProgramLogo } from "../../../lib/points/program-logo";
 import { PrintQr } from "../../../lib/points/print-qr";
-import { ProgramPreview } from "../../../lib/points/program-preview";
+import { ProgramEditor } from "../../../lib/points/program-editor";
 import { NfcSetup } from "../../../lib/points/nfc-setup";
 export const dynamic = "force-dynamic";
 export default async function PointsPanel({
@@ -76,55 +75,7 @@ export default async function PointsPanel({
       <nav className="programTabs" aria-label="Configuración del programa"><a href="#programa">Programa y premios</a><a href="#personal">Equipo</a><a href="#canjes">Canjes</a><a href="#qr">QR del negocio</a></nav>
       <section className="reviewBox" id="programa">
         <h2>Una tarjeta con tu identidad</h2>
-        <ActionForm action={saveProgram} label="Guardar programa">
-          <Hidden name="businessId" value={b.id} />
-          <Field
-            name="name"
-            label="Nombre del programa"
-            value={program?.name || "Mis recompensas"}
-          />
-          <Field
-            name="color"
-            label="Color de tu tarjeta"
-            type="color"
-            value={program?.color || "#164d3b"}
-          />
-          <ProgramLogo initial={program?.logo_url || ""} />
-          <label>
-            Modo de premio
-            <select name="mode" defaultValue={program?.mode || "single"}>
-              <option value="single">Un premio para todos</option>
-              <option value="choose">
-                Premios a elegir
-              </option>
-              <option value="sequence">Premios por etapas</option><option value="surprise">Premio sorpresa</option>
-            </select>
-          </label>
-          <Field
-            name="points"
-            label="Puntos por visita"
-            type="number"
-            min={1}
-            max={1000}
-            value={program?.points_per_visit || 1}
-          />
-          <Field
-            name="hours"
-            label="Horas mínimas entre visitas"
-            type="number"
-            min={0}
-            max={720}
-            value={program?.rules?.min_hours_between_visits ?? 0.0166666667}
-          />
-          <Field
-            name="max"
-            label="Máximo de visitas por día"
-            type="number"
-            min={1}
-            max={100}
-            value={program?.rules?.max_visits_per_day ?? 100}
-          />
-        </ActionForm>
+        <ProgramEditor businessId={b.id} business={b.name} program={program} reward={rewards.find((r) => r.active)} />
         <p>Premio sorpresa: los pesos se convierten en probabilidades proporcionales. Pesos iguales dan la misma probabilidad. El premio y su costo se muestran desde la asignación y no cambian al recargar. Los premios ya asignados se protegen hasta su canje.</p><h3>Tus premios, en orden</h3>
         {rewards.map((r) => (
           <article key={r.id} className="customerRow">
@@ -178,7 +129,6 @@ export default async function PointsPanel({
           />
         </ActionForm>
       </section>
-      <ProgramPreview business={b.name} program={program} reward={rewards.find((r) => r.active)} />
       <section className="reviewBox" id="personal">
         <h2>Tu equipo</h2>
         <p>
