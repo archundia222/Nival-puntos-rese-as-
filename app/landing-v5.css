@@ -307,21 +307,3 @@
 .nxFloatPoint{top:31%}
 .nxFloatReward{bottom:7%}
 }
-
-
-/* A short, scannable explanation replaces the long scroll-locked story. */
-.nx #contenido>.nxStory{max-width:1260px;margin:0 auto;padding:86px 28px 94px}
-.nxStory{height:auto;scroll-margin-top:72px;background:#123d2e;color:#fff}
-.nxStoryIntro{max-width:760px;margin:0 auto 34px;text-align:center}
-.nxStoryEyebrow{display:block;color:#d9ff9a;font-size:13px;line-height:1.5;letter-spacing:.1em;font-weight:800}
-.nxStoryIntro h2{font:400 clamp(36px,5vw,58px)/1.08 Georgia,serif;letter-spacing:-.035em;margin:12px 0}
-.nxStoryIntro>p{font-size:18px;line-height:1.55;color:#f1f6f1;margin:0}
-.nxStorySteps{list-style:none;padding:0;margin:0 auto;max-width:1120px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
-.nxStorySteps li{min-height:220px;padding:24px 22px;border:1px solid #ffffff35;border-radius:18px;background:#ffffff0d}
-.nxStoryStepNumber{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:#d9ff63;color:#123d2e;font-size:20px;font-weight:800}
-.nxStorySteps h3{font-size:21px;line-height:1.2;margin:22px 0 9px;color:#fff}
-.nxStorySteps li p{font-size:16px;line-height:1.55;color:#eff5ef;margin:0}
-.nxStoryRule{max-width:1120px;margin:18px auto 0;padding:16px 20px;border-radius:12px;background:#eff6e8;color:#173c2d;font-size:16px;line-height:1.55}
-.nxStoryRule strong{font-weight:800}
-@media(max-width:900px){.nxStorySteps{grid-template-columns:repeat(2,minmax(0,1fr))}.nxStorySteps li{min-height:190px}}
-@media(max-width:600px){.nx #contenido>.nxStory{padding:56px 18px 62px}.nxStoryIntro{margin-bottom:24px;text-align:left}.nxStoryEyebrow{font-size:12px}.nxStoryIntro h2{font-size:38px}.nxStoryIntro>p{font-size:17px}.nxStorySteps{grid-template-columns:1fr;gap:11px}.nxStorySteps li{min-height:0;padding:18px;display:grid;grid-template-columns:44px 1fr;column-gap:13px;align-items:start}.nxStoryStepNumber{grid-row:1/3;width:38px;height:38px;font-size:18px}.nxStorySteps h3{font-size:19px;margin:0 0 5px}.nxStorySteps li p{grid-column:2;font-size:15px}.nxStoryRule{font-size:15px;padding:15px 16px;margin-top:14px}}
