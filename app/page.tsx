@@ -40,7 +40,7 @@ export default async function Home() {
       <a href="/" className="nxLogo" aria-label="Nival, inicio"><b>N</b><span>NIVAL</span></a>
       <nav aria-label="Navegación principal">
         <a href="#como">Cómo funciona</a><a href="#precio">Precios</a><a href="/demo">Ver demo</a><a href="#contacto">Contacto</a>
-        <a className="nxLogin" href="/acceso">Dueños · Entrar</a><a className="nxLogin" href="/staff/acceso">Personal</a><a className="nxLogin" href="/acceso-administrador">Administrador</a><a className="nxNavCta" href="/acceso?modo=registro">Crear cuenta</a>
+        <a className="nxLogin" href="/staff/acceso">Personal</a><a className="nxLogin" href="/acceso-administrador">Administrador</a><a className="nxNavCta" href="/acceso?modo=registro">Acceso a negocios</a>
       </nav>
       <LandingMenu/>
     </header>
