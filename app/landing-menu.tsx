@@ -27,7 +27,9 @@ export default function LandingMenu() {
       </button>
       {open && <nav id="nx-mobile-nav" aria-label="Navegación móvil">
         {items.map(item => <a href={item.href} key={item.href} onClick={() => setOpen(false)}>{item.label}</a>)}
-        <a className="nxMobileLogin" href="/acceso" onClick={() => setOpen(false)}>Ya tengo cuenta · Entrar</a>
+        <a className="nxMobileLogin" href="/acceso" onClick={() => setOpen(false)}>Dueño del negocio · Entrar</a>
+        <a className="nxMobileLogin" href="/staff/acceso" onClick={() => setOpen(false)}>Personal · Entrar con PIN</a>
+        <a className="nxMobileLogin" href="/acceso-administrador" onClick={() => setOpen(false)}>Administrador de Nival</a>
         <a className="menuCta" href="/acceso?modo=registro" onClick={() => setOpen(false)}>Crear cuenta de negocio</a>
       </nav>}
     </div>
