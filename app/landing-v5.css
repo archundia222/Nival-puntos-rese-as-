@@ -274,3 +274,18 @@
 .nxService .nxSectionHead.compact h2{grid-column:1;font-size:48px}
 .nxService .nxSectionHead.compact p{grid-column:2;font-size:17px}
 }
+
+
+/* Hero: remove excess empty space above the opening headline on desktop */
+@media(min-width:901px){
+.nxHero{min-height:500px!important;align-items:stretch}
+.nxHeroCopy{justify-content:flex-start!important;align-items:flex-start;padding-top:46px!important;padding-bottom:35px!important}
+.nxHeroCopy .nxEyebrow{margin-top:0}
+.nxHero h1{margin-top:13px;margin-bottom:17px}
+.nxHeroVisual{min-height:500px!important}
+.nxVisualHalo{top:4%;width:min(37vw,410px);height:min(37vw,410px)}
+.nxHeroPhone{top:6%;width:210px}
+.nxHeroCard{bottom:11%;width:185px}
+.nxFloatReview{top:11%}
+.nxFloatReward{bottom:9%}
+}
