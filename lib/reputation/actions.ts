@@ -37,7 +37,7 @@ export async function generateReport(_:Result,f:FormData):Promise<Result>{
  if((rating!==null&&(!Number.isFinite(rating)||rating<1||rating>5))||(total!==null&&(!Number.isInteger(total)||total<0)))return {error:'Revisa las cifras actuales de Google.'};
  try{
  const blocked=await reviewPlanError(actor,b);if(blocked)return {error:blocked};
- const reviews=await query(actor,`select *,to_char(reviewed_on,'YYYY-MM-DD') reviewed_on from nival_pr.reviews where business_id=$1 and reviewed_on>=$2::date and reviewed_on<$3::date order by reviewed_on`,[b,start,end]);
+ const reviews=await query(actor,`select rv.*,to_char(rv.reviewed_on,'YYYY-MM-DD') reviewed_on from nival_pr.reviews rv where rv.business_id=$1 and rv.reviewed_on>=$2::date and rv.reviewed_on<$3::date order by rv.reviewed_on,rv.id`,[b,start,end]);
  const previous=await query(actor,`select * from nival_pr.reviews where business_id=$1 and reviewed_on>=$2::date-($3::date-$2::date) and reviewed_on<$2::date`,[b,start,end]);
  if(total!==null&&total<reviews.length)return {error:'El total de Google no puede ser menor que las reseñas del periodo.'};
  const [metrics]=await query(actor,`select count(*) filter(where l.type='visit')::int visits,coalesce(sum(l.points) filter(where l.type='visit'),0)::int points,count(*) filter(where l.type='redeem' and d.status<>'revertido')::int redemptions,count(distinct l.customer_id) filter(where l.type='visit')::int visiting_customers from nival_pr.point_ledger l left join nival_pr.redemptions d on d.ledger_id=l.id where l.business_id=$1 and (l.created_at at time zone 'America/Mexico_City')::date>=$2::date and (l.created_at at time zone 'America/Mexico_City')::date<$3::date`,[b,start,end]);
