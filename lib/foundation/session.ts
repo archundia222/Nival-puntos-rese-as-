@@ -3,7 +3,7 @@ import {cookies} from 'next/headers';
 import {redirect} from 'next/navigation';
 import {getAuth} from '../backend/auth';
 import {query,authScope,foundationEnabled,type Actor,type Role} from './db';
-import {sha256,roleHome} from './security.mjs';
+import {sha256} from './security.mjs';
 import {canEnterAdministration} from '../security/admin-policy.mjs';
 import {validAdminProof} from '../security/admin-proof.mjs';
 export const adminCookie='nival_admin_access';
@@ -30,7 +30,7 @@ export async function currentActor():Promise<Actor|null>{
  return emailActor();
 }
 export async function requireRole(...allowed:Role[]){
- const actor=await currentActor();if(!actor)redirect(allowed.includes('superadmin')?'/acceso-administrador':'/acceso');if(!allowed.includes(actor.role))redirect(roleHome(actor.role));return actor;
+ const actor=allowed.includes('staff')?await currentActor():await emailActor();if(!actor)redirect(allowed.includes('superadmin')?'/acceso-administrador':allowed.length===1&&allowed.includes('staff')?'/staff/acceso':'/acceso');if(!allowed.includes(actor.role))redirect(allowed.includes('superadmin')?'/acceso-administrador':allowed.length===1&&allowed.includes('staff')?'/staff/acceso':'/acceso');return actor;
 }
 export async function requireAdminRole(){
  return requireRole('superadmin');

@@ -1,3 +1,6 @@
+import {entitlements} from '../../../lib/foundation/entitlements.mjs';
+import {AccountState} from '../../../lib/owner/account-state';
+import {redirect} from 'next/navigation';
 import {DashboardShell} from "../../../lib/owner/shell";
 import {logout} from "../../../lib/foundation/actions";
 import {Icon} from "../../../lib/owner/icons";
@@ -12,20 +15,18 @@ import {
   editReward,
 } from "../../../lib/points/actions";
 import { ProgramLogo } from "../../../lib/points/program-logo";
-import { PrintQr } from "../../../lib/points/print-qr";
 import { ProgramPreview } from "../../../lib/points/program-preview";
-import { NfcSetup } from "../../../lib/points/nfc-setup";
 export const dynamic = "force-dynamic";
 export default async function PointsPanel({
   searchParams,
 }: {
-  searchParams: Promise<{ business?: string }>;
+  searchParams: Promise<{ business?: string;view?:string }>;
 }) {
   const actor = await requireRole("owner"),
     params = await searchParams;
   const businesses = await query(
     actor,
-    "select id,name,slug from nival_pr.businesses order by name",
+    "select b.*,p.features from nival_pr.businesses b left join nival_pr.plans p on p.id=b.plan_id order by b.name",
   );
   const b = businesses.find((x) => x.id === params.business) || businesses[0];
   if (!b)
@@ -36,6 +37,9 @@ export default async function PointsPanel({
       </main>
     );
   await requireBusiness(actor, b.id);
+  if(!entitlements(b).active)return <main className="dashboard"><a href={"/panel?business="+b.id}>Mi negocio</a><AccountState b={b}/></main>;
+  if(params.view==='compartir')redirect('/panel?business='+b.id+'#compartir');
+  const view=['programa','equipo','canjes','compartir'].includes(params.view||'')?params.view:'programa';
   const [program] = await query(
     actor,
     "select * from nival_pr.programs where business_id=$1",
@@ -57,7 +61,7 @@ export default async function PointsPanel({
     [b.id],
   );
   return (
-    <DashboardShell name={b.name} owner={actor.name} status="Mi cuenta" demo={false} initialSection="ajustes" homeUrl={'/panel?business='+b.id} logout={<form action={logout}><button className="logoutButton" aria-label="Cerrar sesión"><Icon name="logout" size={18}/></button></form>}>
+    <DashboardShell name={b.name} owner={actor.name} status="Mi cuenta" demo={false} initialSection={view==='canjes'?'equipo':view} homeUrl={'/panel?business='+b.id} logout={<form action={logout}><button className="logoutButton" aria-label="Cerrar sesión"><Icon name="logout" size={18}/></button></form>}>
     <main className="dashboard programWorkspace">
       <header className="dashHead">
         <div>
@@ -73,8 +77,8 @@ export default async function PointsPanel({
           </a>
         ))}
       </nav>
-      <nav className="programTabs" aria-label="Configuración del programa"><a href="#programa">Programa y premios</a><a href="#personal">Equipo</a><a href="#canjes">Canjes</a><a href="#qr">QR del negocio</a></nav>
-      <section className="reviewBox" id="programa">
+      <nav className="programTabs" aria-label="Secciones del programa">{[['programa','Programa y premios'],['equipo','Personal'],['canjes','Canjes']].map(([key,label])=><a key={key} aria-current={view===key?'page':undefined} href={'/panel/puntos?business='+b.id+'&view='+key}>{label}</a>)}</nav>
+      {view==='programa'&&<><section className="reviewBox" id="programa">
         <h2>Una tarjeta con tu identidad</h2>
         <ActionForm action={saveProgram} label="Guardar programa">
           <Hidden name="businessId" value={b.id} />
@@ -179,7 +183,8 @@ export default async function PointsPanel({
         </ActionForm>
       </section>
       <ProgramPreview business={b.name} program={program} reward={rewards.find((r) => r.active)} />
-      <section className="reviewBox" id="personal">
+      </>}
+      {view==='equipo'&&<section className="reviewBox" id="personal">
         <h2>Tu equipo</h2>
         <p>
           Cada mesero recibe su identificador y un PIN individual de 6 a 8
@@ -221,8 +226,8 @@ export default async function PointsPanel({
             </ActionForm>
           </article>
         ))}
-      </section>
-      <section className="reviewBox" id="canjes">
+      </section>}
+      {view==='canjes'&&<section className="reviewBox" id="canjes">
         <h2>Canjes y evidencia</h2>
         {!redemptions.length && (
           <p>Aquí aparecerán los premios entregados por tu equipo.</p>
@@ -276,12 +281,8 @@ export default async function PointsPanel({
             )}
           </article>
         ))}
-      </section>
-      <NfcSetup name={b.name} slug={b.slug} />
-      <section className="reviewBox" id="qr">
-        <h2>QR para tu mostrador</h2>
-        <PrintQr name={b.name} slug={b.slug} logo={program?.logo_url} />
-      </section>
+      </section>}
+
     </main></DashboardShell>
   );
 }

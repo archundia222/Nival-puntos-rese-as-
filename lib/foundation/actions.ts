@@ -1,4 +1,5 @@
 "use server";
+import {requireTool} from './require-tool';
 import { kickWalletJobs } from "../wallet/server";
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -131,7 +132,7 @@ export async function addCustomer(_: Result, f: FormData): Promise<Result> {
   if (!uuid(b) || !name || name.length > 100 || !phone)
     return { error: "Revisa nombre y teléfono mexicano (10 dígitos)." };
   try {
-    await requireBusiness(actor, b);
+    await requireTool(actor, b);
     await query(
       actor,
       "insert into nival_pr.customers(id,business_id,name,phone) values($1,$2,$3,$4)",
@@ -162,7 +163,7 @@ export async function movement(_: Result, f: FormData): Promise<Result> {
   )
     return { error: "Movimiento inválido." };
   try {
-    await requireBusiness(actor, b);
+    await requireTool(actor, b);
     const statement =
       kind === "visit"
         ? {
@@ -224,7 +225,7 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
   )
     return { error: "Revisa las reglas del programa." };
   try {
-    await requireBusiness(actor, b);
+    await requireTool(actor, b);
     await query(
       actor,
       "insert into nival_pr.programs(business_id,name,mode,points_per_visit,color,rules,logo_url) values($1,$2,$3,$4,$5,$6::jsonb,$7) on conflict(business_id) do update set name=excluded.name,mode=excluded.mode,points_per_visit=excluded.points_per_visit,color=excluded.color,rules=excluded.rules,logo_url=excluded.logo_url",
@@ -265,7 +266,7 @@ export async function addReward(_: Result, f: FormData): Promise<Result> {
   )
     return { error: "Revisa el premio, su costo y su posición." };
   try {
-    await requireBusiness(actor, b);
+    await requireTool(actor, b);
     const [row] = await query(
       actor,
       "insert into nival_pr.rewards(program_id,name,points_cost,position) select id,$2,$3,$4 from nival_pr.programs where business_id=$1 returning id",

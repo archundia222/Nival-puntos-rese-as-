@@ -1,4 +1,5 @@
 "use server";
+import {requireTool} from '../foundation/require-tool';
 import {revalidatePath} from 'next/cache';
 import {guardAction} from '../foundation/action-guard';
 import {query,transaction} from '../foundation/db';
@@ -7,7 +8,7 @@ import type {Result} from '../foundation/actions';
 const value=(f:FormData,k:string)=>String(f.get(k)||'').trim();
 const pointsOnlyMessage='El plan Nival Solo Puntos no incluye carga, respuesta ni reportes de reseñas.';
 type ReviewActor=Parameters<typeof query>[0];
-async function reviewPlanError(actor:ReviewActor,businessId:string){const [b]=await query(actor,'select p.features from nival_pr.businesses b left join nival_pr.plans p on p.id=b.plan_id where b.id=$1',[businessId]);return b?.features?.points_only===true?pointsOnlyMessage:null;}
+async function reviewPlanError(actor:ReviewActor,businessId:string){const [b]=await query(actor,'select p.features from nival_pr.businesses b left join nival_pr.plans p on p.id=b.plan_id where b.id=$1',[businessId]);try{await requireTool(actor as any,businessId,'reviews');return null;}catch(e){return String((e as Error).message);}}
 async function businessForReview(actor:ReviewActor,reviewId:string){const [r]=await query(actor,'select business_id from nival_pr.reviews where id=$1',[reviewId]);return r?.business_id as string|undefined;}
 async function businessForReport(actor:ReviewActor,reportId:string){const [r]=await query(actor,'select business_id from nival_pr.generated_reports where id=$1',[reportId]);return r?.business_id as string|undefined;}
 
@@ -17,7 +18,7 @@ export async function importReviews(_:Result,f:FormData):Promise<Result>{
  try{
  const raw=JSON.parse(value(f,'reviews'));if(!Array.isArray(raw)||!raw.length||raw.length>200)return {error:'Carga entre 1 y 200 reseñas por lote.'};
  const reviews=raw.map(validateReview);
- const [business]=await query(actor,'select b.name,p.features from nival_pr.businesses b left join nival_pr.plans p on p.id=b.plan_id where b.id=$1',[b]);if(!business)return {error:'Negocio no encontrado.'};if(business.features?.points_only===true)return {error:pointsOnlyMessage};
+ const [business]=await query(actor,'select b.name,p.features from nival_pr.businesses b left join nival_pr.plans p on p.id=b.plan_id where b.id=$1',[b]);if(!business)return {error:'Negocio no encontrado.'};const blocked=await reviewPlanError(actor,b);if(blocked)return {error:blocked};
  const result=await transaction(actor,reviews.map(r=>({text:`insert into nival_pr.reviews(business_id,reviewer,stars,body,reviewed_on,fingerprint,response_draft) values($1,$2,$3,$4,$5,$6,$7) on conflict(business_id,fingerprint) do nothing returning id`,values:[b,r.reviewer,r.stars,r.body,r.reviewed_on,r.fingerprint,replyDraft(r,business.name)]})));
  const added=result.reduce((n,r)=>n+r.length,0);refresh();return {success:`${added} reseñas registradas; ${reviews.length-added} duplicadas omitidas.`};
  }catch{return {error:'No se pudo importar. Revisa los datos y las fechas antes de guardar.'};}
@@ -25,7 +26,7 @@ export async function importReviews(_:Result,f:FormData):Promise<Result>{
 export async function recordPublishedReply(_:Result,f:FormData):Promise<Result>{
  const actor=await guardAction(['superadmin']);
  if(f.get('confirmed')!=='on')return {error:'Confirma que publicaste esta respuesta en Google.'};
- try{const businessId=await businessForReview(actor,value(f,'reviewId'));if(!businessId)return {error:'Reseña no encontrada.'};const blocked=await reviewPlanError(actor,businessId);if(blocked)return {error:blocked};await query(actor,'select nival_pr.publish_review($1,$2)',[value(f,'reviewId'),value(f,'reply')]);refresh();return {success:'Publicación registrada y descontada del cupo actual.'};}
+ try{const businessId=await businessForReview(actor,value(f,'reviewId'));if(!businessId)return {error:'Reseña no encontrada.'};const blocked=await reviewPlanError(actor,businessId);if(blocked)return {error:blocked};await requireTool(actor,businessId,'replies');await query(actor,'select nival_pr.publish_review($1,$2)',[value(f,'reviewId'),value(f,'reply')]);refresh();return {success:'Publicación registrada y descontada del cupo actual.'};}
  catch(e){const m=String((e as Error).message);return {error:/Cupo agotado|Servicio no activo|ya respondida|Plan sin cupo/.test(m)?m:'No se pudo registrar la publicación.'};}
 }
 export async function generateReport(_:Result,f:FormData):Promise<Result>{

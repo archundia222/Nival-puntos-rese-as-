@@ -69,7 +69,7 @@ test('pricing shows the three current plans, review caps, and the recommended ti
   assert.ok(page.includes("name: 'Nival Puntos', price: 299"));
   assert.ok(page.includes("name: 'Esencial', price: 399"));
   assert.ok(page.includes("name: 'Plus', price: 499"));
-  assert.ok(page.includes('Hasta 30 respuestas manuales por periodo de 30 días'));
+  assert.ok(page.includes('Reportes y seguimiento, sin respuestas incluidas'));
   assert.ok(page.includes('Hasta 100 respuestas manuales por periodo de 30 días'));
   assert.ok(page.includes('recommended: true'));
   assert.ok(page.includes('QR digital incluido'));

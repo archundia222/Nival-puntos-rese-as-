@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-export function ProgramLogo({ initial }: { initial: string }) {
+export function ProgramLogo({ initial,name="logo",label="Logo del negocio" }: { initial: string;name?:string;label?:string }) {
   const [value, setValue] = useState(initial),
     [error, setError] = useState("");
   async function pick(file?: File) {
@@ -20,17 +20,17 @@ export function ProgramLogo({ initial }: { initial: string }) {
   return (
     <div className="wide">
       <label>
-        Logo del negocio
+        {label}
         <input
           type="file"
           accept="image/png,image/jpeg,image/webp"
           onChange={(e) => pick(e.target.files?.[0])}
         />
       </label>
-      <input type="hidden" name="logo" value={value} />
+      <input type="hidden" name={name} value={value} />
       {value && (
         <>
-          <img src={value} alt="Vista previa del logo" width="80" height="80" />
+          <img src={value} alt={label} width="80" height="80" />
           <button type="button" onClick={() => setValue("")}>
             Quitar logo
           </button>

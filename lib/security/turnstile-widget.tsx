@@ -25,6 +25,8 @@ export function TurnstileWidget({siteKey,onTokenChange=ignoreTokenChange}:{siteK
  const containerRef=useRef<HTMLDivElement>(null);
  const widgetIdRef=useRef<string|null>(null);
  const [scriptReady,setScriptReady]=useState(false);
+ const [attempt,setAttempt]=useState(0);
+ useEffect(()=>{if(window.turnstile)setScriptReady(true);},[]);
  const [widgetError,setWidgetError]=useState("");
 
  useEffect(()=>{
@@ -45,7 +47,7 @@ export function TurnstileWidget({siteKey,onTokenChange=ignoreTokenChange}:{siteK
    widgetIdRef.current=null;
    onTokenChange("");
   };
- },[scriptReady,siteKey,onTokenChange]);
+ },[scriptReady,siteKey,onTokenChange,attempt]);
 
  if(!siteKey)return <p className="error" role="alert">Protección anti-bot pendiente de configuración.</p>;
 
@@ -53,10 +55,10 @@ export function TurnstileWidget({siteKey,onTokenChange=ignoreTokenChange}:{siteK
   <Script
    src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
    strategy="afterInteractive"
-   onLoad={()=>setScriptReady(true)}
+   onReady={()=>setScriptReady(true)}
    onError={()=>{onTokenChange("");setWidgetError("No se pudo cargar la verificación anti-bot. Revisa la conexión e intenta recargar la página.");}}
   />
   <div ref={containerRef}/>
-  {widgetError&&<p className="error" role="alert">{widgetError}</p>}
+  {widgetError&&<div><p className="error" role="alert">{widgetError}</p><button type="button" onClick={()=>{onTokenChange('');setWidgetError('');if(window.turnstile){setScriptReady(true);setAttempt(v=>v+1);}else window.location.reload();}}>Reintentar verificación</button></div>}
  </>;
 }

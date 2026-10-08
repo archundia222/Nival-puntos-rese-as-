@@ -29,6 +29,7 @@ export async function POST(request:Request,context:any){
  if(path.endsWith('/sign-up/email')){
   let email='';try{email=validEmail((await request.clone().json())?.email);}catch{}
   if(email===administratorEmail)return Response.json({message:'Configura este acceso desde Administración privada.'},{status:403});
+  if(!await loginAllowed(request))return Response.json({message:'Demasiados registros. Espera 15 minutos.'},{status:429});
   const jar=await cookies();if(!verifyTurnstileCookie(jar.get('nival_turnstile')?.value,secret()))return Response.json({message:'Verificación anti-bot requerida.'},{status:403});
  }
  const response=await getAuth().handler().POST(request,context);

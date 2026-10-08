@@ -2,7 +2,7 @@
 import {compressPhoto} from "./compress-photo";
 import { useEffect, useRef, useState } from "react";
 import { BrowserQRCodeReader, type IScannerControls } from "@zxing/browser";
-export function Scanner({ businessId }: { businessId: string }) {
+export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:"visit"|"redeem" }) {
   const video = useRef<HTMLVideoElement>(null),
     controls = useRef<IScannerControls | null>(null),
     mounted = useRef(true),
@@ -160,7 +160,7 @@ export function Scanner({ businessId }: { businessId: string }) {
     <section className="scannerWorkspace">
       <div className="scannerIntro">
         <small>UNA VISITA, UN PASO MÁS</small>
-        <h2>Atiende. Escanea. Listo.</h2>
+        <h2>{mode==='visit'?'Sumar puntos':'Canjear premios'}</h2>
         <p>Escanea el QR personal de la tarjeta del cliente.</p>
         <button
           className="scanButton"
@@ -213,14 +213,14 @@ export function Scanner({ businessId }: { businessId: string }) {
           <p>
             <strong>{customer.balance}</strong> puntos actuales
           </p>
-          <button
+          {mode==='visit'&&<button
             className="primary"
             disabled={busy}
             onClick={() => move("visit")}
           >
-            Registrar visita
-          </button>
-          <div className="redeemBox">
+            Sumar puntos por esta visita
+          </button>}
+          {mode==='redeem'&&<div className="redeemBox">
             <h3>{customer.reward?.name || "Premio por elegir"}</h3>
             <p>
               {customer.reward
@@ -257,7 +257,7 @@ export function Scanner({ businessId }: { businessId: string }) {
                   </button>
                 </>
               )}
-          </div>
+          </div>}
           <button disabled={busy} onClick={recover}>
             Reenviar tarjeta por WhatsApp
           </button>

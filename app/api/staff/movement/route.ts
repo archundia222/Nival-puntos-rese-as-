@@ -1,3 +1,4 @@
+import {requireTool} from '../../../../lib/foundation/require-tool';
 import {evidenceStorage,saveEvidence} from "../../../../lib/storage/evidence.mjs";
 import { kickWalletJobs } from "../../../../lib/wallet/server";
 import { NextResponse } from "next/server";
@@ -32,7 +33,7 @@ export async function POST(req: Request) {
       !["visit", "redeem"].includes(String(type))
     )
       throw Error("Invalid input");
-    await requireBusiness(actor, b);
+    await requireTool(actor, b);
     const [r] = await query(
       authScope(actor.id),
       "select nival_pr_private.staff_customer($1,null,$2) data",

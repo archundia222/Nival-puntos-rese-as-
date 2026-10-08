@@ -1,9 +1,10 @@
 'use server';
 
 import {validateLegalDraft} from '../foundation/legal.mjs';
+import {sha256} from '../foundation/security.mjs';
 import {randomBytes} from 'node:crypto';
 import {revalidatePath} from 'next/cache';
-import {query,systemQuery,transaction,type Actor} from '../foundation/db';
+import {query,systemQuery,transaction,authScope,type Actor} from '../foundation/db';
 import {requireBusiness} from '../foundation/session';
 import {guardAction} from '../foundation/action-guard';
 import {encodeReviewInsights} from '../owner/review-insights.mjs';
@@ -25,8 +26,11 @@ async function audit(actor:Actor,action:string,entity:string,businessId:string|n
  await query(actor,'insert into nival_pr.audit_log(actor_id,action,entity,business_id,data) values($1,$2,$3,$4,$5::jsonb)',[actor.id,action,entity,businessId,JSON.stringify(data)]);
 }
 async function seedRecurringTasks(_actor:Actor,businessId:string){
- const schedule=[['Diagnóstico inicial: cargar reseñas y revisar reporte',0,null],['Revisar reseñas · primera revisión semanal',3,'weekly'],['Revisar reseñas · segunda revisión semanal',6,'weekly'],['Generar y aprobar resumen semanal',7,'weekly'],['Generar y aprobar reporte mensual',30,'monthly'],['Cobrar mensualidad',30,'monthly']] as const;
- for(const [title,days,recurrence] of schedule)await systemQuery(`insert into nival_pr.tasks(business_id,title,status,due_date,recurrence) select $1,$2,'pendiente',(now() at time zone 'America/Mexico_City')::date+$3::int,$4 where not exists(select 1 from nival_pr.tasks where business_id=$1 and title=$2 and status in ('pendiente','en_progreso'))`,[businessId,title,days,recurrence]);
+ const [context]=await systemQuery('select b.*,p.features from nival_pr.businesses b left join nival_pr.plans p on p.id=b.plan_id where b.id=$1',[businessId]);
+ if(!context||context.status==='cancelado'||!context.paid_until)return;
+ const reviews=context?.features?.points_only!==true&&['activo','por_vencer'].includes(context?.status)&&Math.max(Date.parse(context?.paid_until||'')||0,Date.parse(context?.trial_ends_at||'')||0)>Date.now();
+ const schedule=[['Diagnóstico inicial: cargar reseñas y revisar reporte',0,null],['Revisar reseñas · seguimiento semanal',3,'weekly'],['Generar y aprobar reporte mensual',28,'monthly'],['Cobrar mensualidad',25,'monthly']] as const;
+ for(const [title,days,recurrence] of schedule.filter(([title])=>reviews||title==='Cobrar mensualidad'))await systemQuery(`insert into nival_pr.tasks(business_id,title,status,due_date,recurrence) select $1,$2,'pendiente',case when $2='Cobrar mensualidad' then (select (paid_until at time zone 'America/Mexico_City')::date-5 from nival_pr.businesses where id=$1) else (now() at time zone 'America/Mexico_City')::date+$3::int end,$4 where ($2 not like 'Diagnóstico%' or not exists(select 1 from nival_pr.generated_reports where business_id=$1 and kind='diagnosis')) and not exists(select 1 from nival_pr.tasks where business_id=$1 and title=$2 and status in ('pendiente','en_progreso')) on conflict do nothing`,[businessId,title,days,recurrence]);
 }
 
 export async function changeBusinessStatus(_:Result,f:FormData):Promise<Result>{
@@ -49,7 +53,7 @@ export async function setBusinessPlan(_:Result,f:FormData):Promise<Result>{
   const [row]=await query(actor,'update nival_pr.businesses set plan_id=$2 where id=$1 returning id',[businessId,planId]);
   if(!row)return {error:'Negocio no encontrado.'};
   await audit(actor,'business.plan_changed','businesses',businessId,{plan_id:planId});
-  revalidatePath('/admin');return {success:'Plan actualizado.'};
+  await seedRecurringTasks(actor,businessId);revalidatePath('/admin');revalidatePath('/panel');revalidatePath('/admin/reportes');return {success:'Plan actualizado. El historial se conserva y los permisos se ajustan al plan contratado.'};
  }catch(e){return {error:cleanError(e)}}
 }
 
@@ -68,8 +72,8 @@ export async function registerPayment30(_:Result,f:FormData):Promise<Result>{
  if(!uuid(businessId)||!Number.isFinite(amount)||amount<=0||amount>1000000||!methods.includes(method))return {error:'Revisa monto y método.'};
  try{
  const rows=await transaction(actor,[{text:`with locked as (select * from nival_pr.businesses where id=$1 for update),updated as (
- update nival_pr.businesses b set status=case when l.status='activo' and l.paid_until>now() then 'activo' else 'pago_pendiente' end,
- paid_until=case when l.status='activo' and l.paid_until>now() then l.paid_until+interval '30 days' else l.paid_until end
+ update nival_pr.businesses b set status=case when l.status in ('activo','por_vencer') and l.paid_until>now() then 'activo' else 'pago_pendiente' end,
+ paid_until=case when l.status in ('activo','por_vencer') and l.paid_until>now() then l.paid_until+interval '30 days' else l.paid_until end
  from locked l where b.id=l.id returning b.id,b.status,b.paid_until)
  insert into nival_pr.payments(business_id,amount,method,reference,period_start,period_end,registered_by)
  select $1,$2,$3,nullif($4,''),case when u.status='activo' then (u.paid_until at time zone 'America/Mexico_City')::date-30 else (now() at time zone 'America/Mexico_City')::date end,case when u.status='activo' then (u.paid_until at time zone 'America/Mexico_City')::date else (now() at time zone 'America/Mexico_City')::date+30 end,$5 from updated u returning id`,values:[businessId,amount,method,reference,actor.id]}]);
@@ -98,6 +102,8 @@ export async function redeemActivationCode(_:Result,f:FormData):Promise<Result>{
  if(!uuid(businessId)||!/^NIV-[A-F0-9]{4}-[A-F0-9]{4}$/.test(code))return {error:'Código inválido.'};
  await requireBusiness(actor,businessId);
  try{
+  const [attempt]=await query(authScope(actor.id),'select nival_pr_private.claim_pin_attempt($1) accepted',[sha256('activation:'+actor.id)]);
+  if(!attempt?.accepted)return {error:'Demasiados intentos. Espera 15 minutos antes de probar otro código.'};
   const rows=await systemQuery(`with claimed as (
     update nival_pr.activation_codes set used_at=now()
     where code=$1 and business_id=$2 and used_at is null and expires_at>now()
@@ -109,7 +115,12 @@ export async function redeemActivationCode(_:Result,f:FormData):Promise<Result>{
     update nival_pr.payments p set period_start=(now() at time zone 'America/Mexico_City')::date,period_end=(now() at time zone 'America/Mexico_City')::date+30 from claimed c where p.id=c.payment_id
    )
    select * from activated`,[code,businessId]);
-  const row=rows[0];if(!row)return {error:'El código no existe, ya fue usado o venció.'};
+  const row=rows[0];if(!row){
+   const [reason]=await systemQuery(`select used_at,expires_at from nival_pr.activation_codes where code=$1 and business_id=$2`,[code,businessId]);
+   if(reason?.used_at)return {error:'Este código ya fue utilizado. Si necesitas renovar, solicita un nuevo periodo a Nival.'};
+   if(reason?.expires_at&&new Date(reason.expires_at).getTime()<=Date.now())return {error:'Este código venció. Pide a Nival que te entregue uno vigente.'};
+   return {error:'Este código no corresponde a tu negocio o está mal escrito. Copia el código completo NIV-XXXX-XXXX y comprueba la cuenta de tu negocio.'};
+  }
   await systemQuery('insert into nival_pr.audit_log(actor_id,action,entity,business_id,data) values($1,$2,$3,$4,$5::jsonb)',[actor.id,'activation_code.redeemed','activation_codes',businessId,JSON.stringify({code})]);
   await seedRecurringTasks(actor,businessId);
   revalidatePath('/panel');return {success:'Servicio activado por 30 días.'};
@@ -138,7 +149,7 @@ export async function moveTask(taskId:string,status:string):Promise<{ok:boolean}
    when 'daily' then greatest(coalesce(due_date,current_date),current_date)+1
    when 'weekly' then greatest(coalesce(due_date,current_date),current_date)+7
    else (greatest(coalesce(due_date,current_date),current_date)+interval '1 month')::date end,recurrence
-  from changed where $2='completada' and recurrence is not null
+  from changed c where $2='completada' and recurrence is not null and (title='Cobrar mensualidad' or exists(select 1 from nival_pr.businesses b join nival_pr.plans p on p.id=b.plan_id where b.id=c.business_id and b.status in ('activo','por_vencer') and b.paid_until>now() and coalesce((p.features->>'points_only')::boolean,false)=false))
  )
  insert into nival_pr.audit_log(actor_id,action,entity,business_id,data)
  select $3,'task.status_changed','tasks',business_id,jsonb_build_object('task_id',id,'status',$2,'title',title)

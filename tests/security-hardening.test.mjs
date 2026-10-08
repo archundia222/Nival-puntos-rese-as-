@@ -24,7 +24,7 @@ test('owner/admin email login is rate limited and business signup consumes a ver
 });
 test('public customer enrollment verifies Turnstile before database enrollment',()=>{
  const a=readFileSync('lib/foundation/actions.ts','utf8'),p=readFileSync('app/b/[slug]/page.tsx','utf8');
- assert.ok(a.indexOf('verifyTurnstile(val(f,"cf-turnstile-response")')<a.indexOf('enroll_customer_legal'));assert.ok(p.includes('<TurnstileWidget siteKey={turnstileSiteKey}/>'));
+ assert.ok(a.indexOf('verifyTurnstile(val(f,"cf-turnstile-response")')<a.indexOf('enroll_customer_legal'));assert.ok(p.includes('<VerifiedActionForm')&&p.includes('siteKey={turnstileSiteKey}')&&p.includes('needsVerification={!valid?.valid}'));const verified=readFileSync('lib/security/verified-form.tsx','utf8');assert.ok(verified.includes('submitDisabled={needsVerification&&!token}')&&verified.includes('onTokenChange={setToken}'));
 });
 test('Wallet resources are namespaced away from other Nival products',()=>{
  const s=readFileSync('lib/wallet/google.mjs','utf8');assert.ok(s.includes(".puntos_business_"));assert.ok(s.includes(".puntos_customer_"));assert.ok(!s.includes(".npr_business_"));

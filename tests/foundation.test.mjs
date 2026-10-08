@@ -25,12 +25,12 @@ test('expired staff sessions fail and owner role cannot use staff-only membershi
 
  test('recurring completion is atomic and repeat completion creates no duplicate',async()=>{const db=await setup();try{
  await as(db,'npr_v2_admin',ids.admin);
- const task=(await db.query("insert into nival_pr.tasks(business_id,title,recurrence,due_date) values($1,'Semanal','weekly',current_date-30) returning id",[ba])).rows[0];
+ const task=(await db.query("insert into nival_pr.tasks(business_id,title,recurrence,due_date) values($1,'Cobrar mensualidad','weekly',current_date-30) returning id",[ba])).rows[0];
  const source=readFileSync('lib/admin/actions.ts','utf8');
  const sql=source.match(/with changed as \([\s\S]*?from changed returning id/)[0];
  await db.query(sql,[task.id,'completada',ids.admin]);
  await db.query(sql,[task.id,'completada',ids.admin]);
- const tasks=(await db.query("select status,due_date from nival_pr.tasks where title='Semanal'")).rows;
+ const tasks=(await db.query("select status,due_date from nival_pr.tasks where title='Cobrar mensualidad'")).rows;
  assert.equal(tasks.length,2);assert.equal(tasks.filter(t=>t.status==='pendiente').length,1);
  assert.equal((await db.query("select count(*)::int n from nival_pr.audit_log where action='task.status_changed'")).rows[0].n,1);
  }finally{await db.close();}});

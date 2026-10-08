@@ -13,10 +13,12 @@ const Phone = () => <div className="nxPhone"><div className="nxPhoneTop"><span>9
 const NfcCard = () => <div className="nxNfcCard"><div><small>NIVAL</small><strong>Card</strong></div><span className="nxNfcWaves"><i/><i/><i/></span><p>ACERCA TU CELULAR</p></div>;
 
 export default async function Home() {
+  let testimonials:Record<string,any>[]=[];
   let values: { [key: string]: string } = { ...defaults };
   if (foundationEnabled()) {
     try {
       const rows = await systemQuery("select key,value_published from nival_pr.site_content where value_published is not null");
+      testimonials=rows.filter(r=>r.key.startsWith('testimonial_')&&r.value_published?.permission===true).map(r=>({...r.value_published,id:r.key}));
       for (const row of rows) if (row.key in values) values[row.key] = String(row.value_published?.text ?? values[row.key]);
     } catch {}
   }
@@ -30,7 +32,7 @@ export default async function Home() {
   const wa = whatsapp('principal');
   const plans: { name: string; price: number; tag: string; recommended?: boolean; features: string[] }[] = [
     { name: 'Nival Puntos', price: 299, tag: 'SOLO LEALTAD', features: ['Sistema de puntos por visitas con compra', 'Premios y registro de canjes', 'Panel con clientes e historial', 'QR digital incluido'] },
-    { name: 'Esencial', price: 399, tag: 'PUNTOS + RESEÑAS', recommended: true, features: ['Todo lo incluido en Nival Puntos', 'Análisis y seguimiento de reseñas', 'Hasta 30 respuestas manuales por periodo de 30 días'] },
+    { name: 'Esencial', price: 399, tag: 'PUNTOS + RESEÑAS', recommended: true, features: ['Todo lo incluido en Nival Puntos', 'Análisis y seguimiento de reseñas', 'Reportes y seguimiento, sin respuestas incluidas'] },
     { name: 'Plus', price: 499, tag: 'MÁS RESPUESTAS', features: ['Todo lo incluido en Nival Puntos', 'Análisis y seguimiento de reseñas', 'Hasta 100 respuestas manuales por periodo de 30 días'] },
   ];
 
@@ -95,6 +97,7 @@ export default async function Home() {
       <div className="nxActivation"><h3>Pago y activación</h3><p>Registra tu negocio y contacta a Nival para activar tu plan. Una vez confirmado el pago, Nival te proporciona un código único de activación. Al ingresarlo, comienza un periodo de 30 días. Al vencer, el historial se conserva y las herramientas activas se pausan hasta renovar.</p></div>
     </section>
 
+    {testimonials.length>0&&<section className="nxSection"><div className="nxSectionHead"><h2>Negocios que usan Nival</h2></div><div className="nxPriceGrid">{testimonials.map(t=><article className="nxPlanCard" key={t.id}><img src={t.photo} alt={'Local de '+t.businessName} width="320" height="220" style={{objectFit:'cover',maxWidth:'100%',borderRadius:12}}/><h3>{t.businessName}</h3><blockquote>{t.quote}</blockquote><p>{t.author}</p></article>)}</div></section>}
     <section id="contacto" className="nxContact nxFinal" aria-labelledby="contact-title">
       <div><span>¿LO VEMOS PARA TU NEGOCIO?</span><h2 id="contact-title">Hablemos de lo que necesitas.</h2></div>
       <div><p>Cuéntanos el giro y la ubicación de tu negocio. Te orientamos sobre el plan y el proceso de activación.</p><a href={whatsapp('contacto')} target="_blank" rel="noreferrer">Hablar con Nival por WhatsApp <Arrow/></a><small>Atención de Nival Tech · México</small></div>

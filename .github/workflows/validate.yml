@@ -6,6 +6,7 @@ on:
       - feature/piloto-bloque-1
       - fix/admin-private-access
       - feature/full-site-qa
+      - feature/paneles-planes-intuitivos
   pull_request:
 jobs:
   validate:

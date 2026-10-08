@@ -1,3 +1,4 @@
+import {requireTool} from '../../../../lib/foundation/require-tool';
 import { NextResponse } from "next/server";
 import {
   requireRole,
@@ -20,6 +21,7 @@ export async function POST(req: Request) {
     if (!b || !uuid(b) || !uuid(c) || data.confirm !== true)
       throw Error("Invalid recovery");
     await requireBusiness(actor, b);
+    await requireTool(actor,b);
     const [r] = await query(
       authScope(actor.id),
       "select nival_pr_private.staff_customer($1,null,$2) data",

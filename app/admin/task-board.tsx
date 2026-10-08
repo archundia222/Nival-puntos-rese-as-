@@ -22,7 +22,7 @@ export default function TaskBoard({tasks}:{tasks:Task[]}){
   <header><strong>{col.label}</strong><span>{grouped[col.key].length}</span></header>
   {grouped[col.key].map(task=><article draggable key={task.id} onDragStart={e=>e.dataTransfer.setData('text/plain',task.id)}>
    <b>{task.title}</b><label>Estado<select aria-label={'Estado de '+task.title} value={task.status} disabled={pending} onChange={e=>drop(task.id,e.target.value)}>{columns.map(c=><option key={c.key} value={c.key}>{c.label}</option>)}</select></label>
-   {task.business_name&&<><small>{task.business_name} · {task.business_code}</small><small>{task.business_phone||'Sin teléfono'} · {task.business_email||'Sin correo'}</small><a href={'/admin/reportes?business='+task.business_id}>Abrir reseñas y reportes</a><a href={'/admin?business='+task.business_id}>Expediente del negocio</a></>}
+   {task.business_name&&<><small>{task.business_name} · {task.business_code}</small><small>{task.business_phone||'Sin teléfono'} · {task.business_email||'Sin correo'}</small><a href={task.title==='Cobrar mensualidad'?'/admin?view=negocios&business='+task.business_id:task.title.startsWith('Puntos ·')?'/admin/negocio/'+task.business_id:'/admin/reportes?business='+task.business_id}>{task.title==='Cobrar mensualidad'?'Revisar pago y renovación':task.title.startsWith('Puntos ·')?'Revisar programa del negocio':'Abrir diagnóstico y reseñas'}</a><a href={'/admin?business='+task.business_id}>Expediente del negocio</a></>}
    <small>{task.due_date?String(task.due_date).slice(0,10):'Sin fecha'}{task.recurrence?` · ${task.recurrence}`:''}</small>
   </article>)}
   {!grouped[col.key].length&&<p className="empty">Sin tareas</p>}

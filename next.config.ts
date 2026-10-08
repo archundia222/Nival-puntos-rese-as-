@@ -7,5 +7,5 @@ const securityHeaders=[
  {key:"Cross-Origin-Opener-Policy",value:"same-origin"},
  {key:"Content-Security-Policy",value:"default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; form-action 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; worker-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; connect-src 'self' https://challenges.cloudflare.com https://*.neon.tech https://*.sentry.io; upgrade-insecure-requests"}
 ];
-const config:NextConfig={async headers(){return [{source:"/:path*",headers:securityHeaders}]}};
+const config:NextConfig={experimental:{serverActions:{bodySizeLimit:'6mb'}},async headers(){return [{source:"/:path*",headers:securityHeaders}]}};
 export default config;

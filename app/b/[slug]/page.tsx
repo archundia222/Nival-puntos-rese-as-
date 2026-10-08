@@ -14,7 +14,7 @@ import { CardView } from "../../../lib/points/card-view";
 import { enroll, consentCard } from "../../../lib/foundation/actions";
 import { ActionForm } from "../../../lib/foundation/forms";
 import { Field, Hidden } from "../../../lib/foundation/fields";
-import {TurnstileWidget} from "../../../lib/security/turnstile-widget";
+import {VerifiedActionForm} from "../../../lib/security/verified-form";
 export const dynamic = "force-dynamic";
 export default async function Customer({
   params,
@@ -54,7 +54,7 @@ export default async function Customer({
         <a href={"/b/" + slug}>{b.name}</a>
         <span>Tu lealtad tiene premio</span>
       </header>
-      {!b.active && !c ? (
+      {!b.active ? (
         <section className="reviewBox">
           <h1>Programa no disponible</h1>
           <p>Consulta al negocio. Tus puntos se conservan.</p>
@@ -72,7 +72,9 @@ export default async function Customer({
           <p>
             Tu tarjeta digital, siempre contigo. Sin descargar aplicaciones.
           </p>
-          <ActionForm
+          <VerifiedActionForm
+            siteKey={turnstileSiteKey}
+            needsVerification={!valid?.valid}
             action={valid?.valid ? consentCard : enroll}
             label={valid?.valid ? "Activar mi tarjeta" : "Crear mi tarjeta"}
           >
@@ -101,8 +103,7 @@ export default async function Customer({
               </span>
             </label>
             <label className="wide consentLabel"><input name="marketing_consent" type="checkbox"/><span>{marketingConsent}</span></label>
-            {!valid?.valid&&<TurnstileWidget siteKey={turnstileSiteKey}/>}
-          </ActionForm>
+          </VerifiedActionForm>
         </section>
       )}
       <footer className="loyaltyFooter">

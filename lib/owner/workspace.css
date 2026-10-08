@@ -57,3 +57,9 @@
  .workspaceNavCaption{padding-left:12px}
  .workspaceMenuGroup>.clientSubmenu{margin-left:18px}
 }
+
+/* Improve contrast while preserving the approved palette. */
+.nivalShell{--ws-line:#bacbbd}.nivalShell .workspaceContent{background:#eef2ed}.nivalShell .ownerCard,.nivalShell .ownerChart{border-color:#b8cabe;box-shadow:0 3px 12px #183e2610}.nivalShell .ownerDashboard p,.nivalShell .ownerDashboard small,.nivalShell .ownerMetric>span,.nivalShell .ownerMetric small,.nivalShell .ownerDashboard label,.workspacePageHeading p,.workspaceSectionSubhead p{color:#435b4a!important}.nivalShell .workspaceNav button small{color:#506451}.nivalShell .workspaceNav button[aria-current=page]{background:#174e3b;color:white}.nivalShell .workspaceNav button[aria-current=page] small{color:#e1ede4}.nivalShell[data-section="programa"] [data-panel="programa"]{display:block}.nivalShell .workspaceSidebar{overflow-y:auto;overscroll-behavior:contain;max-height:100dvh}.nivalShell .ownerMetric strong{color:#173d2b}
+.planChoices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.planChoices article{border:1px solid #b6cbbb;border-radius:12px;padding:18px}.planChoices h4{margin:0 0 10px;color:#173d2b}.planChoices p{min-height:70px}@media(max-width:720px){.planChoices{grid-template-columns:1fr}}
+.nivalShell .workspaceHero p,.nivalShell .workspaceHero small{color:#e2eee5!important}.nivalShell .workspaceHero .heroKicker{color:#dcebdc}.nivalShell .workspaceHero .heroTextLink{color:#ecf4e8}.nivalShell .workspaceHero .heroSignal span{color:#e2eee5}
+.settingsOverview{grid-template-columns:1fr}

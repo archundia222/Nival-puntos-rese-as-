@@ -1,3 +1,4 @@
+import {requireTool} from '../../../../lib/foundation/require-tool';
 import { NextResponse } from "next/server";
 import {
   requireRole,
@@ -18,6 +19,7 @@ export async function POST(req: Request) {
       b = actor.role === "staff" ? actor.businessId : data.businessId;
     if (!b || !uuid(b)) throw Error("Invalid business");
     await requireBusiness(actor, b);
+    await requireTool(actor,b);
     let id = data.customerId;
     const raw = String(id || "");
     if (raw.startsWith("NIVAL:")) id = raw.slice(6);
