@@ -68,7 +68,7 @@ export default async function Home() {
 
     <section className="nxStoryCta" aria-label="Siguiente paso">
       <p>Conoce el recorrido completo y decide si Nival encaja con tu negocio.</p>
-      <div><a href="/demo">Ver demo</a><a href="/acceso?modo=registro">Crear cuenta de negocio</a><a href={whatsapp('cierre de la historia')} target="_blank" rel="noreferrer">Hablar por WhatsApp</a></div>
+      <div><a href="/demo">Ver demo</a><a href="/acceso?modo=registro">Crear cuenta de negocio</a><a href={whatsapp('siguiente paso')} target="_blank" rel="noreferrer">Hablar por WhatsApp</a></div>
     </section>
 
     <section id="precio" className="nxPricing nxSection" aria-labelledby="pricing-title">
