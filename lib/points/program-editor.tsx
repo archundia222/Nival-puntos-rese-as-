@@ -128,7 +128,11 @@ export function ProgramEditor({
     reader.readAsDataURL(file);
   }
 
-  const progress = reward?.points_cost ? Math.min(3 / reward.points_cost, 1) * 100 : 30;
+  const sampleVisits = 3;
+  const pointsPerVisit = Number(draft.points);
+  const previewPoints = sampleVisits * (Number.isFinite(pointsPerVisit) ? pointsPerVisit : 0);
+  const rewardGoal = Number(reward?.points_cost) || 0;
+  const progress = rewardGoal ? Math.min(previewPoints / rewardGoal, 1) * 100 : 0;
   return (
     <div
       className="cardEditorGrid"
@@ -242,20 +246,20 @@ export function ProgramEditor({
           <p className="cardProgram">{draft.name || "Nombre de tu tarjeta"}</p>
           <h1>Cliente de ejemplo</h1>
           <div className="cardNumbers">
-            <strong>3</strong>
+            <strong>{previewPoints}</strong>
             <span>puntos<br />acumulados</span>
             <span className="cardSeal">✦</span>
           </div>
-          <div className="cardProgress" role="progressbar" aria-label="Progreso de ejemplo" aria-valuenow={Math.round(progress)} aria-valuemin={0} aria-valuemax={100}>
+          <div className="cardProgress" role="progressbar" aria-label="Progreso de ejemplo" aria-valuenow={rewardGoal ? Math.min(previewPoints, rewardGoal) : 0} aria-valuemin={0} aria-valuemax={rewardGoal || 1}>
             <i style={{ width: progress + "%" }} />
           </div>
           <div className="cardGoal">
-            <span>{reward ? Math.max(Number(reward.points_cost || 0) - 3, 0) + " puntos para tu premio" : "Agrega un premio para mostrar la meta"}</span>
+            <span>{reward && rewardGoal > 0 ? (previewPoints >= rewardGoal ? "Premio listo en el ejemplo" : Math.max(rewardGoal - previewPoints, 0) + " puntos para tu premio") : "Agrega un premio para mostrar la meta"}</span>
             <b>{reward?.name || "Tu próxima recompensa"}</b>
           </div>
           <footer><span>Un lugar al que vale la pena volver.</span><small>•••• 2026</small></footer>
         </article>
-        <small style={{ display: "block", marginTop: 10, color: "#718075" }}>La vista previa usa datos ficticios y no altera saldos ni tarjetas de clientes.</small>
+        <small style={{ display: "block", marginTop: 10, color: "#718075" }}>Ejemplo con 3 visitas. Ajusta los puntos por visita para ver cómo cambia el avance; los datos no alteran saldos ni tarjetas de clientes.</small>
       </aside>
     </div>
   );
