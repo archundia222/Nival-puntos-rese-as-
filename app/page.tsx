@@ -84,27 +84,27 @@ export default async function Home() {
 
     <section className="nxBenefits nxSection" aria-labelledby="loyalty-benefits-title">
       <div className="nxSectionHead compact">
-        <span>MÁS MOTIVOS PARA VOLVER</span>
-        <h2 id="loyalty-benefits-title">¿Por qué tener un sistema de puntos?</h2>
-        <p>Convierte cada compra en un motivo visible para volver, con reglas que tú configuras.</p>
+        <span>LA FUERZA DEL PROGRESO VISIBLE</span>
+        <h2 id="loyalty-benefits-title">Cuando se ve cuánto falta, el premio se siente más cerca.</h2>
+        <p>En un estudio de campo en una cafetería, los clientes compraron con más frecuencia al acercarse a un café gratis. El efecto puede variar: no garantiza que todos vuelvan. Sí muestra por qué una meta clara y un avance real pueden dar sentido a cada visita.</p>
       </div>
       <div className="nxBenefitsGrid">
-        <article><span>01</span><h3>El cliente sabe cuánto le falta</h3><p>Su tarjeta muestra el avance y el premio. Así puede decidir cuándo regresar.</p></article>
-        <article><span>02</span><h3>Reconoce visitas con compra</h3><p>Tu equipo registra la visita y suma los puntos que definiste para tu negocio.</p></article>
-        <article><span>03</span><h3>Entiende qué está funcionando</h3><p>Consulta el historial de visitas, puntos y canjes desde el panel.</p></article>
+        <article><span>01</span><h3>Ese “ya casi” importa</h3><p>Cuando la persona ya empezó y ve cuánto falta, completar el recorrido puede sentirse más alcanzable. La tarjeta mantiene visible su progreso.</p></article>
+        <article><span>02</span><h3>Cada compra tiene un siguiente paso</h3><p>Define cuántos puntos suma una visita con compra y cuál es el premio. El cliente sabe qué está buscando desde el principio.</p></article>
+        <article><span>03</span><h3>La lealtad se administra con claridad</h3><p>Tu equipo registra visitas, puntos y canjes con las mismas reglas. Tú puedes revisar qué premios eligen tus clientes.</p></article>
       </div>
     </section>
 
     <section className="nxBenefits nxBenefits--google nxSection" aria-labelledby="google-profile-title">
       <div className="nxSectionHead compact">
-        <span>PRESENCIA LOCAL</span>
+        <span>TE ENCUENTRAN. TE ELIGEN.</span>
         <h2 id="google-profile-title">¿Por qué tener una buena ficha de Google?</h2>
-        <p>Ayuda a que las personas encuentren datos confiables y sepan qué esperar antes de visitar tu negocio.</p>
+        <p>Antes de visitarte, muchas personas quieren saber dónde estás, cuándo abres y qué ofreces. Google explica que en los resultados locales cuentan la relevancia, la distancia y la popularidad: una ficha completa ayuda, pero nadie puede garantizar el primer lugar.</p>
       </div>
       <div className="nxBenefitsGrid">
-        <article><span>01</span><h3>Información fácil de encontrar</h3><p>Dirección, horario y teléfono actualizados ayudan a elegir cómo llegar o contactarte.</p></article>
-        <article><span>02</span><h3>Tu negocio se entiende mejor</h3><p>Describe lo que ofreces y agrega fotos reales para mostrar cómo es tu local.</p></article>
-        <article><span>03</span><h3>Opiniones auténticas dan contexto</h3><p>Las reseñas permiten conocer experiencias de otros clientes. Invítalos sin ofrecer puntos ni premios.</p></article>
+        <article><span>01</span><h3>Que un dato desactualizado no te cueste una visita</h3><p>Mantén al día dirección, horario normal y días festivos, teléfono y forma de llegar. Así la gente puede planear su visita con información confiable.</p></article>
+        <article><span>02</span><h3>Muestra qué hace especial a tu negocio</h3><p>Elige la categoría correcta y describe tus productos o servicios. Agrega fotos recientes y reales para que las personas sepan qué encontrarán.</p></article>
+        <article><span>03</span><h3>Las reseñas honestas ayudan a decidir</h3><p>Las opiniones muestran experiencias de clientes reales. Invítalos sin ofrecer puntos ni premios; responde con respeto y aprovecha sus comentarios para mejorar.</p></article>
       </div>
     </section>
 
