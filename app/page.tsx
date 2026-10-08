@@ -86,13 +86,13 @@ export default async function Home() {
     </section>
 
     <section className="nxService nxSection" aria-labelledby="service-title">
-      <div className="nxSectionHead compact"><span>EL SERVICIO HOY</span><h2 id="service-title">Herramientas digitales y atención cercana.</h2><p>Nival combina herramientas digitales con tareas con atención personalizada.</p></div>
+      <div className="nxSectionHead compact"><span>EL SERVICIO HOY</span><h2 id="service-title">Herramientas digitales y atención cercana.</h2><p>Nival reúne tus herramientas de lealtad y te acompaña con el seguimiento de reseñas.</p></div>
       <div className="nxServiceGrid">
         <article><b>La plataforma organiza</b><p>Clientes, puntos, visitas, premios, canjes, roles e historial dentro del panel del negocio.</p></article>
-        <article><b>Nival te acompaña</b><p>La revisión de información de Google, el análisis del periodo y la preparación de respuestas a reseñas se trabajan de forma asistida.</p></article>
-        <article><b>Sin promesas de automatización de Google</b><p>La carga y revisión de datos es manual o asistida. No hay conexión automática con Google Business Profile ni respuestas automáticas publicadas por IA.</p></article>
+        <article><b>Nival te acompaña</b><p>Nival te ayuda a revisar las reseñas, identificar oportunidades y preparar respuestas con atención personalizada.</p></article>
+        
       </div>
-      <div className="nxActivation"><h3>Pago y activación</h3><p>El negocio se registra y contacta a Nival. Nival verifica el pago (transferencia o pago digital), lo registra y genera un código único de activación. Al ingresarlo, comienza un periodo de 30 días. Al vencer, el historial se conserva y las herramientas activas se pausan hasta renovar.</p></div>
+      <div className="nxActivation"><h3>Pago y activación</h3><p>Registra tu negocio y contacta a Nival para activar tu plan. Una vez confirmado el pago, Nival te proporciona un código único de activación. Al ingresarlo, comienza un periodo de 30 días. Al vencer, el historial se conserva y las herramientas activas se pausan hasta renovar.</p></div>
     </section>
 
     <section id="contacto" className="nxContact nxFinal" aria-labelledby="contact-title">
