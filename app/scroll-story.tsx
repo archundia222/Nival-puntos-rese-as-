@@ -1,5 +1,3 @@
-'use client';
-
 const steps = [
   { title: 'Te encuentran', text: 'Tu negocio aparece con información clara para que las personas sepan dónde estás y qué ofreces.' },
   { title: 'Te visitan y compran', text: 'Cuando una persona hace una compra, tu equipo registra la visita y entrega los puntos que configuraste.' },
