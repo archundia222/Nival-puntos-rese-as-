@@ -85,7 +85,7 @@ export default async function Home() {
     <section className="nxBenefits nxSection" aria-labelledby="loyalty-benefits-title">
       <div className="nxSectionHead compact">
         <span>LA FUERZA DEL PROGRESO VISIBLE</span>
-        <h2 id="loyalty-benefits-title">Cuando se ve cuánto falta, el premio se siente más cerca.</h2>
+        <h2 id="loyalty-benefits-title">¿Por qué tener un sistema de puntos?</h2>
         <p>En un estudio de campo en una cafetería, los clientes compraron con más frecuencia al acercarse a un café gratis. El efecto puede variar: no garantiza que todos vuelvan. Sí muestra por qué una meta clara y un avance real pueden dar sentido a cada visita.</p>
       </div>
       <div className="nxBenefitsGrid">
