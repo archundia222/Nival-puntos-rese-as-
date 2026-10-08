@@ -289,3 +289,21 @@
 .nxFloatReview{top:11%}
 .nxFloatReward{bottom:9%}
 }
+
+
+/* Tight desktop hero: headline starts immediately under navigation. */
+@media(min-width:901px){
+.nxHero{min-height:430px!important}
+.nxHeroCopy{padding-top:12px!important;padding-bottom:18px!important;justify-content:center!important;transform:translateY(-34px)}
+.nxHeroVisual{min-height:430px!important}
+.nxHero h1{font-size:clamp(54px,5.2vw,72px);margin:10px 0 14px}
+.nxHeroCopy>p{font-size:17px;line-height:1.45}
+.nxActions{margin-top:17px}
+.nxQuick{margin-top:12px}
+.nxHeroPhone{top:3%;width:190px}
+.nxVisualHalo{top:0;width:min(33vw,360px);height:min(33vw,360px)}
+.nxHeroCard{width:165px;bottom:8%}
+.nxFloatReview{top:8%}
+.nxFloatPoint{top:31%}
+.nxFloatReward{bottom:7%}
+}
