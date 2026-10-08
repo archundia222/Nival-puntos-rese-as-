@@ -26,3 +26,10 @@ test('sample customer card has no enrollment form or write action', async () => 
   assert.match(page, /aria-valuenow=\{points\}/);
   assert.match(page, /className="loyaltyCard"/);
 });
+
+
+test('landing contact link does not expose internal section names', async () => {
+  const landing = await read('../app/page.tsx');
+  assert.match(landing, /whatsapp\('siguiente paso'\)/);
+  assert.doesNotMatch(landing, /cierre de la historia/i);
+});
