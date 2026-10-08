@@ -212,3 +212,31 @@
 .nxServiceGrid article b{font-size:23px!important;line-height:1.25!important}
 .nxServiceGrid article p,.nxActivation p{font-size:16px!important;line-height:1.7!important}
 }
+
+
+/* Compact floating contact and clean mobile hero illustration */
+.nxWhats{transition:opacity .2s ease,transform .2s ease}
+@media(max-width:900px){
+.nxWhats{width:46px!important;min-width:46px!important;height:46px!important;right:12px!important;bottom:calc(12px + env(safe-area-inset-bottom))!important;padding:0!important;border:1px solid #ffffff88;box-shadow:0 6px 18px #0b2d2230!important;background:#176d4c!important;opacity:.9;z-index:35!important}
+.nxWhats svg{width:23px!important;height:23px!important}
+.nxWhats:active{transform:scale(.95)}
+}
+@media(max-width:600px){
+.nxHeroVisual{overflow:hidden;min-height:430px}
+.nxHeroCard{left:5%;bottom:13%;width:38%;max-width:170px}
+.nxNfcCard{padding:15px}
+.nxNfcCard strong{font-size:clamp(23px,6vw,30px)}
+.nxNfcCard p{font-size:7px;left:15px;bottom:12px;max-width:80%;line-height:1.2}
+.nxNfcWaves{right:9px;top:12px;transform:scale(.7);transform-origin:top right}
+.nxHeroPhone{right:11%;width:45%;max-width:215px}
+.nxFloatReview{left:4%;top:9%}
+.nxFloatPoint{right:3%;top:29%}
+.nxFloatReward{right:4%;bottom:8%}
+.nxServiceGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.nxServiceGrid article{min-width:0}
+}
+@media(max-width:390px){
+.nxHeroCard{left:3%;bottom:14%;width:39%}
+.nxHeroPhone{right:7%;width:48%}
+.nxFloatPoint{right:1%}
+}
