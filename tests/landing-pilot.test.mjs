@@ -34,23 +34,27 @@ test('hero preserves its two clear actions and explains QR without implying NFC 
   assert.ok(page.includes('La tarjeta NFC física se cotiza por separado.'));
 });
 
-test('how it works is concise, easy to scan, and keeps points separate from reviews', () => {
-  assert.equal(story.split('{ title:').length - 1, 4);
+test('scroll story contains the requested customer journey and a reduced-motion static version', () => {
+  assert.equal((story.match(/kind: '/g) || []).length, 10);
   for (const phrase of [
-    'Así funciona Nival',
-    'Te encuentran',
-    'Te visitan y compran',
-    'Ven cuánto les falta',
-    'Canjean su premio',
-    'Cuatro pasos claros',
-    'las reseñas son voluntarias',
-    'Los puntos se entregan por visitas con compra',
+    'Tus clientes te buscan en Google Maps.',
+    'Eligen según las estrellas y los comentarios.',
+    'La confianza los acerca a tu negocio.',
+    'Después de una buena visita, puedes pedir una reseña.',
+    'Una reseña honesta puede ayudar a otras personas.',
+    'Los puntos se ganan por visitar y comprar.',
+    'Cada visita acerca a tu cliente a su premio.',
+    'Llega el momento de canjear su premio.',
+    'Una buena experiencia se comparte.',
+    'Nival ayuda a que te encuentren y a que vuelvan.',
   ]) assert.ok(story.includes(phrase), phrase);
-  assert.ok(story.includes('<ol className="nxStorySteps">'));
-  assert.ok(story.includes('aria-labelledby="nxStoryTitle"'));
-  assert.ok(!story.includes('useEffect'));
-  assert.ok(css.includes('.nxStory{height:auto;'));
-  assert.ok(css.includes('.nxStorySteps{grid-template-columns:1fr;gap:11px'));
+  assert.ok(story.includes('aria-valuenow={active + 1}'));
+  assert.ok(story.includes('className="nxStoryMapPin nxStoryMapPin--one"'));
+  assert.match(css, /\.nxStoryMapPin\{/);
+  assert.ok(story.includes('className="nxStoryStatic"'));
+  assert.match(css, /@media\(prefers-reduced-motion:reduce\)[\s\S]*?\.nxStoryPin\{display:none\}[\s\S]*?\.nxStoryStatic\{display:grid/);
+  assert.ok(css.includes('transition:transform'));
+  assert.ok(css.includes('transition:opacity'));
 });
 
 test('reviews and loyalty are separate, and the page links to the current Google Maps policy', () => {
