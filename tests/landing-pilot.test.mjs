@@ -114,9 +114,19 @@ test('loyalty and Google profile benefits appear directly below prices in that o
   const integrityIndex = page.indexOf('<section className="nxIntegrity nxSection"');
   assert.ok(priceIndex < loyaltyIndex && loyaltyIndex < googleIndex && googleIndex < integrityIndex);
   assert.ok(page.includes('Reconoce visitas con compra'));
-  assert.ok(page.includes('Invítalos sin ofrecer puntos ni premios.'));
+  assert.ok(page.includes('Invítalos sin ofrecer puntos ni premios;'));
 });
 
 test('benefit section headings have enough width to read comfortably', () => {
   assert.ok(css.includes('.nxBenefits .nxSectionHead.compact h2{grid-column:1/span 2'));
+});
+
+test('benefit copy explains loyalty psychology without promising outcomes and keeps Google claims accurate', () => {
+  assert.ok(page.includes('estudio de campo en una cafetería'));
+  assert.ok(page.includes('no garantiza que todos vuelvan'));
+  assert.ok(page.includes('cada visita'));
+  assert.ok(page.includes('relevancia, la distancia y la popularidad'));
+  assert.ok(page.includes('nadie puede garantizar el primer lugar'));
+  assert.ok(page.includes('dirección, horario normal y días festivos'));
+  assert.ok(page.includes('Invítalos sin ofrecer puntos ni premios;'));
 });
