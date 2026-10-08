@@ -13,8 +13,8 @@ test('landing navigation is sticky, legible, and keeps administrator access in t
   assert.ok(header.includes('Precios'));
   assert.ok(header.includes('Ver demo'));
   assert.ok(header.includes('Contacto'));
-  assert.ok(header.includes('Iniciar sesión'));
-  assert.ok(header.includes('>Empezar</a>'));
+  assert.ok(header.includes('Ya tengo cuenta · Entrar'));
+  assert.ok(header.includes('>Crear cuenta de negocio</a>'));
   assert.equal((header.match(/acceso-administrador/g) || []).length, 0);
   assert.equal((page.match(/href="\/acceso-administrador"/g) || []).length, 1);
   assert.match(css, /\.nxHeader\{position:sticky;top:0/);
@@ -27,6 +27,7 @@ test('hero preserves its two clear actions and explains QR without implying NFC 
   assert.equal((actions.match(/<a /g) || []).length, 2);
   assert.ok(actions.includes('href="/acceso?modo=registro"'));
   assert.ok(actions.includes('href="/demo"'));
+  assert.ok(hero.includes('Crear cuenta'));
   assert.ok(hero.includes('QR incluido'));
   assert.ok(page.includes('La tarjeta NFC física se cotiza por separado.'));
 });
@@ -93,6 +94,8 @@ test('WhatsApp carries the product, page, and selected plan context on desktop a
 });
 
 test('mobile navigation supports dismissal and touch-sized choices', () => {
+  assert.ok(menu.includes('Ya tengo cuenta · Entrar'));
+  assert.ok(menu.includes('Crear cuenta de negocio'));
   assert.ok(menu.includes('aria-expanded={open}'));
   assert.ok(menu.includes("event.key === 'Escape'"));
   assert.ok(menu.includes('onClick={() => setOpen(false)}'));
