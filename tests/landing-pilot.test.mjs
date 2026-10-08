@@ -60,7 +60,7 @@ test('scroll story contains the requested customer journey and a reduced-motion 
 test('reviews and loyalty are separate, and the page links to the current Google Maps policy', () => {
   assert.ok(page.includes('Haz que cada visita cuente.'));
   assert.ok(page.includes('sin condicionar puntos ni premios'));
-  assert.ok(page.includes('por visitar y comprar'));
+  assert.ok(page.includes('por visitas válidas con compra'));
   assert.ok(page.includes('La reseña es opcional') || page.includes('opiniones auténticas y voluntarias'));
   assert.ok(page.includes('Los puntos se obtienen por una visita válida con compra'));
 });
