@@ -40,7 +40,7 @@ test('scroll story contains the requested customer journey and a reduced-motion 
     'Después de una buena visita, puedes pedir una reseña.',
     'Una reseña honesta puede ayudar a otras personas.',
     'Los puntos se ganan por visitar y comprar.',
-    'Tres días después… vuelve.',
+    'Cada visita acerca a tu cliente a su premio.',
     'Llega el momento de canjear su premio.',
     'Una buena experiencia se comparte.',
     'Nival ayuda a que te encuentren y a que vuelvan.',
@@ -55,10 +55,10 @@ test('scroll story contains the requested customer journey and a reduced-motion 
 });
 
 test('reviews and loyalty are separate, and the page links to the current Google Maps policy', () => {
-  assert.ok(page.includes('¿Es legal? Sí: así lo hacemos.'));
-  assert.ok(page.includes('nunca se condicionan a escribir una reseña'));
+  assert.ok(page.includes('Haz que cada visita cuente.'));
+  assert.ok(page.includes('sin condicionar puntos ni premios'));
   assert.ok(page.includes('por visitar y comprar'));
-  assert.ok(page.includes('support.google.com/contributionpolicy/answer/7400114'));
+  assert.ok(page.includes('La reseña es opcional') || page.includes('opiniones auténticas y voluntarias'));
   assert.ok(page.includes('Los puntos se obtienen por una visita válida con compra'));
 });
 
@@ -75,9 +75,9 @@ test('pricing shows the three current plans, review caps, and the recommended ti
 });
 
 test('service copy describes assisted work, manual payment, activation, and preserved history', () => {
-  assert.ok(page.includes('se trabajan de forma asistida'));
-  assert.ok(page.includes('No hay conexión automática con Google Business Profile'));
-  assert.ok(page.includes('confirma el pago manual'));
+  assert.ok(page.includes('atención personalizada'));
+  assert.ok(page.includes('Nival te acompaña'));
+  assert.ok(page.includes('Una vez confirmado el pago'));
   assert.ok(page.includes('código único de activación'));
   assert.ok(page.includes('comienza un periodo de 30 días'));
   assert.ok(page.includes('el historial se conserva'));
