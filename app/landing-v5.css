@@ -23,3 +23,287 @@
 .nxPlanCard>a svg{width:17px;color:var(--lime);flex:0 0 17px}
 @media(max-width:900px){.nxPriceGrid{grid-template-columns:1fr;max-width:680px;margin-inline:auto}.nxPlanCard{padding:30px}.nxPlanCard h3{font-size:38px}}
 @media(max-width:600px){.nxPlanCard{padding:24px;border-radius:20px}.nxPlanCard h3{font-size:34px}.nxPlanCard>p{font-size:15px}.nxPlanCard li{font-size:14px;padding:11px 0}.nxPlanCard>a{font-size:14px;min-height:54px}}
+
+/* Landing refresh: clear navigation, scroll story, and responsive contact access. */
+.nx{overflow-x:clip;overflow-y:visible}
+.nx>section{max-width:none;margin:0}
+.nx #contenido>.nxStory{max-width:none;margin:0;padding:0}
+.nxHeader{position:sticky;top:0;height:72px;min-height:72px;background:rgba(255,253,248,.97);box-shadow:0 4px 18px #1637290b}
+.nxHeader nav{max-width:none;margin:0;padding:0;gap:clamp(12px,1.8vw,26px)}
+.nxHeader nav a{font-size:16px;line-height:1.2;color:#123d2e}
+.nxHeader nav a:hover,.nxFooter nav a:hover{text-decoration:underline;text-underline-offset:4px}
+.nxHeader nav .nxLogin{font-weight:700;padding:12px 8px}
+.nxHeader nav .nxNavCta{background:#123d2e;color:#fff!important;border:2px solid #123d2e;border-radius:999px;padding:12px 22px}
+.nxHeader nav .nxNavCta:hover{background:#0b2d22}
+.nxMobileMenu{display:none}
+.nxSkipLink{position:absolute;left:16px;top:-80px;z-index:100;background:#fff;color:#123d2e;padding:12px 16px;border-radius:8px;font-weight:700}
+.nxSkipLink:focus{top:12px}
+.nxHero{max-width:none}
+.nxHeroCopy{padding-left:max(30px,calc((100vw - 1320px)/2))}
+.nxStory{position:relative;height:850vh;background:#123d2e;color:#fff;scroll-margin-top:72px}
+.nxStoryPin{position:sticky;top:72px;height:calc(100svh - 72px);min-height:540px;max-height:1000px;padding:28px max(28px,calc((100vw - 1260px)/2)) 25px;display:flex;flex-direction:column;overflow:hidden;background:radial-gradient(ellipse at 77% 48%,#245440 0%,#123d2e 47%,#0b2d22 100%)}
+.nxStoryProgress{height:4px;background:#ffffff30;border-radius:8px;overflow:hidden}
+.nxStoryProgress span{display:block;width:100%;height:100%;background:#d9ff63;transform-origin:left center;transition:transform .3s ease}
+.nxStoryCounter{font-size:12px;letter-spacing:.17em;color:#d9ff63;margin:18px 0 8px;font-weight:800}
+.nxStoryLayout{flex:1;min-height:0;display:grid;grid-template-columns:.92fr 1.08fr;gap:34px;align-items:center}
+.nxStoryCopy{position:relative;min-height:320px;display:flex;flex-direction:column;justify-content:center}
+.nxStoryEyebrow{font-size:11px;letter-spacing:.17em;color:#c4d3ca;font-weight:800}
+.nxStoryScenes{position:relative;min-height:240px;margin-top:18px}
+.nxStoryScene{position:absolute;inset:0;opacity:0;transform:translateY(16px);transition:opacity .35s ease,transform .35s ease;pointer-events:none}
+.nxStoryScene.is-active{opacity:1;transform:translateY(0);pointer-events:auto}
+.nxStoryScene h2{font:400 clamp(36px,4.4vw,64px)/1.02 Georgia,serif;letter-spacing:-.045em;margin:0 0 18px;max-width:620px}
+.nxStoryScene p{font-size:18px;line-height:1.55;color:#d3dfd8;max-width:530px;margin:0}
+.nxStoryHint{display:flex;align-items:center;gap:10px;margin-top:22px;color:#d9ff63;font-size:14px;font-weight:700}
+.nxStoryHint b{font-size:20px;animation:nxHint 1.6s ease-in-out infinite}
+.nxStoryArt{position:relative;min-height:380px;height:min(54vh,560px);border-radius:34px;background:linear-gradient(145deg,#e6eee6,#f7f0e4);overflow:hidden;box-shadow:0 30px 70px #071c1455;isolation:isolate;transition:background .35s ease}
+.nxStoryArt:before,.nxStoryArt:after{content:"";position:absolute;border-radius:50%;background:#d9ff63;opacity:.35;transition:transform .5s ease,opacity .5s ease}
+.nxStoryArt:before{width:210px;height:210px;right:-50px;top:-65px}
+.nxStoryArt:after{width:150px;height:150px;left:-50px;bottom:-65px;background:#9db4a4}
+.nxStoryMap{position:absolute;inset:13% 9%;border-radius:24px;background-color:#d7e2d8;background-image:linear-gradient(32deg,transparent 46%,#fffdf8 47%,#fffdf8 50%,transparent 51%),linear-gradient(120deg,transparent 56%,#fffdf8 57%,#fffdf8 60%,transparent 61%);transition:transform .4s ease,opacity .4s ease}
+.nxStoryRoad{position:absolute;height:8px;background:#f9f5eb;border:1px solid #d1dcd1;border-radius:20px;transform:rotate(-22deg)}
+.nxStoryRoad--one{width:120%;left:-10%;top:48%}
+.nxStoryRoad--two{width:90%;left:10%;top:63%;transform:rotate(35deg)}
+.nxStoryMapPin{position:absolute;width:13px;height:13px;border-radius:50% 50% 50% 0;background:#64806f;transform:rotate(-45deg)}
+.nxStoryMapPin--one{left:22%;top:25%}.nxStoryMapPin--two{right:23%;bottom:24%;background:#123d2e}
+.nxStoryPlace{position:absolute;right:8%;top:14%;display:flex;gap:11px;align-items:center;padding:13px 16px;background:#fffdf8;border-radius:16px;box-shadow:0 14px 30px #16372922;transform:translateY(0);transition:transform .4s ease}
+.nxStoryPlace>b{width:42px;height:42px;display:grid;place-items:center;background:#123d2e;color:#fff;font:24px Georgia,serif}
+.nxStoryPlace small,.nxStoryPlace strong,.nxStoryPlace em{display:block}.nxStoryPlace small{font-size:9px;letter-spacing:.1em;color:#5d7167}.nxStoryPlace strong{font:20px Georgia,serif;color:#123d2e}.nxStoryPlace em{font-size:14px;letter-spacing:.13em;color:#758e28;font-style:normal}
+.nxStoryPerson{position:absolute;left:17%;bottom:14%;width:120px;height:175px;transition:transform .45s ease,opacity .4s ease}
+.nxStoryPerson i{position:absolute;left:45px;top:0;width:37px;height:37px;border-radius:50%;background:#c8835c}
+.nxStoryPerson b{position:absolute;left:26px;top:40px;width:76px;height:90px;border-radius:35px 35px 13px 13px;background:#123d2e}
+.nxStoryPerson span{position:absolute;left:49px;top:62px;width:42px;height:63px;border-radius:7px;background:#f8f4eb;border:3px solid #d0d9d0}
+.nxStoryPhone{position:absolute;right:15%;bottom:-20%;width:170px;height:305px;padding:34px 15px 18px;border:8px solid #0b251b;border-radius:31px;background:#fffdf8;color:#123d2e;box-shadow:0 22px 45px #10291f45;transform:translateY(35px) rotate(5deg);opacity:0;transition:transform .45s ease,opacity .45s ease}
+.nxStoryPhoneTop{position:absolute;top:10px;left:calc(50% - 19px);width:38px;height:8px;border-radius:9px;background:#0b251b}
+.nxStoryPhone small{display:block;font-size:9px;letter-spacing:.12em}.nxStoryPhone strong{display:block;font:29px Georgia,serif;margin:10px 0}.nxStoryPhone span{font-size:10px;color:#62776a}
+.nxStoryStampDots{display:flex;gap:7px;margin:12px 0}.nxStoryStampDots i{width:20px;height:20px;border-radius:50%;background:#dfe7de}.nxStoryStampDots i:nth-child(-n+3){background:#123d2e}
+.nxStoryReview{position:absolute;left:12%;top:16%;display:grid;gap:7px;background:#fffdf8;padding:18px 22px;border-radius:18px;box-shadow:0 16px 35px #16372922;transform:translateY(15px);opacity:0;transition:transform .4s ease,opacity .4s ease}
+.nxStoryReview b{color:#718a24;letter-spacing:.12em}.nxStoryReview span{font:20px Georgia,serif;color:#123d2e}.nxStoryReview small{font-size:11px;color:#5d7167}
+.nxStoryReward{position:absolute;right:7%;bottom:12%;display:flex;align-items:center;gap:12px;padding:17px 20px;border-radius:18px;background:#d9ff63;color:#123d2e;box-shadow:0 18px 38px #16372930;transform:translateY(18px);opacity:0;transition:transform .4s ease,opacity .4s ease}
+.nxStoryReward>i{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#123d2e;color:#d9ff63;font-style:normal;font-weight:900}
+.nxStoryReward small,.nxStoryReward b{display:block}.nxStoryReward small{font-size:9px;letter-spacing:.11em}.nxStoryReward b{font:18px Georgia,serif}
+.nxStoryTime{position:absolute;left:10%;top:12%;background:#123d2e;color:#d9ff63;padding:12px 16px;border-radius:99px;font-size:13px;font-weight:800;opacity:0;transform:translateY(-8px);transition:opacity .4s ease,transform .4s ease}
+.nxStoryCycle{position:absolute;right:13%;top:20%;width:180px;height:180px;opacity:0;transform:scale(.8);transition:opacity .4s ease,transform .4s ease}
+.nxStoryCycle i{position:absolute;width:70px;height:70px;border-radius:50%;background:#123d2e;box-shadow:0 0 0 9px #fffdf8}
+.nxStoryCycle i:nth-child(1){left:53px;top:0}.nxStoryCycle i:nth-child(2){left:0;bottom:6px;background:#778f7e}.nxStoryCycle i:nth-child(3){right:0;bottom:6px;background:#94aa7d}
+.nxStoryCycle b{position:absolute;left:70px;top:68px;color:#123d2e;font-size:32px}
+.nxStoryArt--reviews .nxStoryReview,.nxStoryArt--ask .nxStoryReview,.nxStoryArt--growth .nxStoryReview{opacity:1;transform:translateY(0)}
+.nxStoryArt--reviews .nxStoryPlace,.nxStoryArt--growth .nxStoryPlace{transform:translateY(13px)}
+.nxStoryArt--visit .nxStoryPerson,.nxStoryArt--ask .nxStoryPerson,.nxStoryArt--recommend .nxStoryPerson{transform:translateX(45px)}
+.nxStoryArt--ask .nxStoryPerson{transform:translate(45px,-5px)}
+.nxStoryArt--points .nxStoryPhone,.nxStoryArt--progress .nxStoryPhone,.nxStoryArt--reward .nxStoryPhone,.nxStoryArt--cycle .nxStoryPhone{opacity:1;transform:translateY(0) rotate(5deg)}
+.nxStoryArt--points .nxStoryMap,.nxStoryArt--progress .nxStoryMap,.nxStoryArt--reward .nxStoryMap{transform:translateX(-30px) scale(.94);opacity:.8}
+.nxStoryArt--progress .nxStoryTime{opacity:1;transform:translateY(0)}
+.nxStoryArt--reward .nxStoryReward,.nxStoryArt--recommend .nxStoryReward{opacity:1;transform:translateY(0)}
+.nxStoryArt--recommend .nxStoryPerson{transform:translate(34px,-4px)}
+.nxStoryArt--cycle .nxStoryCycle{opacity:1;transform:scale(1)}
+.nxStoryDots{display:flex;justify-content:center;gap:8px;margin-top:19px}
+.nxStoryDots i{width:7px;height:7px;border-radius:50%;background:#ffffff48;transition:transform .25s ease,background .25s ease}
+.nxStoryDots i.is-active{background:#d9ff63;transform:scale(1.2)}
+.nxStoryStatic{display:none}
+@keyframes nxHint{50%{transform:translateY(5px)}}
+.nxStoryCta{padding:30px max(28px,calc((100vw - 1260px)/2));display:flex;justify-content:space-between;align-items:center;gap:24px;background:#0b2d22;color:#fff;border-top:1px solid #ffffff22}
+.nxStoryCta p{font-size:17px;line-height:1.45;margin:0;max-width:460px;color:#d3dfd8}
+.nxStoryCta>div{display:flex;gap:10px;flex-wrap:wrap}
+.nxStoryCta a{min-height:48px;padding:0 17px;display:flex;align-items:center;justify-content:center;border:1px solid #d9ff63;border-radius:10px;text-decoration:none;font-size:15px;font-weight:800}
+.nxStoryCta a:nth-child(2){background:#d9ff63;color:#123d2e}
+.nxStoryCta a:hover{filter:brightness(.94)}
+.nxPlanCard{position:relative}
+.nxPlanCard.is-recommended{border:2px solid #123d2e;box-shadow:0 20px 48px #16372925;transform:translateY(-8px)}
+.nxPlanCard h3{font-size:39px;white-space:nowrap}
+.nxPlanCard h4{font:400 21px Georgia,serif;margin:0 0 8px}
+.nxPlanCard>span{font-size:11px}
+.nxRecommendedBadge{position:absolute;top:-14px;right:20px;border-radius:999px;background:#d9ff63;color:#123d2e;padding:7px 11px;font-size:10px;letter-spacing:.09em}
+.nxPlanFineprint{font-size:14px;line-height:1.55;color:#4e655a;max-width:800px;margin:25px auto 0}
+.nxIntegrity{display:grid;grid-template-columns:.95fr 1.05fr;gap:50px;align-items:center;background:#fffdf8}
+.nxIntegrity>div:first-child>span{font-size:11px;letter-spacing:.16em;font-weight:900;color:#5f786c}
+.nxIntegrity h2{font:400 clamp(36px,4.1vw,56px)/1.02 Georgia,serif;margin:14px 0}
+.nxIntegrity p{font-size:17px;line-height:1.6;color:#40594c;max-width:600px}
+.nxIntegrity a{display:flex;align-items:center;gap:12px;color:#123d2e;font-size:15px;font-weight:800;text-decoration:underline;text-underline-offset:4px}
+.nxIntegrity a svg{width:18px}
+.nxIntegrityFlow{display:flex;align-items:center;justify-content:center;gap:16px}
+.nxIntegrityFlow article{flex:1;min-height:190px;border-radius:20px;padding:22px;background:#e8f0e8;display:flex;flex-direction:column;justify-content:center}
+.nxIntegrityFlow article>span{font-size:12px;color:#597265;letter-spacing:.1em}
+.nxIntegrityFlow article b{font:22px/1.2 Georgia,serif;margin:12px 0}
+.nxIntegrityFlow article small{font-size:14px;line-height:1.45;color:#52675d}
+.nxIntegrityFlow>i{font-size:26px;color:#647f70;font-style:normal}
+.nxService{background:#f2f1e9}
+.nxServiceGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.nxServiceGrid article{background:#fffdf8;border:1px solid #d8ddd7;border-radius:18px;padding:23px}
+.nxServiceGrid article b{font:21px Georgia,serif}
+.nxServiceGrid article p{font-size:15px;line-height:1.55;color:#4e655a;margin-bottom:0}
+.nxActivation{margin-top:18px;border-radius:18px;padding:24px 28px;background:#123d2e;color:#fff}
+.nxActivation h3{font:24px Georgia,serif;margin:0 0 8px;color:#d9ff63}
+.nxActivation p{font-size:15px;line-height:1.6;color:#e0e9e3;margin:0;max-width:1000px}
+.nxContact{background:#d9ff63}
+.nxContact h2{font:400 clamp(38px,5vw,66px)/1 Georgia,serif;max-width:740px}
+.nxContact>div:last-child p{font-size:17px;line-height:1.55;color:#263e31;max-width:540px}
+.nxContact>div:last-child small{display:block;margin-top:14px;color:#36513f;font-size:13px}
+.nxContact a{background:#123d2e;color:#fff}
+.nxWhats{display:grid;position:fixed;right:24px;bottom:24px;width:auto;min-width:154px;height:58px;padding:0 17px;grid-auto-flow:column;gap:10px;border-radius:999px;background:#146c4b;color:#fff;place-items:center;z-index:55;text-decoration:none;font-size:15px;font-weight:800;box-shadow:0 10px 28px #0d2d2250;transition:transform .2s ease,background .2s ease}
+.nxWhats:hover{background:#0e563b;transform:translateY(-2px)}
+.nxWhats svg{width:26px;height:26px}
+.nxFooter nav a{min-height:44px;display:inline-flex;align-items:center;color:#fff}
+.nxFooter .nxAdminLink{font-size:12px;opacity:.72}
+@media(max-width:1100px){.nxHeader nav{gap:12px}.nxHeader nav a{font-size:15px}.nxHeader nav .nxNavCta{padding:11px 16px}.nxHeroCopy{padding-left:35px}.nxPlanCard{padding:22px}.nxPlanCard h3{font-size:32px}}
+@media(max-width:900px){
+  .nxHeader{height:64px;min-height:64px;padding:0 22px}.nxHeader nav{display:none}.nxMobileMenu{display:block;position:relative}
+  .nxMobileMenu>button{position:relative;min-width:84px;min-height:48px;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;border:1px solid #123d2e;border-radius:10px;background:#fffdf8;color:#123d2e;font:800 15px Arial,sans-serif;padding:0 10px 0 30px}
+  .nxMobileMenu>button i{width:15px;height:2px;background:#123d2e;position:absolute;left:10px}.nxMobileMenu>button i:first-child{transform:translateY(-4px)}.nxMobileMenu>button i:nth-child(2){transform:translateY(4px)}
+  .nxMobileMenu nav{position:absolute;right:0;top:56px;width:min(320px,calc(100vw - 32px));padding:10px;background:#123d2e;border-radius:14px;box-shadow:0 20px 50px #0004;display:flex;flex-direction:column;z-index:80}
+  .nxMobileMenu nav a{min-height:48px;padding:12px;color:#fff;text-decoration:none;font-size:16px;border-bottom:1px solid #ffffff22;display:flex;align-items:center}
+  .nxMobileMenu nav .nxMobileLogin{color:#e1f0e6}.nxMobileMenu nav .menuCta{background:#d9ff63;color:#123d2e;border-radius:9px;margin-top:7px;font-weight:900;justify-content:center}
+  .nxHero{grid-template-columns:1fr}.nxHeroCopy{padding:58px 7vw 28px;text-align:center;align-items:center}.nxHeroVisual{min-height:560px}
+  .nxStory{height:900vh;scroll-margin-top:64px}.nxStoryPin{top:64px;height:calc(100svh - 64px);padding:22px 26px 20px;min-height:500px}.nxStoryLayout{grid-template-columns:1fr 1fr;gap:20px}.nxStoryCopy{min-height:280px}.nxStoryScene h2{font-size:clamp(33px,5vw,48px)}.nxStoryScene p{font-size:16px}.nxStoryArt{height:min(48vh,480px);min-height:320px}
+  .nxSectionHead{grid-template-columns:1fr;gap:12px}.nxBand{grid-template-columns:1fr;gap:30px}.nxFaq{grid-template-columns:1fr}.nxFooter{grid-template-columns:auto 1fr}.nxFooter nav{grid-column:1/-1}.nxPlanCard h3{font-size:38px}
+}
+@media(max-width:600px){
+  .nxHeroCopy{padding:36px 22px 20px}.nxHero h1{font-size:47px}.nxHeroCopy>p{font-size:18px}.nxActions{display:grid;grid-template-columns:1fr 1fr;width:100%;gap:8px}.nxActions a{min-height:52px}
+  .nxHeroVisual{min-height:465px}.nxStoryPin{padding:16px 18px 14px;min-height:480px}.nxStoryCounter{font-size:10px;margin:12px 0 6px}.nxStoryLayout{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);gap:12px;align-content:start}.nxStoryCopy{min-height:0;display:block}.nxStoryEyebrow{font-size:9px}.nxStoryScenes{min-height:145px;margin-top:10px}.nxStoryScene h2{font-size:clamp(29px,8vw,38px);line-height:1.02;margin-bottom:8px}.nxStoryScene p{font-size:14px;line-height:1.4}.nxStoryHint{margin-top:8px;font-size:12px}.nxStoryHint b{font-size:17px}.nxStoryArt{height:auto;min-height:0;max-height:none;aspect-ratio:1.35;border-radius:23px}.nxStoryMap{inset:12% 7%}.nxStoryPlace{padding:9px 11px;gap:8px;right:5%;top:11%}.nxStoryPlace>b{width:32px;height:32px;font-size:18px}.nxStoryPlace small{font-size:7px}.nxStoryPlace strong{font-size:15px}.nxStoryPlace em{font-size:11px}.nxStoryPerson{transform:scale(.75);transform-origin:left bottom;left:8%;bottom:7%}.nxStoryArt--visit .nxStoryPerson,.nxStoryArt--recommend .nxStoryPerson{transform:translateX(30px) scale(.75)}.nxStoryArt--ask .nxStoryPerson{transform:translate(30px,-3px) scale(.75)}.nxStoryPhone{right:10%;bottom:-23%;width:135px;height:240px;padding:29px 10px 14px;border-width:6px}.nxStoryPhone strong{font-size:23px;margin:7px 0}.nxStoryPhone small{font-size:7px}.nxStoryPhone span{font-size:8px}.nxStoryDots{gap:5px}.nxStoryDots i{width:15px;height:15px}.nxStoryReview{left:7%;top:12%;padding:12px 14px}.nxStoryReview b{font-size:11px}.nxStoryReview span{font-size:16px}.nxStoryReview small{font-size:9px}.nxStoryReward{right:4%;bottom:9%;padding:11px 13px;gap:8px}.nxStoryReward>i{width:30px;height:30px}.nxStoryReward small{font-size:7px}.nxStoryReward b{font-size:14px}.nxStoryTime{left:6%;top:8%;padding:9px 12px;font-size:11px}.nxStoryCycle{right:7%;top:18%;transform:scale(.74)}.nxStoryArt--cycle .nxStoryCycle{transform:scale(.74)}
+  .nxStoryDots{margin-top:10px}.nxStoryCta{padding:24px 20px;display:block}.nxStoryCta p{font-size:15px;margin-bottom:15px}.nxStoryCta>div{display:grid;grid-template-columns:1fr;gap:8px}.nxStoryCta a{min-height:48px}
+  .nxSection{padding:54px 20px}.nxSectionHead h2,.nxBandCopy h2{font-size:38px}.nxPricing{padding:50px 18px}.nxPriceGrid{grid-template-columns:1fr;gap:20px}.nxPlanCard{padding:24px}.nxPlanCard.is-recommended{transform:none}.nxPlanCard h3{font-size:34px}.nxPlanCard h3 small{font-size:12px}.nxPlanCard li{font-size:14px;min-height:44px}.nxPlanCard>a{font-size:14px;min-height:54px}.nxPlanFineprint{font-size:13px}.nxIntegrity{grid-template-columns:1fr;gap:25px}.nxIntegrity h2{font-size:37px}.nxIntegrity p{font-size:16px}.nxIntegrityFlow{gap:8px}.nxIntegrityFlow article{padding:14px;min-height:165px}.nxIntegrityFlow article b{font-size:18px}.nxIntegrityFlow article small{font-size:12px}.nxIntegrityFlow>i{font-size:18px}.nxServiceGrid{grid-template-columns:1fr;gap:10px}.nxServiceGrid article{padding:19px}.nxActivation{padding:20px}.nxActivation p{font-size:14px}.nxContact{padding:42px 20px}.nxContact h2{font-size:42px}.nxContact>div:last-child p{font-size:15px}.nxContact a{min-height:54px;width:100%}
+  .nxFooter{padding:30px 20px;grid-template-columns:1fr;gap:13px}.nxFooter p{font-size:13px;margin:0}.nxFooter nav{grid-column:auto;flex-wrap:wrap;gap:5px 14px}.nxFooter nav a{font-size:12px}.nxWhats{width:58px;min-width:58px;height:58px;padding:0;right:max(16px,env(safe-area-inset-right));bottom:calc(16px + env(safe-area-inset-bottom));grid-auto-flow:row;gap:0}.nxWhats span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+}
+@media(max-width:390px){
+  .nxStoryPin{padding-left:15px;padding-right:15px}.nxStoryScene h2{font-size:29px}.nxStoryScenes{min-height:155px}.nxStoryArt{aspect-ratio:1.3}.nxIntegrityFlow article{padding:11px}.nxIntegrityFlow article b{font-size:16px}.nxPlanCard h3{font-size:31px}.nxHero h1{font-size:43px}
+}
+@media(prefers-reduced-motion:reduce){
+  .nxStory{height:auto;padding:45px 0}
+  .nxStoryPin{display:none}
+  .nxStoryStatic{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:0 max(20px,calc((100vw - 1260px)/2))}
+  .nxStoryStatic article{display:flex;flex-direction:column;gap:9px;padding:20px;border-radius:20px;background:#fffdf8;color:#123d2e}
+  .nxStoryStatic article>span{font-size:12px;color:#71887c;font-weight:900;letter-spacing:.12em}
+  .nxStoryStatic h2{font:400 25px/1.08 Georgia,serif;margin:0}
+  .nxStoryStatic p{font-size:15px;line-height:1.5;color:#40594c;margin:0}
+  .nxStoryStatic .nxStoryArt{height:190px;min-height:190px;margin-top:6px;box-shadow:none}
+  .nxStoryStatic .nxStoryPerson{opacity:1;transform:scale(.72);transform-origin:left bottom}
+  .nxStoryStatic .nxStoryPhone,.nxStoryStatic .nxStoryReview,.nxStoryStatic .nxStoryReward,.nxStoryStatic .nxStoryCycle{opacity:1;transform:scale(.72);transform-origin:bottom right}
+}
+@media(prefers-reduced-motion:reduce) and (max-width:600px){.nxStoryStatic{grid-template-columns:1fr;padding:0 18px}.nxStoryStatic article{padding:18px}.nxStoryStatic .nxStoryArt{height:200px;min-height:200px}}
+
+
+/* Polishing the approved scroll narrative; preserve its original scenes and composition. */
+.nxStoryFinal{position:absolute;inset:13% 10%;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:17px;padding:clamp(20px,4vw,44px);background:#123d2e;color:#fff;border-radius:26px;box-shadow:0 22px 50px #0b2d2240;opacity:0;transform:translateY(18px) scale(.96);transition:opacity .5s ease,transform .5s ease;overflow:hidden}
+.nxStoryFinal:before{content:"";position:absolute;right:-65px;bottom:-105px;width:260px;height:260px;border:1px solid #d9ff6370;border-radius:50%;box-shadow:0 0 0 35px #d9ff6312,0 0 0 75px #d9ff6308}
+.nxStoryFinalBrand{font-size:12px;font-weight:900;letter-spacing:.25em;color:#d9ff63}.nxStoryFinal strong{font:400 clamp(27px,3.3vw,46px)/1.07 Georgia,serif;letter-spacing:-.04em;position:relative}.nxStoryFinal small{font-size:clamp(12px,1.5vw,17px);line-height:1.5;color:#d5e5db;max-width:300px;position:relative}.nxStoryFinalArrow{font-size:38px;color:#d9ff63;position:absolute;right:25px;top:20px}.nxStoryArt--cycle .nxStoryFinal{opacity:1;transform:translateY(0) scale(1)}.nxStoryArt--cycle .nxStoryMap,.nxStoryArt--cycle .nxStoryPerson,.nxStoryArt--cycle .nxStoryPhone{opacity:0}
+.nxStoryScene h2{text-wrap:balance}.nxStoryScene p{text-wrap:pretty}.nxStoryArt{box-shadow:0 26px 65px #071c1435}
+.nxStoryCta{gap:25px;padding-top:44px;padding-bottom:44px}.nxStoryCta p{font-size:clamp(18px,2vw,23px);line-height:1.4;max-width:580px}.nxStoryCta a{font-size:16px;min-height:52px;padding:12px 20px}
+.nxPricing,.nxIntegrity,.nxService,.nxContact{isolation:isolate}.nxSectionHead.compact{max-width:920px;margin:0 auto 42px}.nxSectionHead.compact h2{line-height:1.1;text-wrap:balance}.nxSectionHead.compact p{font-size:18px;line-height:1.6;max-width:760px}
+.nxPriceGrid{align-items:stretch;gap:22px}.nxPlanCard{min-width:0}.nxPlanCard li{line-height:1.5;align-items:flex-start}.nxPlanCard li b{font-weight:500}.nxServiceGrid{gap:20px}.nxServiceGrid article{padding:clamp(22px,2.6vw,34px);border-radius:22px}.nxServiceGrid article b{font-size:clamp(21px,2vw,26px);line-height:1.25}.nxServiceGrid article p{font-size:16px;line-height:1.7}.nxIntegrityFlow{gap:12px}.nxIntegrityFlow article{min-width:0}.nxActivation{padding:clamp(25px,3vw,42px);margin-top:26px}
+@media(max-width:900px){.nxStoryCta{display:flex;flex-direction:column;align-items:stretch}.nxStoryCta>div{justify-content:flex-start}.nxPriceGrid{gap:18px}.nxSectionHead.compact{margin-bottom:30px}}
+@media(max-width:600px){.nxStoryFinal{inset:9% 7%;gap:9px;padding:18px;border-radius:18px}.nxStoryFinalBrand{font-size:9px}.nxStoryFinal strong{font-size:clamp(23px,6vw,31px)}.nxStoryFinal small{font-size:11px;max-width:210px}.nxStoryFinalArrow{font-size:26px;right:15px;top:12px}.nxStoryCta{padding:35px 22px;gap:17px}.nxStoryCta p{font-size:19px;line-height:1.4}.nxStoryCta a{font-size:15px;min-height:52px}.nxSectionHead.compact p{font-size:16px}.nxPricing,.nxIntegrity,.nxService{padding-top:70px;padding-bottom:70px}.nxPriceGrid{gap:24px}.nxPlanCard{padding:28px 24px}.nxPlanCard h3{font-size:36px}.nxPlanCard h4{font-size:24px}.nxPlanCard li{font-size:15px;line-height:1.55;min-height:0;margin:14px 0}.nxIntegrityFlow{flex-direction:column;align-items:stretch}.nxIntegrityFlow article{min-height:0;padding:22px}.nxIntegrityFlow>i{align-self:center}.nxIntegrityFlow article b{font-size:22px}.nxIntegrityFlow article small{font-size:14px}.nxServiceGrid{gap:15px}.nxServiceGrid article{padding:25px}.nxServiceGrid article b{font-size:23px}.nxServiceGrid article p{font-size:16px}.nxActivation{padding:27px 23px}.nxActivation p{font-size:15px;line-height:1.7}.nxContact h2{font-size:clamp(36px,10vw,48px);line-height:1.08}.nxContact>div:last-child p{font-size:17px;line-height:1.65}.nxFooter{gap:20px}.nxFooter nav{gap:10px 18px}}
+@media(prefers-reduced-motion:reduce){.nxStoryStatic .nxStoryFinal{opacity:1;transform:none}.nxStoryStatic .nxStoryArt--cycle .nxStoryPhone{opacity:0}}
+
+
+@media(max-width:900px){
+.nxSectionHead.compact{display:flex;flex-direction:column;align-items:stretch;gap:12px}
+.nxSectionHead.compact>span,.nxSectionHead.compact>h2,.nxSectionHead.compact>p{grid-column:auto;width:100%;max-width:100%;margin:0}
+.nxSectionHead.compact h2{font-size:clamp(36px,6vw,52px);line-height:1.12}
+.nxSectionHead.compact p{font-size:17px;line-height:1.6}
+}
+@media(max-width:600px){
+.nxSectionHead.compact{display:flex!important;flex-direction:column!important;gap:12px!important;align-items:stretch!important;margin-bottom:28px!important}
+.nxSectionHead.compact>span,.nxSectionHead.compact>h2,.nxSectionHead.compact>p{grid-column:auto!important;width:100%!important;max-width:100%!important;margin:0!important}
+.nxSectionHead.compact h2{font-size:38px!important;line-height:1.1!important}
+.nxSectionHead.compact p{font-size:16px!important;line-height:1.6!important}
+.nxPriceGrid,.nxServiceGrid{grid-template-columns:minmax(0,1fr)!important}
+.nxPlanCard{padding:26px 23px!important}
+.nxPlanCard li{font-size:15px!important;line-height:1.6!important}
+.nxServiceGrid article{padding:25px 24px!important}
+.nxServiceGrid article b{font-size:23px!important;line-height:1.25!important}
+.nxServiceGrid article p,.nxActivation p{font-size:16px!important;line-height:1.7!important}
+}
+
+
+/* Compact floating contact and clean mobile hero illustration */
+.nxWhats{transition:opacity .2s ease,transform .2s ease}
+@media(max-width:900px){
+.nxWhats{width:46px!important;min-width:46px!important;height:46px!important;right:12px!important;bottom:calc(12px + env(safe-area-inset-bottom))!important;padding:0!important;border:1px solid #ffffff88;box-shadow:0 6px 18px #0b2d2230!important;background:#176d4c!important;opacity:.9;z-index:35!important}
+.nxWhats svg{width:23px!important;height:23px!important}
+.nxWhats:active{transform:scale(.95)}
+}
+@media(max-width:600px){
+.nxHeroVisual{overflow:hidden;min-height:430px}
+.nxHeroCard{left:5%;bottom:13%;width:38%;max-width:170px}
+.nxNfcCard{padding:15px}
+.nxNfcCard strong{font-size:clamp(23px,6vw,30px)}
+.nxNfcCard p{font-size:7px;left:15px;bottom:12px;max-width:80%;line-height:1.2}
+.nxNfcWaves{right:9px;top:12px;transform:scale(.7);transform-origin:top right}
+.nxHeroPhone{right:11%;width:45%;max-width:215px}
+.nxFloatReview{left:4%;top:9%}
+.nxFloatPoint{right:3%;top:29%}
+.nxFloatReward{right:4%;bottom:8%}
+.nxServiceGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.nxServiceGrid article{min-width:0}
+}
+@media(max-width:390px){
+.nxHeroCard{left:3%;bottom:14%;width:39%}
+.nxHeroPhone{right:7%;width:48%}
+.nxFloatPoint{right:1%}
+}
+
+
+/* Desktop composition pass: balanced hero and editorial service layout */
+@media(min-width:1100px){
+.nxHero{min-height:570px;grid-template-columns:1fr 1fr}
+.nxHeroCopy{padding-top:44px;padding-bottom:46px;justify-content:center}
+.nxHero h1{font-size:clamp(58px,5.7vw,78px);line-height:.95;margin:14px 0 18px}
+.nxHeroVisual{min-height:570px}
+.nxVisualHalo{width:440px;height:440px;top:9%;right:10%}
+.nxHeroPhone{top:10%;right:23%;width:220px}
+.nxHeroCard{width:200px;bottom:14%;left:3%}
+.nxFloatReview{top:16%;left:4%}
+.nxFloatPoint{top:30%;right:4%}
+.nxFloatReward{bottom:12%;right:5%}
+.nxService{padding-top:78px;padding-bottom:78px}
+.nxService .nxSectionHead.compact{max-width:1160px;margin:0 auto 32px;display:grid;grid-template-columns:minmax(0,1.12fr) minmax(250px,.7fr);column-gap:64px;row-gap:10px;align-items:center}
+.nxService .nxSectionHead.compact>span{grid-column:1/-1}
+.nxService .nxSectionHead.compact h2{grid-column:1;font-size:clamp(43px,4.5vw,62px);line-height:1.05;max-width:650px}
+.nxService .nxSectionHead.compact p{grid-column:2;font-size:18px;line-height:1.55;max-width:360px}
+.nxServiceGrid{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.nxServiceGrid article{padding:30px 34px;min-height:170px}
+.nxServiceGrid article b{font-size:clamp(23px,2.1vw,29px)}
+.nxServiceGrid article p{font-size:16px;line-height:1.6;max-width:440px}
+.nxService .nxActivation{max-width:1160px;margin:20px auto 0}
+}
+@media(min-width:901px) and (max-width:1099px){
+.nxHero{min-height:580px}
+.nxHeroCopy{padding-top:45px;padding-bottom:45px}
+.nxHeroVisual{min-height:580px}
+.nxService .nxSectionHead.compact{max-width:100%;grid-template-columns:1fr 1fr;align-items:center;gap:22px}
+.nxService .nxSectionHead.compact>span{grid-column:1/-1}
+.nxService .nxSectionHead.compact h2{grid-column:1;font-size:48px}
+.nxService .nxSectionHead.compact p{grid-column:2;font-size:17px}
+}
+
+
+/* Hero: remove excess empty space above the opening headline on desktop */
+@media(min-width:901px){
+.nxHero{min-height:500px!important;align-items:stretch}
+.nxHeroCopy{justify-content:flex-start!important;align-items:flex-start;padding-top:46px!important;padding-bottom:35px!important}
+.nxHeroCopy .nxEyebrow{margin-top:0}
+.nxHero h1{margin-top:13px;margin-bottom:17px}
+.nxHeroVisual{min-height:500px!important}
+.nxVisualHalo{top:4%;width:min(37vw,410px);height:min(37vw,410px)}
+.nxHeroPhone{top:6%;width:210px}
+.nxHeroCard{bottom:11%;width:185px}
+.nxFloatReview{top:11%}
+.nxFloatReward{bottom:9%}
+}
+
+
+/* Tight desktop hero: headline starts immediately under navigation. */
+@media(min-width:901px){
+.nxHero{min-height:430px!important}
+.nxHeroCopy{padding-top:12px!important;padding-bottom:18px!important;justify-content:center!important;transform:translateY(-34px)}
+.nxHeroVisual{min-height:430px!important}
+.nxHero h1{font-size:clamp(54px,5.2vw,72px);margin:10px 0 14px}
+.nxHeroCopy>p{font-size:17px;line-height:1.45}
+.nxActions{margin-top:17px}
+.nxQuick{margin-top:12px}
+.nxHeroPhone{top:3%;width:190px}
+.nxVisualHalo{top:0;width:min(33vw,360px);height:min(33vw,360px)}
+.nxHeroCard{width:165px;bottom:8%}
+.nxFloatReview{top:8%}
+.nxFloatPoint{top:31%}
+.nxFloatReward{bottom:7%}
+}
