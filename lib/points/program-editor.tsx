@@ -235,7 +235,7 @@ export function ProgramEditor({
             <span className="cardSerial">NIVAL PUNTOS<br />MEMBRESÍA DIGITAL</span>
           </div>
           <p className="cardProgram">{draft.name || "Nombre de tu tarjeta"}</p>
-          <h2>Cliente de ejemplo</h2>
+          <h1>Cliente de ejemplo</h1>
           <div className="cardNumbers">
             <strong>3</strong>
             <span>puntos<br />acumulados</span>
