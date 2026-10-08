@@ -106,3 +106,13 @@ test('mobile navigation supports dismissal and touch-sized choices', () => {
   assert.match(css, /\.nxMobileMenu>button\{[^}]*min-height:48px/);
   assert.match(css, /\.nxMobileMenu nav a\{[^}]*min-height:48px/);
 });
+
+test('loyalty and Google profile benefits appear directly below prices in that order', () => {
+  const priceIndex = page.indexOf('<section id="precio"');
+  const loyaltyIndex = page.indexOf('¿Por qué tener un sistema de puntos?');
+  const googleIndex = page.indexOf('¿Por qué tener una buena ficha de Google?');
+  const integrityIndex = page.indexOf('<section className="nxIntegrity nxSection"');
+  assert.ok(priceIndex < loyaltyIndex && loyaltyIndex < googleIndex && googleIndex < integrityIndex);
+  assert.ok(page.includes('Reconoce visitas con compra'));
+  assert.ok(page.includes('Invítalos sin ofrecer puntos ni premios.'));
+});
