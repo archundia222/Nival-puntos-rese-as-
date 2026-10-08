@@ -15,7 +15,7 @@ export default async function Reports({searchParams}:{searchParams:Promise<{busi
  const b=params.business?businesses.find(b=>b.id===params.business):businesses[0];
  if(!b)return <main className="dashboard"><h1>Primero registra un negocio</h1><a href="/admin">Volver</a></main>;
  const access=entitlements(b);
- const reviews=await query(actor,"select rv.*,to_char(rv.reviewed_on,'YYYY-MM-DD') reviewed_on from nival_pr.reviews rv where rv.business_id=$1 order by rv.reviewed_on desc,rv.id desc limit 200",[b.id]);
+ const reviews=await query(actor,"select rv.* from nival_pr.reviews rv where rv.business_id=$1 order by rv.reviewed_on desc,rv.id desc limit 200",[b.id]);
  const reports=await query(actor,"select r.*,b.name business_name,to_char(period_start,'YYYY-MM-DD') period_start,to_char(period_end,'YYYY-MM-DD') period_end from nival_pr.generated_reports r join nival_pr.businesses b on b.id=r.business_id where r.business_id=$1 order by r.created_at desc limit 40",[b.id]);
  const window=serviceWindow(b);const used=window?(await query(actor,'select count(*)::int used from nival_pr.reviews where business_id=$1 and published_at>=$2 and published_at<$3',[b.id,window.start,window.end]))[0].used:0;
  const report=reports.find(r=>r.id===params.report)||reports[0],today=new Date().toISOString().slice(0,10),start=new Date(Date.now()-7*86400000).toISOString().slice(0,10);
