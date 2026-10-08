@@ -13,10 +13,12 @@ test('landing navigation is sticky, legible, and keeps administrator access in t
   assert.ok(header.includes('Precios'));
   assert.ok(header.includes('Ver demo'));
   assert.ok(header.includes('Contacto'));
-  assert.ok(header.includes('Ya tengo cuenta · Entrar'));
-  assert.ok(header.includes('>Crear cuenta de negocio</a>'));
-  assert.equal((header.match(/acceso-administrador/g) || []).length, 0);
-  assert.equal((page.match(/href="\/acceso-administrador"/g) || []).length, 1);
+  assert.ok(header.includes('Dueños · Entrar'));
+  assert.ok(header.includes('href="/staff/acceso"'));
+  assert.ok(header.includes('href="/acceso-administrador"'));
+  assert.ok(header.includes('>Crear cuenta</a>'));
+  assert.equal((header.match(/acceso-administrador/g) || []).length, 1);
+  assert.equal((page.match(/href="\/acceso-administrador"/g) || []).length, 2);
   assert.match(css, /\.nxHeader\{position:sticky;top:0/);
   assert.match(css, /\.nxHeader nav a\{font-size:16px/);
 });
@@ -94,7 +96,9 @@ test('WhatsApp carries the product, page, and selected plan context on desktop a
 });
 
 test('mobile navigation supports dismissal and touch-sized choices', () => {
-  assert.ok(menu.includes('Ya tengo cuenta · Entrar'));
+  assert.ok(menu.includes('Dueño del negocio · Entrar'));
+  assert.ok(menu.includes('Personal · Entrar con PIN'));
+  assert.ok(menu.includes('Administrador de Nival'));
   assert.ok(menu.includes('Crear cuenta de negocio'));
   assert.ok(menu.includes('aria-expanded={open}'));
   assert.ok(menu.includes("event.key === 'Escape'"));
