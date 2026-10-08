@@ -45,6 +45,7 @@ export function ProgramEditor({
   const saving = useRef(false);
   const queued = useRef(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const persistAgain = useRef<() => void>(() => {});
 
   const persist = useCallback(async () => {
     if (!formRef.current) return;
@@ -60,17 +61,22 @@ export function ProgramEditor({
       const result = await saveProgram({}, new FormData(formRef.current));
       if (revision.current !== submittedRevision || queued.current) {
         queued.current = false;
-        timer.current = setTimeout(() => void persist(), 350);
+        timer.current = setTimeout(() => persistAgain.current(), 350);
       } else if (result.error) {
         setSaveState({ kind: "error", message: result.error });
       } else {
         setSaveState({ kind: "saved", message: "Todos los cambios están guardados." });
       }
     } catch {
-      setSaveState({
-        kind: "error",
-        message: "No se pudo guardar. Revisa tu conexión e inténtalo de nuevo.",
-      });
+      if (revision.current !== submittedRevision || queued.current) {
+        queued.current = false;
+        timer.current = setTimeout(() => persistAgain.current(), 350);
+      } else {
+        setSaveState({
+          kind: "error",
+          message: "No se pudo guardar. Revisa tu conexión e inténtalo de nuevo.",
+        });
+      }
     } finally {
       saving.current = false;
       if (queued.current) {
@@ -79,6 +85,7 @@ export function ProgramEditor({
       }
     }
   }, []);
+  persistAgain.current = () => void persist();
 
   useEffect(() => {
     if (!dirty.current) return;
@@ -170,6 +177,7 @@ export function ProgramEditor({
                 dirty.current = true;
                 revision.current += 1;
                 setLogo("");
+                setSaveState({ kind: "idle", message: "Cambios pendientes de guardar." });
               }}
             >
               Quitar logo
