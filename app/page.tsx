@@ -40,7 +40,7 @@ export default async function Home() {
       <a href="/" className="nxLogo" aria-label="Nival, inicio"><b>N</b><span>NIVAL</span></a>
       <nav aria-label="Navegación principal">
         <a href="#como">Cómo funciona</a><a href="#precio">Precios</a><a href="/demo">Ver demo</a><a href="#contacto">Contacto</a>
-        <a className="nxLogin" href="/acceso">Iniciar sesión</a><a className="nxNavCta" href="/acceso?modo=registro">Empezar</a>
+        <a className="nxLogin" href="/acceso">Ya tengo cuenta · Entrar</a><a className="nxNavCta" href="/acceso?modo=registro">Crear cuenta de negocio</a>
       </nav>
       <LandingMenu/>
     </header>
@@ -51,7 +51,7 @@ export default async function Home() {
         <span className="nxEyebrow">NIVAL PARA NEGOCIOS LOCALES</span>
         <h1 id="hero-title">Que te encuentren.<br/><em>Que vuelvan.</em></h1>
         <p>Puntos digitales y acompañamiento de reseñas para negocios locales.</p>
-        <div className="nxActions"><a className="primary" href="/acceso?modo=registro">Empezar <Arrow/></a><a href="/demo">Ver demo</a></div>
+        <div className="nxActions"><a className="primary" href="/acceso?modo=registro">Crear cuenta <Arrow/></a><a href="/demo">Ver demo</a></div>
         <div className="nxQuick"><span><Check/> Sin app</span><span><Check/> QR incluido</span><span><Check/> Panel incluido</span></div>
       </div>
       <div className="nxHeroVisual" aria-label="Vista ilustrativa de una tarjeta de puntos digital">
@@ -66,7 +66,7 @@ export default async function Home() {
 
     <section className="nxStoryCta" aria-label="Siguiente paso">
       <p>Conoce el recorrido completo y decide si Nival encaja con tu negocio.</p>
-      <div><a href="/demo">Ver demo</a><a href="/acceso?modo=registro">Empezar</a><a href={whatsapp('cierre de la historia')} target="_blank" rel="noreferrer">Hablar por WhatsApp</a></div>
+      <div><a href="/demo">Ver demo</a><a href="/acceso?modo=registro">Crear cuenta de negocio</a><a href={whatsapp('cierre de la historia')} target="_blank" rel="noreferrer">Hablar por WhatsApp</a></div>
     </section>
 
     <section id="precio" className="nxPricing nxSection" aria-labelledby="pricing-title">
