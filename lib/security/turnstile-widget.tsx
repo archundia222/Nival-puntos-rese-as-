@@ -20,7 +20,8 @@ declare global {
  }
 }
 
-export function TurnstileWidget({siteKey,onTokenChange}:{siteKey:string;onTokenChange:(token:string)=>void}){
+const ignoreTokenChange=()=>{};
+export function TurnstileWidget({siteKey,onTokenChange=ignoreTokenChange}:{siteKey:string;onTokenChange?:(token:string)=>void}){
  const containerRef=useRef<HTMLDivElement>(null);
  const widgetIdRef=useRef<string|null>(null);
  const [scriptReady,setScriptReady]=useState(false);
