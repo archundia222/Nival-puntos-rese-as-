@@ -82,6 +82,32 @@ export default async function Home() {
       <p className="nxPlanFineprint">Los puntos se obtienen por una visita válida con compra, registrada por el personal del negocio. Las respuestas no utilizadas no se acumulan. Las condiciones específicas de contratación se confirman con Nival.</p>
     </section>
 
+    <section className="nxBenefits nxSection" aria-labelledby="loyalty-benefits-title">
+      <div className="nxSectionHead compact">
+        <span>MÁS MOTIVOS PARA VOLVER</span>
+        <h2 id="loyalty-benefits-title">¿Por qué tener un sistema de puntos?</h2>
+        <p>Convierte cada compra en un motivo visible para volver, con reglas que tú configuras.</p>
+      </div>
+      <div className="nxBenefitsGrid">
+        <article><span>01</span><h3>El cliente sabe cuánto le falta</h3><p>Su tarjeta muestra el avance y el premio. Así puede decidir cuándo regresar.</p></article>
+        <article><span>02</span><h3>Reconoce visitas con compra</h3><p>Tu equipo registra la visita y suma los puntos que definiste para tu negocio.</p></article>
+        <article><span>03</span><h3>Entiende qué está funcionando</h3><p>Consulta el historial de visitas, puntos y canjes desde el panel.</p></article>
+      </div>
+    </section>
+
+    <section className="nxBenefits nxBenefits--google nxSection" aria-labelledby="google-profile-title">
+      <div className="nxSectionHead compact">
+        <span>PRESENCIA LOCAL</span>
+        <h2 id="google-profile-title">¿Por qué tener una buena ficha de Google?</h2>
+        <p>Ayuda a que las personas encuentren datos confiables y sepan qué esperar antes de visitar tu negocio.</p>
+      </div>
+      <div className="nxBenefitsGrid">
+        <article><span>01</span><h3>Información fácil de encontrar</h3><p>Dirección, horario y teléfono actualizados ayudan a elegir cómo llegar o contactarte.</p></article>
+        <article><span>02</span><h3>Tu negocio se entiende mejor</h3><p>Describe lo que ofreces y agrega fotos reales para mostrar cómo es tu local.</p></article>
+        <article><span>03</span><h3>Opiniones auténticas dan contexto</h3><p>Las reseñas permiten conocer experiencias de otros clientes. Invítalos sin ofrecer puntos ni premios.</p></article>
+      </div>
+    </section>
+
     <section className="nxIntegrity nxSection" aria-labelledby="integrity-title">
       <div><span>UNA EXPERIENCIA QUE CONECTA</span><h2 id="integrity-title">Haz que cada visita cuente.</h2><p>Reconoce a tus clientes frecuentes con puntos por sus compras y mantén una comunicación cercana con quienes conocen tu negocio. Dos formas de construir relaciones duraderas, desde un solo lugar.</p></div>
       <div className="nxIntegrityFlow"><article><span>01</span><b>Premia su preferencia</b><small>Tu cliente acumula puntos por visitas válidas con compra y descubre sus próximos premios.</small></article><i aria-hidden="true">+</i><article><span>02</span><b>Escucha su experiencia</b><small>Invita a compartir opiniones auténticas y voluntarias, sin condicionar puntos ni premios.</small></article></div>
