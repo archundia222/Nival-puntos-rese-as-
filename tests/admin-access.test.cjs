@@ -15,15 +15,26 @@ test('public login and signup reject the reserved administrator email before rea
 });
 test('first access creates an unknowable password, revokes auto-signup session and sends only founder mailbox links',async()=>{
  const calls=[];const auth={signUp:{email:async values=>{calls.push(['signup',values]);return {}; }},signOut:async()=>{calls.push(['signout']);return {};},sendVerificationEmail:async v=>{calls.push(['verify',v]);return {};},requestPasswordReset:async v=>{calls.push(['reset',v]);return {};}};
- const mod=load('app/acceso-administrador/actions.ts',{'../../lib/backend/auth':{getAuth:()=>auth},'node:crypto':require('node:crypto'),'../../lib/foundation/db':{systemQuery:async()=>[]},'../../lib/security/admin-access':{limitAdminAccess:async()=> 'https://nival.example',limitAdminEmailRequest:async()=>{},authorizeOwnAdministrator:async()=>{throw Error('No grants during setup');}}});
+ const mod=load('app/acceso-administrador/actions.ts',{'next/headers':{headers:async()=>new Headers({origin:'https://nival.example'})},'../../lib/backend/auth':{getAuth:()=>auth},'node:crypto':require('node:crypto'),'../../lib/foundation/db':{systemQuery:async()=>[]},'../../lib/security/admin-access':{limitAdminAccess:async()=> 'https://nival.example',limitAdminEmailRequest:async()=>{},authorizeOwnAdministrator:async()=>{throw Error('No grants during setup');}}});
  const form=new FormData();form.set('email','rodrigoarchundia379@gmail.com');form.set('password','attacker-chosen');
  const result=await mod.administratorAccess('setup',form);assert.equal(result.ok,true);assert.equal(result.enter,undefined);assert.notEqual(calls[0][1].password,'attacker-chosen');assert.equal(calls[0][1].password.length,64);assert.equal(calls[1][0],'signout');assert.equal(calls[2][1].email,'rodrigoarchundia379@gmail.com');assert.equal(calls[3][1].redirectTo,'https://nival.example/acceso-administrador/restablecer');
 });
 
 test('founder login enforces throttle before calling password provider',async()=>{
  let signIns=0;
- const mod=load('app/acceso-administrador/actions.ts',{'../../lib/backend/auth':{getAuth:()=>({signIn:{email:async()=>{signIns++;return {};}}})},'node:crypto':require('node:crypto'),'../../lib/foundation/db':{},'../../lib/security/admin-access':{limitAdminAccess:async()=> 'https://nival.example',claimAdminLoginAttempt:async()=>{throw Error('Espera 15 minutos antes de intentar de nuevo.')}}});
+ const mod=load('app/acceso-administrador/actions.ts',{'next/headers':{headers:async()=>new Headers({origin:'https://nival.example'})},'../../lib/backend/auth':{getAuth:()=>({signIn:{email:async()=>{signIns++;return {};}}})},'node:crypto':require('node:crypto'),'../../lib/foundation/db':{},'../../lib/security/admin-access':{limitAdminAccess:async()=> 'https://nival.example',claimAdminLoginAttempt:async()=>{throw Error('Espera 15 minutos antes de intentar de nuevo.')}}});
  const form=new FormData();form.set('email','rodrigoarchundia379@gmail.com');form.set('password','my-private-password');
  const result=await mod.administratorAccess('login',form);
  assert.equal(result.ok,false);assert.match(result.message,/15 minutos/);assert.equal(signIns,0);
+});
+
+test('founder login explains whether Neon rejected a different or official origin',async()=>{
+ for(const [requestOrigin,pattern] of [['https://preview.nival.example',/otro dominio/],['https://nival.example',/misma rama/]]){
+  const auth={signIn:{email:async()=>({error:{message:'Invalid origin',status:403,code:'feature_not_supported'}})}};
+  const mod=load('app/acceso-administrador/actions.ts',{'next/headers':{headers:async()=>new Headers({origin:requestOrigin})},'../../lib/backend/auth':{getAuth:()=>auth},'node:crypto':require('node:crypto'),'../../lib/foundation/db':{},'../../lib/security/admin-access':{limitAdminAccess:async()=> 'https://nival.example',claimAdminLoginAttempt:async()=>{}}});
+  const form=new FormData();form.set('email','rodrigoarchundia379@gmail.com');form.set('password','my-private-password');
+  const log=console.error;const events=[];console.error=(...args)=>events.push(args);
+  let result;try{result=await mod.administratorAccess('login',form);}finally{console.error=log;}
+  assert.match(result.message,pattern);assert.equal(events[0][1].requestOrigin,requestOrigin);assert.equal(events[0][1].officialOrigin,'https://nival.example');
+ }
 });
