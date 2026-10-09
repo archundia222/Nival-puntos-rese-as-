@@ -113,20 +113,20 @@ test('loyalty and Google profile benefits appear directly below prices in that o
   const googleIndex = page.indexOf('¿Por qué tener una buena ficha de Google?');
   const integrityIndex = page.indexOf('<section className="nxIntegrity nxSection"');
   assert.ok(priceIndex < loyaltyIndex && loyaltyIndex < googleIndex && googleIndex < integrityIndex);
-  assert.ok(page.includes('Reconoce visitas con compra'));
-  assert.ok(page.includes('Invítalos sin ofrecer puntos ni premios;'));
+  assert.ok(page.includes('Cada compra los acerca a un premio'));
+  assert.ok(page.includes('Pídelas sin ofrecer puntos ni premios.'));
 });
 
 test('benefit section headings have enough width to read comfortably', () => {
   assert.ok(css.includes('.nxBenefits .nxSectionHead.compact h2{grid-column:1/span 2'));
 });
 
-test('benefit copy explains loyalty psychology without promising outcomes and keeps Google claims accurate', () => {
-  assert.ok(page.includes('estudio de campo en una cafetería'));
-  assert.ok(page.includes('no garantiza que todos vuelvan'));
-  assert.ok(page.includes('cada visita'));
-  assert.ok(page.includes('relevancia, la distancia y la popularidad'));
-  assert.ok(page.includes('nadie puede garantizar el primer lugar'));
-  assert.ok(page.includes('dirección, horario normal y días festivos'));
-  assert.ok(page.includes('Invítalos sin ofrecer puntos ni premios;'));
+test('benefit copy is concise and explains customer value', () => {
+  assert.ok(page.includes('cada compra los acerca a un premio claro y útil'));
+  assert.ok(page.includes('Su preferencia se siente reconocida'));
+  assert.ok(page.includes('sin descargar otra aplicación'));
+  assert.ok(page.includes('le quita dudas al cliente'));
+  assert.ok(page.includes('Sabe cómo llegar y cuándo ir'));
+  assert.ok(page.includes('Las opiniones reales'));
+  assert.ok(page.includes('sin ofrecer puntos ni premios'));
 });
