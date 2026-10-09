@@ -219,74 +219,189 @@
  .nvHow .nvStep,.nvPlanCard,.nvBenefitGrid article,.nvLanding .refWhats{transition:none}
 }
 
-/* Mobile: keep the original editorial photo-and-copy composition, with the photo layered behind the text. */
+
+/* Restore the editorial landing composition used before the product rewrite. */
+.nvLanding{background:#f8f6ef}
+.nvHero{
+  position:relative;isolation:isolate;display:grid;grid-template-columns:52% 48%;
+  align-items:center;gap:0;width:100%;max-width:none;min-height:520px;margin:0;
+  padding:0;overflow:hidden;background:#f8f6ef
+}
+.nvHeroCopy{
+  position:relative;z-index:2;grid-column:1;max-width:680px;
+  padding:52px 24px 52px max(6%,calc((100vw - 1250px)/2))
+}
+.nvHero h1{font-size:clamp(58px,6.2vw,86px);line-height:.93;letter-spacing:-.045em;margin:16px 0 20px}
+.nvHero h1 em{color:#1f7654}
+.nvHeroLead{max-width:500px;font-size:19px;line-height:1.5}
+.nvHeroVisual{
+  position:absolute;inset:0 0 0 27%;z-index:0;width:auto;height:100%;min-height:0;
+  margin:0;padding:0;overflow:hidden;border-radius:0
+}
+.nvHeroVisual>img{
+  display:block;width:100%;height:100%;min-height:0;max-height:none;margin:0;
+  object-fit:cover;object-position:62% 45%;border-radius:0;box-shadow:none;
+  -webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,.04) 0%,rgba(0,0,0,.28) 17%,rgba(0,0,0,.76) 39%,#000 58%);
+  mask-image:linear-gradient(90deg,rgba(0,0,0,.04) 0%,rgba(0,0,0,.28) 17%,rgba(0,0,0,.76) 39%,#000 58%)
+}
+.nvHeroVisual:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(248,246,239,.22),transparent 45%);pointer-events:none}
+.nvImageNote{left:2%;right:auto;bottom:7%;z-index:3;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.nvHow{
+  width:100%;max-width:none;margin:0;padding:34px max(6%,calc((100vw - 1250px)/2)) 28px;
+  background:#0c2a1f;color:#fffefa
+}
+.nvHow:before{background:radial-gradient(ellipse at 86% 12%,rgba(216,243,101,.08),transparent 37%)}
+.nvHowHead{max-width:1250px;margin:0 auto 20px;display:flex;align-items:flex-end;justify-content:space-between;gap:24px}
+.nvHow .nvSectionIntro{max-width:530px;margin:0}
+.nvHow .nvSectionIntro h2{max-width:490px;color:#fffefa;font-size:clamp(40px,4vw,58px);line-height:.98}
+.nvHow .nvSectionIntro>p{max-width:490px;color:#dbe5dc;font-size:14px;line-height:1.5;margin-top:10px}
+.nvHow .nvEyebrow{color:#a9bdad}
+.nvHow .nvStepControls{display:none}
+.nvSteps{
+  max-width:1250px;margin:0 auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;overflow:visible
+}
+.nvHow .nvStep{
+  min-width:0;min-height:360px;padding:17px 14px 0;border:1px solid rgba(255,255,255,.12);
+  border-radius:15px 15px 0 0;background:linear-gradient(150deg,rgba(255,255,255,.13),rgba(255,255,255,.045));
+  box-shadow:none;display:flex;flex-direction:column;overflow:hidden
+}
+.nvHow .nvStepTop{color:#d8f365;font-size:21px}
+.nvHow .nvStepTop svg{width:22px;height:22px;color:#d8f365}
+.nvHow .nvStep h3{color:#fffefa;font-size:17px;line-height:1.12;margin:7px 0}
+.nvHow .nvStep p{min-height:64px;color:#e7eee8;font-size:12px;line-height:1.42;margin:0 0 12px}
+.nvHow .nvStepImage{
+  display:block;width:calc(100% + 28px);height:220px;max-width:none;margin:auto -14px 0;
+  object-fit:cover;object-position:center top;border-radius:0;filter:none
+}
+.nvProduct{
+  display:grid;grid-template-columns:1fr 1fr;gap:0;align-items:stretch;
+  width:100%;max-width:none;margin:0;padding:0;background:#f8f6ef
+}
+.nvProductVisual{position:relative;min-height:420px;border:0;border-radius:0;background:#e7ece3;box-shadow:none;overflow:hidden}
+.nvProductVisual img{display:block;width:100%;height:100%;min-height:420px;object-fit:cover;object-position:center}
+.nvProductCopy{padding:60px max(6%,calc((100vw - 1250px)/2)) 55px 7%;align-self:center}
+.nvProductCopy h2,.nvGoogle h2,.nvFaq h2{font-size:clamp(36px,3.8vw,53px);line-height:1.03;letter-spacing:-.035em}
+.nvProductCopy>p{font-size:14px;line-height:1.6}
+.nvBenefitGrid{gap:12px 16px;margin-top:22px}
+.nvBenefitGrid article{padding:10px 0;border:0;border-bottom:1px solid rgba(12,42,31,.1);background:transparent;border-radius:0;box-shadow:none}
+.nvBenefitGrid article:hover{transform:none;background:transparent}
+.nvBenefitGrid article>svg{width:25px;height:25px;flex:0 0 25px}
+.nvBenefitGrid h3{font-size:14px}
+.nvBenefitGrid p{font-size:12px;line-height:1.4}
+.nvGoogle{
+  max-width:none;width:100%;margin:0;padding:68px max(6%,calc((100vw - 1250px)/2));
+  display:grid;grid-template-columns:1fr .9fr;gap:52px;align-items:center;background:#eff2e9
+}
+.nvGoogleCopy{max-width:620px}
+.nvGoogleCopy>p{font-size:14px;line-height:1.6}
+.nvCheckList{gap:10px}
+.nvCheckList li{font-size:13px}
+.nvReviewCard{max-width:530px;width:100%;padding:25px;border:1px solid rgba(12,42,31,.08);border-radius:18px;background:#fffefa;box-shadow:0 18px 45px rgba(15,39,28,.1)}
+.nvReviewHead{padding-bottom:18px;border-bottom:1px solid var(--line)}
+.nvReviewRow{padding:16px 0}
+.nvGoogleNote{font-size:12px;line-height:1.55}
+.nvValue{
+  max-width:1152px;margin:46px auto 58px;padding:30px 34px;
+  display:grid;grid-template-columns:190px 1fr auto;gap:22px;align-items:center;
+  border:0;border-radius:16px;background:#d8f365;box-shadow:0 14px 34px rgba(15,39,28,.1)
+}
+.nvValueLabel{width:auto;height:auto;max-width:none;padding:0;background:transparent;transform:none;border-radius:0;white-space:normal}
+.nvValue h2{font-size:clamp(27px,3vw,36px);line-height:1.05}
+.nvValue p{font-size:13px;line-height:1.5}
+.nvPlans{padding:56px max(6%,calc((100vw - 1250px)/2));background:linear-gradient(130deg,#e7eee4,#f7f6ef)}
+.nvPlansIntro{max-width:700px;margin:0 auto 28px;text-align:left}
+.nvPlansIntro h2{font-size:clamp(38px,3.8vw,54px);line-height:1.02}
+.nvPlansIntro>p{margin:10px 0 0}
+.nvPlanCards{gap:13px}
+.nvPlanCard{border-radius:15px;padding:23px 21px 18px;box-shadow:0 7px 20px rgba(15,39,28,.06)}
+.nvPlanFeatured{box-shadow:0 10px 27px rgba(15,39,28,.13)}
+.nvPlanCard h3{font-size:23px}
+.nvPlanCard .nvPrice strong{font-size:34px}
+.nvPlanCard .nvButton{margin-top:auto}
+.nvMatrix{border-radius:15px;background:#fffefa}
+.nvFaq{max-width:1200px;margin:0 auto;padding:72px 24px;grid-template-columns:.8fr 1.2fr;gap:60px}
+.nvFaq .nvSectionIntro{margin:0}
+.nvFaq .nvSectionIntro h2{font-size:clamp(37px,3.8vw,52px)}
+.nvFinalCta{padding:62px 24px 66px;background:#0c2a1f}
+.nvFinalCta .nvEyebrow{color:#d8f365}
+.nvFinalCta h2{color:#fffefa}
+.nvFinalCta p{color:#e3eade}
+.nvFooter{max-width:none;padding:22px max(6%,calc((100vw - 1250px)/2));background:#f8f6ef}
+@media(max-width:900px){
+ .nvHero{min-height:480px;grid-template-columns:52% 48%}
+ .nvHeroCopy{padding-left:5%;padding-right:12px}
+ .nvHero h1{font-size:clamp(50px,6vw,64px)}
+ .nvHeroVisual{inset:0 0 0 25%}
+ .nvHow{padding-left:24px;padding-right:24px}
+ .nvHow .nvStep{min-height:340px}
+ .nvSteps{gap:10px}
+ .nvHow .nvStepImage{height:180px}
+ .nvProductCopy{padding:42px 28px}
+ .nvGoogle{padding:54px 28px;gap:30px}
+ .nvValue{margin-left:24px;margin-right:24px;grid-template-columns:1fr 2fr}
+ .nvValue>a{grid-column:2}
+ .nvPlans{padding-left:24px;padding-right:24px}
+}
 @media(max-width:760px){
-  .nvHero{
-    position:relative;
-    display:block;
-    min-height:690px;
-    padding:34px 20px 0;
-    isolation:isolate;
-    overflow:hidden;
-    background:var(--c);
-  }
-  .nvHeroCopy{
-    position:relative;
-    z-index:2;
-    max-width:620px;
-    padding:0;
-  }
-  .nvHeroVisual{
-    position:absolute;
-    z-index:0;
-    inset:0;
-    width:100%;
-    height:100%;
-    min-height:0;
-    margin:0;
-    padding:0;
-    overflow:hidden;
-    border-radius:0;
-    pointer-events:none;
-  }
-  .nvHeroVisual>img{
-    display:block;
-    width:100%;
-    height:100%;
-    min-height:0;
-    max-height:none;
-    margin:0;
-    object-fit:cover;
-    object-position:66% center;
-    border-radius:0;
-    -webkit-mask-image:none;
-    mask-image:none;
-  }
-  .nvHero:after{
-    content:"";
-    position:absolute;
-    inset:0;
-    z-index:1;
-    pointer-events:none;
-    background:
-      linear-gradient(180deg,rgba(248,246,239,.99) 0%,rgba(248,246,239,.97) 31%,rgba(248,246,239,.87) 50%,rgba(248,246,239,.58) 67%,rgba(248,246,239,.12) 88%,rgba(248,246,239,0) 100%),
-      linear-gradient(105deg,rgba(248,246,239,.35) 0%,rgba(248,246,239,.12) 58%,rgba(248,246,239,0) 100%);
-  }
-  .nvHero h1,.nvHeroLead,.nvActions,.nvPromiseRow,.nvFinePrint{position:relative;z-index:2}
-  .nvHero h1{max-width:560px}
-  .nvHeroLead{max-width:430px}
-  .nvHero .nvActions{margin-top:22px}
-  .nvPromiseRow{margin-top:18px}
-  .nvHeroVisual .nvImageNote{display:none}
+ .nvHero{display:block;min-height:680px;padding:28px 0 0}
+ .nvHeroCopy{padding:0 22px;max-width:620px}
+ .nvHero h1{font-size:clamp(47px,11vw,60px);line-height:.94}
+ .nvHeroLead{max-width:430px;font-size:16px;line-height:1.5}
+ .nvHeroVisual{inset:0;width:100%;height:100%;margin:0;padding:0}
+ .nvHeroVisual>img{width:100%;height:100%;object-fit:cover;object-position:68% center;border-radius:0;-webkit-mask-image:none;mask-image:none}
+ .nvHero:after{
+  content:"";position:absolute;z-index:1;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(248,246,239,.98) 0%,rgba(248,246,239,.94) 34%,rgba(248,246,239,.78) 52%,rgba(248,246,239,.34) 70%,rgba(248,246,239,.03) 100%)
+ }
+ .nvHeroCopy,.nvHero h1,.nvHeroLead,.nvActions,.nvPromiseRow,.nvFinePrint{position:relative;z-index:2}
+ .nvHeroVisual .nvImageNote{display:none}
+ .nvHow{padding:34px 18px 22px}
+ .nvHowHead{align-items:flex-end}
+ .nvHow .nvSectionIntro{max-width:calc(100% - 92px);margin:0}
+ .nvHow .nvSectionIntro h2{font-size:40px}
+ .nvHow .nvStepControls{display:flex;gap:8px}
+ .nvStepControls button{width:38px;height:38px;border:1px solid #779282;border-radius:50%;background:transparent;color:#e4ecdf;display:grid;place-items:center}
+ .nvStepControls button:last-child{background:#fffefa;color:#0c2a1f}
+ .nvSteps{display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;-webkit-overflow-scrolling:touch;touch-action:pan-x;gap:12px;padding-bottom:7px}
+ .nvSteps::-webkit-scrollbar{display:none}
+ .nvHow .nvStep{flex:0 0 78%;min-height:390px;scroll-snap-align:start}
+ .nvHow .nvStepImage{height:220px}
+ .nvProduct{grid-template-columns:1fr}
+ .nvProductVisual{min-height:340px}
+ .nvProductVisual img{min-height:340px}
+ .nvProductCopy{padding:42px 24px}
+ .nvGoogle{grid-template-columns:1fr;padding:45px 24px;gap:24px}
+ .nvReviewCard{max-width:none}
+ .nvValue{margin:30px 18px 42px;padding:24px;grid-template-columns:1fr;gap:12px}
+ .nvValue>a{grid-column:auto}
+ .nvPlans{padding:45px 18px}
+ .nvPlansIntro{text-align:left}
+ .nvPlanCards{grid-template-columns:1fr;max-width:620px;margin:0 auto}
+ .nvFaq{grid-template-columns:1fr;gap:26px;padding:52px 22px}
+ .nvFinalCta{padding:48px 22px}
+ .nvFooter{padding:26px 22px;display:grid;grid-template-columns:1fr;gap:12px}
+ .nvFooter>div{margin:0}
 }
 @media(max-width:420px){
-  .nvHero{min-height:670px;padding:30px 18px 0}
-  .nvHero h1{max-width:350px}
-  .nvHeroLead{max-width:355px}
-  .nvHeroVisual>img{object-position:68% center}
-  .nvHero:after{
-    background:
-      linear-gradient(180deg,rgba(248,246,239,.99) 0%,rgba(248,246,239,.97) 32%,rgba(248,246,239,.87) 52%,rgba(248,246,239,.52) 69%,rgba(248,246,239,.08) 90%,rgba(248,246,239,0) 100%),
-      linear-gradient(105deg,rgba(248,246,239,.38) 0%,rgba(248,246,239,.12) 62%,rgba(248,246,239,0) 100%);
-  }
+ .nvHero{min-height:650px}
+ .nvHeroCopy{padding:0 18px}
+ .nvHero h1{font-size:43px}
+ .nvHeroLead{font-size:15px}
+ .nvActions .nvButton{flex:1;min-width:0;padding:0 12px}
+ .nvPromiseRow{gap:10px}
+ .nvPromiseRow span{font-size:11px}
+ .nvHow .nvSectionIntro{max-width:calc(100% - 80px)}
+ .nvHow .nvStep{flex-basis:84%}
+ .nvHow .nvStepImage{height:190px}
+ .nvProductVisual,.nvProductVisual img{min-height:300px}
+ .nvProductCopy{padding:36px 20px}
+ .nvGoogle{padding:40px 20px}
+ .nvReviewCard{padding:20px}
+ .nvValue{margin-left:16px;margin-right:16px;padding:21px}
+ .nvPlanCard{padding:20px}
+ .nvFaq{padding:44px 20px}
+}
+@media(prefers-reduced-motion:reduce){
+ .nvHow .nvStep,.nvPlanCard,.nvBenefitGrid article,.nvLanding .refWhats{transition:none}
 }
