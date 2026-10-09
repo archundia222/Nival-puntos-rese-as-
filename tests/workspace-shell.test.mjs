@@ -49,7 +49,7 @@ test('customer groups have independent navigation and demo exit remains availabl
  assert.match(html,/<a[^>]+href="\/"[^>]*>Finalizar demo<\/a>/);
  }
  const group=renderToStaticMarkup(React.createElement(tour.DemoTour,{section:'clientes-risk',active:true,navigate:()=>{},setActive:()=>{}}));
- assert.ok(group.includes('Paso 2 de 6'));
+ assert.ok(group.includes('Paso 3 de 7'));
 });
 
 const {CustomerExplorer}=component('customer-explorer.tsx',{'./icons':icons,'./explorer.mjs':explorer});
