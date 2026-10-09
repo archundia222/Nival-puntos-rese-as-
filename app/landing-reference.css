@@ -81,3 +81,35 @@
 .nvHow .nvStepImage{display:block;width:calc(100% + 40px);height:205px;max-width:none;margin:auto -20px -20px;object-fit:cover;object-position:center 22%;border-radius:11px 11px 0 0}
 @media(max-width:900px){.nvHow .nvStep{min-height:380px}.nvHow .nvStepImage{height:180px}}
 @media(max-width:420px){.nvHow .nvStep{min-height:350px;padding:16px 14px}.nvHow .nvStepImage{width:calc(100% + 28px);height:155px;margin-left:-14px;margin-right:-14px;margin-bottom:-16px}}
+
+
+/* NIVAL FOUR STEP CAROUSEL */
+.nvHowHead{max-width:1200px;margin:0 auto 28px;display:flex;align-items:flex-end;justify-content:space-between;gap:24px}
+.nvHow .nvSectionIntro{max-width:700px;margin:0}
+.nvHow .nvSectionIntro h2{max-width:680px;font-size:clamp(36px,4.2vw,52px)}
+.nvStepControls{display:flex;align-items:center;gap:10px;flex:none;padding-bottom:3px}
+.nvStepControls button{width:44px;height:44px;display:grid;place-items:center;border:1px solid #ffffff55;border-radius:50%;background:transparent;color:var(--c);cursor:pointer;transition:background .16s ease,transform .16s ease}
+.nvStepControls button:hover{transform:translateY(-1px);background:#ffffff12}
+.nvStepControls button:last-child{border-color:var(--c);background:var(--c);color:var(--g)}
+.nvStepControls svg{width:19px;height:19px;stroke:currentColor}
+.nvSteps{max-width:1200px;margin:0 auto;display:flex;gap:12px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;-webkit-overflow-scrolling:touch;touch-action:pan-x}
+.nvSteps::-webkit-scrollbar{display:none}
+.nvHow .nvStep{flex:0 0 calc((100% - 36px)/4);min-width:0;scroll-snap-align:start}
+@media(max-width:900px){.nvHow .nvStep{flex-basis:calc((100% - 24px)/3)}}
+@media(max-width:760px){
+ .nvHowHead{align-items:flex-end;margin-bottom:20px}
+ .nvHow .nvSectionIntro{max-width:calc(100% - 100px)}
+ .nvHow .nvSectionIntro h2{font-size:clamp(32px,7vw,42px)}
+ .nvStepControls{gap:7px}
+ .nvStepControls button{width:40px;height:40px}
+ .nvSteps{margin-right:-22px;padding-right:22px;padding-bottom:8px}
+ .nvHow .nvStep{flex:0 0 82%;min-height:350px}
+}
+@media(max-width:420px){
+ .nvHowHead{gap:8px}
+ .nvHow .nvSectionIntro{max-width:calc(100% - 82px)}
+ .nvHow .nvSectionIntro h2{font-size:clamp(30px,8vw,36px)}
+ .nvStepControls{gap:6px}
+ .nvStepControls button{width:35px;height:35px}
+ .nvHow .nvStep{flex-basis:86%;min-height:350px}
+}
