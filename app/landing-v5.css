@@ -432,3 +432,26 @@
 .nxFourFootnote{color:#b8cabe;font-size:12px;margin:16px 0 0}
 @media(max-width:850px){.nxFourGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.nxFourGrid p{min-height:0}.nxFourArt{min-height:230px}}
 @media(max-width:490px){.nxStory--four{padding:40px 17px!important}.nxFourHeading h2{font-size:42px}.nxFourGrid{gap:9px}.nxFourGrid article{padding:13px 10px 0}.nxFourGrid h3{font-size:17px}.nxFourGrid p{font-size:12px;min-height:84px}.nxFourArt{margin:0 -10px;min-height:205px}.nxFourNumber{font-size:20px}.nxFourControls button{width:36px;height:36px}.nxFourArt .nxStoryPhone{transform:translate(-50%,0) scale(.6)}}
+
+/* Landing nueva: fotografías aprobadas y composición editorial */
+.nx{--nx-ink:#0F2E22;--nx-cream:#F8F6EF;--nx-lime:#D4F26A;--nx-mint:#E6EEE3}
+.nxHero--editorial{background:#F8F6EF!important}
+.nxHeroVisual--photo{position:relative;overflow:hidden;min-height:510px;border-radius:0!important;background:#e8e3d8}
+.nxPhotoFill{display:block;width:100%;height:100%;object-fit:cover}
+.nxHeroVisual--photo>.nxPhotoFill{position:absolute;inset:0;object-position:50% 48%}
+.nxPhotoPanel{position:relative;overflow:hidden;min-height:430px}
+.nxPhotoPanel>.nxPhotoFill{position:absolute;inset:0}
+.nxShowcaseVisual--map.nxPhotoPanel>.nxPhotoFill{object-position:center}
+.nxMapIllustration--overlay{position:absolute!important;inset:auto 16px 18px auto!important;width:auto!important;height:auto!important;max-width:200px;background:#ffffffec!important;border-radius:18px!important;padding:8px!important;box-shadow:0 12px 28px #0f2e2226}
+.nxMapIllustration--overlay .nxMapRoad,.nxMapIllustration--overlay .nxMapPin{display:none!important}
+.nxMapIllustration--overlay .nxMapBusiness{position:static!important;transform:none!important}
+.nxShowcaseVisual--map.nxPhotoPanel .nxShowcaseBubble{top:20px;right:20px}
+.nxDemoDashboard--overlay{position:absolute!important;inset:auto auto 18px 18px!important;width:min(72%,300px)!important;min-height:0!important;padding:16px!important;background:#fffffff0!important;box-shadow:0 12px 32px #0f2e2233}
+.nxShowcaseVisual--loyalty.nxPhotoPanel>.nxPhotoFill{object-position:50% 30%}
+.nxFourArt>.nxPhotoFill{position:absolute;inset:0;object-fit:cover;object-position:top center}
+.nxFourGrid article{border-radius:20px}
+.nxFourArt{background:#e9eae5}
+.nxPricing--reference .nxRecommendedBadge{background:#D4F26A;color:#0F2E22}
+@media(min-width:851px){.nxHero--editorial{min-height:540px}.nxHeroVisual--photo{min-height:540px}.nxFourGrid{gap:12px}.nxFourArt{min-height:280px}}
+@media(max-width:850px){.nxHeroVisual--photo{min-height:450px}.nxShowcaseVisual--map.nxPhotoPanel,.nxShowcaseVisual--loyalty.nxPhotoPanel{min-height:370px}}
+@media(max-width:490px){.nxHeroVisual--photo{min-height:380px}.nxPhotoPanel{min-height:330px}.nxDemoDashboard--overlay{width:min(75%,260px)!important}.nxFourArt{min-height:205px}}
