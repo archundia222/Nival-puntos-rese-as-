@@ -113,3 +113,10 @@
  .nvStepControls button{width:35px;height:35px}
  .nvHow .nvStep{flex-basis:86%;min-height:350px}
 }
+
+/* Match the reference composition: compact title block, controls at the upper right */
+.nvHowHead{align-items:flex-start}
+.nvHow .nvSectionIntro{max-width:500px}
+.nvHow .nvSectionIntro h2{max-width:470px}
+.nvStepControls{margin-top:38px}
+@media(max-width:760px){.nvHowHead{align-items:flex-end}.nvStepControls{margin-top:0}}
