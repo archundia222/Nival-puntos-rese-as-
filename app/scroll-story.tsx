@@ -66,7 +66,7 @@ export default function ScrollStory() {
         <div className="nxFourGrid">{scenes.map((scene,i)=><article key={scene.kind} className={i===active?'is-active':''} onMouseEnter={()=>setActive(i)}>
           <span className="nxFourNumber">0{i+1}.</span><h3>{['Te encuentran en Google.','Acumulan puntos.','Regresan por sus premios.','Comparten su experiencia.'][i]}</h3>
           <p>{['Mejora tu ficha y facilita que nuevos clientes te descubran.','Cada visita con compra suma un punto en su tarjeta digital.','Ver el avance puede motivar a completar una meta.','Invita a compartir una opinión libre y auténtica.'][i]}</p>
-          <div className="nxFourArt"><SceneArt kind={scene.kind}/></div>
+          <div className="nxFourArt"><img src={`/assets/paso${i+1}.jpg`} alt={['Ficha de Google de Café Nival','Visita registrada en tarjeta digital','Premio de café canjeado','Invitación voluntaria a reseñar'][i]} className="nxPhotoFill"/></div>
         </article>)}</div>
         <p className="nxFourFootnote">Ejemplos ilustrativos. Los puntos nunca se condicionan a reseñas.</p>
       </div>
