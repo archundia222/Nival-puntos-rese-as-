@@ -8,7 +8,7 @@ import {ActionForm} from '../../lib/foundation/forms';
 import {Field,Hidden} from '../../lib/foundation/fields';
 import {
  changeBusinessStatus,setBusinessPlan,saveBusinessNotes,registerPayment30,generateActivationCode,
- publishContent
+ publishContent,createTask
 } from '../../lib/admin/actions';
 import {syncServiceTasks} from '../../lib/admin/service-tasks';
 import {TestimonialForm} from '../../lib/admin/testimonial-form';
@@ -62,8 +62,8 @@ export default async function Admin({searchParams}:{searchParams:Promise<{busine
  const globalAudit=await query(actor,`select a.action,a.created_at,a.data,b.name business_name from nival_pr.audit_log a left join nival_pr.businesses b on b.id=a.business_id order by a.created_at desc limit 40`);
  const todayTasks=await query(actor,`select t.id,t.title,t.status,t.due_date,t.recurrence,b.name business_name,b.id business_id,b.slug business_code,b.phone business_phone,b.email business_email
    from nival_pr.tasks t left join nival_pr.businesses b on b.id=t.business_id
-   where t.status in ('pendiente','en_progreso') and (t.business_id is null or (t.title='Cobrar mensualidad' and b.status<>'cancelado') or (b.status in ('activo','por_vencer') and greatest(coalesce(b.paid_until,'-infinity'),coalesce(b.trial_ends_at,'-infinity'))>now() and (t.title like 'Puntos ·%' or exists(select 1 from nival_pr.plans p where p.id=b.plan_id and coalesce((p.features->>'points_only')::boolean,false)=false)))) and t.title not like 'REVIEW:%'
-     and (t.due_date is null or t.due_date<=(now() at time zone 'America/Mexico_City')::date)
+   where ((t.status in ('pendiente','en_progreso') and (t.due_date is null or t.due_date<=(now() at time zone 'America/Mexico_City')::date)) or (t.status='completada' and t.due_date=(now() at time zone 'America/Mexico_City')::date))
+     and (t.business_id is null or (t.title='Cobrar mensualidad' and b.status<>'cancelado') or (b.status in ('activo','por_vencer') and greatest(coalesce(b.paid_until,'-infinity'),coalesce(b.trial_ends_at,'-infinity'))>now())) and t.title not like 'REVIEW:%'
    order by t.due_date nulls first,t.created_at asc limit 80`);
  const contents=await query(actor,"select key,value_draft,published_at from nival_pr.site_content where key like 'testimonial_%' order by key");
 
@@ -78,7 +78,7 @@ export default async function Admin({searchParams}:{searchParams:Promise<{busine
    <article><span>Negocios activos</span><b>{metric?.active||0}</b></article>
    <article><span>Ingreso mensual previsto</span><b>{mxn(metric?.mrr)}</b></article>
    <article><span>Por vencer · 7 días</span><b>{metric?.expiring||0}</b></article>
-   <article><span>Tareas de hoy</span><b>{todayTasks.length}</b></article>
+   <article><span>Tareas por resolver hoy</span><b>{todayTasks.filter(t=>t.status!=='completada').length}</b></article>
   </section>}
 
   {view==='negocios'&&<section id="negocios" className="adminSection">
@@ -106,7 +106,7 @@ export default async function Admin({searchParams}:{searchParams:Promise<{busine
    </aside>}</div>
   </section>}
 
-  {view==='tareas'&&<section id="tareas" className="adminSection"><h2>Tareas de hoy</h2><p>Se generan según el plan y la vigencia: diagnóstico, seguimiento, reportes y recordatorios de pago.</p><TaskBoard tasks={todayTasks as any}/></section>}
+  {view==='tareas'&&<section id="tareas" className="adminSection"><div className="sectionTitle"><div><small>OPERACIÓN DIARIA</small><h2>Agenda de Nival</h2><p>Renovaciones y seguimientos se programan según cada plan. Añade aquí cualquier trabajo manual por negocio.</p></div></div><div className="adminTaskComposer"><h3>Programar tarea</h3><p>Las tareas recurrentes vuelven a la agenda cuando marcas la anterior como hecha.</p><ActionForm action={createTask} label="Agregar a la agenda"><label>Negocio<select name="businessId" defaultValue=""><option value="">Operación general de Nival</option>{businesses.map(b=><option key={b.id} value={b.id}>{b.name}</option>)}</select></label><Field name="title" label="Qué hay que hacer" required/><Field name="dueDate" label="Fecha límite" type="date" required={false}/><label>Repetir<select name="recurrence" defaultValue=""><option value="">No repetir</option><option value="daily">Cada día</option><option value="weekly">Cada semana</option><option value="monthly">Cada mes</option></select></label></ActionForm></div><TaskBoard tasks={todayTasks as any}/></section>}
   {view==='testimonios'&&<section className="adminSection"><h2>Testimonios de negocios</h2><p>Prepara cada caso con foto, nombre del local y su experiencia. Publica únicamente con autorización del negocio.</p><TestimonialForm/><div className="contentGrid">{contents.filter(c=>c.key.startsWith('testimonial_')).map(c=><article key={c.key}><img src={c.value_draft?.photo} alt={'Local de '+c.value_draft?.businessName} width="260" height="180" style={{objectFit:'cover',maxWidth:'100%'}}/><h3>{c.value_draft?.businessName}</h3><blockquote>{c.value_draft?.quote}</blockquote><p>{c.value_draft?.author}</p>{c.published_at?<p>Publicado</p>:<ActionForm action={publishContent} label="Publicar testimonio"><Hidden name="key" value={c.key}/></ActionForm>}</article>)}</div></section>}
 
   {view==='actividad'&&<section className="adminSection">
