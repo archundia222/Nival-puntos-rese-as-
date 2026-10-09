@@ -358,3 +358,123 @@
  .nvHeroLead{font-size:18px;line-height:1.42}
  .nvHeroVisual{height:360px}
 }
+
+
+/* Final layout correction: restore the full-bleed, image-and-copy hero from the pre-reform landing. */
+.nvLanding>section{box-sizing:border-box;width:100%;max-width:none;margin:0;padding:0}
+.nvLanding section.nvHero{
+  position:relative;isolation:isolate;display:block;width:100%;max-width:none;min-height:576px;height:576px;
+  margin:0;padding:0;overflow:hidden;background:var(--cream)
+}
+.nvLanding .nvHeroCopy{
+  position:relative;z-index:2;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
+  width:57%;max-width:none;height:100%;min-height:0;margin:0;padding:32px 0 32px clamp(32px,6.5vw,92px)
+}
+.nvLanding .nvHero h1{
+  width:100%;max-width:650px;margin:0 0 20px;font:400 clamp(58px,6.2vw,84px)/.88 Newsreader,Georgia,serif;
+  letter-spacing:-.05em;color:var(--dark);overflow-wrap:normal
+}
+.nvLanding .nvHero h1 em{color:#1f7654;font-style:normal}
+.nvLanding .nvHeroLead{width:100%;max-width:510px;margin:0 0 25px;color:#526057;font-size:clamp(17px,1.7vw,22px);line-height:1.4}
+.nvLanding .nvHero .nvActions{display:flex;flex-wrap:nowrap;gap:14px;margin:0}
+.nvLanding .nvHero .nvActions a{flex:0 0 auto;min-width:185px}
+.nvLanding .nvPromiseRow{display:flex;gap:clamp(16px,2vw,28px);margin-top:26px;flex-wrap:wrap}
+.nvLanding .nvPromiseRow>span{font-size:14px;font-weight:600}
+.nvLanding .nvFinePrint{margin:7px 0 0!important;color:#68746b;font-size:11px!important}
+.nvLanding .nvHeroVisual{position:absolute;z-index:1;inset:0 0 0 35%;width:auto;height:100%;min-height:0;overflow:hidden}
+.nvLanding .nvHeroVisual>img{display:block;width:100%;height:100%;object-fit:cover;object-position:64% center;border-radius:0}
+.nvLanding .nvHeroVisual:after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,#f8f5ee 0%,#f8f5eef2 12%,#f8f5eebd 31%,#f8f5ee50 52%,transparent 72%)
+}
+.nvLanding .nvImageNote{position:absolute;z-index:2;left:8%;bottom:24px;display:flex;align-items:center;gap:10px;max-width:min(340px,72%);padding:12px 16px;border:1px solid #ffffff80;border-radius:16px;background:#fffdf2e8;color:var(--dark);box-shadow:0 10px 28px #102a1b20}
+.nvLanding .nvImageNote .refIcon{width:22px;height:22px;color:#1f7654}
+.nvLanding .nvImageNote strong,.nvLanding .nvImageNote small{display:block}
+.nvLanding .nvImageNote strong{font-size:13px}
+.nvLanding .nvImageNote small{margin-top:2px;color:#68746b;font-size:11px}
+.nvLanding section.nvHow{
+  width:100%;max-width:none;margin:0;padding:32px clamp(28px,6vw,92px) 28px;background:#0f2a1f;color:#f8f5ee
+}
+.nvLanding .nvHow .nvSectionIntro h2{max-width:700px;margin:10px 0 0;color:#f8f5ee;font:400 clamp(42px,5vw,62px)/.92 Newsreader,Georgia,serif;letter-spacing:-.045em}
+.nvLanding .nvHow .nvSectionIntro>p{max-width:620px;margin:10px 0 0;color:#dfe8df;font-size:14px;line-height:1.5}
+.nvLanding .nvHowHead{display:flex;align-items:center;justify-content:space-between;gap:24px;margin:0 0 24px}
+.nvLanding .nvHow .nvSteps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;width:100%;max-width:none}
+.nvLanding .nvHow .nvStep{display:flex;flex-direction:column;min-width:0;min-height:500px;margin:0;padding:18px 15px 0;overflow:hidden;border:1px solid #ffffff16;border-radius:18px 18px 0 0;background:#ffffff12;color:#fff}
+.nvLanding .nvHow .nvStepTop{display:flex;align-items:center;justify-content:space-between;color:#d4f25a;font-size:26px;font-weight:600}
+.nvLanding .nvHow .nvStepTop svg{width:21px;height:21px;color:#d4f25a}
+.nvLanding .nvHow .nvStep h3{margin:7px 0 5px;color:#fff;font-size:19px;line-height:1.13;font-weight:600}
+.nvLanding .nvHow .nvStep p{min-height:74px;margin:0 0 10px;color:#e9eee7;font-size:14px;line-height:1.38}
+.nvLanding .nvHow .nvStepImage{display:block;width:calc(100% + 30px);height:300px;max-width:none;margin:auto -15px 0;object-fit:cover;object-position:top;border-radius:0}
+.nvLanding section.nvGoogle{order:3;width:100%;max-width:none;min-height:496px;margin:0;padding:0;grid-template-columns:1fr 1fr;background:var(--cream)}
+.nvLanding section.nvProduct{order:4;width:100%;max-width:none;min-height:450px;margin:0;padding:0;grid-template-columns:1fr 1fr;background:var(--cream)}
+.nvLanding section.nvValue{order:5;width:100%;max-width:none;margin:0;padding:40px clamp(28px,6vw,92px);border-radius:0;background:var(--cream)}
+.nvLanding section.nvPlans{order:6;width:100%;max-width:none;margin:0;padding:38px clamp(28px,6vw,92px) 26px;background:#e9efe4}
+.nvLanding section.nvFaq{order:7;width:100%;max-width:none;margin:0;padding:58px clamp(28px,8vw,120px);background:#fffdf9}
+.nvLanding section.nvFinalCta{order:8;width:100%;max-width:none;margin:0;padding:54px clamp(28px,6vw,92px);background:#0f2a1f;color:#f8f5ee}
+.nvLanding .nvFinalCta h2{color:#f8f5ee}
+.nvLanding .nvFinalCta p{color:#e5ece3}
+.nvLanding .nvFooter{order:9;width:100%;max-width:none;margin:0}
+.nvLanding .nvHeader{width:100%;max-width:none;margin:0}
+.nvLanding .nvHeader>nav{max-width:none;margin:0;padding:0}
+.nvLanding .nvHeader .nvAccess{margin:0}
+@media(max-width:1000px) and (min-width:761px){
+  .nvLanding section.nvHero{height:520px;min-height:520px}
+  .nvLanding .nvHeroCopy{width:60%;padding-left:5vw}
+  .nvLanding .nvHero h1{font-size:clamp(56px,6.4vw,68px)}
+  .nvLanding .nvHeroLead{max-width:430px;font-size:18px}
+  .nvLanding .nvHero .nvActions a{min-width:155px}
+  .nvLanding .nvHow .nvSteps{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+  .nvLanding .nvHow .nvStep{min-height:440px;padding:16px 12px 0}
+  .nvLanding .nvHow .nvStep h3{font-size:16px}
+  .nvLanding .nvHow .nvStep p{font-size:12px;min-height:72px}
+  .nvLanding .nvHow .nvStepImage{width:calc(100% + 24px);height:260px;margin-inline:-12px}
+}
+@media(max-width:760px){
+  .nvLanding section.nvHero{height:auto;min-height:810px;padding:0;overflow:hidden}
+  .nvLanding .nvHeroCopy{position:relative;width:100%;height:auto;min-height:510px;padding:42px 22px 24px;justify-content:flex-start}
+  .nvLanding .nvHero h1{max-width:620px;margin:12px 0 17px;font-size:clamp(48px,13vw,68px);line-height:.91}
+  .nvLanding .nvHeroLead{max-width:560px;margin-bottom:20px;font-size:18px;line-height:1.42}
+  .nvLanding .nvHero .nvActions{width:100%;gap:10px}
+  .nvLanding .nvHero .nvActions a{min-width:0;flex:1;padding:13px 10px;font-size:14px}
+  .nvLanding .nvPromiseRow{gap:12px 16px;margin-top:20px}
+  .nvLanding .nvPromiseRow>span{font-size:12px;gap:6px}
+  .nvLanding .nvPromiseRow .refIcon{width:21px;height:21px}
+  .nvLanding .nvFinePrint{font-size:10px!important}
+  .nvLanding .nvHeroVisual{position:absolute;inset:auto 0 0;width:100%;height:470px;min-height:0}
+  .nvLanding .nvHeroVisual>img{object-position:62% center}
+  .nvLanding .nvHeroVisual:after{background:linear-gradient(180deg,#f8f5ee 0%,#f8f5eef2 16%,#f8f5eea8 38%,#f8f5ee20 61%,transparent 76%)}
+  .nvLanding .nvImageNote{left:20px;bottom:18px;max-width:calc(100% - 40px);padding:10px 13px}
+  .nvLanding section.nvHow{padding:30px 20px 24px}
+  .nvLanding .nvHowHead{align-items:flex-end;margin-bottom:22px}
+  .nvLanding .nvHow .nvSectionIntro h2{font-size:42px}
+  .nvLanding .nvHow .nvSectionIntro>p{font-size:13px}
+  .nvLanding .nvHow .nvStepControls{display:flex;gap:8px}
+  .nvLanding .nvHow .nvStepControls button{width:40px;height:40px}
+  .nvLanding .nvHow .nvSteps{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:14px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+  .nvLanding .nvHow .nvStep{flex:0 0 78%;scroll-snap-align:start;min-height:470px}
+  .nvLanding .nvHow .nvStep h3{font-size:21px}
+  .nvLanding .nvHow .nvStep p{font-size:14px;min-height:70px}
+  .nvLanding .nvHow .nvStepImage{height:300px}
+  .nvLanding section.nvGoogle,.nvLanding section.nvProduct{grid-template-columns:1fr}
+  .nvLanding .nvGoogleCopy{padding:36px 24px}
+  .nvLanding .nvGoogleCopy h2{width:100%;font-size:40px;line-height:1.02}
+  .nvLanding .nvReviewCard{margin:0 20px 30px}
+  .nvLanding .nvProductVisual{min-height:360px}
+  .nvLanding .nvProductVisual img{min-height:360px}
+  .nvLanding .nvProductCopy{padding:36px 24px}
+  .nvLanding .nvProductCopy h2{font-size:44px}
+  .nvLanding section.nvValue{padding:42px 24px}
+  .nvLanding section.nvPlans{padding:34px 20px 28px}
+  .nvLanding section.nvPlans .nvPlanCards{grid-template-columns:1fr;gap:18px}
+  .nvLanding section.nvFaq{grid-template-columns:1fr;gap:25px;padding:48px 22px}
+  .nvLanding section.nvFaq .nvSectionIntro h2{font-size:44px}
+  .nvLanding section.nvFinalCta{padding:48px 22px}
+  .nvLanding .nvFooter{padding:26px 24px 80px}
+}
+@media(max-width:390px){
+  .nvLanding .nvHeroCopy{padding-left:19px;padding-right:19px}
+  .nvLanding .nvHero h1{font-size:48px}
+  .nvLanding .nvHero .nvActions a{font-size:13px}
+  .nvLanding .nvPromiseRow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .nvLanding .nvHow .nvStep{flex-basis:86%}
+}
