@@ -129,3 +129,11 @@
 
 /* Keep the hero copy and photo visually separate at every breakpoint */
 .nvImageNote{display:none!important}
+
+/* Desktop hero: let the cafe photo fade softly behind the copy, as in the approved look */
+@media(min-width:761px){
+ .nvHeroVisual>img{position:relative;z-index:1;width:calc(100% + 190px);margin-left:-190px;-webkit-mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.18) 15%,#000 43%);mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.18) 15%,#000 43%)}
+}
+@media(min-width:761px) and (max-width:900px){
+ .nvHeroVisual>img{width:calc(100% + 120px);margin-left:-120px}
+}
