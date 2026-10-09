@@ -200,6 +200,19 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
     max = Number(val(f, "max"));
   const color = val(f, "color");
   const logo = val(f, "logo");
+  let cardDesign: Record<string, string> = {};
+  try {
+    const parsed = JSON.parse(val(f, "cardDesign") || "{}");
+    if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+      cardDesign = {
+        theme: ["nival", "botanico", "noche"].includes(parsed.theme) ? parsed.theme : "nival",
+        headline: String(parsed.headline || "Cliente de ejemplo").slice(0, 60),
+        footer: String(parsed.footer || "").slice(0, 80),
+        ...(typeof parsed.background === "string" && parsed.background.length <= 400000 && /^(data:image\/(png|jpeg|webp);base64,|https:\/\/)/.test(parsed.background) ? { background: parsed.background } : {}),
+      };
+    }
+  } catch { return { error: "No se pudo guardar el diseño de la tarjeta." }; }
+  if (JSON.stringify(cardDesign).length > 420000) return { error: "La imagen de fondo es demasiado grande." };
   if (
     logo &&
     !/^data:image\/(?:png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(logo) &&
@@ -228,7 +241,7 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
     await requireTool(actor, b);
     await query(
       actor,
-      "insert into nival_pr.programs(business_id,name,mode,points_per_visit,color,rules,logo_url) values($1,$2,$3,$4,$5,$6::jsonb,$7) on conflict(business_id) do update set name=excluded.name,mode=excluded.mode,points_per_visit=excluded.points_per_visit,color=excluded.color,rules=excluded.rules,logo_url=excluded.logo_url",
+      "insert into nival_pr.programs(business_id,name,mode,points_per_visit,color,rules,logo_url) values($1,$2,$3,$4,$5,$6::jsonb,$7) on conflict(business_id) do update set name=excluded.name,mode=excluded.mode,points_per_visit=excluded.points_per_visit,color=excluded.color,rules=coalesce(programs.rules, '{}'::jsonb) || excluded.rules,logo_url=excluded.logo_url",
       [
         b,
         name,
@@ -238,6 +251,7 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
         JSON.stringify({
           min_hours_between_visits: hours,
           max_visits_per_day: max,
+          card_design: cardDesign,
         }),
         logo || null,
       ],

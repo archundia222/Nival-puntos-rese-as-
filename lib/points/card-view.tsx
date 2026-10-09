@@ -81,7 +81,9 @@ export function CardView({
         className={"loyaltyCard " + (pulse ? "cardPulse" : "")}
         style={
           {
-            "--card-color": cardColor(business.program?.color),
+            "--card-color": business.program?.rules?.card_design?.theme === "noche" ? "#17352f" : business.program?.rules?.card_design?.theme === "botanico" ? "#315641" : cardColor(business.program?.color),
+            backgroundImage: business.program?.rules?.card_design?.background ? "linear-gradient(120deg, rgba(15,45,35,.84), rgba(15,45,35,.48)), url('" + business.program.rules.card_design.background + "')" : undefined,
+            backgroundSize: "cover",
           } as React.CSSProperties
         }
       >
@@ -142,7 +144,7 @@ export function CardView({
           <b>{card.reward?.name || "Tu próxima recompensa"}</b>
         </div>
         <footer>
-          <span>Un lugar al que vale la pena volver.</span>
+          <span>{business.program?.rules?.card_design?.footer || "Un lugar al que vale la pena volver."}</span>
           <small>•••• {card.id.slice(-4).toUpperCase()}</small>
         </footer>
         {confetti && (

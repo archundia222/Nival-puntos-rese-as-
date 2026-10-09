@@ -9,7 +9,7 @@ type Program = {
   color?: string;
   mode?: string;
   points_per_visit?: number;
-  rules?: { min_hours_between_visits?: number; max_visits_per_day?: number };
+  rules?: { min_hours_between_visits?: number; max_visits_per_day?: number; card_design?: { theme?: string; headline?: string; footer?: string; background?: string } };
   logo_url?: string | null;
 };
 type Reward = { name?: string; points_cost?: number };
@@ -35,6 +35,12 @@ export function ProgramEditor({
     max: String(program?.rules?.max_visits_per_day ?? 1),
   });
   const [logo, setLogo] = useState(program?.logo_url || "");
+  const [design, setDesign] = useState({
+    theme: program?.rules?.card_design?.theme || "nival",
+    headline: program?.rules?.card_design?.headline || "Cliente de ejemplo",
+    footer: program?.rules?.card_design?.footer || "Un lugar al que vale la pena volver.",
+    background: program?.rules?.card_design?.background || "",
+  });
   const [logoError, setLogoError] = useState("");
   const [saveState, setSaveState] = useState<SaveState>({
     kind: "idle",
@@ -95,7 +101,7 @@ export function ProgramEditor({
     return () => {
       if (timer.current) clearTimeout(timer.current);
     };
-  }, [draft, logo, persist]);
+  }, [draft, logo, design, persist]);
 
   useEffect(() => () => {
     if (timer.current) clearTimeout(timer.current);
@@ -106,6 +112,26 @@ export function ProgramEditor({
     revision.current += 1;
     setDraft((current) => ({ ...current, [key]: value }));
     setSaveState({ kind: "idle", message: "Cambios pendientes de guardar." });
+  }
+
+  function updateDesign<K extends keyof typeof design>(key: K, value: (typeof design)[K]) {
+    dirty.current = true;
+    revision.current += 1;
+    setDesign((current) => ({ ...current, [key]: value }));
+    setSaveState({ kind: "idle", message: "Cambios pendientes de guardar." });
+  }
+
+  function chooseBackground(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    if (!["image/png", "image/jpeg", "image/webp"].includes(file.type) || file.size > 250000) {
+      setLogoError("Usa una imagen PNG, JPEG o WebP de menos de 250 KB.");
+      event.target.value = "";
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => updateDesign("background", String(reader.result || ""));
+    reader.readAsDataURL(file);
   }
 
   function chooseLogo(event: ChangeEvent<HTMLInputElement>) {
@@ -153,6 +179,7 @@ export function ProgramEditor({
       >
         <input type="hidden" name="businessId" value={businessId} />
         <input type="hidden" name="logo" value={logo} />
+        <input type="hidden" name="cardDesign" value={JSON.stringify(design)} />
         <label>
           Nombre de la tarjeta
           <input
@@ -162,6 +189,26 @@ export function ProgramEditor({
             required
             onChange={(event) => update("name", event.target.value)}
           />
+        </label>
+        <label className="wide">
+          Diseño prediseñado
+          <select value={design.theme} onChange={(event) => updateDesign("theme", event.target.value)}>
+            <option value="nival">Nival clásico</option>
+            <option value="botanico">Botánico</option>
+            <option value="noche">Noche elegante</option>
+          </select>
+        </label>
+        <label>
+          Texto principal de la tarjeta
+          <input maxLength={60} value={design.headline} onChange={(event) => updateDesign("headline", event.target.value)} />
+        </label>
+        <label>
+          Mensaje al pie
+          <input maxLength={80} value={design.footer} onChange={(event) => updateDesign("footer", event.target.value)} />
+        </label>
+        <label className="wide">
+          Imagen de fondo opcional
+          <input type="file" accept="image/png,image/jpeg,image/webp" onChange={chooseBackground} />
         </label>
         <label>
           Color principal
@@ -230,7 +277,11 @@ export function ProgramEditor({
         <p style={{ margin: "6px 0 14px", color: "#65746a" }}>Así se verá la tarjeta de tus clientes.</p>
         <article
           className="loyaltyCard"
-          style={{ "--card-color": cardColor(draft.color) } as CSSProperties}
+          style={{
+            "--card-color": design.theme === "noche" ? "#17352f" : design.theme === "botanico" ? "#315641" : cardColor(draft.color),
+            backgroundImage: design.background ? "linear-gradient(120deg, rgba(15,45,35,.84), rgba(15,45,35,.48)), url('" + design.background + "')" : undefined,
+            backgroundSize: "cover",
+          } as CSSProperties}
         >
           <div className="cardTop">
             <div>
@@ -244,7 +295,7 @@ export function ProgramEditor({
             <span className="cardSerial">NIVAL PUNTOS<br />MEMBRESÍA DIGITAL</span>
           </div>
           <p className="cardProgram">{draft.name || "Nombre de tu tarjeta"}</p>
-          <h1>Cliente de ejemplo</h1>
+          <h1>{design.headline || "Cliente de ejemplo"}</h1>
           <div className="cardNumbers">
             <strong>{previewPoints}</strong>
             <span>puntos<br />acumulados</span>
@@ -257,7 +308,7 @@ export function ProgramEditor({
             <span>{reward && rewardGoal > 0 ? (previewPoints >= rewardGoal ? "Premio listo en el ejemplo" : Math.max(rewardGoal - previewPoints, 0) + " puntos para tu premio") : "Agrega un premio para mostrar la meta"}</span>
             <b>{reward?.name || "Tu próxima recompensa"}</b>
           </div>
-          <footer><span>Un lugar al que vale la pena volver.</span><small>•••• 2026</small></footer>
+          <footer><span>{design.footer}</span><small>•••• 2026</small></footer>
         </article>
         <small style={{ display: "block", marginTop: 10, color: "#718075" }}>Ejemplo con 3 visitas. Ajusta los puntos por visita para ver cómo cambia el avance; los datos no alteran saldos ni tarjetas de clientes.</small>
       </aside>

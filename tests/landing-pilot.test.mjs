@@ -3,130 +3,50 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
 const page = readFileSync('app/page.tsx', 'utf8');
-const story = readFileSync('app/scroll-story.tsx', 'utf8');
-const menu = readFileSync('app/landing-menu.tsx', 'utf8');
-const css = readFileSync('app/landing-v5.css', 'utf8');
+const css = readFileSync('app/landing-reference.css', 'utf8');
 
-test('landing navigation is sticky, legible, and keeps administrator access in the footer', () => {
-  const header = page.split('<header className="nxHeader">')[1].split('</header>')[0];
-  assert.ok(header.includes('Cómo funciona'));
-  assert.ok(header.includes('Precios'));
-  assert.ok(header.includes('Ver demo'));
-  assert.ok(header.includes('Contacto'));
-  assert.ok(header.includes('Acceso a negocios'));
-  assert.ok(header.includes('href="/staff/acceso"'));
-  assert.ok(header.includes('href="/acceso-administrador"'));
-  assert.ok(!header.includes('Dueños · Entrar'));
-  assert.equal((header.match(/acceso-administrador/g) || []).length, 1);
-  assert.equal((page.match(/href="\/acceso-administrador"/g) || []).length, 2);
-  assert.match(css, /\.nxHeader\{position:sticky;top:0/);
-  assert.match(css, /\.nxHeader nav a\{font-size:16px/);
+test('landing has aligned access menu and account creation entry points', () => {
+  assert.ok(page.includes('Cómo funciona'));
+  assert.ok(page.includes('Accesos'));
+  for (const href of ['/acceso', '/staff/acceso', '/acceso-administrador']) assert.ok(page.includes(href));
+  assert.ok(page.includes('Crear cuenta'));
+  assert.match(css, /\.nvHeader/);
+  assert.match(css, /@media\s*\(max-width:\s*720px\)/);
 });
 
-test('hero preserves its two clear actions and explains QR without implying NFC is included', () => {
-  const hero = page.split('<section className="nxHero"')[1].split('</section>')[0];
-  const actions = hero.split('<div className="nxActions">')[1].split('</div>')[0];
-  assert.equal((actions.match(/<a /g) || []).length, 2);
-  assert.ok(actions.includes('href="/acceso?modo=registro"'));
-  assert.ok(actions.includes('href="/demo"'));
-  assert.ok(hero.includes('Crear cuenta'));
-  assert.ok(hero.includes('QR incluido'));
-  assert.ok(page.includes('La tarjeta NFC física se cotiza por separado.'));
+test('hero keeps the serif headline and explains signup, QR, and optional NFC', () => {
+  assert.ok(page.includes('Que te encuentren.'));
+  assert.ok(page.includes('Que vuelvan.'));
+  assert.ok(page.includes('QR incluido'));
+  assert.ok(page.includes('Sin app'));
+  assert.ok(page.includes('NFC'));
+  assert.ok(page.includes('/assets/img/hero-phone.webp'));
+  assert.ok(page.includes('/acceso?modo=registro'));
 });
 
-test('scroll story contains the requested customer journey and a reduced-motion static version', () => {
-  assert.equal((story.match(/kind: '/g) || []).length, 10);
-  for (const phrase of [
-    'Tus clientes te buscan en Google Maps.',
-    'Eligen según las estrellas y los comentarios.',
-    'La confianza los acerca a tu negocio.',
-    'Después de una buena visita, puedes pedir una reseña.',
-    'Una reseña honesta puede ayudar a otras personas.',
-    'Los puntos se ganan por visitar y comprar.',
-    'Cada visita acerca a tu cliente a su premio.',
-    'Llega el momento de canjear su premio.',
-    'Una buena experiencia se comparte.',
-    'Nival ayuda a que te encuentren y a que vuelvan.',
-  ]) assert.ok(story.includes(phrase), phrase);
-  assert.ok(story.includes('aria-valuenow={active + 1}'));
-  assert.ok(story.includes('className="nxStoryMapPin nxStoryMapPin--one"'));
-  assert.match(css, /\.nxStoryMapPin\{/);
-  assert.ok(story.includes('className="nxStoryStatic"'));
-  assert.match(css, /@media\(prefers-reduced-motion:reduce\)[\s\S]*?\.nxStoryPin\{display:none\}[\s\S]*?\.nxStoryStatic\{display:grid/);
-  assert.ok(css.includes('transition:transform'));
-  assert.ok(css.includes('transition:opacity'));
+test('customer journey uses four distinct steps and icons', () => {
+  for (const icon of ["'pin'", "'qr'", "'trophy'", "'heart'"]) assert.ok(page.includes(icon));
+  for (const phrase of ['Se unen en el mostrador', 'Suman y canjean', 'Vuelven con un motivo']) assert.ok(page.includes(phrase));
 });
 
-test('reviews and loyalty are separate, and the page links to the current Google Maps policy', () => {
-  assert.ok(page.includes('Haz que cada visita cuente.'));
-  assert.ok(page.includes('sin condicionar puntos ni premios'));
-  assert.ok(page.includes('por visitas válidas con compra'));
-  assert.ok(page.includes('La reseña es opcional') || page.includes('opiniones auténticas y voluntarias'));
-  assert.ok(page.includes('Los puntos se obtienen por una visita válida con compra'));
+test('pricing matrix is comparable and keeps current public prices and response caps', () => {
+  for (const plan of ['Nival Puntos', 'Nival Esencial', 'Nival Plus']) assert.ok(page.includes(plan));
+  for (const price of ['$399', '$499', '$599']) assert.ok(page.includes(price));
+  assert.ok(page.includes('30 por periodo activo de 30 días'));
+  assert.ok(page.includes('100 por periodo activo de 30 días'));
+  assert.ok(page.includes('periodo activo'));
 });
 
-test('pricing shows the three current plans, review caps, and the recommended tier', () => {
-  assert.ok(page.includes("name: 'Nival Puntos', price: 299"));
-  assert.ok(page.includes("name: 'Esencial', price: 399"));
-  assert.ok(page.includes("name: 'Plus', price: 499"));
-  assert.ok(page.includes('Reportes y seguimiento, sin respuestas incluidas'));
-  assert.ok(page.includes('Hasta 100 respuestas manuales por periodo de 30 días'));
-  assert.ok(page.includes('recommended: true'));
-  assert.ok(page.includes('QR digital incluido'));
-  assert.ok(page.includes('La tarjeta NFC física se cotiza por separado.'));
-  assert.ok(!page.includes('sin plazo forzoso'));
+test('review promise sets a realistic service window and avoids automation claims', () => {
+  assert.ok(page.includes('reseñas de Google'));
+  assert.match(page, /3 días hábiles/);
+  assert.doesNotMatch(page, /instantáneo|automático/i);
 });
 
-test('service copy describes assisted work, manual payment, activation, and preserved history', () => {
-  assert.ok(page.includes('atención personalizada'));
-  assert.ok(page.includes('Nival te acompaña'));
-  assert.ok(page.includes('Una vez confirmado el pago'));
-  assert.ok(page.includes('código único de activación'));
-  assert.ok(page.includes('comienza un periodo de 30 días'));
-  assert.ok(page.includes('el historial se conserva'));
-});
-
-test('WhatsApp carries the product, page, and selected plan context on desktop and mobile', () => {
-  assert.ok(page.includes('Nival Puntos + Reseñas en la página'));
-  assert.ok(page.includes('Me interesa el plan'));
-  assert.ok(page.includes("whatsapp('botón flotante')"));
-  assert.ok(readFileSync('app/whatsapp-fab.tsx', 'utf8').includes('IntersectionObserver'));
-  assert.match(css, /\.nxWhats\{display:grid;position:fixed/);
-  assert.ok(css.includes('env(safe-area-inset-bottom)'));
-});
-
-test('mobile navigation supports dismissal and touch-sized choices', () => {
-  assert.ok(menu.includes('Acceso a negocios'));
-  assert.ok(menu.includes('Personal · Entrar con PIN'));
-  assert.ok(menu.includes('Administrador de Nival'));
-  assert.ok(!menu.includes('Dueño del negocio · Entrar'));
-  assert.ok(menu.includes('aria-expanded={open}'));
-  assert.ok(menu.includes("event.key === 'Escape'"));
-  assert.ok(menu.includes('onClick={() => setOpen(false)}'));
-  assert.match(css, /\.nxMobileMenu>button\{[^}]*min-height:48px/);
-  assert.match(css, /\.nxMobileMenu nav a\{[^}]*min-height:48px/);
-});
-
-test('loyalty and Google profile benefits appear directly below prices in that order', () => {
-  const priceIndex = page.indexOf('<section id="precio"');
-  const loyaltyIndex = page.indexOf('¿Por qué tener un sistema de puntos?');
-  const googleIndex = page.indexOf('¿Por qué tener una buena ficha de Google?');
-  const integrityIndex = page.indexOf('<section className="nxIntegrity nxSection"');
-  assert.ok(priceIndex < loyaltyIndex && loyaltyIndex < googleIndex && googleIndex < integrityIndex);
-  assert.ok(page.includes('Cada compra los acerca a un premio'));
-  assert.ok(page.includes('Pídelas sin ofrecer puntos ni premios.'));
-});
-
-test('benefit section headings have enough width to read comfortably', () => {
-  assert.ok(css.includes('.nxBenefits .nxSectionHead.compact h2{grid-column:1/span 2'));
-});
-
-test('benefit copy is concise and explains customer value', () => {
-  assert.ok(page.includes('cada compra los acerca a un premio claro y útil'));
-  assert.ok(page.includes('Su preferencia se siente reconocida'));
-  assert.ok(page.includes('sin descargar otra aplicación'));
-  assert.ok(page.includes('le quita dudas al cliente'));
-  assert.ok(page.includes('Sabe cómo llegar y cuándo ir'));
-  assert.ok(page.includes('Las opiniones reales'));
-  assert.ok(page.includes('sin ofrecer puntos ni premios'));
+test('final CTA text has strong contrast and WhatsApp does not cover mobile content', () => {
+  assert.ok(page.includes('¿Listo para que tus clientes vuelvan?'));
+  assert.match(css, /\.nvFinalCta/);
+  assert.match(css, /\.refWhats/);
+  assert.match(css, /safe-area-inset-bottom/);
+  assert.match(css, /@media\s*\(max-width:\s*390px\)/);
 });

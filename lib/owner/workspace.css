@@ -119,3 +119,8 @@
  .workspaceTopbar{padding:0 25px}
  .workspaceContent{padding:25px 24px 18px}
 }
+
+/* Editorial Nival accents across the business and staff workspace. */
+.nivalShell .workspacePageHeading h1,.nivalShell .workspaceHero h1,.nivalShell .programWorkspace .dashHead h1{font-family:'DM Serif Display',Georgia,serif;font-weight:400;letter-spacing:-.02em}
+.nivalShell .workspaceTopbar .hamburger,.nivalShell .workspaceSidebar button[aria-current=page]{border-radius:10px}
+@media(max-width:640px){.nivalShell .workspaceContent{padding-bottom:calc(32px + env(safe-area-inset-bottom))}.nivalShell .programTabs{display:flex;gap:8px;overflow-x:auto;max-width:100%;scrollbar-width:thin}.nivalShell .programTabs a{flex:0 0 auto;min-height:44px}}
