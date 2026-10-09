@@ -126,3 +126,6 @@
  .nvHeroVisual>img{height:auto;aspect-ratio:auto;object-fit:contain;object-position:center;border-radius:20px}
  .nvImageNote{display:none}
 }
+
+/* Keep the hero copy and photo visually separate at every breakpoint */
+.nvImageNote{display:none!important}
