@@ -11,7 +11,10 @@ export async function reportPdf(report:any):Promise<Buffer>{
  heading('Reseñas y reputación');line('Calificación global de Google: '+(report.rating??'Sin dato')+' | Total global de reseñas: '+(report.total_reviews??'Sin dato'));
  line('Cambio en calificación global: '+(a.rating_change??'Sin comparación disponible'));
  line('Reseñas cargadas del periodo: '+a.review_count+' | Respondidas: '+a.answered+' | Pendientes: '+a.unanswered);
- line('Promedio de la muestra: '+(a.sample_average??'Sin muestra')+'. No sustituye la calificación global.');line(a.warning);
+ line('Promedio de la muestra: '+(a.sample_average??'Sin muestra')+'. No sustituye la calificación global.');
+ const dist=a.distribution||{},n=Number(a.review_count)||0,percent=(stars:number[])=>{const count=stars.reduce((sum,s)=>sum+(Number(dist[s])||0),0);return n?Math.round(count/n*100):0;};
+ line('Sentimiento de la muestra cargada: '+percent([4,5])+'% positivas (4–5 estrellas), '+percent([3])+'% neutras y '+percent([1,2])+'% negativas (1–2 estrellas), sobre '+n+' reseñas.');line(a.warning);
+ if(a.google_performance){heading('Alcance de Google · captura manual');const p=a.google_performance;line('Impresiones en Búsqueda: '+(p.search_impressions??'Sin dato')+' | Impresiones en Maps: '+(p.maps_impressions??'Sin dato'));line('Llamadas: '+(p.calls??'Sin dato')+' | Clics al sitio web: '+(p.website_clicks??'Sin dato')+' | Cómo llegar: '+(p.direction_requests??'Sin dato'));line('Datos capturados manualmente desde el Perfil de Negocio.');}
  heading('Programa de lealtad');line('Visitas: '+(a.metrics.visits||0)+' | Puntos: '+(a.metrics.points||0)+' | Premios entregados: '+(a.metrics.redemptions||0)+' | Clientes con visitas: '+(a.metrics.visiting_customers||0));
  heading('Qué dicen tus clientes y qué puedes hacer');
  for(const t of a.themes){heading(t.theme);line('Mencionado en '+t.count+' reseñas; '+t.previous_count+' en el periodo anterior cargado. Positivas: '+t.positive+'; negativas: '+t.negative+'.');if(t.keep)line('Mantener: '+t.keep);if(t.improve)line('Mejorar: '+t.improve);for(const r of t.evidence)line('Evidencia - '+r.reviewer+' ('+r.stars+' estrellas, '+String(r.reviewed_on).slice(0,10)+'): '+r.body);}
