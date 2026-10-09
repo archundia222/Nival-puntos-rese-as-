@@ -50,11 +50,11 @@ export default async function Home() {
     <section className="nxHero" aria-labelledby="hero-title">
       <div className="nxGlow nxGlowA"/><div className="nxGlow nxGlowB"/>
       <div className="nxHeroCopy">
-        <span className="nxEyebrow">NIVAL PARA NEGOCIOS LOCALES</span>
+        
         <h1 id="hero-title">Que te encuentren.<br/><em>Que vuelvan.</em></h1>
         <p>Puntos digitales y acompañamiento de reseñas para negocios locales.</p>
         <div className="nxActions"><a className="primary" href="/acceso?modo=registro">Crear cuenta <Arrow/></a><a href="/demo">Ver demo</a></div>
-        <div className="nxQuick"><span><Check/> Sin app</span><span><Check/> QR incluido</span><span><Check/> Panel incluido</span></div>
+        <div className="nxQuick"><span><Check/> Sin app</span><span><Check/> QR incluido</span><span><Check/> Tarjetas digitales</span></div>
       </div>
       <div className="nxHeroVisual" aria-label="Vista ilustrativa de una tarjeta de puntos digital">
         <div className="nxVisualHalo"/><div className="nxHeroCard"><NfcCard/></div><div className="nxHeroPhone"><Phone/></div>
@@ -72,45 +72,22 @@ export default async function Home() {
     </section>
 
     <section id="precio" className="nxPricing nxSection" aria-labelledby="pricing-title">
-      <div className="nxSectionHead compact"><span>PLANES NIVAL</span><h2 id="pricing-title">Encuentra el plan para tu negocio.</h2><p>Planes mensuales; cada activación cubre 30 días. Todos incluyen QR digital. La tarjeta NFC física se cotiza por separado.</p></div>
+      <div className="nxSectionHead compact"><span>PLANES NIVAL</span><h2 id="pricing-title">Elige tu plan ideal.</h2><p>Planes mensuales; cada activación cubre 30 días. Todos incluyen tarjeta digital y QR. Sin permanencia forzosa.</p></div>
       <div className="nxPriceGrid">{plans.map(plan=><article className={`nxPlanCard ${plan.recommended?'is-recommended':''}`} key={plan.name}>
         <span>{plan.tag}</span>{plan.recommended&&<b className="nxRecommendedBadge">RECOMENDADO</b>}
         <h3>${plan.price} <small>MXN / mes</small></h3><h4>{plan.name}</h4>
         <ul>{plan.features.map(item=><li key={item}><Check/><b>{item}</b></li>)}</ul>
-        <a href={whatsapp('planes', plan.name)} target="_blank" rel="noreferrer">Preguntar por este plan <Arrow/></a>
+        <a href={whatsapp('planes', plan.name)} target="_blank" rel="noreferrer">Empezar con este plan <Arrow/></a>
       </article>)}</div>
       <p className="nxPlanFineprint">Los puntos se obtienen por una visita válida con compra, registrada por el personal del negocio. Las respuestas no utilizadas no se acumulan. Las condiciones específicas de contratación se confirman con Nival.</p>
     </section>
 
-    <section className="nxBenefits nxSection" aria-labelledby="loyalty-benefits-title">
-      <div className="nxSectionHead compact">
-        <span>UN BENEFICIO PARA QUIENES TE ELIGEN</span>
-        <h2 id="loyalty-benefits-title">¿Por qué tener un sistema de puntos?</h2>
-        <p>Tus clientes reciben algo a cambio de elegirte: cada compra los acerca a un premio claro y útil.</p>
-      </div>
-      <div className="nxBenefitsGrid">
-        <article><span>01</span><h3>Cada compra los acerca a un premio</h3><p>Ven su avance y cuánto falta. Cada visita cuenta hacia algo que pueden disfrutar.</p></article>
-        <article><span>02</span><h3>Su preferencia se siente reconocida</h3><p>Los puntos convierten tu “gracias por volver” en un beneficio concreto para tus clientes.</p></article>
-        <article><span>03</span><h3>Participar es sencillo</h3><p>Su tarjeta digital muestra los puntos y el siguiente premio, sin descargar otra aplicación.</p></article>
-      </div>
-    </section>
-
-    <section className="nxBenefits nxBenefits--google nxSection" aria-labelledby="google-profile-title">
-      <div className="nxSectionHead compact">
-        <span>LA CONFIANZA EMPIEZA ANTES DE LA VISITA</span>
-        <h2 id="google-profile-title">¿Por qué tener una buena ficha de Google?</h2>
-        <p>Una ficha bien cuidada le quita dudas al cliente y le ayuda a decidir si tu negocio es lo que busca.</p>
-      </div>
-      <div className="nxBenefitsGrid">
-        <article><span>01</span><h3>Sabe cómo llegar y cuándo ir</h3><p>La dirección, el horario actualizado y el teléfono le facilitan planear su visita.</p></article>
-        <article><span>02</span><h3>Conoce lo que va a encontrar</h3><p>Tu categoría, tus productos y fotos reales le ayudan a imaginar la experiencia.</p></article>
-        <article><span>03</span><h3>Llega con más confianza</h3><p>Las opiniones reales y tus respuestas atentas muestran que escuchas. Pídelas sin ofrecer puntos ni premios.</p></article>
-      </div>
-    </section>
-
-    <section className="nxIntegrity nxSection" aria-labelledby="integrity-title">
-      <div><span>UNA EXPERIENCIA QUE CONECTA</span><h2 id="integrity-title">Haz que cada visita cuente.</h2><p>Reconoce a tus clientes frecuentes con puntos por sus compras y mantén una comunicación cercana con quienes conocen tu negocio. Dos formas de construir relaciones duraderas, desde un solo lugar.</p></div>
-      <div className="nxIntegrityFlow"><article><span>01</span><b>Premia su preferencia</b><small>Tu cliente acumula puntos por visitas válidas con compra y descubre sus próximos premios.</small></article><i aria-hidden="true">+</i><article><span>02</span><b>Escucha su experiencia</b><small>Invita a compartir opiniones auténticas y voluntarias, sin condicionar puntos ni premios.</small></article></div>
+    <section className="nxIdeas nxSection" aria-labelledby="ideas-title">
+      <div className="nxSectionHead compact"><span>MENOS VISITAS PERDIDAS. MÁS MOTIVOS PARA VOLVER.</span><h2 id="ideas-title">Haz que cada visita cuente.</h2><p>Dos oportunidades para crecer: que te descubran y que quieran regresar.</p></div>
+      <div className="nxIdeasColumns">
+        <article className="nxIdeasPanel"><span className="nxIdeasKicker">LEALTAD DIGITAL</span><h3>¿Por qué tener un sistema de puntos?</h3><div className="nxIdeasCloud"><span className="big">Una visita más. Un premio más cerca.</span><span>Reconoce a tus clientes frecuentes</span><span>Una meta que se puede ver</span><span className="accent">Tu negocio, presente en su celular</span><span>Sin tarjetas de papel</span><span>Premios que invitan a volver</span></div><div className="nxIdeasDemo"><span>CAFÉ NIVAL · TARJETA DIGITAL</span><strong>6 <small>/ 8 puntos</small></strong><div className="nxIdeasMeter"><i/></div><b>¡Solo faltan 2 visitas para tu café!</b></div></article>
+        <article className="nxIdeasPanel nxIdeasPanel--google"><span className="nxIdeasKicker">PRESENCIA EN GOOGLE</span><h3>¿Por qué cuidar tu ficha de Google?</h3><div className="nxIdeasCloud"><span className="big">Te buscan. Que te elijan.</span><span>Fotos que abren el apetito</span><span>Horarios claros</span><span className="accent">Reseñas que generan confianza</span><span>Cómo llegar, en un toque</span><span>Responde y demuestra que escuchas</span></div><div className="nxIdeasDemo"><span>RESULTADO ILUSTRATIVO EN MAPS</span><strong style={{fontSize:26}}>Café Nival <small>★★★★★</small></strong><b>Fotos · Horarios · Cómo llegar · Opiniones</b></div></article>
+      </div><p className="nxIdeasNote">Las reseñas siempre son voluntarias y no se recompensan con puntos.</p>
     </section>
 
     <section className="nxService nxSection" aria-labelledby="service-title">
