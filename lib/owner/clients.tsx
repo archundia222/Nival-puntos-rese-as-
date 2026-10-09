@@ -1,7 +1,7 @@
 'use client';
 import {useState,useEffect} from 'react';
 import {messageFor} from './messages.mjs';
-import {generateAdvice} from './domain.mjs';
+import {generateAdvice,formatCustomerVisitDate} from './domain.mjs';
 export function SegmentCard({title,description,segment,customers,templates,businessName,demo=false,messages=[]}:{title:string;description:string;segment:string;customers:Record<string,any>[];templates:{segment:string;text:string}[];businessName:string;demo?:boolean;messages?:Record<string,any>[]}){
  const [variant,setVariant]=useState(0),[page,setPage]=useState(1),[advice,setAdvice]=useState('');
  const count=customers.length;
@@ -16,7 +16,7 @@ function CustomerContact({customer:c,businessName,demo=false,segment='active',me
  const [open,setOpen]=useState(false),[message,setMessage]=useState(messageFor(segment,c,businessName,messages)+' Si prefieres que no te escribamos de nuevo, avísanos.');
  const raw=String(c.phone||'').replace(/\D/g,''),phone=raw.length===10?'52'+raw:raw;
  const valid=!demo&&c.marketing_consent===true&&/^52\d{10}$/.test(phone);
- return <li><div className="clientIdentity"><b>{c.name}</b><small>{c.visits} visitas · última: {c.last_visit?String(c.last_visit).slice(0,10):'sin visitas'}</small></div><button type="button" className="contactToggle" disabled={!demo&&c.marketing_consent!==true} aria-expanded={open} onClick={()=>setOpen(v=>!v)}>Escribir por WhatsApp</button>
+ return <li><div className="clientIdentity"><b>{c.name}</b><small>{c.visits} visitas · última: {c.last_visit?formatCustomerVisitDate(c.last_visit):'sin visitas'}</small></div><button type="button" className="contactToggle" disabled={!demo&&c.marketing_consent!==true} aria-expanded={open} onClick={()=>setOpen(v=>!v)}>Escribir por WhatsApp</button>
  {!demo&&c.marketing_consent!==true&&<small>Sin autorización para mensajes comerciales.</small>}{open&&<div className="contactComposer">{demo&&<small>Demo: ningún número real. En tu negocio este botón abrirá WhatsApp.</small>}<label>Mensaje para {c.name}<textarea value={message} maxLength={1500} onChange={e=>setMessage(e.target.value)}/></label>{valid&&message.trim()?<a className="ownerPrimary" href={'https://wa.me/'+phone+'?text='+encodeURIComponent(message)} target="_blank" rel="noreferrer">Abrir conversación</a>:<p>Revisa el teléfono y escribe un mensaje.</p>}<small>Revisa el mensaje y envíalo tú desde WhatsApp.</small></div>}</li>;
 }
 export function PeriodFilter({businessId,kind,value,demo=false}:{businessId:string;kind:string;value:string;demo?:boolean}){

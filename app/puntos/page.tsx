@@ -1,6 +1,7 @@
 'use client';
 import {useState,useEffect} from 'react';
 import {useLocalData} from '../../lib/use-local-data';
+import {monthInMexico} from '../../lib/mexico-date';
 import {customersValid,movementsValid} from '../../lib/validators';
 import {loyaltyMetrics,type Customer,type Movement} from '../../lib/metrics';
 import DemoNotice from '../components/demo-notice';
@@ -12,7 +13,7 @@ export default function Points(){
  const [name,setName]=useState('');const[phone,setPhone]=useState('');const[message,setMessage]=useState('');
  const [goal,setGoal]=useState(5);const[reward,setReward]=useState('Premio por definir');const[riskDays,setRiskDays]=useState(30);
  const [month,setMonth]=useState('');const[query,setQuery]=useState('');const[configError,setConfigError]=useState('');
- useEffect(()=>{setMonth(new Date().toISOString().slice(0,7));try{const raw=localStorage.getItem('nival-config');if(raw){const c=JSON.parse(raw);if(Number.isInteger(c.meta)&&c.meta>0)setGoal(c.meta);if(typeof c.premio==='string')setReward(c.premio);if(Number.isInteger(c.riskDays)&&c.riskDays>0)setRiskDays(c.riskDays);}}catch{setConfigError('No se pudo leer la configuración anterior.');}},[]);
+ useEffect(()=>{setMonth(monthInMexico());try{const raw=localStorage.getItem('nival-config');if(raw){const c=JSON.parse(raw);if(Number.isInteger(c.meta)&&c.meta>0)setGoal(c.meta);if(typeof c.premio==='string')setReward(c.premio);if(Number.isInteger(c.riskDays)&&c.riskDays>0)setRiskDays(c.riskDays);}}catch{setConfigError('No se pudo leer la configuración anterior.');}},[]);
  function add(e:React.FormEvent){e.preventDefault();if(customers.error||movements.error)return;const normalized=phone.replace(/\D/g,'');if(normalized&&customers.data.some(c=>c.telefono.replace(/\D/g,'')===normalized)){setMessage('Este teléfono ya está registrado. Busca al cliente en la lista.');return;}if(customers.save([...customers.data,{id:Date.now(),nombre:name.trim(),telefono:normalized,puntos:0,createdAt:new Date().toISOString()}])){setName('');setPhone('');setMessage('Cliente registrado.');}}
  function move(c:Customer,kind:Movement['kind']){if(customers.error||movements.error||!Number.isInteger(goal)||goal<1)return;const points=kind==='redeem'?-goal:1;if(c.puntos+points<0)return;const next:Movement={id:crypto.randomUUID(),customerId:c.id,kind,points,at:new Date().toISOString()};const previous=movements.data;if(!movements.save([...previous,next]))return;if(!customers.save(customers.data.map(x=>x.id===c.id?{...x,puntos:x.puntos+points}:x))){movements.save(previous);return;}setMessage(kind==='redeem'?'Premio canjeado.':'Visita registrada: +1 punto.');}
  function configure(e:React.FormEvent){e.preventDefault();try{const previous=JSON.parse(localStorage.getItem('nival-config')||'{}');localStorage.setItem('nival-config',JSON.stringify({...previous,meta:goal,premio:reward.trim(),riskDays}));setConfigError('');setMessage('Configuración guardada.');}catch{setConfigError('No se pudo guardar la configuración.');}}

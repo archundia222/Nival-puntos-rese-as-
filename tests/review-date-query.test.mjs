@@ -14,9 +14,9 @@ test('review page and report generation execute with formatted dates and chronol
   };
   const page=(await db.query(queryFrom('app/admin/reportes/page.tsx'),[10])).rows;
   assert.deepEqual(page.map(r=>r.id),[2,1]);
-  assert.deepEqual(page.map(r=>r.reviewed_on),['2026-09-03','2026-09-01']);
+  assert.deepEqual(page.map(r=>r.reviewed_on_iso),['2026-09-03','2026-09-01']);
   const period=(await db.query(queryFrom('lib/reputation/actions.ts'),[10,'2026-09-01','2026-09-03'])).rows;
   assert.deepEqual(period.map(r=>r.id),[1]);
-  assert.equal(period[0].reviewed_on,'2026-09-01');
+  assert.equal(period[0].reviewed_on_iso,'2026-09-01');
  }finally{await db.close();}
 });

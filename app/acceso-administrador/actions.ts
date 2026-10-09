@@ -1,5 +1,6 @@
 'use server';
 import {getAuth} from '../../lib/backend/auth';
+import {headers} from 'next/headers';
 import {randomBytes} from 'node:crypto';
 import {systemQuery} from '../../lib/foundation/db';
 import {limitAdminAccess, limitAdminEmailRequest, claimAdminLoginAttempt} from '../../lib/security/admin-access';
@@ -35,7 +36,17 @@ export async function administratorAccess(mode: 'login'|'setup'|'recover', form:
     await claimAdminLoginAttempt();
     const {error} = await getAuth().signIn.email({email,password});
     if (error) {
-      console.error('founder login rejected', {message:error.message,status:'status' in error?error.status:undefined,code:'code' in error?error.code:undefined});
+      const invalidOrigin = error.message === 'Invalid origin';
+      const requestOrigin = invalidOrigin ? (await headers()).get('origin') || '' : '';
+      console.error('founder login rejected', {message:error.message,status:'status' in error?error.status:undefined,code:'code' in error?error.code:undefined,...(invalidOrigin?{requestOrigin,officialOrigin:origin}:{})});
+      if (invalidOrigin) {
+        let normalizedOrigin = '';
+        try { normalizedOrigin = new URL(requestOrigin).origin; } catch {}
+        if (normalizedOrigin && normalizedOrigin !== origin) {
+          return {ok:false,message:'Este acceso se abrió desde otro dominio. Entra desde la URL oficial: '+origin};
+        }
+        return {ok:false,message:'Neon rechazó el origen oficial. Verifica que esté habilitado en la misma rama de Neon que usa producción.'};
+      }
       return {ok:false,message:'Correo o contraseña incorrectos.'};
     }
     return {ok:true,enter:true,message:'Credenciales verificadas. Completando sesión privada…'};

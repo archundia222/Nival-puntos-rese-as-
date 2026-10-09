@@ -307,3 +307,128 @@
 .nxFloatPoint{top:31%}
 .nxFloatReward{bottom:7%}
 }
+
+
+/* Benefits sections below pricing */
+.nxBenefits{max-width:1440px;margin:0 auto}
+.nxBenefits .nxSectionHead.compact{max-width:1160px;margin:0 auto 30px;grid-template-columns:minmax(130px,.42fr) minmax(0,1.2fr) minmax(230px,.8fr);gap:24px;align-items:center}
+.nxBenefits .nxSectionHead.compact>span{grid-column:1/-1}
+.nxBenefits .nxSectionHead.compact h2{grid-column:1/span 2;font-size:clamp(40px,4.2vw,58px);line-height:1.06}
+.nxBenefits .nxSectionHead.compact p{grid-column:3;font-size:17px;line-height:1.6}
+.nxBenefits--google{background:#eaf0e9}
+.nxBenefitsGrid{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.nxBenefitsGrid article{min-width:0;min-height:205px;padding:25px 24px;border:1px solid #d8ddd7;border-radius:20px;background:#fffdf8;box-shadow:0 12px 32px #173a2a0c}
+.nxBenefitsGrid article>span{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#d9ff63;color:#123d2e;font-size:14px;font-weight:900}
+.nxBenefitsGrid h3{font:400 22px/1.2 Georgia,serif;color:#123d2e;margin:18px 0 8px}
+.nxBenefitsGrid p{font-size:15px;line-height:1.6;color:#40594c;margin:0}
+@media(max-width:900px){
+.nxBenefits .nxSectionHead.compact{grid-template-columns:1fr 1fr}
+.nxBenefits .nxSectionHead.compact h2{grid-column:1}
+.nxBenefits .nxSectionHead.compact p{grid-column:2}
+.nxBenefitsGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:600px){
+.nxBenefits{padding:58px 18px}
+.nxBenefits .nxSectionHead.compact{display:block;margin-bottom:23px}
+.nxBenefits .nxSectionHead.compact>span{display:block;margin-bottom:10px}
+.nxBenefits .nxSectionHead.compact h2{font-size:37px;line-height:1.08;margin:0 0 12px}
+.nxBenefits .nxSectionHead.compact p{font-size:16px;line-height:1.55}
+.nxBenefitsGrid{grid-template-columns:1fr;gap:11px}
+.nxBenefitsGrid article{min-height:0;padding:19px;border-radius:16px}
+.nxBenefitsGrid h3{font-size:21px;margin:13px 0 6px}
+.nxBenefitsGrid p{font-size:15px}
+}
+
+/* Landing comercial: historia corta y beneficios visuales */
+.nxStory{height:350vh}
+.nxIdeas{background:#f4f4ed;padding-top:72px;padding-bottom:80px}
+.nxIdeasColumns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.nxIdeasPanel{border-radius:30px;background:#fff;padding:clamp(22px,4vw,42px);min-width:0;box-shadow:0 10px 35px #153c2a0d}
+.nxIdeasPanel--google{background:#dfeae1}
+.nxIdeasKicker{font-size:12px;font-weight:800;letter-spacing:.15em;color:#64806f}
+.nxIdeasPanel h3{font:400 clamp(30px,3.4vw,48px)/1.1 Georgia,serif;color:#133c2c;margin:18px 0 26px}
+.nxIdeasCloud{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.nxIdeasCloud span{border:1px solid #b7cabc;border-radius:999px;padding:10px 15px;font-size:15px;line-height:1.3;color:#204633;background:#f8faf5}
+.nxIdeasCloud span.big{font-size:clamp(19px,2.4vw,27px);font-weight:800;background:#153d2c;color:#fff;border-color:#153d2c;border-radius:18px}
+.nxIdeasCloud span.accent{background:#ddff79;border-color:#ddff79;font-weight:800}
+.nxIdeasDemo{margin-top:30px;border-radius:22px;background:#143c2b;color:#fff;padding:24px;display:flex;flex-direction:column;gap:12px}
+.nxIdeasDemo>span{font-size:11px;letter-spacing:.12em;color:#c8d7ce}
+.nxIdeasDemo>strong{font-size:54px;line-height:1.1}
+.nxIdeasDemo>strong small{font-size:15px;font-weight:500}
+.nxIdeasDemo>b{font-size:14px}
+.nxIdeasMeter{height:12px;background:#53705d;border-radius:20px;overflow:hidden}
+.nxIdeasMeter i{display:block;width:75%;height:100%;background:#dcff70;border-radius:20px}
+.nxIdeasNote{font-size:13px;color:#5a7065;margin-top:20px}
+.nxPlanCard{position:relative}
+@media(max-width:760px){.nxIdeasColumns{grid-template-columns:1fr}.nxIdeas{padding-top:48px;padding-bottom:48px}.nxIdeasPanel{padding:24px}.nxStory{height:300vh}.nxStoryScene h2{font-size:clamp(34px,9vw,50px)}.nxStoryScene p{font-size:16px}}
+@media(prefers-reduced-motion:reduce){.nxStory{height:auto}}
+
+/* Landing visual aprobada: estilo editorial y composición de referencia */
+.nxHero--editorial{background:linear-gradient(95deg,#f7f6ef 0%,#f7f6ef 48%,#e5e8df 100%)}
+.nxHero--editorial .nxHeroCopy{position:relative;z-index:2}
+.nxHero--editorial .nxHeroVisual{background:radial-gradient(circle at 70% 50%,#f3eee2 0%,#b5c6b4 65%,transparent 75%);border-radius:40px}
+.nxShowcase{display:grid;grid-template-columns:1fr 1fr;align-items:stretch;min-height:530px;padding:0!important;max-width:none!important}
+.nxShowcaseCopy{padding:clamp(35px,7vw,110px);display:flex;flex-direction:column;justify-content:center;background:#faf9f4}
+.nxShowcaseEyebrow{font-size:12px;letter-spacing:.16em;font-weight:900;color:#587263}
+.nxShowcaseCopy h2{font:400 clamp(36px,4vw,60px)/1.06 Georgia,serif;color:#12392b;letter-spacing:-.045em;margin:20px 0 28px}
+.nxShowcaseCopy ul{list-style:none;margin:0;padding:0;display:grid;gap:20px}
+.nxShowcaseCopy li{display:flex;align-items:center;gap:12px;font-size:17px;color:#214536}
+.nxShowcaseCopy li svg{flex:none;width:26px;height:26px;background:#d7fb75;color:#123c2d;border-radius:50%;padding:5px}
+.nxShowcaseVisual{position:relative;min-height:530px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.nxShowcaseVisual--map{background:linear-gradient(135deg,#c7d5c6,#8da995)}
+.nxMapIllustration{position:relative;width:min(78%,460px);aspect-ratio:4/5;background:#e9eee8;border:13px solid #173d2e;border-radius:46px;box-shadow:0 35px 75px #14362955;overflow:hidden;background-image:linear-gradient(38deg,transparent 42%,#fff 43%,#fff 47%,transparent 48%),linear-gradient(125deg,transparent 54%,#fff 55%,#fff 60%,transparent 61%),linear-gradient(#d8e4d9,#e8ede4)}
+.nxMapRoad{position:absolute;height:12px;background:#fff;width:120%;left:-10%;top:50%;transform:rotate(-28deg)}
+.nxMapRoad--b{top:70%;transform:rotate(38deg)}
+.nxMapPin{position:absolute;top:30%;left:46%;background:#d95e48;border-radius:50% 50% 50% 0;transform:rotate(-45deg);padding:15px;color:white}
+.nxMapBusiness{position:absolute;left:5%;right:5%;bottom:10%;background:white;border-radius:18px;padding:18px;display:flex;align-items:center;gap:14px;box-shadow:0 14px 35px #183d2b33}
+.nxMapBusiness>span{background:#133b2a;color:white;padding:18px;font:30px Georgia,serif}
+.nxMapBusiness strong,.nxMapBusiness small{display:block;color:#173b2d}
+.nxMapBusiness small{color:#9b8a3b;margin-top:4px}
+.nxMapBusiness p{font-size:12px;color:#49685b;margin:7px 0 0}
+.nxShowcaseBubble{position:absolute;right:4%;top:13%;padding:15px 20px;background:white;border-radius:15px;color:#a18a20;box-shadow:0 10px 30px #173e2d33}
+.nxShowcaseBubble b{display:block;color:#123b2b;font-size:12px}
+.nxShowcaseVisual--loyalty{background:linear-gradient(135deg,#183e2d,#759780)}
+.nxDemoDashboard{width:min(84%,500px);background:#f8faf6;padding:30px;border-radius:26px;box-shadow:0 25px 60px #061d1544;display:grid;gap:18px}
+.nxDemoDashboard>span{font-size:11px;letter-spacing:.15em;color:#62806e;font-weight:900}
+.nxDemoDashboard>strong{font:32px Georgia,serif;color:#133b2b}
+.nxDashboardStats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.nxDashboardStats>div{padding:18px;background:#e9f0e7;border-radius:14px;display:grid;gap:6px}
+.nxDashboardStats small{font-size:12px;color:#526f5f}
+.nxDashboardStats b{font-size:36px;color:#153f2e}
+.nxDashboardStats em{font-size:11px;color:#407b4b;font-style:normal}
+.nxDashboardBars{height:100px;display:flex;align-items:end;gap:8px}
+.nxDashboardBars i{flex:1;background:#b6ed55;border-radius:5px 5px 0 0}
+.nxDemoDisclaimer{position:absolute;bottom:15px;right:25px;font-size:12px;color:#e3eee4}
+.nxPricing--reference{background:#eaf1e8}
+.nxPricing--reference .nxPriceGrid{align-items:stretch}
+.nxPricing--reference .nxPlanCard{border-radius:20px;background:#fff;box-shadow:0 12px 30px #1b43201c;padding:28px}
+.nxPricing--reference .nxPlanCard.is-recommended{outline:3px solid #c4f75e;outline-offset:-3px}
+.nxPricing--reference .nxPlanCard.is-recommended .nxRecommendedBadge{background:#c6fa5b;color:#153c2c}
+.nxPricing--reference .nxPlanCard h3{font-family:Arial,sans-serif;font-weight:800}
+.nxIdeas--reference{background:#eaf1e8}
+@media(max-width:800px){.nxShowcase{grid-template-columns:1fr}.nxShowcase--loyalty .nxShowcaseVisual{order:2}.nxShowcase--loyalty .nxShowcaseCopy{order:1}.nxShowcaseCopy{padding:45px 26px}.nxShowcaseVisual{min-height:410px}.nxMapIllustration{width:min(75%,360px)}.nxDemoDashboard{padding:22px}.nxShowcaseCopy h2{font-size:clamp(34px,9vw,48px)}.nxHero--editorial .nxHeroVisual{border-radius:0}}
+
+/* Cuatro escenas visibles: réplica estructural de la referencia aprobada */
+.nxStory--four{height:auto!important;min-height:0!important;position:relative;background:radial-gradient(ellipse at 80% 10%,#164a36,#08291f 70%);padding:54px clamp(24px,5vw,76px) 42px!important;color:#fff}
+.nxFourInner{max-width:1320px;margin:0 auto}
+.nxFourHeading{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:30px}
+.nxFourHeading span{font-size:12px;letter-spacing:.16em;color:#bdd4c3;font-weight:800}
+.nxFourHeading h2{font:400 clamp(40px,5vw,76px)/.98 Georgia,serif;letter-spacing:-.04em;margin:12px 0 0;color:#fff}
+.nxFourControls{display:flex;gap:12px}
+.nxFourControls button{width:44px;height:44px;border-radius:50%;background:#f6faf3;color:#123b2a;border:1px solid #ffffff55;font-size:23px;cursor:pointer}
+.nxFourControls button:first-child{background:transparent;color:#d7ff72}
+.nxFourControls button:focus-visible{outline:3px solid #d7ff72;outline-offset:3px}
+.nxFourGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.nxFourGrid article{position:relative;min-width:0;background:linear-gradient(155deg,#234b3d,#15392d);border:1px solid #ffffff14;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;padding:20px 16px 0;transition:background .25s,border-color .25s}
+.nxFourGrid article.is-active{border-color:#d7ff7277;background:linear-gradient(155deg,#285943,#143a2c)}
+.nxFourNumber{font-size:23px;color:#d9ff70;font-weight:800}
+.nxFourGrid h3{font:700 clamp(18px,1.9vw,25px)/1.16 Arial,sans-serif;max-width:210px;margin:9px 0;color:#fff}
+.nxFourGrid p{font-size:14px;line-height:1.4;color:#dce7df;min-height:75px;margin:0 0 16px}
+.nxFourArt{position:relative;min-height:245px;flex:1;overflow:hidden;margin:0 -16px;background:#e5eee5}
+.nxFourArt .nxStoryArt{position:absolute;inset:0;width:100%;height:100%!important;min-height:0!important;border-radius:0!important;box-shadow:none!important}
+.nxFourArt .nxStoryMap{inset:7% 5%}
+.nxFourArt .nxStoryPhone{transform:translate(-50%,0) scale(.78);transform-origin:center bottom}
+.nxFourArt .nxStoryReview{transform:scale(.85);transform-origin:center}
+.nxFourFootnote{color:#b8cabe;font-size:12px;margin:16px 0 0}
+@media(max-width:850px){.nxFourGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.nxFourGrid p{min-height:0}.nxFourArt{min-height:230px}}
+@media(max-width:490px){.nxStory--four{padding:40px 17px!important}.nxFourHeading h2{font-size:42px}.nxFourGrid{gap:9px}.nxFourGrid article{padding:13px 10px 0}.nxFourGrid h3{font-size:17px}.nxFourGrid p{font-size:12px;min-height:84px}.nxFourArt{margin:0 -10px;min-height:205px}.nxFourNumber{font-size:20px}.nxFourControls button{width:36px;height:36px}.nxFourArt .nxStoryPhone{transform:translate(-50%,0) scale(.6)}}

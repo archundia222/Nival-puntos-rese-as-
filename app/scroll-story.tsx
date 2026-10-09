@@ -3,16 +3,10 @@
 import { useEffect, useRef, useState } from 'react';
 
 const scenes = [
-  { title: 'Tus clientes te buscan en Google Maps.', text: 'Antes de conocer tu negocio, muchas personas buscan opciones cerca de ellas.', kind: 'search' },
-  { title: 'Eligen según las estrellas y los comentarios.', text: 'Una ficha clara y reseñas auténticas ayudan a decidir dónde ir.', kind: 'reviews' },
-  { title: 'La confianza los acerca a tu negocio.', text: 'La persona llega porque encontró información que le dio confianza.', kind: 'visit' },
-  { title: 'Después de una buena visita, puedes pedir una reseña.', text: 'La invitación es amable y libre: cada cliente decide si quiere compartir su experiencia.', kind: 'ask' },
-  { title: 'Una reseña honesta puede ayudar a otras personas.', text: 'Los comentarios reales dan contexto a quienes todavía están buscando.', kind: 'growth' },
-  { title: 'Los puntos se ganan por visitar y comprar.', text: 'El personal registra una visita válida. Los puntos no dependen de dejar una reseña.', kind: 'points' },
-  { title: 'Cada visita acerca a tu cliente a su premio.', text: 'El avance queda visible en su tarjeta digital: un motivo claro para elegirte de nuevo, cuando lo necesite.', kind: 'progress' },
-  { title: 'Llega el momento de canjear su premio.', text: 'El premio corresponde al avance en puntos, sin relación con reseñas ni calificaciones.', kind: 'reward' },
-  { title: 'Una buena experiencia se comparte.', text: 'El cliente vuelve, disfruta y puede recomendar el negocio a más personas.', kind: 'recommend' },
-  { title: 'Nival ayuda a que te encuentren y a que vuelvan.', text: 'Ver el progreso hacia una meta puede animar a continuar; una experiencia recíproca ayuda a construir una relación. No prometemos resultados numéricos.', kind: 'cycle' },
+  { title: 'Te buscan. Que te elijan.', text: 'Tu ficha, tus fotos y tus reseñas pueden convertir una búsqueda en una visita.', kind: 'search' },
+  { title: 'Una compra. Un punto más.', text: 'La visita se registra y la tarjeta digital muestra el progreso.', kind: 'points' },
+  { title: 'Un premio más cerca. Un motivo para volver.', text: 'El cliente ve su meta y puede canjear su recompensa.', kind: 'reward' },
+  { title: 'Una buena experiencia habla por ti.', text: 'Invita a dejar una reseña auténtica, libre y sin recompensas.', kind: 'ask' },
 ];
 
 function SceneArt({ kind }: { kind: string }) {
@@ -66,31 +60,15 @@ export default function ScrollStory() {
   }, []);
 
   return (
-    <section id="como" className="nxStory" ref={sectionRef} aria-label="Cómo funciona Nival">
-      <div className="nxStoryPin">
-        <div className="nxStoryProgress" role="progressbar" aria-label="Progreso de la historia" aria-valuemin={1} aria-valuemax={scenes.length} aria-valuenow={active + 1}>
-          <span style={{ transform: `scaleX(${(active + 1) / scenes.length})` }} />
-        </div>
-        <p className="nxStoryCounter" aria-live="polite">ESCENA {String(active + 1).padStart(2, '0')} / {scenes.length}</p>
-        <div className="nxStoryLayout">
-          <div className="nxStoryCopy">
-            <span className="nxStoryEyebrow">DE LA BÚSQUEDA A LA SIGUIENTE VISITA</span>
-            <div className="nxStoryScenes">
-              {scenes.map((scene, index) => (
-                <article className={`nxStoryScene ${index === active ? 'is-active' : ''}`} key={scene.kind} aria-hidden={index !== active}>
-                  <h2>{scene.title}</h2>
-                  <p>{scene.text}</p>
-                </article>
-              ))}
-            </div>
-            <span className="nxStoryHint">Sigue bajando para continuar <b aria-hidden="true">↓</b></span>
-          </div>
-          <SceneArt kind={scenes[active].kind} />
-        </div>
-        <div className="nxStoryDots" aria-hidden="true">{scenes.map((scene, index) => <i className={index <= active ? 'is-active' : ''} key={scene.kind}/>)}</div>
-      </div>
-      <div className="nxStoryStatic" aria-label="La historia de Nival">
-        {scenes.map((scene, index) => <article key={scene.kind}><span>0{index + 1}</span><h2>{scene.title}</h2><p>{scene.text}</p><SceneArt kind={scene.kind}/></article>)}
+    <section id="como" className="nxStory nxStory--four" ref={sectionRef} aria-label="Cómo funciona Nival">
+      <div className="nxFourInner">
+        <div className="nxFourHeading"><div><span>CÓMO FUNCIONA</span><h2>En 4 pasos,<br/>más clientes<br/>para tu negocio.</h2></div><div className="nxFourControls"><button type="button" aria-label="Escena anterior" onClick={()=>setActive(v=>Math.max(0,v-1))}>←</button><button type="button" aria-label="Escena siguiente" onClick={()=>setActive(v=>Math.min(3,v+1))}>→</button></div></div>
+        <div className="nxFourGrid">{scenes.map((scene,i)=><article key={scene.kind} className={i===active?'is-active':''} onMouseEnter={()=>setActive(i)}>
+          <span className="nxFourNumber">0{i+1}.</span><h3>{['Te encuentran en Google.','Acumulan puntos.','Regresan por sus premios.','Comparten su experiencia.'][i]}</h3>
+          <p>{['Mejora tu ficha y facilita que nuevos clientes te descubran.','Cada visita con compra suma un punto en su tarjeta digital.','Ver el avance puede motivar a completar una meta.','Invita a compartir una opinión libre y auténtica.'][i]}</p>
+          <div className="nxFourArt"><SceneArt kind={scene.kind}/></div>
+        </article>)}</div>
+        <p className="nxFourFootnote">Ejemplos ilustrativos. Los puntos nunca se condicionan a reseñas.</p>
       </div>
     </section>
   );
