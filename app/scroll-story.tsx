@@ -60,31 +60,15 @@ export default function ScrollStory() {
   }, []);
 
   return (
-    <section id="como" className="nxStory" ref={sectionRef} aria-label="Cómo funciona Nival">
-      <div className="nxStoryPin">
-        <div className="nxStoryProgress" role="progressbar" aria-label="Progreso de la historia" aria-valuemin={1} aria-valuemax={scenes.length} aria-valuenow={active + 1}>
-          <span style={{ transform: `scaleX(${(active + 1) / scenes.length})` }} />
-        </div>
-        <p className="nxStoryCounter" aria-live="polite">ESCENA {String(active + 1).padStart(2, '0')} / {scenes.length}</p>
-        <div className="nxStoryLayout">
-          <div className="nxStoryCopy">
-            <span className="nxStoryEyebrow">DE LA BÚSQUEDA A LA SIGUIENTE VISITA</span>
-            <div className="nxStoryScenes">
-              {scenes.map((scene, index) => (
-                <article className={`nxStoryScene ${index === active ? 'is-active' : ''}`} key={scene.kind} aria-hidden={index !== active}>
-                  <h2>{scene.title}</h2>
-                  <p>{scene.text}</p>
-                </article>
-              ))}
-            </div>
-            <span className="nxStoryHint">Sigue bajando para continuar <b aria-hidden="true">↓</b></span>
-          </div>
-          <SceneArt kind={scenes[active].kind} />
-        </div>
-        <div className="nxStoryDots" aria-hidden="true">{scenes.map((scene, index) => <i className={index <= active ? 'is-active' : ''} key={scene.kind}/>)}</div>
-      </div>
-      <div className="nxStoryStatic" aria-label="La historia de Nival">
-        {scenes.map((scene, index) => <article key={scene.kind}><span>0{index + 1}</span><h2>{scene.title}</h2><p>{scene.text}</p><SceneArt kind={scene.kind}/></article>)}
+    <section id="como" className="nxStory nxStory--four" ref={sectionRef} aria-label="Cómo funciona Nival">
+      <div className="nxFourInner">
+        <div className="nxFourHeading"><div><span>CÓMO FUNCIONA</span><h2>En 4 pasos,<br/>más clientes<br/>para tu negocio.</h2></div><div className="nxFourControls"><button type="button" aria-label="Escena anterior" onClick={()=>setActive(v=>Math.max(0,v-1))}>←</button><button type="button" aria-label="Escena siguiente" onClick={()=>setActive(v=>Math.min(3,v+1))}>→</button></div></div>
+        <div className="nxFourGrid">{scenes.map((scene,i)=><article key={scene.kind} className={i===active?'is-active':''} onMouseEnter={()=>setActive(i)}>
+          <span className="nxFourNumber">0{i+1}.</span><h3>{['Te encuentran en Google.','Acumulan puntos.','Regresan por sus premios.','Comparten su experiencia.'][i]}</h3>
+          <p>{['Mejora tu ficha y facilita que nuevos clientes te descubran.','Cada visita con compra suma un punto en su tarjeta digital.','Ver el avance puede motivar a completar una meta.','Invita a compartir una opinión libre y auténtica.'][i]}</p>
+          <div className="nxFourArt"><SceneArt kind={scene.kind}/></div>
+        </article>)}</div>
+        <p className="nxFourFootnote">Ejemplos ilustrativos. Los puntos nunca se condicionan a reseñas.</p>
       </div>
     </section>
   );
