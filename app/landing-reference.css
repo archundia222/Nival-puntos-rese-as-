@@ -74,3 +74,10 @@
  .nvHow .nvStep h3{margin-top:18px;font-size:16px}
  .nvHow .nvStep p{font-size:12px}
 }
+
+/* NIVAL IMAGE-LED PRODUCT FLOW */
+.nvHow .nvStep{display:flex;flex-direction:column;min-height:390px;padding:20px;overflow:hidden}
+.nvHow .nvStep p{margin-bottom:18px}
+.nvHow .nvStepImage{display:block;width:calc(100% + 40px);height:205px;max-width:none;margin:auto -20px -20px;object-fit:cover;object-position:center 22%;border-radius:11px 11px 0 0}
+@media(max-width:900px){.nvHow .nvStep{min-height:380px}.nvHow .nvStepImage{height:180px}}
+@media(max-width:420px){.nvHow .nvStep{min-height:350px;padding:16px 14px}.nvHow .nvStepImage{width:calc(100% + 28px);height:155px;margin-left:-14px;margin-right:-14px;margin-bottom:-16px}}
