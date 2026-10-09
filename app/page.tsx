@@ -3,7 +3,7 @@ import LandingInteractions from './landing-interactions';
 import WhatsAppFab from './whatsapp-fab';
 import './landing-reference.css';
 
-const wa = 'https://wa.me/525539044788?text=' + encodeURIComponent('Hola, quiero información de Nival Puntos + Reseñas');
+const wa = 'https://wa.me/525539044988?text=' + encodeURIComponent('Hola, quiero información de Nival Puntos + Reseñas');
 const ReferenceImage = ({file,width,height,alt,className = ''}:{file:string;width:number;height:number;alt:string;className?:string}) => <img className={`refAsset ${className}`} width={width} height={height} alt={alt} src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'/%3E" style={{backgroundImage:`url("/assets/img/${file}"), linear-gradient(135deg, #d4ddd1, #8ba390 55%, #314d3b)`}}/>;
 const Check = () => <svg viewBox="0 0 20 20" width="17" height="17" aria-hidden="true"><path d="m4 10 4 4 8-9" fill="none" stroke="currentColor" strokeWidth="2"/></svg>;
 const features = [
