@@ -120,3 +120,9 @@
 .nvHow .nvSectionIntro h2{max-width:470px}
 .nvStepControls{margin-top:38px}
 @media(max-width:760px){.nvHowHead{align-items:flex-end}.nvStepControls{margin-top:0}}
+
+/* Mobile hero: preserve the full product photo and keep its caption clear of browser chrome */
+@media(max-width:760px){
+ .nvHeroVisual>img{height:auto;aspect-ratio:auto;object-fit:contain;object-position:center;border-radius:20px}
+ .nvImageNote{display:none}
+}
