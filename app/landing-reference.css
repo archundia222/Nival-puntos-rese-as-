@@ -137,3 +137,84 @@
 @media(min-width:761px) and (max-width:900px){
  .nvHeroVisual>img{width:calc(100% + 120px);margin-left:-120px}
 }
+
+/* PREMIUM POLISH — visual only */
+.nvLanding{--shadow-soft:0 18px 48px rgba(15,39,28,.10);--shadow-lift:0 24px 56px rgba(15,39,28,.16);scroll-behavior:smooth}
+.nvHeader{background:rgba(248,246,239,.94);border-bottom-color:rgba(12,42,31,.09);box-shadow:0 4px 18px rgba(12,42,31,.035)}
+.nvBrand{letter-spacing:.19em}
+.nvButton{box-shadow:0 5px 12px rgba(12,42,31,.10)}
+.nvButtonLight,.nvButtonOutline{box-shadow:none}
+.nvHero{background:linear-gradient(100deg,#faf9f3 0%,#f8f6ef 54%,#f3f2e8 100%)}
+.nvHeroCopy{max-width:540px}
+.nvHero h1{letter-spacing:-.045em}
+.nvHeroLead{max-width:425px}
+.nvPromiseRow{gap:18px}
+.nvPromiseRow span{font-size:13px}
+.nvSection{scroll-margin-top:76px}
+.nvHow{position:relative}
+.nvHow:before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 86% 12%,rgba(216,243,101,.09),transparent 37%)}
+.nvHowHead,.nvSteps{position:relative}
+.nvHow .nvStep{background:linear-gradient(155deg,rgba(255,255,255,.105),rgba(255,255,255,.035));border-color:rgba(255,255,255,.19);box-shadow:0 10px 28px rgba(0,0,0,.08);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}
+.nvHow .nvStep:hover{transform:translateY(-5px);box-shadow:0 18px 38px rgba(0,0,0,.18);border-color:rgba(216,243,101,.48)}
+.nvHow .nvStepTop{font-size:15px}
+.nvHow .nvStep h3{font-size:18px;letter-spacing:-.015em}
+.nvHow .nvStep p{font-size:13px}
+.nvHow .nvStepImage{border-radius:10px 10px 0 0;filter:saturate(.94)}
+.nvProduct{position:relative}
+.nvProductVisual{box-shadow:var(--shadow-soft);border:1px solid rgba(12,42,31,.08)}
+.nvBenefitGrid article{padding:12px;border:1px solid rgba(12,42,31,.07);background:rgba(255,255,255,.52);transition:transform .18s ease,border-color .18s ease,background .18s ease}
+.nvBenefitGrid article:hover{transform:translateY(-2px);border-color:rgba(31,118,84,.22);background:#fff}
+.nvGoogle{background:linear-gradient(140deg,#f3f5ee,#edf2e8)}
+.nvReviewCard{box-shadow:var(--shadow-soft)}
+.nvValue{border:1px solid rgba(12,42,31,.08);box-shadow:var(--shadow-soft)}
+.nvPlans{background:linear-gradient(180deg,#edf2e8 0%,#f5f4e9 100%)}
+.nvPlanCard{transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+.nvPlanCard:hover{transform:translateY(-4px);box-shadow:var(--shadow-lift)}
+.nvPlanFeatured{background:linear-gradient(180deg,#fffefa,#fbfff2)}
+.nvPlanFeatured:before{content:"";position:absolute;top:-1px;left:18px;right:18px;height:3px;border-radius:0 0 4px 4px;background:var(--l)}
+.nvMatrix{box-shadow:0 12px 34px rgba(15,39,28,.055)}
+.nvFaqList details{transition:background .18s ease}
+.nvFaqList details[open]{padding-left:12px;background:linear-gradient(90deg,rgba(216,243,101,.10),transparent 70%)}
+.nvFinalCta{position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 120%,#1a563c 0%,var(--g) 68%)}
+.nvFinalCta:before,.nvFinalCta:after{content:"";position:absolute;width:250px;height:250px;border:1px solid rgba(216,243,101,.12);border-radius:50%;pointer-events:none}
+.nvFinalCta:before{left:-120px;top:-150px}.nvFinalCta:after{right:-120px;bottom:-180px}
+.nvFinalCta>*{position:relative;z-index:1}
+.nvFooter{border-top:1px solid rgba(12,42,31,.08)}
+.nvLanding .refWhats{box-shadow:0 10px 28px rgba(10,70,47,.32);transition:transform .18s ease,box-shadow .18s ease}
+.nvLanding .refWhats:hover{transform:translateY(-3px);box-shadow:0 15px 34px rgba(10,70,47,.38)}
+@media(max-width:900px){
+ .nvHero{background:linear-gradient(100deg,#faf9f3,#f4f2e8)}
+ .nvHow .nvStep h3{font-size:16px}
+}
+@media(max-width:760px){
+ .nvHero{position:relative;gap:0;padding-bottom:30px;background:linear-gradient(180deg,#faf9f3 0%,#f8f6ef 72%,#edf0e5 100%)}
+ .nvHeroCopy{z-index:2}
+ .nvHero h1{font-size:clamp(40px,10.4vw,46px);line-height:.99;letter-spacing:-.04em}
+ .nvHeroLead{max-width:390px;font-size:15px;line-height:1.55}
+ .nvPromiseRow{gap:10px 15px}
+ .nvPromiseRow span{font-size:11px}
+ .nvHeroVisual{position:relative;z-index:1;width:calc(100% + 44px);margin: -22px -22px 0;padding:0 0 14px;overflow:hidden;border-radius:0 0 18px 18px}
+ .nvHeroVisual>img{display:block;width:100%;height:auto;max-height:none;min-height:0;margin:0;object-fit:cover;object-position:center top;border-radius:0 0 18px 18px;-webkit-mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.14) 7%,#000 19%);mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.14) 7%,#000 19%)}
+ .nvSection{padding-top:54px;padding-bottom:54px}
+ .nvHow{padding-top:48px}
+ .nvHow .nvStep{box-shadow:0 12px 28px rgba(0,0,0,.13)}
+ .nvBenefitGrid article{padding:11px}
+ .nvPlanCard{box-shadow:0 10px 24px rgba(15,39,28,.08)}
+ .nvPlanFeatured{box-shadow:0 14px 30px rgba(15,39,28,.13)}
+ .nvValue{box-shadow:0 12px 30px rgba(15,39,28,.08)}
+}
+@media(max-width:420px){
+ .nvHero{padding-left:18px;padding-right:18px}
+ .nvHeroVisual{width:calc(100% + 36px);margin-left:-18px;margin-right:-18px}
+ .nvHero h1{font-size:42px}
+ .nvHeroLead{font-size:14px}
+ .nvPromiseRow span{font-size:10px}
+ .nvHow .nvStep{flex-basis:88%}
+ .nvStepControls button{width:34px;height:34px}
+ .nvBenefitGrid{grid-template-columns:1fr 1fr;gap:9px}
+ .nvBenefitGrid article{align-items:flex-start}
+ .nvPlanCard h3{font-size:22px}
+}
+@media(prefers-reduced-motion:reduce){
+ .nvHow .nvStep,.nvPlanCard,.nvBenefitGrid article,.nvLanding .refWhats{transition:none}
+}
