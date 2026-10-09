@@ -6,5 +6,6 @@ export function inclusivePeriodEnd(exclusiveEnd:string):string;
 export function formatPeriodDate(value:string):string;
 export function generateAdvice(segment:string,businessContext:{templates:{segment:string;text:string}[];variant:number;count:number;businessName?:string}):Promise<string>;
 export function validateGoogle(input:{rating:number;total:number;fresh:number;answered:number;distribution:Record<string,number>}):string|null;
+export function formatCustomerVisitDate(value:unknown):string;
 export function dateKey(value:unknown):string;
 export function googleSelection(reports:Record<string,any>[],range:ReturnType<typeof periodRange>):{last:Record<string,any>|null;reports:Record<string,any>[];google:{fresh:number;answered:number|null;resolution:string|undefined}|null};
