@@ -149,7 +149,7 @@ export async function moveTask(taskId:string,status:string):Promise<{ok:boolean}
    when 'daily' then greatest(coalesce(due_date,current_date),current_date)+1
    when 'weekly' then greatest(coalesce(due_date,current_date),current_date)+7
    else (greatest(coalesce(due_date,current_date),current_date)+interval '1 month')::date end,recurrence
-  from changed c where $2='completada' and recurrence is not null and (title='Cobrar mensualidad' or exists(select 1 from nival_pr.businesses b join nival_pr.plans p on p.id=b.plan_id where b.id=c.business_id and b.status in ('activo','por_vencer') and b.paid_until>now() and coalesce((p.features->>'points_only')::boolean,false)=false))
+  from changed c where $2='completada' and recurrence is not null and (title='Cobrar mensualidad' or c.business_id is null or exists(select 1 from nival_pr.businesses b where b.id=c.business_id and b.status in ('activo','por_vencer') and greatest(coalesce(b.paid_until,'-infinity'),coalesce(b.trial_ends_at,'-infinity'))>now()))
  )
  insert into nival_pr.audit_log(actor_id,action,entity,business_id,data)
  select $3,'task.status_changed','tasks',business_id,jsonb_build_object('task_id',id,'status',$2,'title',title)
