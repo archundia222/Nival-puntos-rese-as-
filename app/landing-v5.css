@@ -338,3 +338,27 @@
 .nxBenefitsGrid h3{font-size:21px;margin:13px 0 6px}
 .nxBenefitsGrid p{font-size:15px}
 }
+
+/* Landing comercial: historia corta y beneficios visuales */
+.nxStory{height:350vh}
+.nxIdeas{background:#f4f4ed;padding-top:72px;padding-bottom:80px}
+.nxIdeasColumns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.nxIdeasPanel{border-radius:30px;background:#fff;padding:clamp(22px,4vw,42px);min-width:0;box-shadow:0 10px 35px #153c2a0d}
+.nxIdeasPanel--google{background:#dfeae1}
+.nxIdeasKicker{font-size:12px;font-weight:800;letter-spacing:.15em;color:#64806f}
+.nxIdeasPanel h3{font:400 clamp(30px,3.4vw,48px)/1.1 Georgia,serif;color:#133c2c;margin:18px 0 26px}
+.nxIdeasCloud{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.nxIdeasCloud span{border:1px solid #b7cabc;border-radius:999px;padding:10px 15px;font-size:15px;line-height:1.3;color:#204633;background:#f8faf5}
+.nxIdeasCloud span.big{font-size:clamp(19px,2.4vw,27px);font-weight:800;background:#153d2c;color:#fff;border-color:#153d2c;border-radius:18px}
+.nxIdeasCloud span.accent{background:#ddff79;border-color:#ddff79;font-weight:800}
+.nxIdeasDemo{margin-top:30px;border-radius:22px;background:#143c2b;color:#fff;padding:24px;display:flex;flex-direction:column;gap:12px}
+.nxIdeasDemo>span{font-size:11px;letter-spacing:.12em;color:#c8d7ce}
+.nxIdeasDemo>strong{font-size:54px;line-height:1.1}
+.nxIdeasDemo>strong small{font-size:15px;font-weight:500}
+.nxIdeasDemo>b{font-size:14px}
+.nxIdeasMeter{height:12px;background:#53705d;border-radius:20px;overflow:hidden}
+.nxIdeasMeter i{display:block;width:75%;height:100%;background:#dcff70;border-radius:20px}
+.nxIdeasNote{font-size:13px;color:#5a7065;margin-top:20px}
+.nxPlanCard{position:relative}
+@media(max-width:760px){.nxIdeasColumns{grid-template-columns:1fr}.nxIdeas{padding-top:48px;padding-bottom:48px}.nxIdeasPanel{padding:24px}.nxStory{height:300vh}.nxStoryScene h2{font-size:clamp(34px,9vw,50px)}.nxStoryScene p{font-size:16px}}
+@media(prefers-reduced-motion:reduce){.nxStory{height:auto}}
