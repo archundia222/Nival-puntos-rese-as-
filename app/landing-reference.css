@@ -145,3 +145,23 @@
  .refMobileLinks a{display:flex;align-items:center;min-height:44px;padding:10px 12px;border-radius:8px;color:var(--dark);font-size:14px;text-decoration:none}
  .refMobileLinks a:hover{background:#edf3e8}
 }
+
+/* Afinar lluvia de ideas y contacto */
+.refBenefitGrid>.refBenefitItem{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:8px;padding:0;min-height:0;background:transparent;border-radius:0}
+.refBenefitItem>button{flex:0 0 auto}
+.refBenefitWhy{box-sizing:border-box;align-self:stretch}
+.refContact{scroll-margin-top:82px}
+.refContactAction{width:100%;border:1px solid rgba(248,245,238,.15);box-shadow:0 18px 42px rgba(15,42,31,.16)}
+.refContactAction .refPrimary{width:100%;justify-content:center;min-height:56px;border-radius:12px;gap:14px}
+@media(max-width:760px){
+ .refContact{scroll-margin-top:74px;padding:44px 20px 48px;gap:26px}
+ .refContact h2{font-size:clamp(40px,11vw,46px);line-height:.98;max-width:13ch;margin:12px 0 14px}
+ .refContact>div>p{font-size:16px;line-height:1.55}
+ .refContactPhone{margin-top:20px}
+ .refContactPhone strong{font-size:clamp(28px,8vw,34px)}
+ .refContactAction{padding:22px;border-radius:22px}
+ .refContactIcon{margin-bottom:18px}
+ .refContactAction>strong{font-size:28px;line-height:1.08}
+ .refContact .refContactAction>p{font-size:15px;line-height:1.55;margin:10px 0 18px}
+ .refContactText{font-size:14px}
+}
