@@ -14,3 +14,63 @@
 @media(max-width:720px){.nvHeader{min-height:61px;padding:0 16px;gap:8px}.nvDesktopNav,.nvHeader>.nvAccess{display:none}.nvHeaderCta{margin-left:auto}.nvMobileMenu{display:block;order:3}.nvHeaderCta{order:2}.nvBrand{order:1}.nvHero{min-height:0;padding:32px 20px 44px;grid-template-columns:1fr;gap:21px}.nvHero h1{margin-top:16px;font-size:clamp(46px,11vw,58px)}.nvHeroLead{font-size:15px}.nvActions{gap:8px}.nvButton{min-height:46px;padding:0 15px;font-size:13px}.nvPromiseRow{gap:12px;margin-top:20px}.nvPromiseRow span{font-size:11px}.nvFinePrint{font-size:10px}.nvHeroVisual{min-height:0;padding:0 0 16px 6px}.nvHeroVisual>img{height:min(90vw,370px);border-radius:17px}.nvImageNote{left:-1px;bottom:0;padding:9px 10px}.nvImageNote strong{font-size:11px}.nvImageNote small{font-size:9px}.nvSection{padding:57px 20px}.nvSectionIntro{margin-bottom:22px}.nvSectionIntro h2,.nvGoogle h2,.nvProduct h2{font-size:clamp(32px,8.6vw,41px)}.nvSectionIntro>p,.nvProductCopy>p,.nvGoogleCopy>p{font-size:13px}.nvSteps{grid-template-columns:1fr 1fr;gap:8px}.nvStep{min-height:170px;padding:15px}.nvStep h3{margin-top:19px;font-size:15px}.nvStep p{font-size:11px}.nvProduct{padding:0 20px 52px;grid-template-columns:1fr;gap:21px}.nvProductVisual,.nvProductVisual img{height:230px;min-height:0}.nvBenefitGrid{gap:15px 10px;margin-top:19px}.nvBenefitGrid article{gap:7px}.nvBenefitGrid article>svg{width:18px;height:18px}.nvBenefitGrid h3{font-size:12px}.nvBenefitGrid p{font-size:10px}.nvGoogle{padding:56px 20px;grid-template-columns:1fr;gap:22px}.nvReviewCard{padding:18px}.nvValue{margin:0 20px 48px;padding:21px 18px;grid-template-columns:1fr;gap:11px}.nvValueLabel{font-size:9px}.nvValue h2{font-size:29px}.nvValue p{font-size:12px}.nvPlans{padding:58px 20px}.nvPlanCards{grid-template-columns:1fr;gap:11px}.nvPlanCard{padding:20px}.nvPlanSummary{min-height:0}.nvPlanCard h3{font-size:23px}.nvPrice strong{font-size:34px}.nvMatrix{margin-top:28px;padding:16px 12px}.nvMatrixIntro{display:block}.nvMatrixIntro h3{font-size:23px}.nvMatrixIntro p{margin-top:6px}.nvMatrixScroll{overflow:visible}.nvMatrix table,.nvMatrix tbody{display:block}.nvMatrix thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}.nvMatrix tr{display:grid;grid-template-columns:repeat(3,1fr);margin-top:11px;border:1px solid var(--line);border-radius:10px;overflow:hidden}.nvMatrix tbody th{grid-column:1/-1;padding:10px;background:#f5f7f1}.nvMatrix tbody td{padding:9px 2px;font-size:9px}.nvMatrix tbody td:before{display:block;margin-bottom:4px;color:#718078;font-size:8px;font-weight:700}.nvMatrix tbody td:nth-child(2):before{content:'Puntos'}.nvMatrix tbody td:nth-child(3):before{content:'Esencial'}.nvMatrix tbody td:nth-child(4):before{content:'Plus'}.nvLimit{font-size:8px}.nvPlanFootnote{font-size:9px}.nvFaq{padding:57px 20px;grid-template-columns:1fr;gap:21px}.nvFaq summary{font-size:12px}.nvFinalCta{padding:55px 20px 59px}.nvFinalCta h2{font-size:34px}.nvFinalCta p{font-size:12px}.nvFooter{padding:21px 20px 91px;display:grid;grid-template-columns:1fr 1fr;gap:11px}.nvFooter>div{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:0}.nvFooter small{grid-column:1/-1}.nvLanding .refWhats{right:14px;bottom:calc(14px + env(safe-area-inset-bottom));width:46px;height:46px}}
 @media(max-width:390px){.nvHeader{padding:0 11px}.nvHeaderCta{min-height:37px;padding:0 10px;font-size:11px}.nvBrand{gap:6px;font-size:11px}.nvBrandMark{width:29px;height:29px}.nvMobileMenu summary{width:36px;height:36px}.nvPromiseRow{gap:8px}.nvPromiseRow span{gap:4px;font-size:9px}.nvHero h1{font-size:44px}.nvActions .nvButton{flex:1;padding:0 9px}.nvSteps{grid-template-columns:1fr}.nvStep{min-height:0}.nvStep h3{margin-top:14px}.nvBenefitGrid{grid-template-columns:1fr}.nvValue h2{font-size:27px}.nvMatrix{padding:15px 8px}.nvMatrix tbody th{font-size:10px}.nvMatrix tbody td{font-size:8px}.nvLimit{font-size:7px}.nvFooter{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.nvLanding *{scroll-behavior:auto!important;transition:none!important}}
+
+/* NIVAL REF STYLE 2026 */
+.nvHeader{min-height:64px;gap:clamp(14px,2vw,26px)}
+.nvHero{max-width:none;min-height:480px;padding:46px 0 48px max(24px,calc((100vw - 1200px)/2));grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:clamp(24px,3.6vw,54px);overflow:hidden}
+.nvHeroCopy{max-width:560px;padding-right:16px}
+.nvHero h1{font-size:clamp(50px,5vw,68px);line-height:1.01;letter-spacing:-.035em}
+.nvHeroVisual{align-self:stretch;min-height:0;margin:0;overflow:visible}
+.nvHeroVisual:before{display:none}
+.nvHeroVisual>img{height:100%;min-height:390px;max-height:480px;border-radius:22px 0 0 22px;box-shadow:none}
+.nvImageNote{left:16px;bottom:22px}
+.nvPromiseRow{gap:20px}
+.nvPromiseRow span{font-size:13px}
+.nvHow{width:100%;max-width:none;margin:0;padding:64px max(24px,calc((100vw - 1200px)/2)) 72px;background:var(--g);color:var(--c)}
+.nvHow>.nvSectionIntro,.nvHow>.nvSteps{max-width:1200px;margin-left:auto;margin-right:auto}
+.nvHow>.nvSectionIntro{margin-bottom:28px}
+.nvHow .nvSectionIntro .nvEyebrow{color:#d5e3d3}
+.nvHow .nvSectionIntro h2{max-width:700px;color:var(--c);font-size:clamp(36px,4.2vw,52px);line-height:1.03}
+.nvHow .nvSectionIntro p{color:#d3dfd4}
+.nvHow .nvStep{min-height:178px;padding:20px 19px;background:#ffffff0b;border-color:#ffffff25;border-radius:14px;box-shadow:inset 0 1px #ffffff10}
+.nvHow .nvStepTop{color:var(--l)}
+.nvHow .nvStepTop svg{stroke:var(--l)}
+.nvHow .nvStep h3{color:#fff;font-size:17px}
+.nvHow .nvStep p{color:#d7e1d8}
+.nvProduct{background:#f8f6ef}
+.nvProductVisual{border-radius:4px 32px 4px 32px;box-shadow:0 18px 42px #183c2a18}
+.nvBenefitGrid>article{border-radius:12px}
+.nvBenefitGrid>article>svg{padding:5px;border-radius:50%;background:#d8f365;color:var(--g2)}
+.nvGoogle{background:#f2f4ec}
+.nvReviewCard{border:1px solid #dfe6d9;border-radius:18px;box-shadow:0 14px 38px #17362112}
+.nvValue{background:#fffefa}
+.nvValue .nvValueLabel{width:max-content;max-width:100%;height:auto;min-height:46px;padding:11px 17px;border-radius:999px;background:var(--l);color:var(--g);transform:none;white-space:normal;text-align:center}
+.nvPlans{background:#edf2e8}
+.nvPlanCard{border-radius:16px;box-shadow:0 10px 26px #1b35200a}
+.nvPlanFeatured{border-color:#a9cb49;box-shadow:0 14px 34px #1b352018}
+.nvPlanBadge{background:var(--l);color:var(--g)}
+@media(max-width:900px){
+ .nvHero{padding-left:26px;grid-template-columns:minmax(0,.94fr) minmax(0,1.06fr);gap:24px}
+ .nvHero h1{font-size:clamp(46px,6vw,60px)}
+ .nvHow{padding-left:26px;padding-right:26px}
+}
+@media(max-width:760px){
+ .nvHero{min-height:0;grid-template-columns:1fr;gap:28px;padding:42px 22px 48px}
+ .nvHeroCopy{max-width:640px;padding-right:0}
+ .nvHero h1{font-size:clamp(45px,11vw,60px)}
+ .nvHeroVisual{min-height:0;width:100%}
+ .nvHeroVisual>img{width:100%;height:clamp(255px,72vw,390px);min-height:0;max-height:none;border-radius:20px}
+ .nvImageNote{left:12px;bottom:14px}
+ .nvHow{padding:52px 22px 56px}
+ .nvHow>.nvSectionIntro{margin-bottom:20px}
+}
+@media(max-width:420px){
+ .nvHeader{min-height:60px}
+ .nvHero{padding:34px 18px 40px}
+ .nvHero h1{font-size:clamp(42px,11.8vw,50px)}
+ .nvPromiseRow{gap:10px 14px}
+ .nvHow{padding:46px 18px 50px}
+ .nvHow .nvStep{min-height:165px;padding:16px 14px}
+ .nvHow .nvStep h3{margin-top:18px;font-size:16px}
+ .nvHow .nvStep p{font-size:12px}
+}
