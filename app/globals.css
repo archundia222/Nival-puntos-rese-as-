@@ -194,3 +194,13 @@
  .adminSidebar nav a{display:flex;justify-content:center;align-items:center;width:100%;min-width:0;min-height:48px;padding:10px 8px;border:1px solid #e2e9e3;border-radius:12px;background:#f5f7f4;text-align:center;white-space:normal;line-height:1.2}
  .adminSidebar nav a[aria-current=page]{border-color:#174e3b;background:#174e3b;color:#fff}
 }
+
+
+/* Alinear el acceso de negocios con la identidad visual de Nival. */
+.authShell{max-width:900px;padding-top:48px}
+.authHead{align-items:flex-start}
+.authHead h1{font-size:clamp(40px,5vw,54px);max-width:520px}
+.authShell>.reviewBox{max-width:680px;border-radius:18px;box-shadow:0 16px 42px #102a1b14;border-color:#dce5dd}
+.authShell>.reviewBox h2{font-size:clamp(25px,3vw,31px)}
+.authShell .configGrid button{background:#0f2a1f;border-radius:10px}
+@media(max-width:720px){.authShell{padding-top:28px}.authHead h1{font-size:42px}.authShell>.reviewBox{padding:22px;border-radius:16px}}

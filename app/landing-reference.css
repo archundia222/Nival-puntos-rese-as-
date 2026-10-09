@@ -144,3 +144,46 @@
  .refMobileLinks a{display:flex;align-items:center;min-height:44px;padding:10px 12px;border-radius:8px;color:var(--dark);font-size:14px;text-decoration:none}
  .refMobileLinks a:hover{background:#edf3e8}
 }
+
+
+/* Ajustes visuales de revisión: claridad, espaciado y adaptación a 375 px. */
+.refNav{gap:clamp(12px,1.8vw,22px)}
+.refNav>nav{flex:1;justify-content:center;gap:clamp(11px,1.35vw,19px);min-width:0}
+.refNav nav a{white-space:nowrap}
+.refAccess>summary{padding:6px 8px;border-color:transparent;border-radius:8px;font-weight:500}
+.refAccess>summary:hover,.refAccess[open]>summary{background:#edf2e9}
+.refQuick{gap:clamp(16px,2vw,28px)}
+.refQuick>span{font-size:15px;font-weight:600}
+.refQuick .refIcon{width:27px;height:27px}
+.refContactAction>p{color:#f0f4ed!important}
+.refValueLead:after{width:190px;height:190px;right:-66px;top:-54px}
+.refValueLead small,.refValueLead strong,.refValueLead>span:last-child{position:relative;z-index:2}
+.refValueLead small{color:#f0f4ed}
+.refWhats{width:48px!important;height:48px!important;min-width:48px;max-width:48px;right:18px;bottom:18px}
+.refWhats svg{width:25px!important;height:25px!important}
+@media(max-width:760px){
+ .refNav{height:60px;min-height:60px}
+ .refQuick{gap:12px 18px;margin-top:22px}
+ .refQuick>span{font-size:13px}
+ .refQuick .refIcon{width:23px;height:23px}
+ .refValueLead{min-height:260px}
+ .refValueLead:after{width:160px;height:160px;right:-52px;top:-38px}
+ .refValueLead small{max-width:calc(100% - 88px);line-height:1.5;letter-spacing:1.4px}
+ .refWhats{width:44px!important;height:44px!important;min-width:44px;max-width:44px;right:14px;bottom:calc(14px + env(safe-area-inset-bottom))}
+ .refWhats svg{width:23px!important;height:23px!important}
+}
+@media(max-width:420px){
+ .refHeroText{padding-inline:20px}
+ .refHero h1{font-size:clamp(54px,14vw,62px)}
+ .refQuick{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+ .refQuick>span{min-width:0;font-size:12px}
+ .refHowTop{align-items:flex-end}
+ .refStep{flex-basis:86%}
+ .refMetrics{width:46%;right:4%}
+ .refMetrics>div{padding:10px 11px;min-height:86px}
+ .refMetrics small{font-size:10px}
+ .refMetrics b{font-size:24px}
+ .refContactAction{padding:22px}
+ .refContactAction>strong{font-size:27px}
+ .refFaq{padding-inline:20px}
+}
