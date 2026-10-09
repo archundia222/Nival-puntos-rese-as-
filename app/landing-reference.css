@@ -405,3 +405,111 @@
 @media(prefers-reduced-motion:reduce){
  .nvHow .nvStep,.nvPlanCard,.nvBenefitGrid article,.nvLanding .refWhats{transition:none}
 }
+
+
+/* Final reference-aligned visual layer. Existing text and behavior remain unchanged. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+.nvLanding{--g:#0b2e22;--g2:#276c52;--l:#c6f432;--c:#faf8f3;--paper:#fffefa;--ink:#153126;--muted:#68766f;--line:#e4e8df;background:var(--c);color:var(--ink);font-family:Inter,Arial,sans-serif;display:flex;flex-direction:column}
+.nvLanding h1,.nvLanding h2{font-family:'DM Serif Display',Georgia,serif;letter-spacing:-.035em}
+.nvHeader{order:0;min-height:66px;padding:0 max(24px,calc((100vw - 1240px)/2));gap:24px;background:rgba(250,248,243,.96);border-bottom:1px solid #0b2e2217}
+.nvBrand{font-family:'DM Serif Display',Georgia,serif;letter-spacing:.2em}.nvBrandMark{background:var(--g);color:var(--l)}
+.nvDesktopNav{margin-left:auto;margin-right:18px;gap:clamp(16px,2.4vw,32px)}
+.nvDesktopNav a,.nvAccess summary{font-size:12px;font-weight:600}
+.nvButton{border-radius:10px;background:var(--g);border-color:var(--g);box-shadow:0 5px 14px #0b2e2219}
+.nvButton span{color:var(--l)}.nvButtonLight,.nvButtonOutline{background:transparent;border:1px solid var(--g);color:var(--g)!important;box-shadow:none}
+.nvButtonLight span,.nvButtonOutline span{color:var(--g)}
+.nvHero{order:1;position:relative;isolation:isolate;display:block;width:100%;max-width:none;min-height:510px;margin:0;padding:60px max(24px,calc((100vw - 1240px)/2));overflow:hidden;background:var(--c)}
+.nvHeroCopy{position:relative;z-index:2;max-width:600px}
+.nvHero h1{max-width:650px;margin:18px 0;font-size:clamp(58px,6.2vw,84px);line-height:.92;letter-spacing:-.05em}
+.nvHero h1 em{color:var(--g);font-style:normal}.nvHeroLead{max-width:440px;font-size:17px}
+.nvHeroVisual{position:absolute;z-index:0;inset:0 0 0 25%;width:auto;height:100%;min-height:0;margin:0;padding:0;overflow:hidden}
+.nvHeroVisual:before{display:none}
+.nvHeroVisual>img{width:100%;height:100%;min-height:0;max-height:none;margin:0;object-fit:cover;object-position:62% 48%;border-radius:0;box-shadow:none;-webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.2) 22%,rgba(0,0,0,.78) 46%,#000 62%);mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.2) 22%,rgba(0,0,0,.78) 46%,#000 62%)}
+.nvHeroVisual:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,#faf8f330,transparent 48%)}
+.nvImageNote{left:auto;right:24px;bottom:22px;z-index:3;border-radius:14px;background:#fffefaee}
+.nvHow{order:2;width:100%;max-width:none;margin:0;padding:54px max(24px,calc((100vw - 1240px)/2));background:var(--g);color:var(--c)}
+.nvHowHead{max-width:1240px;margin:0 auto 24px;display:flex;align-items:flex-end;justify-content:space-between;gap:22px}
+.nvHow .nvSectionIntro{max-width:600px;margin:0}.nvHow .nvEyebrow{color:#b5c6b9}
+.nvHow .nvSectionIntro h2{max-width:600px;color:var(--c);font-size:clamp(42px,4.7vw,60px);line-height:.96}
+.nvHow .nvSectionIntro>p{margin-top:10px;color:#d9e4db;font-size:13px}
+.nvStepControls{display:flex;gap:9px;margin-bottom:2px}
+.nvStepControls button{width:42px;height:42px;border:1px solid #ffffff66;border-radius:50%;background:transparent;color:var(--c)}
+.nvStepControls button:last-child{background:var(--c);color:var(--g)}
+.nvSteps{max-width:1240px;margin:auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;overflow:visible}
+.nvHow .nvStep{display:flex;flex-direction:column;min-width:0;min-height:365px;padding:17px 14px 0;overflow:hidden;border:1px solid #ffffff2e;border-radius:15px 15px 0 0;background:#ffffff0d}
+.nvHow .nvStepTop{color:var(--l);font-size:20px}.nvHow .nvStepTop svg{color:var(--l);stroke:currentColor}
+.nvHow .nvStep h3{margin:8px 0 6px;color:var(--c);font-size:16px;line-height:1.2}
+.nvHow .nvStep p{min-height:58px;margin:0 0 12px;color:#e1eae2;font-size:12px;line-height:1.45}
+.nvHow .nvStepImage{display:block;width:calc(100% + 28px);height:215px;max-width:none;margin:auto -14px 0;object-fit:cover;object-position:center 20%;border-radius:0}
+.nvGoogle{order:3;width:100%;max-width:none;margin:0;padding:68px max(24px,calc((100vw - 1240px)/2));background:var(--c)}
+.nvGoogle h2,.nvProduct h2,.nvFaq h2{font-size:clamp(38px,4vw,54px);line-height:1}
+.nvReviewCard{border-radius:20px;box-shadow:0 16px 44px #0b2e2214}
+.nvCheckList li:before{content:"";top:1px;width:19px;height:19px;border-radius:50%;background:var(--g)}
+.nvCheckList li:after{content:"✓";position:absolute;left:5px;top:0;color:white;font-size:12px;font-weight:800}
+.nvProduct{order:4;width:100%;max-width:none;grid-template-columns:1fr 1fr;gap:0;padding:0;background:var(--c)}
+.nvProductVisual{min-height:420px;border:0;border-radius:0 28px 28px 0;box-shadow:none}
+.nvProductVisual img{width:100%;height:100%;min-height:420px;object-fit:cover}
+.nvProductCopy{padding:54px max(24px,calc((100vw - 1240px)/2)) 54px 7%}
+.nvBenefitGrid{gap:12px 16px}.nvBenefitGrid article{padding:9px 0;border:0;border-bottom:1px solid #0b2e221c;background:transparent}
+.nvBenefitGrid article>svg{width:27px;height:27px;padding:5px;border-radius:50%;background:var(--l);stroke:var(--g)}
+.nvValue{order:5;max-width:1200px;width:calc(100% - 48px);margin:40px auto 54px;padding:28px 30px;border-radius:18px;background:#eef1e7}
+.nvValueLabel{width:auto;height:auto;max-width:100%;padding:8px 12px;border-radius:99px;background:var(--l);color:var(--g);white-space:normal;transform:none}
+.nvPlans{order:6;padding:62px max(24px,calc((100vw - 1200px)/2));background:#e8f0e6}
+.nvPlansIntro{max-width:700px;margin:0 auto 28px;text-align:left}.nvPlansIntro h2{font-size:clamp(40px,4vw,56px)}
+.nvPlanCards{max-width:1100px;margin:auto;gap:14px}.nvPlanCard{padding:23px 21px 19px;border-radius:17px;background:var(--paper);box-shadow:0 8px 24px #0b2e2210}
+.nvPlanFeatured{border:2px solid var(--l)}.nvPlanBadge{top:0;left:0;right:0;padding:8px;border-radius:14px 14px 0 0;background:var(--l);color:var(--g);text-align:center}
+.nvPlanFeatured .nvPlanKicker{margin-top:24px}.nvPrice strong{color:var(--g)}
+.nvPlanCard li:before{color:#66921d}.nvMatrix{max-width:1100px;margin:34px auto 0;border-radius:16px;background:var(--paper)}
+.nvFaq{order:7}.nvFinalCta{order:8;background:var(--g)}.nvFinalCta h2{color:var(--c)}.nvFinalCta p{color:#e2ebe3}
+.nvFooter{order:9}.nvLanding .refWhats{right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom))}
+@media(max-width:900px){
+ .nvHero{min-height:470px}.nvHero h1{font-size:clamp(52px,7vw,66px)}
+ .nvHow,.nvGoogle,.nvPlans{padding-left:24px;padding-right:24px}
+ .nvHow .nvStep{min-height:345px}.nvHow .nvStepImage{height:185px}
+ .nvProductCopy{padding:42px 26px}.nvValue{grid-template-columns:1fr 2fr}
+ .nvValue>a{grid-column:2}
+}
+@media(max-width:720px){
+ .nvHeader{min-height:62px;padding:0 15px;gap:8px}.nvDesktopNav,.nvHeader>.nvAccess{display:none}
+ .nvHeaderCta{order:2;margin-left:auto}.nvBrand{order:1}.nvMobileMenu{display:block;order:3}
+ .nvHero{min-height:665px;padding:30px 0 25px}
+ .nvHeroCopy{z-index:3;padding:0 22px;max-width:620px}
+ .nvHero h1{font-size:clamp(48px,10.8vw,66px);line-height:.94}
+ .nvHeroLead{font-size:15px}.nvHero .nvActions{gap:9px;margin-top:19px}
+ .nvHeroVisual{inset:0;width:100%;height:100%;z-index:0}
+ .nvHeroVisual>img{object-position:66% center;-webkit-mask-image:linear-gradient(180deg,#0002 0%,#0008 45%,#000 75%);mask-image:linear-gradient(180deg,#0002 0%,#0008 45%,#000 75%)}
+ .nvHero:after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,#faf8f3 0%,#faf8f3f5 27%,#faf8f3d9 43%,#faf8f385 59%,#faf8f310 79%,transparent 100%)}
+ .nvHeroCopy,.nvHero h1,.nvHeroLead,.nvHero .nvActions,.nvPromiseRow,.nvFinePrint{position:relative;z-index:2}
+ .nvImageNote{left:16px;right:auto;bottom:15px;z-index:3;max-width:calc(100% - 32px)}
+ .nvHow{padding:46px 18px 40px}.nvHowHead{align-items:flex-end;gap:8px;margin-bottom:18px}
+ .nvHow .nvSectionIntro{max-width:calc(100% - 90px)}
+ .nvHow .nvSectionIntro h2{font-size:clamp(34px,8vw,44px)}
+ .nvStepControls{gap:6px}.nvStepControls button{width:36px;height:36px}
+ .nvSteps{display:flex;gap:12px;margin-right:-18px;padding-right:18px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;touch-action:pan-x}
+ .nvSteps::-webkit-scrollbar{display:none}
+ .nvHow .nvStep{flex:0 0 82%;min-height:360px;scroll-snap-align:start}
+ .nvHow .nvStepImage{height:200px}
+ .nvGoogle{padding:52px 22px}
+ .nvProduct{grid-template-columns:1fr}.nvProductVisual{min-height:320px}
+ .nvProductVisual img{min-height:320px}.nvProductCopy{padding:38px 22px 44px}
+ .nvValue{width:calc(100% - 36px);margin:25px auto 40px;padding:23px;grid-template-columns:1fr}
+ .nvValue>a{grid-column:auto}.nvPlans{padding:46px 18px}
+ .nvPlanCards{grid-template-columns:1fr;max-width:580px}
+ .nvPlanSummary{min-height:0}.nvMatrix{margin-top:25px;padding:16px 11px}
+ .nvFaq{grid-template-columns:1fr;gap:22px;padding:52px 22px}
+ .nvFooter{padding:22px 20px 82px}
+}
+@media(max-width:420px){
+ .nvHeader{padding:0 11px}.nvHeaderCta{min-height:38px;padding:0 10px;font-size:11px}
+ .nvBrand{font-size:11px;gap:6px}.nvBrandMark{width:29px;height:29px}
+ .nvHero{min-height:640px;padding-top:27px}.nvHeroCopy{padding:0 18px}
+ .nvHero h1{font-size:clamp(43px,11.7vw,49px)}.nvHeroLead{font-size:14px}
+ .nvHero .nvActions .nvButton{flex:1;min-width:0;padding:0 9px;font-size:11px}
+ .nvPromiseRow{gap:10px 12px}.nvPromiseRow span{font-size:10px}
+ .nvHow .nvSectionIntro{max-width:calc(100% - 80px)}
+ .nvHow .nvSectionIntro h2{font-size:clamp(32px,8.5vw,37px)}
+ .nvHow .nvStep{flex-basis:86%;min-height:345px}.nvHow .nvStepImage{height:180px}
+ .nvBenefitGrid{grid-template-columns:1fr}.nvProductVisual,.nvProductVisual img{min-height:285px}
+ .nvLanding .refWhats{width:44px;height:44px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom))}
+}
+@media(prefers-reduced-motion:reduce){.nvLanding *{scroll-behavior:auto!important;transition:none!important}}
