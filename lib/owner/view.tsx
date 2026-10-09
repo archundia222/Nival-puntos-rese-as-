@@ -12,7 +12,7 @@ import {logout,registerBusiness} from '../foundation/actions';
 import {redeemActivationCode} from '../admin/actions';
 import {ActionForm} from '../foundation/forms';
 import {Field,Hidden} from '../foundation/fields';
-import {checklistLabels,periodRange} from './domain.mjs';
+import {checklistLabels,periodRange,inclusivePeriodEnd,formatPeriodDate} from './domain.mjs';
 import {Bars,RatingLine} from './charts';
 import {SegmentCard,PeriodFilter} from './clients';
 import {defaultMessages} from './messages.mjs';
@@ -36,7 +36,7 @@ export function OwnerView({actor,b,businesses,range,data,demo=false,mobilePrevie
  return <DashboardShell pointsOnly={pointsOnly} name={b.name} owner={actor.name} status={status} demo={demo} mobilePreview={mobilePreview} logout={<form action={logout}><button className="logoutButton" aria-label="Cerrar sesión" title="Cerrar sesión"><Icon name="logout" size={18}/></button></form>}><main className="ownerDashboard">
  {!demo&&!active&&<AccountState b={b}/>}
  <div className="workspacePeriod"><div><Icon name="clock" size={18}/><span>Periodo de tus resultados</span></div>
- <PeriodFilter demo={demo} businessId={b.id} kind={range.kind} value={range.key}/></div><p className="periodCaption">Del {range.start} al {range.end} (fin excluido) · Hora de Ciudad de México · Comparado con el periodo anterior.</p>
+ <PeriodFilter demo={demo} businessId={b.id} kind={range.kind} value={range.key}/></div><p className="periodCaption">Del {formatPeriodDate(range.start)} al {formatPeriodDate(inclusivePeriodEnd(range.end))} · Hora de Ciudad de México · Comparado con el periodo anterior.</p>
  <section id="resumen" data-panel="inicio" className="ownerBlock">{startGuide}<div className="workspaceHero"><div><span className="heroKicker"><span/> TU NEGOCIO, CONECTADO</span><h2>Resumen de tu negocio</h2><p>Hola, {actor.name.split(' ')[0]}. Este es el pulso de {b.name} en el periodo seleccionado.</p><div className="workspaceActionRow"><a href="#clientes" className="workspacePrimary">Ver mis clientes <Icon name="arrow" size={16}/></a>{!demo&&<a href={"/panel/reportes?business="+b.id} className="heroTextLink">Mis reportes y recomendaciones</a>}<a href="#compartir" className="heroTextLink">Compartir mi tarjeta <Icon name="compartir" size={16}/></a></div></div><div className="heroSignal"><Icon name="clientes" size={28}/><strong>{number(data.segments.length)}</strong><span>clientes en tu comunidad</span><div><span/> {number(returners)} clientes frecuentes</div></div></div><div className="ownerSectionTitle"><small>EL PULSO DE TU NEGOCIO</small><h2>Resumen</h2></div><div className="ownerMetrics">
  {([['Visitas','visits'],['Clientes nuevos','new_customers'],['Puntos otorgados','points'],['Premios canjeados','redeemed'],['Canjes pendientes del periodo','pending']] as const).map(([label,key])=><Metric key={key} label={label} value={current[key]} previous={prev[key]}/>)}</div>
  {!current.visits&&<p className="ownerEmpty">Aún no hay visitas en este periodo. Comparte el QR del negocio y registra cada visita desde el escáner del mesero.</p>}
