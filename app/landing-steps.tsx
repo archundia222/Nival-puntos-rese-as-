@@ -3,7 +3,7 @@
 import { useRef } from 'react';
 import LandingIcon from './landing-icon';
 
-type Step = [number | string, string, string, string, string, string];
+type Step = string[];
 
 export default function LandingSteps({ steps }: { steps: Step[] }) {
   const rail = useRef<HTMLDivElement>(null);
