@@ -17,3 +17,7 @@
 .refLanding section.refGoogle,.refLanding section.refCustomers{max-width:none;margin:0;padding:0}
 .refLanding section.refPricing{max-width:none;margin:0;padding:38px 7.2% 24px}
 @media(max-width:760px){.refLanding section.refHero{padding:0}.refLanding section.refHow{padding:30px 20px 24px}.refLanding section.refGoogle,.refLanding section.refCustomers{padding:0}.refLanding section.refPricing{padding:34px 20px 28px}}
+
+/* Mantener la misma tipografía y color en ambas opciones de pago */
+.refBilling button,.refBilling button.active{font-family:inherit;font-size:15px;font-weight:500;color:var(--dark)}
+.refBilling button.active{background:var(--lime)}
