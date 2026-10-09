@@ -84,27 +84,27 @@ export default async function Home() {
 
     <section className="nxBenefits nxSection" aria-labelledby="loyalty-benefits-title">
       <div className="nxSectionHead compact">
-        <span>LA FUERZA DEL PROGRESO VISIBLE</span>
+        <span>UN BENEFICIO PARA QUIENES TE ELIGEN</span>
         <h2 id="loyalty-benefits-title">¿Por qué tener un sistema de puntos?</h2>
-        <p>En un estudio de campo en una cafetería, los clientes compraron con más frecuencia al acercarse a un café gratis. El efecto puede variar: no garantiza que todos vuelvan. Sí muestra por qué una meta clara y un avance real pueden dar sentido a cada visita.</p>
+        <p>Tus clientes reciben algo a cambio de elegirte: cada compra los acerca a un premio claro y útil.</p>
       </div>
       <div className="nxBenefitsGrid">
-        <article><span>01</span><h3>Ese “ya casi” importa</h3><p>Cuando la persona ya empezó y ve cuánto falta, completar el recorrido puede sentirse más alcanzable. La tarjeta mantiene visible su progreso.</p></article>
-        <article><span>02</span><h3>Cada compra tiene un siguiente paso</h3><p>Define cuántos puntos suma una visita con compra y cuál es el premio. El cliente sabe qué está buscando desde el principio.</p></article>
-        <article><span>03</span><h3>La lealtad se administra con claridad</h3><p>Tu equipo registra visitas, puntos y canjes con las mismas reglas. Tú puedes revisar qué premios eligen tus clientes.</p></article>
+        <article><span>01</span><h3>Cada compra los acerca a un premio</h3><p>Ven su avance y cuánto falta. Cada visita cuenta hacia algo que pueden disfrutar.</p></article>
+        <article><span>02</span><h3>Su preferencia se siente reconocida</h3><p>Los puntos convierten tu “gracias por volver” en un beneficio concreto para tus clientes.</p></article>
+        <article><span>03</span><h3>Participar es sencillo</h3><p>Su tarjeta digital muestra los puntos y el siguiente premio, sin descargar otra aplicación.</p></article>
       </div>
     </section>
 
     <section className="nxBenefits nxBenefits--google nxSection" aria-labelledby="google-profile-title">
       <div className="nxSectionHead compact">
-        <span>TE ENCUENTRAN. TE ELIGEN.</span>
+        <span>LA CONFIANZA EMPIEZA ANTES DE LA VISITA</span>
         <h2 id="google-profile-title">¿Por qué tener una buena ficha de Google?</h2>
-        <p>Antes de visitarte, muchas personas quieren saber dónde estás, cuándo abres y qué ofreces. Google explica que en los resultados locales cuentan la relevancia, la distancia y la popularidad: una ficha completa ayuda, pero nadie puede garantizar el primer lugar.</p>
+        <p>Una ficha bien cuidada le quita dudas al cliente y le ayuda a decidir si tu negocio es lo que busca.</p>
       </div>
       <div className="nxBenefitsGrid">
-        <article><span>01</span><h3>Que un dato desactualizado no te cueste una visita</h3><p>Mantén al día dirección, horario normal y días festivos, teléfono y forma de llegar. Así la gente puede planear su visita con información confiable.</p></article>
-        <article><span>02</span><h3>Muestra qué hace especial a tu negocio</h3><p>Elige la categoría correcta y describe tus productos o servicios. Agrega fotos recientes y reales para que las personas sepan qué encontrarán.</p></article>
-        <article><span>03</span><h3>Las reseñas honestas ayudan a decidir</h3><p>Las opiniones muestran experiencias de clientes reales. Invítalos sin ofrecer puntos ni premios; responde con respeto y aprovecha sus comentarios para mejorar.</p></article>
+        <article><span>01</span><h3>Sabe cómo llegar y cuándo ir</h3><p>La dirección, el horario actualizado y el teléfono le facilitan planear su visita.</p></article>
+        <article><span>02</span><h3>Conoce lo que va a encontrar</h3><p>Tu categoría, tus productos y fotos reales le ayudan a imaginar la experiencia.</p></article>
+        <article><span>03</span><h3>Llega con más confianza</h3><p>Las opiniones reales y tus respuestas atentas muestran que escuchas. Pídelas sin ofrecer puntos ni premios.</p></article>
       </div>
     </section>
 
