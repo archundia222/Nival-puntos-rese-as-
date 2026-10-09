@@ -11,7 +11,7 @@
 .nvLanding button{font:inherit;cursor:pointer}
 .nvLanding svg{flex:none}
 .nvLanding a:focus-visible,.nvLanding button:focus-visible,.nvLanding summary:focus-visible{outline:3px solid #9aca27;outline-offset:3px}
-.nvLanding .refIcon{display:inline-block;vertical-align:middle}
+.nvLanding .refIcon{display:inline-block;vertical-align:middle}\n.nvLanding>section{max-width:none;margin:0}
 .nvHeader{order:0;position:relative;z-index:30;width:100%;min-height:72px;padding:12px max(28px,calc((100vw - 1320px)/2));display:flex;align-items:center;justify-content:space-between;gap:22px;background:#faf8f3ed;border-bottom:1px solid #0b2e2214;backdrop-filter:blur(12px)}
 .nvBrand{display:flex;align-items:center;gap:10px;white-space:nowrap;font:700 17px Georgia,serif;letter-spacing:.16em}
 .nvBrandMark{width:36px;height:36px;display:grid;place-items:center;background:var(--forest);color:#fff;font:24px Georgia,serif;letter-spacing:0}
@@ -34,7 +34,7 @@
 .nvMobileMenu summary::-webkit-details-marker{display:none}
 .nvMobileMenuPanel{display:none}
 
-.nvHero{order:1;position:relative;isolation:isolate;min-height:590px;width:100%;display:grid;grid-template-columns:52% 48%;align-items:stretch;overflow:hidden;background:radial-gradient(ellipse at 64% 45%,#e5efdf 0,transparent 48%),var(--cream)}
+.nvHero{order:1;max-width:none;margin:0;padding:0;position:relative;isolation:isolate;min-height:590px;width:100%;display:grid;grid-template-columns:52% 48%;align-items:stretch;overflow:hidden;background:radial-gradient(ellipse at 64% 45%,#e5efdf 0,transparent 48%),var(--cream)}
 .nvHeroCopy{position:relative;z-index:2;width:100%;max-width:730px;padding:72px 20px 64px max(42px,calc((100vw - 1280px)/2));display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
 .nvEyebrow{display:flex;align-items:center;gap:9px;margin:0;color:#63786d;font-size:10px;font-weight:800;letter-spacing:.19em;line-height:1.5}
 .nvEyebrow i{width:9px;height:9px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 5px #c6f43238}
@@ -74,7 +74,7 @@
 .nvStep p{min-height:62px;margin:0 0 12px;color:#d5e0d8;font-size:12px;line-height:1.45}
 .nvStepImage{width:calc(100% + 30px);height:245px;max-width:none!important;margin:auto -15px 0;object-fit:cover;object-position:top center;border-radius:12px 12px 0 0}
 
-.nvProduct{order:4;display:grid;grid-template-columns:1fr 1fr;align-items:stretch;background:var(--cream)}
+.nvProduct{order:4;max-width:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;align-items:stretch;background:var(--cream)}
 .nvProductVisual{position:relative;min-height:540px;overflow:hidden;background:#dce8dd}
 .nvProductVisual img{width:100%;height:100%;min-height:540px;object-fit:cover;object-position:center}
 .nvProductCopy{padding:clamp(40px,6vw,84px) clamp(32px,7vw,100px);align-self:center}
