@@ -74,7 +74,8 @@
 .refContact{display:grid;grid-template-columns:1fr .72fr;gap:56px;align-items:center;padding:clamp(50px,8vw,100px) clamp(22px,9vw,130px);background:#d4f25a}
 .refContact .refEyebrow{color:#4d6640}
 .refContact h2{font-size:clamp(44px,6vw,74px)}
-.refContact>div>p{margin:0;color:#334d36}\n.refContact .refContactAction>p{color:#d6e2d3;margin:12px 0 20px}
+.refContact>div>p{margin:0;color:#334d36}
+.refContact .refContactAction>p{color:#d6e2d3;margin:12px 0 20px}
 .refContactPhone{display:inline-flex;flex-direction:column;margin-top:24px;gap:3px}
 .refContactPhone span{font-size:10px;letter-spacing:1.8px;font-weight:700;color:#476044}
 .refContactPhone strong{font-size:clamp(25px,3.2vw,38px);letter-spacing:-1px}
