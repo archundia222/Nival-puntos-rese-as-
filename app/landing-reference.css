@@ -478,3 +478,44 @@
   .nvLanding .nvPromiseRow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
   .nvLanding .nvHow .nvStep{flex-basis:86%}
 }
+
+
+/* Mobile reference composition: centered copy first, image directly beneath it. */
+@media(max-width:760px){
+  .nvLanding section.nvHero{
+    display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;
+    width:100%;height:auto;min-height:0;overflow:visible;background:var(--cream)
+  }
+  .nvLanding .nvHeroCopy{
+    position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+    width:100%;height:auto;min-height:0;max-width:680px;margin:0 auto;padding:38px 22px 26px;text-align:center
+  }
+  .nvLanding .nvHero .nvEyebrow{justify-content:center;text-align:center;font-size:11px;letter-spacing:1.8px}
+  .nvLanding .nvHero h1{
+    width:100%;max-width:620px;margin:16px auto 18px;text-align:center;
+    font-size:clamp(48px,12.7vw,64px);line-height:.93;letter-spacing:-.045em
+  }
+  .nvLanding .nvHeroLead{max-width:580px;margin:0 auto 24px;text-align:center;font-size:18px;line-height:1.48}
+  .nvLanding .nvHero .nvActions{width:100%;max-width:560px;justify-content:center;gap:12px;margin:0 auto}
+  .nvLanding .nvHero .nvActions a{flex:1 1 0;min-width:0;min-height:58px;padding:13px 12px;font-size:15px}
+  .nvLanding .nvPromiseRow{justify-content:center;align-items:center;gap:14px 20px;margin:25px auto 0}
+  .nvLanding .nvPromiseRow>span{font-size:13px}
+  .nvLanding .nvFinePrint{margin:8px auto 0!important;text-align:center}
+  .nvLanding .nvHeroVisual{
+    position:relative;inset:auto;z-index:1;width:calc(100% - 36px);height:clamp(390px,112vw,500px);
+    min-height:0;margin:0 auto 22px;overflow:hidden;border-radius:22px;background:#dce4d9
+  }
+  .nvLanding .nvHeroVisual>img{width:100%;height:100%;object-fit:cover;object-position:center 38%;border-radius:inherit}
+  .nvLanding .nvHeroVisual:after{content:none}
+  .nvLanding .nvImageNote{left:14px;right:14px;bottom:14px;max-width:none}
+}
+@media(max-width:420px){
+  .nvLanding .nvHeroCopy{padding:34px 19px 24px}
+  .nvLanding .nvHero h1{font-size:48px}
+  .nvLanding .nvHeroLead{font-size:17px}
+  .nvLanding .nvHero .nvActions{gap:9px}
+  .nvLanding .nvHero .nvActions a{font-size:14px;padding-inline:8px}
+  .nvLanding .nvPromiseRow{gap:12px 15px}
+  .nvLanding .nvPromiseRow>span{font-size:12px}
+  .nvLanding .nvHeroVisual{width:calc(100% - 30px);height:430px;border-radius:20px}
+}
