@@ -3,16 +3,10 @@
 import { useEffect, useRef, useState } from 'react';
 
 const scenes = [
-  { title: 'Tus clientes te buscan en Google Maps.', text: 'Antes de conocer tu negocio, muchas personas buscan opciones cerca de ellas.', kind: 'search' },
-  { title: 'Eligen según las estrellas y los comentarios.', text: 'Una ficha clara y reseñas auténticas ayudan a decidir dónde ir.', kind: 'reviews' },
-  { title: 'La confianza los acerca a tu negocio.', text: 'La persona llega porque encontró información que le dio confianza.', kind: 'visit' },
-  { title: 'Después de una buena visita, puedes pedir una reseña.', text: 'La invitación es amable y libre: cada cliente decide si quiere compartir su experiencia.', kind: 'ask' },
-  { title: 'Una reseña honesta puede ayudar a otras personas.', text: 'Los comentarios reales dan contexto a quienes todavía están buscando.', kind: 'growth' },
-  { title: 'Los puntos se ganan por visitar y comprar.', text: 'El personal registra una visita válida. Los puntos no dependen de dejar una reseña.', kind: 'points' },
-  { title: 'Cada visita acerca a tu cliente a su premio.', text: 'El avance queda visible en su tarjeta digital: un motivo claro para elegirte de nuevo, cuando lo necesite.', kind: 'progress' },
-  { title: 'Llega el momento de canjear su premio.', text: 'El premio corresponde al avance en puntos, sin relación con reseñas ni calificaciones.', kind: 'reward' },
-  { title: 'Una buena experiencia se comparte.', text: 'El cliente vuelve, disfruta y puede recomendar el negocio a más personas.', kind: 'recommend' },
-  { title: 'Nival ayuda a que te encuentren y a que vuelvan.', text: 'Ver el progreso hacia una meta puede animar a continuar; una experiencia recíproca ayuda a construir una relación. No prometemos resultados numéricos.', kind: 'cycle' },
+  { title: 'Te buscan. Que te elijan.', text: 'Tu ficha, tus fotos y tus reseñas pueden convertir una búsqueda en una visita.', kind: 'search' },
+  { title: 'Una compra. Un punto más.', text: 'La visita se registra y la tarjeta digital muestra el progreso.', kind: 'points' },
+  { title: 'Un premio más cerca. Un motivo para volver.', text: 'El cliente ve su meta y puede canjear su recompensa.', kind: 'reward' },
+  { title: 'Una buena experiencia habla por ti.', text: 'Invita a dejar una reseña auténtica, libre y sin recompensas.', kind: 'ask' },
 ];
 
 function SceneArt({ kind }: { kind: string }) {
