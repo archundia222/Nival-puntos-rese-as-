@@ -227,3 +227,26 @@
  .refNav>.refRegister{padding:8px 10px;font-size:11px}
  .refMobileMenu>button{padding:7px 8px;font-size:11px}
 }
+
+/* Hero más compacto para que la propuesta y sus acciones entren antes en pantalla */
+@media(min-width:1001px){
+ .refHero{min-height:520px}
+ .refHeroText{padding-top:38px;padding-bottom:38px}
+ .refHero h1{font-size:clamp(52px,5.3vw,72px);line-height:1;margin-bottom:18px}
+ .refHeroText>p{font-size:clamp(17px,1.7vw,22px);margin-bottom:22px}
+ .refQuick{margin-top:22px}
+}
+@media(min-width:761px) and (max-width:1000px){
+ .refHero{min-height:460px}
+ .refHeroText{padding-top:30px;padding-bottom:30px}
+ .refHero h1{font-size:58px;line-height:1.02;margin-bottom:18px}
+ .refHeroText>p{font-size:18px;margin-bottom:20px}
+ .refQuick{margin-top:20px}
+}
+@media(max-width:760px){
+ .refHeroText{padding:32px 24px 24px}
+ .refHero h1{font-size:clamp(46px,10vw,60px);line-height:1.04;margin-bottom:18px}
+ .refHeroText>p{font-size:18px;margin-bottom:22px}
+ .refQuick{margin-top:18px}
+ .refHeroPhoto{height:320px}
+}
