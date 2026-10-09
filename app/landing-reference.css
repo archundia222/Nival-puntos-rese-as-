@@ -218,3 +218,75 @@
 @media(prefers-reduced-motion:reduce){
  .nvHow .nvStep,.nvPlanCard,.nvBenefitGrid article,.nvLanding .refWhats{transition:none}
 }
+
+/* Mobile: keep the original editorial photo-and-copy composition, with the photo layered behind the text. */
+@media(max-width:760px){
+  .nvHero{
+    position:relative;
+    display:block;
+    min-height:690px;
+    padding:34px 20px 0;
+    isolation:isolate;
+    overflow:hidden;
+    background:var(--c);
+  }
+  .nvHeroCopy{
+    position:relative;
+    z-index:2;
+    max-width:620px;
+    padding:0;
+  }
+  .nvHeroVisual{
+    position:absolute;
+    z-index:0;
+    inset:0;
+    width:100%;
+    height:100%;
+    min-height:0;
+    margin:0;
+    padding:0;
+    overflow:hidden;
+    border-radius:0;
+    pointer-events:none;
+  }
+  .nvHeroVisual>img{
+    display:block;
+    width:100%;
+    height:100%;
+    min-height:0;
+    max-height:none;
+    margin:0;
+    object-fit:cover;
+    object-position:66% center;
+    border-radius:0;
+    -webkit-mask-image:none;
+    mask-image:none;
+  }
+  .nvHero:after{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:1;
+    pointer-events:none;
+    background:
+      linear-gradient(180deg,rgba(248,246,239,.99) 0%,rgba(248,246,239,.97) 31%,rgba(248,246,239,.87) 50%,rgba(248,246,239,.58) 67%,rgba(248,246,239,.12) 88%,rgba(248,246,239,0) 100%),
+      linear-gradient(105deg,rgba(248,246,239,.35) 0%,rgba(248,246,239,.12) 58%,rgba(248,246,239,0) 100%);
+  }
+  .nvHero h1,.nvHeroLead,.nvActions,.nvPromiseRow,.nvFinePrint{position:relative;z-index:2}
+  .nvHero h1{max-width:560px}
+  .nvHeroLead{max-width:430px}
+  .nvHero .nvActions{margin-top:22px}
+  .nvPromiseRow{margin-top:18px}
+  .nvHeroVisual .nvImageNote{display:none}
+}
+@media(max-width:420px){
+  .nvHero{min-height:670px;padding:30px 18px 0}
+  .nvHero h1{max-width:350px}
+  .nvHeroLead{max-width:355px}
+  .nvHeroVisual>img{object-position:68% center}
+  .nvHero:after{
+    background:
+      linear-gradient(180deg,rgba(248,246,239,.99) 0%,rgba(248,246,239,.97) 32%,rgba(248,246,239,.87) 52%,rgba(248,246,239,.52) 69%,rgba(248,246,239,.08) 90%,rgba(248,246,239,0) 100%),
+      linear-gradient(105deg,rgba(248,246,239,.38) 0%,rgba(248,246,239,.12) 62%,rgba(248,246,239,0) 100%);
+  }
+}
