@@ -136,3 +136,11 @@
 .refBenefitWhy{width:100%;min-width:0;grid-column:1/-1}
 @media(max-width:1000px){.refNav{height:60px;min-height:60px}.refNav>nav,.refNav>.refRegister{display:none}.refMobileMenu{display:block}.refMobileMenu>button{min-height:40px;padding:8px 14px;font-size:14px}}
 @media(max-width:760px){.refNav{height:58px;min-height:58px;padding-top:7px;padding-bottom:7px}.refBenefitContainer{margin-top:16px}.refBenefitGrid{grid-template-columns:1fr}}
+
+@media(min-width:761px) and (max-width:1000px){
+ .refMobileMenu{position:relative;margin-left:auto}
+ .refMobileMenu>button{display:flex;align-items:center;gap:8px;border:0;border-radius:999px;background:var(--dark);color:#fff;padding:8px 14px;font:600 13px Inter,Arial,sans-serif;cursor:pointer}
+ .refMobileLinks{position:absolute;right:0;top:calc(100% + 9px);z-index:100;display:grid;gap:2px;min-width:225px;padding:8px;background:#fffdf9;border:1px solid #e1e7dc;border-radius:14px;box-shadow:0 12px 30px #102a1b20}
+ .refMobileLinks a{display:flex;align-items:center;min-height:44px;padding:10px 12px;border-radius:8px;color:var(--dark);font-size:14px;text-decoration:none}
+ .refMobileLinks a:hover{background:#edf3e8}
+}
