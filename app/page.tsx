@@ -18,9 +18,9 @@ const features = [
   {symbol:'shield',label:'Una experiencia fácil para todos',detail:'Tus clientes usan su tarjeta digital y el equipo registra puntos con un flujo sencillo.'}
 ];
 const plans = [
- {name:'Nival Puntos',price:299,features:['Sistema de puntos por visitas','Premios y canjes','Tarjetas digitales','Registro de clientes']},
- {name:'Nival Esencial',price:399,popular:true,features:['Puntos + seguimiento de reseñas','Diagnóstico y reportes de Google','Análisis de reseñas (sin respuestas incluidas)','Tarjetas digitales']},
- {name:'Nival Plus',price:499,features:['Hasta 100 respuestas personalizadas cada 30 días','Resumen de reseñas y áreas de mejora','Analítica avanzada de reputación','Puntos, clientes frecuentes y personal']}
+ {name:'Nival Puntos',price:399,features:['Sistema de puntos por visitas','Premios y canjes','Tarjetas digitales','Registro de clientes']},
+ {name:'Nival Esencial',price:499,popular:true,features:['Puntos + seguimiento de reseñas','Diagnóstico y reportes de Google','Análisis de reseñas (sin respuestas incluidas)','Tarjetas digitales']},
+ {name:'Nival Plus',price:599,features:['Hasta 100 respuestas personalizadas cada 30 días','Resumen de reseñas y áreas de mejora','Analítica avanzada de reputación','Puntos, clientes frecuentes y personal']}
 ];
 export default function Home(){
  return <main className="refLanding">
