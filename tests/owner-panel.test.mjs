@@ -36,6 +36,7 @@ test('20 customers: manual SQL has correct five segments, editable thresholds an
 test('periods use Mexico dates and previous calendar periods including leap days',()=>{
  const now=new Date('2026-10-01T02:00:00Z');assert.equal(periodRange('day','',now).key,'2026-09-30');
  assert.deepEqual(periodRange('month','2024-03').previous,'2024-02-01');assert.equal(periodRange('month','2024-02').end,'2024-03-01');
+ const week=periodRange('week','2026-W41');assert.deepEqual({start:week.start,end:week.end,previous:week.previous},{start:'2026-10-05',end:'2026-10-12',previous:'2026-09-28'});assert.equal(periodRange('week','2020-W01').start,'2019-12-30');assert.equal(periodRange('week','2025-W53',new Date('2026-10-05T12:00:00Z')).key,'2026-W41');
  assert.equal(periodRange('day','2024-02-29').end,'2024-03-01');assert.equal(periodRange('year','2026').previous,'2025-01-01');
  assert.equal(periodRange('day','2026-02-31',now).key,'2026-09-30');
 });

@@ -4,6 +4,7 @@ export function Icon({name,size=20}:{name:string;size?:number}){
   clientes:<><circle cx="9" cy="8" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3M16 5a3 3 0 0 1 0 6M21 21v-3a6 6 0 0 0-4-5"/></>,
   google:<path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9Z"/>,
   equipo:<><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V3h8v4M3 12h18M10 12v3h4v-3"/></>,
+  points:<><circle cx="12" cy="8" r="5"/><path d="m8.5 12-1 9 4.5-2.5 4.5 2.5-1-9M10 8h4"/></>,
   compartir:<><path d="M3 3h6v6H3zM15 3h6v6h-6zM3 15h6v6H3zM15 15h3v3h3v3h-6z"/><path d="M21 12h-3M12 3v3M12 18v3M12 12h3"/></>,
   ajustes:<><circle cx="12" cy="12" r="3"/><path d="m9 3-.7 3-2.8 1-2.6-.9L1 10l2.3 2L3 15l-1.3 2.4L5 20l2.6-1 2.4 1 1 3h4l.7-3 2.8-1 2.6.9L23 16l-2.3-2 .3-3 1.3-2.4L19 6l-2.6 1L14 6l-1-3Z"/></>,
   menu:<path d="M4 6h16M4 12h16M4 18h16"/>,close:<path d="m6 6 12 12M18 6 6 18"/>,arrow:<path d="M5 12h14m-5-5 5 5-5 5"/>,

@@ -16,9 +16,9 @@ function component(path,overrides={}){
 }
 const tour=component('tour.tsx');
 const icons=component('icons.tsx');const {DashboardShell}=component('shell.tsx',{'./icons':icons,'./tour':tour});
-test('business shell renders six identifiable sections, accessible menu control and owner-specific identity',()=>{
+test('business shell groups work under Resumen, Google and Puntos with accessible navigation',()=>{
  const html=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null},React.createElement('p',null,'Solo datos de Negocio A')));
- for(const title of ['Inicio','Clientes','Google y reseñas','Equipo','QR y tarjeta','Configuración'])assert.ok(html.includes(title),title);
+ for(const title of ['Resumen','Google','Puntos','Puntos y canjes','Clientes','Configuración de tarjeta','Personal','Historial de canjes','Mi plan y cuenta'])assert.ok(html.includes(title),title);
  assert.ok(html.includes('aria-controls="workspace-menu"'));assert.ok(html.includes('aria-current="page"'));assert.ok(html.includes('id="workspace-title"'));
  assert.ok(html.includes('Negocio A'));assert.ok(!html.includes('Negocio B'));assert.ok(!html.includes('Estás explorando la demo.'));
 });
@@ -35,9 +35,9 @@ test('mobile preview keeps the closed drawer out of keyboard navigation',()=>{
 });
 
 test('guided demo covers every panel section and starts with clear next and free exploration actions',()=>{
- assert.deepEqual(Array.from(tour.tourSteps,s=>s.key),['inicio','clientes','google','equipo','compartir','ajustes']);
+ assert.deepEqual(Array.from(tour.tourSteps,s=>s.key),['inicio','programa','clientes','google','equipo','compartir','ajustes']);
  const html=renderToStaticMarkup(React.createElement(tour.DemoTour,{section:'inicio',active:true,navigate:()=>{},setActive:()=>{}}));
- assert.ok(html.includes('Paso 1 de 6'));assert.ok(html.includes('Siguiente paso'));assert.ok(html.includes('Explorar libremente'));
+ assert.ok(html.includes('Paso 1 de 7'));assert.ok(html.includes('Siguiente paso'));assert.ok(html.includes('Explorar libremente'));
  const final=renderToStaticMarkup(React.createElement(tour.DemoTour,{section:'ajustes',active:true,navigate:()=>{},setActive:()=>{}}));assert.ok(final.includes('Terminar recorrido'));
 });
 
@@ -70,4 +70,12 @@ test('review report displays grounded themes and actions, legacy report makes no
  for(const text of ['Elogios más frecuentes','Quejas más frecuentes','Servicio amable','4 de 5','Qué mejorar','Medir tiempos','Qué seguir haciendo','Mantener el saludo'])assert.ok(html.includes(text),text);
  const legacy=renderToStaticMarkup(React.createElement(ReviewInsights,{notes:'Consejo manual'}));
  assert.ok(legacy.includes('Pendiente de análisis'));assert.ok(legacy.includes('Consejo manual'));assert.ok(!legacy.includes('Servicio amable'));
+});
+
+test('card personalization guide lives under Puntos, not the Resumen section',()=>{
+ const owner=readFileSync(new URL('../lib/owner/view.tsx',import.meta.url),'utf8');
+ const points=readFileSync(new URL('../app/panel/puntos/page.tsx',import.meta.url),'utf8');
+ assert.ok(!owner.includes('{startGuide}'));
+ assert.ok(points.includes("view==='programa'&&<StartGuide"));
+ assert.ok(points.includes('<h2>Configuración de tarjeta</h2>'));
 });

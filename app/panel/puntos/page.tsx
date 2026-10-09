@@ -1,4 +1,5 @@
 import {StaffAccess} from '../../../lib/points/staff-access';
+import {StartGuide} from '../../../lib/owner/start-guide';
 import {entitlements} from '../../../lib/foundation/entitlements.mjs';
 import {AccountState} from '../../../lib/owner/account-state';
 import {redirect} from 'next/navigation';
@@ -62,11 +63,11 @@ export default async function PointsPanel({
     [b.id],
   );
   return (
-    <DashboardShell name={b.name} owner={actor.name} status="Mi cuenta" demo={false} initialSection={view==='canjes'?'equipo':view} homeUrl={'/panel?business='+b.id} logout={<form action={logout}><button className="logoutButton" aria-label="Cerrar sesión"><Icon name="logout" size={18}/></button></form>}>
-    <main className="dashboard programWorkspace">
+    <DashboardShell name={b.name} owner={actor.name} status="Mi cuenta" demo={false} initialSection={view} homeUrl={'/panel?business='+b.id} logout={<form action={logout}><button className="logoutButton" aria-label="Cerrar sesión"><Icon name="logout" size={18}/></button></form>}>
+    {view==='programa'&&<StartGuide actor={actor} businessId={b.id}/>}<main className="dashboard programWorkspace">
       <header className="dashHead">
         <div>
-          <small>NIVAL PUNTOS · CONFIGURACIÓN</small>
+          <small>NIVAL · PUNTOS</small>
           <h1>{b.name}</h1>
         </div>
         <a href={"/panel?business=" + b.id}>Volver al panel</a>
@@ -78,9 +79,9 @@ export default async function PointsPanel({
           </a>
         ))}
       </nav>
-      <nav className="programTabs" aria-label="Secciones del programa">{[['programa','Programa y premios'],['equipo','Personal'],['canjes','Canjes']].map(([key,label])=><a key={key} aria-current={view===key?'page':undefined} href={'/panel/puntos?business='+b.id+'&view='+key}>{label}</a>)}</nav>
+      <nav className="programTabs" aria-label="Secciones del programa">{[['programa','Configuración de tarjeta'],['equipo','Personal'],['canjes','Historial de canjes']].map(([key,label])=><a key={key} aria-current={view===key?'page':undefined} href={'/panel/puntos?business='+b.id+'&view='+key}>{label}</a>)}</nav>
       {view==='programa'&&<><section className="reviewBox" id="programa">
-        <h2>1. Personaliza tu tarjeta</h2><p>Empieza con un premio sencillo, como un café gratis después de 8 visitas. Los cambios de la tarjeta se guardan solos; agrega al menos un premio antes de compartirla.</p>
+        <h2>Configuración de tarjeta</h2><p>Empieza con un premio sencillo, como un café gratis después de 8 visitas. Los cambios de la tarjeta se guardan solos; agrega al menos un premio antes de compartirla.</p>
         <ProgramEditor businessId={b.id} business={b.name} program={program} reward={rewards.find((r) => r.active)} />
         <p>Para empezar, recomendamos un premio para todos, 1 punto por visita y una visita por día. Las reglas se aplican al registrar cada compra.</p><details><summary>¿Cómo funcionan los otros modos?</summary><p>Premios a elegir: cada cliente elige una meta. Por etapas: los premios se entregan en el orden configurado. Premio sorpresa: los pesos se convierten en probabilidades proporcionales. Pesos iguales dan la misma probabilidad. El premio y su costo se muestran desde la asignación y no cambian al recargar. Los premios ya asignados se protegen hasta su canje.</p></details><h3 id="premios">2. Agrega tus premios</h3>{!rewards.length&&<p className="ownerEmpty">Todavía no tienes un premio. Agrégalo antes de compartir la tarjeta con tus clientes.</p>}
         {rewards.map((r) => (
