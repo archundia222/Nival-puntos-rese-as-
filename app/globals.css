@@ -173,8 +173,10 @@
 
 .workspacePeriod{container-type:inline-size;min-width:0}
 @container(max-width:480px){
- .ownerFilter{grid-template-columns:minmax(0,.9fr) minmax(0,1.4fr);gap:8px}
- .ownerFilter label{min-width:0}
- .ownerFilter input[type=month]{min-width:0;padding-inline:6px;font-size:14px}
- .ownerFilter button{grid-column:1/-1;width:100%;margin:0}
+ .nivalShell .workspacePeriod{display:block}
+ .nivalShell .workspacePeriod .ownerFilter{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.4fr);gap:8px;width:100%;min-width:0}
+ .nivalShell .workspacePeriod .ownerFilter label{display:grid;align-items:stretch;gap:6px;min-width:0;white-space:normal}
+ .nivalShell .workspacePeriod .ownerFilter select,.nivalShell .workspacePeriod .ownerFilter input{width:100%;max-width:none;min-width:0}
+ .nivalShell .workspacePeriod .ownerFilter input[type=month]{padding-inline:6px;font-size:14px}
+ .nivalShell .workspacePeriod .ownerFilter>button{grid-column:1/-1;width:100%;max-width:none;margin:0}
 }
