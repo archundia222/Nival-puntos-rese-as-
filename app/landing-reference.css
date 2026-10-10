@@ -305,3 +305,78 @@
   .nvStep{flex-basis:84%}
 }
 @media(prefers-reduced-motion:reduce){.nvLanding *{scroll-behavior:auto!important;transition:none!important}}
+
+
+/* Reference landing: photo-led sections and original sequence */
+.nvGoogle{order:3!important;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(30px,6vw,86px);padding:70px max(32px,calc((100vw - 1240px)/2));}
+.nvProduct{order:4!important;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);background:#f8f8f1;}
+.nvPlans{order:5!important}.nvIdeas{order:6!important}.nvFaq{order:7!important}.nvFinalCta{order:8!important}.nvFooter{order:9!important}
+.nvGoogleVisual{position:relative;min-height:510px;overflow:hidden;border-radius:28px;background:#dce8dc;box-shadow:0 22px 60px #183b291a}
+.nvGoogleVisual>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+.nvGooglePin,.nvGoogleRating{position:absolute;display:flex;align-items:center;gap:10px;padding:12px 15px;border:1px solid #fff9;border-radius:15px;background:#fffdf2ed;box-shadow:0 12px 32px #102e2420}
+.nvGooglePin{top:8%;left:7%}.nvGooglePin>.refIcon{width:26px;height:26px;color:#e65f4e}
+.nvGooglePin strong,.nvGooglePin small{display:block}.nvGooglePin strong{font-size:12px}.nvGooglePin small{margin-top:3px;color:#64746b;font-size:10px}
+.nvGoogleRating{right:6%;bottom:6%;display:grid;gap:5px}.nvGoogleRating strong{font-size:11px}.nvGoogleRating span{color:#d8a522;font-size:19px;letter-spacing:.08em}
+.nvProductVisual{position:relative;min-height:570px;overflow:hidden;background:#dce8dd}
+.nvProductVisual>img{width:100%;height:100%;min-height:570px;object-fit:cover;object-position:48% center}
+.nvMetricStack{position:absolute;top:50%;right:5%;width:min(210px,42%);display:grid;gap:9px;transform:translateY(-50%)}
+.nvMetricStack article{position:relative;min-height:78px;display:grid;grid-template-columns:1fr auto;align-content:center;padding:12px 14px;border:1px solid #ffffffd9;border-radius:14px;background:#fffdf4f2;box-shadow:0 10px 26px #102e2424}
+.nvMetricStack article>span{grid-column:1/-1;color:#617169;font-size:9px}.nvMetricStack article>strong{margin-top:2px;color:#132f25;font-size:23px;line-height:1.05}.nvMetricStack article>small{grid-column:1;align-self:start;color:#6d8173;font-size:9px}
+.nvMetricStack .nvMiniBars{grid-column:2;grid-row:2/4;align-self:center;width:43px;height:30px;display:flex;align-items:flex-end;gap:3px}
+.nvMiniBars b{flex:1;min-width:3px;border-radius:2px 2px 0 0;background:#74a8dd}.nvMiniBars b:nth-child(1){height:30%}.nvMiniBars b:nth-child(2){height:48%}.nvMiniBars b:nth-child(3){height:42%}.nvMiniBars b:nth-child(4){height:68%}.nvMiniBars b:nth-child(5){height:84%}.nvMiniBars b:nth-child(6){height:100%}
+.nvMiniBarsGreen b{background:#477c53}.nvMetricStack .nvMiniLine{grid-column:2;grid-row:2/4;color:#348354;font-size:39px;line-height:.7}
+.nvMetricsDisclaimer{justify-self:end;color:#fff;font-size:9px;text-shadow:0 1px 5px #0009}
+.nvProductCopy{padding:clamp(42px,6vw,82px) clamp(30px,6vw,82px)}
+.nvBenefitGrid{grid-template-columns:1fr;gap:10px}.nvBenefitGrid article{align-items:center;border:0;border-radius:0;background:transparent;padding:7px 0}
+.nvBenefitGrid article>.refIcon{width:30px;height:30px;flex:none}.nvBenefitGrid h3{font-size:13px}
+.nvIdeas{padding-top:62px;padding-bottom:40px}
+.nvIdeasHead{margin-bottom:22px}.nvIdeasHead h2{font-size:clamp(32px,3.5vw,46px)}
+.nvIdeasColumns{display:none}
+.nvIdeaGrid{margin-top:0;gap:10px}
+.nvIdeaGrid article{min-height:73px;padding:13px 15px;border-radius:15px}
+.nvIdeasCta{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:28px;padding:25px 30px;border-radius:20px;background:var(--forest);color:#fff}
+.nvIdeasCta h3{margin:7px 0 5px;color:#fff;font:400 clamp(24px,3vw,35px)/1.05 'DM Serif Display',Georgia,serif}
+.nvIdeasCta p{max-width:570px;margin:0;color:#d9e4dc;font-size:12px;line-height:1.5}
+.nvIdeasCta>a{flex:none;padding:12px 17px;border:1px solid #ffffff9c;border-radius:999px;color:#fff!important;font-size:12px;font-weight:700}
+.nvIdeasNote{text-align:left}
+@media(max-width:760px){
+  .nvHero{position:relative;display:grid;grid-template-columns:1fr;min-height:760px;overflow:hidden;background:var(--cream)}
+  .nvHeroVisual{position:absolute;inset:0;min-height:0;height:100%;overflow:hidden}
+  .nvHeroVisual>img{object-position:62% 48%}
+  .nvHeroVisual:after{background:linear-gradient(180deg,#faf8f3 0%,#faf8f3f5 30%,#faf8f3cf 47%,#faf8f340 70%,#faf8f300 100%),linear-gradient(90deg,#faf8f3c9 0%,transparent 80%)}
+  .nvHeroCopy{grid-column:1;grid-row:1;z-index:2;align-self:start;width:100%;min-height:0;padding:42px 22px 335px;align-items:center;text-align:center;background:transparent}
+  .nvHero h1{font-size:clamp(48px,12.6vw,64px);line-height:.9}
+  .nvHeroLead{font-size:16px}
+  .nvHero .nvActions{justify-content:center;margin-top:20px}
+  .nvHero .nvActions a{min-width:145px}
+  .nvPromiseRow{justify-content:center;gap:13px;margin-top:18px}
+  .nvPromiseRow>span{font-size:10px}
+  .nvFinePrint{margin-top:6px}
+  .nvImageNote{left:14px;bottom:15px;padding:10px 12px}
+  .nvGoogle{order:3!important;grid-template-columns:1fr;gap:22px;padding:52px 20px 30px}
+  .nvGoogleCopy h2,.nvProductCopy h2{font-size:clamp(36px,10vw,48px)}
+  .nvGoogleVisual{min-height:360px;border-radius:22px}
+  .nvGooglePin{top:12px;left:12px;padding:10px 12px}
+  .nvGoogleRating{right:12px;bottom:12px}
+  .nvProduct{order:4!important;grid-template-columns:1fr}
+  .nvProductVisual{min-height:410px}
+  .nvProductVisual>img{min-height:410px;object-position:center}
+  .nvMetricStack{top:auto;right:10px;bottom:12px;width:calc(100% - 20px);grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;transform:none}
+  .nvMetricStack article{min-height:76px;padding:9px 8px;border-radius:11px}
+  .nvMetricStack article>span{font-size:8px}.nvMetricStack article>strong{font-size:18px}.nvMetricStack article>small{font-size:8px}
+  .nvMetricStack .nvMiniBars{width:30px;height:22px;gap:2px}.nvMetricStack .nvMiniLine{font-size:31px}
+  .nvMetricsDisclaimer{grid-column:1/-1}
+  .nvProductCopy{padding:44px 22px 50px}
+  .nvBenefitGrid{grid-template-columns:1fr;gap:8px}
+  .nvPlans{order:5!important}.nvIdeas{order:6!important}
+  .nvIdeas{padding:50px 20px 30px}
+  .nvIdeasHead{margin-bottom:19px;text-align:left}
+  .nvIdeasHead h2{font-size:35px}
+  .nvIdeaGrid{grid-template-columns:1fr 1fr;gap:8px}
+  .nvIdeaGrid article{min-height:80px;gap:9px;padding:10px;border-radius:13px}
+  .nvIdeaGrid .refIcon{width:22px;height:22px}
+  .nvIdeaGrid article span{font-size:11px}
+  .nvIdeasCta{align-items:flex-start;flex-direction:column;padding:22px 19px}
+  .nvIdeasCta>a{align-self:flex-start}
+  .nvLanding .refWhats{right:14px;bottom:max(14px,env(safe-area-inset-bottom));width:50px;height:50px}
+}
