@@ -22,7 +22,7 @@ test('hero retains its image, gradient treatment, QR message and signup paths', 
   assert.ok(page.includes('Sin app'));
   assert.ok(page.includes('hero-phone.webp'));
   assert.ok(page.includes('/acceso?modo=registro'));
-  assert.match(css, /\.refHeroPhoto/);
+  assert.match(css, /\.refHeroPhoto:after/);\n  assert.match(css, /linear-gradient/);
 });
 
 test('four-step journey explains discovery, visits, rewards and voluntary reviews', () => {
@@ -48,7 +48,7 @@ test('review section states the plan quotas and manual service window', () => {
 
 test('benefit cards remain interactive and WhatsApp contact is available', () => {
   assert.ok(page.includes("mode:'benefits'"));
-  assert.match(interactions, /mode === 'benefits'/);
+  assert.match(interactions, /mode\\s*===\\s*'benefits'/);
   assert.ok(page.includes('<WhatsAppFab href={wa}/>'));
   assert.ok(whatsapp.includes('className="refWhats"'));
   assert.ok(whatsapp.includes('Hablar con Nival por WhatsApp'));
