@@ -124,3 +124,44 @@
 .nivalShell .workspacePageHeading h1,.nivalShell .workspaceHero h1,.nivalShell .programWorkspace .dashHead h1{font-family:'DM Serif Display',Georgia,serif;font-weight:400;letter-spacing:-.02em}
 .nivalShell .workspaceTopbar .hamburger,.nivalShell .workspaceSidebar button[aria-current=page]{border-radius:10px}
 @media(max-width:640px){.nivalShell .workspaceContent{padding-bottom:calc(32px + env(safe-area-inset-bottom))}.nivalShell .programTabs{display:flex;gap:8px;overflow-x:auto;max-width:100%;scrollbar-width:thin}.nivalShell .programTabs a{flex:0 0 auto;min-height:44px}}
+
+
+/* Ajustes de espacio en el panel de negocio; el rail colapsado conserva solo iconos completos. */
+@media(min-width:961px){
+ .nivalShell{--ws-sidebar:228px}
+ .workspaceTopbar{height:60px;padding-inline:clamp(18px,1.8vw,28px)}
+ .workspaceContent{max-width:none;padding:18px clamp(18px,1.8vw,28px) 18px}
+ .workspacePageHeading{margin-bottom:15px;gap:14px}
+ .workspacePageHeading h1{font-size:23px;margin:5px 0}
+ .workspacePageHeading p{font-size:11px}
+ .workspaceHero{grid-template-columns:minmax(0,1fr) 140px;gap:16px;padding:20px;margin-bottom:16px}
+ .workspaceHero h2{font-size:clamp(22px,1.7vw,28px);margin:10px 0 8px}
+ .workspaceHero p{font-size:12px;margin-bottom:14px}
+ .heroSignal{padding:15px 10px}
+ .heroSignal>strong{font-size:42px}
+ .nivalShell .ownerSectionTitle{margin-bottom:14px}
+ .nivalShell .ownerSectionTitle h2{font-size:19px}
+ .nivalShell .ownerSectionTitle p{font-size:11px!important;margin:5px 0}
+ .nivalShell .ownerMetrics{gap:8px;margin-bottom:16px}
+ .nivalShell .ownerMetric{min-height:108px;padding:14px 12px;gap:8px}
+ .nivalShell .ownerMetric strong{font-size:27px}
+ .nivalShell .ownerCard,.nivalShell .ownerChart{padding:18px;margin-bottom:14px}
+ .nivalShell .ownerCard h3{font-size:14px;margin:5px 0 12px}
+ .nivalShell .periodCaption{margin:6px 0 14px}
+ .overviewBottom{gap:14px}
+ .workspaceSectionSubhead{margin:22px 0 14px}
+ .nivalShell[data-collapsed="true"] .workspaceBrand{justify-content:center;padding:0 0 20px}
+ .nivalShell[data-collapsed="true"] .workspaceNavCaption,
+ .nivalShell[data-collapsed="true"] .workspaceMenuGroup>summary>span,
+ .nivalShell[data-collapsed="true"] .workspaceMenuGroup>summary>i,
+ .nivalShell[data-collapsed="true"] .workspaceSidebarBottom{display:none!important}
+ .nivalShell[data-collapsed="true"] .workspaceNav{gap:8px}
+ .nivalShell[data-collapsed="true"] .workspaceNavGroup{width:100%}
+ .nivalShell[data-collapsed="true"] .workspaceNav>div>button,
+ .nivalShell[data-collapsed="true"] .workspaceMenuGroup>summary{justify-content:center;gap:0;width:100%;min-height:46px;padding:8px}
+ .nivalShell[data-collapsed="true"] .workspaceNav>div>button>span,
+ .nivalShell[data-collapsed="true"] .workspaceNav>div>button>i,
+ .nivalShell[data-collapsed="true"] .workspaceMenuGroup>.clientSubmenu{display:none!important}
+ .nivalShell[data-collapsed="true"] .workspaceNav>div>button>svg,
+ .nivalShell[data-collapsed="true"] .workspaceMenuGroup>summary>svg{width:22px;height:22px;flex:0 0 22px}
+}
