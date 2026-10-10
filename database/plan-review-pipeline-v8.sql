@@ -56,6 +56,8 @@ grant execute on function nival_pr_private.tool_context(uuid) to npr_v2_auth;
 alter table nival_pr.reviews
   add column if not exists source text not null default 'manual'
     check(source in ('manual','google_api','other_api')),
+  add column if not exists review_status text not null default 'pending'
+    check(review_status in ('pending','drafted','approved','published')),
   add column if not exists response_status text not null default 'pending'
     check(response_status in ('pending','drafted','approved','published'));
 alter table nival_pr.generated_reports
@@ -67,6 +69,7 @@ alter table nival_pr.tasks
   add column if not exists execution_mode text not null default 'manual'
     check(execution_mode in ('manual','assisted','automatic'));
 
+update nival_pr.reviews set review_status='published' where review_status='pending';
 update nival_pr.reviews
 set response_status=case when published_at is not null then 'published'
                          when nullif(trim(response_draft),'') is not null then 'drafted'
