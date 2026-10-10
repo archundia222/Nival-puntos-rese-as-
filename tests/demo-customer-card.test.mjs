@@ -30,7 +30,7 @@ test('sample customer card has no enrollment form or write action', async () => 
 
 test('landing contact link does not expose internal section names', async () => {
   const landing = await read('../app/page.tsx');
-  assert.match(landing, /https:\/\/wa\\.me\/525539044988/);
-  assert.match(landing, /Hola, quiero información de Nival Puntos \\+ Reseñas/);
+  assert.ok(landing.includes("https://wa.me/525539044988"));
+  assert.ok(landing.includes("Hola, quiero información de Nival Puntos + Reseñas"));
   assert.doesNotMatch(landing, /cierre de la historia/i);
 });
