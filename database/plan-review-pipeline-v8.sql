@@ -83,7 +83,7 @@ begin
  if b.id is null then raise exception 'Reseña no encontrada'; end if;
  if b.status not in ('activo','por_vencer') or b.paid_until<=now() or b.paid_until is null then raise exception 'Servicio no activo'; end if;
  if exists(select 1 from nival_pr.reviews where id=r and published_at is not null) then raise exception 'Reseña ya respondida'; end if;
- select nival_pr_private.plan_review_limit(plan_id) into limit_n from nival_pr.businesses where id=b.id;
+ select case when p.price_mxn=399 then 30 when p.price_mxn=499 then 100 else coalesce((p.features->>'review_limit')::integer,0) end into limit_n from nival_pr.businesses bs join nival_pr.plans p on p.id=bs.plan_id where bs.id=b.id;
  if limit_n is null then raise exception 'Plan sin cupo configurado'; end if;
  start_at=coalesce(b.service_started_at,b.paid_until-interval '30 days');
  start_at=start_at+floor(extract(epoch from now()-start_at)/2592000)::int*interval '30 days';
