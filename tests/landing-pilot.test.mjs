@@ -22,7 +22,8 @@ test('hero retains its image, gradient treatment, QR message and signup paths', 
   assert.ok(page.includes('Sin app'));
   assert.ok(page.includes('hero-phone.webp'));
   assert.ok(page.includes('/acceso?modo=registro'));
-  assert.match(css, /\.refHeroPhoto:after/);\n  assert.match(css, /linear-gradient/);
+  assert.match(css, /\.refHeroPhoto:after/);
+  assert.match(css, /linear-gradient/);
 });
 
 test('four-step journey explains discovery, visits, rewards and voluntary reviews', () => {
