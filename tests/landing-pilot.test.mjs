@@ -39,7 +39,7 @@ test('plan cards preserve existing prices and explain each plan limits', () => {
 });
 
 test('review section states the plan quotas and manual service window', () => {
-  assert.ok(page.includes('reseñas de Google'));
+  assert.ok(page.includes('¿Nival cambia o responde reseñas en mi nombre?'));
   assert.match(page, /3 días hábiles/);
   assert.doesNotMatch(page, /instantáneo|automático/i);
   assert.ok(page.includes('hasta 30 respuestas'));
@@ -47,7 +47,7 @@ test('review section states the plan quotas and manual service window', () => {
 });
 
 test('benefit cards remain interactive and WhatsApp contact is available', () => {
-  assert.ok(page.includes("mode:'benefits'"));
+  assert.ok(page.includes('mode="benefits"'));
   assert.ok(interactions.includes("if(mode==='benefits')"));
   assert.ok(page.includes('<WhatsAppFab href={wa}/>'));
   assert.ok(whatsapp.includes('className="refWhats"'));
