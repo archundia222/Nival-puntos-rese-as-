@@ -504,3 +504,9 @@
   .nvHeroVisual{inset:0 0 0 39%;display:flex;align-items:stretch;justify-content:flex-end}
   .nvHeroVisual>img{position:relative;inset:auto;width:auto;height:100%;max-width:100%;object-fit:contain;object-position:right center}
 }
+
+
+/* Preserve the warm photo-to-copy gradient on mobile while keeping the image in flow. */
+@media(max-width:760px){
+  .nvHeroVisual:after{background:linear-gradient(180deg,var(--cream) 0%,#faf8f3e8 12%,#faf8f380 34%,transparent 64%),linear-gradient(0deg,#0b2e2224,transparent 25%)}
+}
