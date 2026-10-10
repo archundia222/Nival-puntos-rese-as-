@@ -451,3 +451,35 @@
 @media(prefers-reduced-motion:reduce){
  .nvWhyCard,.nvValueGrid article,.nvGoogleVisual>img{transition:none}
 }
+
+/* Minipresso-inspired hero: editorial copy panel flowing into the existing product photo. */
+.nvHero{background:#e7eee5}
+.nvHeroVisual{left:34%}
+.nvHeroVisual:after{background:linear-gradient(0deg,#102e241c,transparent 28%)}
+.nvHeroCopy{isolation:isolate;width:58%;max-width:780px;padding-right:clamp(72px,9vw,138px)}
+.nvHeroCopy:before{content:"";position:absolute;z-index:-1;inset:-28px -5.5vw -28px -100vw;border-radius:0 52% 52% 0/0 50% 50% 0;background:linear-gradient(110deg,var(--cream) 76%,#f5f4eb 100%);box-shadow:28px 0 70px #faf8f34a}
+.nvHero h1{max-width:700px}
+@media(max-width:760px){
+  .nvHero{position:relative;display:flex;flex-direction:column;min-height:0;overflow:hidden;padding-bottom:0;background:var(--cream)}
+  .nvHeroCopy{z-index:2;width:100%;max-width:680px;min-height:0;margin:0 auto;padding:35px 24px 12px;align-items:flex-start;text-align:left}
+  .nvHeroCopy:before{inset:0 -28px -104px -100vw;border-radius:0 0 100px 0/0 0 48px 0;background:linear-gradient(105deg,var(--cream) 0%,#faf8f3 78%,#f2f2e8 100%);box-shadow:0 24px 42px #132f2010}
+  .nvHero .nvEyebrow{justify-content:flex-start;text-align:left}
+  .nvHero h1{max-width:570px;margin:17px 0;font-size:clamp(47px,12.5vw,62px);line-height:.91;text-align:left}
+  .nvHeroLead{max-width:540px;margin:0;font-size:16px;line-height:1.48}
+  .nvHero .nvActions{width:100%;max-width:540px;justify-content:flex-start;gap:10px;margin:21px 0 0}
+  .nvHero .nvActions a{flex:1;min-width:0;min-height:52px;padding-inline:9px;font-size:13px}
+  .nvPromiseRow{justify-content:flex-start;gap:11px 16px;margin:18px 0 0}
+  .nvPromiseRow>span{font-size:11px}
+  .nvFinePrint{margin:7px 0 0;font-size:10px}
+  .nvHeroVisual{position:relative;z-index:1;inset:auto;width:calc(100% - 16px);height:min(116vw,450px);min-height:340px;margin:-98px 0 20px auto;overflow:hidden;border-radius:122px 0 0 22px;background:#d9e3d9}
+  .nvHeroVisual>img{object-position:58% 42%}
+  .nvHeroVisual:after{background:linear-gradient(0deg,#0b2e2240,transparent 34%),linear-gradient(90deg,#faf8f366,transparent 36%)}
+  .nvImageNote{left:18px;right:14px;bottom:14px;padding:10px 12px}
+}
+@media(max-width:390px){
+  .nvHeroCopy{padding-right:20px;padding-left:20px}
+  .nvHero h1{font-size:clamp(44px,12vw,50px)}
+  .nvHero .nvActions a{font-size:12px}
+  .nvPromiseRow{gap:10px 13px}
+  .nvPromiseRow>span{font-size:10px}
+}
