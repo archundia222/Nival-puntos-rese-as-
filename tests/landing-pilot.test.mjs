@@ -4,49 +4,60 @@ import { readFileSync } from 'node:fs';
 
 const page = readFileSync('app/page.tsx', 'utf8');
 const css = readFileSync('app/landing-reference.css', 'utf8');
+const interactions = readFileSync('app/landing-interactions.tsx', 'utf8');
+const whatsapp = readFileSync('app/whatsapp-fab.tsx', 'utf8');
 
-test('landing has aligned access menu and account creation entry points', () => {
-  assert.ok(page.includes('Cómo funciona'));
-  assert.ok(page.includes('Accesos'));
+test('landing keeps the selected navigation and all access entry points', () => {
+  for (const label of ['Cómo funciona', 'Precios', 'Preguntas', 'Ver demo']) assert.ok(page.includes(label));
   for (const href of ['/acceso', '/staff/acceso', '/acceso-administrador']) assert.ok(page.includes(href));
-  assert.ok(page.includes('Crear cuenta'));
-  assert.match(css, /\.nvHeader/);
-  assert.match(css, /@media\s*\(max-width:\s*720px\)/);
+  assert.ok(page.includes('className="refNav"'));
+  assert.match(css, /\.refNav/);
+  assert.match(css, /@media\s*\(max-width:\s*760px\)/);
 });
 
-test('hero keeps the serif headline and explains signup, QR, and optional NFC', () => {
-  assert.ok(page.includes('Que te encuentren.'));
+test('hero retains its image, gradient treatment, QR message and signup paths', () => {
+  assert.ok(page.includes('Que te<br/>encuentren.'));
   assert.ok(page.includes('Que vuelvan.'));
   assert.ok(page.includes('QR incluido'));
   assert.ok(page.includes('Sin app'));
-  assert.ok(page.includes('NFC'));
-  assert.ok(page.includes('/assets/img/hero-phone.webp'));
+  assert.ok(page.includes('hero-phone.webp'));
   assert.ok(page.includes('/acceso?modo=registro'));
+  assert.match(css, /\.refHeroPhoto:after/);
+  assert.match(css, /linear-gradient/);
 });
 
-test('customer journey uses four distinct steps and icons', () => {
-  for (const icon of ["'pin'", "'qr'", "'trophy'", "'heart'"]) assert.ok(page.includes(icon));
-  for (const phrase of ['Se unen en el mostrador', 'Suman y canjean', 'Vuelven con un motivo']) assert.ok(page.includes(phrase));
+test('four-step journey explains discovery, visits, rewards and voluntary reviews', () => {
+  for (const phrase of ['Te encuentran en Google.', 'Acumulan puntos.', 'Regresan por sus premios.', 'Comparten su experiencia.']) assert.ok(page.includes(phrase));
+  assert.ok(page.includes('Cada visita con compra suma un punto'));
+  assert.ok(page.includes('de forma amable y libre'));
 });
 
-test('pricing matrix is comparable and keeps current public prices and response caps', () => {
+test('plan cards preserve existing prices and explain each plan limits', () => {
   for (const plan of ['Nival Puntos', 'Nival Esencial', 'Nival Plus']) assert.ok(page.includes(plan));
-  for (const price of ['$399', '$499', '$599']) assert.ok(page.includes(price));
-  assert.ok(page.includes('30 por periodo activo de 30 días'));
-  assert.ok(page.includes('100 por periodo activo de 30 días'));
-  assert.ok(page.includes('periodo activo'));
+  for (const price of ['price:299', 'price:399', 'price:499']) assert.ok(page.includes(price));
+  assert.ok(page.includes('Hasta 30 respuestas por periodo activo de 30 días'));
+  assert.ok(page.includes('Hasta 100 respuestas por periodo activo de 30 días'));
 });
 
-test('review promise sets a realistic service window and avoids automation claims', () => {
-  assert.ok(page.includes('reseñas de Google'));
+test('review section states the plan quotas and manual service window', () => {
+  assert.ok(page.includes('¿Nival cambia o responde reseñas en mi nombre?'));
   assert.match(page, /3 días hábiles/);
   assert.doesNotMatch(page, /instantáneo|automático/i);
+  assert.ok(page.includes('hasta 30 respuestas'));
+  assert.ok(page.includes('hasta 100'));
 });
 
-test('final CTA text has strong contrast and WhatsApp does not cover mobile content', () => {
-  assert.ok(page.includes('¿Listo para que tus clientes vuelvan?'));
-  assert.match(css, /\.nvFinalCta/);
-  assert.match(css, /\.refWhats/);
-  assert.match(css, /safe-area-inset-bottom/);
-  assert.match(css, /@media\s*\(max-width:\s*390px\)/);
+test('benefit cards remain interactive and WhatsApp contact is available', () => {
+  assert.ok(page.includes('mode="benefits"'));
+  assert.ok(interactions.includes("if(mode==='benefits')"));
+  assert.ok(page.includes('<WhatsAppFab href={wa}/>'));
+  assert.ok(whatsapp.includes('className="refWhats"'));
+  assert.ok(whatsapp.includes('Hablar con Nival por WhatsApp'));
+  assert.match(css, /\.refWhats\{position:fixed/);
+});
+
+test('value and pricing sections use a single consolidated benefits area', () => {
+  assert.ok(page.includes('className="refValue"'));
+  assert.ok(page.includes('className="refPricing"'));
+  assert.equal((page.match(/className="refBenefits"/g) || []).length, 1);
 });
