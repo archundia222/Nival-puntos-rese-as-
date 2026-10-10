@@ -496,3 +496,11 @@
   .nvPromiseRow>span{font-size:10px}
   .nvHeroVisual{width:calc(100% - 28px)}
 }
+
+
+/* Desktop hero photo: show the entire portrait image rather than cropping its phone. */
+@media(min-width:761px){
+  .nvHero{min-height:clamp(680px,72svh,820px)}
+  .nvHeroVisual{inset:0 0 0 39%;display:flex;align-items:stretch;justify-content:flex-end}
+  .nvHeroVisual>img{position:relative;inset:auto;width:auto;height:100%;max-width:100%;object-fit:contain;object-position:right center}
+}
