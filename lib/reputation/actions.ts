@@ -19,7 +19,7 @@ export async function importReviews(_:Result,f:FormData):Promise<Result>{
  const raw=JSON.parse(value(f,'reviews'));if(!Array.isArray(raw)||!raw.length||raw.length>200)return {error:'Carga entre 1 y 200 reseñas por lote.'};
  const reviews=raw.map(validateReview);
  const [business]=await query(actor,'select b.name,p.features from nival_pr.businesses b left join nival_pr.plans p on p.id=b.plan_id where b.id=$1',[b]);if(!business)return {error:'Negocio no encontrado.'};const blocked=await reviewPlanError(actor,b);if(blocked)return {error:blocked};
- const result=await transaction(actor,reviews.map(r=>({text:`insert into nival_pr.reviews(business_id,reviewer,stars,body,reviewed_on,fingerprint,response_draft) values($1,$2,$3,$4,$5,$6,$7) on conflict(business_id,fingerprint) do nothing returning id`,values:[b,r.reviewer,r.stars,r.body,r.reviewed_on,r.fingerprint,replyDraft(r,business.name)]})));
+ const result=await transaction(actor,reviews.map(r=>({text:`insert into nival_pr.reviews(business_id,reviewer,stars,body,reviewed_on,fingerprint,response_draft,response_status,source) values($1,$2,$3,$4,$5,$6,$7,'drafted','manual') on conflict(business_id,fingerprint) do nothing returning id`,values:[b,r.reviewer,r.stars,r.body,r.reviewed_on,r.fingerprint,replyDraft(r,business.name)]})));
  const added=result.reduce((n,r)=>n+r.length,0);refresh();return {success:`${added} reseñas registradas; ${reviews.length-added} duplicadas omitidas.`};
  }catch{return {error:'No se pudo importar. Revisa los datos y las fechas antes de guardar.'};}
 }
