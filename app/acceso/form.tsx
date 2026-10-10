@@ -13,7 +13,7 @@ export default function AccessForm({turnstileSiteKey,initialMode='login'}:{turns
  function changeMode(value:Mode){setMode(value);setNotice('');setFailed(false);setPassword('');resetTurnstile();}
  async function submit(event:React.FormEvent<HTMLFormElement>){
   event.preventDefault();if(busy)return;
-  if(mode==='register'&&!turnstileToken){setFailed(true);setNotice('Espera a que termine la verificación de seguridad y vuelve a intentarlo.');return;}
+  if((mode==='register'||mode==='login')&&!turnstileToken){setFailed(true);setNotice('Espera a que termine la verificación de seguridad y vuelve a intentarlo.');return;}
   setBusy(true);setNotice('');setFailed(false);
   try{
    const client=authClient;const address=email.trim();
@@ -24,8 +24,10 @@ export default function AccessForm({turnstileSiteKey,initialMode='login'}:{turns
     if(data?.user){window.location.href='/entrar';return;}
     setNotice('Revisa tu correo para confirmar tu cuenta. Si ya la tienes, inicia sesión.');
    }else if(mode==='login'){
+    const anti=await fetch('/api/security/turnstile',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:turnstileToken})});
+    if(!anti.ok){resetTurnstile();setFailed(true);setNotice('Cloudflare no pudo validar la verificación. Reinicié el reto; espera a que cargue y vuelve a intentarlo.');return;}
     const {error}=await client.signIn.email({email:address,password});
-    if(error){setFailed(true);setNotice('No se pudo iniciar sesión. Revisa tus datos o confirma tu correo.');return;}
+    if(error){resetTurnstile();setFailed(true);setNotice('No se pudo iniciar sesión. Revisa tus datos o confirma tu correo.');return;}
     window.location.href='/entrar';
    }else if(mode==='recover'){
     const {error}=await client.requestPasswordReset({email:address,redirectTo:new URL('/restablecer',window.location.origin).href});if(error)throw error;
@@ -36,10 +38,10 @@ export default function AccessForm({turnstileSiteKey,initialMode='login'}:{turns
    }
   }catch{
    setFailed(true);
-   if(mode==='register'){resetTurnstile();setNotice('No se pudo crear la cuenta. Reinicié la verificación; revisa los datos y vuelve a intentarlo.');}
+   if(mode==='register'||mode==='login'){resetTurnstile();setNotice('No se pudo completar el acceso. Reinicié la verificación; revisa tus datos y vuelve a intentarlo.');}
    else setNotice('No se pudo completar la solicitud. Espera un minuto y vuelve a intentarlo.');
   }finally{setBusy(false);}
  }
  const passwordNeeded=mode==='login'||mode==='register';
- return <section className="reviewBox"><h2>{titles[mode]}</h2><form className="configGrid" onSubmit={submit}><label>Correo<input type="email" required autoComplete="email" maxLength={254} value={email} onChange={event=>setEmail(event.target.value)} disabled={busy}/></label>{passwordNeeded&&<label>Contraseña<input type="password" required minLength={mode==='register'?8:1} maxLength={128} autoComplete={mode==='register'?'new-password':'current-password'} value={password} onChange={event=>setPassword(event.target.value)} disabled={busy}/></label>}{mode==='register'&&<TurnstileWidget key={turnstileResetKey} siteKey={turnstileSiteKey} onTokenChange={receiveTurnstileToken}/>}<button disabled={busy||(mode==='register'&&!turnstileToken)}>{busy?'Procesando…':mode==='register'&&!turnstileToken?'Validando seguridad…':buttons[mode]}</button></form><p role={failed?'alert':'status'} className={failed?'error':''}>{notice}</p><div className="actions">{mode==='login'?<><button type="button" disabled={busy} onClick={()=>changeMode('register')}>Crear cuenta de negocio</button><button type="button" disabled={busy} onClick={()=>changeMode('recover')}>Olvidé mi contraseña</button><button type="button" disabled={busy} onClick={()=>changeMode('resend')}>No recibí la confirmación</button></>:<button type="button" disabled={busy} onClick={()=>changeMode('login')}>¿Ya tienes cuenta? Inicia sesión</button>}</div></section>;
+ return <section className="reviewBox"><h2>{titles[mode]}</h2><form className="configGrid" onSubmit={submit}><label>Correo<input type="email" required autoComplete="email" maxLength={254} value={email} onChange={event=>setEmail(event.target.value)} disabled={busy}/></label>{passwordNeeded&&<label>Contraseña<input type="password" required minLength={mode==='register'?8:1} maxLength={128} autoComplete={mode==='register'?'new-password':'current-password'} value={password} onChange={event=>setPassword(event.target.value)} disabled={busy}/></label>}{(mode==='register'||mode==='login')&&<TurnstileWidget key={turnstileResetKey} siteKey={turnstileSiteKey} onTokenChange={receiveTurnstileToken}/>}<button disabled={busy||((mode==='register'||mode==='login')&&!turnstileToken)}>{busy?'Procesando…':(mode==='register'||mode==='login')&&!turnstileToken?'Validando seguridad…':buttons[mode]}</button></form><p role={failed?'alert':'status'} className={failed?'error':''}>{notice}</p><div className="actions">{mode==='login'?<><button type="button" disabled={busy} onClick={()=>changeMode('register')}>Crear cuenta de negocio</button><button type="button" disabled={busy} onClick={()=>changeMode('recover')}>Olvidé mi contraseña</button><button type="button" disabled={busy} onClick={()=>changeMode('resend')}>No recibí la confirmación</button></>:<button type="button" disabled={busy} onClick={()=>changeMode('login')}>¿Ya tienes cuenta? Inicia sesión</button>}</div></section>;
 }
