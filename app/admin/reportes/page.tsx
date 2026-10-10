@@ -11,7 +11,7 @@ import {serviceWindow} from '../../../lib/reputation/engine.mjs';
 export const dynamic='force-dynamic';
 export default async function Reports({searchParams}:{searchParams:Promise<{business?:string;report?:string}>}){
  const actor=await requireAdminRole(),params=await searchParams;
- const businesses=await query(actor,"select b.*,coalesce(p.features,'{}'::jsonb)||jsonb_build_object('review_limit',coalesce(nival_pr_private.plan_review_limit(p.id),0)) features from nival_pr.businesses b left join nival_pr.plans p on p.id=b.plan_id order by b.name");
+ const businesses=await query(actor,"select b.*,coalesce(p.features,'{}'::jsonb)||jsonb_build_object('review_limit',case when p.price_mxn=399 then 30 when p.price_mxn=499 then 100 else coalesce((p.features->>'review_limit')::int,0) end) features from nival_pr.businesses b left join nival_pr.plans p on p.id=b.plan_id order by b.name");
  const b=params.business?businesses.find(b=>b.id===params.business):businesses[0];
  if(!b)return <main className="dashboard"><h1>Primero registra un negocio</h1><a href="/admin">Volver</a></main>;
  const access=entitlements(b);
