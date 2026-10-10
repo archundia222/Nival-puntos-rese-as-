@@ -48,7 +48,7 @@ test('review section states the plan quotas and manual service window', () => {
 
 test('benefit cards remain interactive and WhatsApp contact is available', () => {
   assert.ok(page.includes("mode:'benefits'"));
-  assert.match(interactions, /mode\\s*===\\s*'benefits'/);
+  assert.ok(interactions.includes("if(mode==='benefits')"));
   assert.ok(page.includes('<WhatsAppFab href={wa}/>'));
   assert.ok(whatsapp.includes('className="refWhats"'));
   assert.ok(whatsapp.includes('Hablar con Nival por WhatsApp'));
