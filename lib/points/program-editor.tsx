@@ -281,8 +281,8 @@ export function ProgramEditor({
       </form>
 
       <aside className="liveCardPreview" aria-label="Vista previa en vivo de la tarjeta" style={{ position: "sticky", top: 28 }}>
-        <small style={{ letterSpacing: ".12em", fontWeight: 700, color: "#5f7567" }}>VISTA PREVIA EN VIVO</small>
-        <p style={{ margin: "6px 0 14px", color: "#65746a" }}>Así se verá la tarjeta de tus clientes.</p>
+        <small style={{ letterSpacing: ".12em", fontWeight: 700, color: "#5f7567" }}>TARJETA ACTIVA · VISTA PREVIA EN VIVO</small>
+        <p style={{ margin: "6px 0 14px", color: "#65746a" }}>Esta tarjeta se actualiza con los cambios que hagas aquí.</p>
         <article
           className="loyaltyCard"
           style={{

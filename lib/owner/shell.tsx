@@ -8,10 +8,14 @@ const customerItems:MenuItem[]=[
  {id:'clientes-risk',label:'En riesgo'}, {id:'clientes-absent',label:'Sin visita este mes'},
  {id:'canjes',label:'Historial de canjes',href:'/panel/puntos?view=canjes'},
 ];
+const cardItems:MenuItem[]=[
+ {id:'compartir-programa',label:'Compartir programa'},
+ {id:'tus-tarjetas',label:'Tus tarjetas'},
+];
 function makeItems(reviewLimit:number,plus:boolean):MenuItem[]{
  const items:MenuItem[]=[
   {id:'inicio',label:'Inicio',icon:'inicio'},
-  {id:'tarjetas',label:'Tarjetas',icon:'compartir'},
+  {id:'tarjetas',label:'Tarjetas',icon:'compartir',children:cardItems},
   {id:'clientes',label:'Clientes',icon:'clientes',children:customerItems},
  ];
  if(reviewLimit>0)items.push({id:'google',label:'Google y reseñas',icon:'google'});
@@ -30,7 +34,7 @@ function makeItems(reviewLimit:number,plus:boolean):MenuItem[]{
 }
 
 export function DashboardShell({name,owner,status,demo,logout,children,initialSection='inicio',homeUrl,mobilePreview=false,pointsOnly=false,planName='Puntos',price=299,responseLimit=0,periodDay=1}:{name:string;owner:string;status:string;demo:boolean;logout:React.ReactNode;children:React.ReactNode;initialSection?:string;homeUrl?:string;mobilePreview?:boolean;pointsOnly?:boolean;planName?:string;price?:number;responseLimit?:number;periodDay?:number}){
- const [section,setSection]=useState(initialSection),[open,setOpen]=useState(false),[collapsed,setCollapsed]=useState(false),[mobile,setMobile]=useState(mobilePreview),[expanded,setExpanded]=useState<string[]>(initialSection.startsWith('clientes')?['clientes']:['estadisticas']);
+ const [section,setSection]=useState(initialSection),[open,setOpen]=useState(false),[collapsed,setCollapsed]=useState(false),[mobile,setMobile]=useState(mobilePreview),[expanded,setExpanded]=useState<string[]>(initialSection.startsWith('clientes')?['clientes']:initialSection==='tus-tarjetas'||initialSection==='compartir-programa'?['tarjetas']:['estadisticas']);
  const sidebar=useRef<HTMLElement>(null),trigger=useRef<HTMLButtonElement>(null);
  const plus=Number(price)===549||Number(responseLimit)>=100;
  const items=makeItems(responseLimit,plus);
@@ -40,7 +44,7 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
  function toggle(id:string){setExpanded(current=>current.includes(id)?current.filter(x=>x!==id):[...current,id]);}
  function navigate(item:MenuItem){
   if(item.href){window.location.href=hrefFor(item.href);return;}
-  const target=item.id==='estadisticas'?'estadisticas-puntos':item.id;
+  const target=item.id==='estadisticas'?'estadisticas-puntos':item.id==='tarjetas'?'compartir-programa':item.id;
   if(homeUrl){const home=new URL(homeUrl,window.location.origin);if(window.location.pathname!==home.pathname){home.hash=target;window.location.href=home.pathname+home.search+home.hash;return;}}
   setSection(target);
   if(item.children)setExpanded(current=>current.includes(item.id)?current:[...current,item.id]);
@@ -48,7 +52,7 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
   window.scrollTo({top:0,behavior:'smooth'});requestAnimationFrame(()=>document.getElementById('workspace-title')?.focus());
  }
  function render(item:MenuItem,depth=0){
-  const active=section===item.id||(item.id==='clientes'&&section.startsWith('clientes'))||(item.id==='estadisticas'&&section.startsWith('estadisticas'));
+  const active=section===item.id||(item.id==='clientes'&&section.startsWith('clientes'))||(item.id==='estadisticas'&&section.startsWith('estadisticas'))||(item.id==='tarjetas'&&(section==='compartir-programa'||section==='tus-tarjetas'));
   if(item.children)return <div className={'workspaceMenuGroup'+(depth?' isNested':'')} key={item.id}>
    <button className={'workspaceNavItem'+(active?' isActive':'')} aria-expanded={expanded.includes(item.id)} onClick={()=>{if(depth===0)navigate(item);else toggle(item.id);}} aria-current={active?'page':undefined}>{item.icon&&<Icon name={item.icon}/>}<span><strong>{item.label}</strong></span><i aria-hidden="true"/></button>
    {expanded.includes(item.id)&&<div className="workspaceSubmenu" aria-label={item.label}>{item.children.map(child=>render(child,depth+1))}</div>}
