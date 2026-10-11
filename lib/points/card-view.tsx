@@ -133,7 +133,7 @@ export function CardView({
           aria-valuenow={Math.min(points, goal)}
           aria-valuemin={0}
           aria-valuemax={goal || 1}
-        ><i style={{width:(goal?Math.min(points/goal,1)*100:0)+"%"}}/></div></div>:<div className="cardPointGrid" aria-label={`${points} de ${goal} puntos acumulados`}>{Array.from({length:visibleDots},(_,i)=><i key={i} className={i<filledDots?"isFilled":""}>{design.pointIcon==="star"?"★":design.pointIcon==="heart"?"♥":design.pointIcon==="coffee"?"●":"✦"}</i>)}</div>}
+        ><i style={{width:(goal?Math.min(points/goal,1)*100:0)+"%"}}/></div></div>:<><div className="cardPointCount" aria-live="polite">{goal?<><b>{Math.min(points,goal)} / {goal}</b><span>puntos acumulados</span></>:<b>{points} puntos acumulados</b>}</div><div className="cardPointGrid" aria-label={`${points} de ${goal} puntos acumulados`}>{Array.from({length:visibleDots},(_,i)=><i key={i} className={i<filledDots?"isFilled":""}>{design.pointIcon==="star"?"★":design.pointIcon==="heart"?"♥":design.pointIcon==="coffee"?"●":"✦"}</i>)}</div></>}
         <footer>
           <span>{business.program?.rules?.card_design?.footer || "Un lugar al que vale la pena volver."}</span>
           <small>•••• {card.id.slice(-4).toUpperCase()}</small>
