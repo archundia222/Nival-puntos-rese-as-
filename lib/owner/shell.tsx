@@ -15,7 +15,7 @@ function makeItems(reviewLimit:number,plus:boolean):MenuItem[]{
   {id:'clientes',label:'Clientes',icon:'clientes',children:customerItems},
  ];
  if(reviewLimit>0)items.push({id:'google',label:'Google y reseñas',icon:'google'});
- items.push({id:'promociones',label:'Promociones',icon:'gift',href:'/panel/puntos?view=programa'});
+ items.push({id:'promociones',label:'Promociones',icon:'gift',href:'/panel/puntos?view=promociones#premios'});
  items.push({id:'sucursales',label:'Sucursales',icon:'pin'});
  items.push({id:'estadisticas',label:'Estadísticas',icon:'trend',children:[
   {id:'estadisticas-puntos',label:'Puntos'},
@@ -25,7 +25,7 @@ function makeItems(reviewLimit:number,plus:boolean):MenuItem[]{
  items.push({id:'informes',label:'Informes',icon:'file',href:'/panel/reportes'});
  items.push({id:'usuarios',label:'Usuarios',icon:'clientes',href:'/panel/puntos?view=equipo'});
  items.push({id:'plan',label:'Plan y facturación',icon:'ajustes'});
- items.push({id:'configuracion',label:'Configuración',icon:'settings',href:'/panel/puntos?view=programa'});
+ items.push({id:'configuracion',label:'Configuración',icon:'settings',href:'/panel/puntos?view=programa#programa'});
  return items;
 }
 
@@ -36,15 +36,14 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
  const items=makeItems(responseLimit,plus);
  useEffect(()=>{const m=window.matchMedia('(max-width: 960px)');const sync=()=>{setMobile(m.matches||mobilePreview);setOpen(false);};sync();m.addEventListener('change',sync);const hash=()=>{const key=window.location.hash.slice(1);if(key){setSection(key);}};hash();window.addEventListener('hashchange',hash);return()=>{m.removeEventListener('change',sync);window.removeEventListener('hashchange',hash);};},[mobilePreview]);
  useEffect(()=>{if(!open||!mobile)return;const previous=document.body.style.overflow;document.body.style.overflow='hidden';sidebar.current?.querySelector<HTMLButtonElement>('button')?.focus();const key=(e:KeyboardEvent)=>{if(e.key==='Escape'){setOpen(false);trigger.current?.focus();}if(e.key==='Tab'){const nodes=Array.from(sidebar.current?.querySelectorAll<HTMLElement>('button,a[href]')||[]);const first=nodes[0],last=nodes.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus();}}};document.addEventListener('keydown',key);return()=>{document.body.style.overflow=previous;document.removeEventListener('keydown',key);};},[open,mobile]);
- function hrefFor(path:string){if(!homeUrl)return path;const [pathname,query='']=path.split('?');const params=new URLSearchParams(query);const baseParams=new URLSearchParams(homeUrl.split('?')[1]||'');if(baseParams.has('business')&&!params.has('business'))params.set('business',baseParams.get('business')!);return pathname+(params.size?'?'+params.toString():'');}
+ function hrefFor(path:string){const target=new URL(path,window.location.origin);if(homeUrl){const base=new URL(homeUrl,window.location.origin);if(base.searchParams.has('business')&&!target.searchParams.has('business'))target.searchParams.set('business',base.searchParams.get('business')!);}return target.pathname+(target.searchParams.size?'?'+target.searchParams.toString():'')+target.hash;}
  function toggle(id:string){setExpanded(current=>current.includes(id)?current.filter(x=>x!==id):[...current,id]);}
  function navigate(item:MenuItem){
   if(item.href){window.location.href=hrefFor(item.href);return;}
-  if(item.id==='tarjetas')setSection('tarjetas');
-  else if(item.id==='clientes')setSection('clientes-new');
-  else if(item.id==='estadisticas')setSection('estadisticas-puntos');
-  else setSection(item.id);
-  setOpen(false);window.history.replaceState(null,'',window.location.pathname+window.location.search+'#'+(item.id==='tarjetas'?'tarjetas':item.id==='clientes'?'clientes-new':item.id==='estadisticas'?'estadisticas-puntos':item.id));
+  const target=item.id==='estadisticas'?'estadisticas-puntos':item.id;
+  setSection(target);
+  if(item.children)setExpanded(current=>current.includes(item.id)?current:[...current,item.id]);
+  setOpen(false);window.history.replaceState(null,'',window.location.pathname+window.location.search+'#'+target);
   window.scrollTo({top:0,behavior:'smooth'});requestAnimationFrame(()=>document.getElementById('workspace-title')?.focus());
  }
  function render(item:MenuItem,depth=0){
@@ -55,7 +54,8 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
   </div>;
   return <button key={item.id} className={'workspaceNavItem'+(active?' isActive':'')+(depth?' isSubItem':'')} aria-current={active?'page':undefined} onClick={()=>navigate(item)}>{item.icon&&<Icon name={item.icon}/>}<span><strong>{item.label}</strong></span>{item.id==='nival-pay'||item.id==='nival-resenas'?<b className="includedTag">Incluido</b>:null}</button>;
  }
- const current=items.flatMap(x=>[x,...(x.children||[])]).flatMap(x=>[x,...(x.children||[])]).find(x=>x.id===section)||items[0];
+ const sectionAlias=section==='equipo'?'usuarios':section==='programa'?'configuracion':section==='promociones'||section==='premios'?'promociones':section;
+ const current=items.flatMap(x=>[x,...(x.children||[])]).flatMap(x=>[x,...(x.children||[])]).find(x=>x.id===sectionAlias)||items[0];
  const menu=[...items,{id:'complementos-label',label:'COMPLEMENTOS'},
   {id:'nival-pay',label:'Nival Pay',icon:'card'}, {id:'nival-resenas',label:'Nival Reseñas',icon:'google'}] as MenuItem[];
  return <div className="nivalShell" data-section={section} data-open={open} data-collapsed={collapsed}>

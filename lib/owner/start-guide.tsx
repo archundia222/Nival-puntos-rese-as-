@@ -5,7 +5,7 @@ export async function StartGuide({actor,businessId}:{actor:Actor;businessId:stri
  exists(select 1 from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 and r.active and (r.expires_at is null or r.expires_at>now()) and (r.stock is null or r.stock>0)) reward,
  exists(select 1 from nival_pr.point_ledger where business_id=$1 and type='visit') visit`,[businessId]);
  const base='/panel/puntos?business='+businessId+'&view=programa';
- const steps=[{done:state.program,label:'Personaliza tu tarjeta',text:'Nombre, color y puntos por compra.',href:base},
+ const steps=[{done:state.program,label:'Personaliza tu tarjeta',text:'Nombre, color y puntos por compra.',href:base+'#programa'},
  {done:state.reward,label:'Define tu primer premio',text:'Elige algo atractivo y cuántos puntos necesita.',href:base+'#premios'},
  {done:state.visit,label:'Registra la primera visita',text:'Abre la tarjeta con un cliente y suma sus puntos.',href:'/panel/operar?business='+businessId}];
  if(steps.every(s=>s.done))return null;

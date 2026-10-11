@@ -41,7 +41,8 @@ export default async function PointsPanel({
   await requireBusiness(actor, b.id);
   if(!entitlements(b).active)return <main className="dashboard"><a href={"/panel?business="+b.id}>Mi negocio</a><AccountState b={b}/></main>;
   if(params.view==='compartir')redirect('/panel?business='+b.id+'#compartir');
-  const view=['programa','equipo','canjes','compartir'].includes(params.view||'')?params.view:'programa';
+  const view=['programa','promociones','equipo','canjes','compartir'].includes(params.view||'')?params.view:'programa';
+  const programView=view==='programa'||view==='promociones';
   const [program] = await query(
     actor,
     "select * from nival_pr.programs where business_id=$1",
@@ -63,7 +64,7 @@ export default async function PointsPanel({
     [b.id],
   );
   return (
-    <DashboardShell name={b.name} owner={actor.name} status={b.status==='activo'?'Activo':'Inactivo'} demo={false} initialSection={view} homeUrl={'/panel?business='+b.id} planName={b.plan_name||'Puntos'} price={Number(b.price_mxn||299)} responseLimit={Number(b.features?.review_limit||0)} periodDay={Math.max(1,Math.min(30,Math.floor((Date.now()-(Date.parse(String(b.paid_until||''))-30*86400000))/86400000)+1))} logout={<form action={logout}><button className="logoutButton" aria-label="Cerrar sesión"><Icon name="logout" size={18}/></button></form>}>
+    <DashboardShell name={b.name} owner={actor.name} status={b.status==='activo'?'Activo':'Inactivo'} demo={false} initialSection={view==='programa'?'configuracion':view==='equipo'?'usuarios':view} homeUrl={'/panel?business='+b.id} planName={b.plan_name||'Puntos'} price={Number(b.price_mxn||299)} responseLimit={Number(b.features?.review_limit||0)} periodDay={Math.max(1,Math.min(30,Math.floor((Date.now()-(Date.parse(String(b.paid_until||''))-30*86400000))/86400000)+1))} logout={<form action={logout}><button className="logoutButton" aria-label="Cerrar sesión"><Icon name="logout" size={18}/></button></form>}>
     {view==='programa'&&<StartGuide actor={actor} businessId={b.id}/>}<main className="dashboard programWorkspace">
       <header className="dashHead">
         <div>
@@ -80,7 +81,7 @@ export default async function PointsPanel({
         ))}
       </nav>
       <nav className="programTabs" aria-label="Secciones del programa">{[['programa','Configuración de tarjeta'],['equipo','Personal'],['canjes','Historial de canjes']].map(([key,label])=><a key={key} aria-current={view===key?'page':undefined} href={'/panel/puntos?business='+b.id+'&view='+key}>{label}</a>)}</nav>
-      {view==='programa'&&<><section className="reviewBox" id="programa">
+      {programView&&<><section className="reviewBox" id="programa">
         <h2>Configuración de tarjeta</h2><p>Empieza con un premio sencillo, como un café gratis después de 8 visitas. Los cambios de la tarjeta se guardan solos; agrega al menos un premio antes de compartirla.</p>
         <ProgramEditor businessId={b.id} business={b.name} program={program} reward={rewards.find((r) => r.active)} />
         <p>Para empezar, recomendamos un premio para todos, 1 punto por visita y una visita por día. Las reglas se aplican al registrar cada compra.</p><details><summary>¿Cómo funcionan los otros modos?</summary><p>Premios a elegir: cada cliente elige una meta. Por etapas: los premios se entregan en el orden configurado. Premio sorpresa: los pesos se convierten en probabilidades proporcionales. Pesos iguales dan la misma probabilidad. El premio y su costo se muestran desde la asignación y no cambian al recargar. Los premios ya asignados se protegen hasta su canje.</p></details><h3 id="premios">2. Agrega tus premios</h3>{!rewards.length&&<p className="ownerEmpty">Todavía no tienes un premio. Agrégalo antes de compartir la tarjeta con tus clientes.</p>}

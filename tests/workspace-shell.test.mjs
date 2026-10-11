@@ -79,3 +79,17 @@ test('card personalization guide lives under Puntos, not the Resumen section',()
  assert.ok(points.includes("view==='programa'&&<StartGuide"));
  assert.ok(points.includes('<h2>Configuración de tarjeta</h2>'));
 });
+
+test('menu destinations identify the matching screen and onboarding actions jump to their forms',()=>{
+ const shell=readFileSync(new URL('../lib/owner/shell.tsx',import.meta.url),'utf8');
+ const points=readFileSync(new URL('../app/panel/puntos/page.tsx',import.meta.url),'utf8');
+ const guide=readFileSync(new URL('../lib/owner/start-guide.tsx',import.meta.url),'utf8');
+ const owner=readFileSync(new URL('../lib/owner/view.tsx',import.meta.url),'utf8');
+ assert.ok(shell.includes("view=promociones#premios"));
+ assert.ok(shell.includes("section==='equipo'?'usuarios'"));
+ assert.ok(shell.includes("section==='programa'?'configuracion'"));
+ assert.ok(points.includes("'programa','promociones','equipo','canjes','compartir'"));
+ assert.ok(points.includes("view==='programa'?'configuracion':view==='equipo'?'usuarios':view"));
+ assert.ok(guide.includes("href:base+'#programa'"));
+ assert.match(owner,/<section data-panel="plan"[^]*?<PlanChoices b=\{b\}\/>/);
+});
