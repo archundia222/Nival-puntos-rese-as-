@@ -26,3 +26,11 @@ test('phone recovery is Turnstile verified and rate limited per IP and phone',()
  assert.ok(sql.includes('unique_violation')&&sql.includes('device_token_hash=h'));
  assert.ok(sql.includes('card_active_guard'));
 });
+
+test('personal QR, staff lookup, live point feedback and customer animation stay connected',()=>{
+ const page=read('app/b/[slug]/page.tsx'),card=read('lib/points/card-view.tsx'),staff=read('app/api/staff/customer/route.ts'),css=read('app/globals.css');
+ assert.ok(page.includes('QRCode.toDataURL("NIVAL:" + c.id'));
+ assert.ok(staff.includes('raw.startsWith("NIVAL:")')&&staff.includes('staff_customer_code')&&staff.includes('staff_customer($1,$2,$3)'));
+ assert.ok(card.includes('Obtuviste un punto')&&card.includes('cardPulse')&&card.includes('setConfetti(true)'));
+ assert.ok(css.includes('.pointCongrats')&&css.includes('@keyframes pointCongrats'));
+});

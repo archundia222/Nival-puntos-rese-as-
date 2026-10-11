@@ -253,3 +253,6 @@ body{background:var(--nival-cream);color:var(--nival-text)}
  .businessDetail{padding:16px}
  .adminFlowStep{margin:12px 0;padding:13px}
 }
+.pointCongrats{position:absolute;z-index:2;left:50%;bottom:18px;transform:translateX(-50%);padding:10px 16px;border:1px solid #ffffff80;border-radius:999px;background:#143e30;color:#fff;font-size:14px;font-weight:800;box-shadow:0 6px 20px #06171080;white-space:nowrap;animation:pointCongrats .35s ease-out}
+@keyframes pointCongrats{from{opacity:0;transform:translate(-50%,8px) scale(.92)}to{opacity:1;transform:translate(-50%,0) scale(1)}}
+@media(prefers-reduced-motion:reduce){.pointCongrats{animation:none}}

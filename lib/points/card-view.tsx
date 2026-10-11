@@ -18,7 +18,7 @@ export function CardView({
 }) {
   const [card, setCard] = useState(initial),
     [pulse, setPulse] = useState(false),
-    [confetti, setConfetti] = useState(false),[syncMessage,setSyncMessage]=useState(''),[checking,setChecking]=useState(false);
+    [confetti, setConfetti] = useState(false),[pointMessage,setPointMessage]=useState(''),[syncMessage,setSyncMessage]=useState(''),[checking,setChecking]=useState(false);
   const manualRefresh=useRef<(manual?:boolean)=>Promise<void>>(async()=>{});
   const router = useRouter();
   const previous = useRef(initial);
@@ -40,6 +40,9 @@ export function CardView({
         }
         const prev = previous.current;
         if (Number(d.card.balance) > Number(prev.balance)) {
+          const pointsEarned=Number(d.card.balance)-Number(prev.balance);
+          setPointMessage(pointsEarned===1?"Obtuviste un punto":`Obtuviste ${pointsEarned} puntos`);
+          setTimeout(()=>setPointMessage(''),2600);
           setPulse(true);
           setTimeout(() => setPulse(false), 1000);
           if (
@@ -148,6 +151,7 @@ export function CardView({
           <span>{business.program?.rules?.card_design?.footer || "Un lugar al que vale la pena volver."}</span>
           <small>•••• {card.id.slice(-4).toUpperCase()}</small>
         </footer>
+        {pointMessage&&<span className="pointCongrats" role="status" aria-live="polite">{pointMessage}</span>}
         {confetti && (
           <div className="confetti" aria-hidden="true">
             {Array.from({ length: 18 }, (_, i) => (
