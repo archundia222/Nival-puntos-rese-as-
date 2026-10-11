@@ -80,7 +80,7 @@ export function CardView({
     ready = goal > 0 && points >= goal;
   const visibleDots=Math.min(goal||10,20),filledDots=Math.min(Math.round((points/Math.max(goal,1))*visibleDots),visibleDots);
   const baseCardColor=business.program?.rules?.card_design?.theme==="noche"?"#17352f":business.program?.rules?.card_design?.theme==="botanico"?"#315641":cardColor(business.program?.color);
-  const configuredStyle={"--card-color":baseCardColor,"--card-text":readableCardText(design.textColor,baseCardColor),"--card-accent":design.secondaryColor||"#f0d6a6","--point-active":design.pointActive||design.secondaryColor||"#f0d6a6","--point-idle":design.pointInactive||"#dbe4dc"} as React.CSSProperties;
+  const configuredStyle={"--card-color":baseCardColor,"--card-text":design.background?"#ffffff":readableCardText(design.textColor,baseCardColor),"--card-accent":design.secondaryColor||"#f0d6a6","--point-active":design.pointActive||design.secondaryColor||"#f0d6a6","--point-idle":design.pointInactive||"#dbe4dc"} as React.CSSProperties;
   return (
     <>
       <p className="cardWelcome">Tu tarjeta está lista. Muéstrala después de tu compra para sumar puntos.</p>
@@ -90,7 +90,7 @@ export function CardView({
           {
             ...configuredStyle,
             "--card-color": baseCardColor,
-            backgroundImage: business.program?.rules?.card_design?.background ? "linear-gradient(120deg, rgba(15,45,35,.84), rgba(15,45,35,.48)), url('" + business.program.rules.card_design.background + "')" : undefined,
+            backgroundImage: business.program?.rules?.card_design?.background ? "linear-gradient(120deg, rgba(7,31,23,.80), rgba(7,31,23,.80)), url('" + business.program.rules.card_design.background + "')" : undefined,
             backgroundSize: "cover",
             backgroundPosition: `${business.program?.rules?.card_design?.backgroundX??50}% ${business.program?.rules?.card_design?.backgroundY??50}%`,
           } as React.CSSProperties
