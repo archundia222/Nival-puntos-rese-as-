@@ -9,7 +9,7 @@ test('first sale: registration → paid code → setup → enrollment → owner 
  const db=new PGlite();
  try{
   await db.exec('create schema neon_auth;create table neon_auth."user"(id uuid primary key)');
-  for(const name of ['foundation-neon','points-neon','points-lifecycle','points-legacy-phones','owner-panel','owner-report-scope','legal-pilot','registration-pilot','reputation-v6','lealtad-v6','points-only-plan-v1','activation-plan-v2','entitlements-v2','owner-tools-v2','service-access-v3','plan-review-pipeline-v8','plan-pricing-v9','promotions-redemption-value-v1','period-summary-v1','review-cards-v1','branches-v1','weekday-bonus-v1','card-publish-recovery-v1'])await db.exec(source('database/'+name+'.sql'));
+  for(const name of ['foundation-neon','points-neon','points-lifecycle','points-legacy-phones','owner-panel','owner-report-scope','legal-pilot','registration-pilot','reputation-v6','lealtad-v6','points-only-plan-v1','activation-plan-v2','entitlements-v2','owner-tools-v2','service-access-v3','plan-review-pipeline-v8','plan-pricing-v9','promotions-redemption-value-v1','period-summary-v1','review-cards-v1','branches-v1','weekday-bonus-v1','card-publish-recovery-v1','card-customization-v2'])await db.exec(source('database/'+name+'.sql'));
   await db.query('insert into neon_auth."user" values($1),($2)',[owner,admin]);
   await db.query("insert into nival_pr.profiles(id,role,full_name) values($1,'owner','Ana'),($2,'superadmin','Nival')",[owner,admin]);
   const scope=async(role,id='')=>{await db.exec('reset role;set role '+role);await db.query("select set_config('npr.user_id',$1,false)",[id]);};
@@ -44,6 +44,9 @@ test('first sale: registration → paid code → setup → enrollment → owner 
   assert.ok(listedStaff.branch_id);
   await scope('npr_v2_auth');
   const business=await publicData();assert.equal(business.active,true);assert.equal(business.rewards[0].name,'Café gratis');
+  await scope('npr_v2_owner',owner);await db.query("update nival_pr.programs set rules=rules||jsonb_build_object('card_design',jsonb_build_object('askBirthday',true)) where business_id=$1",[b]);await scope('npr_v2_auth');
+  const {rows:[birthdayCustomer]}=await db.query('select nival_pr_private.enroll_customer_with_birthday($1,$2,$3,$4,false,$5::date) id',['primer-cliente','Cumple','525500001239','d'.repeat(64),'2005-03-02']);
+  await scope('npr_v2_owner',owner);assert.equal((await db.query('select birth_date::text from nival_pr.customers where id=$1',[birthdayCustomer.id])).rows[0].birth_date,'2005-03-02');await scope('npr_v2_auth');
   let token='a'.repeat(64);const {rows:[customer]}=await db.query('select nival_pr_private.enroll_customer_legal($1,$2,$3,$4,false) id',['primer-cliente','María','525500001234',token]);const c=customer.id;
   const repeatToken='9'.repeat(64),{rows:[repeat]}=await db.query('select nival_pr_private.enroll_customer_legal($1,$2,$3,$4,false) id',['primer-cliente','María otra vez','525500001234',repeatToken]);assert.equal(repeat.id,c,'same business and phone reuses the existing customer');token=repeatToken;
   await scope('npr_v2_owner',owner);assert.equal((await db.query("select count(*)::int n from nival_pr.customers where business_id=$1 and phone='525500001234'",[b])).rows[0].n,1);await scope('npr_v2_auth');

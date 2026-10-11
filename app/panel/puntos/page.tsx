@@ -11,6 +11,7 @@ import { requireRole, requireBusiness } from "../../../lib/foundation/session";
 import { ActionForm } from "../../../lib/foundation/forms";
 import { Field, Hidden } from "../../../lib/foundation/fields";
 import { addReward } from "../../../lib/foundation/actions";
+import {ReviewCardManager} from "../../../lib/owner/review-card-manager";
 import {
   manageStaff,
   reviewRedemption,
@@ -18,11 +19,12 @@ import {
 } from "../../../lib/points/actions";
 
 import { ProgramEditor } from "../../../lib/points/program-editor";
+import {CardWorkspace} from "../../../lib/points/card-workspace";
 export const dynamic = "force-dynamic";
 export default async function PointsPanel({
   searchParams,
 }: {
-  searchParams: Promise<{ business?: string;view?:string }>;
+  searchParams: Promise<{ business?: string;view?:string;period?:string }>;
 }) {
   const actor = await requireRole("owner"),
     params = await searchParams;
@@ -64,6 +66,20 @@ export default async function PointsPanel({
     "select d.id,d.status,d.photo_path,d.value_mxn,r.name reward,r.reward_type,r.photo_url product_photo,c.name customer,l.created_at,l.points,l.staff_id from nival_pr.redemptions d join nival_pr.point_ledger l on l.id=d.ledger_id join nival_pr.customers c on c.id=l.customer_id join nival_pr.rewards r on r.id=d.reward_id where l.business_id=$1 order by l.created_at desc limit 100",
     [b.id],
   );
+  const period=["7","30","90","365"].includes(params.period||"")?params.period! : "30";
+  let cardMetrics={visits:0,customers:0,redemptions:0,income:null as number|null},recent:any[]=[],reviewCards:any[]=[];
+  if(programView){
+    try{
+      const [counts]=await query(actor,`select
+       (select count(*)::int from nival_pr.point_ledger where business_id=$1 and type='visit' and created_at>=now()-($2::int*interval '1 day')) visits,
+       (select count(*)::int from nival_pr.customers where business_id=$1 and created_at>=now()-($2::int*interval '1 day')) customers,
+       (select count(*)::int from nival_pr.point_ledger where business_id=$1 and type='redeem' and created_at>=now()-($2::int*interval '1 day')) redemptions`,[b.id,period]);
+      cardMetrics={...cardMetrics,...counts};
+    }catch{}
+    try{const [income]=await query(actor,"select coalesce(sum(ticket_value_mxn),0)::numeric income from nival_pr.point_ledger where business_id=$1 and type='visit' and created_at>=now()-($2::int*interval '1 day')",[b.id,period]);cardMetrics.income=Number(income?.income||0);}catch{}
+    try{recent=await query(actor,"select c.name,l.type,l.points,r.name reward,l.created_at from nival_pr.point_ledger l join nival_pr.customers c on c.id=l.customer_id left join nival_pr.rewards r on r.id=l.reward_id where l.business_id=$1 and l.type in ('visit','redeem') order by l.created_at desc,l.id desc limit 8",[b.id]);}catch{}
+    try{reviewCards=await query(authScope(actor.id),"select * from nival_pr_private.list_review_cards($1)",[b.id]);}catch{}
+  }
   return (
     <DashboardShell name={b.name} owner={actor.name} status={b.status==='activo'?'Activo':'Inactivo'} demo={false} initialSection={view==='programa'?'configuracion':view==='equipo'?'usuarios':view} homeUrl={'/panel?business='+b.id} planName={b.plan_name||'Puntos'} price={Number(b.price_mxn||299)} responseLimit={Number(b.features?.review_limit||0)} periodDay={Math.max(1,Math.min(30,Math.floor((Date.now()-(Date.parse(String(b.paid_until||''))-30*86400000))/86400000)+1))} logout={<form action={logout}><button className="logoutButton" aria-label="Cerrar sesión"><Icon name="logout" size={18}/></button></form>}>
     {view==='programa'&&<StartGuide actor={actor} businessId={b.id}/>}<main className="dashboard programWorkspace">
@@ -82,10 +98,8 @@ export default async function PointsPanel({
         ))}
       </nav>
       <nav className="programTabs" aria-label="Secciones del programa">{[['programa','Configuración de tarjeta'],['equipo','Personal'],['canjes','Historial de canjes']].map(([key,label])=><a key={key} aria-current={view===key?'page':undefined} href={'/panel/puntos?business='+b.id+'&view='+key}>{label}</a>)}</nav>
-      {programView&&<><section className="reviewBox" id="programa">
-        <h2>Configuración de tarjeta</h2><p>Empieza con un premio sencillo, como un café gratis después de 8 visitas. Los cambios de la tarjeta se guardan solos; agrega al menos un premio antes de compartirla.</p>
-        <ProgramEditor businessId={b.id} business={b.name} program={program} reward={rewards.find((r) => r.active)} />
-        <p>Para empezar, recomendamos un premio para todos, 1 punto por visita y una visita por día. Las reglas se aplican al registrar cada compra.</p><details><summary>¿Cómo funcionan los otros modos?</summary><p>Premios a elegir: cada cliente elige una meta. Por etapas: los premios se entregan en el orden configurado. Premio sorpresa: los pesos se convierten en probabilidades proporcionales. Pesos iguales dan la misma probabilidad. El premio y su costo se muestran desde la asignación y no cambian al recargar. Los premios ya asignados se protegen hasta su canje.</p></details><h3 id="premios">2. Agrega tus premios</h3>{!rewards.length&&<p className="ownerEmpty">Todavía no tienes un premio. Agrégalo antes de compartir la tarjeta con tus clientes.</p>}
+      {programView&&<><CardWorkspace businessId={b.id} business={b.name} slug={b.slug} program={program} reward={rewards.find((r:any) => r.active)} metrics={cardMetrics} recent={recent} period={period} reviewCards={reviewCards} reviewManager={<ReviewCardManager businessId={b.id} cards={reviewCards} googleUrl={b.google_maps_url}/>} editor={<ProgramEditor businessId={b.id} business={b.name} program={program} reward={rewards.find((r:any) => r.active)} />}/><details className="reviewBox extraRewards"><summary>Administrar premios adicionales</summary>
+        <h2>Premios y reglas avanzadas</h2><p>Conserva tus premios, edita su información y define el orden de entrega. Las metas que un cliente ya eligió se protegen hasta su canje.</p><details><summary>¿Cómo funcionan los otros modos?</summary><p>Premios a elegir: cada cliente elige una meta. Por etapas: los premios se entregan en el orden configurado. Los premios asignados y su costo se muestran hasta completar el canje.</p></details><h3 id="premios">Premios del programa</h3>{!rewards.length&&<p className="ownerEmpty">Todavía no tienes un premio. Agrégalo antes de compartir la tarjeta con tus clientes.</p>}
         {rewards.map((r) => (
           <details key={r.id} className="customerRow"><summary>{r.name} · {r.points_cost} puntos · {r.active?'Activo':'Desactivado'}</summary>
             <h3>
@@ -140,7 +154,7 @@ export default async function PointsPanel({
             }
           />
         </ActionForm><a className="workspacePrimary" href={'/panel?business='+b.id+'#compartir'}>Siguiente: compartir QR y tarjeta →</a>
-      </section>
+      </details>
       </>}
       {view==='equipo'&&<section className="reviewBox" id="personal">
         <h2>Tu equipo</h2><p>También puedes atender tú desde <a href={'/panel/operar?business='+b.id}>Puntos y canjes</a>. Crea un acceso solo para quienes van a registrar visitas o entregar premios.</p>

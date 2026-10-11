@@ -36,8 +36,11 @@ export function PrintQr({
         </small>
       </div>
       <div className="actions">
-        <a href={"/api/points/qr?slug=" + slug + "&download=1"} download>
-          Descargar QR SVG
+        <a href={"/api/points/qr?slug=" + slug + "&format=png"} download>
+          Descargar imagen PNG
+        </a>
+        <a href={"/api/points/qr?slug=" + slug + "&format=pdf"} download>
+          Descargar cartel PDF
         </a>
         <button type="button" onClick={() => window.print()}>
           Imprimir cartel o guardar PDF

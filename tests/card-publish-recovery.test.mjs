@@ -6,12 +6,22 @@ const read=p=>readFileSync(p,'utf8');
 test('card editor keeps edits in a local draft until explicit publish',()=>{
  const editor=read('lib/points/program-editor.tsx');
  assert.ok(editor.includes('Guardar y publicar'));
- assert.ok(editor.includes('Hay cambios sin publicar.'));
+ assert.ok(editor.includes('Borrador actualizado. Publícalo cuando esté listo.'));
  assert.ok(!editor.includes('Guardar ahora'));
  assert.ok(!editor.includes('automáticamente'));
  assert.ok(editor.includes('cardEnabled'));
  assert.ok(editor.includes('rewardName')&&editor.includes('rewardCost'));
- assert.ok(editor.includes('QR personal · muestra')&&editor.includes('Código:'));
+ assert.ok(editor.includes('QR PERSONAL')&&editor.includes('00000000'));
+ assert.ok(editor.includes('Información')&&editor.includes('Diseño')&&editor.includes('Detalles'));
+ assert.ok(editor.includes('secondaryColor')&&editor.includes('askBirthday')&&editor.includes('squareLogo'));
+});
+
+test('card workspace exposes a collection, detail metrics, owner exports and review QR manager',()=>{
+ const workspace=read('lib/points/card-workspace.tsx'),page=read('app/panel/puntos/page.tsx'),exportRoute=read('app/api/points/export/route.ts'),qrRoute=read('app/api/points/qr/route.ts');
+ for(const label of ['Tus tarjetas','Tarjetas QR de reseñas','Actividad del programa','Registros recientes','Editar tarjeta','Exportar clientes','Exportar movimientos'])assert.ok(workspace.includes(label),label);
+ assert.ok(page.includes('CardWorkspace')&&page.includes('list_review_cards'));
+ assert.ok(exportRoute.includes('requireRole("owner")')&&exportRoute.includes('requireBusiness'));
+ assert.ok(qrRoute.includes('format==="png"')&&qrRoute.includes('format==="pdf"'));
 });
 
 test('phone recovery is Turnstile verified and rate limited per IP and phone',()=>{

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { WalletButton } from "../wallet/button";
 import { ActionForm } from "../foundation/forms";
 import { Hidden } from "../foundation/fields";
-import {cardColor} from "./card-color";
+import {cardColor,readableCardText} from "./card-color";
 import { chooseGoal } from "../foundation/actions";
 export function CardView({
   business,
@@ -74,9 +74,13 @@ export function CardView({
     previous.current = initial;
     setCard(initial);
   }, [initial]);
-  const goal = card.reward?.points_cost || 0,
+  const design=business.program?.rules?.card_design||{},
+    goal = card.reward?.points_cost || 0,
     points = Number(card.balance),
     ready = goal > 0 && points >= goal;
+  const visibleDots=Math.min(goal||10,20),filledDots=Math.min(Math.round((points/Math.max(goal,1))*visibleDots),visibleDots);
+  const baseCardColor=business.program?.rules?.card_design?.theme==="noche"?"#17352f":business.program?.rules?.card_design?.theme==="botanico"?"#315641":cardColor(business.program?.color);
+  const configuredStyle={"--card-color":baseCardColor,"--card-text":readableCardText(design.textColor,baseCardColor),"--card-accent":design.secondaryColor||"#f0d6a6","--point-active":design.pointActive||design.secondaryColor||"#f0d6a6","--point-idle":design.pointInactive||"#dbe4dc"} as React.CSSProperties;
   return (
     <>
       <p className="cardWelcome">Tu tarjeta está lista. Muéstrala después de tu compra para sumar puntos.</p>
@@ -84,7 +88,8 @@ export function CardView({
         className={"loyaltyCard " + (pulse ? "cardPulse" : "")}
         style={
           {
-            "--card-color": business.program?.rules?.card_design?.theme === "noche" ? "#17352f" : business.program?.rules?.card_design?.theme === "botanico" ? "#315641" : cardColor(business.program?.color),
+            ...configuredStyle,
+            "--card-color": baseCardColor,
             backgroundImage: business.program?.rules?.card_design?.background ? "linear-gradient(120deg, rgba(15,45,35,.84), rgba(15,45,35,.48)), url('" + business.program.rules.card_design.background + "')" : undefined,
             backgroundSize: "cover",
             backgroundPosition: `${business.program?.rules?.card_design?.backgroundX??50}% ${business.program?.rules?.card_design?.backgroundY??50}%`,
@@ -93,10 +98,10 @@ export function CardView({
       >
         <div className="cardTop">
           <div>
-            {business.program?.logo_url ? (
+            {design.squareLogo||business.program?.logo_url ? (
               <img
                 className="cardLogo"
-                src={business.program.logo_url}
+                src={design.squareLogo||business.program.logo_url}
                 alt={"Logo de " + business.name}
               />
             ) : (
@@ -104,26 +109,13 @@ export function CardView({
             )}
             <small style={{color:"#fff",textShadow:"0 1px 4px #000"}}>{business.name}</small>
           </div>
-          <span className="cardSerial">
-            NIVAL PUNTOS
-            <br />
-            MEMBRESÍA DIGITAL
-          </span>
+          <span className="cardExpiry">{design.expiryMonths?`Puntos válidos ${design.expiryMonths} meses`:"Los puntos no caducan"}</span>
         </div>
         <p className="cardProgram" style={{color:"#fff",textShadow:"0 1px 4px #000"}}>
           {business.program?.name || "Tus recompensas"}
         </p>
         <h1>{card.name}</h1>
-        <div className="cardNumbers">
-          <strong aria-live="polite">{points}</strong>
-          <span>
-            puntos
-            <br />
-            acumulados
-          </span>
-          <span className="cardSeal">✦</span>
-        </div>
-        <div
+        {design.pointView==="bar"?<><div className="cardNumbers compact"><strong aria-live="polite">{points}</strong><span>de {goal||"—"} puntos</span></div><div
           className="cardProgress"
           role="progressbar"
           aria-label="Progreso hacia tu premio"
@@ -136,17 +128,18 @@ export function CardView({
               width: (goal ? Math.min(points / goal, 1) * 100 : 0) + "%",
             }}
           />
-        </div>
+        </div></>:<div className="cardPointGrid" aria-label={`${points} de ${goal} puntos acumulados`}>{Array.from({length:visibleDots},(_,i)=><i key={i} className={i<filledDots?"isFilled":""}>{design.pointIcon==="star"?"★":design.pointIcon==="heart"?"♥":design.pointIcon==="coffee"?"●":"✦"}</i>)}</div>}
         <div className="cardGoal">
           <span>
             {ready
               ? "Tu premio está listo"
               : card.reward
                 ? `${Math.max(goal - points, 0)} puntos para tu premio`
-                : "Elige tu siguiente premio"}
+                : "Meta pendiente de configuración"}
           </span>
-          <b>{card.reward?.name || "Tu próxima recompensa"}</b>
+          <b>{card.reward?.name || "Premio por definir"}</b>
         </div>
+        <div className="cardQrInside"><img src={qr} alt="QR personal para registrar tus puntos"/><span>QR PERSONAL<br/><b>{card.manual_code||String(card.id).slice(-8).toUpperCase()}</b></span></div>
         <footer>
           <span>{business.program?.rules?.card_design?.footer || "Un lugar al que vale la pena volver."}</span>
           <small>•••• {card.id.slice(-4).toUpperCase()}</small>
@@ -186,6 +179,7 @@ export function CardView({
         <p className="manualCardCode">Código manual: <strong>{card.manual_code||card.id}</strong></p>
         <button type="button" disabled={checking} onClick={()=>void manualRefresh.current(true)}>{checking?'Actualizando…':'Actualizar mis puntos'}</button>{syncMessage&&<p role="status">{syncMessage}</p>}
       </section>
+      {(design.terms||design.whatsapp||design.address||design.instagram||design.facebook)&&<section className="customerCardDetails"><h2>Información del programa</h2>{design.terms&&<details><summary>Términos y condiciones</summary><p>{design.terms}</p></details>}{design.whatsapp&&<p>WhatsApp: <a href={`https://wa.me/${String(design.whatsapp).replace(/\D/g,"")}`} target="_blank" rel="noreferrer">{design.whatsapp}</a></p>}{design.address&&<p>Dirección: {design.address}</p>}{design.instagram&&<p>Instagram: {design.instagram}</p>}{design.facebook&&<p>Facebook: {design.facebook}</p>}</section>}
       {business.active && business.program?.mode === "choose" && !card.reward && (
         <section className="reviewBox">
           <h2>¿Cuál será tu próximo premio?</h2>

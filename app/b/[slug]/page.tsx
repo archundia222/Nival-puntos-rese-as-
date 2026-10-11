@@ -92,6 +92,7 @@ export default async function Customer({
                     maxLength={18}
                   />
                 </label>
+                {b.program?.rules?.card_design?.askBirthday===true&&<label className="wide">Cumpleaños (opcional)<input name="birthDate" type="date" max={new Date().toISOString().slice(0,10)}/></label>}
               </>
             )}
             <label className="wide consentLabel">

@@ -211,6 +211,20 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
         theme: ["nival", "botanico", "noche"].includes(parsed.theme) ? parsed.theme : "nival",
         headline: String(parsed.headline || "Cliente de ejemplo").slice(0, 60),
         footer: String(parsed.footer || "").slice(0, 80),
+        secondaryColor: /^#[a-f0-9]{6}$/i.test(String(parsed.secondaryColor||"")) ? String(parsed.secondaryColor) : "#e9d5a4",
+        textColor: /^#[a-f0-9]{6}$/i.test(String(parsed.textColor||"")) ? String(parsed.textColor) : "#ffffff",
+        pointIcon: ["nival","star","heart","coffee"].includes(parsed.pointIcon) ? parsed.pointIcon : "nival",
+        pointActive: /^#[a-f0-9]{6}$/i.test(String(parsed.pointActive||"")) ? String(parsed.pointActive) : "#f0d6a6",
+        pointInactive: /^#[a-f0-9]{6}$/i.test(String(parsed.pointInactive||"")) ? String(parsed.pointInactive) : "#dbe4dc",
+        pointView: parsed.pointView === "bar" ? "bar" : "grid",
+        expiryMonths: parsed.expiryMonths === "" || parsed.expiryMonths == null ? "" : String(Math.max(1,Math.min(60,Number(parsed.expiryMonths)||6))),
+        askBirthday: parsed.askBirthday === true,
+        terms: String(parsed.terms || "").slice(0, 2000),
+        whatsapp: String(parsed.whatsapp || "").replace(/\D/g, "").slice(0, 15),
+        address: String(parsed.address || "").slice(0, 240),
+        instagram: String(parsed.instagram || "").slice(0, 100),
+        facebook: String(parsed.facebook || "").slice(0, 150),
+        ...(typeof parsed.squareLogo === "string" && parsed.squareLogo.length <= 400000 && (/^(data:image\/(png|jpeg|webp);base64,|https:\/\/)/.test(parsed.squareLogo)) ? { squareLogo: parsed.squareLogo } : {}),
         ...(Number.isInteger(parsed.backgroundX) ? { backgroundX: Math.max(0,Math.min(100,parsed.backgroundX)) } : {}),
         ...(Number.isInteger(parsed.backgroundY) ? { backgroundY: Math.max(0,Math.min(100,parsed.backgroundY)) } : {}),
         ...(Number.isInteger(parsed.logoX) ? { logoX: Math.max(0,Math.min(100,parsed.logoX)) } : {}),
@@ -274,6 +288,11 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
   revalidatePath("/panel");revalidatePath("/panel/puntos");
   kickWalletJobs();
   return { success: "Tarjeta publicada. Los clientes ya ven estos cambios." };
+}
+export async function setCardEnabled(_:Result,f:FormData):Promise<Result>{
+  const actor=await guardAction(["owner"],f),businessId=val(f,"businessId"),enabled=val(f,"enabled")==="true";
+  if(!uuid(businessId))return {error:"Negocio inválido."};
+  try{await requireTool(actor,businessId);const [row]=await query(actor,"update nival_pr.programs set card_enabled=$2 where business_id=$1 returning id",[businessId,enabled]);if(!row)return {error:"Primero configura la tarjeta de puntos."};revalidatePath("/panel/puntos");revalidatePath("/b");kickWalletJobs();return {success:enabled?"Tarjeta activada. El personal ya puede registrar puntos.":"Tarjeta desactivada. Los saldos e historiales se conservan."};}catch(e){return failure(e);}
 }
 export async function addReward(_: Result, f: FormData): Promise<Result> {
   const actor = await guardAction(["owner"],f);
@@ -453,7 +472,8 @@ export async function enroll(_: Result, f: FormData): Promise<Result> {
   if(!await verifyTurnstile(val(f,"cf-turnstile-response"),ip).catch(()=>false))return {error:"Confirma que no eres un robot."};
   const slug = val(f, "slug"),
     name = val(f, "name"),
-    phone = mexicoPhone(val(f, "phone"));
+    phone = mexicoPhone(val(f, "phone")),
+    birthDate=val(f,"birthDate");
   if (
     !/^[a-z0-9-]{1,100}$/.test(slug) ||
     !name ||
@@ -482,11 +502,13 @@ export async function enroll(_: Result, f: FormData): Promise<Result> {
     );
     if (!b?.data?.active) return { error: "Este programa no está disponible." };
     if(!b.data.program?.id)return {error:"El negocio está preparando su programa. Inténtalo más tarde."};
-    await query(
-      authScope(),
-      "select nival_pr_private.enroll_customer_legal($1,$2,$3,$4,$5)",
-      [slug, name, phone, sha256(token), f.get("marketing_consent")==="on"],
-    );
+    const askBirthday=b.data.program?.rules?.card_design?.askBirthday===true;
+    const parsedBirthday=birthDate?new Date(birthDate+"T00:00:00.000Z"):null;
+    if(birthDate&&(!askBirthday||!/^\d{4}-\d{2}-\d{2}$/.test(birthDate)||!parsedBirthday||Number.isNaN(parsedBirthday.getTime())||parsedBirthday.toISOString().slice(0,10)!==birthDate||birthDate>new Date().toISOString().slice(0,10)))return {error:"Revisa el cumpleaños opcional."};
+    await query(authScope(),askBirthday
+      ? "select nival_pr_private.enroll_customer_with_birthday($1,$2,$3,$4,$5,$6)"
+      : "select nival_pr_private.enroll_customer_legal($1,$2,$3,$4,$5)",
+      askBirthday?[slug,name,phone,sha256(token),f.get("marketing_consent")==="on",birthDate||null]:[slug,name,phone,sha256(token),f.get("marketing_consent")==="on"]);
     (await cookies()).set("nival_customer_" + b.data.id, token, {
       ...cookieOptions,
       maxAge: 365 * 86400,

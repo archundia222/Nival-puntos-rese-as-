@@ -77,7 +77,7 @@ test('card personalization guide lives under Puntos, not the Resumen section',()
  const points=readFileSync(new URL('../app/panel/puntos/page.tsx',import.meta.url),'utf8');
  assert.ok(!owner.includes('{startGuide}'));
  assert.ok(points.includes("view==='programa'&&<StartGuide"));
- assert.ok(points.includes('<h2>Configuración de tarjeta</h2>'));
+ assert.ok(points.includes('<CardWorkspace')&&points.includes('Administrar premios adicionales'));
 });
 
 test('menu destinations identify the matching screen and onboarding actions jump to their forms',()=>{
