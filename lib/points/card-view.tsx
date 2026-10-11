@@ -85,7 +85,7 @@ export function CardView({
     <>
       <p className="cardWelcome">Tu tarjeta está lista. Muéstrala después de tu compra para sumar puntos.</p>
       <article
-        className={"loyaltyCard " + (pulse ? "cardPulse" : "")}
+        className={"loyaltyCard loyaltyCardPortrait " + (pulse ? "cardPulse" : "")}
         style={
           {
             ...configuredStyle,
@@ -115,20 +115,6 @@ export function CardView({
           {business.program?.name || "Tus recompensas"}
         </p>
         <h1>{card.name}</h1>
-        {design.pointView==="bar"?<><div className="cardNumbers compact"><strong aria-live="polite">{points}</strong><span>de {goal||"—"} puntos</span></div><div
-          className="cardProgress"
-          role="progressbar"
-          aria-label="Progreso hacia tu premio"
-          aria-valuenow={Math.min(points, goal)}
-          aria-valuemin={0}
-          aria-valuemax={goal || 1}
-        >
-          <i
-            style={{
-              width: (goal ? Math.min(points / goal, 1) * 100 : 0) + "%",
-            }}
-          />
-        </div></>:<div className="cardPointGrid" aria-label={`${points} de ${goal} puntos acumulados`}>{Array.from({length:visibleDots},(_,i)=><i key={i} className={i<filledDots?"isFilled":""}>{design.pointIcon==="star"?"★":design.pointIcon==="heart"?"♥":design.pointIcon==="coffee"?"●":"✦"}</i>)}</div>}
         <div className="cardGoal">
           <span>
             {ready
@@ -137,9 +123,17 @@ export function CardView({
                 ? `${Math.max(goal - points, 0)} puntos para tu premio`
                 : "Meta pendiente de configuración"}
           </span>
-          <b>{card.reward?.name || "Premio por definir"}</b>
+          <b>{card.reward?.name || "Premio por definir"}{goal?` · ${goal} puntos`:""}</b>
         </div>
-        <div className="cardQrInside"><img src={qr} alt="QR personal para registrar tus puntos"/><span>QR PERSONAL<br/><b>{card.manual_code||String(card.id).slice(-8).toUpperCase()}</b></span></div>
+        <div className="cardQrInside cardQrCentered"><img src={qr} alt="QR personal para registrar tus puntos"/><span>ESCANEA PARA REGISTRAR<br/><b>{card.manual_code||String(card.id).slice(-8).toUpperCase()}</b></span></div>
+        {design.pointView==="bar"?<div className="cardProgressGroup"><div className="cardNumbers compact"><strong aria-live="polite">{points}</strong><span>de {goal||"—"} puntos</span></div><div
+          className="cardProgress"
+          role="progressbar"
+          aria-label="Progreso hacia tu premio"
+          aria-valuenow={Math.min(points, goal)}
+          aria-valuemin={0}
+          aria-valuemax={goal || 1}
+        ><i style={{width:(goal?Math.min(points/goal,1)*100:0)+"%"}}/></div></div>:<div className="cardPointGrid" aria-label={`${points} de ${goal} puntos acumulados`}>{Array.from({length:visibleDots},(_,i)=><i key={i} className={i<filledDots?"isFilled":""}>{design.pointIcon==="star"?"★":design.pointIcon==="heart"?"♥":design.pointIcon==="coffee"?"●":"✦"}</i>)}</div>}
         <footer>
           <span>{business.program?.rules?.card_design?.footer || "Un lugar al que vale la pena volver."}</span>
           <small>•••• {card.id.slice(-4).toUpperCase()}</small>
