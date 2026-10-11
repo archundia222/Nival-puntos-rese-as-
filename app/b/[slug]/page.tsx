@@ -55,14 +55,11 @@ export default async function Customer({
         <a href={"/b/" + slug}>{b.name}</a>
         <span>Tu lealtad tiene premio</span>
       </header>
-      {!b.active ? (
-        <section className="reviewBox">
-          <h1>Programa no disponible</h1>
-          <p>Consulta al negocio. Tus puntos se conservan.</p>
-        </section>
-      ) : !c&&(!b.program?.id||!b.rewards?.length) ? (<section className="enrollCard"><h1>Estamos preparando tus premios</h1><p>{b.name} está terminando su programa. Pregunta al personal cuándo podrás crear tu tarjeta.</p></section>) : c ? (
+      {c ? (
         <>{!b.active&&<p role="status">El servicio está pausado. Puedes consultar tu tarjeta; tus puntos y premios se conservan. Nuevos puntos y canjes estarán disponibles al renovar.</p>}{b.program?.card_enabled===false&&<p role="status">Esta tarjeta está inactiva. Tus puntos e historial se conservan; el negocio no puede registrar nuevos puntos ni canjes.</p>}<CardView business={b} initial={c} qr={qr} walletAvailable={walletReady()} /></>
-      ) : (
+      ) : !b.active ? (
+        <section className="enrollCard"><h1>Programa no disponible</h1><p>El negocio está en pausa. Si ya tienes tarjeta, recupérala para consultar tus puntos e historial.</p><VerifiedActionForm siteKey={turnstileSiteKey} needsVerification={true} action={recoverCustomerByPhone} label="Recuperar mi tarjeta"><Hidden name="slug" value={slug}/><label className="wide">Teléfono registrado<input name="phone" type="tel" inputMode="tel" autoComplete="tel" placeholder="55 1234 5678" required maxLength={18}/></label></VerifiedActionForm></section>
+      ) : !b.program?.id||!b.rewards?.length ? (<section className="enrollCard"><h1>Estamos preparando tus premios</h1><p>{b.name} está terminando su programa. Pregunta al personal cuándo podrás crear tu tarjeta.</p><details className="cardHelp" style={{marginTop:18}}><summary>¿Ya tienes tarjeta? Recupera con tu teléfono</summary><VerifiedActionForm siteKey={turnstileSiteKey} needsVerification={true} action={recoverCustomerByPhone} label="Recuperar mi tarjeta"><Hidden name="slug" value={slug}/><label className="wide">Teléfono registrado<input name="phone" type="tel" inputMode="tel" autoComplete="tel" placeholder="55 1234 5678" required maxLength={18}/></label></VerifiedActionForm></details></section>) : (
         <section className="enrollCard">
           <small>BIENVENIDO A {b.name.toUpperCase()}</small>
           <h1>

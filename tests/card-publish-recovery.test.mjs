@@ -21,6 +21,8 @@ test('phone recovery is Turnstile verified and rate limited per IP and phone',()
  assert.ok(recovery.includes('card-recovery-ip:')&&recovery.includes('card-recovery-phone:'));
  assert.ok(recovery.includes('recover_customer_by_phone'));
  assert.ok(page.includes('action={recoverCustomerByPhone}'));
+ assert.ok(page.indexOf('{c ? (')<page.indexOf(') : !b.active ? ('),'existing cards remain viewable when the business is paused');
+ assert.ok(page.includes('Programa no disponible')&&page.includes('Recuperar mi tarjeta'));
  assert.ok(sql.includes('unique_violation')&&sql.includes('device_token_hash=h'));
  assert.ok(sql.includes('card_active_guard'));
 });
