@@ -7,11 +7,9 @@ import {logout} from '../../lib/foundation/actions';
 import {ActionForm} from '../../lib/foundation/forms';
 import {Field,Hidden} from '../../lib/foundation/fields';
 import {
- changeBusinessStatus,setBusinessPlan,saveBusinessNotes,registerPayment30,generateActivationCode,
- publishContent,createTask,saveZoneComparison
+ changeBusinessStatus,setBusinessPlan,registerPayment30,generateActivationCode,saveZoneComparison
 } from '../../lib/admin/actions';
 import {syncServiceTasks} from '../../lib/admin/service-tasks';
-import {TestimonialForm} from '../../lib/admin/testimonial-form';
 import TaskBoard from './task-board';
 
 export const dynamic='force-dynamic';
@@ -20,9 +18,6 @@ const stateLabels:Record<string,string>={registrado:'Registrado',cotizando:'En c
 
 function mxn(value:unknown){return new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN',maximumFractionDigits:0}).format(Number(value||0))}
 function date(value:unknown){return value?new Date(String(value)).toLocaleDateString('es-MX',{timeZone:'America/Mexico_City'}):'—'}
-function reviewPayload(title:string){
- try{return title.startsWith('REVIEW:')?JSON.parse(title.slice(7)) as {reviewer:string;stars:number;text:string}:null}catch{return null}
-}
 function waReminder(b:any){
  const msg=`Hola ${b.owner_name||''}, te escribo de Nival Tech sobre ${b.name}. Tu servicio ${b.paid_until?'vence/venció el '+date(b.paid_until):'está pendiente de activación'}. ¿Te apoyo para renovarlo?`;
  const phone=String(b.phone||'').replace(/\D/g,'');
@@ -35,7 +30,7 @@ export default async function Admin({searchParams}:{searchParams:Promise<{busine
  if(!foundationEnabled())redirect('/demo/admin');
  const actor=await requireAdminRole();
  const params=await searchParams;
- const view=['inicio','negocios','tareas','testimonios','actividad','comparacion'].includes(params.view||'')?params.view:(params.business?'negocios':'tareas');
+ const view=['negocios','tareas','comparacion'].includes(params.view||'')?params.view:(params.business?'negocios':'tareas');
  await syncServiceTasks(actor);
  // Sin cron externo, cada entrada de superadmin sincroniza el estado de cobro.
  await transaction(actor,[
@@ -43,15 +38,10 @@ export default async function Admin({searchParams}:{searchParams:Promise<{busine
   {text:"update nival_pr.businesses set status='pausado' where status in ('activo','por_vencer') and greatest(coalesce(paid_until,'-infinity'),coalesce(trial_ends_at,'-infinity'))<=now()"},
  ]);
  const q=(params.q||'').slice(0,100),status=states.includes(params.status||'')?params.status||'':'';
- const [metric]=await query(actor,`select
-  count(*) filter(where b.status in ('activo','por_vencer') and greatest(coalesce(b.paid_until,'-infinity'),coalesce(b.trial_ends_at,'-infinity'))>now())::int active,
-  coalesce(sum(case when b.status in ('activo','por_vencer') and greatest(coalesce(b.paid_until,'-infinity'),coalesce(b.trial_ends_at,'-infinity'))>now() and p.interval='month' then p.price_mxn else 0 end),0) mrr,
-  count(*) filter(where b.status in ('activo','por_vencer') and greatest(coalesce(b.paid_until,'-infinity'),coalesce(b.trial_ends_at,'-infinity'))>now() and b.paid_until between now() and now()+interval '7 days')::int expiring
-  from nival_pr.businesses b left join nival_pr.plans p on p.id=b.plan_id`);
  const businesses=await query(actor,`select b.*,p.name plan_name,p.price_mxn,p.interval,
    case when p.price_mxn=399 then 30 when p.price_mxn=549 then 100 else coalesce((p.features->>'review_limit')::int,0) end review_limit,
    (select count(*)::int from nival_pr.reviews rv where rv.business_id=b.id and rv.published_at>=coalesce(b.service_started_at,b.paid_until-interval '30 days')+floor(extract(epoch from now()-coalesce(b.service_started_at,b.paid_until-interval '30 days'))/2592000)*interval '30 days' and rv.published_at<coalesce(b.service_started_at,b.paid_until-interval '30 days')+(floor(extract(epoch from now()-coalesce(b.service_started_at,b.paid_until-interval '30 days'))/2592000)+1)*interval '30 days') replies_used,
-   (select r.id from nival_pr.generated_reports r where r.business_id=b.id and r.status='approved' order by r.created_at desc limit 1) latest_pdf_id
+   (select r.id from nival_pr.generated_reports r where r.business_id=b.id and r.kind='period_summary' and r.status='approved' order by r.period_end desc limit 1) latest_pdf_id
   from nival_pr.businesses b left join nival_pr.plans p on p.id=b.plan_id
   where ($1='' or b.name ilike '%'||$1||'%' or coalesce(b.owner_name,'') ilike '%'||$1||'%' or coalesce(b.email,'') ilike '%'||$1||'%')
     and ($2='' or b.status=$2)
@@ -63,15 +53,13 @@ export default async function Admin({searchParams}:{searchParams:Promise<{busine
  const comparisonRows=plusBusinesses.length?await query(actor,'select * from nival_pr.business_comparisons where business_id=any($1::uuid[])',[plusBusinesses.map(b=>b.id)]):[];
  const payments=selected?await query(actor,'select * from nival_pr.payments where business_id=$1 order by paid_at desc limit 40',[selected.id]):[];
  const codes=selected?await query(actor,'select code,expires_at,used_at from nival_pr.activation_codes where business_id=$1 order by expires_at desc limit 20',[selected.id]):[];
- const audit=selected?await query(actor,'select action,data,created_at from nival_pr.audit_log where business_id=$1 order by created_at desc limit 40',[selected.id]):[];
- const globalAudit=await query(actor,`select a.action,a.created_at,a.data,b.name business_name from nival_pr.audit_log a left join nival_pr.businesses b on b.id=a.business_id order by a.created_at desc limit 40`);
  const todayTasks=await query(actor,`select t.id,t.title,t.status,t.due_date,t.recurrence,b.name business_name,b.id business_id,b.slug business_code,b.phone business_phone,b.email business_email
+   ,(select r.id from nival_pr.generated_reports r where r.business_id=b.id and r.kind='period_summary' and r.status='approved' order by r.period_end desc limit 1) period_summary_id
    from nival_pr.tasks t left join nival_pr.businesses b on b.id=t.business_id
    where t.title in ('Responder reseñas pendientes','Hacer resumen de reseñas','Mandar recordatorio de fin de periodo','Mandar recordatorio de pago','Mandar PDF de resumen al cierre')
      and ((t.status in ('pendiente','en_progreso') and (t.due_date is null or t.due_date<=(now() at time zone 'America/Mexico_City')::date)) or (t.status='completada' and t.due_date=(now() at time zone 'America/Mexico_City')::date))
-     and (t.business_id is null or (b.status in ('activo','por_vencer','pago_pendiente') and greatest(coalesce(b.paid_until,'-infinity'),coalesce(b.trial_ends_at,'-infinity'))>now()))
+     and (t.business_id is null or (t.title='Mandar PDF de resumen al cierre' and exists(select 1 from nival_pr.generated_reports r where r.business_id=b.id and r.kind='period_summary' and r.status='approved' and r.sent_at is null and r.period_end=(b.paid_until at time zone 'America/Mexico_City')::date)) or (b.status in ('activo','por_vencer','pago_pendiente') and greatest(coalesce(b.paid_until,'-infinity'),coalesce(b.trial_ends_at,'-infinity'))>now()))
    order by t.due_date nulls first,t.created_at asc limit 80`);
- const contents=await query(actor,"select key,value_draft,published_at from nival_pr.site_content where key like 'testimonial_%' order by key");
 
 
  return <main className="dashboard adminShell">
@@ -80,17 +68,10 @@ export default async function Admin({searchParams}:{searchParams:Promise<{busine
    <AdminNavigation view={view||'inicio'}/>
    <div className="adminContent">
 
-  {view==='inicio'&&<section id="resumen" className="adminMetrics" aria-label="Resumen del servicio">
-   <article><span>Negocios activos</span><b>{metric?.active||0}</b></article>
-   <article><span>Ingreso mensual previsto</span><b>{mxn(metric?.mrr)}</b></article>
-   <article><span>Por vencer · 7 días</span><b>{metric?.expiring||0}</b></article>
-   <article><span>Tareas por resolver hoy</span><b>{todayTasks.filter(t=>t.status!=='completada').length}</b></article>
-  </section>}
-
   {view==='negocios'&&<section id="negocios" className="adminSection">
-   <div className="sectionTitle"><div><small>OPERACIÓN</small><h2>Negocios</h2></div><div className="actions"><a href="/admin/export/businesses">Exportar negocios CSV</a><a href="/admin/export/payments">Exportar pagos CSV</a></div></div>
+   <div className="sectionTitle"><div><small>OPERACIÓN</small><h2>Negocios</h2></div></div>
    <form className="adminFilters"><Hidden name="view" value="negocios"/><input name="q" defaultValue={q} placeholder="Buscar negocio, dueño o correo"/><select name="status" defaultValue={status}><option value="">Todos los estados</option>{states.map(s=><option key={s} value={s}>{stateLabels[s]||s}</option>)}</select><button>Filtrar</button></form>
-   <div className="adminSplit"><div className="businessTableWrap"><table className="dataTable"><thead><tr><th>Negocio</th><th>Plan</th><th>Día del periodo</th><th>Pago</th><th>Respuestas usadas</th><th>Resumen PDF</th></tr></thead><tbody>{businesses.map(b=>{const start=Date.parse(String(b.paid_until||''))-30*86400000,day=Number.isFinite(start)?Math.max(1,Math.min(30,Math.floor((Date.now()-start)/86400000)+1)):0;return <tr key={b.id} className={selected?.id===b.id?'selectedRow':''}><td><a href={'/admin?view=negocios&business='+b.id+'&q='+encodeURIComponent(q)+'&status='+encodeURIComponent(status)}><b>{b.name}</b><small><span className={'statusChip status-'+b.status}>{stateLabels[b.status]||b.status}</span></small></a></td><td>{b.plan_name||'—'}<small>{mxn(b.price_mxn)} / 30 días</small></td><td>{day?`${day} de 30`:'—'}</td><td>{b.status==='activo'||b.status==='por_vencer'?'Al corriente':b.status==='pago_pendiente'?'Pendiente':stateLabels[b.status]||b.status}</td><td>{b.review_limit?`${b.replies_used||0} / ${b.review_limit}`:'No incluido'}</td><td>{b.latest_pdf_id?<a href={'/api/reports/'+b.latest_pdf_id}>Descargar PDF</a>:<a href={'/admin/reportes?business='+b.id}>Preparar resumen</a>}</td></tr>})}</tbody></table>{!businesses.length&&<p className="empty">No hay resultados.</p>}</div>
+   <div className="adminSplit"><div className="businessTableWrap"><table className="dataTable"><thead><tr><th>Negocio</th><th>Plan</th><th>Día del periodo</th><th>Pago</th><th>Respuestas usadas</th><th>Resumen PDF</th></tr></thead><tbody>{businesses.map(b=>{const start=Date.parse(String(b.paid_until||''))-30*86400000,day=Number.isFinite(start)?Math.max(1,Math.min(30,Math.floor((Date.now()-start)/86400000)+1)):0;return <tr key={b.id} className={selected?.id===b.id?'selectedRow':''}><td><a href={'/admin?view=negocios&business='+b.id+'&q='+encodeURIComponent(q)+'&status='+encodeURIComponent(status)}><b>{b.name}</b><small><span className={'statusChip status-'+b.status}>{stateLabels[b.status]||b.status}</span></small></a></td><td>{b.plan_name||'—'}<small>{mxn(b.price_mxn)} / 30 días</small></td><td>{day?`${day} de 30`:'—'}</td><td>{b.status==='activo'||b.status==='por_vencer'?'Al corriente':b.status==='pago_pendiente'?'Pendiente':stateLabels[b.status]||b.status}</td><td>{b.review_limit?`${b.replies_used||0} / ${b.review_limit}`:'No incluido'}</td><td>{b.latest_pdf_id?<a href={'/api/reports/'+b.latest_pdf_id}>Descargar PDF</a>:<span>Se genera al cierre</span>}</td></tr>})}</tbody></table>{!businesses.length&&<p className="empty">No hay resultados.</p>}</div>
    {params.business&&selected&&<aside className="businessDetail">
     <div className="sectionTitle adminBusinessTitle"><div><small>FICHA DEL NEGOCIO</small><h2>{selected.name}</h2><p>{selected.giro||'Sin giro'} · {selected.owner_name||'Sin dueño'}</p></div><span className={'statusChip status-'+selected.status}>{stateLabels[selected.status]||selected.status}</span></div>
     <dl className="detailGrid"><div><dt>ID</dt><dd>{selected.id}</dd></div><div><dt>Slug</dt><dd>{selected.slug}</dd></div><div><dt>Teléfono</dt><dd>{selected.phone||'—'}</dd></div><div><dt>Correo</dt><dd>{selected.email||'—'}</dd></div><div><dt>Vigencia</dt><dd>{date(selected.paid_until)}</dd></div><div><dt>Creado</dt><dd>{date(selected.created_at)}</dd></div></dl>
@@ -107,19 +88,10 @@ export default async function Admin({searchParams}:{searchParams:Promise<{busine
     <section className="adminFlowStep adminCodeStep"><div className="adminStepHeading"><span>PASO 3 · ACTIVACIÓN</span><p>Genera un código y entrégaselo al dueño por WhatsApp o en persona. El negocio lo canjea desde su panel.</p></div><ActionForm action={generateActivationCode} label="Generar código"><Hidden name="businessId" value={selected.id}/><Field name="expiresHours" label="Vence en horas" type="number" min={1} max={720} value={72}/></ActionForm>
     <div className="historyList">{codes.map(c=><p key={c.code}><code>{c.code}</code><small>{c.used_at?'Usado '+date(c.used_at):'Vence '+date(c.expires_at)}</small></p>)}</div></section>
 
-    <details className="adminAdvanced"><summary>Notas y registro de actividad</summary><div><h3>Notas internas</h3><ActionForm action={saveBusinessNotes} label="Guardar notas"><Hidden name="businessId" value={selected.id}/><label className="wide">Notas<textarea name="notes" defaultValue={selected.notes||''} maxLength={10000}/></label></ActionForm>
-
-    <h3>Registro de actividad</h3><div className="activityList">{audit.map((a,i)=><p key={i}><time>{new Date(a.created_at).toLocaleString('es-MX',{timeZone:'America/Mexico_City'})}</time><b>{a.action}</b><small>{JSON.stringify(a.data)}</small></p>)}</div></div></details>
    </aside>}</div>
   </section>}
 
   {view==='tareas'&&<section id="tareas" className="adminSection"><div className="sectionTitle"><div><small>OPERACIÓN DIARIA</small><h2>Pendientes del día</h2><p>Marca cada pendiente cuando esté listo. Las respuestas y los resúmenes se cargan manualmente desde Google y reseñas.</p></div></div><TaskBoard tasks={todayTasks as any}/></section>}
   {view==='comparacion'&&<section className="adminSection"><div className="sectionTitle"><div><small>PLAN PLUS</small><h2>Comparación con la zona</h2><p>Captura los datos de Google del negocio y el promedio de negocios parecidos de su zona.</p></div></div>{plusBusinesses.map(b=>{const c=comparisonRows.find(row=>row.business_id===b.id);return <article className="reviewBox" key={b.id}><h3>{b.name}</h3><ActionForm action={saveZoneComparison} label="Guardar comparación"><Hidden name="businessId" value={b.id}/><Field name="businessRating" label="Calificación del negocio" type="number" min={1} max={5} step={0.1} value={c?.business_rating||''}/><Field name="businessReviews" label="Número de reseñas del negocio" type="number" min={0} value={c?.business_reviews||''}/><Field name="zoneRating" label="Promedio de calificación en la zona" type="number" min={1} max={5} step={0.1} value={c?.zone_average_rating||''}/><Field name="zoneReviews" label="Promedio de reseñas en la zona" type="number" min={0} value={c?.zone_average_reviews||''}/></ActionForm></article>})}{!plusBusinesses.length&&<p className="empty">Aún no hay negocios con Plus.</p>}</section>}
-  {view==='testimonios'&&<section className="adminSection"><h2>Testimonios de negocios</h2><p>Prepara cada caso con foto, nombre del local y su experiencia. Publica únicamente con autorización del negocio.</p><TestimonialForm/><div className="contentGrid">{contents.filter(c=>c.key.startsWith('testimonial_')).map(c=><article key={c.key}><img src={c.value_draft?.photo} alt={'Local de '+c.value_draft?.businessName} width="260" height="180" style={{objectFit:'cover',maxWidth:'100%'}}/><h3>{c.value_draft?.businessName}</h3><blockquote>{c.value_draft?.quote}</blockquote><p>{c.value_draft?.author}</p>{c.published_at?<p>Publicado</p>:<ActionForm action={publishContent} label="Publicar testimonio"><Hidden name="key" value={c.key}/></ActionForm>}</article>)}</div></section>}
-
-  {view==='actividad'&&<section className="adminSection">
-   <div className="sectionTitle"><div><small>AUDITORÍA</small><h2>Actividad reciente</h2></div></div>
-   <div className="activityList">{globalAudit.map((a,i)=><p key={i}><time>{new Date(a.created_at).toLocaleString('es-MX',{timeZone:'America/Mexico_City'})}</time><b>{a.business_name||'Sistema'} · {a.action}</b><small>{JSON.stringify(a.data)}</small></p>)}</div>
-  </section>}
  </div></div></main>;
 }

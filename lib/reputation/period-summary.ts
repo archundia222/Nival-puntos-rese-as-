@@ -1,0 +1,68 @@
+import 'server-only';
+import {systemQuery} from '../foundation/db';
+
+/** Creates one immutable plan-specific PDF snapshot after a paid 30-day period closes. */
+export async function closePeriodSummaries(){
+ return systemQuery(`
+ with periods as (
+  select b.id business_id,(b.paid_until at time zone 'America/Mexico_City')::date period_end,
+         ((b.paid_until at time zone 'America/Mexico_City')::date-30) period_start,b.name business_name,
+         p.price_mxn,coalesce(p.features->>'review_limit','0')::int review_limit,
+         coalesce(p.features->>'points_only','false')::boolean points_only
+  from nival_pr.businesses b join nival_pr.plans p on p.id=b.plan_id
+  where b.paid_until is not null and b.paid_until<=now()
+    and b.status in ('activo','por_vencer','pausado')
+ ), snapshots as (
+  select x.*,
+   jsonb_build_object(
+    'visits',coalesce(m.visits,0),'points',coalesce(m.points,0),
+    'redemptions',coalesce(m.redemptions,0),'new_customers',coalesce(m.new_customers,0),
+    'average_ticket',coalesce(m.average_ticket,0),'program_income',coalesce(m.program_income,0),
+    'returning_customers',coalesce(m.returning_customers,0)
+   ) metrics,
+   rr.rating,rr.total_reviews,rr.new_reviews,rr.answered,rr.distribution,rr.manual_summary,
+   case when x.price_mxn=549 then jsonb_build_object(
+    'business_rating',bc.business_rating,'business_reviews',bc.business_reviews,
+    'zone_rating',bc.zone_average_rating,'zone_reviews',bc.zone_average_reviews
+   ) end comparison
+  from periods x
+  left join lateral (
+   select count(*) filter(where l.type='visit')::int visits,
+    coalesce(sum(l.points) filter(where l.type='visit'),0)::int points,
+    count(*) filter(where l.type='redeem')::int redemptions,
+    count(distinct l.customer_id) filter(where l.type='visit')::int visiting_customers,
+    coalesce(avg(l.ticket_value_mxn) filter(where l.type='visit' and l.ticket_value_mxn is not null),0)::numeric(12,2) average_ticket,
+    coalesce(sum(l.ticket_value_mxn) filter(where l.type='visit'),0)::numeric(12,2) program_income,
+    count(*) filter(where l.type='visit' and l.customer_id in (
+      select customer_id from nival_pr.point_ledger where business_id=x.business_id and type='visit'
+      and created_at>=(x.period_start::timestamp at time zone 'America/Mexico_City')
+      and created_at<((x.period_end+1)::timestamp at time zone 'America/Mexico_City')
+      group by customer_id having count(*)>1
+    ))::int returning_customers,
+    (select count(*)::int from nival_pr.customers c where c.business_id=x.business_id
+      and c.created_at>=(x.period_start::timestamp at time zone 'America/Mexico_City')
+      and c.created_at<((x.period_end+1)::timestamp at time zone 'America/Mexico_City')) new_customers
+   from nival_pr.point_ledger l where l.business_id=x.business_id
+    and l.created_at>=(x.period_start::timestamp at time zone 'America/Mexico_City')
+    and l.created_at<((x.period_end+1)::timestamp at time zone 'America/Mexico_City')
+  ) m on true
+  left join lateral (select * from nival_pr.review_reports r where r.business_id=x.business_id
+    and r.period between x.period_start and x.period_end order by r.period desc limit 1) rr
+    on x.review_limit>0 and not x.points_only
+  left join nival_pr.business_comparisons bc on bc.business_id=x.business_id and x.price_mxn=549
+ )
+ insert into nival_pr.generated_reports(business_id,kind,period_start,period_end,rating,total_reviews,analysis,status,created_by,approved_at)
+ select s.business_id,'period_summary',s.period_start,s.period_end,s.rating,s.total_reviews,
+  jsonb_build_object('plan',case when s.price_mxn=549 then 'Plus' when s.review_limit>0 then 'Esencial' else 'Puntos' end,
+   'metrics',s.metrics,
+   'reviews',case when s.review_limit>0 and not s.points_only and s.rating is not null then
+    jsonb_build_object('rating',s.rating,'total_reviews',s.total_reviews,'new_reviews',s.new_reviews,
+     'answered',s.answered,'distribution',coalesce(s.distribution,'{}'::jsonb),'summary',s.manual_summary) end,
+   'comparison',case when s.price_mxn=549 then s.comparison end),
+  'approved',admin.id,now()
+ from snapshots s cross join lateral(select id from nival_pr.profiles where role='superadmin' order by id limit 1) admin
+ where not exists(select 1 from nival_pr.generated_reports old where old.business_id=s.business_id
+  and old.kind='period_summary' and old.period_start=s.period_start and old.period_end=s.period_end)
+ on conflict do nothing returning id,business_id,period_start,period_end
+ `);
+}

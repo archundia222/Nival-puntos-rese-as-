@@ -53,6 +53,7 @@ export default async function PointsPanel({
     "select * from nival_pr_private.list_staff($1)",
     [b.id],
   );
+  const branches=await query(authScope(actor.id),"select * from nival_pr_private.list_branches($1)",[b.id]);
   const rewards = await query(
     actor,
     "select r.id,r.name,r.points_cost,r.position,r.active,r.weight,r.stock,r.photo_url,to_char((r.expires_at at time zone 'America/Mexico_City')-interval '1 day','YYYY-MM-DD') expiry from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 order by r.position",
@@ -60,7 +61,7 @@ export default async function PointsPanel({
   );
   const redemptions = await query(
     actor,
-    "select d.id,d.status,d.photo_path,r.name reward,r.photo_url product_photo,c.name customer,l.created_at,l.points,l.staff_id from nival_pr.redemptions d join nival_pr.point_ledger l on l.id=d.ledger_id join nival_pr.customers c on c.id=l.customer_id join nival_pr.rewards r on r.id=d.reward_id where l.business_id=$1 order by l.created_at desc limit 100",
+    "select d.id,d.status,d.photo_path,d.value_mxn,r.name reward,r.reward_type,r.photo_url product_photo,c.name customer,l.created_at,l.points,l.staff_id from nival_pr.redemptions d join nival_pr.point_ledger l on l.id=d.ledger_id join nival_pr.customers c on c.id=l.customer_id join nival_pr.rewards r on r.id=d.reward_id where l.business_id=$1 order by l.created_at desc limit 100",
     [b.id],
   );
   return (
@@ -93,7 +94,7 @@ export default async function PointsPanel({
             <ActionForm action={editReward} label="Actualizar premio">
               <Hidden name="businessId" value={b.id} />
               <Hidden name="rewardId" value={r.id} />
-              <Field name="name" label="Nombre del premio" value={r.name} /><Field name="photoUrl" label="Foto del producto (URL HTTPS)" required={false} value={r.photo_url||''}/>              <Field
+              <Field name="name" label="Nombre del premio o promoción" value={r.name} /><label>Tipo<select name="rewardType" defaultValue={r.reward_type||'product'}><option value="product">Producto</option><option value="discount">Descuento</option></select></label><Field name="valueMxn" label="Valor en pesos (MXN)" type="number" min={0} max={1000000} step={0.01} required={false} value={r.value_mxn??''}/><Field name="photoUrl" label="Foto del producto (URL HTTPS)" required={false} value={r.photo_url||''}/><Field
                 name="cost"
                 label="Puntos necesarios"
                 type="number"
@@ -122,7 +123,9 @@ export default async function PointsPanel({
         ))}
         <ActionForm action={addReward} label="Agregar premio">
           <Hidden name="businessId" value={b.id} />
-          <Field name="name" label="Nombre del premio" />
+          <Field name="name" label="Nombre del premio o promoción" />
+          <label>Tipo<select name="rewardType" defaultValue="product"><option value="product">Producto</option><option value="discount">Descuento</option></select></label>
+          <Field name="valueMxn" label="Valor en pesos (MXN)" type="number" min={0} max={1000000} step={0.01} required={false}/>
           <Field name="photoUrl" label="Foto del producto (URL HTTPS)" required={false}/>
           <Field name="cost" label="Puntos necesarios" type="number" min={1} />
           <Field
@@ -147,6 +150,7 @@ export default async function PointsPanel({
         <ActionForm action={manageStaff} label="Crear acceso del empleado">
           <Hidden name="businessId" value={b.id} />
           <Field name="name" label="Nombre del integrante" />
+          <label>Sucursal asignada<select name="branchId" required defaultValue={branches.find((x:any)=>x.is_primary)?.id||branches[0]?.id}>{branches.filter((x:any)=>x.active).map((x:any)=><option key={x.id} value={x.id}>{x.name} · {x.code}</option>)}</select></label>
           <label>
             PIN
             <input
@@ -167,6 +171,7 @@ export default async function PointsPanel({
             <strong>
               {s.name} · {s.active ? "Activo" : "Desactivado"}
             </strong>
+            <small>Sucursal: {s.branch_name||'Sin asignar'} · Código {s.branch_code||'—'}</small>
             <StaffAccess slug={b.slug} id={s.id} name={s.name}/>
             <ActionForm
               action={manageStaff}
@@ -175,6 +180,7 @@ export default async function PointsPanel({
               <Hidden name="businessId" value={b.id} />
               <Hidden name="staffId" value={s.id} />
               <Hidden name="active" value={s.active ? "false" : "true"} />
+              <label>Sucursal asignada<select name="branchId" required defaultValue={s.branch_id}>{branches.filter((x:any)=>x.active).map((x:any)=><option key={x.id} value={x.id}>{x.name} · {x.code}</option>)}</select></label>
             </ActionForm>
           </article>
         ))}
@@ -192,7 +198,7 @@ export default async function PointsPanel({
                 {d.customer} · {d.reward}
               </h3>
               <p>
-                {-d.points} puntos · {staff.find((person:any)=>person.id===d.staff_id)?.name||'Empleado'} ·{" "}
+                {d.reward_type==='discount'?'Descuento':'Producto'} · {d.value_mxn!==null?'$'+Number(d.value_mxn).toFixed(2)+' MXN':'Valor no registrado'} · {-d.points} puntos · {staff.find((person:any)=>person.id===d.staff_id)?.name||'Empleado'} ·{" "}
                 {new Date(d.created_at).toLocaleString("es-MX", {
                   timeZone: "America/Mexico_City",
                 })}

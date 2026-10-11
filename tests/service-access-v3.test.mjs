@@ -49,11 +49,11 @@ test('daily service tasks are idempotent and appear only when review work exists
  assert.equal(queued.length,2);assert.ok(queued.some(t=>t.title==='Responder reseñas pendientes'));assert.ok(queued.some(t=>t.title==='Hacer resumen de reseñas'));
  }finally{await db.close();}
 });
-test('administration dashboard metric query executes with live subscriptions',async()=>{
+test('administration business list exposes plan, reply quota and period PDF',async()=>{
  const {db,other,b}=await ownerFixture();try{
- for(const name of ['reputation-v6','points-only-plan-v1','entitlements-v2','owner-tools-v2','service-access-v3','plan-review-pipeline-v8','plan-pricing-v9'])await db.exec(load(name));
- await db.query("update nival_pr.businesses set status='activo',paid_until=now()+interval '5 days',plan_id=(select id from nival_pr.plans where price_mxn=549 limit 1) where id=$1",[b]);
- const source=readFileSync('app/admin/page.tsx','utf8'),sql=source.match(/const \[metric\]=await query\(actor,`([\s\S]*?)`\)/)[1];
- const m=(await db.query(sql)).rows[0];assert.equal(m.active,1);assert.equal(m.expiring,1);assert.equal(Number(m.mrr),549);
+ for(const name of ['reputation-v6','points-only-plan-v1','entitlements-v2','owner-tools-v2','service-access-v3','plan-review-pipeline-v8','plan-pricing-v9','period-summary-v1'])await db.exec(load(name));
+ await db.query("update nival_pr.businesses set status='activo',paid_until=now()+interval '5 days',plan_id=(select id from nival_pr.plans order by price_mxn desc limit 1) where id=$1",[b]);
+ const source=readFileSync('app/admin/page.tsx','utf8'),sql=source.match(/const businesses=await query\(actor,`([\s\S]*?)`,\[q,status\]\)/)[1];
+ const m=(await db.query(sql,['Example',''])).rows[0];assert.equal(Number(m.price_mxn),549);assert.equal(m.review_limit,100);assert.equal(m.latest_pdf_id,null);
  }finally{await db.close();}
 });

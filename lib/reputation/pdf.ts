@@ -4,6 +4,23 @@ export async function reportPdf(report:any):Promise<Buffer>{
  const done=new Promise<Buffer>((resolve,reject)=>{doc.on('data',c=>chunks.push(c));doc.on('end',()=>resolve(Buffer.concat(chunks)));doc.on('error',reject);});
  const heading=(text:string)=>{doc.moveDown().font('Helvetica-Bold').fontSize(14).fillColor('#164d3b').text(text);doc.moveDown(.4).font('Helvetica').fontSize(10).fillColor('#222222');};
  const line=(s:string)=>doc.text(s,{lineGap:3});const a=report.analysis;
+ if(report.kind==='period_summary'){
+  const m=a.metrics||{},plan=a.plan||'Puntos';
+  doc.font('Helvetica-Bold').fontSize(25).fillColor('#164d3b').text('NIVAL');
+  heading(report.business_name);line('Resumen del periodo · Plan '+plan);
+  line('Periodo: '+String(report.period_start).slice(0,10)+' al '+String(report.period_end).slice(0,10));
+  heading('Impacto del programa de puntos');
+  line('Visitas registradas: '+(m.visits||0));line('Puntos otorgados: '+(m.points||0));
+  line('Clientes nuevos: '+(m.new_customers||0));line('Clientes que regresaron: '+(m.returning_customers||0));
+  line('Premios canjeados: '+(m.redemptions||0));line('Ticket promedio: $'+Number(m.average_ticket||0).toFixed(2)+' MXN');
+  line('Ingresos registrados en visitas: $'+Number(m.program_income||0).toFixed(2)+' MXN');
+  if(plan!=='Puntos'&&a.reviews){heading('Reseñas de Google');line('Calificación: '+(a.reviews.rating??'Sin dato')+' / 5 · Reseñas totales: '+(a.reviews.total_reviews??'Sin dato'));
+   line('Reseñas nuevas: '+(a.reviews.new_reviews??'Sin dato')+' · Respuestas usadas: '+(a.reviews.answered??'Sin dato'));
+   if(a.reviews.summary)line('Resumen de reseñas: '+a.reviews.summary);
+  }
+  if(plan==='Plus'&&a.comparison){heading('Comparación con la zona');line('Negocio: '+a.comparison.business_rating+' / 5 · '+a.comparison.business_reviews+' reseñas');line('Promedio de la zona: '+a.comparison.zone_rating+' / 5 · '+a.comparison.zone_reviews+' reseñas');}
+  line('Este resumen refleja los registros disponibles en Nival al cierre del periodo.');doc.end();return done;
+ }
  doc.font('Helvetica-Bold').fontSize(25).fillColor('#164d3b').text('NIVAL');heading(report.business_name);
  line(report.kind==='diagnosis'?'Diagnóstico inicial':report.kind==='week'?'Resumen semanal':'Reporte mensual');
  line('Estado: '+(report.status==='approved'?'Aprobado por Nival':'Borrador para revisión'));

@@ -197,7 +197,8 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
     mode = val(f, "mode"),
     points = Number(val(f, "points")),
     hours = Number(val(f, "hours")),
-    max = Number(val(f, "max"));
+    max = Number(val(f, "max")),
+    doublePointsDay=val(f,"doublePointsDay");
   const color = val(f, "color");
   const logo = val(f, "logo");
   let cardDesign: Record<string, string> = {};
@@ -234,6 +235,7 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
     !Number.isInteger(max) ||
     max < 1 ||
     max > 100 ||
+    (doublePointsDay!==''&&(!/^\d$/.test(doublePointsDay)||Number(doublePointsDay)>6))||
     !/^#[a-f0-9]{6}$/i.test(color)
   )
     return { error: "Revisa las reglas del programa." };
@@ -251,6 +253,8 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
         JSON.stringify({
           min_hours_between_visits: hours,
           max_visits_per_day: max,
+          double_points_weekday:doublePointsDay===''?null:Number(doublePointsDay),
+          bonus_multiplier:2,
           card_design: cardDesign,
         }),
         logo || null,
@@ -269,12 +273,17 @@ export async function addReward(_: Result, f: FormData): Promise<Result> {
     name = val(f, "name"),
     photoUrl=val(f,"photoUrl"),
     cost = Number(val(f, "cost")),
-    position = Number(val(f, "position"));
+    position = Number(val(f, "position")),
+    rewardType=val(f,'rewardType')||'product',
+    valueRaw=val(f,'valueMxn'),
+    valueMxn=valueRaw===''?null:Number(valueRaw);
   if (
     !uuid(b) ||
     !name ||
     name.length > 150 ||
     (photoUrl.length>2000||photoUrl&&!/^https:\/\//.test(photoUrl))||
+    !['discount','product'].includes(rewardType)||
+    (valueMxn!==null&&(!Number.isFinite(valueMxn)||valueMxn<0||valueMxn>1000000))||
     !Number.isInteger(cost) ||
     cost < 1 || cost > 100000 ||
     !Number.isInteger(position) ||
@@ -285,8 +294,8 @@ export async function addReward(_: Result, f: FormData): Promise<Result> {
     await requireTool(actor, b);
     const [row] = await query(
       actor,
-      "insert into nival_pr.rewards(program_id,name,points_cost,position,photo_url) select id,$2,$3,$4,nullif($5,'') from nival_pr.programs where business_id=$1 returning id",
-      [b, name, cost, position,photoUrl],
+      "insert into nival_pr.rewards(program_id,name,points_cost,position,photo_url,reward_type,value_mxn) select id,$2,$3,$4,nullif($5,''),$6,$7 from nival_pr.programs where business_id=$1 returning id",
+      [b, name, cost, position,photoUrl,rewardType,valueMxn],
     );
     if (!row) return { error: "Primero guarda el programa." };
   } catch (e) {

@@ -14,5 +14,5 @@ test('offer uses responsive Nival palette and preserves account access paths',()
  assert.ok(page.includes('/acceso?modo=registro'));
  assert.ok(page.includes('/staff/acceso'));
  assert.ok(page.includes('/acceso-administrador'));
- assert.match(css,/\.nivalOffer/);assert.match(css,/#10241f/i);assert.match(css,/@media\s*\(max-width:\s*760px\)/);
+ assert.match(css,/\.nivalOffer/);assert.match(css,/--dark:#0f2a1f/i);assert.match(css,/@media\s*\(max-width:\s*760px\)/);
 });

@@ -13,16 +13,16 @@ export async function manageStaff(_: Result, f: FormData): Promise<Result> {
   const actor = await guardAction(["owner"], f);
   const b = val(f, "businessId"),
     id = val(f, "staffId"),
-    name = val(f, "name");
-  if (!uuid(b) || (id && !uuid(id)))
+    name = val(f, "name"),branchId=val(f,"branchId");
+  if (!uuid(b) || (id && !uuid(id)) || !uuid(branchId))
     return { error: "Identificador inválido." };
   try {
     await requireTool(actor, b);
     const hash = id ? null : await hashPin(val(f, "pin"));
     const [r] = await query(
       authScope(actor.id),
-      "select nival_pr_private.manage_staff($1,$2,$3,$4,$5) id",
-      [b, id || null, name, hash, f.get("active") === "true"],
+      "select nival_pr_private.manage_staff_branch($1,$2,$3,$4,$5,$6) id",
+      [b, branchId, id || null, name, hash, id ? f.get("active") === "true" : true],
     );
     revalidatePath("/panel/puntos");
     return {
@@ -74,12 +74,15 @@ export async function editReward(_: Result, f: FormData): Promise<Result> {
     position = Number(val(f, "position")),
     active = f.get("active") === "on",
     expiry = val(f,"expiry"),stock = val(f,"stock")?Number(val(f,"stock")):null,
-    weight = Number(val(f,"weight")||1);
+    weight = Number(val(f,"weight")||1),
+    rewardType=val(f,'rewardType')||'product',valueRaw=val(f,'valueMxn'),valueMxn=valueRaw===''?null:Number(valueRaw);
   if (
     (stock!==null&&(!Number.isSafeInteger(stock)||stock<0||stock>100000))||(expiry&&!/^\d{4}-\d{2}-\d{2}$/.test(expiry))||
     !Number.isInteger(weight)||weight<1||weight>100||
     !uuid(b) ||
     !uuid(id) ||
+    !['discount','product'].includes(rewardType)||
+    (valueMxn!==null&&(!Number.isFinite(valueMxn)||valueMxn<0||valueMxn>1000000))||
     !name || (photoUrl.length>2000||photoUrl&&!/^https:\/\//.test(photoUrl))||
     name.length > 150 ||
     !Number.isInteger(cost) ||
@@ -103,8 +106,8 @@ export async function editReward(_: Result, f: FormData): Promise<Result> {
       };
     const [r] = await query(
       actor,
-      "update nival_pr.rewards r set name=$3,points_cost=$4,position=$5,active=$6,weight=$7,expires_at=case when $8='' then null else (($8::date+1)::timestamp at time zone 'America/Mexico_City') end,stock=$9,photo_url=nullif($10,'') from nival_pr.programs p where r.id=$1 and p.id=r.program_id and p.business_id=$2 returning r.id",
-      [id, b, name, cost, position, active,weight,expiry,stock,photoUrl],
+      "update nival_pr.rewards r set name=$3,points_cost=$4,position=$5,active=$6,weight=$7,expires_at=case when $8='' then null else (($8::date+1)::timestamp at time zone 'America/Mexico_City') end,stock=$9,photo_url=nullif($10,''),reward_type=$11,value_mxn=$12 from nival_pr.programs p where r.id=$1 and p.id=r.program_id and p.business_id=$2 returning r.id",
+      [id, b, name, cost, position, active,weight,expiry,stock,photoUrl,rewardType,valueMxn],
     );
     if (!r) return { error: "No se encontró este premio." };
     revalidatePath("/panel/puntos");

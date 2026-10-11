@@ -14,6 +14,7 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
     [phone, setPhone] = useState(""),
     [customer, setCustomer] = useState<any>(null),
     [ticketValue,setTicketValue]=useState(''),
+    [redemptionValue,setRedemptionValue]=useState(''),
     [error, setError] = useState(""),
     [success, setSuccess] = useState(""),
     [photo, setPhoto] = useState<File | null>(null),
@@ -102,6 +103,7 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
     f.set("customerId", customer.id);
     f.set("type", type);
     if(type==='visit'&&ticketValue)f.set('ticketValue',ticketValue);
+    if(type==='redeem')f.set('redemptionValue',redemptionValue);
     if(!operation.current)operation.current=crypto.randomUUID();
     f.set("operationId",operation.current);
 
@@ -213,7 +215,7 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
           {success}
         </p>
       )}
-      {completed&&<button type="button" className="scanButton" onClick={()=>{setCustomer(null);setCompleted(false);setSuccess('');setPhone('');setPhoto(null);setWhatsapp('');operation.current=null;}}>Listo · atender al siguiente cliente</button>}
+      {completed&&<button type="button" className="scanButton" onClick={()=>{setCustomer(null);setCompleted(false);setSuccess('');setPhone('');setPhoto(null);setWhatsapp('');setRedemptionValue('');operation.current=null;}}>Listo · atender al siguiente cliente</button>}
       {customer && (
         <article className="scannedCustomer">
           <small>CLIENTE IDENTIFICADO</small>
@@ -242,6 +244,10 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
               Number(customer.balance) >= customer.reward.points_cost && (
                 <>
                   <label>
+                    Valor entregado (MXN)
+                    <input type="number" min="0" max="1000000" step="0.01" inputMode="decimal" required value={redemptionValue} onChange={e=>setRedemptionValue(e.target.value)} placeholder="Ej. 6.50"/>
+                  </label>
+                  <label>
                     Foto de evidencia · obligatoria
                     <input
                       type="file"
@@ -259,7 +265,7 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
                     <span>Confirmo que entregué este premio al cliente.</span>
                   </label>
                   <button
-                    disabled={busy || !photo || !confirmed}
+                    disabled={busy || !photo || !confirmed || redemptionValue==='' || !Number.isFinite(Number(redemptionValue))}
                     onClick={() => move("redeem")}
                   >
                     {busy ? "Registrando…" : "Canjear premio"}

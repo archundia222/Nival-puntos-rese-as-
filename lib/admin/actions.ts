@@ -167,7 +167,10 @@ export async function moveTask(taskId:string,status:string):Promise<{ok:boolean}
  )
  insert into nival_pr.audit_log(actor_id,action,entity,business_id,data)
  select $3,'task.status_changed','tasks',business_id,jsonb_build_object('task_id',id,'status',$2,'title',title)
- from changed returning id`,values:[taskId,status,actor.id]}]);
+ from changed returning id`,values:[taskId,status,actor.id]},{text:`update nival_pr.generated_reports r set sent_at=now()
+  from nival_pr.tasks t where $2='completada' and t.id=$1 and t.title='Mandar PDF de resumen al cierre'
+   and r.business_id=t.business_id and r.kind='period_summary' and r.status='approved'
+   and r.period_end=t.due_date and r.sent_at is null`,values:[taskId,status]}]);
  if(!results[0]?.length)return {ok:false};
  revalidatePath('/admin');return {ok:true};
 }

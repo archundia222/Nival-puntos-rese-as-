@@ -9,7 +9,7 @@ type Program = {
   color?: string;
   mode?: string;
   points_per_visit?: number;
-  rules?: { min_hours_between_visits?: number; max_visits_per_day?: number; card_design?: { theme?: string; headline?: string; footer?: string; background?: string } };
+  rules?: { min_hours_between_visits?: number; max_visits_per_day?: number; double_points_weekday?: number|null; bonus_multiplier?: number; card_design?: { theme?: string; headline?: string; footer?: string; background?: string } };
   logo_url?: string | null;
 };
 type Reward = { name?: string; points_cost?: number };
@@ -33,6 +33,7 @@ export function ProgramEditor({
     points: String(program?.points_per_visit || 1),
     hours: String(program?.rules?.min_hours_between_visits ?? 4),
     max: String(program?.rules?.max_visits_per_day ?? 1),
+    bonusDay: program?.rules?.double_points_weekday===undefined||program?.rules?.double_points_weekday===null?"":String(program.rules.double_points_weekday),
   });
   const [logo, setLogo] = useState(program?.logo_url || "");
   const [design, setDesign] = useState({
@@ -261,6 +262,13 @@ export function ProgramEditor({
         <label className="wide">
           Máximo de visitas por día
           <input name="max" type="number" min={1} max={100} step={1} value={draft.max} onChange={(event) => update("max", event.target.value)} required />
+        </label>
+        <label className="wide">
+          Puntos dobles (opcional)
+          <select name="doublePointsDay" value={draft.bonusDay} onChange={(event) => update("bonusDay", event.target.value)}>
+            <option value="">Sin día de puntos dobles</option><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option><option value="0">Domingo</option>
+          </select>
+          <small>Las visitas válidas de ese día suman el doble de puntos.</small>
         </label>
         <div className="wide" style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
           <button type="button" onClick={() => void persist()} disabled={saveState.kind === "saving"}>

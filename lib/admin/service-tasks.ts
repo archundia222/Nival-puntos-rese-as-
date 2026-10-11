@@ -17,7 +17,7 @@ export async function syncServiceTasks(actor:Actor){
    where b.paid_until is not null and b.status in ('activo','por_vencer','pago_pendiente') and b.paid_until>now()-interval '5 days' and b.paid_until<=now()+interval '5 days'
   union all select 'Mandar PDF de resumen al cierre',(b.paid_until at time zone 'America/Mexico_City')::date,'monthly'
    where b.paid_until is not null and b.paid_until<=now()+interval '1 day' and b.paid_until>now()-interval '1 day'
-    and not exists(select 1 from nival_pr.generated_reports r where r.business_id=b.id and r.status='approved' and r.period_end>now()-interval '30 days')
+    and exists(select 1 from nival_pr.generated_reports r where r.business_id=b.id and r.kind='period_summary' and r.status='approved' and r.period_end=(b.paid_until at time zone 'America/Mexico_City')::date and r.sent_at is null)
  ) s
  where b.status not in ('cancelado','registrado') and not exists(
   select 1 from nival_pr.tasks t where t.business_id=b.id and t.title=s.title

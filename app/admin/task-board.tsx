@@ -2,7 +2,7 @@
 import {useEffect,useMemo,useState,useTransition} from 'react';
 import {moveTask} from '../../lib/admin/actions';
 
-type Task={id:string;title:string;status:string;due_date:string|null;business_name?:string|null;business_id?:string;business_code?:string;business_phone?:string;business_email?:string;recurrence?:string|null};
+type Task={id:string;title:string;status:string;due_date:string|null;business_name?:string|null;business_id?:string;business_code?:string;business_phone?:string;business_email?:string;period_summary_id?:string|null;recurrence?:string|null};
 const columns=[
  {key:'pendiente',label:'Por hacer'},
  {key:'en_progreso',label:'En proceso'},
@@ -22,7 +22,7 @@ export default function TaskBoard({tasks}:{tasks:Task[]}){
   <header><strong>{col.label}</strong><span>{grouped[col.key].length}</span></header>
   {grouped[col.key].map(task=><article draggable key={task.id} onDragStart={e=>e.dataTransfer.setData('text/plain',task.id)}>
    <b>{task.title}</b><label>Estado<select aria-label={'Estado de '+task.title} value={task.status} disabled={pending} onChange={e=>drop(task.id,e.target.value)}>{columns.map(c=><option key={c.key} value={c.key}>{c.label}</option>)}</select></label>
-   {task.business_name&&<><small>{task.business_name} · {task.business_code}</small><small>{task.business_phone||'Sin teléfono'} · {task.business_email||'Sin correo'}</small><a href={task.title==='Cobrar mensualidad'?'/admin?view=negocios&business='+task.business_id:task.title.startsWith('Puntos ·')?'/admin/negocio/'+task.business_id:task.title.startsWith('Diagnóstico')||task.title.startsWith('Revisar reseñas')||task.title.startsWith('Generar y aprobar reporte')?'/admin/reportes?business='+task.business_id:'/admin?view=negocios&business='+task.business_id}>{task.title==='Cobrar mensualidad'?'Revisar pago y renovación':task.title.startsWith('Puntos ·')?'Revisar programa del negocio':task.title.startsWith('Diagnóstico')||task.title.startsWith('Revisar reseñas')||task.title.startsWith('Generar y aprobar reporte')?'Abrir reseñas y reportes':'Abrir expediente del negocio'}</a><a href={'/admin?view=negocios&business='+task.business_id}>Expediente del negocio</a></>}
+   {task.business_name&&<><small>{task.business_name} · {task.business_code}</small><small>{task.business_phone||'Sin teléfono'} · {task.business_email||'Sin correo'}</small>{task.title==='Mandar PDF de resumen al cierre'?task.period_summary_id?<a href={'/api/reports/'+task.period_summary_id}>Descargar PDF para enviar</a>:<small>El resumen estará disponible al cerrar el periodo.</small>:<a href={task.title==='Cobrar mensualidad'?'/admin?view=negocios&business='+task.business_id:task.title.startsWith('Diagnóstico')||task.title.startsWith('Revisar reseñas')||task.title.startsWith('Generar y aprobar reporte')?'/admin/reportes?business='+task.business_id:'/admin?view=negocios&business='+task.business_id}>{task.title==='Cobrar mensualidad'?'Revisar pago y renovación':task.title.startsWith('Diagnóstico')||task.title.startsWith('Revisar reseñas')||task.title.startsWith('Generar y aprobar reporte')?'Abrir reseñas y reportes':'Abrir negocio'}</a>}</>}
    <small>{task.due_date?String(task.due_date).slice(0,10):'Sin fecha'}{task.recurrence?` · ${task.recurrence}`:''}</small>
   </article>)}
   {!grouped[col.key].length&&<p className="empty">Sin tareas</p>}
