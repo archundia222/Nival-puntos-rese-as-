@@ -41,6 +41,7 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
  function navigate(item:MenuItem){
   if(item.href){window.location.href=hrefFor(item.href);return;}
   const target=item.id==='estadisticas'?'estadisticas-puntos':item.id;
+  if(homeUrl){const home=new URL(homeUrl,window.location.origin);if(window.location.pathname!==home.pathname){home.hash=target;window.location.href=home.pathname+home.search+home.hash;return;}}
   setSection(target);
   if(item.children)setExpanded(current=>current.includes(item.id)?current:[...current,item.id]);
   setOpen(false);window.history.replaceState(null,'',window.location.pathname+window.location.search+'#'+target);

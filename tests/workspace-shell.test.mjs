@@ -88,6 +88,8 @@ test('menu destinations identify the matching screen and onboarding actions jump
  assert.ok(shell.includes("view=promociones#premios"));
  assert.ok(shell.includes("section==='equipo'?'usuarios'"));
  assert.ok(shell.includes("section==='programa'?'configuracion'"));
+ assert.ok(shell.includes("window.location.pathname!==home.pathname"));
+ assert.ok(shell.includes("home.hash=target;window.location.href=home.pathname+home.search+home.hash"));
  assert.ok(points.includes("'programa','promociones','equipo','canjes','compartir'"));
  assert.ok(points.includes("view==='programa'?'configuracion':view==='equipo'?'usuarios':view"));
  assert.ok(guide.includes("href:base+'#programa'"));
