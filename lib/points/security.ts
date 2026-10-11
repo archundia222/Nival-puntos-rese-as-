@@ -68,6 +68,7 @@ export function message(e: unknown) {
     [/Premio agotado/, "Este premio está agotado. Consulta al dueño antes de entregarlo."],
     [/Programa no configurado/, "El dueño debe guardar su programa y agregar un premio antes de registrar visitas."],
     [/Servicio no activo/, "El programa está suspendido o vencido."],
+    [/Tarjeta inactiva/, "La tarjeta está inactiva. Pide al dueño que la active antes de registrar puntos o canjes."],
     [
       /Premio fuera|Selecciona tu meta/,
       "Ese premio no corresponde a la meta actual del cliente.",

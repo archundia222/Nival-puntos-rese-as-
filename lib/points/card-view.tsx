@@ -84,6 +84,7 @@ export function CardView({
             "--card-color": business.program?.rules?.card_design?.theme === "noche" ? "#17352f" : business.program?.rules?.card_design?.theme === "botanico" ? "#315641" : cardColor(business.program?.color),
             backgroundImage: business.program?.rules?.card_design?.background ? "linear-gradient(120deg, rgba(15,45,35,.84), rgba(15,45,35,.48)), url('" + business.program.rules.card_design.background + "')" : undefined,
             backgroundSize: "cover",
+            backgroundPosition: `${business.program?.rules?.card_design?.backgroundX??50}% ${business.program?.rules?.card_design?.backgroundY??50}%`,
           } as React.CSSProperties
         }
       >
@@ -98,7 +99,7 @@ export function CardView({
             ) : (
               <span className="cardMonogram">{business.name.slice(0, 1)}</span>
             )}
-            <small>{business.name}</small>
+            <small style={{color:"#fff",textShadow:"0 1px 4px #000"}}>{business.name}</small>
           </div>
           <span className="cardSerial">
             NIVAL PUNTOS
@@ -106,7 +107,7 @@ export function CardView({
             MEMBRESÍA DIGITAL
           </span>
         </div>
-        <p className="cardProgram">
+        <p className="cardProgram" style={{color:"#fff",textShadow:"0 1px 4px #000"}}>
           {business.program?.name || "Tus recompensas"}
         </p>
         <h1>{card.name}</h1>
@@ -205,7 +206,7 @@ export function CardView({
           🔒 Elegiste {card.reward.name}. Podrás cambiarlo después de canjear.
         </p>
       )}
-      <details className="cardHelp"><summary>¿Cómo guardo o recupero mi tarjeta?</summary><p>Guarda esta página en los favoritos de este navegador. En Android también puedes usar “Agregar a pantalla de inicio”. Si cambias de celular o borras los datos del navegador, pide al personal que reenvíe tu acceso al teléfono registrado. Tus puntos siguen guardados.</p><p>Los puntos se suman por compras registradas por el negocio. Al entregar un premio se descuentan los puntos indicados; puedes revisar cada movimiento aquí.</p></details>
+      <details className="cardHelp"><summary>¿Cómo guardo o recupero mi tarjeta?</summary><p>Guarda esta página en los favoritos de este navegador. En Android también puedes usar “Agregar a pantalla de inicio”. Si cambias de celular, borras los datos o abres otro navegador, vuelve al enlace de este negocio y recupera tu tarjeta con el teléfono registrado. Tus puntos e historial se conservan.</p><p>Los puntos se suman por compras registradas por el negocio. Al entregar un premio se descuentan los puntos indicados; puedes revisar cada movimiento aquí.</p></details>
       <section className="cardHistory">
         <h2>Tus últimos movimientos</h2>
         {!card.history.length ? (

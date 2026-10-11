@@ -1,325 +1,55 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { CSSProperties, ChangeEvent } from "react";
+import QRCode from "qrcode";
+import { useRouter } from "next/navigation";
 import { saveProgram } from "../foundation/actions";
 import { cardColor } from "./card-color";
 
-type Program = {
-  name?: string;
-  color?: string;
-  mode?: string;
-  points_per_visit?: number;
-  rules?: { min_hours_between_visits?: number; max_visits_per_day?: number; double_points_weekday?: number|null; bonus_multiplier?: number; card_design?: { theme?: string; headline?: string; footer?: string; background?: string } };
-  logo_url?: string | null;
-};
-type Reward = { name?: string; points_cost?: number };
-type SaveState = { kind: "idle" | "saving" | "saved" | "error"; message: string };
+type Program = { name?:string;color?:string;mode?:string;points_per_visit?:number;card_enabled?:boolean;rules?:{min_hours_between_visits?:number;max_visits_per_day?:number;double_points_weekday?:number|null;card_design?:{theme?:string;headline?:string;footer?:string;background?:string;backgroundX?:number;backgroundY?:number;logoX?:number;logoY?:number}};logo_url?:string|null };
+type Reward={name?:string;points_cost?:number};
 
-export function ProgramEditor({
-  businessId,
-  business,
-  program,
-  reward,
-}: {
-  businessId: string;
-  business: string;
-  program?: Program;
-  reward?: Reward;
-}) {
-  const [draft, setDraft] = useState({
-    name: program?.name || "Mis recompensas",
-    color: program?.color || "#164d3b",
-    mode: program?.mode || "single",
-    points: String(program?.points_per_visit || 1),
-    hours: String(program?.rules?.min_hours_between_visits ?? 4),
-    max: String(program?.rules?.max_visits_per_day ?? 1),
-    bonusDay: program?.rules?.double_points_weekday===undefined||program?.rules?.double_points_weekday===null?"":String(program.rules.double_points_weekday),
-  });
-  const [logo, setLogo] = useState(program?.logo_url || "");
-  const [design, setDesign] = useState({
-    theme: program?.rules?.card_design?.theme || "nival",
-    headline: program?.rules?.card_design?.headline || "Cliente de ejemplo",
-    footer: program?.rules?.card_design?.footer || "Un lugar al que vale la pena volver.",
-    background: program?.rules?.card_design?.background || "",
-  });
-  const [logoError, setLogoError] = useState("");
-  const [saveState, setSaveState] = useState<SaveState>({
-    kind: "idle",
-    message: "Los cambios se guardan automáticamente.",
-  });
-  const formRef = useRef<HTMLFormElement>(null);
-  const dirty = useRef(false);
-  const revision = useRef(0);
-  const saving = useRef(false);
-  const queued = useRef(false);
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const persistAgain = useRef<() => void>(() => {});
-
-  const persist = useCallback(async () => {
-    if (!formRef.current) return;
-    if (saving.current) {
-      queued.current = true;
-      return;
-    }
-    saving.current = true;
-    queued.current = false;
-    const submittedRevision = revision.current;
-    setSaveState({ kind: "saving", message: "Guardando cambios…" });
-    try {
-      const result = await saveProgram({}, new FormData(formRef.current));
-      if (revision.current !== submittedRevision || queued.current) {
-        queued.current = false;
-        timer.current = setTimeout(() => persistAgain.current(), 350);
-      } else if (result.error) {
-        setSaveState({ kind: "error", message: result.error });
-      } else {
-        setSaveState({ kind: "saved", message: "Todos los cambios están guardados." });
-      }
-    } catch {
-      if (revision.current !== submittedRevision || queued.current) {
-        queued.current = false;
-        timer.current = setTimeout(() => persistAgain.current(), 350);
-      } else {
-        setSaveState({
-          kind: "error",
-          message: "No se pudo guardar. Revisa tu conexión e inténtalo de nuevo.",
-        });
-      }
-    } finally {
-      saving.current = false;
-      if (queued.current) {
-        queued.current = false;
-        timer.current = setTimeout(() => persistAgain.current(), 350);
-      }
-    }
-  }, []);
-  persistAgain.current = () => void persist();
-
-  useEffect(() => {
-    if (!dirty.current) return;
-    if (timer.current) clearTimeout(timer.current);
-    timer.current = setTimeout(() => void persist(), 700);
-    return () => {
-      if (timer.current) clearTimeout(timer.current);
-    };
-  }, [draft, logo, design, persist]);
-
-  useEffect(() => () => {
-    if (timer.current) clearTimeout(timer.current);
-  }, []);
-
-  function update<K extends keyof typeof draft>(key: K, value: (typeof draft)[K]) {
-    dirty.current = true;
-    revision.current += 1;
-    setDraft((current) => ({ ...current, [key]: value }));
-    setSaveState({ kind: "idle", message: "Cambios pendientes de guardar." });
-  }
-
-  function updateDesign<K extends keyof typeof design>(key: K, value: (typeof design)[K]) {
-    dirty.current = true;
-    revision.current += 1;
-    setDesign((current) => ({ ...current, [key]: value }));
-    setSaveState({ kind: "idle", message: "Cambios pendientes de guardar." });
-  }
-
-  function chooseBackground(event: ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
-    if (!file) return;
-    if (!["image/png", "image/jpeg", "image/webp"].includes(file.type) || file.size > 250000) {
-      setLogoError("Usa una imagen PNG, JPEG o WebP de menos de 250 KB.");
-      event.target.value = "";
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = () => updateDesign("background", String(reader.result || ""));
-    reader.readAsDataURL(file);
-  }
-
-  function chooseLogo(event: ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
-    setLogoError("");
-    if (!file) return;
-    if (!["image/png", "image/jpeg", "image/webp"].includes(file.type) || file.size > 250000) {
-      setLogoError("Usa un logo PNG, JPEG o WebP de menos de 250 KB.");
-      event.target.value = "";
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = () => {
-      dirty.current = true;
-      revision.current += 1;
-      setLogo(String(reader.result || ""));
-      setSaveState({ kind: "idle", message: "Cambios pendientes de guardar." });
-    };
-    reader.onerror = () => setLogoError("No se pudo leer la imagen. Intenta con otro archivo.");
-    reader.readAsDataURL(file);
-  }
-
-  const sampleVisits = 3;
-  const pointsPerVisit = Number(draft.points);
-  const previewPoints = sampleVisits * (Number.isFinite(pointsPerVisit) ? pointsPerVisit : 0);
-  const rewardGoal = Number(reward?.points_cost) || 0;
-  const progress = rewardGoal ? Math.min(previewPoints / rewardGoal, 1) * 100 : 0;
-  return (
-    <div
-      className="cardEditorGrid"
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))",
-        gap: 24,
-        alignItems: "start",
-      }}
-    >
-      <form
-        ref={formRef}
-        className="configGrid"
-        onSubmit={(event) => {
-          event.preventDefault();
-          void persist();
-        }}
-      >
-        <input type="hidden" name="businessId" value={businessId} />
-        <input type="hidden" name="logo" value={logo} />
-        <input type="hidden" name="cardDesign" value={JSON.stringify(design)} />
-        <label>
-          Nombre de la tarjeta
-          <input
-            name="name"
-            value={draft.name}
-            maxLength={150}
-            required
-            onChange={(event) => update("name", event.target.value)}
-          />
-        </label>
-        <label className="wide">
-          Diseño prediseñado
-          <select value={design.theme} onChange={(event) => updateDesign("theme", event.target.value)}>
-            <option value="nival">Nival clásico</option>
-            <option value="botanico">Botánico</option>
-            <option value="noche">Noche elegante</option>
-          </select>
-        </label>
-        <label>
-          Texto principal de la tarjeta
-          <input maxLength={60} value={design.headline} onChange={(event) => updateDesign("headline", event.target.value)} />
-        </label>
-        <label>
-          Mensaje al pie
-          <input maxLength={80} value={design.footer} onChange={(event) => updateDesign("footer", event.target.value)} />
-        </label>
-        <label className="wide">
-          Imagen de fondo opcional
-          <input type="file" accept="image/png,image/jpeg,image/webp" onChange={chooseBackground} />
-        </label>
-        <label>
-          Color principal
-          <input
-            name="color"
-            type="color"
-            value={draft.color}
-            onChange={(event) => update("color", event.target.value)}
-            style={{ minHeight: 48, padding: 5 }}
-          />
-        </label>
-        <label className="wide">
-          Logo del negocio
-          <input type="file" accept="image/png,image/jpeg,image/webp" onChange={chooseLogo} />
-        </label>
-        {logo && (
-          <div className="wide" style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <img src={logo} alt={"Logo de " + business} width={64} height={64} style={{ objectFit: "cover", borderRadius: 12 }} />
-            <button
-              type="button"
-              onClick={() => {
-                dirty.current = true;
-                revision.current += 1;
-                setLogo("");
-                setSaveState({ kind: "idle", message: "Cambios pendientes de guardar." });
-              }}
-            >
-              Quitar logo
-            </button>
-          </div>
-        )}
-        {logoError && <p className="error wide" role="alert">{logoError}</p>}
-        <label className="wide">
-          Tipo de recompensas
-          <select name="mode" value={draft.mode} onChange={(event) => update("mode", event.target.value)}>
-            <option value="single">Un premio para todos</option>
-            <option value="choose">Premios a elegir</option>
-            <option value="sequence">Premios por etapas</option>
-            <option value="surprise">Premio sorpresa</option>
-          </select>
-        </label>
-        <label>
-          Puntos por visita
-          <input name="points" type="number" min={1} max={1000} step={1} value={draft.points} onChange={(event) => update("points", event.target.value)} required />
-        </label>
-        <label>
-          Horas mínimas entre visitas
-          <input name="hours" type="number" min={0} max={720} step="any" value={draft.hours} onChange={(event) => update("hours", event.target.value)} required />
-        </label>
-        <label className="wide">
-          Máximo de visitas por día
-          <input name="max" type="number" min={1} max={100} step={1} value={draft.max} onChange={(event) => update("max", event.target.value)} required />
-        </label>
-        <label className="wide">
-          Puntos dobles (opcional)
-          <select name="doublePointsDay" value={draft.bonusDay} onChange={(event) => update("bonusDay", event.target.value)}>
-            <option value="">Sin día de puntos dobles</option><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option><option value="0">Domingo</option>
-          </select>
-          <small>Las visitas válidas de ese día suman el doble de puntos.</small>
-        </label>
-        <div className="wide" style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-          <button type="button" onClick={() => void persist()} disabled={saveState.kind === "saving"}>
-            {saveState.kind === "saving" ? "Guardando…" : "Guardar ahora"}
-          </button>
-          <p role="status" aria-live="polite" style={{ margin: 0, color: saveState.kind === "error" ? "#a52c25" : "#526b5a" }}>
-            {saveState.message}
-          </p>
-        </div>
-      </form>
-
-      <aside className="liveCardPreview" aria-label="Vista previa en vivo de la tarjeta" style={{ position: "sticky", top: 28 }}>
-        <small style={{ letterSpacing: ".12em", fontWeight: 700, color: "#5f7567" }}>TARJETA ACTIVA · VISTA PREVIA EN VIVO</small>
-        <p style={{ margin: "6px 0 14px", color: "#65746a" }}>Esta tarjeta se actualiza con los cambios que hagas aquí.</p>
-        <article
-          className="loyaltyCard"
-          style={{
-            "--card-color": design.theme === "noche" ? "#17352f" : design.theme === "botanico" ? "#315641" : cardColor(draft.color),
-            backgroundImage: design.background ? "linear-gradient(120deg, rgba(15,45,35,.84), rgba(15,45,35,.48)), url('" + design.background + "')" : undefined,
-            backgroundSize: "cover",
-          } as CSSProperties}
-        >
-          <div className="cardTop">
-            <div>
-              {logo ? (
-                <img className="cardLogo" src={logo} alt={"Logo de " + business} />
-              ) : (
-                <span className="cardMonogram">{business.slice(0, 1).toUpperCase()}</span>
-              )}
-              <small>{business}</small>
-            </div>
-            <span className="cardSerial">NIVAL PUNTOS<br />MEMBRESÍA DIGITAL</span>
-          </div>
-          <p className="cardProgram">{draft.name || "Nombre de tu tarjeta"}</p>
-          <h1>{design.headline || "Cliente de ejemplo"}</h1>
-          <div className="cardNumbers">
-            <strong>{previewPoints}</strong>
-            <span>puntos<br />acumulados</span>
-            <span className="cardSeal">✦</span>
-          </div>
-          <div className="cardProgress" role="progressbar" aria-label="Progreso de ejemplo" aria-valuenow={rewardGoal ? Math.min(previewPoints, rewardGoal) : 0} aria-valuemin={0} aria-valuemax={rewardGoal || 1}>
-            <i style={{ width: progress + "%" }} />
-          </div>
-          <div className="cardGoal">
-            <span>{reward && rewardGoal > 0 ? (previewPoints >= rewardGoal ? "Premio listo en el ejemplo" : Math.max(rewardGoal - previewPoints, 0) + " puntos para tu premio") : "Agrega un premio para mostrar la meta"}</span>
-            <b>{reward?.name || "Tu próxima recompensa"}</b>
-          </div>
-          <footer><span>{design.footer}</span><small>•••• 2026</small></footer>
-        </article>
-        <small style={{ display: "block", marginTop: 10, color: "#718075" }}>Ejemplo con 3 visitas. Ajusta los puntos por visita para ver cómo cambia el avance; los datos no alteran saldos ni tarjetas de clientes.</small>
-      </aside>
-    </div>
-  );
+export function ProgramEditor({businessId,business,program,reward}:{businessId:string;business:string;program?:Program;reward?:Reward}) {
+ const router=useRouter();
+ const [draft,setDraft]=useState({name:program?.name||"Mis recompensas",color:program?.color||"#164d3b",mode:program?.mode||"single",points:String(program?.points_per_visit||1),hours:String(program?.rules?.min_hours_between_visits??4),max:String(program?.rules?.max_visits_per_day??1),bonusDay:program?.rules?.double_points_weekday==null?"":String(program.rules.double_points_weekday),rewardName:reward?.name||"",rewardCost:String(reward?.points_cost||10),cardEnabled:program?.card_enabled!==false});
+ const [logo,setLogo]=useState(program?.logo_url||"");
+ const [design,setDesign]=useState({theme:program?.rules?.card_design?.theme||"nival",headline:program?.rules?.card_design?.headline||"Cliente de ejemplo",footer:program?.rules?.card_design?.footer||"Un lugar al que vale la pena volver.",background:program?.rules?.card_design?.background||"",backgroundX:program?.rules?.card_design?.backgroundX??50,backgroundY:program?.rules?.card_design?.backgroundY??50,logoX:program?.rules?.card_design?.logoX??50,logoY:program?.rules?.card_design?.logoY??50});
+ const [logoError,setLogoError]=useState(""),[status,setStatus]=useState(""),[saving,setSaving]=useState(false),[qr,setQr]=useState("");
+ const formRef=useRef<HTMLFormElement>(null),revision=useRef(0),savedRevision=useRef(0);
+ useEffect(()=>{void QRCode.toDataURL("NIVAL:00000000-0000-4000-8000-000000000000",{width:144,margin:1}).then(setQr).catch(()=>{});},[]);
+ const dirty=revision.current!==savedRevision.current;
+ function change<K extends keyof typeof draft>(key:K,value:(typeof draft)[K]){revision.current++;setDraft(d=>({...d,[key]:value}));setStatus("Hay cambios sin publicar.");}
+ function designChange<K extends keyof typeof design>(key:K,value:(typeof design)[K]){revision.current++;setDesign(d=>({...d,[key]:value}));setStatus("Hay cambios sin publicar.");}
+ function file(event:ChangeEvent<HTMLInputElement>,kind:"logo"|"background"){const f=event.target.files?.[0];if(!f)return;if(!["image/png","image/jpeg","image/webp"].includes(f.type)||f.size>250000){setLogoError("Elige una imagen PNG, JPEG o WebP de hasta 250 KB.");event.target.value="";return;}const reader=new FileReader();reader.onload=()=>{setLogoError("");revision.current++;if(kind==="logo")setLogo(String(reader.result||""));else setDesign(d=>({...d,background:String(reader.result||"")}));setStatus("Hay cambios sin publicar.");};reader.onerror=()=>setLogoError("No se pudo leer la imagen. Prueba con otro archivo.");reader.readAsDataURL(f);}
+ async function publish(event:React.FormEvent<HTMLFormElement>){event.preventDefault();if(!formRef.current)return;setSaving(true);setStatus("Publicando cambios…");try{const result=await saveProgram({},new FormData(formRef.current));if(result.error){setStatus(result.error);return;}savedRevision.current=revision.current;setStatus(result.success||"Tarjeta publicada.");router.refresh();}catch{setStatus("No se pudo publicar. Revisa tu conexión e inténtalo de nuevo.");}finally{setSaving(false);}}
+ const visits=3, goal=Number(draft.rewardCost)||0, previewPoints=visits*(Number(draft.points)||0), progress=goal?Math.min(previewPoints/goal,1)*100:0;
+ const color=design.theme==="noche"?"#17352f":design.theme==="botanico"?"#315641":cardColor(draft.color);
+ const previewStyle={"--card-color":color,backgroundImage:design.background?`linear-gradient(120deg, rgba(15,45,35,.80), rgba(15,45,35,.50)), url('${design.background}')`:undefined,backgroundSize:"cover",backgroundPosition:`${design.backgroundX}% ${design.backgroundY}%`} as CSSProperties;
+ return <div className="cardEditorGrid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(100%,320px),1fr))",gap:24,alignItems:"start"}}>
+  <form ref={formRef} className="configGrid" onSubmit={publish}>
+   <input type="hidden" name="businessId" value={businessId}/><input type="hidden" name="logo" value={logo}/><input type="hidden" name="cardDesign" value={JSON.stringify(design)}/>
+   <label className="wide">Estado de la tarjeta<select name="cardEnabled" value={draft.cardEnabled?"on":"off"} onChange={e=>change("cardEnabled",e.target.value==="on")}><option value="on">Activa</option><option value="off">Inactiva</option></select><small>Estado publicado: {program?.card_enabled===false?"Inactiva":"Activa"}. Al publicar, el cambio se aplica a las tarjetas de tus clientes.</small></label>
+   <label>Nombre de la tarjeta<input name="name" value={draft.name} maxLength={150} required onChange={e=>change("name",e.target.value)}/></label>
+   <label>Nombre del premio<input name="rewardName" value={draft.rewardName} maxLength={150} required onChange={e=>change("rewardName",e.target.value)}/></label>
+   <label>Puntos para obtener el premio<input name="rewardCost" type="number" min={1} max={100000} value={draft.rewardCost} required onChange={e=>change("rewardCost",e.target.value)}/></label>
+   {!draft.rewardName&&<p className="wide" role="status">Falta definir el premio y la meta de puntos antes de publicar la tarjeta.</p>}
+   <label className="wide">Diseño prediseñado<select value={design.theme} onChange={e=>designChange("theme",e.target.value)}><option value="nival">Nival clásico</option><option value="botanico">Botánico</option><option value="noche">Noche elegante</option></select></label>
+   <label>Texto principal<input maxLength={60} value={design.headline} onChange={e=>designChange("headline",e.target.value)}/></label><label>Mensaje al pie<input maxLength={80} value={design.footer} onChange={e=>designChange("footer",e.target.value)}/></label>
+   <label className="wide">Imagen de fondo<input aria-label="Elegir imagen de fondo" type="file" accept="image/png,image/jpeg,image/webp" onChange={e=>file(e,"background")}/>{design.background&&<small>Vista previa cargada</small>}</label>
+   {design.background&&<><label>Recorte horizontal del fondo<input type="range" min="0" max="100" value={design.backgroundX} onChange={e=>designChange("backgroundX",Number(e.target.value))}/></label><label>Recorte vertical del fondo<input type="range" min="0" max="100" value={design.backgroundY} onChange={e=>designChange("backgroundY",Number(e.target.value))}/></label></>}
+   <label>Color principal<input name="color" type="color" value={draft.color} onChange={e=>change("color",e.target.value)} style={{minHeight:48,padding:5}}/></label>
+   <label className="wide">Logo del negocio<input aria-label="Elegir logo del negocio" type="file" accept="image/png,image/jpeg,image/webp" onChange={e=>file(e,"logo")}/></label>
+   {logo&&<div className="wide" style={{display:"flex",alignItems:"center",gap:12}}><img src={logo} alt={`Vista previa del logo de ${business}`} width={64} height={64} style={{objectFit:"cover",objectPosition:`${design.logoX}% 50%`,borderRadius:12}}/><button type="button" onClick={()=>{revision.current++;setLogo("");setStatus("Hay cambios sin publicar.");}}>Quitar logo</button></div>}
+   {logo&&<><label>Ajustar recorte horizontal del logo<input type="range" min="0" max="100" value={design.logoX} onChange={e=>designChange("logoX",Number(e.target.value))}/></label><label>Ajustar recorte vertical del logo<input type="range" min="0" max="100" value={design.logoY} onChange={e=>designChange("logoY",Number(e.target.value))}/></label></>}{logoError&&<p className="error wide" role="alert">{logoError}</p>}
+   <label className="wide">Tipo de recompensas<select name="mode" value={draft.mode} onChange={e=>change("mode",e.target.value)}><option value="single">Premio único</option><option value="choose">Meta elegida por cliente</option><option value="sequence">Premios por secuencia</option></select></label>
+   <label>Puntos por visita<input name="points" type="number" min={1} max={1000} value={draft.points} onChange={e=>change("points",e.target.value)} required/></label><label>Horas mínimas entre visitas<input name="hours" type="number" min={0} max={720} step="any" value={draft.hours} onChange={e=>change("hours",e.target.value)} required/></label>
+   <label className="wide">Máximo de visitas por día<input name="max" type="number" min={1} max={100} value={draft.max} onChange={e=>change("max",e.target.value)} required/></label>
+   <label className="wide">Puntos dobles (opcional)<select name="doublePointsDay" value={draft.bonusDay} onChange={e=>change("bonusDay",e.target.value)}><option value="">Sin día de puntos dobles</option><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option><option value="0">Domingo</option></select><small>Las visitas válidas de ese día suman el doble de puntos.</small></label>
+   <div className="wide" style={{display:"flex",alignItems:"center",gap:12,flexWrap:"wrap"}}><button type="submit" disabled={saving}>{saving?"Publicando…":"Guardar y publicar"}</button><p role="status" aria-live="polite" style={{margin:0}}>{dirty&&status===""?"Hay cambios sin publicar.":status||"Los clientes ven la versión publicada."}</p></div>
+  </form>
+  <aside className="liveCardPreview" aria-label="Vista previa de la tarjeta" style={{position:"sticky",top:28}}><small style={{letterSpacing:".12em",fontWeight:700,color:"#5f7567"}}>VISTA PREVIA · BORRADOR</small><p style={{margin:"6px 0 14px",color:"#65746a"}}>La tarjeta activa conserva sus cambios hasta que publiques.</p>
+   <article className="loyaltyCard" style={previewStyle}><div className="cardTop"><div>{logo?<img className="cardLogo" style={{objectPosition:`${design.logoX}% ${design.logoY}%`}} src={logo} alt={`Logo de ${business}`}/>:<span className="cardMonogram">{business.slice(0,1).toUpperCase()}</span>}<small style={{color:"#fff",textShadow:"0 1px 4px #000"}}>{business}</small></div><span className="cardSerial">NIVAL PUNTOS<br/>MEMBRESÍA DIGITAL</span></div><p className="cardProgram" style={{color:"#fff",textShadow:"0 1px 4px #000"}}>{draft.name||"Mis recompensas"}</p><h1>{design.headline||"Cliente de ejemplo"}</h1><div className="cardNumbers"><strong>{previewPoints}</strong><span>puntos<br/>acumulados</span><span className="cardSeal">✦</span></div><div className="cardProgress" role="progressbar" aria-label="Avance de ejemplo hacia el premio" aria-valuenow={goal?Math.min(previewPoints,goal):0} aria-valuemin={0} aria-valuemax={goal||1}><i style={{width:progress+"%"}}/></div><div className="cardGoal"><span>{goal?`${Math.max(goal-previewPoints,0)} puntos para tu premio`:"Meta de puntos pendiente"}</span><b>{draft.rewardName||"Premio pendiente"} · {goal||"—"} puntos</b></div><footer><span>{design.footer}</span><small>•••• 2026</small></footer></article>
+   <div className="personalQr" style={{display:"flex",alignItems:"center",gap:12,marginTop:14}}>{qr&&<img src={qr} alt="QR de muestra de la vista previa" width="96" height="96"/>}<div><b>QR personal · muestra</b><p style={{margin:"4px 0"}}>Código: <strong>00000000</strong></p></div></div><small style={{display:"block",marginTop:10,color:"#718075"}}>Ejemplo con 3 visitas. La tarjeta de cada cliente muestra su propio QR y sus puntos actuales.</small>
+  </aside>
+ </div>;
 }

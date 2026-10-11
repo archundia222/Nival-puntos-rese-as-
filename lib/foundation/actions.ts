@@ -201,7 +201,9 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
     doublePointsDay=val(f,"doublePointsDay");
   const color = val(f, "color");
   const logo = val(f, "logo");
-  let cardDesign: Record<string, string> = {};
+  const rewardName = val(f, "rewardName"), rewardCost = Number(val(f, "rewardCost"));
+  const cardEnabled = val(f, "cardEnabled") === "on";
+  let cardDesign: Record<string, unknown> = {};
   try {
     const parsed = JSON.parse(val(f, "cardDesign") || "{}");
     if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
@@ -209,6 +211,10 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
         theme: ["nival", "botanico", "noche"].includes(parsed.theme) ? parsed.theme : "nival",
         headline: String(parsed.headline || "Cliente de ejemplo").slice(0, 60),
         footer: String(parsed.footer || "").slice(0, 80),
+        ...(Number.isInteger(parsed.backgroundX) ? { backgroundX: Math.max(0,Math.min(100,parsed.backgroundX)) } : {}),
+        ...(Number.isInteger(parsed.backgroundY) ? { backgroundY: Math.max(0,Math.min(100,parsed.backgroundY)) } : {}),
+        ...(Number.isInteger(parsed.logoX) ? { logoX: Math.max(0,Math.min(100,parsed.logoX)) } : {}),
+        ...(Number.isInteger(parsed.logoY) ? { logoY: Math.max(0,Math.min(100,parsed.logoY)) } : {}),
         ...(typeof parsed.background === "string" && parsed.background.length <= 400000 && /^(data:image\/(png|jpeg|webp);base64,|https:\/\/)/.test(parsed.background) ? { background: parsed.background } : {}),
       };
     }
@@ -225,7 +231,7 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
     !uuid(b) ||
     !name ||
     name.length > 150 ||
-    !["single", "choose", "sequence", "surprise"].includes(mode) ||
+    !["single", "choose", "sequence"].includes(mode) ||
     !Number.isInteger(points) ||
     points < 1 ||
     points > 1000 ||
@@ -236,15 +242,15 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
     max < 1 ||
     max > 100 ||
     (doublePointsDay!==''&&(!/^\d$/.test(doublePointsDay)||Number(doublePointsDay)>6))||
-    !/^#[a-f0-9]{6}$/i.test(color)
+    !/^#[a-f0-9]{6}$/i.test(color) ||
+    !rewardName || rewardName.length > 150 || !Number.isInteger(rewardCost) || rewardCost < 1 || rewardCost > 100000
   )
     return { error: "Revisa las reglas del programa." };
   try {
     await requireTool(actor, b);
-    await query(
-      actor,
-      "insert into nival_pr.programs(business_id,name,mode,points_per_visit,color,rules,logo_url) values($1,$2,$3,$4,$5,$6::jsonb,$7) on conflict(business_id) do update set name=excluded.name,mode=excluded.mode,points_per_visit=excluded.points_per_visit,color=excluded.color,rules=coalesce(programs.rules, '{}'::jsonb) || excluded.rules,logo_url=excluded.logo_url",
-      [
+    const activeReward = await query(actor,"select r.id from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 and r.active order by r.position,r.id limit 1",[b]);
+    await transaction(actor, [
+      { text: "insert into nival_pr.programs(business_id,name,mode,points_per_visit,color,rules,logo_url,card_enabled) values($1,$2,$3,$4,$5,$6::jsonb,$7,$8) on conflict(business_id) do update set name=excluded.name,mode=excluded.mode,points_per_visit=excluded.points_per_visit,color=excluded.color,rules=coalesce(programs.rules, '{}'::jsonb) || excluded.rules,logo_url=excluded.logo_url,card_enabled=excluded.card_enabled", values: [
         b,
         name,
         mode,
@@ -258,14 +264,16 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
           card_design: cardDesign,
         }),
         logo || null,
-      ],
-    );
+        cardEnabled,
+      ] },
+      ...(activeReward.length ? [{text:"update nival_pr.rewards set name=$2,points_cost=$3 where id=$1",values:[activeReward[0].id,rewardName,rewardCost]}] : [{text:"insert into nival_pr.rewards(program_id,name,points_cost,position,active) select id,$2,$3,0,true from nival_pr.programs where business_id=$1",values:[b,rewardName,rewardCost]}]),
+    ]);
   } catch (e) {
     return failure(e);
   }
   revalidatePath("/panel");revalidatePath("/panel/puntos");
   kickWalletJobs();
-  return { success: "Programa guardado." };
+  return { success: "Tarjeta publicada. Los clientes ya ven estos cambios." };
 }
 export async function addReward(_: Result, f: FormData): Promise<Result> {
   const actor = await guardAction(["owner"],f);
@@ -473,7 +481,7 @@ export async function enroll(_: Result, f: FormData): Promise<Result> {
       [slug],
     );
     if (!b?.data?.active) return { error: "Este programa no está disponible." };
-    if(!b.data.program?.id||!b.data.rewards?.length)return {error:"El negocio está preparando sus premios. Pídele que termine la configuración antes de crear tu tarjeta."};
+    if(!b.data.program?.id)return {error:"El negocio está preparando su programa. Inténtalo más tarde."};
     await query(
       authScope(),
       "select nival_pr_private.enroll_customer_legal($1,$2,$3,$4,$5)",
@@ -485,12 +493,32 @@ export async function enroll(_: Result, f: FormData): Promise<Result> {
     });
   } catch (e) {
     return {
-      error: /unique|duplicate/.test(String((e as Error).message))
-        ? "Ese teléfono ya está registrado. Pide al negocio que te entregue un nuevo acceso; escribir el teléfono no permite recuperar una tarjeta."
+      error: /Program not ready/.test(String((e as Error).message))
+        ? "El negocio está preparando sus premios. Pídele que termine la configuración antes de crear tu tarjeta."
         : "No se pudo registrar tu tarjeta. Inténtalo de nuevo.",
     };
   }
   redirect("/b/" + slug);
+}
+
+export async function recoverCustomerByPhone(_: Result, f: FormData): Promise<Result> {
+  await guardPublicAction();
+  const hdr=await headers(),ip=trustedClientIp(hdr),slug=val(f,"slug"),phone=mexicoPhone(val(f,"phone"));
+  if(!/^[a-z0-9-]{1,100}$/.test(slug)||!phone)return {error:"Escribe el teléfono registrado con el negocio."};
+  if(!await verifyTurnstile(val(f,"cf-turnstile-response"),ip).catch(()=>false))return {error:"Confirma que no eres un robot."};
+  try {
+    const hash=(v:string)=>createHmac("sha256",secret()).update(v).digest("hex"),limits=await transaction(authScope(),[
+      {text:"select nival_pr_private.claim_pin_attempt($1) accepted",values:[hash("card-recovery-ip:"+ip)]},
+      {text:"select nival_pr_private.claim_pin_attempt($1) accepted",values:[hash("card-recovery-phone:"+slug+":"+phone)]},
+    ]);
+    if(limits.some(x=>!x[0]?.accepted))return {error:"Demasiados intentos. Inténtalo en 15 minutos."};
+    const [b]=await query(authScope(),"select nival_pr_private.public_business($1) data",[slug]);
+    if(!b?.data?.id)return {error:"No encontramos una tarjeta con ese teléfono en este negocio."};
+    const token=randomToken(),[row]=await query(authScope(),"select nival_pr_private.recover_customer_by_phone($1,$2,$3) id",[slug,phone,sha256(token)]);
+    if(!row?.id)return {error:"No encontramos una tarjeta con ese teléfono en este negocio."};
+    (await cookies()).set("nival_customer_"+b.data.id,token,{...cookieOptions,maxAge:365*86400});
+  } catch { return {error:"No se pudo recuperar la tarjeta. Inténtalo de nuevo."}; }
+  redirect("/b/"+slug);
 }
 
 export async function consentCard(_: Result, f: FormData): Promise<Result> {

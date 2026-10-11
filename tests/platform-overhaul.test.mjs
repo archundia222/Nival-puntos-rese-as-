@@ -9,8 +9,11 @@ const migration = readFileSync('database/automation-ready-v7.sql', 'utf8');
 
 test('card designs edit live, accept owned image assets, and render on the customer card', () => {
   for (const choice of ['nival', 'botanico', 'noche']) assert.ok(editor.includes(choice));
-  assert.ok(editor.includes('VISTA PREVIA EN VIVO'));
-  assert.ok(editor.includes('chooseBackground'));
+  assert.ok(editor.includes('VISTA PREVIA · BORRADOR'));
+  assert.ok(editor.includes('type="file"'));
+  assert.ok(editor.includes('Recorte horizontal del fondo'));
+  assert.ok(editor.includes('Guardar y publicar'));
+  assert.ok(!editor.includes('Guardar ahora'));
   assert.ok(action.includes('card_design: cardDesign'));
   assert.ok(action.includes("coalesce(programs.rules, '{}'::jsonb) || excluded.rules"));
   assert.ok(customerCard.includes('card_design?.background'));
