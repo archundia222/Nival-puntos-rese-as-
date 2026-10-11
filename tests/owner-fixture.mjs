@@ -6,6 +6,7 @@ export async function ownerFixture(){
  const db=new PGlite();
  await db.exec('create schema neon_auth;create table neon_auth."user"(id uuid primary key);');
  for(const path of ['foundation-neon','points-neon','points-lifecycle','points-legacy-phones','owner-panel','owner-report-scope'])await db.exec(readFileSync('database/'+path+'.sql','utf8'));
+ await db.exec('alter table nival_pr.point_ledger add column ticket_value_mxn numeric(12,2)');
  await db.query('insert into neon_auth."user" values($1),($2)',[owner,other]);
  await db.query("insert into nival_pr.profiles(id,role,full_name) values($1,'owner','Owner'),($2,'owner','Other')",[owner,other]);
  await db.query("insert into nival_pr.businesses(id,name,slug) values($1,'Example','example'),($2,'Other','other')",[b,bb]);

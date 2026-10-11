@@ -16,9 +16,9 @@ function component(path,overrides={}){
 }
 const tour=component('tour.tsx');
 const icons=component('icons.tsx');const {DashboardShell}=component('shell.tsx',{'./icons':icons,'./tour':tour});
-test('business shell groups work under Resumen, Google and Puntos with accessible navigation',()=>{
+test('business shell shows the plan-aware workspace menu and cycle chip',()=>{
  const html=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null},React.createElement('p',null,'Solo datos de Negocio A')));
- for(const title of ['Resumen','Google','Puntos','Puntos y canjes','Clientes','Configuración de tarjeta','Personal','Historial de canjes','Mi plan y cuenta'])assert.ok(html.includes(title),title);
+ for(const title of ['Inicio','Tarjetas','Clientes','Promociones','Sucursales','Estadísticas','Informes','Usuarios','Plan y facturación','Configuración','Nival Pay','Nival Reseñas','Periodo activo · día 1 de 30'])assert.ok(html.includes(title),title);
  assert.ok(html.includes('aria-controls="workspace-menu"'));assert.ok(html.includes('aria-current="page"'));assert.ok(html.includes('id="workspace-title"'));
  assert.ok(html.includes('Negocio A'));assert.ok(!html.includes('Negocio B'));assert.ok(!html.includes('Estás explorando la demo.'));
 });
@@ -42,11 +42,11 @@ test('guided demo covers every panel section and starts with clear next and free
 });
 
 test('customer groups have independent navigation and demo exit remains available without the tour',()=>{
- for(const section of ['clientes','clientes-new','clientes-frequent','clientes-risk','clientes-lost','clientes-absent']){
+ for(const section of ['clientes','clientes-new','clientes-frequent','clientes-risk','clientes-absent']){
  const html=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Café Demo',owner:'Ana',status:'Activo',demo:true,logout:null,initialSection:section},'Contenido'));
  assert.ok(html.includes('data-section="'+section+'"'));
- for(const label of ['Todos los clientes','Nuevos','Frecuentes','En riesgo','Perdidos','Sin visita este mes'])assert.ok(html.includes(label));
- assert.match(html,/<a[^>]+href="\/"[^>]*>Finalizar demo<\/a>/);
+ for(const label of ['Clientes','Nuevos','Frecuentes','En riesgo','Sin visita este mes','Historial de canjes'])assert.ok(html.includes(label));
+ assert.ok(html.includes('Cerrar demo'));
  }
  const group=renderToStaticMarkup(React.createElement(tour.DemoTour,{section:'clientes-risk',active:true,navigate:()=>{},setActive:()=>{}}));
  assert.ok(group.includes('Paso 3 de 7'));
@@ -56,11 +56,11 @@ const {CustomerExplorer}=component('customer-explorer.tsx',{'./icons':icons,'./e
 test('large customer directory bounds rendered rows and segment pages do not offer other group filters',()=>{
  const customers=Array.from({length:43},(_,i)=>({id:String(i),name:'Cliente '+i,visits:1,is_risk:true}));
  const html=renderToStaticMarkup(React.createElement(CustomerExplorer,{customers,fixedSegment:'risk'}));
- assert.equal((html.match(/data-label="Visitas"/g)||[]).length,20);
- assert.ok(html.includes('Página 1 de 3'));assert.ok(html.includes('43 de 43'));
+ assert.equal((html.match(/data-label="Teléfono"/g)||[]).length,20);
+ assert.ok(html.includes('Página 1 de 3'));assert.ok(html.includes('43 clientes'));
  assert.ok(!html.includes('Tipo de cliente'));
  const empty=renderToStaticMarkup(React.createElement(CustomerExplorer,{customers:[],fixedSegment:'risk'}));
- assert.ok(empty.includes('No encontramos clientes'));assert.ok(!empty.includes('Página 0'));
+ assert.ok(empty.includes('No hay clientes en este grupo'));assert.ok(!empty.includes('Página 0'));
 });
 
 const {ReviewInsights}=component('review-insights.tsx',{'./review-insights.mjs':insights});

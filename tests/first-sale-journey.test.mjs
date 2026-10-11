@@ -9,7 +9,7 @@ test('first sale: registration → paid code → setup → enrollment → owner 
  const db=new PGlite();
  try{
   await db.exec('create schema neon_auth;create table neon_auth."user"(id uuid primary key)');
-  for(const name of ['foundation-neon','points-neon','points-lifecycle','points-legacy-phones','owner-panel','owner-report-scope','legal-pilot','registration-pilot','reputation-v6','lealtad-v6','points-only-plan-v1','activation-plan-v2','entitlements-v2','owner-tools-v2','service-access-v3'])await db.exec(source('database/'+name+'.sql'));
+  for(const name of ['foundation-neon','points-neon','points-lifecycle','points-legacy-phones','owner-panel','owner-report-scope','legal-pilot','registration-pilot','reputation-v6','lealtad-v6','points-only-plan-v1','activation-plan-v2','entitlements-v2','owner-tools-v2','service-access-v3','plan-review-pipeline-v8','plan-pricing-v9'])await db.exec(source('database/'+name+'.sql'));
   await db.query('insert into neon_auth."user" values($1),($2)',[owner,admin]);
   await db.query("insert into nival_pr.profiles(id,role,full_name) values($1,'owner','Ana'),($2,'superadmin','Nival')",[owner,admin]);
   const scope=async(role,id='')=>{await db.exec('reset role;set role '+role);await db.query("select set_config('npr.user_id',$1,false)",[id]);};
@@ -27,7 +27,7 @@ test('first sale: registration → paid code → setup → enrollment → owner 
   assert.equal((await db.query(activation,['NIV-ABCD-1234',b])).rows.length,0,'Single use');
   await scope('npr_v2_owner',owner);
   await db.query(sql('lib/foundation/actions.ts','insert into nival_pr.programs(business_id,name,mode,','",\n      ['),[b,'Café Ana · recompensas','single',2,'#164d3b',JSON.stringify({min_hours_between_visits:4,max_visits_per_day:1}),null]);
-  const {rows:[reward]}=await db.query(sql('lib/foundation/actions.ts','insert into nival_pr.rewards(program_id,name,points_cost,position)','",\n      [b, name'),[b,'Café gratis',2,0]);
+  const {rows:[reward]}=await db.query("insert into nival_pr.rewards(program_id,name,points_cost,position,photo_url) select id,$2,$3,$4,nullif($5,'') from nival_pr.programs where business_id=$1 returning id",[b,'Café gratis',2,0,'']);
   // Read exactly the server component SQL, preserving its normal indentation.
   const readiness=source('lib/owner/start-guide.tsx').match(/query\(actor,`([\s\S]*?)`,\[businessId\]/)[1];
   assert.equal((await db.query(readiness,[b])).rows[0].reward,true);
@@ -40,9 +40,9 @@ test('first sale: registration → paid code → setup → enrollment → owner 
   assert.equal((await card()).balance,0);assert.equal((await card()).manual_code.length,8);
   await scope('npr_v2_owner',owner);
   const operation='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
-  const visit=sql('app/api/staff/movement/route.ts',"insert into nival_pr.point_ledger(business_id,customer_id,type,points,staff_id,operation_id)",'"\n        :');
-  await db.query(visit,[b,c,owner,operation]);
-  await assert.rejects(db.query(visit,[b,c,owner,'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb']),/Limite diario|Visita demasiado reciente/);
+  const visit=sql('app/api/staff/movement/route.ts',"insert into nival_pr.point_ledger(business_id,customer_id,type,points,staff_id,operation_id,ticket_value_mxn)",'"\n        :');
+  await db.query(visit,[b,c,owner,operation,null]);
+  await assert.rejects(db.query(visit,[b,c,owner,'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',null]),/Limite diario|Visita demasiado reciente/);
   await scope('npr_v2_auth',staff.id);assert.equal((await card()).balance,2);
   assert.equal((await db.query('select nival_pr_private.staff_customer_code($1,$2) data',[b,(await card()).manual_code])).rows[0].data.id,c);
   const path=b+'/'+c+'/cccccccc-cccc-4ccc-8ccc-cccccccccccc.png';
@@ -60,6 +60,6 @@ test('first sale: registration → paid code → setup → enrollment → owner 
   await scope('npr_v2_admin',admin);await db.query("update nival_pr.businesses set paid_until=now()-interval '1 second' where id=$1",[b]);
   await scope('npr_v2_auth');assert.equal(Boolean((await publicData()).active),false);
   await scope('npr_v2_owner',owner);assert.equal((await db.query('select sum(points)::int balance from nival_pr.point_ledger where customer_id=$1',[c])).rows[0].balance,2);
-  await assert.rejects(db.query(visit,[b,c,owner,'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee']),/Servicio no activo/);
+  await assert.rejects(db.query(visit,[b,c,owner,'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee',null]),/Servicio no activo/);
  }finally{await db.close();}
 });

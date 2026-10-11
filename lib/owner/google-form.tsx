@@ -22,6 +22,7 @@ export function GoogleReportForm({businesses}:{businesses:{id:string;name:string
  <label className="wide">Qué mejorar · acciones concretas<textarea name="improve" maxLength={2000} placeholder="Acción, responsable y plazo sugerido"/></label>
  <label className="wide">Qué seguir haciendo<textarea name="keep" maxLength={2000} placeholder="Prácticas positivas que conviene mantener"/></label>
  <label className="wide">Consejos para el dueño<textarea name="notes" maxLength={5000}/></label>
+ <label className="wide">Resumen breve de reseñas<textarea name="summary" maxLength={10000} placeholder="Pega aquí el resumen revisado del periodo."/></label>
  <label>Fecha de los cambios<input name="changeDate" type="date" defaultValue={mexicoToday()}/></label>
  <label className="wide">Cambios realizados por Nival<textarea name="changes" maxLength={5000}/></label>
  </ActionForm>;

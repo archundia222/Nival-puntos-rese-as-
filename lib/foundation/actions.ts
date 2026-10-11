@@ -267,12 +267,14 @@ export async function addReward(_: Result, f: FormData): Promise<Result> {
   const actor = await guardAction(["owner"],f);
   const b = val(f, "businessId"),
     name = val(f, "name"),
+    photoUrl=val(f,"photoUrl"),
     cost = Number(val(f, "cost")),
     position = Number(val(f, "position"));
   if (
     !uuid(b) ||
     !name ||
     name.length > 150 ||
+    (photoUrl.length>2000||photoUrl&&!/^https:\/\//.test(photoUrl))||
     !Number.isInteger(cost) ||
     cost < 1 || cost > 100000 ||
     !Number.isInteger(position) ||
@@ -283,8 +285,8 @@ export async function addReward(_: Result, f: FormData): Promise<Result> {
     await requireTool(actor, b);
     const [row] = await query(
       actor,
-      "insert into nival_pr.rewards(program_id,name,points_cost,position) select id,$2,$3,$4 from nival_pr.programs where business_id=$1 returning id",
-      [b, name, cost, position],
+      "insert into nival_pr.rewards(program_id,name,points_cost,position,photo_url) select id,$2,$3,$4,nullif($5,'') from nival_pr.programs where business_id=$1 returning id",
+      [b, name, cost, position,photoUrl],
     );
     if (!row) return { error: "Primero guarda el programa." };
   } catch (e) {

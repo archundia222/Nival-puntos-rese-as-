@@ -41,6 +41,9 @@ export async function POST(req: Request) {
     );
     if (!r?.data) throw Error("Invalid customer");
     const customer = r.data;
+    const ticketRaw=String(f.get('ticketValue')||'').trim();
+    const ticketValue=ticketRaw===''?null:Number(ticketRaw);
+    if(type==='visit'&&ticketValue!==null&&(!Number.isFinite(ticketValue)||ticketValue<0||ticketValue>1000000))throw Error('Valor de ticket inválido');
     const operation=String(f.get('operationId')||'');
     if(!uuid(operation))throw Error('Identificador de operación inválido');
     const [already]=await query(actor,'select id from nival_pr.point_ledger where business_id=$1 and customer_id=$2 and operation_id=$3',[b,c,operation]);
@@ -78,13 +81,13 @@ export async function POST(req: Request) {
     }
     const text =
       type === "visit"
-        ? "insert into nival_pr.point_ledger(business_id,customer_id,type,points,staff_id,operation_id) select $1,$2,'visit',points_per_visit,$3,$4 from nival_pr.programs where business_id=$1 returning id"
+        ? "insert into nival_pr.point_ledger(business_id,customer_id,type,points,staff_id,operation_id,ticket_value_mxn) select $1,$2,'visit',points_per_visit,$3,$4,$5 from nival_pr.programs where business_id=$1 returning id"
         : "insert into nival_pr.point_ledger(business_id,customer_id,type,points,staff_id,reward_id,evidence_path,operation_id) select $1,$2,'redeem',-r.points_cost,$3,r.id,$5,$6 from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where r.id=$4 and p.business_id=$1 and r.active returning id";
     const [movement] = await query(
       actor,
       text,
       type === "visit"
-        ? [b, c, actor.id,operation]
+        ? [b, c, actor.id,operation,ticketValue]
         : [b, c, actor.id, customer.reward.id, uploaded,operation],
     );
     if (!movement) throw Error("Programa no configurado");

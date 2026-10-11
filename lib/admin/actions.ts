@@ -67,6 +67,20 @@ export async function saveBusinessNotes(_:Result,f:FormData):Promise<Result>{
  }catch(e){return {error:cleanError(e)}}
 }
 
+export async function saveZoneComparison(_:Result,f:FormData):Promise<Result>{
+ const actor=await guardAction(['superadmin'],f),businessId=val(f,'businessId');
+ const businessRating=Number(val(f,'businessRating')),businessReviews=Number(val(f,'businessReviews'));
+ const zoneRating=Number(val(f,'zoneRating')),zoneReviews=Number(val(f,'zoneReviews'));
+ if(!uuid(businessId)||![businessRating,zoneRating].every(n=>Number.isFinite(n)&&n>=1&&n<=5)||![businessReviews,zoneReviews].every(n=>Number.isInteger(n)&&n>=0))return {error:'Revisa la calificación y el número de reseñas.'};
+ try{
+  await query(actor,`insert into nival_pr.business_comparisons(business_id,business_rating,business_reviews,zone_average_rating,zone_average_reviews,updated_by,updated_at)
+   select $1,$2,$3,$4,$5,$6,now() where exists(select 1 from nival_pr.businesses b join nival_pr.plans p on p.id=b.plan_id where b.id=$1 and p.price_mxn=549)
+   on conflict(business_id) do update set business_rating=excluded.business_rating,business_reviews=excluded.business_reviews,zone_average_rating=excluded.zone_average_rating,zone_average_reviews=excluded.zone_average_reviews,updated_by=excluded.updated_by,updated_at=now()`,[businessId,businessRating,businessReviews,zoneRating,zoneReviews,actor.id]);
+  await audit(actor,'business.zone_comparison_updated','business_comparisons',businessId,{businessRating,businessReviews,zoneRating,zoneReviews});
+  revalidatePath('/admin');revalidatePath('/panel');return {success:'Comparación guardada.'};
+ }catch(e){return {error:cleanError(e)}}
+}
+
 export async function registerPayment30(_:Result,f:FormData):Promise<Result>{
  const actor=await guardAction(['superadmin'],f),businessId=val(f,'businessId'),amount=Number(val(f,'amount')),method=val(f,'method'),reference=val(f,'reference');
  if(!uuid(businessId)||!Number.isFinite(amount)||amount<=0||amount>1000000||!methods.includes(method))return {error:'Revisa monto y método.'};
@@ -184,16 +198,16 @@ export async function publishContent(_:Result,f:FormData):Promise<Result>{
 export async function saveGoogleReport(_:Result,f:FormData):Promise<Result>{
  const actor=await guardAction(['superadmin'],f);
  const businessId=val(f,'businessId'),kind=val(f,'periodKind')||'month',inputPeriod=val(f,'period'),range=periodRange(kind,inputPeriod);
- const rating=Number(val(f,'rating')),total=Number(val(f,'total')),fresh=Number(val(f,'new')),answered=Number(val(f,'answered')),notes=val(f,'notes'),changes=val(f,'changes');
- if(!uuid(businessId)||range.kind!==kind||range.key!==inputPeriod||notes.length>5000||changes.length>5000)return {error:'Revisa el negocio, el periodo y la longitud de los textos.'};
+ const rating=Number(val(f,'rating')),total=Number(val(f,'total')),fresh=Number(val(f,'new')),answered=Number(val(f,'answered')),notes=val(f,'notes'),summary=val(f,'summary'),changes=val(f,'changes');
+ if(!uuid(businessId)||range.kind!==kind||range.key!==inputPeriod||notes.length>5000||summary.length>10000||changes.length>5000)return {error:'Revisa el negocio, el periodo y la longitud de los textos.'};
  const distribution=Object.fromEntries([1,2,3,4,5].map(n=>[n,Number(val(f,'star'+n))]));
  const error=validateGoogle({rating,total,fresh,answered,distribution});if(error)return {error};
  const insights=encodeReviewInsights(f,total);if(insights.error)return {error:insights.error};
  const checklist=Object.fromEntries(Object.keys(checklistLabels).map(k=>[k,f.get('check_'+k)==='on']));
  try{
- await transaction(actor,[{text:`insert into nival_pr.review_reports(business_id,period,period_kind,rating,total_reviews,new_reviews,answered,distribution,profile_checklist,notes,created_by,answered_scope)
- values($1,$2::date,$3,$4,$5,$6,$7,$8::jsonb,$9::jsonb,$10,$11,'period')
- on conflict(business_id,period,period_kind) do update set rating=excluded.rating,total_reviews=excluded.total_reviews,new_reviews=excluded.new_reviews,answered=excluded.answered,distribution=excluded.distribution,profile_checklist=excluded.profile_checklist,notes=excluded.notes,created_by=excluded.created_by,answered_scope=excluded.answered_scope`,values:[businessId,range.start,kind,rating,total,fresh,answered,JSON.stringify(distribution),JSON.stringify(checklist),insights.value,actor.id]},
+ await transaction(actor,[{text:`insert into nival_pr.review_reports(business_id,period,period_kind,rating,total_reviews,new_reviews,answered,distribution,profile_checklist,notes,created_by,answered_scope,manual_summary)
+ values($1,$2::date,$3,$4,$5,$6,$7,$8::jsonb,$9::jsonb,$10,$11,'period',$12)
+ on conflict(business_id,period,period_kind) do update set rating=excluded.rating,total_reviews=excluded.total_reviews,new_reviews=excluded.new_reviews,answered=excluded.answered,distribution=excluded.distribution,profile_checklist=excluded.profile_checklist,notes=excluded.notes,created_by=excluded.created_by,answered_scope=excluded.answered_scope,manual_summary=excluded.manual_summary`,values:[businessId,range.start,kind,rating,total,fresh,answered,JSON.stringify(distribution),JSON.stringify(checklist),insights.value,actor.id,summary||null]},
  ...(changes?[{text:"insert into nival_pr.changelog(business_id,date,description) values($1,($2::date::timestamp at time zone 'America/Mexico_City'),$3)",values:[businessId,val(f,'changeDate')||range.today,changes]}]:[])]);
  await audit(actor,'google_report.saved','review_reports',businessId,{period:range.key,kind,rating,total,new:fresh,answered});
  revalidatePath('/admin');revalidatePath('/panel');return {success:'Reporte guardado. Ya está disponible en el panel del dueño.'};

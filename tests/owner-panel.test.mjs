@@ -49,11 +49,12 @@ test('customer visit dates preserve their calendar day across Mexico timezone re
  assert.ok(explorer.includes('formatCustomerVisitDate(c.last_visit)'));
  assert.ok(clients.includes('formatCustomerVisitDate(c.last_visit)'));
 });
-test('period captions display inclusive Spanish dates without database terminology',()=>{
+test('period utilities preserve inclusive Spanish dates while the dashboard shows its 30-day cycle',()=>{
  assert.equal(formatPeriodDate('2024-02-29'),'29 de febrero de 2024');
  assert.equal(formatPeriodDate(inclusivePeriodEnd(periodRange('month','2024-02').end)),'29 de febrero de 2024');
  const ownerView=readFileSync('lib/owner/view.tsx','utf8');
- assert.ok(ownerView.includes('formatPeriodDate(inclusivePeriodEnd(range.end))'));
+ assert.ok(ownerView.includes('periodDay={periodDay}'));
+ const shell=readFileSync('lib/owner/shell.tsx','utf8');assert.ok(shell.includes('Periodo activo · día {periodDay} de 30'));
  assert.ok(!ownerView.includes('(fin excluido)'));
 });
 test('Google rejects invented distribution and response totals; advice preserves count and variants',async()=>{
@@ -65,6 +66,7 @@ test('Google rejects invented distribution and response totals; advice preserves
 
 test('actual admin save action persists complete Google data; owner reads it and invalid totals are rejected',async()=>{
  const {db}=await ownerFixture();try{
+ await db.exec('alter table nival_pr.review_reports add column manual_summary text');
  const ts=await import('typescript');
  const source=readFileSync('lib/admin/actions.ts','utf8'),a=source.indexOf('export async function saveGoogleReport'),z=source.indexOf('export async function createReviewTask',a);
  const compiled=ts.transpileModule(source.slice(a,z).replace('export async','async'),{compilerOptions:{target:ts.ScriptTarget.ES2022}}).outputText;
@@ -73,11 +75,11 @@ test('actual admin save action persists complete Google data; owner reads it and
  const action=new Function('encodeReviewInsights','guardAction','val','uuid','periodRange','validateGoogle','checklistLabels','transaction','audit','revalidatePath','cleanError',compiled+';return saveGoogleReport;')(
  encodeReviewInsights,async roles=>{if(!roles.includes(actor.role))throw Error('Forbidden');return actor;},(f,k)=>String(f.get(k)||'').trim(),s=>/^[a-f0-9-]{36}$/.test(s),periodRange,validateGoogle,checklistLabels,
  async(_actor,statements)=>{await db.exec('set role npr_v2_admin');await db.query("select set_config('npr.user_id',$1,false)",[owner]);await db.exec('begin');try{for(const st of statements)await db.query(st.text,st.values);await db.exec('commit');}catch(e){await db.exec('rollback');throw e;}},async()=>{},()=>{},e=>e.message);
- const f=new FormData();for(const [k,v] of Object.entries({businessId:b,periodKind:'month',period:'2026-10',rating:'4.5',total:'10',new:'3',answered:'2',star1:'1',star2:'0',star3:'0',star4:'2',star5:'7',notes:'Mejora la descripción',changes:'Nival actualizó los horarios',changeDate:'2026-10-03',check_fotos:'on',check_horarios:'on',check_categoria:'on',check_menu:'on',check_reservas:'on'}))f.set(k,v);
+ const f=new FormData();for(const [k,v] of Object.entries({businessId:b,periodKind:'month',period:'2026-10',rating:'4.5',total:'10',new:'3',answered:'2',star1:'1',star2:'0',star3:'0',star4:'2',star5:'7',notes:'Mejora la descripción',summary:'Resumen probado de reseñas.',changes:'Nival actualizó los horarios',changeDate:'2026-10-03',check_fotos:'on',check_horarios:'on',check_categoria:'on',check_menu:'on',check_reservas:'on'}))f.set(k,v);
  assert.ok((await action({},f)).success);
  await db.exec('set role npr_v2_owner');await db.query("select set_config('npr.user_id',$1,false)",[owner]);
  const {rows:[report]}=await db.query('select * from nival_pr.review_reports where business_id=$1',[b]);
- assert.equal(report.notes,'Mejora la descripción');assert.equal(report.answered_scope,'period');assert.equal(Number(report.rating),4.5);assert.equal(report.new_reviews,3);assert.equal(report.answered,2);assert.equal(report.distribution[5],7);assert.equal(report.profile_checklist.reservas,true);
+ assert.equal(report.notes,'Mejora la descripción');assert.equal(report.manual_summary,'Resumen probado de reseñas.');assert.equal(report.answered_scope,'period');assert.equal(Number(report.rating),4.5);assert.equal(report.new_reviews,3);assert.equal(report.answered,2);assert.equal(report.distribution[5],7);assert.equal(report.profile_checklist.reservas,true);
  assert.equal((await db.query('select description from nival_pr.changelog where business_id=$1',[b])).rows[0].description,'Nival actualizó los horarios');
  f.set('analyzed','5');f.set('positiveTheme0','Atención amable');f.set('positiveCount0','3');f.set('negativeTheme0','Espera');f.set('negativeCount0','2');f.set('improve','Revisar tiempos');f.set('keep','Mantener el saludo');
  assert.ok((await action({},f)).success);

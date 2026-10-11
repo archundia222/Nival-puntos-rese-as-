@@ -28,9 +28,12 @@ test('sample customer card has no enrollment form or write action', async () => 
 });
 
 
-test('landing contact link does not expose internal section names', async () => {
+test('public landing remains the plans and included tools offer', async () => {
   const landing = await read('../app/page.tsx');
-  assert.ok(landing.includes("https://wa.me/525539044988"));
-  assert.ok(landing.includes("Hola, quiero información de Nival Puntos + Reseñas"));
-  assert.doesNotMatch(landing, /cierre de la historia/i);
+  assert.ok(landing.includes('price: 299'));
+  assert.ok(landing.includes('price: 399'));
+  assert.ok(landing.includes('price: 549'));
+  assert.ok(landing.includes('Nival Pay'));
+  assert.ok(landing.includes('Nival Reseñas'));
+  assert.doesNotMatch(landing, /refFaq|refHow|recomendaciones extra/i);
 });

@@ -4,15 +4,15 @@ import {readFileSync} from 'node:fs';
 import {ownerFixture} from './owner-fixture.mjs';
 import {entitlements} from '../lib/foundation/entitlements.mjs';
 const load=name=>readFileSync('database/'+name+'.sql','utf8');
-test('499 → 399 → 299 → expired → 499 keeps history and enforces each capability in PostgreSQL',async()=>{
+test('549 → 399 → 299 → expired → 549 keeps history and enforces each capability in PostgreSQL',async()=>{
  const {db,owner,other,b}=await ownerFixture();try{
- for(const name of ['reputation-v6','lealtad-v6','points-only-plan-v1','activation-plan-v2','entitlements-v2','owner-tools-v2','service-access-v3'])await db.exec(load(name));
+ for(const name of ['reputation-v6','lealtad-v6','points-only-plan-v1','activation-plan-v2','entitlements-v2','owner-tools-v2','service-access-v3','plan-review-pipeline-v8','plan-pricing-v9'])await db.exec(load(name));
  await db.query("update nival_pr.profiles set role='superadmin' where id=$1",[other]);
  await db.query("update nival_pr.businesses set status='activo',paid_until=now()+interval '30 days' where id=$1",[b]);
  const initial=(await db.query('select count(*)::int n from nival_pr.point_ledger where business_id=$1',[b])).rows[0].n;
  const capability=async tool=>(await db.query('select nival_pr_private.tool_enabled($1,$2) enabled',[b,tool])).rows[0].enabled;
  await db.query("select set_config('npr.user_id',$1,false)",[other]);
- for(const [price,reviews,replies] of [[499,true,true],[399,true,false],[299,false,false],[499,true,true]]){
+ for(const [price,reviews,replies] of [[549,true,true],[399,true,true],[299,false,false],[549,true,true]]){
   await db.query('update nival_pr.businesses set plan_id=(select id from nival_pr.plans where price_mxn=$2 limit 1) where id=$1',[b,price]);
   assert.equal(await capability('points'),true);assert.equal(await capability('reviews'),reviews);assert.equal(await capability('replies'),replies);
   const row=(await db.query('select b.*,p.features from nival_pr.businesses b join nival_pr.plans p on p.id=b.plan_id where b.id=$1',[b])).rows[0];
@@ -33,24 +33,27 @@ test('499 → 399 → 299 → expired → 499 keeps history and enforces each ca
  assert.equal(await capability('reviews'),true);assert.equal((await db.query('select count(*)::int n from nival_pr.generated_reports where business_id=$1',[b])).rows[0].n,3);
  }finally{await db.close();}
 });
-test('service task reconciliation is idempotent and points-only removes reputation work from new agenda',async()=>{
+test('daily service tasks are idempotent and appear only when review work exists',async()=>{
  const {db,other,b}=await ownerFixture();try{
- for(const name of ['reputation-v6','lealtad-v6','points-only-plan-v1','entitlements-v2','owner-tools-v2','service-access-v3'])await db.exec(load(name));
+ for(const name of ['reputation-v6','lealtad-v6','points-only-plan-v1','entitlements-v2','owner-tools-v2','service-access-v3','plan-review-pipeline-v8','plan-pricing-v9'])await db.exec(load(name));
  await db.query("update nival_pr.profiles set role='superadmin' where id=$1",[other]);await db.query("select set_config('npr.user_id',$1,false)",[other]);
  await db.query("update nival_pr.businesses set status='activo',paid_until=now()+interval '30 days',plan_id=(select id from nival_pr.plans where price_mxn=299 limit 1) where id=$1",[b]);
  const source=readFileSync('lib/admin/service-tasks.ts','utf8'),sql=source.match(/text:`([\s\S]*?)`/)[1];
  await db.query(sql);await db.query(sql);
  const tasks=(await db.query('select title from nival_pr.tasks where business_id=$1',[b])).rows;
- assert.equal(tasks.length,2);assert.ok(tasks.some(t=>t.title==='Cobrar mensualidad'));assert.ok(tasks.some(t=>t.title.startsWith('Puntos ·')));
- await db.query('update nival_pr.businesses set plan_id=(select id from nival_pr.plans where price_mxn=499 limit 1) where id=$1',[b]);await db.query(sql);await db.query(sql);
- assert.equal((await db.query('select count(*)::int n from nival_pr.tasks where business_id=$1',[b])).rows[0].n,5);
+ assert.equal(tasks.length,0);
+ await db.query('update nival_pr.businesses set plan_id=(select id from nival_pr.plans where price_mxn=549 limit 1) where id=$1',[b]);
+ await db.query("insert into nival_pr.reviews(business_id,reviewer,stars,body,reviewed_on,fingerprint) values($1,'Cliente',5,'Buena experiencia',current_date,'review-1')",[b]);
+ await db.query(sql);await db.query(sql);
+ const queued=(await db.query('select title from nival_pr.tasks where business_id=$1',[b])).rows;
+ assert.equal(queued.length,2);assert.ok(queued.some(t=>t.title==='Responder reseñas pendientes'));assert.ok(queued.some(t=>t.title==='Hacer resumen de reseñas'));
  }finally{await db.close();}
 });
 test('administration dashboard metric query executes with live subscriptions',async()=>{
  const {db,other,b}=await ownerFixture();try{
- for(const name of ['reputation-v6','points-only-plan-v1','entitlements-v2','owner-tools-v2','service-access-v3'])await db.exec(load(name));
- await db.query("update nival_pr.businesses set status='activo',paid_until=now()+interval '5 days',plan_id=(select id from nival_pr.plans where price_mxn=499 limit 1) where id=$1",[b]);
+ for(const name of ['reputation-v6','points-only-plan-v1','entitlements-v2','owner-tools-v2','service-access-v3','plan-review-pipeline-v8','plan-pricing-v9'])await db.exec(load(name));
+ await db.query("update nival_pr.businesses set status='activo',paid_until=now()+interval '5 days',plan_id=(select id from nival_pr.plans where price_mxn=549 limit 1) where id=$1",[b]);
  const source=readFileSync('app/admin/page.tsx','utf8'),sql=source.match(/const \[metric\]=await query\(actor,`([\s\S]*?)`\)/)[1];
- const m=(await db.query(sql)).rows[0];assert.equal(m.active,1);assert.equal(m.expiring,1);assert.equal(Number(m.mrr),499);
+ const m=(await db.query(sql)).rows[0];assert.equal(m.active,1);assert.equal(m.expiring,1);assert.equal(Number(m.mrr),549);
  }finally{await db.close();}
 });

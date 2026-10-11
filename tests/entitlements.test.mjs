@@ -1,7 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';
 import {entitlements} from '../lib/foundation/entitlements.mjs';import {ownerFixture} from './owner-fixture.mjs';
 test('permissions matrix keeps history across all plans and inactive states',()=>{
- for(const [price,limit] of [[299,0],[399,30],[499,100]])for(const status of ['registrado','cotizando','pago_pendiente','activo','por_vencer','pausado','cancelado']){
+ for(const [price,limit] of [[299,0],[399,30],[549,100]])for(const status of ['registrado','cotizando','pago_pendiente','activo','por_vencer','pausado','cancelado']){
  const e=entitlements({status,paid_until:'2027-01-01',features:{points_only:price===299,review_limit:limit}},Date.parse('2026-10-07'));
  assert.equal(e.history,true);assert.equal(e.points,['activo','por_vencer'].includes(status));assert.equal(e.reviews,e.points&&limit>0);
  }

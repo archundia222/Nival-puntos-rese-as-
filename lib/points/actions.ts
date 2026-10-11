@@ -69,6 +69,7 @@ export async function editReward(_: Result, f: FormData): Promise<Result> {
     b = val(f, "businessId"),
     id = val(f, "rewardId"),
     name = val(f, "name"),
+    photoUrl=val(f,"photoUrl"),
     cost = Number(val(f, "cost")),
     position = Number(val(f, "position")),
     active = f.get("active") === "on",
@@ -79,7 +80,7 @@ export async function editReward(_: Result, f: FormData): Promise<Result> {
     !Number.isInteger(weight)||weight<1||weight>100||
     !uuid(b) ||
     !uuid(id) ||
-    !name ||
+    !name || (photoUrl.length>2000||photoUrl&&!/^https:\/\//.test(photoUrl))||
     name.length > 150 ||
     !Number.isInteger(cost) ||
     cost < 1 ||
@@ -102,8 +103,8 @@ export async function editReward(_: Result, f: FormData): Promise<Result> {
       };
     const [r] = await query(
       actor,
-      "update nival_pr.rewards r set name=$3,points_cost=$4,position=$5,active=$6,weight=$7,expires_at=case when $8='' then null else (($8::date+1)::timestamp at time zone 'America/Mexico_City') end,stock=$9 from nival_pr.programs p where r.id=$1 and p.id=r.program_id and p.business_id=$2 returning r.id",
-      [id, b, name, cost, position, active,weight,expiry,stock],
+      "update nival_pr.rewards r set name=$3,points_cost=$4,position=$5,active=$6,weight=$7,expires_at=case when $8='' then null else (($8::date+1)::timestamp at time zone 'America/Mexico_City') end,stock=$9,photo_url=nullif($10,'') from nival_pr.programs p where r.id=$1 and p.id=r.program_id and p.business_id=$2 returning r.id",
+      [id, b, name, cost, position, active,weight,expiry,stock,photoUrl],
     );
     if (!r) return { error: "No se encontró este premio." };
     revalidatePath("/panel/puntos");

@@ -1,63 +1,18 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
-
-const page = readFileSync('app/page.tsx', 'utf8');
-const css = readFileSync('app/landing-reference.css', 'utf8');
-const interactions = readFileSync('app/landing-interactions.tsx', 'utf8');
-const whatsapp = readFileSync('app/whatsapp-fab.tsx', 'utf8');
-
-test('landing keeps the selected navigation and all access entry points', () => {
-  for (const label of ['Cómo funciona', 'Precios', 'Preguntas', 'Ver demo']) assert.ok(page.includes(label));
-  for (const href of ['/acceso', '/staff/acceso', '/acceso-administrador']) assert.ok(page.includes(href));
-  assert.ok(page.includes('className="refNav"'));
-  assert.match(css, /\.refNav/);
-  assert.match(css, /@media\s*\(max-width:\s*760px\)/);
+import {readFileSync} from 'node:fs';
+const page=readFileSync('app/page.tsx','utf8'),css=readFileSync('app/landing-reference.css','utf8');
+test('public offer shows the three requested 30-day plans and quotas',()=>{
+ for(const x of ['price: 299','price: 399','price: 549','Hasta 30 respuestas a reseñas','Hasta 100 respuestas a reseñas','Comparación con negocios similares'])assert.ok(page.includes(x),x);
+ assert.match(page,/periodo dura 30 días/);
 });
-
-test('hero retains its image, gradient treatment, QR message and signup paths', () => {
-  assert.ok(page.includes('Que te<br/>encuentren.'));
-  assert.ok(page.includes('Que vuelvan.'));
-  assert.ok(page.includes('QR incluido'));
-  assert.ok(page.includes('Sin app'));
-  assert.ok(page.includes('hero-phone.webp'));
-  assert.ok(page.includes('/acceso?modo=registro'));
-  assert.match(css, /\.refHeroPhoto:after/);
-  assert.match(css, /linear-gradient/);
+test('public offer includes both add-ons and only the plan-specific closing PDF promise',()=>{
+ for(const x of ['Nival Pay','Nival Reseñas','tarjetas NFC con QR','resumen PDF','día 30'])assert.ok(page.toLowerCase().includes(x.toLowerCase()),x);
+ for(const x of ['historial de recomendaciones','recomendaciones extra','WhatsAppFab','refFaq','refHow'])assert.ok(!page.includes(x),x);
 });
-
-test('four-step journey explains discovery, visits, rewards and voluntary reviews', () => {
-  for (const phrase of ['Te encuentran en Google.', 'Acumulan puntos.', 'Regresan por sus premios.', 'Comparten su experiencia.']) assert.ok(page.includes(phrase));
-  assert.ok(page.includes('Cada visita con compra suma un punto'));
-  assert.ok(page.includes('de forma amable y libre'));
-});
-
-test('plan cards preserve existing prices and explain each plan limits', () => {
-  for (const plan of ['Nival Puntos', 'Nival Esencial', 'Nival Plus']) assert.ok(page.includes(plan));
-  for (const price of ['price:299', 'price:399', 'price:499']) assert.ok(page.includes(price));
-  assert.ok(page.includes('Hasta 30 respuestas por periodo activo de 30 días'));
-  assert.ok(page.includes('Hasta 100 respuestas por periodo activo de 30 días'));
-});
-
-test('review section states the plan quotas and manual service window', () => {
-  assert.ok(page.includes('¿Nival cambia o responde reseñas en mi nombre?'));
-  assert.match(page, /3 días hábiles/);
-  assert.doesNotMatch(page, /instantáneo|automático/i);
-  assert.ok(page.includes('hasta 30 respuestas'));
-  assert.ok(page.includes('hasta 100'));
-});
-
-test('benefit cards remain interactive and WhatsApp contact is available', () => {
-  assert.ok(page.includes('mode="benefits"'));
-  assert.ok(interactions.includes("if(mode==='benefits')"));
-  assert.ok(page.includes('<WhatsAppFab href={wa}/>'));
-  assert.ok(whatsapp.includes('className="refWhats"'));
-  assert.ok(whatsapp.includes('Hablar con Nival por WhatsApp'));
-  assert.match(css, /\.refWhats\{position:fixed/);
-});
-
-test('value and pricing sections use a single consolidated benefits area', () => {
-  assert.ok(page.includes('className="refValue"'));
-  assert.ok(page.includes('className="refPricing"'));
-  assert.equal((page.match(/className="refBenefits"/g) || []).length, 1);
+test('offer uses responsive Nival palette and preserves account access paths',()=>{
+ assert.ok(page.includes('/acceso?modo=registro'));
+ assert.ok(page.includes('/staff/acceso'));
+ assert.ok(page.includes('/acceso-administrador'));
+ assert.match(css,/\.nivalOffer/);assert.match(css,/#10241f/i);assert.match(css,/@media\s*\(max-width:\s*760px\)/);
 });

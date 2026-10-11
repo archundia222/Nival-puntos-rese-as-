@@ -13,6 +13,7 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
     [busy, setBusy] = useState(false),
     [phone, setPhone] = useState(""),
     [customer, setCustomer] = useState<any>(null),
+    [ticketValue,setTicketValue]=useState(''),
     [error, setError] = useState(""),
     [success, setSuccess] = useState(""),
     [photo, setPhoto] = useState<File | null>(null),
@@ -100,6 +101,7 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
     f.set("businessId", businessId);
     f.set("customerId", customer.id);
     f.set("type", type);
+    if(type==='visit'&&ticketValue)f.set('ticketValue',ticketValue);
     if(!operation.current)operation.current=crypto.randomUUID();
     f.set("operationId",operation.current);
 
@@ -111,6 +113,7 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
       const d = await r.json();
       if (!r.ok) throw Error(d.error||'No pudimos completar la operación. Inténtalo de nuevo.');
       setCustomer(d.customer);setCompleted(true);
+      setTicketValue('');
       operation.current=null;
       setPhoto(null);
       setConfirmed(false);
@@ -218,6 +221,7 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
           <p>
             <strong>{customer.balance}</strong> puntos actuales
           </p>
+          {!completed&&mode==='visit'&&<label className="ticketValueField">Valor del ticket (MXN)<input type="number" min="0" max="1000000" step="0.01" inputMode="decimal" value={ticketValue} onChange={e=>setTicketValue(e.target.value)} placeholder="Opcional"/></label>}
           {!completed&&mode==='visit'&&<button
             className="primary"
             disabled={busy}

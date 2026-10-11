@@ -28,7 +28,7 @@ export default async function PointsPanel({
     params = await searchParams;
   const businesses = await query(
     actor,
-    "select b.*,p.features from nival_pr.businesses b left join nival_pr.plans p on p.id=b.plan_id order by b.name",
+    "select b.*,p.name plan_name,p.price_mxn,p.features from nival_pr.businesses b left join nival_pr.plans p on p.id=b.plan_id order by b.name",
   );
   const b = businesses.find((x) => x.id === params.business) || businesses[0];
   if (!b)
@@ -54,16 +54,16 @@ export default async function PointsPanel({
   );
   const rewards = await query(
     actor,
-    "select r.id,r.name,r.points_cost,r.position,r.active,r.weight,r.stock,to_char((r.expires_at at time zone 'America/Mexico_City')-interval '1 day','YYYY-MM-DD') expiry from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 order by r.position",
+    "select r.id,r.name,r.points_cost,r.position,r.active,r.weight,r.stock,r.photo_url,to_char((r.expires_at at time zone 'America/Mexico_City')-interval '1 day','YYYY-MM-DD') expiry from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 order by r.position",
     [b.id],
   );
   const redemptions = await query(
     actor,
-    "select d.id,d.status,d.photo_path,r.name reward,c.name customer,l.created_at,l.points from nival_pr.redemptions d join nival_pr.point_ledger l on l.id=d.ledger_id join nival_pr.customers c on c.id=l.customer_id join nival_pr.rewards r on r.id=d.reward_id where l.business_id=$1 order by l.created_at desc limit 100",
+    "select d.id,d.status,d.photo_path,r.name reward,r.photo_url product_photo,c.name customer,l.created_at,l.points,l.staff_id from nival_pr.redemptions d join nival_pr.point_ledger l on l.id=d.ledger_id join nival_pr.customers c on c.id=l.customer_id join nival_pr.rewards r on r.id=d.reward_id where l.business_id=$1 order by l.created_at desc limit 100",
     [b.id],
   );
   return (
-    <DashboardShell name={b.name} owner={actor.name} status="Mi cuenta" demo={false} initialSection={view} homeUrl={'/panel?business='+b.id} logout={<form action={logout}><button className="logoutButton" aria-label="Cerrar sesión"><Icon name="logout" size={18}/></button></form>}>
+    <DashboardShell name={b.name} owner={actor.name} status={b.status==='activo'?'Activo':'Inactivo'} demo={false} initialSection={view} homeUrl={'/panel?business='+b.id} planName={b.plan_name||'Puntos'} price={Number(b.price_mxn||299)} responseLimit={Number(b.features?.review_limit||0)} periodDay={Math.max(1,Math.min(30,Math.floor((Date.now()-(Date.parse(String(b.paid_until||''))-30*86400000))/86400000)+1))} logout={<form action={logout}><button className="logoutButton" aria-label="Cerrar sesión"><Icon name="logout" size={18}/></button></form>}>
     {view==='programa'&&<StartGuide actor={actor} businessId={b.id}/>}<main className="dashboard programWorkspace">
       <header className="dashHead">
         <div>
@@ -92,7 +92,7 @@ export default async function PointsPanel({
             <ActionForm action={editReward} label="Actualizar premio">
               <Hidden name="businessId" value={b.id} />
               <Hidden name="rewardId" value={r.id} />
-              <Field name="name" label="Nombre del premio" value={r.name} />              <Field
+              <Field name="name" label="Nombre del premio" value={r.name} /><Field name="photoUrl" label="Foto del producto (URL HTTPS)" required={false} value={r.photo_url||''}/>              <Field
                 name="cost"
                 label="Puntos necesarios"
                 type="number"
@@ -122,6 +122,7 @@ export default async function PointsPanel({
         <ActionForm action={addReward} label="Agregar premio">
           <Hidden name="businessId" value={b.id} />
           <Field name="name" label="Nombre del premio" />
+          <Field name="photoUrl" label="Foto del producto (URL HTTPS)" required={false}/>
           <Field name="cost" label="Puntos necesarios" type="number" min={1} />
           <Field
             name="position"
@@ -178,7 +179,7 @@ export default async function PointsPanel({
         ))}
       </section>}
       {view==='canjes'&&<section className="reviewBox" id="canjes">
-        <h2>Canjes y evidencia</h2>
+        <h2>Historial de canjes</h2>
         {!redemptions.length && (
           <p>Aquí aparecerán los premios entregados por tu equipo.</p>
         )}
@@ -190,7 +191,7 @@ export default async function PointsPanel({
                 {d.customer} · {d.reward}
               </h3>
               <p>
-                {-d.points} puntos ·{" "}
+                {-d.points} puntos · {staff.find((person:any)=>person.id===d.staff_id)?.name||'Empleado'} ·{" "}
                 {new Date(d.created_at).toLocaleString("es-MX", {
                   timeZone: "America/Mexico_City",
                 })}
