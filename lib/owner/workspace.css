@@ -203,4 +203,4 @@
 @media(max-width:640px){.cardEditorTabs button{grid-template-columns:1fr;grid-template-rows:24px auto auto;justify-items:center;gap:4px;padding:8px 4px;text-align:center}.cardEditorTabs button>span{grid-row:auto;width:24px;height:24px}.cardEditorTabs button strong{font-size:11px;line-height:1.1;white-space:nowrap}.cardEditorTabs small{font-size:9px}.liveCardPreview .phoneScreen .loyaltyCardPortrait .cardPointCount{margin:0 auto 2px;gap:3px}.liveCardPreview .phoneScreen .loyaltyCardPortrait .cardPointCount b{font-size:8px}.liveCardPreview .phoneScreen .loyaltyCardPortrait .cardPointCount span{font-size:6px}}
 
 /* Keep the mobile card preview clear of the sticky business header. */
-@media(max-width:640px){.liveCardPreview{top:calc(62px + env(safe-area-inset-top,0px) + 10px)}}
+@media(max-width:640px){.liveCardPreview{top:calc(100px + env(safe-area-inset-top,0px) + 10px)}}
