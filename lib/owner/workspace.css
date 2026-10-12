@@ -204,3 +204,228 @@
 
 /* Keep the mobile card preview clear of the sticky business header. */
 @media(max-width:640px){.liveCardPreview{top:calc(100px + env(safe-area-inset-top,0px) + 10px)}}
+
+
+/* Nival owner workspace visual refinement. Presentation only; navigation and controls keep their existing markup. */
+.nivalShell{
+  --ws-ink:#1c3028;
+  --ws-muted:#68796f;
+  --ws-line:#e4eae5;
+  --ws-green:#1d7051;
+  --ws-bg:#f6f8f6;
+  background:var(--ws-bg);
+  color:var(--ws-ink);
+}
+.nivalShell .workspaceSidebar{
+  background:#fff;
+  color:#1d342a;
+  border-right:1px solid #e7ece8;
+  box-shadow:8px 0 24px #163b2d08;
+}
+.nivalShell .workspaceBrand{padding-bottom:24px}
+.nivalShell .brandMark{background:#174b39;color:#fff;border-radius:11px;box-shadow:0 3px 9px #143e2d24}
+.nivalShell .brandWords{color:#18392d}
+.nivalShell .brandWords>span{color:#75867d}
+.nivalShell .workspaceBusiness{
+  background:#f7faf7;
+  border:1px solid #e5ece6;
+  border-radius:14px;
+  box-shadow:0 2px 8px #193b2b06;
+}
+.nivalShell .businessAvatar{background:#e4f0e8;color:#205c43}
+.nivalShell .menuCaption,.nivalShell .workspaceNavCaption{color:#839188}
+.nivalShell .workspaceNav{gap:4px}
+.nivalShell .workspaceNav button{
+  color:#5b6f64;
+  border-radius:10px;
+  transition:background-color .16s ease,color .16s ease;
+}
+.nivalShell .workspaceNav button strong{color:inherit;font-weight:600}
+.nivalShell .workspaceNav button>svg{color:#527565}
+.nivalShell .workspaceNav button:hover{background:#f2f7f3;color:#24563f}
+.nivalShell .workspaceNav button[aria-current]{
+  background:#e8f2eb;
+  color:#17583e;
+}
+.nivalShell .workspaceNav button[aria-current] strong{color:#17583e;font-weight:700}
+.nivalShell .workspaceNav button[aria-current]>svg{color:#1c7653}
+.nivalShell .workspaceSubmenu{border-color:#dfe9e2}
+.nivalShell .workspaceNav .workspaceSubmenu button[aria-current]{background:#f0f6f1;color:#19593f}
+.nivalShell .includedTag{
+  background:#e8f3eb;
+  color:#276447;
+  border:1px solid #d7e8db;
+  border-radius:999px;
+}
+.nivalShell .workspaceSidebarBottom{border-color:#e7ece8}
+.nivalShell .workspacePlanSummary{
+  background:#f7faf7;
+  border:1px solid #e5ece6;
+  border-radius:12px;
+}
+.nivalShell .workspaceHelp{
+  background:#f5f8f5;
+  border-color:#e3ebe4;
+  color:#294f3e;
+  border-radius:12px;
+}
+.nivalShell .workspaceHelp:hover{background:#eef5ef}
+.nivalShell .workspaceLegal a{color:#718077}
+.nivalShell .workspaceMain{background:#f6f8f6}
+.nivalShell .workspaceTopbar{
+  background:#fff;
+  border-color:#e7ece8;
+  box-shadow:0 2px 12px #183b2b06;
+}
+.nivalShell .topbarLocation,.nivalShell .breadcrumbSlash{color:#6a7b71}
+.nivalShell .workspaceTopbar .hamburger{
+  border:1px solid #e2e9e3;
+  background:#fff;
+  color:#315d47;
+  border-radius:11px;
+}
+.nivalShell .workspaceTopbar .hamburger:hover{background:#f3f7f4}
+.nivalShell .topbarUser{color:#294a39}
+.nivalShell .userAvatar{background:#e8f1eb;color:#245c42}
+.nivalShell .workspaceContent{background:#f6f8f6}
+.nivalShell .workspacePageHeading{margin-bottom:24px}
+.nivalShell .workspacePageHeading h1{
+  color:#172b23;
+  font-size:clamp(29px,3vw,38px);
+  font-weight:750;
+  letter-spacing:-.045em;
+  line-height:1.08;
+}
+.nivalShell .workspacePageHeading p{color:#68796f;line-height:1.55}
+.nivalShell .workspaceEyebrow{color:#39785c;letter-spacing:.14em}
+.nivalShell .workspacePlanChip{
+  background:#fff;
+  color:#315844;
+  border:1px solid #e4ebe5;
+}
+.nivalShell .workspacePeriodChip{
+  background:#eaf4ed;
+  color:#286144;
+  border:1px solid #dcebe0;
+}
+.nivalShell .workspaceDemoBanner{
+  background:#eff6f0;
+  border:1px solid #deebe0;
+  border-radius:14px;
+}
+.nivalShell .ownerCard,
+.nivalShell .ownerChart,
+.nivalShell .workspaceInfoCard,
+.nivalShell .settingsOverview{
+  background:#fff;
+  border-color:#e5ebe6;
+  border-radius:16px;
+  box-shadow:0 5px 18px #173b2b08;
+}
+.nivalShell .ownerMetric{
+  min-height:142px;
+  border-color:#e5ebe6;
+  border-radius:16px;
+  box-shadow:0 5px 18px #173b2b08;
+}
+.nivalShell .ownerMetric>span{color:#65776d;font-weight:600}
+.nivalShell .ownerMetric strong{color:#173c2e;font-weight:700}
+.nivalShell .ownerMetric small{color:#7a8981}
+.nivalShell .ownerCard h3,.nivalShell .ownerChart figcaption{color:#203b2e}
+.nivalShell .ownerEmpty{
+  background:#f8faf8;
+  border-color:#dce7de;
+  color:#65766c;
+}
+.nivalShell .workspaceSectionHeader h2,.nivalShell .ownerSectionTitle h2{color:#1b3529}
+.nivalShell .workspaceSectionHeader p,.nivalShell .ownerSectionTitle p{color:#6b7b72}
+.nivalShell input:not([type="checkbox"]):not([type="radio"]),
+.nivalShell select,
+.nivalShell textarea{
+  border-color:#dce6de;
+  border-radius:10px;
+  background:#fff;
+  color:#203a2e;
+}
+.nivalShell input:focus,
+.nivalShell select:focus,
+.nivalShell textarea:focus{
+  outline:3px solid #1d705126;
+  border-color:#4b9270;
+}
+.nivalShell .workspacePrimary{
+  background:#1d7051;
+  border-color:#1d7051;
+  border-radius:10px;
+  box-shadow:0 2px 5px #174c361a;
+  transition:background-color .16s ease,box-shadow .16s ease;
+}
+.nivalShell .workspacePrimary:hover{
+  background:#185c43;
+  box-shadow:0 4px 11px #174c3626;
+}
+.nivalShell .workspaceSecondary{
+  background:#fff;
+  border-color:#dfe8e1;
+  color:#315b45;
+  border-radius:10px;
+}
+.nivalShell .workspaceFooter{color:#859188}
+.nivalShell .nivalCardEditor{color:#20382d}
+.nivalShell .editorHeading h2{color:#19372a;letter-spacing:-.035em}
+.nivalShell .editorHeading p,.nivalShell .editorStatus{color:#6c7d72}
+.nivalShell .cardEditorTabs button{
+  border-color:#e1e9e2;
+  border-radius:12px;
+  background:#fff;
+  color:#42594b;
+  box-shadow:0 2px 8px #173b2b05;
+}
+.nivalShell .cardEditorTabs button[aria-current="step"]{
+  border-color:#8db69c;
+  background:#f1f7f2;
+  color:#1c5d42;
+  box-shadow:0 0 0 2px #1d70510c;
+}
+.nivalShell .cardEditorTabs button>span{background:#e8f1ea;color:#2c6648}
+.nivalShell .cardEditorTabs button[aria-current="step"]>span{background:#1d7051;color:#fff}
+.nivalShell .cardEditorTabs button strong{color:inherit}
+.nivalShell .cardEditorTabs button small{color:#718178}
+.nivalShell .liveCardPreview{
+  background:#fff;
+  border:1px solid #e5ebe6;
+  border-radius:16px;
+  box-shadow:0 5px 18px #173b2b08;
+}
+.nivalShell .liveCardPreview>small{color:#39785c;letter-spacing:.12em}
+.nivalShell .liveCardPreview>p{color:#6c7b72}
+.nivalShell .phoneMockup{
+  border:8px solid #1c2923;
+  border-radius:32px;
+  padding:8px;
+  background:#1c2923;
+  box-shadow:0 16px 34px #14271d20;
+}
+.nivalShell .phoneScreen{
+  border-radius:22px;
+  background:#f7f9f6;
+  padding:9px;
+}
+.nivalShell .cardEditorFields{
+  background:#fff;
+  border:1px solid #e5ebe6;
+  border-radius:16px;
+  padding:clamp(18px,2vw,26px);
+  box-shadow:0 5px 18px #173b2b08;
+}
+.nivalShell .cardEditorFields label{color:#334d3e;font-weight:600}
+.nivalShell .cardEditorFields label small{color:#74837a;font-weight:400}
+.nivalShell .configGrid{gap:16px}
+.nivalShell :is(a,button,input,select,textarea):focus-visible{
+  outline:3px solid #1d705144;
+  outline-offset:2px;
+}
+.nivalShell .workspaceNav button:focus-visible{outline-color:#1d705177}
+@media(prefers-reduced-motion:reduce){
+  .nivalShell .workspaceNav button,.nivalShell .workspacePrimary{transition:none}
+}
