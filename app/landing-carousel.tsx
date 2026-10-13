@@ -60,12 +60,10 @@ export default function IndustryCarousel() {
 
   function endDrag() { dragging.current = false; paused.current = false; }
 
-  const setPaused = (value: boolean) => { paused.current = value; };
-
   return (
     <>
       <p className="nvIllustrationLabel">EJEMPLOS ILUSTRATIVOS</p>
-      <div className="nvCarouselViewport" ref={viewport} role="region" aria-label="Fotos de negocios de distintas industrias" onPointerEnter={() => setPaused(true)} onPointerLeave={endDrag} onPointerDown={beginDrag} onPointerMove={drag} onPointerUp={endDrag} onFocusCapture={() => setPaused(true)} onBlurCapture={() => setPaused(false)} onTouchEnd={endDrag}>
+      <div className="nvCarouselViewport" ref={viewport} role="region" aria-label="Fotos de negocios de distintas industrias" onPointerLeave={endDrag} onPointerDown={beginDrag} onPointerMove={drag} onPointerUp={endDrag} onTouchEnd={endDrag}>
         <div className="nvCarouselTrack">
           {[...cards, ...cards].map((card, index) => <article className="nvIndustryPhotoCard" id={index < cards.length ? card.id : undefined} key={`${card.id}-${index}`} aria-hidden={index >= cards.length}>
             <img src={`/assets/img/${card.image}`} alt={index < cards.length ? card.alt : ''} loading="lazy" draggable={false} />
