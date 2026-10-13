@@ -38,25 +38,9 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="landingHeroVisual" aria-hidden="true">
-          <div className="landingOrb landingOrb--one" />
-          <div className="landingOrb landingOrb--two" />
-          <div className="landingVisualLabel">Puntos + Reseñas</div>
-          <div className="landingPhone">
-            <div className="landingPhoneTop"><span /><i /></div>
-            <div className="landingPhoneBrand"><span>N</span><b>NIVAL</b><i>•••</i></div>
-            <div className="landingLoyaltyCard">
-              <div className="landingLoyaltyCardTop"><span>Tarjeta de puntos</span><b>N</b></div>
-              <strong>Premia a quien vuelve</strong>
-              <div className="landingStamps">
-                <span className="isFilled">✓</span><span className="isFilled">✓</span><span className="isFilled">✓</span><span className="isFilled">✓</span>
-                <span /><span /><span /><span />
-              </div>
-              <div className="landingProgress"><i /></div>
-              <div className="landingReward"><span>Premio</span><b>••••••••</b></div>
-            </div>
-            <div className="landingPhoneBottom"><i /><i /><i /></div>
-          </div>
+        <div className="landingHeroVisual landingHeroVisual--photo" aria-hidden="true">
+          <img className="landingHeroPhoto" src="/assets/img/hero-phone.webp" alt="" />
+          <div className="landingPhotoLabel">Puntos + Reseñas</div>
           <div className="landingReviewCard">
             <span className="landingReviewIcon">G</span>
             <div><b>Reseñas de Google</b><span className="landingStars">★★★★★</span></div>
@@ -79,10 +63,9 @@ export default function Home() {
         </div>
         <div className="grid landingGoalGrid">
           <article className="landingGoalCard landingGoalCard--points">
-            <div className="landingMiniCard landingMiniCard--points" aria-hidden="true">
-              <div className="landingMiniCardTop"><span>N</span><i>•••</i></div>
-              <div className="landingMiniStamps"><i /><i /><i /><i /><i /><i /></div>
-              <div className="landingMiniLine" />
+            <div className="landingGoalImage landingGoalImage--points" aria-hidden="true">
+              <img src="/assets/img/barista.webp" alt="" loading="lazy" />
+              <span>Una visita más, un punto más</span>
             </div>
             <strong>01 · PUNTOS</strong>
             <h3>Premia a quien vuelve</h3>
@@ -90,10 +73,9 @@ export default function Home() {
             <span className="landingCardArrow" aria-hidden="true"><ArrowIcon /></span>
           </article>
           <article className="landingGoalCard landingGoalCard--reviews">
-            <div className="landingMiniCard landingMiniCard--reviews" aria-hidden="true">
-              <div className="landingReviewPreview"><span>G</span><b>★★★★★</b></div>
-              <div className="landingReviewLines"><i /><i /><i /></div>
-              <div className="landingReviewBadge">N</div>
+            <div className="landingGoalImage landingGoalImage--reviews" aria-hidden="true">
+              <img src="/assets/img/google-phone.webp" alt="" loading="lazy" />
+              <span>Más reseñas en Google</span>
             </div>
             <strong>02 · RESEÑAS</strong>
             <h3>Convierte una buena experiencia en una reseña</h3>
