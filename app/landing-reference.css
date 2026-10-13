@@ -1,3 +1,4 @@
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 /* Nival visual system — public landing, etapa 1 */
 :root {
   --nival-forest: #153c2d;
@@ -505,7 +506,7 @@ body { background: var(--nival-cream); color: var(--nival-ink); font-family: var
 .nvFlowStep { grid-template-columns: minmax(0, 1fr) 42px; grid-template-rows: auto auto 1fr auto; gap: 12px 8px; min-height: 454px; padding: 23px 22px 20px; border-radius: 22px; box-shadow: 0 10px 30px rgb(19 52 36 / 5%); }
 .nvStepNumber { grid-column: 1; grid-row: 1; align-self: center; color: #617362; font-size: 12px; }
 .nvStepIcon { grid-column: 2; grid-row: 1; justify-self: end; width: 40px; height: 40px; border: 1px solid #e0e8d7; border-radius: 50%; background: #f1f4e9; }
-.nvFlowStep > div { grid-column: 1 / -1; grid-row: 2; min-height: 95px; }
+.nvFlowStep > div:not(.phoneFrame) { grid-column: 1 / -1; grid-row: 2; min-height: 95px; }
 .nvFlowStep h3 { margin: 2px 0 8px; font-size: 26px; letter-spacing: -.02em; }
 .nvFlowStep p { max-width: 320px; font-size: 14px; line-height: 1.55; }
 .nvFlowPhone { grid-column: 1 / -1; grid-row: 3 / 5; justify-self: center; align-self: end; width: 186px; height: 245px; min-height: 245px; border-width: 5px; border-radius: 30px; box-shadow: 0 15px 32px rgb(17 40 28 / 16%); }
