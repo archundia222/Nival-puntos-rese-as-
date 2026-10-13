@@ -84,7 +84,7 @@ export default function Home() {
         <div className="nvStepGrid">
           <article className="nvStepCard">
             <span className="nvStepNumber">01 <i>·</i> REGISTRO</span>
-            <img src="/assets/img/hero-phone.webp" alt="Registro de cliente para una tarjeta digital de puntos" loading="lazy" />
+            <img src="/assets/img/cafe-front.webp" alt="Espacio de cafetería donde los clientes pueden escanear el QR para registrarse" loading="lazy" />
             <h3>Se une en segundos.</h3><p>Escanea el QR del mostrador, comparte sus datos y abre su tarjeta digital desde el celular.</p>
           </article>
           <article className="nvStepCard">
