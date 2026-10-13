@@ -80,12 +80,13 @@ export function CardView({
     ready = goal > 0 && points >= goal;
   const visibleDots=Math.min(goal||10,20),filledDots=Math.min(Math.round((points/Math.max(goal,1))*visibleDots),visibleDots);
   const baseCardColor=business.program?.rules?.card_design?.theme==="noche"?"#17352f":business.program?.rules?.card_design?.theme==="botanico"?"#315641":cardColor(business.program?.color);
-  const configuredStyle={"--card-color":baseCardColor,"--card-text":readableCardText(design.textColor,baseCardColor),"--card-accent":design.secondaryColor||"#f0d6a6","--point-active":design.pointActive||design.secondaryColor||"#f0d6a6","--point-idle":design.pointInactive||"#dbe4dc"} as React.CSSProperties;
+  const configuredStyle={"--card-color":baseCardColor,"--card-text":readableCardText(design.textColor,baseCardColor),"--card-accent":design.secondaryColor||"#cfe87a","--point-active":design.pointActive||design.secondaryColor||"#cfe87a","--point-idle":design.pointInactive||"#ffffff35"} as React.CSSProperties;
   return (
     <>
       <p className="cardWelcome">Tu tarjeta está lista. Muéstrala después de tu compra para sumar puntos.</p>
       <article
-        className={"loyaltyCard " + (pulse ? "cardPulse" : "")}
+        className={"loyaltyCard nivalConfiguredCard " + (pulse ? "cardPulse" : "")}
+        data-theme={design.theme||"nival"}
         style={
           {
             ...configuredStyle,

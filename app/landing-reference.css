@@ -473,6 +473,11 @@ body { background: var(--nival-cream); color: var(--nival-ink); font-family: var
   .nvReviewVisual { min-height: 344px; }
   .nvReviewCard { width: 226px; }
 }
+
+/* Loopy-inspired stamp rhythm: clear progress markers in Nival's own palette. */
+.nvStampRow > .isStamped { color: #183c30; background: #cfe87a; border-color: #cfe87a; }
+.nvStampRow > i { display: grid; place-items: center; color: #d7ef71; font-style: normal; }
+.nvCafePhoto { object-position: 50% 30%; }
 .nvMotionReady .nvReveal { opacity: 0; transform: translateY(14px); transition: opacity .65s ease, transform .65s cubic-bezier(.2,.7,.2,1); }
 .nvMotionReady .nvReveal.is-visible { opacity: 1; transform: translateY(0); }
 .nvFlowStep:nth-child(2).is-visible { transition-delay: .06s; }

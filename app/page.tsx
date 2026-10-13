@@ -58,11 +58,11 @@ export default function Home() {
           </div>
         </div>
         <div className="nvHeroVisual">
-          <img className="nvCafePhoto" src="/assets/img/cafe-front.webp" alt="Cafetería Nival con terraza y mesas al aire libre" fetchPriority="high" />
+          <img className="nvCafePhoto" src="/assets/img/barista.webp" alt="Personal atendiendo en la barra de una cafetería" fetchPriority="high" />
           <div className="nvPhotoVeil" />
           <PhoneFrame className="nvHeroPhone">
             <div className="nvMiniHeader"><span className="nvMiniLogo">N</span><span><small>CAFÉ NIVAL · EJEMPLO</small><b>Tu tarjeta</b></span><LandingIcon name="qr" /></div>
-            <div className="nvMiniCard"><small>PROGRAMA DE PUNTOS</small><strong>Lucía</strong><span>4 <i>puntos</i></span><div className="nvStampRow"><b>✓</b><b>✓</b><b>✓</b><b>✓</b><i /><i /></div><small>4 puntos para tu premio</small></div>
+            <div className="nvMiniCard"><small>PROGRAMA DE PUNTOS</small><strong>Lucía</strong><span>4 <i>de 8 visitas</i></span><div className="nvStampRow" aria-label="Cuatro de ocho sellos"><b className="isStamped">✦</b><b className="isStamped">✦</b><b className="isStamped">✦</b><b className="isStamped">✦</b><i>✦</i><i>✦</i><i>✦</i><i>✦</i></div><small>4 visitas para tu premio</small></div>
             <div className="nvRewardLine"><span className="nvRewardGlyph"><LandingIcon name="gift" /></span><span><small>PRÓXIMO PREMIO</small><b>Café de la casa</b></span><LandingIcon name="arrow" /></div>
             <div className="nvDemoLabel">EJEMPLO ILUSTRATIVO</div>
           </PhoneFrame>
@@ -100,7 +100,7 @@ export default function Home() {
       </section>
 
       <section className="nvReturnSection">
-        <div className="nvReturnImage"><img src="/assets/img/cafe-front.webp" alt="Terraza de cafetería Nival al atardecer" loading="lazy" /><span className="nvImageCaption">UNA VISITA A LA VEZ</span><div className="nvVisitNote"><span><LandingIcon name="people" /></span><b>Reconoce a quien regresa.</b><small>Ejemplo de programa · Café Nival</small></div></div>
+        <div className="nvReturnImage"><img src="/assets/img/cafe-front.webp" alt="Terraza de cafetería con mesas al aire libre" loading="lazy" /><span className="nvImageCaption">UNA VISITA A LA VEZ</span><div className="nvVisitNote"><span><LandingIcon name="people" /></span><b>Reconoce a quien regresa.</b><small>Ejemplo de programa · Café Nival</small></div></div>
         <div className="nvReturnCopy"><span className="nvEyebrow">CLIENTES QUE VUELVEN</span><h2>Que el siguiente café también sea contigo.</h2><p>Un programa claro ayuda a tus clientes a ver su avance y a tu equipo a reconocer cada visita.</p><div className="nvSegmentCard"><div className="nvSegmentHead"><span><small>VISTA DEL NEGOCIO</small><b>Clientes por segmento</b></span><span className="nvSampleBadge">EJEMPLO ILUSTRATIVO</span></div><div className="nvSegmentRow"><span className="nvSegmentDot nvDotNew" /><b>Nuevos</b><span>Conoce a quienes acaban de llegar</span><LandingIcon name="arrow" /></div><div className="nvSegmentRow"><span className="nvSegmentDot nvDotRepeat" /><b>Frecuentes</b><span>Agradece su preferencia</span><LandingIcon name="arrow" /></div><div className="nvSegmentRow"><span className="nvSegmentDot nvDotRisk" /><b>En riesgo</b><span>Piensa en un motivo para volver</span><LandingIcon name="arrow" /></div><div className="nvSegmentRow"><span className="nvSegmentDot nvDotQuiet" /><b>Sin visita</b><span>Revisa quién aún no ha regresado</span><LandingIcon name="arrow" /></div></div></div>
       </section>
 
