@@ -14,7 +14,7 @@ const products = [
 const industries = [
   ['#cafeterias', 'Cafeterías'], ['#restaurantes', 'Restaurantes'], ['#taquerias', 'Taquerías'],
   ['#barberias', 'Barberías'], ['#esteticas', 'Estéticas'], ['#consultorios', 'Consultorios y salud'],
-  ['#heladerias', 'Heladerías'], ['#gimnasios', 'Gimnasios y estudios'],
+  ['#heladerias', 'Heladerías'], ['#industrias', 'Gimnasios y estudios'],
 ];
 
 const whatsapp = 'https://wa.me/525539044988?text=' + encodeURIComponent('Hola, quiero cotizar Nival Puntos + Reseñas para mi negocio.');
