@@ -38,7 +38,7 @@ body { background: var(--nival-cream); color: var(--nival-ink); }
 .nvHeroCopy { position: relative; z-index: 1; padding: 18px 0; }
 .nvEyebrow { display: inline-flex; align-items: center; gap: 9px; color: var(--nival-green); font-size: 10px; font-weight: 850; letter-spacing: .15em; line-height: 1.4; text-transform: uppercase; }
 .nvEyebrow>i { width: 7px; height: 7px; border-radius: 50%; background: #88a946; box-shadow: 0 0 0 4px #88a94620; }
-.nvHero h1 { max-width: 640px; margin: 24px 0 21px; color: var(--nival-deep); font-size: clamp(58px,7.2vw,100px); line-height: .94; }
+.nvHero h1 { max-width: 640px; margin: 24px 0 21px; color: var(--nival-deep); font-size: clamp(60px,6.4vw,86px); line-height: .94; }
 .nvHero h1 em, .nivalLanding h2 em { color: var(--nival-green); font-style: normal; }
 .nvHeroLead { max-width: 525px; margin: 0; color: #58665d; font-size: clamp(17px,1.5vw,19px); line-height: 1.58; }
 .nvHeroActions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 30px; }
