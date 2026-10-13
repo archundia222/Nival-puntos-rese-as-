@@ -331,3 +331,20 @@
  .nvIndustryTrack{animation-duration:34s}
 }
 @media(prefers-reduced-motion:reduce){.nvIndustryTrack{animation:none}.nvIndustryGrid.nvIndustryViewport{overflow-x:auto;mask-image:none;-webkit-mask-image:none}}
+
+
+/* Fotos proporcionadas para completar los espacios visuales y el carrusel de giros. */
+.nvCardArtImage{display:block;width:100%;height:auto;min-height:0;max-height:390px;aspect-ratio:16/7;object-fit:cover;object-position:center 54%;border:1px solid #e4e8df;background:#f4f4ef;box-shadow:0 18px 48px #19332112}
+.nvCounterVisual{display:block;min-height:0;overflow:hidden;border:0;background:transparent}
+.nvCounterPhoto{display:block;width:100%;height:auto;max-height:430px;aspect-ratio:16/10;object-fit:cover;object-position:center 54%;border-radius:20px;box-shadow:0 22px 55px #19332118}
+.nvIndustryTile{grid-template-rows:128px auto auto;min-height:228px;padding:12px}
+.nvIndustryImage{display:block;width:100%;height:128px;margin:0;overflow:hidden;border-radius:10px;background:#eef2e9}
+.nvIndustryImage img{display:block;width:100%;height:100%;object-fit:cover}
+.nvIndustryImageNeutral{background:linear-gradient(140deg,#e8eee4,#f7f6ed 55%,#dce8dd)}
+@media(max-width:640px){
+ .nvCardArtImage{min-height:0;max-height:none;aspect-ratio:4/3}
+ .nvCounterVisual{min-height:0}
+ .nvCounterPhoto{aspect-ratio:4/3;max-height:420px}
+ .nvIndustryTile{grid-template-rows:120px auto auto;min-height:214px}
+ .nvIndustryImage{height:120px}
+}
