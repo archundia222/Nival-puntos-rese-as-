@@ -348,3 +348,7 @@
  .nvIndustryTile{grid-template-rows:120px auto auto;min-height:214px}
  .nvIndustryImage{height:120px}
 }
+
+/* Keep carousel cards compact after adding real industry photos. */
+.nvIndustryTile{grid-template-rows:16px 128px auto auto;gap:10px;min-height:214px}
+@media(max-width:640px){.nvIndustryTile{grid-template-rows:15px 120px auto auto;gap:8px;min-height:198px}}
