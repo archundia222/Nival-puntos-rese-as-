@@ -4,12 +4,12 @@ import { useEffect, useRef } from 'react';
 import type { PointerEvent as ReactPointerEvent } from 'react';
 
 const cards = [
-  { name: 'CAFÉ LUCERO', type: 'Cafetería', tone: 'coffee', filled: 3 },
-  { name: 'BARBERÍA NORTE', type: 'Barbería', tone: 'barber', filled: 5 },
-  { name: 'TACOS LA ESQUINA', type: 'Taquería', tone: 'taco', filled: 4 },
-  { name: 'CASA LILA', type: 'Estética', tone: 'beauty', filled: 2 },
-  { name: 'SONRISA CLARA', type: 'Consultorio dental', tone: 'dental', filled: 6 },
-  { name: 'NUBE DE NIEVE', type: 'Heladería', tone: 'icecream', filled: 3 },
+  { type: 'Cafetería', reward: 'Café de la casa', filled: 5 },
+  { type: 'Barbería', reward: 'Servicio de cortesía', filled: 4 },
+  { type: 'Taquería', reward: 'Orden de la casa', filled: 6 },
+  { type: 'Estética', reward: 'Tratamiento elegido', filled: 3 },
+  { type: 'Consultorio', reward: 'Beneficio para tu próxima visita', filled: 4 },
+  { type: 'Heladería', reward: 'Helado sencillo', filled: 5 },
 ];
 
 export default function IndustryCarousel() {
@@ -66,10 +66,12 @@ export default function IndustryCarousel() {
       <p className="nvIllustrationLabel">EJEMPLOS ILUSTRATIVOS</p>
       <div className="nvCarouselViewport" ref={viewport} role="region" aria-label="Ejemplos de tarjetas de puntos para distintos negocios" onPointerEnter={() => setPaused(true)} onPointerLeave={endDrag} onPointerDown={beginDrag} onPointerMove={drag} onPointerUp={endDrag} onFocusCapture={() => setPaused(true)} onBlurCapture={() => setPaused(false)} onTouchEnd={endDrag}>
         <div className="nvCarouselTrack">
-          {[...cards, ...cards].map((card, index) => <article className={`nvLoyaltyCard tone-${card.tone}`} key={`${card.tone}-${index}`} aria-hidden={index >= cards.length}>
-            <span className="nvCardName">{card.name}</span><small>Tarjeta de puntos · {card.type}</small>
-            <div className="nvStampGrid" aria-hidden="true">{Array.from({ length: 8 }, (_, dot) => <i className={dot < card.filled ? 'is-filled' : ''} key={dot}>{dot < card.filled ? '✦' : ''}</i>)}</div>
-            <span className="nvCardFoot">Tu próxima visita cuenta <b>→</b></span>
+          {[...cards, ...cards].map((card, index) => <article className="nvLoyaltyCard tone-classic" key={`${card.type}-${index}`} aria-hidden={index >= cards.length}>
+            <div className="nvCardBrand"><span>N</span><small>PROGRAMA DE PUNTOS</small></div>
+            <div className="nvCardHeading"><b>Tu negocio</b><small>{card.type}</small></div>
+            <div className="nvStampGrid" aria-label={`${card.filled} de 8 visitas registradas`}>{Array.from({ length: 8 }, (_, dot) => <i className={dot < card.filled ? 'is-filled' : ''} key={dot}>{dot < card.filled ? '✓' : ''}</i>)}</div>
+            <div className="nvCardProgress"><span>{card.filled} de 8 visitas</span><i><b style={{width:`${card.filled / 8 * 100}%`}} /></i></div>
+            <div className="nvCardFoot"><small>Premio</small><b>{card.reward}</b></div>
           </article>)}
         </div>
       </div>

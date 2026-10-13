@@ -22,8 +22,11 @@ test('plans and included features retain the confirmed prices and conditions',()
 
 test('no free trial or fabricated social proof is promised',()=>{
   assert.doesNotMatch(page,/gratis|prueba gratuita|15 días gratis/i);
+  assert.match(page,/DATOS FICTICIOS/);
+  assert.match(page,/Clientes registrados[\s\S]*186/);
+  assert.match(page,/nvMobileStickyCta[\s\S]*aria-label="Cotizar por WhatsApp"/);
+  assert.doesNotMatch(page,/nvQuickSteps|Imagen pendiente/);
   assert.doesNotMatch(page,/Negocios que ya usan Nival|testimonio|clientes activos/i);
-  assert.match(page,/DATOS DE EJEMPLO/);
   assert.match(carousel,/EJEMPLOS ILUSTRATIVOS/);
 });
 

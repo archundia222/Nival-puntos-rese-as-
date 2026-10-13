@@ -81,7 +81,7 @@ export default function Home() {
           <div className="nvHeroPhone" role="img" aria-label="Ejemplo ilustrativo de la tarjeta de puntos de Café Nival en un teléfono">
             <div className="nvPhoneFrame"><div className="nvPhoneScreen">
               <div className="nvPhoneStatus"><span>9:41</span><i aria-hidden="true" /></div>
-              <div className="nvPhoneBrand"><span>N</span><small>CAFÉ<br /><b>Café Nival</b></small><i aria-hidden="true">♧</i></div>
+              <div className="nvPhoneBrand"><span>N</span><small>CAFÉ<br /><b>Café Nival</b></small><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9m-8 12a2 2 0 0 0 4 0" /></svg></i></div>
               <div className="nvPhoneCard"><small>HOLA, LUCÍA</small><b>Una visita más<br />y tienes tu premio.</b><div className="nvPhoneStamps" aria-hidden="true">{Array.from({ length: 8 }, (_, i) => <i className={i < 5 ? 'is-filled' : ''} key={i}>{i < 5 ? '✦' : ''}</i>)}</div><span>5 de 8 visitas</span><div className="nvPhoneProgress"><i /></div><div className="nvPhoneReward"><b>Tu premio</b><span>Café de la casa</span></div></div>
               <div className="nvPhoneBottom"><span>Tarjeta de puntos</span><b>Ejemplo ilustrativo</b></div>
             </div></div>
@@ -89,10 +89,6 @@ export default function Home() {
           <div className="nvHeroChip nvChipPoint"><span>✦</span><b>+1 punto</b><small>Visita registrada</small></div>
           <div className="nvHeroChip nvChipGoogle"><b className="nvGoogleG">G</b><span><b>4.8 ★ en Google</b><small>Ficha de ejemplo</small></span></div>
         </div>
-      </section>
-
-      <section className="nvQuickSteps" aria-label="Cómo funciona Nival en tres pasos">
-        <div className="nvQuickInner"><span><b>01</b> Se registra con QR</span><i aria-hidden="true" /><span><b>02</b> Tu equipo suma la visita</span><i aria-hidden="true" /><span><b>03</b> El premio está a la vista</span></div>
       </section>
 
       <section className="nvCarouselSection nvContainer">
@@ -123,7 +119,7 @@ export default function Home() {
 
       <section className="nvReviewsSection" id="resenas">
         <div className="nvContainer nvReviewsGrid">
-          <div className="nvGoogleVisual"><img src="/assets/img/google-phone.webp" alt="Ficha ilustrativa de Google para Café Nival, con calificación de ejemplo" loading="lazy" /><div className="nvNfcPlaceholder"><LandingIcon name="card" /><small>Imagen pendiente</small><b>Tarjeta NFC física</b></div><span className="nvVisualLabel">FICHA DE GOOGLE · EJEMPLO ILUSTRATIVO</span></div>
+          <div className="nvGoogleVisual"><img src="/assets/img/google-phone.webp" alt="Ficha ilustrativa de Google para Café Nival, con calificación de ejemplo" loading="lazy" /><div className="nvNfcPlaceholder"><LandingIcon name="card" /><small>MUESTRA VISUAL</small><b>Tarjeta NFC física</b></div><span className="nvVisualLabel">FICHA DE GOOGLE · EJEMPLO ILUSTRATIVO</span></div>
           <div className="nvReviewsCopy">
             <Eyebrow>RESEÑAS DE GOOGLE</Eyebrow><h2>Haz espacio para<br /><em>lo que tus clientes cuentan.</em></h2>
             <p>Invítalos a compartir una opinión honesta. Nival te ayuda a organizar y responder reseñas de forma manual y cuidadosa.</p>
@@ -137,18 +133,19 @@ export default function Home() {
 
       <section className="nvOwnerSection nvContainer" id="panel">
         <div className="nvOwnerCopy"><Eyebrow>EL PANEL DEL DUEÑO</Eyebrow><h2>Reconoce a quien<br /><em>elige volver.</em></h2><p>Consulta clientes, visitas, premios y actividad desde un solo lugar.</p><div className="nvSegmentList"><div><i className="nvDot nvDotNew" /><b>Nuevos</b><small>Primeras visitas</small></div><div><i className="nvDot nvDotRegular" /><b>Frecuentes</b><small>Visitas que se repiten</small></div><div><i className="nvDot nvDotRisk" /><b>En riesgo</b><small>Sin visita reciente</small></div><div><i className="nvDot nvDotQuiet" /><b>Sin visita reciente</b><small>Clientes por volver</small></div></div></div>
-        <div className="nvDashboard" role="img" aria-label="Mockup ilustrativo del panel de Nival con clientes, visitas, premios y reseñas; todos los datos son ejemplos">
-          <div className="nvDashboardTop"><span className="nvDashboardBrand"><i>N</i> Café Nival</span><span className="nvExampleTag">DATOS DE EJEMPLO</span></div>
-          <div className="nvDashboardMetrics"><article><small>Clientes registrados</small><b>—</b></article><article><small>Visitas del mes</small><b>—</b></article><article><small>Premios canjeados</small><b>—</b></article><article><small>Reseñas respondidas</small><b>—</b></article></div>
-          <div className="nvDashboardBody"><div className="nvDashboardSegments"><h3>Actividad de clientes</h3><p><i className="nvDot nvDotNew" />Nuevos <b>Ejemplo</b></p><p><i className="nvDot nvDotRegular" />Frecuentes <b>Ejemplo</b></p><p><i className="nvDot nvDotRisk" />En riesgo <b>Ejemplo</b></p><p><i className="nvDot nvDotQuiet" />Sin visita reciente <b>Ejemplo</b></p></div><div className="nvDashboardTable"><h3>Clientes recientes <small>Datos ilustrativos</small></h3><div><b>Nombre</b><b>Visitas</b><b>Última visita</b></div><div><span>Ana G.</span><span>Ejemplo</span><span>Esta semana</span></div><div><span>Luis R.</span><span>Ejemplo</span><span>Esta semana</span></div><div><span>María P.</span><span>Ejemplo</span><span>Este mes</span></div><div><span>Diego C.</span><span>Ejemplo</span><span>Este mes</span></div></div></div>
+        <div className="nvDashboard" role="img" aria-label="Vista de muestra del panel de Café Nival con datos ficticios: 186 clientes, 342 visitas, 24 premios y 18 reseñas respondidas">
+          <div className="nvDashboardTop"><span className="nvDashboardBrand"><i>N</i> Café Nival</span><span className="nvExampleTag">VISTA DE MUESTRA · DATOS FICTICIOS</span></div>
+          <div className="nvDashboardMetrics"><article><small>Clientes registrados</small><b>186</b></article><article><small>Visitas en 30 días</small><b>342</b></article><article><small>Premios canjeados</small><b>24</b></article><article><small>Reseñas respondidas</small><b>18</b></article></div>
+          <div className="nvDashboardChart"><div className="nvChartHeading"><b>Visitas registradas</b><span>Últimos 7 días</span></div><div className="nvChartBars" aria-label="Ejemplo de visitas por día"><i style={{height:'34%'}} /><i style={{height:'53%'}} /><i style={{height:'43%'}} /><i style={{height:'72%'}} /><i style={{height:'58%'}} /><i style={{height:'88%'}} /><i style={{height:'67%'}} /></div><div className="nvChartDays"><span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span><span>Dom</span></div></div>
+          <div className="nvDashboardBody"><div className="nvDashboardSegments"><h3>Clientes por segmento</h3><p><i className="nvDot nvDotNew" />Nuevos <b>42</b></p><p><i className="nvDot nvDotRegular" />Frecuentes <b>86</b></p><p><i className="nvDot nvDotRisk" />En riesgo <b>38</b></p><p><i className="nvDot nvDotQuiet" />Sin visita reciente <b>20</b></p></div><div className="nvDashboardTable"><h3>Actividad reciente <small>Datos ficticios</small></h3><div><b>Cliente</b><b>Visitas</b><b>Última visita</b></div><div><span>Ana G.</span><span>8</span><span>12 oct</span></div><div><span>Luis R.</span><span>6</span><span>11 oct</span></div><div><span>María P.</span><span>4</span><span>10 oct</span></div><div><span>Diego C.</span><span>3</span><span>9 oct</span></div></div></div>
         </div>
       </section>
 
-      <section className="nvCounterSection" id="mostrador"><div className="nvContainer nvCounterGrid"><div className="nvCounterVisual"><div className="nvCounterStand"><span className="nvStandLogo">N</span><div className="nvQrPlaceholder"><LandingIcon name="qr" /></div><b>Escanea y<br />súmate</b><small>Imagen pendiente: soporte de mesa con QR</small></div><div className="nvNfcCardPlaceholder"><LandingIcon name="card" /><small>Imagen pendiente</small><b>Tarjeta NFC</b></div></div><div className="nvCounterCopy"><Eyebrow>EN TU MOSTRADOR</Eyebrow><h2>Todo listo para<br /><em>tu mostrador.</em></h2><ul className="nvCheckList"><li><LandingIcon name="check" />Acércala o escanéala.</li><li><LandingIcon name="check" />Sin apps para tus clientes.</li><li><LandingIcon name="check" />Hasta 10 tarjetas incluidas en cada plan.</li></ul></div></div></section>
+      <section className="nvCounterSection" id="mostrador"><div className="nvContainer nvCounterGrid"><div className="nvCounterVisual"><div className="nvCounterStand"><span className="nvStandLogo">N</span><div className="nvQrPlaceholder"><LandingIcon name="qr" /></div><b>Escanea y<br />súmate</b><small>Muestra visual · soporte de mesa</small></div><div className="nvNfcCardPlaceholder"><LandingIcon name="card" /><small>Muestra visual</small><b>Tarjeta NFC</b></div></div><div className="nvCounterCopy"><Eyebrow>EN TU MOSTRADOR</Eyebrow><h2>Todo listo para<br /><em>tu mostrador.</em></h2><ul className="nvCheckList"><li><LandingIcon name="check" />Acércala o escanéala.</li><li><LandingIcon name="check" />Sin apps para tus clientes.</li><li><LandingIcon name="check" />Hasta 10 tarjetas incluidas en cada plan.</li></ul></div></div></section>
 
       <section className="nvIndustriesSection nvContainer" id="industrias">
         <div className="nvSectionHeading"><div><Eyebrow>PARA NEGOCIOS LOCALES</Eyebrow><h2>Para cualquier negocio<br /><em>donde la gente regresa.</em></h2></div><p>Ideas de cómo podría verse tu tarjeta en distintos giros.</p></div>
-        <div className="nvIndustryGrid">{industries.map(([id, label], index) => <a className={`nvIndustryTile nvIndustryTone${index + 1}`} href="#planes" id={id} key={id}><div className="nvIndustryImage">{index === 0 ? <img src="/assets/img/cafe-front.webp" alt="Fachada de Café Nival como ejemplo para cafeterías" loading="lazy" /> : <span>Imagen pendiente: {label.toLowerCase()}</span>}</div><b>{label}</b><small>Ver planes <LandingIcon name="arrow" /></small></a>)}</div>
+        <div className="nvIndustryGrid">{industries.map(([id, label], index) => <a className={`nvIndustryTile nvIndustryTone${index + 1}`} href="#planes" id={id} key={id}><div className="nvIndustryImage">{index === 0 ? <img src="/assets/img/cafe-front.webp" alt="Fachada de Café Nival como ejemplo para cafeterías" loading="lazy" /> : <span aria-hidden="true">{label.slice(0, 2).toUpperCase()}</span>}</div><b>{label}</b><small>Ver planes <LandingIcon name="arrow" /></small></a>)}</div>
       </section>
 
       <section className="nvPlansSection" id="planes"><div className="nvContainer">
@@ -172,7 +169,9 @@ export default function Home() {
       <section className="nvFinalCta"><div className="nvContainer nvFinalInner"><div className="nvFinalCtaCopy"><Eyebrow>LEALTAD Y REPUTACIÓN PARA NEGOCIOS LOCALES</Eyebrow><h2>La próxima visita<br />puede ser <em>el comienzo.</em></h2><p>Cuéntanos de tu negocio. Te ayudamos a elegir el plan que encaja contigo.</p></div><div className="nvFinalCtaAction"><span className="nvCtaMark" aria-hidden="true">N</span><small>NIVAL · MÉXICO</small><strong>Hablemos de tu negocio.</strong><p>Atención personal para cotizar y resolver tus dudas.</p><a className="nvButton nvButtonLime" href={whatsapp} target="_blank" rel="noreferrer">Cotizar por WhatsApp <LandingIcon name="arrow" /></a></div></div></section>
 
       <footer className="nvFooter"><div className="nvContainer"><div className="nvFooterTop"><div><NivalMark /><span>Lealtad y reputación para negocios locales.</span></div><nav aria-label="Enlaces del pie"><a href="#como-funciona">Cómo funciona</a><a href="#resenas">Reseñas</a><a href="#planes">Planes</a><a href="#preguntas">Preguntas</a><a href={whatsapp} target="_blank" rel="noreferrer">WhatsApp</a></nav></div><div className="nvFooterBottom"><small>© 2026 Nival Tech · México</small><nav aria-label="Información y accesos"><a href="/privacidad">Política de privacidad</a><a href="/terminos">Términos de uso</a><a href="/acceso">Iniciar sesión</a><a href="/staff/acceso">Acceso de personal</a><a href="/acceso-administrador">Acceso de administradores</a></nav></div><small className="nvDraftNote">Las páginas de privacidad y términos están en borrador para revisión legal.</small></div></footer>
-      <a className="nvMobileStickyCta" href={whatsapp} target="_blank" rel="noreferrer">Cotizar por WhatsApp <LandingIcon name="arrow" /></a>
+      <a className="nvMobileStickyCta" href={whatsapp} target="_blank" rel="noreferrer" aria-label="Cotizar por WhatsApp">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a8.7 8.7 0 0 0-7.5 13.1L3.4 21l5-1.3A8.8 8.8 0 1 0 12 3Z" /><path d="M8.7 8.1c.2-.4.4-.5.7-.5h.5c.2 0 .4.1.5.4l.7 1.7c.1.2.1.4-.1.6l-.6.7c-.2.2-.2.4 0 .7.5.8 1.2 1.5 2.1 2 .2.1.4.1.6-.1l.7-.8c.2-.2.4-.2.7-.1l1.6.8c.2.1.4.3.4.5 0 .3-.2 1.2-.8 1.6-.5.4-1.1.6-1.8.4-1.1-.3-2.4-.9-3.8-2.1-1.1-1-1.9-2.2-2.2-3.3-.3-.9.1-1.8.6-2.5Z" /></svg>
+      </a>
     </main>
   );
 }
