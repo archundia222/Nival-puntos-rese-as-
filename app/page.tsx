@@ -47,7 +47,7 @@ export default function Home() {
             <div className="landingPhoneBrand"><span>N</span><b>NIVAL</b><i>•••</i></div>
             <div className="landingLoyaltyCard">
               <div className="landingLoyaltyCardTop"><span>Tarjeta de puntos</span><b>N</b></div>
-              <strong>Tu próxima visita cuenta.</strong>
+              <strong>Premia a quien vuelve</strong>
               <div className="landingStamps">
                 <span className="isFilled">✓</span><span className="isFilled">✓</span><span className="isFilled">✓</span><span className="isFilled">✓</span>
                 <span /><span /><span /><span />
@@ -105,7 +105,7 @@ export default function Home() {
 
       <section className="steps landingSteps">
         <div className="landingSectionHeading">
-          <div className="landingSectionEyebrow">SENCILLO EN EL MOSTRADOR</div>
+          <div className="landingSectionEyebrow" aria-hidden="true" />
           <h2>Así funciona <span>la primera versión</span></h2>
         </div>
         <div className="grid three landingStepGrid">
