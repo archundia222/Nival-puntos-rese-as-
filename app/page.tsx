@@ -1,4 +1,3 @@
-import type { ReactNode } from 'react';
 import LandingIcon from './landing-icon';
 import LandingInteractions from './landing-interactions';
 import LandingMotion from './landing-motion';
@@ -7,23 +6,17 @@ import './landing-reference.css';
 const whatsapp = 'https://wa.me/525539044988?text=' + encodeURIComponent('Hola, quiero cotizar Nival Puntos + Reseñas para mi negocio.');
 
 const plans = [
-  { name: 'Puntos', price: '$299', description: 'Un programa sencillo para reconocer cada visita.', reviews: '—', comparison: '—', featured: false },
-  { name: 'Esencial', price: '$399', description: 'Puntos y acompañamiento para tus reseñas.', reviews: '30 respuestas por periodo de 30 días', comparison: '—', featured: true },
-  { name: 'Plus', price: '$549', description: 'Más respuestas y una mirada a tu zona.', reviews: '100 respuestas por periodo de 30 días', comparison: 'Calificación y reseñas de negocios similares de tu zona', featured: false },
+  { name: 'Puntos', price: '$299', description: 'Una forma sencilla de reconocer cada visita.', reviews: '—', comparison: '—' },
+  { name: 'Esencial', price: '$399', description: 'Puntos y apoyo para responder reseñas.', reviews: 'Hasta 30 respuestas por periodo de 30 días', comparison: '—', featured: true },
+  { name: 'Plus', price: '$549', description: 'Más respuestas y contexto sobre tu zona.', reviews: 'Hasta 100 respuestas por periodo de 30 días', comparison: 'Calificación y reseñas de negocios similares de tu zona' },
 ];
-
-const steps = [
-  { number: '01', title: 'Tu cliente se registra', copy: 'Acerca su celular al QR o a la tarjeta del mostrador. Su tarjeta digital empieza en cero puntos.', icon: 'qr' },
-  { number: '02', title: 'Tu equipo escanea', copy: 'Después de la visita, el personal escanea el QR del cliente para sumar el punto.', icon: 'search' },
-  { number: '03', title: 'El avance se celebra', copy: 'Tu cliente ve el punto nuevo, su progreso y cuánto le falta para el premio.', icon: 'gift' },
-];
-
-function PhoneFrame({ children, className = '' }: { children: ReactNode; className?: string }) {
-  return <div className={`phoneFrame ${className}`} aria-label="Vista ilustrativa de Nival en un celular"><div className="phoneIsland" />{children}</div>;
-}
 
 function NivalMark() {
   return <a className="nvBrand" href="/" aria-label="Nival, inicio"><span className="nvBrandMark">N</span><span>NIVAL</span></a>;
+}
+
+function Eyebrow({ children }: { children: React.ReactNode }) {
+  return <span className="nvEyebrow"><i aria-hidden="true" />{children}</span>;
 }
 
 export default function Home() {
@@ -38,78 +31,131 @@ export default function Home() {
           <a href="#planes">Planes</a>
           <a href="#preguntas">Preguntas</a>
         </nav>
-        <a className="nvNavCta" href={whatsapp} target="_blank" rel="noreferrer">Cotizar por WhatsApp <LandingIcon name="arrow" /></a>
+        <a className="nvNavCta" href={whatsapp} target="_blank" rel="noreferrer">Hablemos <LandingIcon name="arrow" /></a>
         <LandingInteractions mode="menu" wa={whatsapp} />
       </header>
 
       <section className="nvHero">
         <div className="nvHeroCopy">
-          <span className="nvEyebrow"><i /> HERRAMIENTAS PARA NEGOCIOS LOCALES</span>
-          <h1>Que te <span>encuentren.</span><br />Que vuelvan.</h1>
-          <p>Más reseñas auténticas en Google y un programa de puntos fácil de usar para que cada visita tenga un motivo para repetirse.</p>
+          <Eyebrow>LEALTAD Y RESEÑAS PARA NEGOCIOS LOCALES</Eyebrow>
+          <h1>Que cada visita<br />invite a <em>volver.</em></h1>
+          <p className="nvHeroLead">Tarjetas digitales de puntos y herramientas para cuidar tu reputación en Google. Una experiencia cercana para tus clientes, fácil de llevar para tu equipo.</p>
           <div className="nvHeroActions">
             <a className="nvButton nvButtonPrimary" href={whatsapp} target="_blank" rel="noreferrer">Cotizar por WhatsApp <LandingIcon name="arrow" /></a>
-            <a className="nvButton nvButtonQuiet" href="#como-funciona">Conoce cómo funciona <LandingIcon name="arrow" /></a>
+            <a className="nvButton nvButtonQuiet" href="#como-funciona">Explorar Nival <LandingIcon name="arrow" /></a>
           </div>
-          <div className="nvQuickFacts" aria-label="Características de Nival">
-            <span><LandingIcon name="phone" />Sin app</span>
-            <span><LandingIcon name="qr" />QR incluido</span>
-            <span><LandingIcon name="card" />Tarjetas digitales</span>
-          </div>
+          <div className="nvQuickFacts"><span>Sin descargar una app</span><i /><span>QR + NFC en mostrador</span><i /><span>Planes mensuales</span></div>
         </div>
         <div className="nvHeroVisual">
-          <img className="nvCafePhoto" src="/assets/img/barista.webp" alt="Personal atendiendo en la barra de una cafetería" fetchPriority="high" />
+          <img className="nvCafePhoto" src="/assets/img/barista.webp" alt="Barista preparando una bebida en una cafetería" fetchPriority="high" />
           <div className="nvPhotoVeil" />
-          <PhoneFrame className="nvHeroPhone">
-            <div className="nvMiniHeader"><span className="nvMiniLogo">N</span><span><small>CAFÉ NIVAL · EJEMPLO</small><b>Tu tarjeta</b></span><LandingIcon name="qr" /></div>
-            <div className="nvMiniCard"><small>PROGRAMA DE PUNTOS</small><strong>Lucía</strong><span>4 <i>de 8 visitas</i></span><div className="nvStampRow" aria-label="Cuatro de ocho sellos"><b className="isStamped">✦</b><b className="isStamped">✦</b><b className="isStamped">✦</b><b className="isStamped">✦</b><i>✦</i><i>✦</i><i>✦</i><i>✦</i></div><small>4 visitas para tu premio</small></div>
-            <div className="nvRewardLine"><span className="nvRewardGlyph"><LandingIcon name="gift" /></span><span><small>PRÓXIMO PREMIO</small><b>Café de la casa</b></span><LandingIcon name="arrow" /></div>
-            <div className="nvDemoLabel">EJEMPLO ILUSTRATIVO</div>
-          </PhoneFrame>
-          <div className="nvFloatNote"><span className="nvFloatCheck"><LandingIcon name="check" /></span><span><strong>Un punto más</strong><small>4 de 8 visitas</small></span></div>
-          <div className="nvCounterStand" aria-label="Soporte de mostrador con código QR y NFC"><span className="nvStandTop"><b>N</b><small>CAFÉ NIVAL</small></span><span className="nvFakeQr"><i /><i /><i /><b /></span><small>ACERCA O ESCANEA</small><strong>Tu próxima visita<br />tiene premio.</strong><span className="nvNfcWave"><LandingIcon name="phone" /></span></div>
+          <div className="nvHeroNote"><span className="nvNoteSpark">✦</span><span><small>UNA VISITA MÁS</small><b>Un paso más cerca de tu premio.</b></span></div>
+          <div className="nvHeroCard">
+            <div className="nvProductMark"><span>N</span><small>CAFÉ NIVAL <i>· EJEMPLO</i></small><LandingIcon name="qr" /></div>
+            <div className="nvProductTitle"><small>TARJETA DE PUNTOS</small><strong>Hola, Lucía.</strong><span>Tu próxima visita cuenta.</span></div>
+            <div className="nvProductProgress" aria-label="Cuatro de ocho visitas"><div className="nvStampRow">{Array.from({ length: 8 }, (_, index) => <i className={index < 4 ? 'isStamped' : ''} key={index}>✦</i>)}</div><div><b>4 <small>/ 8 visitas</small></b><span>Te faltan 4 para tu premio</span></div></div>
+            <div className="nvProductReward"><span><LandingIcon name="gift" /></span><small>PRÓXIMO PREMIO</small><b>Café de la casa</b><LandingIcon name="arrow" /></div>
+            <small className="nvDemoLabel">VISTA ILUSTRATIVA</small>
+          </div>
         </div>
       </section>
 
-      <section className="nvProofRow" aria-label="Qué incluye Nival">
-        <span className="nvProofLead">Una experiencia sencilla</span>
-        <span><LandingIcon name="phone" />Sin app para tus clientes</span>
-        <span><LandingIcon name="qr" />QR y NFC en mostrador</span>
-        <span><LandingIcon name="card" />Tarjeta digital personal</span>
+      <section className="nvPromiseRow" aria-label="Lo esencial de Nival">
+        <span>Una experiencia digital<br /><b>que se siente personal.</b></span>
+        <div><b>01</b><span>El cliente se registra<br />desde su celular</span></div>
+        <div><b>02</b><span>Tu equipo registra<br />cada visita</span></div>
+        <div><b>03</b><span>El avance y el premio<br />siempre están a la vista</span></div>
       </section>
 
-      <section className="nvSection nvStepsSection" id="como-funciona">
+      <section className="nvStorySection" id="como-funciona">
+        <div className="nvStoryIntro">
+          <Eyebrow>UNA TARJETA DIGITAL, SIN COMPLICACIONES</Eyebrow>
+          <h2>Un pequeño gesto.<br /><em>Una razón para regresar.</em></h2>
+          <p>Nival convierte las visitas en un programa de puntos que tus clientes entienden al instante. Se registran con un QR y consultan su tarjeta personal desde el celular, sin instalar otra aplicación.</p>
+          <a className="nvTextLink" href={whatsapp} target="_blank" rel="noreferrer">Conoce cómo empezar <LandingIcon name="arrow" /></a>
+        </div>
+        <div className="nvStoryVisual">
+          <img src="/assets/img/hero-phone.webp" alt="Tarjeta digital de puntos de Nival vista en un teléfono" loading="lazy" />
+          <div className="nvStoryCaption"><span>SU PROGRESO, SIEMPRE CERCA</span><p>Visitas, puntos y premio en una tarjeta personal.</p></div>
+        </div>
+      </section>
+
+      <section className="nvStepsSection">
         <div className="nvSectionHeading">
-          <div><span className="nvEyebrow">PUNTOS QUE SE ENTIENDEN DE UN VISTAZO</span><h2>Del mostrador<br />a una razón para volver.</h2></div>
-          <p>El cliente avanza. El personal registra la visita. Tú eliges el premio.</p>
+          <div><Eyebrow>ASÍ SE VIVE EN EL DÍA A DÍA</Eyebrow><h2>De la primera visita<br />a la siguiente.</h2></div>
+          <p>Un recorrido directo para el cliente y sencillo de registrar en mostrador.</p>
         </div>
-        <div className="nvFlow">
-          <div className="nvStepList">{steps.map((step, index) => <article className="nvFlowStep" key={step.number}>
-            <span className="nvStepNumber">{step.number}</span><span className="nvStepIcon"><LandingIcon name={step.icon} /></span><div><h3>{step.title}</h3><p>{step.copy}</p></div>
-            {index === 0 && <PhoneFrame className="nvFlowPhone nvRegisterPhone"><div className="nvPhoneTopline">NIVAL <span>✕</span></div><div className="nvPhoneContent"><small>CAFÉ NIVAL</small><h4>Únete al programa</h4><label>Tu nombre</label><div className="nvInputMock">Lucía Rivera</div><label>Tu teléfono</label><div className="nvInputMock">55 0000 0000</div><span className="nvPhoneButton">Crear mi tarjeta</span><small className="nvDisclaimer">EJEMPLO · INICIAS CON 0 PUNTOS</small></div></PhoneFrame>}
-            {index === 1 && <PhoneFrame className="nvFlowPhone nvScanPhone"><div className="nvScanTop"><span>9:41</span><b>Escanear cliente</b><LandingIcon name="qr" /></div><div className="nvScanTarget"><span /><span /><span /><span /><i className="nvScanLine" /></div><small className="nvScanHelp">Centra el QR de la tarjeta</small><div className="nvScanBottom"><span>Buscar por código</span><b>AB 42 19</b><small>EJEMPLO DE ESCANEO</small></div></PhoneFrame>}
-            {index === 2 && <PhoneFrame className="nvFlowPhone nvPointPhone"><div className="nvPointHeader"><span className="nvMiniLogo">N</span><small>CAFÉ NIVAL · EJEMPLO</small></div><div className="nvPointBadge"><LandingIcon name="check" /></div><span className="nvPointKicker">¡VAS MUY BIEN!</span><strong className="nvPointTitle">Sumaste<br />un punto</strong><span className="nvPointCount">5 <small>de 8 puntos</small></span><div className="nvPointTrack"><i /></div><span className="nvPointRemain">Te faltan 3 para tu premio</span><small className="nvDisclaimer">AVISO ILUSTRATIVO</small></PhoneFrame>}
-          </article>)}</div>
+        <div className="nvStepGrid">
+          <article className="nvStepCard">
+            <span className="nvStepNumber">01 <i>·</i> REGISTRO</span>
+            <img src="/assets/img/hero-phone.webp" alt="Registro de cliente para una tarjeta digital de puntos" loading="lazy" />
+            <h3>Se une en segundos.</h3><p>Escanea el QR del mostrador, comparte sus datos y abre su tarjeta digital desde el celular.</p>
+          </article>
+          <article className="nvStepCard">
+            <span className="nvStepNumber">02 <i>·</i> VISITA</span>
+            <img src="/assets/img/step-02.webp" alt="El equipo registra la visita del cliente" loading="lazy" />
+            <h3>Tu equipo registra la visita.</h3><p>Al terminar la compra, escanea el QR de la tarjeta o captura el código del cliente para sumar el punto.</p>
+          </article>
+          <article className="nvStepCard">
+            <span className="nvStepNumber">03 <i>·</i> RECOMPENSA</span>
+            <img src="/assets/img/step-03.webp" alt="El cliente ve el avance de sus puntos y el premio" loading="lazy" />
+            <h3>El avance se vuelve visible.</h3><p>El cliente ve sus puntos y cuánto le falta. Tú eliges el premio que hace sentido para tu negocio.</p>
+          </article>
         </div>
-        <p className="nvFootnote">El punto se suma cuando el personal registra la visita; abrir la tarjeta no suma puntos.</p>
+        <p className="nvFootnote">El punto se suma cuando el equipo registra la visita; abrir la tarjeta no agrega puntos.</p>
       </section>
 
-      <section className="nvReviews" id="reseñas">
-        <div className="nvReviewsCopy"><span className="nvEyebrow">RESEÑAS DE GOOGLE</span><h2>Una buena experiencia merece ser escuchada.</h2><p>Invita a tus clientes a compartir una opinión honesta. Nival te acompaña a organizar y responder reseñas de forma manual.</p><ul><li><span><LandingIcon name="check" /></span>Una tarjeta NFC + QR va directo a tu ficha de Google.</li><li><span><LandingIcon name="check" /></span>Hasta 10 tarjetas de reseñas incluidas en cada plan.</li><li><span><LandingIcon name="check" /></span>Sin puntos, premios ni filtros por satisfacción.</li></ul><a href="#planes" className="nvTextLink">Conoce qué incluye cada plan <LandingIcon name="arrow" /></a></div>
-        <div className="nvReviewVisual"><div className="nvGoogleCard"><div className="nvGoogleHead"><span className="nvGoogleG">G</span><span><small>FICHA DE GOOGLE</small><b>Café Nival <em>· EJEMPLO</em></b></span><span className="nvDots">···</span></div><div className="nvReviewStars" aria-label="Cinco estrellas de ejemplo">★★★★★</div><small className="nvReviewMeta">OPINIÓN ILUSTRATIVA</small><h3>“Un café delicioso y un espacio muy agradable.”</h3><p>Un ejemplo de reseña. Las opiniones reales las escriben tus clientes, sin incentivos.</p><div className="nvReviewBy"><span>LR</span><small>Lucía R. · Ejemplo</small></div></div><div className="nvReviewCard"><span className="nvReviewCardIcon"><LandingIcon name="qr" /></span><span><small>RESPUESTA A RESEÑAS</small><b>Con acompañamiento de Nival</b><em>Plazo de hasta 3 días hábiles*</em></span></div><small className="nvSmallPrint">*El tiempo puede variar según el volumen de reseñas y el plan.</small></div>
+      <section className="nvReviewSection" id="reseñas">
+        <div className="nvReviewVisual">
+          <img src="/assets/img/google-phone.webp" alt="Vista de una reseña de Google en el teléfono" loading="lazy" />
+          <div className="nvReviewFloat"><span className="nvGoogleG">G</span><span><small>UNA OPINIÓN HONESTA</small><b>La experiencia habla por sí misma.</b></span></div>
+        </div>
+        <div className="nvReviewCopy">
+          <Eyebrow>RESEÑAS DE GOOGLE</Eyebrow>
+          <h2>Haz espacio para<br /><em>lo que tus clientes cuentan.</em></h2>
+          <p>Invítalos a compartir una opinión honesta sobre su experiencia. Nival te ayuda a organizar y responder reseñas de forma manual y cuidadosa.</p>
+          <ul>
+            <li><span><LandingIcon name="check" /></span>Tarjetas NFC + QR que llevan a tu ficha de Google.</li>
+            <li><span><LandingIcon name="check" /></span>Hasta 10 tarjetas para reseñas incluidas en cada plan.</li>
+            <li><span><LandingIcon name="check" /></span>Respuestas preparadas manualmente por Nival.</li>
+            <li><span><LandingIcon name="check" /></span>Opiniones abiertas, sin premios ni filtros por satisfacción.</li>
+          </ul>
+          <a className="nvTextLink" href="#planes">Revisa qué incluye cada plan <LandingIcon name="arrow" /></a>
+          <small className="nvSmallPrint">El plazo de respuesta es de hasta 3 días hábiles y puede variar según el volumen de reseñas y el plan.</small>
+        </div>
       </section>
 
-      <section className="nvReturnSection">
-        <div className="nvReturnImage"><img src="/assets/img/cafe-front.webp" alt="Terraza de cafetería con mesas al aire libre" loading="lazy" /><span className="nvImageCaption">UNA VISITA A LA VEZ</span><div className="nvVisitNote"><span><LandingIcon name="people" /></span><b>Reconoce a quien regresa.</b><small>Ejemplo de programa · Café Nival</small></div></div>
-        <div className="nvReturnCopy"><span className="nvEyebrow">CLIENTES QUE VUELVEN</span><h2>Que el siguiente café también sea contigo.</h2><p>Un programa claro ayuda a tus clientes a ver su avance y a tu equipo a reconocer cada visita.</p><div className="nvSegmentCard"><div className="nvSegmentHead"><span><small>VISTA DEL NEGOCIO</small><b>Clientes por segmento</b></span><span className="nvSampleBadge">EJEMPLO ILUSTRATIVO</span></div><div className="nvSegmentRow"><span className="nvSegmentDot nvDotNew" /><b>Nuevos</b><span>Conoce a quienes acaban de llegar</span><LandingIcon name="arrow" /></div><div className="nvSegmentRow"><span className="nvSegmentDot nvDotRepeat" /><b>Frecuentes</b><span>Agradece su preferencia</span><LandingIcon name="arrow" /></div><div className="nvSegmentRow"><span className="nvSegmentDot nvDotRisk" /><b>En riesgo</b><span>Piensa en un motivo para volver</span><LandingIcon name="arrow" /></div><div className="nvSegmentRow"><span className="nvSegmentDot nvDotQuiet" /><b>Sin visita</b><span>Revisa quién aún no ha regresado</span><LandingIcon name="arrow" /></div></div></div>
+      <section className="nvBusinessSection">
+        <div className="nvBusinessCopy">
+          <Eyebrow>UNA MIRADA MÁS CLARA A TUS CLIENTES</Eyebrow>
+          <h2>Reconoce a quien<br /><em>elige volver.</em></h2>
+          <p>Además de la tarjeta de puntos, Nival te ayuda a ordenar la relación con tus clientes por su actividad. Así puedes entender mejor quién acaba de llegar y quién lleva tiempo contigo.</p>
+          <div className="nvSegmentList">
+            <div><span className="nvSegmentDot nvDotNew" /><b>Nuevos</b><small>Quienes acaban de conocer tu negocio</small></div>
+            <div><span className="nvSegmentDot nvDotRepeat" /><b>Frecuentes</b><small>Quienes regresan con regularidad</small></div>
+            <div><span className="nvSegmentDot nvDotRisk" /><b>En riesgo</b><small>Clientes que podrían necesitar un motivo para volver</small></div>
+            <div><span className="nvSegmentDot nvDotQuiet" /><b>Sin visita reciente</b><small>Quienes aún no regresan</small></div>
+          </div>
+        </div>
+        <div className="nvBusinessPhoto">
+          <img src="/assets/img/cafe-front.webp" alt="Mesas al aire libre frente a una cafetería" loading="lazy" />
+          <span className="nvImageCaption">EL VÍNCULO SE CONSTRUYE VISITA A VISITA</span>
+          <div className="nvVisitNote"><span><LandingIcon name="people" /></span><b>Tu negocio, más cerca de sus clientes.</b><small>Ejemplo ilustrativo · Café Nival</small></div>
+        </div>
       </section>
 
       <section className="nvPlansSection" id="planes">
-        <div className="nvPlansIntro"><span className="nvEyebrow">PLANES MENSUALES</span><h2>Elige lo que tu negocio necesita.</h2><p>Precios en MXN. Cada plan incluye puntos y hasta 10 tarjetas de reseñas NFC + QR.</p></div>
-        <div className="nvPlanGrid">{plans.map(plan => <article className={`nvPlanCard${plan.featured ? ' is-featured' : ''}`} key={plan.name}>
+        <div className="nvPlansIntro"><Eyebrow>PLANES MENSUALES · PRECIOS EN MXN</Eyebrow><h2>Empieza con lo que<br /><em>necesita tu negocio.</em></h2><p>Todos los planes incluyen el programa de puntos, hasta 10 tarjetas NFC + QR para reseñas y un resumen del periodo en PDF.</p></div>
+        <div className="nvPlanGrid">{plans.map((plan) => <article className={`nvPlanCard${plan.featured ? ' is-featured' : ''}`} key={plan.name}>
           {plan.featured && <span className="nvPlanFlag">PUNTOS + RESEÑAS</span>}
-          <span className="nvPlanName">NIVAL {plan.name.toUpperCase()}</span><strong className="nvPlanPrice">{plan.price}<small> MXN <i>/ mes</i></small></strong><p className="nvPlanDesc">{plan.description}</p>
+          <span className="nvPlanName">NIVAL {plan.name.toUpperCase()}</span>
+          <strong className="nvPlanPrice">{plan.price}<small> MXN <i>/ mes</i></small></strong>
+          <p className="nvPlanDesc">{plan.description}</p>
           <a href={whatsapp} target="_blank" rel="noreferrer" className={plan.featured ? 'nvButton nvButtonPrimary' : 'nvButton nvButtonOutline'}>Cotizar este plan <LandingIcon name="arrow" /></a>
+          <div className="nvPlanDetails"><span><LandingIcon name="check" />Programa de puntos</span><span><LandingIcon name="check" />Hasta 10 tarjetas NFC + QR</span><span><LandingIcon name="check" />Resumen mensual en PDF</span>
+            {plan.reviews !== '—' && <span><LandingIcon name="check" />{plan.reviews}</span>}
+            {plan.comparison !== '—' && <span><LandingIcon name="check" />{plan.comparison}</span>}
+          </div>
         </article>)}</div>
         <div className="nvCompareWrap"><table className="nvCompare"><thead><tr><th>Incluye</th><th>Puntos<br /><small>$299</small></th><th>Esencial<br /><small>$399</small></th><th>Plus<br /><small>$549</small></th></tr></thead><tbody>
           <tr><th>Programa de puntos</th><td><LandingIcon name="check" /></td><td><LandingIcon name="check" /></td><td><LandingIcon name="check" /></td></tr>
@@ -121,17 +167,27 @@ export default function Home() {
         <p className="nvPlanNote">Las respuestas las prepara Nival de forma manual. No se publican automáticamente.</p>
       </section>
 
-      <section className="nvFaqSection" id="preguntas"><div className="nvFaqIntro"><span className="nvEyebrow">PREGUNTAS FRECUENTES</span><h2>Claro desde el primer día.</h2><p>Lo esencial para decidir si Nival es para tu negocio.</p></div><div className="nvFaqList">
-        <details><summary>¿Mis clientes necesitan descargar una aplicación?</summary><p>No. Pueden registrarse y volver a abrir su tarjeta digital desde el QR o su enlace personal.</p></details>
-        <details><summary>¿Abrir la tarjeta suma un punto?</summary><p>No. El punto solo se suma cuando el personal escanea el QR del cliente o captura su código.</p></details>
-        <details><summary>¿Qué incluye cada plan?</summary><p>Puntos incluye el programa de puntos. Esencial añade hasta 30 respuestas a reseñas por periodo de 30 días. Plus añade hasta 100 respuestas y comparación con negocios parecidos de tu zona. Todos incluyen hasta 10 tarjetas NFC + QR de reseñas y un resumen en PDF al cierre del periodo.</p></details>
-        <details><summary>¿Cómo se gestionan las reseñas?</summary><p>Tu negocio da acceso de administrador a su ficha de Google. Nival prepara las respuestas manualmente y te las comparte en un plazo de hasta 3 días hábiles, según el volumen de reseñas y el plan.</p></details>
-        <details><summary>¿Se ofrecen premios a cambio de reseñas?</summary><p>No. La invitación a opinar es abierta y no depende de la satisfacción. No damos puntos, descuentos ni premios por dejar reseñas.</p></details>
-      </div></section>
+      <section className="nvFaqSection" id="preguntas">
+        <div className="nvFaqIntro"><Eyebrow>ANTES DE EMPEZAR</Eyebrow><h2>Todo claro,<br /><em>desde el primer día.</em></h2><p>Respuestas rápidas para saber si Nival encaja con tu negocio.</p></div>
+        <div className="nvFaqList">
+          <details><summary>¿Mis clientes necesitan descargar una aplicación?</summary><p>No. Pueden registrarse con el QR y abrir su tarjeta digital desde su celular o desde su enlace personal.</p></details>
+          <details><summary>¿Abrir la tarjeta suma un punto?</summary><p>No. El punto solo se agrega cuando el equipo escanea el QR del cliente o captura su código.</p></details>
+          <details><summary>¿Puedo elegir el premio del programa?</summary><p>Sí. Tú decides qué recompensa ofrecer y cuántas visitas se necesitan para llegar a ella.</p></details>
+          <details><summary>¿Qué incluye cada plan?</summary><p>Los tres incluyen el programa de puntos, hasta 10 tarjetas NFC + QR para reseñas y un resumen del periodo en PDF. Esencial añade hasta 30 respuestas a reseñas por periodo de 30 días; Plus, hasta 100 y una comparación con negocios similares de tu zona.</p></details>
+          <details><summary>¿Nival publica las respuestas a las reseñas?</summary><p>No automáticamente. Nival las prepara manualmente. El plazo es de hasta 3 días hábiles, según el volumen de reseñas y el plan.</p></details>
+          <details><summary>¿Se dan premios por escribir reseñas?</summary><p>No. La invitación a opinar es abierta y no depende de la satisfacción. No se ofrecen puntos, descuentos ni premios por dejar una reseña.</p></details>
+        </div>
+      </section>
 
-      <section className="nvFinalCta"><div className="nvFinalCtaCopy"><span className="nvEyebrow">EMPIEZA CON UNA CONVERSACIÓN</span><h2>Que te encuentren.<br /><span>Que vuelvan.</span></h2><p>Cuéntanos de tu cafetería o restaurante. Te ayudamos a elegir el plan que encaja contigo.</p></div><div className="nvFinalCtaAction"><span className="nvCtaMark"><LandingIcon name="arrow" /></span><strong>Hablemos de tu negocio.</strong><p>Te respondemos personalmente para cotizar y resolver tus dudas.</p><a className="nvButton nvButtonLime" href={whatsapp} target="_blank" rel="noreferrer">Cotizar por WhatsApp <LandingIcon name="arrow" /></a><small>Atención de Nival · México</small></div></section>
+      <section className="nvFinalCta">
+        <div className="nvFinalCtaCopy"><Eyebrow>EMPIEZA CON UNA CONVERSACIÓN</Eyebrow><h2>La próxima visita<br />puede ser <em>el comienzo.</em></h2><p>Cuéntanos de tu cafetería o restaurante. Te ayudamos a elegir el plan que encaja contigo.</p></div>
+        <div className="nvFinalCtaAction"><span className="nvCtaMark">N</span><small>NIVAL · MÉXICO</small><strong>Hablemos de tu negocio.</strong><p>Atención personal para cotizar y resolver tus dudas.</p><a className="nvButton nvButtonLime" href={whatsapp} target="_blank" rel="noreferrer">Cotizar por WhatsApp <LandingIcon name="arrow" /></a></div>
+      </section>
 
-      <footer className="nvFooter"><div className="nvFooterTop"><NivalMark /><span>Para cafeterías y restaurantes locales.</span><a href={whatsapp} target="_blank" rel="noreferrer">Hablemos <LandingIcon name="arrow" /></a></div><div className="nvFooterBottom"><small>© 2026 Nival Tech · México</small><nav aria-label="Enlaces del pie"><a href="/terminos">Términos</a><a href="/privacidad">Aviso de privacidad</a><a href="/acceso">Acceso a negocios</a><a href="/staff/acceso">Acceso de personal</a><a href="/acceso-administrador">Acceso de administradores</a></nav></div></footer>
+      <footer className="nvFooter">
+        <div className="nvFooterTop"><NivalMark /><span>Lealtad y reputación para negocios locales.</span><a href={whatsapp} target="_blank" rel="noreferrer">Hablemos <LandingIcon name="arrow" /></a></div>
+        <div className="nvFooterBottom"><small>© 2026 Nival Tech · México</small><nav aria-label="Enlaces del pie"><a href="/terminos">Términos</a><a href="/privacidad">Aviso de privacidad</a><a href="/acceso">Acceso a negocios</a><a href="/staff/acceso">Acceso de personal</a><a href="/acceso-administrador">Acceso de administradores</a></nav></div>
+      </footer>
     </main>
   );
 }
