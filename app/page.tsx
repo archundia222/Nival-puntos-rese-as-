@@ -14,22 +14,7 @@ const industries = [
   ['heladerias', 'Heladerías'], ['gimnasios', 'Gimnasios y estudios'],
 ] as const;
 
-const industryExamples = [
-  { id: 'cafeterias', label: 'Cafeterías', image: 'industry-cafe.webp' },
-  { id: 'restaurantes', label: 'Restaurantes', image: 'industry-restaurant.webp' },
-  { id: 'taquerias', label: 'Taquerías', image: 'industry-taqueria.webp' },
-  { id: 'barberias', label: 'Barberías', image: 'industry-barber.webp' },
-  { id: 'esteticas', label: 'Estéticas', image: 'industry-salon.webp' },
-  { id: 'consultorios', label: 'Consultorios dentales', image: 'industry-clinic.webp' },
-  { id: 'heladerias', label: 'Heladerías', image: 'industry-ice-cream.webp' },
-  { id: 'gimnasios', label: 'Gimnasios y estudios', image: '' },
-] as const;
 
-const plans = [
-  { name: 'Puntos', price: '$299', tagline: 'Para empezar a premiar cada visita.', responses: '', comparison: '', featured: false },
-  { name: 'Esencial', price: '$399', tagline: 'Puntos y apoyo para responder reseñas.', responses: 'Hasta 30 respuestas a reseñas cada 30 días, preparadas por Nival.', comparison: '', featured: true },
-  { name: 'Plus', price: '$549', tagline: 'Más respuestas y contexto sobre tu zona.', responses: 'Hasta 100 respuestas a reseñas cada 30 días, preparadas por Nival.', comparison: 'Comparación de calificación y reseñas con negocios similares de tu zona.', featured: false },
-];
 
 function NivalMark() {
   return <a className="nvBrand" href="#inicio" aria-label="Nival, inicio"><span className="nvBrandMark" aria-hidden="true">N</span><span>NIVAL</span></a>;
@@ -79,7 +64,7 @@ export default function Home() {
       <section className="nvHero nvContainer" id="puntos">
         <div className="nvHeroCopy">
           <Eyebrow>TARJETA DE PUNTOS + RESEÑAS DE GOOGLE</Eyebrow>
-          <h1>Que vuelvan.<br /><em>Que te recomienden.</em></h1>
+          <h1>Que vuelvan.<br /><em>Que te elijan.</em></h1>
           <p className="nvHeroLead">Tarjeta digital de puntos y herramientas para responder tus reseñas de Google. Tus clientes se registran con un QR, sin instalar ninguna app.</p>
           <div className="nvHeroActions">
             <a className="nvButton nvButtonPrimary" href="/demo">Ver demo <LandingIcon name="arrow" /></a>
@@ -106,10 +91,6 @@ export default function Home() {
         <article><span>01 / LEALTAD</span><h2>¿Por qué un sistema<br />de puntos?</h2><p>Cada visita puede dar una razón clara para regresar. Tus clientes ven cuánto les falta para su premio y tu equipo suma visitas en el mostrador.</p><div className="nvIdeaBoard nvIdeaBoardPoints"><span className="nvIdeaNote nvIdeaNoteA" aria-hidden="true">Visita</span><span className="nvIdeaNote nvIdeaNoteB" aria-hidden="true">+1 punto</span><span className="nvIdeaNote nvIdeaNoteC" aria-hidden="true">Premio</span><img className="nvWhyImage" src="/assets/img/counter-points.webp" alt="Display Nival de puntos sobre la barra de una cafetería, junto a un celular" loading="lazy" /></div></article>
         <article><span>02 / REPUTACIÓN</span><h2>¿Por qué sumar<br />reseñas?</h2><p>Una buena experiencia también ayuda a que alguien nuevo te encuentre. Facilita el acceso a tu ficha de Google y responde con cuidado.</p><div className="nvIdeaBoard nvIdeaBoardReviews"><span className="nvIdeaNote nvIdeaNoteA" aria-hidden="true">QR + NFC</span><span className="nvIdeaNote nvIdeaNoteB" aria-hidden="true">Google</span><span className="nvIdeaNote nvIdeaNoteC" aria-hidden="true">Opinión libre</span><img className="nvWhyImage" src="/assets/img/counter-reviews.webp" alt="Display Nival de reseñas de Google sobre la barra de una cafetería, junto a un celular" loading="lazy" /></div></article>
       </section>
-      <section className="nvCardArtSection nvContainer" aria-label="Ejemplo de tarjeta de puntos">
-        <img className="nvCardArtPlaceholder nvCardArtImage" src="/assets/img/loyalty-demo.webp" alt="Ejemplo ilustrativo de una tarjeta digital de puntos junto a un display QR en un café" loading="lazy" />
-      </section>
-
       <section className="nvHowSection nvContainer" id="como-funciona">
         <div className="nvSectionHeading"><div><Eyebrow>TRES PASOS, SIN COMPLICACIONES</Eyebrow><h2>Diseña. Comparte.<br /><em>Crece.</em></h2></div><p>Una tarjeta que acompaña a tus clientes desde la primera visita.</p></div>
         <div className="nvHowGrid">
@@ -146,13 +127,8 @@ export default function Home() {
       <section className="nvCounterSection" id="mostrador"><div className="nvContainer nvCounterGrid"><div className="nvCounterVisual"><img className="nvCounterPhoto" src="/assets/img/nival-counter-display.webp" alt="Display físico de Nival con QR para reseñas de Google y lectura NFC" loading="lazy" /></div><div className="nvCounterCopy"><Eyebrow>EN TU MOSTRADOR</Eyebrow><h2>Todo listo para<br /><em>tu mostrador.</em></h2><ul className="nvCheckList"><li><LandingIcon name="check" />Acércala o escanéala.</li><li><LandingIcon name="check" />Sin apps para tus clientes.</li><li><LandingIcon name="check" />Hasta 10 tarjetas incluidas en cada plan.</li></ul></div></div></section>
 
       <section className="nvIndustriesSection nvContainer" id="industrias">
-        <div className="nvSectionHeading"><div><Eyebrow>EJEMPLOS DE GIROS LOCALES</Eyebrow><h2>Para cualquier negocio<br /><em>donde la gente regresa.</em></h2></div><p>Distintos giros, la misma forma de hacer que tus clientes regresen.</p></div>
-        <div className="nvIndustryGrid nvIndustryViewport" aria-label="Ejemplos ilustrativos de negocios donde puede usarse Nival">
-          <div className="nvIndustryTrack">
-            {industryExamples.map((industry, index) => <a className="nvIndustryTile" href="#planes" id={industry.id} key={industry.id}><span className="nvIndustryIndex">{String(index + 1).padStart(2, '0')}</span><div className={industry.image ? 'nvIndustryImage' : 'nvIndustryImage nvIndustryImageNeutral'}>{industry.image && <img src={`/assets/img/${industry.image}`} alt="" loading="eager" decoding="async" />}</div><b>{industry.label}</b><small>Ver planes <LandingIcon name="arrow" /></small></a>)}
-            {industryExamples.map((industry, index) => <div className="nvIndustryTile" aria-hidden="true" key={industry.id + '-loop'}><span className="nvIndustryIndex">{String(index + 1).padStart(2, '0')}</span><div className={industry.image ? 'nvIndustryImage' : 'nvIndustryImage nvIndustryImageNeutral'}>{industry.image && <img src={`/assets/img/${industry.image}`} alt="" loading="eager" decoding="async" />}</div><b>{industry.label}</b><small>Ver planes <LandingIcon name="arrow" /></small></div>)}
-          </div>
-        </div>
+        <div className="nvSectionHeading"><div><Eyebrow>EJEMPLOS DE GIROS LOCALES</Eyebrow><h2>Para cualquier negocio.</h2></div><p>Una tarjeta flexible para el ritmo de cada negocio.</p></div>
+        <IndustryCarousel />
       </section>
 
       <section className="nvPlansSection" id="planes"><div className="nvContainer">

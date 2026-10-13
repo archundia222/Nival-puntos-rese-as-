@@ -81,7 +81,7 @@ export default async function PointsPanel({
     try{reviewCards=await query(authScope(actor.id),"select * from nival_pr_private.list_review_cards($1)",[b.id]);}catch{}
   }
   return (
-    <DashboardShell name={b.name} owner={actor.name} status={b.status==='activo'?'Activo':'Inactivo'} demo={false} initialSection={view==='programa'?'configuracion':view==='equipo'?'usuarios':view} homeUrl={'/panel?business='+b.id} planName={b.plan_name||'Puntos'} price={Number(b.price_mxn||299)} responseLimit={Number(b.features?.review_limit||0)} periodDay={Math.max(1,Math.min(30,Math.floor((Date.now()-(Date.parse(String(b.paid_until||''))-30*86400000))/86400000)+1))} logout={<form action={logout}><button className="logoutButton" aria-label="Cerrar sesión"><Icon name="logout" size={18}/></button></form>}>
+    <DashboardShell name={b.name} owner={actor.name} status={b.status==='activo'?'Activo':'Inactivo'} demo={false} initialSection={view==='programa'?'tus-tarjetas':view==='equipo'?'equipo':view} homeUrl={'/panel?business='+b.id} planName={b.plan_name||'Puntos'} price={Number(b.price_mxn||299)} responseLimit={Number(b.features?.review_limit||0)} periodDay={Math.max(1,Math.min(30,Math.floor((Date.now()-(Date.parse(String(b.paid_until||''))-30*86400000))/86400000)+1))} logout={<form action={logout}><button className="logoutButton" aria-label="Cerrar sesión"><Icon name="logout" size={18}/></button></form>}>
     {view==='programa'&&<StartGuide actor={actor} businessId={b.id}/>}<main className="dashboard programWorkspace">
       <header className="dashHead">
         <div>
@@ -97,7 +97,7 @@ export default async function PointsPanel({
           </a>
         ))}
       </nav>
-      <nav className="programTabs" aria-label="Secciones del programa">{[['programa','Configuración de tarjeta'],['equipo','Personal'],['canjes','Historial de canjes']].map(([key,label])=><a key={key} aria-current={view===key?'page':undefined} href={'/panel/puntos?business='+b.id+'&view='+key}>{label}</a>)}</nav>
+
       {programView&&<><CardWorkspace businessId={b.id} business={b.name} slug={b.slug} program={program} reward={rewards.find((r:any) => r.active)} metrics={cardMetrics} recent={recent} period={period} reviewCards={reviewCards} reviewManager={<ReviewCardManager businessId={b.id} cards={reviewCards} googleUrl={b.google_maps_url}/>} editor={<ProgramEditor businessId={b.id} business={b.name} program={program} reward={rewards.find((r:any) => r.active)} />}/><details className="reviewBox extraRewards"><summary>Administrar premios adicionales</summary>
         <h2>Premios y reglas avanzadas</h2><p>Conserva tus premios, edita su información y define el orden de entrega. Las metas que un cliente ya eligió se protegen hasta su canje.</p><details><summary>¿Cómo funcionan los otros modos?</summary><p>Premios a elegir: cada cliente elige una meta. Por etapas: los premios se entregan en el orden configurado. Los premios asignados y su costo se muestran hasta completar el canje.</p></details><h3 id="premios">Premios del programa</h3>{!rewards.length&&<p className="ownerEmpty">Todavía no tienes un premio. Agrégalo antes de compartir la tarjeta con tus clientes.</p>}
         {rewards.map((r) => (
