@@ -1,18 +1,30 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-const page=readFileSync('app/page.tsx','utf8'),css=readFileSync('app/landing-reference.css','utf8');
-test('public offer shows the three requested 30-day plans and quotas',()=>{
- for(const x of ['price: 299','price: 399','price: 549','Hasta 30 respuestas a reseñas','Hasta 100 respuestas a reseñas','Comparación con negocios similares'])assert.ok(page.includes(x),x);
- assert.match(page,/periodo dura 30 días/);
+
+const page=readFileSync('app/page.tsx','utf8');
+const css=readFileSync('app/landing-reference.css','utf8');
+const menu=readFileSync('app/landing-interactions.tsx','utf8');
+
+test('landing presents the three plans, response limits, comparison, and shared inclusions',()=>{
+  for(const x of ["name: 'Puntos', price: '$299'","name: 'Esencial', price: '$399'","name: 'Plus', price: '$549'","30 respuestas por periodo de 30 días","100 respuestas por periodo de 30 días","Comparación con negocios similares de tu zona","Hasta 10 incluidas","Incluido al cierre de cada periodo de 30 días"]){
+    assert.ok(page.includes(x),x);
+  }
 });
-test('public offer includes both add-ons and only the plan-specific closing PDF promise',()=>{
- for(const x of ['Nival Pay','Nival Reseñas','tarjetas NFC con QR','resumen PDF','día 30'])assert.ok(page.toLowerCase().includes(x.toLowerCase()),x);
- for(const x of ['historial de recomendaciones','recomendaciones extra','WhatsAppFab','refFaq','refHow'])assert.ok(!page.includes(x),x);
+
+test('landing uses the requested story, WhatsApp CTA, and Nival-specific product examples',()=>{
+  for(const x of ['Que te','Que vuelvan','Cotizar por WhatsApp','nvHeroPhone','nvCounterStand','nvPointPhone','nvGoogleCard','nvSegmentCard','no suma puntos']) assert.ok(page.includes(x),x);
+  assert.match(page,/OPINIÓN ILUSTRATIVA/);
+  assert.match(page,/EJEMPLO ILUSTRATIVO/);
+  assert.doesNotMatch(page,/\+24|482|36 premios|Nival Pay|Google Wallet|Apple Wallet/i);
 });
-test('offer uses responsive Nival palette and preserves account access paths',()=>{
- assert.ok(page.includes('/acceso?modo=registro'));
- assert.ok(page.includes('/staff/acceso'));
- assert.ok(page.includes('/acceso-administrador'));
- assert.match(css,/\.nivalOffer/);assert.match(css,/--dark:#0f2a1f/i);assert.match(css,/@media\s*\(max-width:\s*760px\)/);
+
+test('landing and access links adapt to mobile and share the Nival palette',()=>{
+  for(const x of ['/acceso','/staff/acceso','/acceso-administrador']) assert.ok(menu.includes(x),x);
+  assert.match(css,/--nival-forest/);
+  assert.match(css,/--nival-lime/);
+  assert.match(css,/--nival-cream/);
+  assert.match(css,/DM Serif Display/);
+  assert.match(css,/@media\s*\(max-width:\s*390px\)/);
+  assert.match(css,/prefers-reduced-motion/);
 });

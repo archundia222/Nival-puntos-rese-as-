@@ -28,12 +28,15 @@ test('sample customer card has no enrollment form or write action', async () => 
 });
 
 
-test('public landing remains the plans and included tools offer', async () => {
+test('public landing explains Nival plans, points, and review support without unverified metrics', async () => {
   const landing = await read('../app/page.tsx');
-  assert.ok(landing.includes('price: 299'));
-  assert.ok(landing.includes('price: 399'));
-  assert.ok(landing.includes('price: 549'));
-  assert.ok(landing.includes('Nival Pay'));
-  assert.ok(landing.includes('Nival Reseñas'));
-  assert.doesNotMatch(landing, /refFaq|refHow|recomendaciones extra/i);
+  assert.ok(landing.includes("price: '$299'"));
+  assert.ok(landing.includes("price: '$399'"));
+  assert.ok(landing.includes("price: '$549'"));
+  assert.ok(landing.includes('Cotizar por WhatsApp'));
+  assert.ok(landing.includes('Hasta 10 incluidas'));
+  assert.ok(landing.includes('Que te'));
+  assert.ok(landing.includes('Que vuelvan'));
+  assert.ok(landing.includes('abrir la tarjeta no suma puntos'));
+  assert.doesNotMatch(landing, /\+24|482|36 reseñas|Nival Pay|Google Wallet/i);
 });
