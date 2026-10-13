@@ -24,33 +24,28 @@ export default function IndustryCarousel() {
     const node = viewport.current;
     if (!node || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    const advance = () => {
-      if (paused.current || dragging.current) return;
-      const first = node.querySelector<HTMLElement>('.nvIndustryPhotoCard');
-      const second = first?.nextElementSibling as HTMLElement | null;
-      const step = first && second
-        ? second.offsetLeft - first.offsetLeft
-        : first?.getBoundingClientRect().width ?? 0;
-      const half = node.scrollWidth / 2;
-      if (step <= 0 || half <= step) return;
+    let frame = 0;
+    let previous = 0;
+    const pixelsPerMs = 0.016;
 
-      let current = node.scrollLeft;
-      if (current >= half) {
-        node.scrollLeft = current - half;
-        current = node.scrollLeft;
+    const tick = (now: number) => {
+      if (!previous) previous = now;
+      const elapsed = Math.min(40, now - previous);
+      previous = now;
+
+      if (!paused.current && !dragging.current) {
+        const half = node.scrollWidth / 2;
+        if (half > 0) {
+          node.scrollLeft += elapsed * pixelsPerMs;
+          if (node.scrollLeft >= half) node.scrollLeft -= half;
+        }
       }
 
-      const next = current + step;
-      if (next >= half - 1) {
-        // The duplicated first card is visually identical to the initial position.
-        node.scrollLeft = 0;
-      } else {
-        node.scrollTo({ left: next, behavior: 'smooth' });
-      }
+      frame = requestAnimationFrame(tick);
     };
 
-    const timer = window.setInterval(advance, 4200);
-    return () => window.clearInterval(timer);
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
   }, []);
 
   function beginDrag(event: ReactPointerEvent<HTMLDivElement>) {
