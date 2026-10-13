@@ -341,13 +341,13 @@ body { background: var(--nival-cream); color: var(--nival-ink); font-family: var
   .nvFaqSection { gap: 48px; }
 }
 @media (max-width: 760px) {
-  .nvNav { grid-template-columns: 1fr auto; height: 68px; padding: 0 20px; gap: 12px; }
+  .nvNav { grid-template-columns: minmax(0,1fr) auto auto; height: 68px; padding: 0 20px; gap: 9px; }
   .nvNavCta { grid-column: 2; }
   .nvBrand { gap: 8px; font-size: 13px; }
   .nvBrandMark { width: 34px; height: 34px; border-radius: 12px; font-size: 22px; }
   .nvNavCta { justify-self: end; min-height: 42px; padding: 0 14px; font-size: 11px; gap: 6px; }
   .nvNavCta .refIcon { width: 14px; height: 14px; }
-  .nivalLanding .refMobileMenu { display: none; }
+  .nivalLanding .refMobileMenu { display: block; grid-column: 3; justify-self: end; }
   .nvHero { display: flex; flex-direction: column; gap: 25px; min-height: 0; padding: 36px 20px 30px !important; }
   .nvHeroCopy { padding: 0; }
   .nvEyebrow { font-size: 9px; letter-spacing: .13em; }

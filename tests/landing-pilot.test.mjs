@@ -26,5 +26,6 @@ test('landing and access links adapt to mobile and share the Nival palette',()=>
   assert.match(css,/--nival-cream/);
   assert.match(css,/DM Serif Display/);
   assert.match(css,/@media\s*\(max-width:\s*390px\)/);
+  assert.match(css,/\.nivalLanding \.refMobileMenu \{ display: block; grid-column: 3;/);
   assert.match(css,/prefers-reduced-motion/);
 });
