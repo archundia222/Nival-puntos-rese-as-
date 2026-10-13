@@ -103,8 +103,8 @@ export default function Home() {
       </section>
 
       <section className="nvWhySection nvContainer" aria-label="Por qué puntos y reseñas">
-        <article><span>01 / LEALTAD</span><h2>¿Por qué un sistema<br />de puntos?</h2><p>Cada visita puede dar una razón clara para regresar. Tus clientes ven cuánto les falta para su premio y tu equipo suma visitas en el mostrador.</p><img className="nvWhyImage" src="/assets/img/counter-points.webp" alt="Display de mostrador para registrar puntos con QR y tarjeta Nival en un celular" loading="lazy" /></article>
-        <article><span>02 / REPUTACIÓN</span><h2>¿Por qué sumar<br />reseñas?</h2><p>Una buena experiencia también ayuda a que alguien nuevo te encuentre. Facilita el acceso a tu ficha de Google y responde con cuidado.</p><img className="nvWhyImage" src="/assets/img/counter-reviews.webp" alt="Display de mostrador Nival que invita a dejar una reseña en Google" loading="lazy" /></article>
+        <article><span>01 / LEALTAD</span><h2>¿Por qué un sistema<br />de puntos?</h2><p>Cada visita puede dar una razón clara para regresar. Tus clientes ven cuánto les falta para su premio y tu equipo suma visitas en el mostrador.</p><div className="nvIdeaBoard nvIdeaBoardPoints"><span className="nvIdeaNote nvIdeaNoteA" aria-hidden="true">Visita</span><span className="nvIdeaNote nvIdeaNoteB" aria-hidden="true">+1 punto</span><span className="nvIdeaNote nvIdeaNoteC" aria-hidden="true">Premio</span><img className="nvWhyImage" src="/assets/img/counter-points.webp" alt="Tarjeta de mostrador Nival para registrar puntos por visita" loading="lazy" /></div></article>
+        <article><span>02 / REPUTACIÓN</span><h2>¿Por qué sumar<br />reseñas?</h2><p>Una buena experiencia también ayuda a que alguien nuevo te encuentre. Facilita el acceso a tu ficha de Google y responde con cuidado.</p><div className="nvIdeaBoard nvIdeaBoardReviews"><span className="nvIdeaNote nvIdeaNoteA" aria-hidden="true">QR + NFC</span><span className="nvIdeaNote nvIdeaNoteB" aria-hidden="true">Google</span><span className="nvIdeaNote nvIdeaNoteC" aria-hidden="true">Opinión libre</span><img className="nvWhyImage" src="/assets/img/counter-reviews.webp" alt="Tarjeta de reseñas Nival con QR y NFC para Google" loading="lazy" /></div></article>
       </section>
       <section className="nvCardArtSection nvContainer" aria-label="Ejemplo de tarjeta de puntos">
         <img className="nvCardArtPlaceholder nvCardArtImage" src="/assets/img/loyalty-demo.webp" alt="Ejemplo ilustrativo de una tarjeta digital de puntos junto a un display QR en un café" loading="lazy" />
@@ -121,7 +121,7 @@ export default function Home() {
 
       <section className="nvReviewsSection" id="resenas">
         <div className="nvContainer nvReviewsGrid">
-          <div className="nvGoogleVisual"><img src="/assets/img/google-phone.webp" alt="Ficha ilustrativa de Google para Café Nival, con calificación de ejemplo" loading="lazy" /><div className="nvNfcPhoto"><img src="/assets/img/reviews-nfc-card.webp" alt="Tarjeta física Nival con QR para reseñas de Google y lectura NFC" loading="lazy" /></div><span className="nvVisualLabel">FICHA DE GOOGLE · EJEMPLO ILUSTRATIVO</span></div>
+          <div className="nvGoogleVisual"><img src="/assets/img/google-phone.webp" alt="Ficha ilustrativa de Google para Café Nival, con calificación de ejemplo" loading="lazy" /><div className="nvNfcPhoto"><img src="/assets/img/reviews-nfc-card.webp" alt="Tarjeta física Nival con QR para reseñas de Google y tecnología NFC" loading="lazy" /></div><span className="nvVisualLabel">FICHA DE GOOGLE · EJEMPLO ILUSTRATIVO</span></div>
           <div className="nvReviewsCopy">
             <Eyebrow>RESEÑAS DE GOOGLE</Eyebrow><h2>Haz espacio para<br /><em>lo que tus clientes cuentan.</em></h2>
             <p>Invítalos a compartir una opinión honesta. Nival te ayuda a organizar y responder reseñas de forma manual y cuidadosa.</p>

@@ -358,3 +358,15 @@
 .nvNfcPhoto img{display:block;width:100%;height:100%;object-fit:cover}
 .nvWhyImage{display:block;width:100%;height:auto;margin-top:24px;aspect-ratio:1.45/1;object-fit:cover;border:1px solid #e4e8df;border-radius:16px;box-shadow:0 14px 32px #19332112}
 @media(max-width:640px){.nvNfcPhoto{right:0;bottom:9%;width:min(205px,58%);border-width:3px}.nvWhyImage{margin-top:18px;border-radius:13px}}
+
+/* Floating cutout cards with a light brainstorm motif. */
+.nvNfcPhoto{right:0;bottom:12%;width:min(260px,58%);aspect-ratio:1200/710;overflow:visible;border:0;border-radius:0;background:transparent;box-shadow:none;transform:rotate(2deg)}
+.nvNfcPhoto img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 12px 15px #172d1a30)}
+.nvIdeaBoard{position:relative;isolation:isolate;display:grid;place-items:center;min-height:260px;margin-top:22px}
+.nvIdeaBoard:before{content:'';position:absolute;z-index:-1;inset:15% 12%;border-radius:50%;background:radial-gradient(ellipse at center,#e6eee3 0,rgba(230,238,227,.5) 43%,transparent 74%);filter:blur(14px)}
+.nvWhyImage{display:block;width:min(100%,520px);height:auto;max-height:240px;object-fit:contain;filter:drop-shadow(0 17px 18px #19332124);transform:rotate(-2deg)}
+.nvIdeaNote{position:absolute;z-index:2;padding:9px 13px;border:1px solid #dfe8da;border-radius:999px;background:#fffdf7;color:var(--nv-forest);box-shadow:0 8px 24px #19332112;font-size:10px;font-weight:800;letter-spacing:.04em;white-space:nowrap;animation:nvIdeaFloat 5.6s ease-in-out infinite}
+.nvIdeaNoteA{top:7%;left:8%;transform:rotate(-5deg)}.nvIdeaNoteB{top:11%;right:6%;transform:rotate(5deg);animation-delay:-1.4s}.nvIdeaNoteC{right:9%;bottom:8%;transform:rotate(-4deg);animation-delay:-2.8s}
+.nvIdeaBoardReviews:before{background:radial-gradient(ellipse at center,#e9eee9 0,rgba(233,238,233,.5) 43%,transparent 74%)}
+@keyframes nvIdeaFloat{0%,100%{translate:0 0}50%{translate:0 -6px}}
+@media(max-width:640px){.nvNfcPhoto{right:0;bottom:9%;width:min(210px,59%)}.nvIdeaBoard{min-height:210px;margin-top:17px}.nvWhyImage{max-height:192px}.nvIdeaNote{padding:7px 10px;font-size:9px}.nvIdeaNoteA{left:1%}.nvIdeaNoteB{right:1%}.nvIdeaNoteC{right:3%;bottom:4%}}
