@@ -384,3 +384,17 @@
 .nvIdeaNote{backdrop-filter:blur(10px);box-shadow:0 6px 18px #19332114}
 @media(max-width:640px){.nvIdeaBoard{margin-top:18px}.nvIdeaBoard .nvWhyImage{aspect-ratio:1.32/1;border-radius:14px}.nvIdeaNoteA{top:3%;left:2%}.nvIdeaNoteB{top:3%;right:2%}.nvIdeaNoteC{right:3%;bottom:3%}}
 @media(prefers-reduced-motion:reduce){.nvIdeaNote{animation:none}.nvIndustryTrack{animation:none}.nvCarouselTrack{animation:none}}
+
+/* Industry carousel uses real local business photography instead of loyalty card mockups. */
+.nvIndustryPhotoCard{position:relative;isolation:isolate;flex:0 0 clamp(278px,31vw,390px);height:330px;overflow:hidden;border:1px solid #dce5d9;border-radius:20px;background:#e5e9e1;box-shadow:0 12px 32px #19332114;color:#fff;scroll-margin-top:120px}
+.nvIndustryPhotoCard::after{content:'';position:absolute;z-index:0;inset:30% 0 0;background:linear-gradient(180deg,transparent 4%,rgba(12,30,23,.12) 36%,rgba(12,30,23,.78) 100%)}
+.nvIndustryPhotoCard>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.nvIndustryPhotoCard:hover>img{transform:scale(1.045)}
+.nvIndustryPhotoCaption{position:absolute;z-index:1;right:24px;bottom:22px;left:24px;display:grid;gap:7px}
+.nvIndustryPhotoCaption>small{font-size:10px;font-weight:800;letter-spacing:.16em;opacity:.78}
+.nvIndustryPhotoCaption>h3{margin:0;font-family:'DM Serif Display',Georgia,serif;font-size:clamp(27px,3vw,36px);font-weight:400;line-height:1.05}
+.nvIndustryPhotoCaption>span{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px;opacity:.9}
+.nvIndustryPhotoCaption>span>b{display:grid;place-items:center;width:30px;height:30px;border:1px solid #ffffff80;border-radius:50%;font-size:15px;font-weight:400}
+.nvIndustryPhotoCard[aria-hidden="true"]{pointer-events:none}
+@media(max-width:640px){.nvIndustryPhotoCard{flex-basis:min(78vw,330px);height:295px;border-radius:17px}.nvIndustryPhotoCaption{right:19px;bottom:19px;left:19px}.nvIndustryPhotoCaption>h3{font-size:31px}}
+@media(prefers-reduced-motion:reduce){.nvIndustryPhotoCard>img{transition:none}}
