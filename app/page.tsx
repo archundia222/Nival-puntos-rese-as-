@@ -74,10 +74,6 @@ export default function Home() {
           <p>Nival convierte las visitas en un programa de puntos que tus clientes entienden al instante. Se registran con un QR y consultan su tarjeta personal desde el celular, sin instalar otra aplicación.</p>
           <a className="nvTextLink" href={whatsapp} target="_blank" rel="noreferrer">Conoce cómo empezar <LandingIcon name="arrow" /></a>
         </div>
-        <div className="nvStoryVisual">
-          <img src="/assets/img/hero-phone.webp" alt="Tarjeta digital de puntos de Nival vista en un teléfono" loading="lazy" />
-          <div className="nvStoryCaption"><span>SU PROGRESO, SIEMPRE CERCA</span><p>Visitas, puntos y premio en una tarjeta personal.</p></div>
-        </div>
       </section>
 
       <section className="nvStepsSection">
