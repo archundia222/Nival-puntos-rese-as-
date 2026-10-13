@@ -46,6 +46,7 @@ export function OwnerView({actor,b,businesses,range,data,demo=false,mobilePrevie
  const periodStart=Number.isFinite(paidUntil)?paidUntil-30*86400000:Date.now();
  const periodDay=Math.max(1,Math.min(30,Math.floor((Date.now()-periodStart)/86400000)+1));
  const registered=data.segments.length;
+ const activityRows=data.activity?.length?data.activity:demo?['Mié','Jue','Vie','Sáb','Dom','Lun','Mar'].map((label,i)=>({label,active_users:[1,2,1,3,2,4,3][i]})):[];
  const newCount=data.segments.filter((c:Record<string,any>)=>c.is_new).length;
  const frequentCount=data.segments.filter((c:Record<string,any>)=>c.is_frequent).length;
  const riskCount=data.segments.filter((c:Record<string,any>)=>c.is_risk&&!c.is_lost).length;
@@ -62,7 +63,7 @@ export function OwnerView({actor,b,businesses,range,data,demo=false,mobilePrevie
    <Metric label="Usuarios activos" value={current.active_customers}/>
    <Metric label="Visitas registradas" value={current.visits}/>
   </div>
-  <ActivityChart items={data.activity||[]}/>
+  <ActivityChart items={activityRows}/>
   <div className="ownerDashboardGrid">
    <article className="ownerCard clientStatusCard"><h2>Estado de tus clientes</h2><p>Toca un grupo para abrir su lista.</p>{groupRows.map(([id,label,count,color])=><a className="clientStatusRow" href={'#'+id} key={id}><span>{label}</span><b>{count}</b><i><em style={{width:(registered?Math.min(100,count/registered*100):0)+'%',background:color}}/></i></a>)}</article>
    <article className="ownerCard periodReportCard"><h2>Informe del periodo</h2><p>Al día 30 se genera un resumen PDF con los datos más importantes de tu plan.</p><div className="periodProgressLabels"><span>Día {periodDay}</span><span>Día 30</span></div><div className="periodProgress"><i style={{width:(periodDay/30*100)+'%'}}/></div><strong>{periodDay<30?`Faltan ${30-periodDay} días`:'Periodo listo para cierre'}</strong><a href={'/panel/reportes?business='+b.id}>Ver informes</a></article>
