@@ -317,3 +317,17 @@
  .nvIndustryTile{min-height:132px;padding:13px;gap:12px}.nvIndustryTile>b{font-size:14px}
  .nvPlanDetails>span{font-size:13px}
 }
+/* Visible reservation for the owner supplied loyalty card artwork. */
+.nvCardArtPlaceholder{min-height:220px;max-height:360px;aspect-ratio:16/7;border:1px solid #e4e8df;border-radius:18px;background:#f4f4ef}
+.nvIndustryGrid.nvIndustryViewport{display:block;overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent)}
+.nvIndustryTrack{display:flex;width:max-content;animation:nvIndustryScroll 42s linear infinite}
+.nvIndustryTrack:hover,.nvIndustryTrack:focus-within{animation-play-state:paused}
+.nvIndustryTile{flex:0 0 246px;min-height:150px;margin-right:14px;padding:20px}
+.nvIndustryTrack .nvIndustryTile[aria-hidden="true"]{pointer-events:none}
+@keyframes nvIndustryScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(max-width:640px){
+ .nvCardArtPlaceholder{min-height:165px;max-height:220px;aspect-ratio:16/7}
+ .nvIndustryTile{flex-basis:76vw;min-height:138px;margin-right:10px;padding:15px}
+ .nvIndustryTrack{animation-duration:34s}
+}
+@media(prefers-reduced-motion:reduce){.nvIndustryTrack{animation:none}.nvIndustryGrid.nvIndustryViewport{overflow-x:auto;mask-image:none;-webkit-mask-image:none}}

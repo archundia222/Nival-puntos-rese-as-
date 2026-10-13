@@ -135,8 +135,13 @@ export default function Home() {
       <section className="nvCounterSection" id="mostrador"><div className="nvContainer nvCounterGrid"><div className="nvCounterVisual"><div className="nvCounterStand"><span className="nvStandLogo">N</span><div className="nvQrPlaceholder"><LandingIcon name="qr" /></div><b>Escanea y<br />súmate</b><small>Muestra visual · soporte de mesa</small></div><div className="nvNfcCardPlaceholder"><LandingIcon name="card" /><small>Muestra visual</small><b>Tarjeta NFC</b></div></div><div className="nvCounterCopy"><Eyebrow>EN TU MOSTRADOR</Eyebrow><h2>Todo listo para<br /><em>tu mostrador.</em></h2><ul className="nvCheckList"><li><LandingIcon name="check" />Acércala o escanéala.</li><li><LandingIcon name="check" />Sin apps para tus clientes.</li><li><LandingIcon name="check" />Hasta 10 tarjetas incluidas en cada plan.</li></ul></div></div></section>
 
       <section className="nvIndustriesSection nvContainer" id="industrias">
-        <div className="nvSectionHeading"><div><Eyebrow>PARA NEGOCIOS LOCALES</Eyebrow><h2>Para cualquier negocio<br /><em>donde la gente regresa.</em></h2></div><p>Ideas de cómo podría verse tu tarjeta en distintos giros.</p></div>
-        <div className="nvIndustryGrid">{industries.map(([id, label], index) => <a className="nvIndustryTile" href="#planes" id={id} key={id}><span className="nvIndustryIndex">{String(index + 1).padStart(2, '0')}</span><b>{label}</b><small>Ver planes <LandingIcon name="arrow" /></small></a>)}</div>
+        <div className="nvSectionHeading"><div><Eyebrow>PARA NEGOCIOS LOCALES</Eyebrow><h2>Para cualquier negocio<br /><em>donde la gente regresa.</em></h2></div><p>Distintos giros, la misma forma de hacer que tus clientes regresen.</p></div>
+        <div className="nvIndustryGrid nvIndustryViewport" aria-label="Giros que pueden usar Nival">
+          <div className="nvIndustryTrack">
+            {industries.map(([id, label], index) => <a className="nvIndustryTile" href="#planes" id={id} key={id}><span className="nvIndustryIndex">{String(index + 1).padStart(2, '0')}</span><b>{label}</b><small>Ver planes <LandingIcon name="arrow" /></small></a>)}
+            {industries.map(([id, label], index) => <div className="nvIndustryTile" aria-hidden="true" key={id + '-loop'}><span className="nvIndustryIndex">{String(index + 1).padStart(2, '0')}</span><b>{label}</b><small>Ver planes <LandingIcon name="arrow" /></small></div>)}
+          </div>
+        </div>
       </section>
 
       <section className="nvPlansSection" id="planes"><div className="nvContainer">

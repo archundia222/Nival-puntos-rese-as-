@@ -9,7 +9,7 @@ export default function LandingMotion() {
     const elements = root.querySelectorAll<HTMLElement>([
       '.nvWhySection article', '.nvHowCard',
       '.nvReviewsCopy', '.nvGoogleVisual', '.nvOwnerCopy', '.nvDashboard',
-      '.nvCounterVisual', '.nvCounterCopy', '.nvIndustryTile', '.nvPlanCard',
+      '.nvCounterVisual', '.nvCounterCopy', '.nvIndustryTile:not([aria-hidden="true"])', '.nvPlanCard',
       '.nvFaqIntro', '.nvFaqList', '.nvFinalCtaCopy', '.nvFinalCtaAction',
     ].join(','));
     elements.forEach(element => element.classList.add('nvReveal'));
