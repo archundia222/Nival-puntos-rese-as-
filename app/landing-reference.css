@@ -17,7 +17,7 @@ body { background: var(--nival-cream); color: var(--nival-ink); }
 .nivalLanding a { color: inherit; text-decoration: none; }
 .nivalLanding img { display: block; max-width: 100%; }
 .nivalLanding svg { display: block; flex: 0 0 auto; }
-.nivalLanding section { max-width: none; margin: 0; padding: 0; scroll-margin-top: 90px; }
+.nivalLanding section { max-width: none; scroll-margin-top: 90px; }
 .nivalLanding h1, .nivalLanding h2, .nivalLanding h3, .nivalLanding p { margin-top: 0; }
 .nivalLanding h1, .nivalLanding h2 { font-family: var(--nival-serif); font-weight: 400; letter-spacing: -.045em; }
 .nivalLanding button, .nivalLanding input { font: inherit; }
