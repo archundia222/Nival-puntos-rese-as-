@@ -364,7 +364,7 @@
 .nvNfcPhoto img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 12px 15px #172d1a30)}
 .nvIdeaBoard{position:relative;isolation:isolate;display:grid;place-items:center;min-height:260px;margin-top:22px}
 .nvIdeaBoard:before{content:'';position:absolute;z-index:-1;inset:15% 12%;border-radius:50%;background:radial-gradient(ellipse at center,#e6eee3 0,rgba(230,238,227,.5) 43%,transparent 74%);filter:blur(14px)}
-.nvWhyImage{display:block;width:min(100%,520px);height:auto;max-height:240px;object-fit:contain;filter:drop-shadow(0 17px 18px #19332124);transform:rotate(-2deg)}
+.nvWhyImage{display:block;width:min(100%,520px);height:auto;max-height:240px;aspect-ratio:auto;margin:0;border:0;border-radius:0;background:transparent;box-shadow:none;object-fit:contain;filter:drop-shadow(0 17px 18px #19332124);transform:rotate(-2deg)}
 .nvIdeaNote{position:absolute;z-index:2;padding:9px 13px;border:1px solid #dfe8da;border-radius:999px;background:#fffdf7;color:var(--nv-forest);box-shadow:0 8px 24px #19332112;font-size:10px;font-weight:800;letter-spacing:.04em;white-space:nowrap;animation:nvIdeaFloat 5.6s ease-in-out infinite}
 .nvIdeaNoteA{top:7%;left:8%;transform:rotate(-5deg)}.nvIdeaNoteB{top:11%;right:6%;transform:rotate(5deg);animation-delay:-1.4s}.nvIdeaNoteC{right:9%;bottom:8%;transform:rotate(-4deg);animation-delay:-2.8s}
 .nvIdeaBoardReviews:before{background:radial-gradient(ellipse at center,#e9eee9 0,rgba(233,238,233,.5) 43%,transparent 74%)}
