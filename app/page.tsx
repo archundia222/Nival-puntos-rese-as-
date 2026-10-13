@@ -8,6 +8,12 @@ import './landing-reference.css';
 const quoteUrl = (plan?: string) => 'https://wa.me/525539044988?text=' + encodeURIComponent(`Hola, quiero cotizar ${plan ? `Nival ${plan}` : 'Nival Puntos + Reseñas'} para mi negocio.`);
 const whatsapp = quoteUrl();
 
+const plans = [
+  { name: 'Puntos', price: '$299', tagline: 'Para empezar a premiar cada visita.', responses: '', comparison: '', featured: false },
+  { name: 'Esencial', price: '$399', tagline: 'Puntos y apoyo para responder reseñas.', responses: 'Hasta 30 respuestas a reseñas cada 30 días, preparadas por Nival.', comparison: '', featured: true },
+  { name: 'Plus', price: '$549', tagline: 'Más respuestas y contexto sobre tu zona.', responses: 'Hasta 100 respuestas a reseñas cada 30 días, preparadas por Nival.', comparison: 'Comparación de calificación y reseñas con negocios similares de tu zona.', featured: false },
+];
+
 const industries = [
   ['cafeterias', 'Cafeterías'], ['restaurantes', 'Restaurantes'], ['taquerias', 'Taquerías'],
   ['barberias', 'Barberías'], ['esteticas', 'Estéticas'], ['consultorios', 'Consultorios dentales'],
