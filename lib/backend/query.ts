@@ -2,7 +2,7 @@ import {neon} from '@neondatabase/serverless';
 export type Row=Record<string,any>&{id:string;name:string;display_name:string;google_url:string;active:boolean;created_at:string;customer_id:string;kind:'visit'|'redeem';points:number;happened_at:string;rating:number;review_date:string;answered_at:string|null;checked_on:string;review_count:number;findings:string;recommendations:string};
 type QueryError={code?:string;message:string};
 type Result<T>={data:T|null;error:QueryError|null};
-const tables=new Set(['npr_operators','npr_businesses','npr_customers','npr_movements','npr_reviews','npr_diagnostics','npr_review_links']);
+const tables=new Set(['npr_operators','npr_businesses','npr_customers','npr_movements','npr_reviews','npr_diagnostics','npr_review_links','npr_manual_payments']);
 const identifier=(value:string)=>{if(!/^[a-z_][a-z0-9_]*$/.test(value))throw Error('Invalid column');return `"${value}"`;};
 export class Query implements PromiseLike<Result<Row[]>>{
  private columns='*';private returning=false;private values:Record<string,unknown>|null=null;private operation:'select'|'insert'|'update'='select';private filters:{column:string;value:unknown}[]=[];private sort:{column:string;asc:boolean}[]=[];private offset=0;private count=500;
