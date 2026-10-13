@@ -91,7 +91,7 @@ body { background: var(--nival-cream); color: var(--nival-ink); }
 .nvPromiseRow>div { display: flex; align-items: center; gap: 12px; padding-left: 20px; border-left: 1px solid var(--nival-line); color: #657168; font-size: 11px; line-height: 1.45; }
 .nvPromiseRow>div>b { color: #9aaa75; font: 20px var(--nival-serif); }
 
-.nvStorySection { display: grid; grid-template-columns: .9fr 1.1fr; align-items: center; gap: clamp(45px,9vw,130px); max-width: 1190px; margin: 0 auto !important; padding: 135px 34px 120px !important; }
+.nvStorySection { display: block; max-width: 1240px; margin: 0 auto !important; padding: 116px 28px 108px !important; text-align: center; }\n.nvStoryIntro { max-width: 730px; margin: 0 auto; }\n.nvStoryIntro h2 { font-size: clamp(46px,5.6vw,70px); }\n.nvStoryIntro>p { margin-inline: auto; }
 .nvStoryIntro h2, .nvReviewCopy h2, .nvBusinessCopy h2, .nvPlansIntro h2, .nvFaqIntro h2, .nvFinalCta h2 { margin: 18px 0 20px; color: var(--nival-deep); font-size: clamp(42px,5vw,64px); line-height: 1.02; }
 .nvStoryIntro>p, .nvReviewCopy>p, .nvBusinessCopy>p, .nvPlansIntro>p, .nvFaqIntro>p, .nvFinalCtaCopy>p { max-width: 500px; margin: 0; color: #657168; font-size: 15px; line-height: 1.72; }
 .nvTextLink { display: inline-flex; align-items: center; gap: 9px; margin-top: 24px; color: var(--nival-green) !important; font-size: 13px; font-weight: 800; }
