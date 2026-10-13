@@ -263,3 +263,5 @@ body{background:var(--nival-cream);color:var(--nival-text)}
 /* The default Nival card uses a single ink color and clear stamp marks. */
 .nivalConfiguredCard[data-theme="nival"]{background-image:none;background-color:var(--card-color,#164d3b)}
 .nivalConfiguredCard[data-theme="nival"]:before{display:none}
+.nivalConfiguredCard .cardProgress i{background:var(--card-accent,#cfe87a)}
+.nivalConfiguredCard .cardNumbers .cardSeal{color:var(--card-accent,#cfe87a)}

@@ -15,7 +15,7 @@ type Design = {
 };
 type Program = { name?:string;color?:string;mode?:string;points_per_visit?:number;card_enabled?:boolean;rules?:{min_hours_between_visits?:number;max_visits_per_day?:number;double_points_weekday?:number|null;card_design?:Partial<Design>};logo_url?:string|null };
 type Reward={name?:string;points_cost?:number};
-const defaults:Design={theme:"nival",headline:"Cliente de ejemplo",footer:"Un lugar al que vale la pena volver.",background:"",backgroundX:50,backgroundY:50,logoX:50,logoY:50,secondaryColor:"#cfe87a",textColor:"#ffffff",pointIcon:"star",pointActive:"#cfe87a",pointInactive:"#ffffff35",pointView:"grid",expiryMonths:"",askBirthday:false,terms:"",whatsapp:"",address:"",instagram:"",facebook:"",squareLogo:""};
+const defaults:Design={theme:"nival",headline:"Cliente de ejemplo",footer:"Un lugar al que vale la pena volver.",background:"",backgroundX:50,backgroundY:50,logoX:50,logoY:50,secondaryColor:"#cfe87a",textColor:"#ffffff",pointIcon:"star",pointActive:"#cfe87a",pointInactive:"#dbe4dc",pointView:"grid",expiryMonths:"",askBirthday:false,terms:"",whatsapp:"",address:"",instagram:"",facebook:"",squareLogo:""};
 const weekdays=[["1","Lunes"],["2","Martes"],["3","Miércoles"],["4","Jueves"],["5","Viernes"],["6","Sábado"],["0","Domingo"]];
 export function ProgramEditor({businessId,business,program,reward}:{businessId:string;business:string;program?:Program;reward?:Reward}) {
  const router=useRouter();

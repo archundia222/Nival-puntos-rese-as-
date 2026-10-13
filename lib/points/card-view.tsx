@@ -154,7 +154,7 @@ export function CardView({
                 style={{
                   left: ((i * 37) % 100) + "%",
                   animationDelay: (i % 5) * 0.08 + "s",
-                  background: ["#f2d29b", "#fff", "#9cd9b2"][i % 3],
+                  background: ["#cfe87a", "#fff", "#9cd9b2"][i % 3],
                 }}
               />
             ))}
