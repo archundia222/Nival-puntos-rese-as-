@@ -74,12 +74,18 @@ export default function Home() {
             <a className="nvButton nvButtonPrimary" href="/demo">Ver demo <LandingIcon name="arrow" /></a>
             <a className="nvButton nvButtonOutline" href={whatsapp} target="_blank" rel="noreferrer">Cotizar por WhatsApp</a>
           </div>
-          <p className="nvHeroNote">Mira cómo se siente Nival en el teléfono de tus clientes.</p>
         </div>
         <div className="nvHeroVisual" aria-label="Ejemplo visual de Nival en un negocio local">
           <div className="nvBaristaFrame"><img src="/assets/img/barista.webp" alt="Barista usando una tablet en una cafetería" fetchPriority="high" /></div>
           <div className="nvHeroTint" />
-          <div className="nvHeroPhone"><img src="/assets/img/hero-phone.webp" alt="Vista ilustrativa de una tarjeta de puntos de Nival en un teléfono" fetchPriority="high" /></div>
+          <div className="nvHeroPhone" role="img" aria-label="Ejemplo ilustrativo de la tarjeta de puntos de Café Nival en un teléfono">
+            <div className="nvPhoneFrame"><div className="nvPhoneScreen">
+              <div className="nvPhoneStatus"><span>9:41</span><i aria-hidden="true" /></div>
+              <div className="nvPhoneBrand"><span>N</span><small>CAFÉ<br /><b>Café Nival</b></small><i aria-hidden="true">♧</i></div>
+              <div className="nvPhoneCard"><small>HOLA, LUCÍA</small><b>Una visita más<br />y tienes tu premio.</b><div className="nvPhoneStamps" aria-hidden="true">{Array.from({ length: 8 }, (_, i) => <i className={i < 5 ? 'is-filled' : ''} key={i}>{i < 5 ? '✦' : ''}</i>)}</div><span>5 de 8 visitas</span><div className="nvPhoneProgress"><i /></div><div className="nvPhoneReward"><b>Tu premio</b><span>Café de la casa</span></div></div>
+              <div className="nvPhoneBottom"><span>Tarjeta de puntos</span><b>Ejemplo ilustrativo</b></div>
+            </div></div>
+          </div>
           <div className="nvHeroChip nvChipPoint"><span>✦</span><b>+1 punto</b><small>Visita registrada</small></div>
           <div className="nvHeroChip nvChipGoogle"><b className="nvGoogleG">G</b><span><b>4.8 ★ en Google</b><small>Ficha de ejemplo</small></span></div>
         </div>
@@ -109,7 +115,7 @@ export default function Home() {
       <section className="nvHowSection nvContainer" id="como-funciona">
         <div className="nvSectionHeading"><div><Eyebrow>TRES PASOS, SIN COMPLICACIONES</Eyebrow><h2>Diseña. Comparte.<br /><em>Crece.</em></h2></div><p>Una tarjeta que acompaña a tus clientes desde la primera visita.</p></div>
         <div className="nvHowGrid">
-          <article className="nvHowCard"><span className="nvHowNumber">01 <i>·</i> DISEÑA</span><div className="nvHowImage"><img src="/assets/img/hero-phone.webp" alt="Mockup ilustrativo de la tarjeta Nival del cliente" loading="lazy" /></div><h3>Diseña tu tarjeta.</h3><p>Armamos tu tarjeta con tu logo, tus colores y tu premio.</p></article>
+          <article className="nvHowCard"><span className="nvHowNumber">01 <i>·</i> DISEÑA</span><div className="nvHowImage nvHowCardPreview"><div className="nvMiniLoyalty"><small>CAFÉ · EJEMPLO</small><b>Café Nival</b><span>Tu próxima visita<br />te acerca al premio.</span><i aria-hidden="true">✦ ✦ ✦ ✦ ○ ○ ○ ○</i><em>5 de 8 visitas</em></div></div><h3>Diseña tu tarjeta.</h3><p>Armamos tu tarjeta con tu logo, tus colores y tu premio.</p></article>
           <article className="nvHowCard"><span className="nvHowNumber">02 <i>·</i> COMPARTE</span><div className="nvHowImage"><img src="/assets/img/step-02.webp" alt="Vista ilustrativa de una visita registrada en la tarjeta digital" loading="lazy" /></div><h3>Comparte el QR.</h3><p>Tus clientes escanean el QR de tu mostrador y abren su tarjeta en el celular.</p></article>
           <article className="nvHowCard"><span className="nvHowNumber">03 <i>·</i> CRECE</span><div className="nvHowImage"><img src="/assets/img/step-03.webp" alt="Vista ilustrativa del avance de puntos y premio de un cliente" loading="lazy" /></div><h3>Reconoce a quien vuelve.</h3><p>Suma visitas, premia a quien regresa y mira cuántas reseñas llegan.</p></article>
         </div>

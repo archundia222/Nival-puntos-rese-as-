@@ -7,8 +7,9 @@ const css=readFileSync('app/landing-reference.css','utf8');
 const layout=readFileSync('app/layout.tsx','utf8');
 const carousel=readFileSync('app/landing-carousel.tsx','utf8');
 
-test('landing states both product pillars and uses the existing visual assets',()=>{
-  for(const x of ['Que vuelvan.','Que te recomienden.','TARJETA DE PUNTOS + RESEÑAS DE GOOGLE','/assets/img/barista.webp','/assets/img/hero-phone.webp','/assets/img/google-phone.webp','/assets/img/step-02.webp','/assets/img/step-03.webp']) assert.ok(page.includes(x),x);
+test('landing states both product pillars and uses product visuals',()=>{
+  for(const x of ['Que vuelvan.','Que te recomienden.','TARJETA DE PUNTOS + RESEÑAS DE GOOGLE','/assets/img/barista.webp','nvPhoneFrame','/assets/img/google-phone.webp','/assets/img/step-02.webp','/assets/img/step-03.webp']) assert.ok(page.includes(x),x);
+  assert.match(css,/\.nvPhoneFrame/);
   assert.ok(page.includes('href="/demo"'));
   assert.ok(page.includes('href="/acceso"'));
   assert.ok(!page.includes('Cotizar por WhatsApp" href={whatsapp}'));

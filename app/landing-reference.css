@@ -40,13 +40,29 @@
 .nvButtonPrimary{background:var(--nv-forest);color:white}
 .nvButtonOutline{border-color:#a8b7aa;background:transparent;color:var(--nv-forest)}
 .nvButtonOutline:hover{background:#fffefa}
-.nvHeroNote{margin:16px 0 0;color:var(--nv-muted);font-size:13px}
 .nvHeroVisual{position:relative;isolation:isolate;min-height:580px;display:flex;align-items:center;justify-content:center}
 .nvBaristaFrame{position:absolute;inset:18px 10% 15px 13%;overflow:hidden;border-radius:49% 49% 32px 32px / 35% 35% 22px 22px;background:#26523d}
 .nvBaristaFrame img{width:100%;height:100%;object-fit:cover;object-position:center;filter:saturate(.8)}
 .nvHeroTint{position:absolute;inset:18px 10% 15px 13%;border-radius:49% 49% 32px 32px / 35% 35% 22px 22px;background:linear-gradient(135deg,#103c2cb0,#103c2c5c 45%,#103c2c9c)}
 .nvHeroPhone{position:relative;z-index:2;width:min(76%,410px);height:570px;display:grid;place-items:center;filter:drop-shadow(0 28px 28px #071d1450);transform:rotate(3deg)}
-.nvHeroPhone img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+.nvPhoneFrame{width:294px;height:538px;padding:9px;border:2px solid #26352f;border-radius:42px;background:#101914;box-shadow:inset 0 0 0 1px #ffffff40,0 0 0 1px #0b2018}
+.nvPhoneScreen{position:relative;height:100%;overflow:hidden;padding:14px 14px 12px;border-radius:32px;background:#f7f8f1;color:#193b2b}
+.nvPhoneStatus{height:26px;display:flex;align-items:center;justify-content:space-between;padding:0 5px;font-size:10px;font-weight:800}
+.nvPhoneStatus i{width:68px;height:17px;border-radius:12px;background:#111a15}
+.nvPhoneBrand{display:flex;align-items:center;gap:9px;padding:14px 2px 20px}
+.nvPhoneBrand>span{display:grid;place-items:center;width:34px;height:34px;background:var(--nv-forest);color:white;font-family:Georgia,serif;font-size:20px}
+.nvPhoneBrand small{font-size:8px;letter-spacing:.12em;line-height:1.4}.nvPhoneBrand small b{font-family:Georgia,serif;font-size:14px;letter-spacing:0}
+.nvPhoneBrand>i{margin-left:auto;color:#54715e;font-size:19px;font-style:normal}
+.nvPhoneCard{padding:19px 16px 15px;border-radius:18px;background:var(--nv-forest);color:white;box-shadow:0 12px 20px #183b2b30}
+.nvPhoneCard>small{display:block;color:#d7eb9c;font-size:8px;font-weight:800;letter-spacing:.16em}
+.nvPhoneCard> b{display:block;margin-top:10px;font-family:Georgia,serif;font-size:20px;font-weight:400;line-height:1.18}
+.nvPhoneStamps{display:grid;grid-template-columns:repeat(4,32px);gap:9px;margin:19px 0 9px}
+.nvPhoneStamps i{display:grid;place-items:center;width:32px;height:32px;border:1px solid #ffffff48;border-radius:50%;color:#e2f28e;font-size:14px;font-style:normal}
+.nvPhoneStamps i.is-filled{border-color:#d6ed78;background:#d6ed78;color:#25402c}
+.nvPhoneCard>span{font-size:10px;color:#e2e9df}
+.nvPhoneProgress{height:5px;margin-top:8px;overflow:hidden;border-radius:8px;background:#ffffff2b}.nvPhoneProgress i{display:block;width:62.5%;height:100%;border-radius:inherit;background:var(--nv-lime)}
+.nvPhoneReward{display:grid;gap:3px;margin-top:17px;padding:10px 11px;border-radius:11px;background:#fffefa;color:var(--nv-forest)}.nvPhoneReward b{font-size:9px;text-transform:uppercase;letter-spacing:.1em}.nvPhoneReward span{font-family:Georgia,serif;font-size:15px}
+.nvPhoneBottom{display:grid;gap:7px;padding-top:19px;color:#63756a;text-align:center}.nvPhoneBottom span{font-size:10px}.nvPhoneBottom b{font-size:8px;letter-spacing:.12em;text-transform:uppercase}
 .nvHeroChip{position:absolute;z-index:3;display:flex;align-items:center;gap:10px;padding:12px 16px;border:1px solid #ffffffbd;border-radius:16px;background:#fffefa;box-shadow:0 16px 38px #071d1428;color:var(--nv-forest)}
 .nvChipPoint{left:1%;top:18%;display:grid;grid-template-columns:30px auto;column-gap:10px;min-width:160px}
 .nvChipPoint>span{grid-row:span 2;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#eef4d4;color:#61831f}
@@ -95,6 +111,9 @@
 .nvHowNumber i{padding-inline:4px;color:#b6c2b5;font-style:normal}
 .nvHowImage{height:310px;display:grid;place-items:center;overflow:hidden;border-radius:15px;background:#f1f1eb}
 .nvHowImage img{width:100%;height:100%;object-fit:contain}
+.nvHowCardPreview{background:radial-gradient(circle at 50% 15%,#dce7cf,#f1f1eb 62%)}
+.nvMiniLoyalty{width:72%;min-height:235px;display:grid;align-content:center;gap:10px;padding:23px;border-radius:20px;background:#173f2e;color:#fffefa;box-shadow:0 18px 30px #122c2040;transform:rotate(-4deg)}
+.nvMiniLoyalty small{color:#d6ed78;font-size:8px;font-weight:800;letter-spacing:.14em}.nvMiniLoyalty>b{font-family:Georgia,serif;font-size:22px;font-weight:400}.nvMiniLoyalty>span{font-size:12px;line-height:1.35;opacity:.9}.nvMiniLoyalty>i{margin-top:7px;color:#d6ed78;font-size:17px;font-style:normal;letter-spacing:2px}.nvMiniLoyalty>em{font-size:10px;font-style:normal;opacity:.8}
 .nvHowCard h3{margin:20px 5px 8px;color:var(--nv-forest);font-family:'DM Serif Display',Georgia,serif;font-size:27px;font-weight:400}
 .nvHowCard p{margin:0 5px;color:var(--nv-muted);font-size:15px;line-height:1.5}
 .nvReviewsSection{padding-block:120px;background:#edf1e8;scroll-margin-top:100px}
@@ -251,7 +270,7 @@
 }
 @media(max-width:640px){
  .nvContainer,.nvQuickInner{width:calc(100% - 36px)}.nvNavInner{width:calc(100% - 32px);min-height:68px;gap:10px}.nvBrand{gap:8px;font-size:12px}.nvBrandMark{width:34px;height:34px}.nvNavCta{min-height:41px;padding-inline:15px;font-size:12px}.nvNavCta .refIcon{width:15px;height:15px}.nvMobilePanel{inset:68px 0 0;padding-inline:20px}.nvNavInner>.nvMobileMenu{order:3}
- .nvHero{display:flex;flex-direction:column;align-items:stretch;gap:8px;padding-block:46px 22px}.nvHeroCopy{padding:0}.nvEyebrow{font-size:9px;letter-spacing:.12em}.nvHero h1{margin:17px 0 16px;font-size:clamp(45px,12vw,64px);line-height:1.01}.nvHeroLead{margin-bottom:20px;font-size:16px;line-height:1.5}.nvHeroActions{display:grid;grid-template-columns:1fr}.nvButton{width:100%;min-height:50px;font-size:14px}.nvHeroNote{margin-top:12px;font-size:12px}.nvHeroVisual{min-height:420px;margin-inline:-6px}.nvBaristaFrame,.nvHeroTint{inset:17px 8% 7px 9%;border-radius:49% 49% 26px 26px / 35% 35% 18px 18px}.nvHeroPhone{width:78%;height:415px}.nvChipPoint{left:0;top:12%;min-width:137px;padding:9px 11px;grid-template-columns:26px auto;gap:7px}.nvChipPoint>span{width:26px;height:26px}.nvChipPoint>b,.nvChipGoogle span>b{font-size:12px}.nvChipPoint>small,.nvChipGoogle span>small{font-size:9px}.nvChipGoogle{right:0;bottom:8%;padding:9px 11px}.nvGoogleG{width:25px;height:25px;font-size:16px}
+ .nvHero{display:flex;flex-direction:column;align-items:stretch;gap:8px;padding-block:46px 22px}.nvHeroCopy{padding:0}.nvEyebrow{font-size:9px;letter-spacing:.12em}.nvHero h1{margin:17px 0 16px;font-size:clamp(45px,12vw,64px);line-height:1.01}.nvHeroLead{margin-bottom:20px;font-size:16px;line-height:1.5}.nvHeroActions{display:grid;grid-template-columns:1fr}.nvButton{width:100%;min-height:50px;font-size:14px}.nvHeroVisual{min-height:420px;margin-inline:-6px}.nvBaristaFrame,.nvHeroTint{inset:17px 8% 7px 9%;border-radius:49% 49% 26px 26px / 35% 35% 18px 18px}.nvHeroPhone{width:78%;height:415px}.nvPhoneFrame{width:222px;height:400px;padding:7px;border-radius:34px}.nvPhoneScreen{padding:8px 10px;border-radius:26px}.nvPhoneStatus{height:21px;font-size:8px}.nvPhoneStatus i{width:52px;height:13px}.nvPhoneBrand{gap:7px;padding:8px 2px 13px}.nvPhoneBrand>span{width:29px;height:29px;font-size:17px}.nvPhoneBrand small{font-size:7px}.nvPhoneBrand small b{font-size:12px}.nvPhoneCard{padding:14px 12px 11px;border-radius:14px}.nvPhoneCard>small{font-size:7px}.nvPhoneCard>b{margin-top:8px;font-size:16px}.nvPhoneStamps{grid-template-columns:repeat(4,25px);gap:7px;margin:13px 0 7px}.nvPhoneStamps i{width:25px;height:25px;font-size:11px}.nvPhoneCard>span{font-size:8px}.nvPhoneProgress{height:4px;margin-top:6px}.nvPhoneReward{gap:2px;margin-top:12px;padding:8px 9px}.nvPhoneReward b{font-size:7px}.nvPhoneReward span{font-size:12px}.nvPhoneBottom{gap:5px;padding-top:12px}.nvPhoneBottom span{font-size:8px}.nvPhoneBottom b{font-size:7px}.nvChipPoint{left:0;top:12%;min-width:137px;padding:9px 11px;grid-template-columns:26px auto;gap:7px}.nvChipPoint>span{width:26px;height:26px}.nvChipPoint>b,.nvChipGoogle span>b{font-size:12px}.nvChipPoint>small,.nvChipGoogle span>small{font-size:9px}.nvChipGoogle{right:0;bottom:8%;padding:9px 11px}.nvGoogleG{width:25px;height:25px;font-size:16px}
  .nvQuickInner{min-height:0;display:grid;grid-template-columns:1fr;gap:0;padding-block:10px}.nvQuickInner span{min-height:43px;gap:11px;font-size:13px}.nvQuickInner span b{width:23px;font-size:18px}.nvQuickInner>i{width:100%;height:1px}
  .nvCarouselSection,.nvHowSection,.nvIndustriesSection{padding-block:68px}.nvSectionHeading{display:block;margin-bottom:27px}.nvSectionHeading h2,.nvReviewsCopy h2,.nvOwnerCopy h2,.nvCounterCopy h2,.nvPlansIntro h2,.nvFaqIntro h2{margin-top:11px;font-size:clamp(39px,10vw,52px)}.nvSectionHeading>p{margin-top:14px;font-size:14px}.nvLoyaltyCard{flex-basis:244px;min-height:220px;padding:18px}.nvStampGrid{margin-block:21px 15px;gap:10px}.nvBenefitsSection{padding-block:68px}.nvBenefitsGrid{gap:10px}.nvBenefitsGrid article{min-height:185px;padding:17px}.nvBenefitsGrid article>span{width:38px;height:38px;margin-bottom:18px}.nvBenefitsGrid h3{font-size:16px}.nvBenefitsGrid p{font-size:13px}
  .nvHowGrid{grid-template-columns:1fr;gap:13px}.nvHowCard{padding:13px 13px 20px}.nvHowImage{height:320px}.nvHowCard h3{margin-top:15px;font-size:25px}.nvHowCard p{font-size:14px}
