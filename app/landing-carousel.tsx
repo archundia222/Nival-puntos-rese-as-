@@ -23,23 +23,34 @@ export default function IndustryCarousel() {
   useEffect(() => {
     const node = viewport.current;
     if (!node || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    let frame = 0;
-    let previous = 0;
-    const tick = (now: number) => {
-      if (!previous) previous = now;
-      const elapsed = Math.min(40, now - previous);
-      previous = now;
-      if (!paused.current && !dragging.current) {
-        const half = node.scrollWidth / 2;
-        if (half > 0) {
-          node.scrollLeft += elapsed * 0.018;
-          if (node.scrollLeft >= half) node.scrollLeft -= half;
-        }
+
+    const advance = () => {
+      if (paused.current || dragging.current) return;
+      const first = node.querySelector<HTMLElement>('.nvIndustryPhotoCard');
+      const second = first?.nextElementSibling as HTMLElement | null;
+      const step = first && second
+        ? second.offsetLeft - first.offsetLeft
+        : first?.getBoundingClientRect().width ?? 0;
+      const half = node.scrollWidth / 2;
+      if (step <= 0 || half <= step) return;
+
+      let current = node.scrollLeft;
+      if (current >= half) {
+        node.scrollLeft = current - half;
+        current = node.scrollLeft;
       }
-      frame = requestAnimationFrame(tick);
+
+      const next = current + step;
+      if (next >= half - 1) {
+        // The duplicated first card is visually identical to the initial position.
+        node.scrollLeft = 0;
+      } else {
+        node.scrollTo({ left: next, behavior: 'smooth' });
+      }
     };
-    frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
+
+    const timer = window.setInterval(advance, 4200);
+    return () => window.clearInterval(timer);
   }, []);
 
   function beginDrag(event: ReactPointerEvent<HTMLDivElement>) {
@@ -63,7 +74,7 @@ export default function IndustryCarousel() {
   return (
     <>
       <p className="nvIllustrationLabel">EJEMPLOS ILUSTRATIVOS</p>
-      <div className="nvCarouselViewport" ref={viewport} role="region" aria-label="Fotos de negocios de distintas industrias" onPointerLeave={endDrag} onPointerDown={beginDrag} onPointerMove={drag} onPointerUp={endDrag} onTouchEnd={endDrag}>
+      <div className="nvCarouselViewport" ref={viewport} role="region" aria-label="Fotos de negocios de distintas industrias" onPointerEnter={() => { paused.current = true; }} onPointerLeave={endDrag} onPointerDown={beginDrag} onPointerMove={drag} onPointerUp={endDrag} onTouchEnd={endDrag} onFocusCapture={() => { paused.current = true; }} onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) paused.current = false; }}>
         <div className="nvCarouselTrack">
           {[...cards, ...cards].map((card, index) => <article className="nvIndustryPhotoCard" id={index < cards.length ? card.id : undefined} key={`${card.id}-${index}`} aria-hidden={index >= cards.length}>
             <img src={`/assets/img/${card.image}`} alt={index < cards.length ? card.alt : ''} loading="lazy" draggable={false} />
