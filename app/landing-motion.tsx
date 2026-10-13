@@ -7,7 +7,7 @@ export default function LandingMotion() {
     const root = document.querySelector<HTMLElement>('.nivalLanding');
     if (!root || !('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const elements = root.querySelectorAll<HTMLElement>([
-      '.nvCarouselSection .nvSectionHeading', '.nvBenefitsGrid article', '.nvHowCard',
+      '.nvWhySection article', '.nvHowCard',
       '.nvReviewsCopy', '.nvGoogleVisual', '.nvOwnerCopy', '.nvDashboard',
       '.nvCounterVisual', '.nvCounterCopy', '.nvIndustryTile', '.nvPlanCard',
       '.nvFaqIntro', '.nvFaqList', '.nvFinalCtaCopy', '.nvFinalCtaAction',

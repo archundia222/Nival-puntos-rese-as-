@@ -91,27 +91,18 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="nvCarouselSection nvContainer">
-        <div className="nvSectionHeading"><div><Eyebrow>UNA EXPERIENCIA CON TU MARCA</Eyebrow><h2>Una tarjeta para cada<br /><em>tipo de negocio.</em></h2></div><p>La misma idea de lealtad, pensada para distintos mostradores y servicios.</p></div>
-        <IndustryCarousel />
+      <section className="nvWhySection nvContainer" aria-label="Por qué puntos y reseñas">
+        <article><span>01 / LEALTAD</span><h2>¿Por qué un sistema<br />de puntos?</h2><p>Cada visita puede dar una razón clara para regresar. Tus clientes ven cuánto les falta para su premio y tu equipo suma visitas en el mostrador.</p></article>
+        <article><span>02 / REPUTACIÓN</span><h2>¿Por qué sumar<br />reseñas?</h2><p>Una buena experiencia también ayuda a que alguien nuevo te encuentre. Facilita el acceso a tu ficha de Google y responde con cuidado.</p></article>
       </section>
-
-      <section className="nvBenefitsSection">
-        <div className="nvContainer">
-          <div className="nvSectionHeading nvBenefitsHeading"><div><Eyebrow>CLARO PARA TI. FÁCIL PARA TUS CLIENTES.</Eyebrow><h2>Todo lo esencial,<br /><em>en una sola experiencia.</em></h2></div></div>
-          <div className="nvBenefitsGrid">
-            <article><span><LandingIcon name="card" /></span><h3>Tu marca</h3><p>Tarjeta con tu logo y tus colores.</p></article>
-            <article><span><LandingIcon name="qr" /></span><h3>Registro con QR</h3><p>Tus clientes se unen en segundos desde el celular.</p></article>
-            <article><span><LandingIcon name="people" /></span><h3>Puntos en el mostrador</h3><p>Tu equipo suma cada visita escaneando.</p></article>
-            <article><span><LandingIcon name="chart" /></span><h3>Reseñas y resultados</h3><p>Más reseñas en Google y un resumen cada mes.</p></article>
-          </div>
-        </div>
+      <section className="nvCardArtSection nvContainer" aria-label="Ejemplo de tarjeta de puntos">
+        <div className="nvCardArtPlaceholder" role="img" aria-label="Espacio reservado para una imagen de ejemplo de tarjeta de puntos" />
       </section>
 
       <section className="nvHowSection nvContainer" id="como-funciona">
         <div className="nvSectionHeading"><div><Eyebrow>TRES PASOS, SIN COMPLICACIONES</Eyebrow><h2>Diseña. Comparte.<br /><em>Crece.</em></h2></div><p>Una tarjeta que acompaña a tus clientes desde la primera visita.</p></div>
         <div className="nvHowGrid">
-          <article className="nvHowCard"><span className="nvHowNumber">01 <i>·</i> DISEÑA</span><div className="nvHowImage nvHowCardPreview"><div className="nvMiniLoyalty"><small>CAFÉ · EJEMPLO</small><b>Café Nival</b><span>Tu próxima visita<br />te acerca al premio.</span><i aria-hidden="true">✦ ✦ ✦ ✦ ○ ○ ○ ○</i><em>5 de 8 visitas</em></div></div><h3>Diseña tu tarjeta.</h3><p>Armamos tu tarjeta con tu logo, tus colores y tu premio.</p></article>
+          <article className="nvHowCard"><span className="nvHowNumber">01 <i>·</i> DISEÑA</span><div className="nvHowImage nvDashboardArtPlaceholder" role="img" aria-label="Espacio reservado para una imagen del panel del dueño" /><h3>Diseña tu tarjeta.</h3><p>Armamos tu tarjeta con tu logo, tus colores y tu premio.</p></article>
           <article className="nvHowCard"><span className="nvHowNumber">02 <i>·</i> COMPARTE</span><div className="nvHowImage"><img src="/assets/img/step-02.webp" alt="Vista ilustrativa de una visita registrada en la tarjeta digital" loading="lazy" /></div><h3>Comparte el QR.</h3><p>Tus clientes escanean el QR de tu mostrador y abren su tarjeta en el celular.</p></article>
           <article className="nvHowCard"><span className="nvHowNumber">03 <i>·</i> CRECE</span><div className="nvHowImage"><img src="/assets/img/step-03.webp" alt="Vista ilustrativa del avance de puntos y premio de un cliente" loading="lazy" /></div><h3>Reconoce a quien vuelve.</h3><p>Suma visitas, premia a quien regresa y mira cuántas reseñas llegan.</p></article>
         </div>
@@ -145,13 +136,12 @@ export default function Home() {
 
       <section className="nvIndustriesSection nvContainer" id="industrias">
         <div className="nvSectionHeading"><div><Eyebrow>PARA NEGOCIOS LOCALES</Eyebrow><h2>Para cualquier negocio<br /><em>donde la gente regresa.</em></h2></div><p>Ideas de cómo podría verse tu tarjeta en distintos giros.</p></div>
-        <div className="nvIndustryGrid">{industries.map(([id, label], index) => <a className={`nvIndustryTile nvIndustryTone${index + 1}`} href="#planes" id={id} key={id}><div className="nvIndustryImage">{index === 0 ? <img src="/assets/img/cafe-front.webp" alt="Fachada de Café Nival como ejemplo para cafeterías" loading="lazy" /> : <span aria-hidden="true">{label.slice(0, 2).toUpperCase()}</span>}</div><b>{label}</b><small>Ver planes <LandingIcon name="arrow" /></small></a>)}</div>
+        <div className="nvIndustryGrid">{industries.map(([id, label], index) => <a className="nvIndustryTile" href="#planes" id={id} key={id}><span className="nvIndustryIndex">{String(index + 1).padStart(2, '0')}</span><b>{label}</b><small>Ver planes <LandingIcon name="arrow" /></small></a>)}</div>
       </section>
 
       <section className="nvPlansSection" id="planes"><div className="nvContainer">
         <div className="nvPlansIntro"><Eyebrow>PLANES MENSUALES · PRECIOS EN MXN</Eyebrow><h2>Empieza con lo que<br /><em>necesita tu negocio.</em></h2><p>Los tres planes incluyen puntos, hasta 10 tarjetas NFC + QR para reseñas y un resumen mensual en PDF.</p></div>
         <div className="nvPlanGrid">{plans.map(plan => <article className={`nvPlanCard${plan.featured ? ' is-featured' : ''}`} key={plan.name}>{plan.featured && <span className="nvPlanFlag">PUNTOS + RESEÑAS</span>}<span className="nvPlanName">NIVAL {plan.name.toUpperCase()}</span><h3 className="nvPlanPrice">{plan.price}<small> MXN <i>/ mes</i></small></h3><p className="nvPlanDesc">{plan.tagline}</p><a href={quoteUrl(plan.name)} target="_blank" rel="noreferrer" className={`nvButton ${plan.featured ? 'nvButtonPrimary' : 'nvButtonOutline'}`}>Cotizar Nival {plan.name}<LandingIcon name="arrow" /></a><div className="nvPlanDetails"><span><LandingIcon name="check" />Programa de puntos con tu marca</span><span><LandingIcon name="check" />Registro con QR</span><span><LandingIcon name="check" />Hasta 10 tarjetas NFC + QR</span><span><LandingIcon name="check" />Resumen mensual en PDF</span>{plan.responses && <span><LandingIcon name="check" />{plan.responses}</span>}{plan.comparison && <span><LandingIcon name="check" />{plan.comparison}</span>}</div></article>)}</div>
-        <div className="nvCompareWrap"><table className="nvCompare"><thead><tr><th>Incluye</th><th>Puntos<br /><small>$299</small></th><th>Esencial<br /><small>$399</small></th><th>Plus<br /><small>$549</small></th></tr></thead><tbody><tr><th>Programa de puntos con tu marca</th><td><LandingIcon name="check" /></td><td><LandingIcon name="check" /></td><td><LandingIcon name="check" /></td></tr><tr><th>Registro con QR</th><td><LandingIcon name="check" /></td><td><LandingIcon name="check" /></td><td><LandingIcon name="check" /></td></tr><tr><th>Tarjetas NFC + QR para reseñas</th><td colSpan={3}>Hasta 10 incluidas</td></tr><tr><th>Resumen mensual en PDF</th><td colSpan={3}>Incluido al cierre de cada periodo de 30 días</td></tr><tr><th>Respuestas a reseñas cada 30 días</th><td>—</td><td>Hasta 30</td><td>Hasta 100</td></tr><tr><th>Comparación con negocios similares de tu zona</th><td>—</td><td>—</td><td>Calificación y reseñas</td></tr></tbody></table></div>
         <p className="nvPlanNote">Las respuestas las prepara Nival de forma manual. No se publican automáticamente.</p>
       </div></section>
 

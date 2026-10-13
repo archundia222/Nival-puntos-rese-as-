@@ -294,3 +294,27 @@
  .nvFinalCta{padding-block:65px 80px}.nvFinalInner{grid-template-columns:1fr;gap:27px}.nvFinalCtaCopy h2{font-size:clamp(44px,11vw,58px)}.nvFinalCtaCopy p{font-size:15px}.nvFinalCtaAction{width:100%;padding:22px}.nvFooter{padding-block:32px 22px}.nvFooterTop,.nvFooterBottom{display:grid;justify-content:start;gap:18px}.nvFooterTop nav,.nvFooterBottom nav{justify-content:flex-start;gap:11px 16px}.nvFooterBottom{margin-top:22px;padding-top:17px}.nvDraftNote{text-align:left}.nvMobileStickyCta{position:fixed;z-index:18;right:18px;bottom:18px;left:auto;display:grid;place-items:center;width:54px;height:54px;min-height:54px;padding:0;border:1px solid #ffffffaa;border-radius:50%;background:var(--nv-forest);box-shadow:0 5px 17px #0a271b30;color:#fffefa;text-decoration:none;transition:transform .18s ease,box-shadow .18s ease}.nvMobileStickyCta:hover{transform:translateY(-2px);box-shadow:0 8px 22px #0a271b3d}.nvMobileStickyCta svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}.nvFooter{padding-bottom:32px}
 }
 @media(prefers-reduced-motion:reduce){.nivalLanding *{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.nvReveal{opacity:1;transform:none}}
+
+/* Image areas reserved for the Nival artwork supplied by the owner. */
+.nvWhySection{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,7vw,100px);padding-block:78px 45px}
+.nvWhySection article{max-width:510px}
+.nvWhySection article+article{padding-left:clamp(0px,4vw,48px);border-left:1px solid #d9e1d8}
+.nvWhySection article>span{display:block;margin-bottom:18px;color:var(--nv-green);font-size:10px;font-weight:850;letter-spacing:.15em}
+.nvWhySection h2{margin:0 0 15px;color:var(--nv-forest);font-family:'DM Serif Display',Georgia,serif;font-size:clamp(34px,4vw,48px);font-weight:400;line-height:1.04;letter-spacing:-.03em}
+.nvWhySection p{max-width:460px;margin:0;color:var(--nv-muted);font-size:16px;line-height:1.55}
+.nvCardArtSection{padding-block:25px 90px}
+.nvCardArtPlaceholder{width:100%;min-height:420px;border-radius:18px;background:transparent}
+.nvDashboardArtPlaceholder{border:1px solid #e5e8e1;background:#f5f5f0}
+.nvIndustryTile{grid-template-rows:auto 1fr auto;gap:16px;min-height:158px;padding:19px;border-radius:14px}
+.nvIndustryIndex{color:#8b998d;font-family:'DM Serif Display',Georgia,serif;font-size:15px}
+.nvIndustryTile>b{align-self:end;font-size:17px}
+.nvIndustryTile.nvReveal{transition-delay:calc(var(--tile-index,0) * 70ms),calc(var(--tile-index,0) * 70ms),0s}
+.nvIndustryTile:nth-child(1){--tile-index:0}.nvIndustryTile:nth-child(2){--tile-index:1}.nvIndustryTile:nth-child(3){--tile-index:2}.nvIndustryTile:nth-child(4){--tile-index:3}.nvIndustryTile:nth-child(5){--tile-index:4}.nvIndustryTile:nth-child(6){--tile-index:5}.nvIndustryTile:nth-child(7){--tile-index:6}.nvIndustryTile:nth-child(8){--tile-index:7}
+@media(max-width:640px){
+ .nvWhySection{grid-template-columns:1fr;gap:34px;padding-block:50px 28px}
+ .nvWhySection article+article{padding:30px 0 0;border-left:0;border-top:1px solid #d9e1d8}
+ .nvWhySection h2{font-size:clamp(36px,9vw,46px)}.nvWhySection p{font-size:15px}
+ .nvCardArtSection{padding-block:18px 54px}.nvCardArtPlaceholder{min-height:250px}
+ .nvIndustryTile{min-height:132px;padding:13px;gap:12px}.nvIndustryTile>b{font-size:14px}
+ .nvPlanDetails>span{font-size:13px}
+}
