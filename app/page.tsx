@@ -17,7 +17,7 @@ const plans = [
 const industries = [
   ['cafeterias', 'Cafeterías'], ['restaurantes', 'Restaurantes'], ['taquerias', 'Taquerías'],
   ['barberias', 'Barberías'], ['esteticas', 'Estéticas'], ['consultorios', 'Consultorios dentales'],
-  ['heladerias', 'Heladerías'], ['gimnasios', 'Gimnasios y estudios'],
+  ['heladerias', 'Heladerías'], ['industrias', 'Gimnasios y estudios'],
 ] as const;
 
 
