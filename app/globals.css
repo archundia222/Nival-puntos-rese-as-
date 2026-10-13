@@ -598,3 +598,18 @@
 @media (prefers-reduced-motion: reduce) {
   .landing *, .landing *::before, .landing *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+/* Existing Nival photography and interface imagery */
+.landing .landingHeroVisual--photo { overflow: hidden; background: #e7eddf; }
+.landing .landingHeroVisual--photo::before,
+.landing .landingHeroVisual--photo::after { display: none; }
+.landing .landingHeroPhoto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.landing .landingPhotoLabel { position: absolute; top: 22px; left: 22px; padding: 9px 13px; border: 1px solid rgba(255,255,255,.82); border-radius: 999px; background: rgba(255,255,250,.88); color: var(--landing-forest); font-size: 11px; font-weight: 700; backdrop-filter: blur(10px); }
+.landing .landingGoalImage { position: relative; height: 190px; margin: 0 0 28px; overflow: hidden; border-radius: 22px; background: #e7eddf; }
+.landing .landingGoalImage img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.landing .landingGoalImage::after { position: absolute; inset: 35% 0 0; content: ""; background: linear-gradient(transparent, rgba(18,45,33,.62)); }
+.landing .landingGoalImage span { position: absolute; z-index: 1; bottom: 14px; left: 16px; color: white; font-size: 12px; font-weight: 700; letter-spacing: .01em; text-shadow: 0 1px 8px rgba(0,0,0,.2); }
+@media (max-width: 720px) {
+  .landing .landingHeroVisual--photo { min-height: 390px; }
+  .landing .landingGoalImage { height: 164px; margin-bottom: 23px; border-radius: 18px; }
+}
