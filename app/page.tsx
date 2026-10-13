@@ -38,7 +38,7 @@ export default function Home() {
       <section className="nvHero">
         <div className="nvHeroCopy">
           <Eyebrow>LEALTAD Y RESEÑAS PARA NEGOCIOS LOCALES</Eyebrow>
-          <h1>Que cada visita<br />invite a <em>volver.</em></h1>
+          <h1>Cada visita<br /><em>cuenta.</em></h1>
           <p className="nvHeroLead">Tarjetas digitales de puntos y herramientas para cuidar tu reputación en Google. Una experiencia cercana para tus clientes, fácil de llevar para tu equipo.</p>
           <div className="nvHeroActions">
             <a className="nvButton nvButtonPrimary" href={whatsapp} target="_blank" rel="noreferrer">Cotizar por WhatsApp <LandingIcon name="arrow" /></a>
