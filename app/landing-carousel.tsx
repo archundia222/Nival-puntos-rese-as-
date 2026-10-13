@@ -22,11 +22,12 @@ export default function IndustryCarousel() {
 
   useEffect(() => {
     const node = viewport.current;
-    if (!node || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!node) return;
 
     let frame = 0;
     let previous = 0;
-    const pixelsPerMs = 0.016;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const pixelsPerMs = reduceMotion ? 0.008 : 0.016;
 
     const tick = (now: number) => {
       if (!previous) previous = now;
@@ -69,7 +70,7 @@ export default function IndustryCarousel() {
   return (
     <>
       <p className="nvIllustrationLabel">EJEMPLOS ILUSTRATIVOS</p>
-      <div className="nvCarouselViewport" ref={viewport} role="region" aria-label="Fotos de negocios de distintas industrias" onPointerEnter={() => { paused.current = true; }} onPointerLeave={endDrag} onPointerDown={beginDrag} onPointerMove={drag} onPointerUp={endDrag} onTouchEnd={endDrag} onFocusCapture={() => { paused.current = true; }} onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) paused.current = false; }}>
+      <div className="nvCarouselViewport" ref={viewport} role="region" aria-label="Fotos de negocios de distintas industrias" onPointerEnter={(event) => { if (event.pointerType === 'mouse') paused.current = true; }} onPointerLeave={endDrag} onPointerDown={beginDrag} onPointerMove={drag} onPointerUp={endDrag} onTouchEnd={endDrag} onFocusCapture={() => { paused.current = true; }} onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) paused.current = false; }}>
         <div className="nvCarouselTrack">
           {[...cards, ...cards].map((card, index) => <article className="nvIndustryPhotoCard" id={index < cards.length ? card.id : undefined} key={`${card.id}-${index}`} aria-hidden={index >= cards.length}>
             <img src={`/assets/img/${card.image}`} alt={index < cards.length ? card.alt : ''} loading="lazy" draggable={false} />
