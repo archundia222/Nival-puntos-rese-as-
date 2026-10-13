@@ -480,3 +480,109 @@ body { background: var(--nival-cream); color: var(--nival-ink); font-family: var
 @media (prefers-reduced-motion: reduce) {
   .nivalLanding *, .nivalLanding *::before, .nivalLanding *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+/* Refinamiento visual: producto claro, ritmo editorial y mockups legibles. */
+.nvHero { min-height: 650px; padding-top: 28px !important; padding-bottom: 52px !important; }
+.nvHero h1 { max-width: 650px; font-size: clamp(70px, 7.5vw, 104px); letter-spacing: -.05em; }
+.nvHeroCopy > p { max-width: 455px; font-size: 19px; }
+.nvHeroVisual { min-height: 580px; border-radius: 30px; }
+.nvCafePhoto { object-position: 56% center; }
+.nvPhotoVeil { background: linear-gradient(0deg, rgb(16 45 34 / 17%), transparent 42%); }
+.nvHeroPhone { right: 9%; top: 57px; transform: rotate(2deg); }
+.nvCounterStand { left: 7%; bottom: 23px; transform: rotate(-1deg); }
+.nvFloatNote { right: 2%; bottom: 58px; transform: none; }
+.nvQuickFacts { gap: 0; margin-top: 31px; padding-top: 22px; border-top: 1px solid #dce2d7; }
+.nvQuickFacts span { padding-inline: 15px; border-right: 1px solid #d7dfd4; }
+.nvQuickFacts span:first-child { padding-left: 0; }
+.nvQuickFacts span:last-child { padding-right: 0; border: 0; }
+.nvQuickFacts .refIcon { width: 21px; height: 21px; }
+.nvProofRow { gap: clamp(24px, 4.5vw, 68px); min-height: 84px; background: #fffefa; }
+.nvSectionHeading { margin-bottom: 34px; }
+.nvSectionHeading h2 { max-width: 800px; font-size: clamp(52px, 6vw, 78px); letter-spacing: -.05em; }
+.nvSectionHeading > p { max-width: 265px; margin-bottom: 5px; }
+.nvFlow { display: block; }
+.nvStepList { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.nvFlowStep { grid-template-columns: minmax(0, 1fr) 42px; grid-template-rows: auto auto 1fr auto; gap: 12px 8px; min-height: 454px; padding: 23px 22px 20px; border-radius: 22px; box-shadow: 0 10px 30px rgb(19 52 36 / 5%); }
+.nvStepNumber { grid-column: 1; grid-row: 1; align-self: center; color: #617362; font-size: 12px; }
+.nvStepIcon { grid-column: 2; grid-row: 1; justify-self: end; width: 40px; height: 40px; border: 1px solid #e0e8d7; border-radius: 50%; background: #f1f4e9; }
+.nvFlowStep > div { grid-column: 1 / -1; grid-row: 2; min-height: 95px; }
+.nvFlowStep h3 { margin: 2px 0 8px; font-size: 26px; letter-spacing: -.02em; }
+.nvFlowStep p { max-width: 320px; font-size: 14px; line-height: 1.55; }
+.nvFlowPhone { grid-column: 1 / -1; grid-row: 3 / 5; justify-self: center; align-self: end; width: 186px; height: 245px; min-height: 245px; border-width: 5px; border-radius: 30px; box-shadow: 0 15px 32px rgb(17 40 28 / 16%); }
+.nvRegisterPhone { padding: 23px 12px 10px; }
+.nvPhoneTopline { font-size: 9px; }
+.nvPhoneContent { gap: 5px; }
+.nvPhoneContent > small { font-size: 7px; }
+.nvPhoneContent h4 { font-size: 19px; }
+.nvPhoneContent label { font-size: 8px; }
+.nvInputMock { height: 25px; padding: 5px 7px; border-radius: 8px; font-size: 9px; }
+.nvPhoneButton { height: 26px; font-size: 8px; }
+.nvPhoneContent .nvDisclaimer { font-size: 6px; }
+.nvScanPhone { padding: 22px 12px 12px; }
+.nvScanTop { font-size: 8px; }
+.nvScanTop b { font-size: 10px; }
+.nvScanTarget { width: 118px; height: 108px; margin: 18px 0 6px; }
+.nvScanHelp { font-size: 8px; }
+.nvScanBottom > span { font-size: 9px; }
+.nvScanBottom > b { font-size: 11px; }
+.nvScanBottom > small { font-size: 6px; }
+.nvPointPhone { padding: 24px 15px 12px; }
+.nvPointHeader { gap: 7px; margin-bottom: 10px; }
+.nvPointHeader .nvMiniLogo { width: 27px; height: 27px; font-size: 16px; }
+.nvPointHeader > small { font-size: 6px; }
+.nvPointBadge { width: 43px; height: 43px; margin: 8px 0 6px; }
+.nvPointKicker { font-size: 7px; }
+.nvPointTitle { font-size: 26px; }
+.nvPointCount { margin-top: 9px; font-size: 23px; }
+.nvPointCount small { font-size: 9px; }
+.nvPointTrack { height: 6px; margin: 7px 0; }
+.nvPointRemain { font-size: 8px; }
+.nvPointPhone .nvDisclaimer { font-size: 6px; }
+.nvFootnote { margin-top: 18px; font-size: 12px; }
+.nvGoogleCard { transform: none; }
+.nvReviews { background: #eef1e8; }
+.nvReviewStars { color: #6f8e42; }
+
+@media (max-width: 1100px) {
+  .nvHero { grid-template-columns: minmax(355px, .92fr) minmax(340px, 1.08fr); min-height: 590px; }
+  .nvHero h1 { font-size: clamp(64px, 7.4vw, 82px); }
+  .nvHeroVisual { min-height: 515px; border-radius: 26px; }
+  .nvHeroPhone { right: 2%; transform: scale(.9) rotate(2deg); transform-origin: top right; }
+  .nvCounterStand { left: 3%; transform: scale(.88); transform-origin: bottom left; }
+  .nvFloatNote { right: 0; transform: scale(.9); transform-origin: bottom right; }
+  .nvStepList { gap: 12px; }
+  .nvFlowStep { min-height: 430px; padding: 19px 15px 16px; }
+  .nvFlowStep h3 { font-size: 23px; }
+  .nvFlowPhone { transform: scale(.9); transform-origin: bottom center; }
+}
+@media (max-width: 760px) {
+  .nvHero { min-height: 0; padding: 30px 20px 34px !important; }
+  .nvHero h1 { font-size: clamp(57px, 12.5vw, 76px); }
+  .nvHeroCopy > p { font-size: 16px; }
+  .nvQuickFacts { gap: 9px 0; margin-top: 22px; padding-top: 16px; }
+  .nvQuickFacts span { padding: 0 10px; font-size: 12px; }
+  .nvHeroVisual { min-height: 455px; border-radius: 23px; }
+  .nvHeroPhone { top: 32px; right: 7%; transform: scale(.83) rotate(2deg); transform-origin: top right; }
+  .nvCounterStand { left: 5%; bottom: 18px; transform: scale(.79); transform-origin: bottom left; }
+  .nvFloatNote { right: 2%; bottom: 37px; transform: scale(.85); transform-origin: bottom right; }
+  .nvSectionHeading h2 { font-size: clamp(46px, 10.5vw, 60px); }
+  .nvStepList { grid-template-columns: 1fr; gap: 14px; }
+  .nvFlowStep { min-height: 410px; padding: 20px; }
+  .nvFlowStep > div { min-height: 0; }
+  .nvFlowStep h3 { font-size: 25px; }
+  .nvFlowStep p { max-width: 460px; font-size: 14px; }
+  .nvFlowPhone { position: relative; right: auto; bottom: auto; width: 190px; height: 230px; min-height: 230px; transform: none; }
+  .nvFootnote { text-align: left; line-height: 1.5; }
+}
+@media (max-width: 390px) {
+  .nvHero h1 { font-size: 53px; }
+  .nvQuickFacts { gap: 9px 0; }
+  .nvQuickFacts span { padding-inline: 8px; font-size: 10px; }
+  .nvQuickFacts .refIcon { width: 18px; height: 18px; }
+  .nvHeroVisual { min-height: 416px; }
+  .nvHeroPhone { right: 2%; transform: scale(.77) rotate(2deg); }
+  .nvCounterStand { left: 2%; transform: scale(.69); }
+  .nvFloatNote { right: 0; bottom: 28px; transform: scale(.77); }
+  .nvFlowStep { min-height: 395px; }
+  .nvFlowStep p { font-size: 13px; }
+}

@@ -60,7 +60,6 @@ export default function Home() {
         <div className="nvHeroVisual">
           <img className="nvCafePhoto" src="/assets/img/cafe-front.webp" alt="Cafetería Nival con terraza y mesas al aire libre" fetchPriority="high" />
           <div className="nvPhotoVeil" />
-          <div className="nvHeroTag"><span className="nvTagIcon"><LandingIcon name="pin" /></span><span><small>NEGOCIO LOCAL</small><strong>Un buen lugar para volver</strong></span></div>
           <PhoneFrame className="nvHeroPhone">
             <div className="nvMiniHeader"><span className="nvMiniLogo">N</span><span><small>CAFÉ NIVAL · EJEMPLO</small><b>Tu tarjeta</b></span><LandingIcon name="qr" /></div>
             <div className="nvMiniCard"><small>PROGRAMA DE PUNTOS</small><strong>Lucía</strong><span>4 <i>puntos</i></span><div className="nvStampRow"><b>✓</b><b>✓</b><b>✓</b><b>✓</b><i /><i /></div><small>4 puntos para tu premio</small></div>
@@ -69,7 +68,6 @@ export default function Home() {
           </PhoneFrame>
           <div className="nvFloatNote"><span className="nvFloatCheck"><LandingIcon name="check" /></span><span><strong>Un punto más</strong><small>4 de 8 visitas</small></span></div>
           <div className="nvCounterStand" aria-label="Soporte de mostrador con código QR y NFC"><span className="nvStandTop"><b>N</b><small>CAFÉ NIVAL</small></span><span className="nvFakeQr"><i /><i /><i /><b /></span><small>ACERCA O ESCANEA</small><strong>Tu próxima visita<br />tiene premio.</strong><span className="nvNfcWave"><LandingIcon name="phone" /></span></div>
-          <div className="nvCoffeeCup" aria-hidden="true"><span /><i /></div>
         </div>
       </section>
 
@@ -86,7 +84,6 @@ export default function Home() {
           <p>El cliente avanza. El personal registra la visita. Tú eliges el premio.</p>
         </div>
         <div className="nvFlow">
-          <div className="nvFlowPhoto"><img src="/assets/img/barista.webp" alt="Personal atiende a una persona en una cafetería" loading="lazy" /><span className="nvImageCaption">EN EL MOSTRADOR · EJEMPLO ILUSTRATIVO</span><div className="nvFlowQr"><b>N</b><span className="nvFakeQr"><i /><i /><i /><b /></span><small>ACERCA O ESCANEA</small></div></div>
           <div className="nvStepList">{steps.map((step, index) => <article className="nvFlowStep" key={step.number}>
             <span className="nvStepNumber">{step.number}</span><span className="nvStepIcon"><LandingIcon name={step.icon} /></span><div><h3>{step.title}</h3><p>{step.copy}</p></div>
             {index === 0 && <PhoneFrame className="nvFlowPhone nvRegisterPhone"><div className="nvPhoneTopline">NIVAL <span>✕</span></div><div className="nvPhoneContent"><small>CAFÉ NIVAL</small><h4>Únete al programa</h4><label>Tu nombre</label><div className="nvInputMock">Lucía Rivera</div><label>Tu teléfono</label><div className="nvInputMock">55 0000 0000</div><span className="nvPhoneButton">Crear mi tarjeta</span><small className="nvDisclaimer">EJEMPLO · INICIAS CON 0 PUNTOS</small></div></PhoneFrame>}
