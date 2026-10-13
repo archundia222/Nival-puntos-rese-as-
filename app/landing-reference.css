@@ -327,3 +327,5 @@ body { background: var(--nival-cream); color: var(--nival-ink); }
   .nvStepCard h3 { font-size: 19px; }
   .nvSegmentList { grid-template-columns: 1fr; }
 }
+
+.nvStepCard:first-child>img { object-fit: cover; object-position: center top; }
