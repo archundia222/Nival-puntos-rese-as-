@@ -42,7 +42,17 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
  function hrefFor(path:string){const target=new URL(path,window.location.origin);if(homeUrl){const base=new URL(homeUrl,window.location.origin);if(base.searchParams.has('business')&&!target.searchParams.has('business'))target.searchParams.set('business',base.searchParams.get('business')!);}return target.pathname+(target.searchParams.size?'?'+target.searchParams.toString():'')+target.hash;}
  function toggle(id:string){setExpanded(current=>current.includes(id)?current.filter(x=>x!==id):[...current,id]);}
  function navigate(item:MenuItem){
-  if(item.href){window.location.href=hrefFor(item.href);return;}
+  if(item.href){
+   if(demo){
+    const target=item.id==='canjes'?'canjes':item.id==='informes'?'informes':item.id;
+    setSection(target);setOpen(false);
+    window.history.replaceState(null,'',window.location.pathname+window.location.search+'#'+target);
+    window.scrollTo({top:0,behavior:'smooth'});
+    requestAnimationFrame(()=>document.getElementById('workspace-title')?.focus());
+    return;
+   }
+   window.location.href=hrefFor(item.href);return;
+  }
   const target=item.id==='estadisticas'?'estadisticas-puntos':item.id==='tarjetas'?'tus-tarjetas':item.id==='gestion'?'equipo':item.id==='ajustes'?'configuracion':item.id;
   if(homeUrl){const home=new URL(homeUrl,window.location.origin);if(window.location.pathname!==home.pathname){home.hash=target;window.location.href=home.pathname+home.search+home.hash;return;}}
   setSection(target);
