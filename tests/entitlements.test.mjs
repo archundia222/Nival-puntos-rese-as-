@@ -1,10 +1,12 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';
-import {entitlements} from '../lib/foundation/entitlements.mjs';import {ownerFixture} from './owner-fixture.mjs';
+import {entitlements,planLimits} from '../lib/foundation/entitlements.mjs';import {ownerFixture} from './owner-fixture.mjs';
 test('permissions matrix keeps history across all plans and inactive states',()=>{
- for(const [price,limit] of [[299,0],[399,30],[549,100]])for(const status of ['registrado','cotizando','pago_pendiente','activo','por_vencer','pausado','cancelado']){
- const e=entitlements({status,paid_until:'2027-01-01',features:{points_only:price===299,review_limit:limit}},Date.parse('2026-10-07'));
- assert.equal(e.history,true);assert.equal(e.points,['activo','por_vencer'].includes(status));assert.equal(e.reviews,e.points&&limit>0);
+ for(const [price,limit] of [[299,10],[399,30],[549,100]])for(const status of ['registrado','cotizando','pago_pendiente','activo','por_vencer','pausado','cancelado']){
+ const features=price===299?{points_only:true,review_limit:0}:{review_limit:limit};
+ const e=entitlements({status,paid_until:'2027-01-01',price_mxn:price,features},Date.parse('2026-10-07'));
+ assert.equal(e.history,true);assert.equal(e.points,['activo','por_vencer'].includes(status));assert.equal(e.reviews,e.points);
  }
+ assert.deepEqual([299,399,549].map(price=>planLimits({price_mxn:price})),[{reviewLimit:10,branches:1,nfcCards:3},{reviewLimit:30,branches:5,nfcCards:6},{reviewLimit:100,branches:10,nfcCards:12}]);
  assert.equal(entitlements({status:'activo',paid_until:'2020-01-01',features:{review_limit:30}}).points,false);
 });
 test('database keeps history after plan changes and expiration, blocks writes and protects reports',async()=>{

@@ -9,9 +9,9 @@ const quoteUrl = (plan?: string) => 'https://wa.me/525539044988?text=' + encodeU
 const whatsapp = quoteUrl();
 
 const plans = [
-  { name: 'Puntos', price: '$299', tagline: 'Para empezar a premiar cada visita.', responses: '', comparison: '', featured: false },
-  { name: 'Esencial', price: '$399', tagline: 'Puntos y apoyo para responder reseñas.', responses: 'Hasta 30 respuestas a reseñas cada 30 días, preparadas por Nival.', comparison: '', featured: true },
-  { name: 'Plus', price: '$549', tagline: 'Más respuestas y contexto sobre tu zona.', responses: 'Hasta 100 respuestas a reseñas cada 30 días, preparadas por Nival.', comparison: 'Comparación de calificación y reseñas con negocios similares de tu zona.', featured: false },
+  { name: 'Básico', price: '$299', tagline: 'Puntos y respuestas para empezar.', responses: 'Hasta 10 respuestas a reseñas cada 30 días, preparadas por Nival.', branches: '1 sucursal', cards: '3 tarjetas NFC gratis', comparison: '', featured: false },
+  { name: 'Esencial', price: '$399', tagline: 'Más sucursales y respuestas para crecer.', responses: 'Hasta 30 respuestas a reseñas cada 30 días, preparadas por Nival.', branches: 'Hasta 5 sucursales', cards: '6 tarjetas NFC gratis', comparison: '', featured: true },
+  { name: 'Plus', price: '$549', tagline: 'Más alcance y contexto sobre tu zona.', responses: 'Hasta 100 respuestas a reseñas cada 30 días, preparadas por Nival.', branches: 'Hasta 10 sucursales', cards: '12 tarjetas NFC gratis', comparison: 'Comparación de calificación y reseñas con negocios similares de tu zona.', featured: false },
 ];
 
 
@@ -54,7 +54,7 @@ export default function Home() {
             <a href="#industrias">Negocios</a>
             <a href="#como-funciona">Cómo funciona</a><a href="#planes">Planes</a><a href="#preguntas">Preguntas</a>
           </nav>
-          <div className="nvNavActions"><a className="nvLogin" href="/acceso">Iniciar sesión</a><a className="nvNavCta" href={whatsapp} target="_blank" rel="noreferrer">Hablemos <LandingIcon name="arrow" /></a></div>
+          <div className="nvNavActions"><a className="nvLogin" href="/acceso">Iniciar sesión</a></div>
           <LandingMobileNav />
         </div>
       </header>
@@ -93,7 +93,7 @@ export default function Home() {
           <div className="nvReviewsCopy">
             <Eyebrow>RESEÑAS DE GOOGLE</Eyebrow><h2>Haz espacio para<br /><em>lo que tus clientes cuentan.</em></h2>
             <p>Invítalos a compartir una opinión honesta. Nival te ayuda a organizar y responder reseñas de forma manual y cuidadosa.</p>
-            <ul className="nvCheckList"><li><LandingIcon name="check" />Tarjetas NFC + QR que llevan a tu ficha de Google.</li><li><LandingIcon name="check" />Hasta 10 tarjetas incluidas en cada plan.</li><li><LandingIcon name="check" />Respuestas preparadas manualmente por Nival.</li><li><LandingIcon name="check" />Opiniones abiertas, sin premios ni filtros por satisfacción.</li></ul>
+            <ul className="nvCheckList"><li><LandingIcon name="check" />Tarjetas NFC + QR que llevan a tu ficha de Google.</li><li><LandingIcon name="check" />De 3 a 12 tarjetas NFC gratis, según tu plan.</li><li><LandingIcon name="check" />Respuestas preparadas manualmente por Nival.</li><li><LandingIcon name="check" />Opiniones abiertas, sin premios ni filtros por satisfacción.</li></ul>
             <div className="nvHonestBadge"><LandingIcon name="shield" /><b>Opiniones honestas.<br />Sin filtros.</b></div>
             <ArrowLink href="#planes">Revisa qué incluye cada plan</ArrowLink>
             <small className="nvSmallPrint">El plazo de respuesta es de hasta 3 días hábiles y puede variar según el volumen de reseñas y el plan.</small>
@@ -119,8 +119,8 @@ export default function Home() {
       </section>
 
       <section className="nvPlansSection" id="planes"><div className="nvContainer">
-        <div className="nvPlansIntro"><Eyebrow>PLANES MENSUALES · PRECIOS EN MXN</Eyebrow><h2>Empieza con lo que<br /><em>necesita tu negocio.</em></h2><p>Los tres planes incluyen puntos, hasta 10 tarjetas NFC + QR para reseñas y un resumen mensual en PDF.</p></div>
-        <div className="nvPlanGrid">{plans.map(plan => <article className={`nvPlanCard${plan.featured ? ' is-featured' : ''}`} key={plan.name}>{plan.featured && <span className="nvPlanFlag">PUNTOS + RESEÑAS</span>}<span className="nvPlanName">NIVAL {plan.name.toUpperCase()}</span><h3 className="nvPlanPrice">{plan.price}<small> MXN <i>/ mes</i></small></h3><p className="nvPlanDesc">{plan.tagline}</p><a href={quoteUrl(plan.name)} target="_blank" rel="noreferrer" className={`nvButton ${plan.featured ? 'nvButtonPrimary' : 'nvButtonOutline'}`}>Cotizar Nival {plan.name}<LandingIcon name="arrow" /></a><div className="nvPlanDetails"><span><LandingIcon name="check" />Programa de puntos con tu marca</span><span><LandingIcon name="check" />Registro con QR</span><span><LandingIcon name="check" />Hasta 10 tarjetas NFC + QR</span><span><LandingIcon name="check" />Resumen mensual en PDF</span>{plan.responses && <span><LandingIcon name="check" />{plan.responses}</span>}{plan.comparison && <span><LandingIcon name="check" />{plan.comparison}</span>}</div></article>)}</div>
+        <div className="nvPlansIntro"><Eyebrow>PLANES MENSUALES · PRECIOS EN MXN</Eyebrow><h2>Empieza con lo que<br /><em>necesita tu negocio.</em></h2><p>Todos los planes incluyen puntos, respuestas manuales a reseñas, tarjetas NFC gratis y resumen mensual en PDF.</p></div>
+        <div className="nvPlanGrid">{plans.map(plan => <article className={`nvPlanCard${plan.featured ? ' is-featured' : ''}`} key={plan.name}>{plan.featured && <span className="nvPlanFlag">PUNTOS + RESEÑAS</span>}<span className="nvPlanName">NIVAL {plan.name.toUpperCase()}</span><h3 className="nvPlanPrice">{plan.price}<small> MXN <i>/ mes</i></small></h3><p className="nvPlanDesc">{plan.tagline}</p><a href={quoteUrl(plan.name)} target="_blank" rel="noreferrer" className={`nvButton ${plan.featured ? 'nvButtonPrimary' : 'nvButtonOutline'}`}>Cotizar Nival {plan.name}<LandingIcon name="arrow" /></a><div className="nvPlanDetails"><span><LandingIcon name="check" />Programa de puntos con tu marca</span><span><LandingIcon name="check" />Registro con QR</span><span><LandingIcon name="check" />{plan.branches}</span><span><LandingIcon name="check" />{plan.cards}</span><span><LandingIcon name="check" />Resumen mensual en PDF</span>{plan.responses && <span><LandingIcon name="check" />{plan.responses}</span>}{plan.comparison && <span><LandingIcon name="check" />{plan.comparison}</span>}</div></article>)}</div>
         <p className="nvPlanNote">Las respuestas las prepara Nival de forma manual. No se publican automáticamente.</p>
       </div></section>
 

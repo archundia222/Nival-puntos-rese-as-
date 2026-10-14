@@ -7,7 +7,7 @@ import {logout} from '../../lib/foundation/actions';
 import {ActionForm} from '../../lib/foundation/forms';
 import {Field,Hidden} from '../../lib/foundation/fields';
 import {
- changeBusinessStatus,setBusinessPlan,registerPayment30,generateActivationCode,saveZoneComparison
+ changeBusinessStatus,setBusinessPlan,registerPayment30,generateActivationCode,saveZoneComparison,savePayCardLink
 } from '../../lib/admin/actions';
 import {syncServiceTasks} from '../../lib/admin/service-tasks';
 import TaskBoard from './task-board';
@@ -80,6 +80,8 @@ export default async function Admin({searchParams}:{searchParams:Promise<{busine
     <section className="adminFlowStep"><h3>Estado automático del servicio</h3><p>La vigencia y el pago determinan el acceso. El vencimiento bloquea las operaciones y conserva el historial.</p>{selected.status!=='cancelado'&&<ActionForm action={changeBusinessStatus} label="Cancelar servicio"><Hidden name="businessId" value={selected.id}/><Hidden name="status" value="cancelado"/></ActionForm>}</section>
 
     <section className="adminFlowStep"><div className="adminStepHeading"><span>PASO 1 · PLAN</span><p>Elige el plan que acordaste con el negocio.</p></div><ActionForm action={setBusinessPlan} label="Guardar plan"><Hidden name="businessId" value={selected.id}/><label>Plan<select name="planId" defaultValue={selected.plan_id||''}>{plans.map(p=><option key={p.id} value={p.id}>{p.name} · {mxn(p.price_mxn)}/{p.interval}</option>)}</select></label></ActionForm></section>
+
+    <section className="adminFlowStep"><div className="adminStepHeading"><span>NIVAL PAY · TARJETA NFC</span><p>Asocia el negocio de Nival Pay pegando su enlace público. El dueño verá la tarjeta, el QR y un botón para abrirla en su panel.</p></div><ActionForm action={savePayCardLink} label="Guardar vínculo"><Hidden name="businessId" value={selected.id}/><Field name="payBusinessRef" label="Referencia del negocio de Nival Pay" value={selected.pay_business_ref||''} required={false}/><Field name="payCardLabel" label="Nombre de la tarjeta" value={selected.pay_card_label||selected.name} required={false}/><Field name="payCardUrl" label="Enlace público de Nival Pay" value={selected.pay_card_url||''} required={false}/></ActionForm>{selected.pay_card_url&&<p><a href={selected.pay_card_url} target="_blank" rel="noreferrer">Probar tarjeta vinculada</a></p>}</section>
 
 
     <section className="adminFlowStep adminPaymentStep"><div className="adminStepHeading"><span>PASO 2 · PAGO RECIBIDO</span><p>Registra el pago únicamente después de confirmar que el dinero llegó. Este registro extiende la vigencia del servicio.</p></div><ActionForm action={registerPayment30} label="Registrar pago confirmado"><Hidden name="businessId" value={selected.id}/><Field name="amount" label="Monto MXN" type="number" min={1} value={Number(selectedPlan?.price_mxn||399)}/><label>Método<select name="method" defaultValue="transferencia"><option value="transferencia">Transferencia</option><option value="efectivo">Efectivo</option><option value="mercado_pago">Mercado Pago</option><option value="otro">Otro</option></select></label><Field name="reference" label="Referencia" required={false}/></ActionForm>

@@ -12,16 +12,19 @@ test('landing states both product pillars and uses product visuals',()=>{
   assert.match(css,/\.nvHeroSystemImage/);
   assert.ok(page.includes('href="/demo"'));
   assert.ok(page.includes('href="/acceso"'));
+  assert.doesNotMatch(page,/>Hablemos\s*</);
   assert.ok(!page.includes('Cotizar por WhatsApp" href={whatsapp}'));
+  assert.match(css,/@keyframes nvCardApproach/);
+  assert.match(css,/prefers-reduced-motion:reduce\)\{\.nvHeroSystemImage\{animation:none/);
 });
 
-test('plans and included features retain the confirmed prices and conditions',()=>{
-  for(const x of ["price: '$299'","price: '$399'","price: '$549'",'Hasta 10 tarjetas NFC + QR','resumen mensual en PDF','Hasta 30','Hasta 100','No se publican automáticamente']) assert.ok(page.includes(x),x);
+test('plans and included features retain the confirmed prices and new plan limits',()=>{
+  for(const x of ["price: '$299'","price: '$399'","price: '$549'",'3 tarjetas NFC gratis','6 tarjetas NFC gratis','12 tarjetas NFC gratis','resumen mensual en PDF','Hasta 10 respuestas','Hasta 30 respuestas','Hasta 100 respuestas',"branches: '1 sucursal'","branches: 'Hasta 5 sucursales'","branches: 'Hasta 10 sucursales'",'No se publican automáticamente']) assert.ok(page.includes(x),x);
   assert.ok(page.includes('quoteUrl(plan.name)'));
 });
 
 test('no free trial or fabricated social proof is promised',()=>{
-  assert.doesNotMatch(page,/gratis|prueba gratuita|15 días gratis/i);
+  assert.doesNotMatch(page,/prueba gratuita|15 días gratis/i);
   assert.match(page,/DATOS FICTICIOS/);
   assert.match(page,/Clientes registrados[\s\S]*186/);
   assert.match(page,/nvMobileStickyCta[\s\S]*aria-label="Cotizar por WhatsApp"/);

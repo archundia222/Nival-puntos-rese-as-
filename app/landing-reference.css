@@ -413,6 +413,11 @@
 .nvHeroSystemImage{display:block;width:100%;max-width:470px;height:540px;object-fit:contain;border-radius:22px;filter:drop-shadow(0 24px 32px #19332122)}
 @media(max-width:640px){.nvHeroSystemImage{height:400px;max-width:390px}}
 
+/* The loyalty card gently comes forward in the hero without affecting layout. */
+.nvHeroSystemImage{transform-origin:50% 58%;animation:nvCardApproach 5.2s cubic-bezier(.4,0,.2,1) infinite alternate;will-change:transform}
+@keyframes nvCardApproach{from{transform:scale(.975) translateY(5px)}to{transform:scale(1.025) translateY(-5px)}}
+@media(prefers-reduced-motion:reduce){.nvHeroSystemImage{animation:none;transform:none;will-change:auto}}
+
 /* Clear mobile navigation: solid, full-height drawer below the sticky header. */
 @media(max-width:960px){
  .nvNav{z-index:40;background:var(--nv-cream);backdrop-filter:none;-webkit-backdrop-filter:none}

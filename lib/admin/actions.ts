@@ -57,6 +57,18 @@ export async function setBusinessPlan(_:Result,f:FormData):Promise<Result>{
  }catch(e){return {error:cleanError(e)}}
 }
 
+export async function savePayCardLink(_:Result,f:FormData):Promise<Result>{
+ const actor=await guardAction(['superadmin'],f),businessId=val(f,'businessId'),reference=val(f,'payBusinessRef'),label=val(f,'payCardLabel'),url=val(f,'payCardUrl');
+ if(!uuid(businessId)||reference.length>160||label.length>100||url.length>2000)return {error:'Revisa la referencia y el enlace de Nival Pay.'};
+ if(url){try{const parsed=new URL(url);if(parsed.protocol!=='https:')return {error:'El enlace de la tarjeta debe usar HTTPS.'};}catch{return {error:'Escribe un enlace válido de Nival Pay.'};}}
+ try{
+  const [row]=await query(actor,'update nival_pr.businesses set pay_business_ref=nullif($2,\'\'),pay_card_label=nullif($3,\'\'),pay_card_url=nullif($4,\'\') where id=$1 returning id',[businessId,reference,label,url]);
+  if(!row)return {error:'Negocio no encontrado.'};
+  await audit(actor,'business.pay_card_linked','businesses',businessId,{configured:Boolean(url),reference:reference||null});
+  revalidatePath('/admin');revalidatePath('/panel');return {success:url?'Vínculo de Nival Pay guardado. El negocio ya puede ver su enlace y QR.':'Vínculo de Nival Pay quitado.'};
+ }catch(e){return {error:cleanError(e)}}
+}
+
 export async function saveBusinessNotes(_:Result,f:FormData):Promise<Result>{
  const actor=await guardAction(['superadmin'],f);const businessId=val(f,'businessId'),notes=val(f,'notes');
  if(!uuid(businessId)||notes.length>10000)return {error:'Notas inválidas.'};

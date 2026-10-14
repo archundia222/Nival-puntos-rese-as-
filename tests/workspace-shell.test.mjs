@@ -18,9 +18,14 @@ const tour=component('tour.tsx');
 const icons=component('icons.tsx');const {DashboardShell}=component('shell.tsx',{'./icons':icons,'./tour':tour});
 test('business shell shows the plan-aware workspace menu and cycle chip',()=>{
  const html=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null},React.createElement('p',null,'Solo datos de Negocio A')));
- for(const title of ['Dashboard','Tarjetas','Clientes','Gestión','Ajustes','Nival Pay','Nival Reseñas','Periodo activo · día 1 de 30'])assert.ok(html.includes(title),title);
+ for(const title of ['Sucursal','Dashboard','Tarjetas','Clientes','Gestión','Ajustes','Nival Pay','Nival Reseñas','Día 1 de 30'])assert.ok(html.includes(title),title);
  assert.ok(html.includes('aria-controls="workspace-menu"'));assert.ok(html.includes('aria-current="page"'));assert.ok(html.includes('id="workspace-title"'));
  assert.ok(html.includes('Negocio A'));assert.ok(!html.includes('Negocio B'));assert.ok(!html.includes('Estás explorando la demo.'));
+ const shell=readFileSync(new URL('../lib/owner/shell.tsx',import.meta.url),'utf8');
+ assert.match(shell,/onClick=\{\(\)=>toggle\(item\.id\)\}/);
+ assert.match(shell,/aria-controls=\{'workspace-submenu-'\+item\.id\}/);
+ assert.match(shell,/'tus-tarjetas','programa','mis-tarjetas'/);
+ assert.match(shell,/const normalized=normalizeSection\(key\)/);
 });
 test('demo and program settings reuse the same shell with explicit demo status and active configuration menu',()=>{
  const html=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Café Demo',owner:'Ana',status:'Activo',demo:true,logout:null,initialSection:'ajustes'},'Contenido de ejemplo'));

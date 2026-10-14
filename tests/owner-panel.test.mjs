@@ -9,6 +9,7 @@ import {periodRange,generateAdvice,validateGoogle,inclusivePeriodEnd,formatPerio
 const owner='11111111-1111-4111-8111-111111111111',other='22222222-2222-4222-8222-222222222222',b='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',bb='bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
 test('20 customers: manual SQL has correct five segments, editable thresholds and RLS isolation',async()=>{
  const {db}=await ownerFixture();try{
+ await db.exec('alter table nival_pr.point_ledger add column branch_id uuid');
  await db.query("insert into nival_pr.review_reports(business_id,period,period_kind,rating,total_reviews,new_reviews,answered,distribution,profile_checklist,notes,created_by,answered_scope) values($1,'2026-10-01','month',4.5,10,3,2,'{\"1\":1,\"2\":0,\"3\":0,\"4\":2,\"5\":7}','{\"fotos\":true}','Consejo manual',$2,'period')",[b,owner]);
  await db.query("insert into nival_pr.changelog(business_id,description) values($1,'Actualizamos horarios')",[b]);
  await db.exec('set role npr_v2_owner');await db.query("select set_config('npr.user_id',$1,false)",[owner]);
@@ -54,7 +55,7 @@ test('period utilities preserve inclusive Spanish dates while the dashboard show
  assert.equal(formatPeriodDate(inclusivePeriodEnd(periodRange('month','2024-02').end)),'29 de febrero de 2024');
  const ownerView=readFileSync('lib/owner/view.tsx','utf8');
  assert.ok(ownerView.includes('periodDay={periodDay}'));
- const shell=readFileSync('lib/owner/shell.tsx','utf8');assert.ok(shell.includes('Periodo activo · día {periodDay} de 30'));
+ const shell=readFileSync('lib/owner/shell.tsx','utf8');assert.ok(shell.includes('Día {periodDay} de 30'));assert.ok(shell.includes('workspaceTopPeriod'));
  assert.ok(!ownerView.includes('(fin excluido)'));
 });
 test('Google rejects invented distribution and response totals; advice preserves count and variants',async()=>{
