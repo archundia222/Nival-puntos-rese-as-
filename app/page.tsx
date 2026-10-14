@@ -77,19 +77,8 @@ export default function Home() {
             <a className="nvButton nvButtonOutline" href={whatsapp} target="_blank" rel="noreferrer">Cotizar por WhatsApp</a>
           </div>
         </div>
-        <div className="nvHeroVisual" aria-label="Ejemplo visual de Nival en un negocio local">
-          <div className="nvBaristaFrame"><img src="/assets/img/barista.webp" alt="Barista usando una tablet en una cafetería" fetchPriority="high" /></div>
-          <div className="nvHeroTint" />
-          <div className="nvHeroPhone" role="img" aria-label="Ejemplo ilustrativo de la tarjeta de puntos de Café Nival en un teléfono">
-            <div className="nvPhoneFrame"><div className="nvPhoneScreen">
-              <div className="nvPhoneStatus"><span>9:41</span><i aria-hidden="true" /></div>
-              <div className="nvPhoneBrand"><span>N</span><small>CAFÉ<br /><b>Café Nival</b></small><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9m-8 12a2 2 0 0 0 4 0" /></svg></i></div>
-              <div className="nvPhoneCard"><small>HOLA, LUCÍA</small><b>Una visita más<br />y tienes tu premio.</b><div className="nvPhoneStamps" aria-hidden="true">{Array.from({ length: 8 }, (_, i) => <i className={i < 5 ? 'is-filled' : ''} key={i}>{i < 5 ? '✦' : ''}</i>)}</div><span>5 de 8 visitas</span><div className="nvPhoneProgress"><i /></div><div className="nvPhoneReward"><b>Tu premio</b><span>Café de la casa</span></div></div>
-              <div className="nvPhoneBottom"><span>Tarjeta de puntos</span><b>Ejemplo ilustrativo</b></div>
-            </div></div>
-          </div>
-          <div className="nvHeroChip nvChipPoint"><span>✦</span><b>+1 punto</b><small>Visita registrada</small></div>
-          <div className="nvHeroChip nvChipGoogle"><b className="nvGoogleG">G</b><span><b>4.8 ★ en Google</b><small>Ficha de ejemplo</small></span></div>
+        <div className="nvHeroVisual" role="img" aria-label="Vista de la tarjeta digital de puntos de Café Nival">
+          <img className="nvHeroSystemImage" src="/assets/img/step-02.webp" alt="Tarjeta de Café Nival con visitas registradas, avance de puntos y confirmación de una visita" fetchPriority="high" />
         </div>
       </section>
 
