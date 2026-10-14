@@ -68,10 +68,10 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
   </div>;
   return <button key={item.id} className={'workspaceNavItem'+(active?' isActive':'')+(depth?' isSubItem':'')} aria-current={active?'page':undefined} onClick={()=>navigate(item)}>{item.icon&&<Icon name={item.icon}/>}<span><strong>{item.label}</strong></span>{item.id==='nival-pay'||item.id==='nival-resenas'?<b className="includedTag">Incluido</b>:null}</button>;
  }
- const sectionAlias=section==='equipo'?'equipo':section==='programa'?'tus-tarjetas':section==='promociones'||section==='premios'?'promociones':section;
- const current=items.flatMap(x=>[x,...(x.children||[])]).flatMap(x=>[x,...(x.children||[])]).find(x=>x.id===sectionAlias)||items[0];
  const menu=[...items,{id:'complementos-label',label:'COMPLEMENTOS'},
   {id:'nival-pay',label:'Nival Pay',icon:'card'}, {id:'nival-resenas',label:'Nival Reseñas',icon:'google'}] as MenuItem[];
+ const sectionAlias=section==='equipo'?'equipo':section==='programa'?'tus-tarjetas':section==='promociones'||section==='premios'?'promociones':section;
+ const current=menu.flatMap(x=>[x,...(x.children||[])]).flatMap(x=>[x,...(x.children||[])]).find(x=>x.id===sectionAlias)||items[0];
  return <div className="nivalShell" data-section={section} data-open={open} data-collapsed={collapsed}>
   <a className="workspaceSkip" href="#workspace-title">Ir al contenido</a>
   {mobile&&open&&<button className="workspaceBackdrop" tabIndex={-1} aria-label="Cerrar menú" onClick={()=>{setOpen(false);trigger.current?.focus();}}/>}
