@@ -8,15 +8,15 @@ const layout=readFileSync('app/layout.tsx','utf8');
 const carousel=readFileSync('app/landing-carousel.tsx','utf8');
 
 test('landing states both product pillars and uses product visuals',()=>{
-  for(const x of ['Que vuelvan.','Que te recomienden.','TARJETA DE PUNTOS + RESEÑAS DE GOOGLE','/assets/img/barista.webp','nvPhoneFrame','/assets/img/google-phone.webp','/assets/img/step-02.webp','/assets/img/step-03.webp']) assert.ok(page.includes(x),x);
-  assert.match(css,/\.nvPhoneFrame/);
+  for(const x of ['Que vuelvan.','Que te elijan.','TARJETA DE PUNTOS + RESEÑAS DE GOOGLE','nvHeroSystemImage','/assets/img/google-phone.webp','/assets/img/step-02.webp','/assets/img/step-03.webp']) assert.ok(page.includes(x),x);
+  assert.match(css,/\.nvHeroSystemImage/);
   assert.ok(page.includes('href="/demo"'));
   assert.ok(page.includes('href="/acceso"'));
   assert.ok(!page.includes('Cotizar por WhatsApp" href={whatsapp}'));
 });
 
 test('plans and included features retain the confirmed prices and conditions',()=>{
-  for(const x of ["price: '$299'","price: '$399'","price: '$549'",'Hasta 10 tarjetas NFC + QR','Incluido al cierre de cada periodo de 30 días','Hasta 30','Hasta 100','No se publican automáticamente']) assert.ok(page.includes(x),x);
+  for(const x of ["price: '$299'","price: '$399'","price: '$549'",'Hasta 10 tarjetas NFC + QR','resumen mensual en PDF','Hasta 30','Hasta 100','No se publican automáticamente']) assert.ok(page.includes(x),x);
   assert.ok(page.includes('quoteUrl(plan.name)'));
 });
 

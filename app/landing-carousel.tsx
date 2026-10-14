@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type PointerEvent } from 'react';
 
 const cards = [
   { id: 'cafeterias', type: 'Cafeterías', image: 'industry-cafe.webp', alt: 'Interior cálido de una cafetería local' },
@@ -14,25 +14,27 @@ const cards = [
 
 export default function IndustryCarousel() {
   const viewport = useRef<HTMLDivElement>(null);
+  const animationRef = useRef<Animation | null>(null);
+  const drag = useRef<{ x: number; time: number } | null>(null);
+  const speed = useRef(100);
 
   useEffect(() => {
     const node = viewport.current;
     const track = node?.querySelector<HTMLElement>('.nvCarouselTrack');
     if (!node || !track) return;
 
-    let animation: Animation | null = null;
     const start = () => {
       const distance = track.scrollWidth / 2;
       if (distance <= 0) return;
 
-      animation?.cancel();
-      const speed = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 18 : 36;
-      animation = track.animate(
+      animationRef.current?.cancel();
+      speed.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 70 : 100;
+      animationRef.current = track.animate(
         [
           { transform: 'translate3d(0, 0, 0)' },
           { transform: `translate3d(-${distance}px, 0, 0)` },
         ],
-        { duration: (distance / speed) * 1000, easing: 'linear', iterations: Infinity },
+        { duration: (distance / speed.current) * 1000, easing: 'linear', iterations: Infinity },
       );
     };
 
@@ -42,14 +44,33 @@ export default function IndustryCarousel() {
 
     return () => {
       observer.disconnect();
-      animation?.cancel();
+      animationRef.current?.cancel();
     };
   }, []);
+
+  const onPointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    const animation = animationRef.current;
+    if (!animation) return;
+    drag.current = { x: event.clientX, time: Number(animation.currentTime) || 0 };
+    animation.pause();
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+  const onPointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    const start = drag.current;
+    const animation = animationRef.current;
+    if (!start || !animation) return;
+    animation.currentTime = Math.max(0, start.time - ((event.clientX - start.x) / speed.current) * 1000);
+  };
+  const onPointerUp = (event: PointerEvent<HTMLDivElement>) => {
+    drag.current = null;
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+    animationRef.current?.play();
+  };
 
   return (
     <>
       <p className="nvIllustrationLabel">EJEMPLOS ILUSTRATIVOS</p>
-      <div className="nvCarouselViewport" ref={viewport} role="region" aria-label="Fotos de negocios de distintas industrias">
+      <div className="nvCarouselViewport" ref={viewport} role="region" aria-label="Fotos de negocios de distintas industrias" onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={onPointerUp}>
         <div className="nvCarouselTrack">
           {[...cards, ...cards].map((card, index) => <article className="nvIndustryPhotoCard" id={index < cards.length ? card.id : undefined} key={`${card.id}-${index}`} aria-hidden={index >= cards.length}>
             <img src={`/assets/img/${card.image}`} alt={index < cards.length ? card.alt : ''} loading="lazy" draggable={false} />
