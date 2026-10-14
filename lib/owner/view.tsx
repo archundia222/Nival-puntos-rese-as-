@@ -54,7 +54,7 @@ export function OwnerView({actor,b,businesses,range,data,demo=false,mobilePrevie
  const reviewed=Number(data.repliesUsed||0);
  const reviewPct=responseLimit?Math.min(100,Math.round(reviewed/responseLimit*100)):0;
  const groupRows=[['clientes-new','Nuevos',newCount,'#0e7c66'],['clientes-frequent','Frecuentes',frequentCount,'#1f4a3f'],['clientes-risk','En riesgo',riskCount,'#b96b2f'],['clientes-absent','Sin visita este mes',absentCount,'#8c9890']] as const;
- return <DashboardShell pointsOnly={pointsOnly} name={b.name} owner={actor.name} status={status} demo={demo} mobilePreview={mobilePreview} homeUrl={'/panel?business='+b.id} planName={planName} price={price} responseLimit={responseLimit} periodDay={periodDay} logout={<form action={logout}><button className="logoutButton" aria-label="Cerrar sesión" title="Cerrar sesión"><Icon name="logout" size={18}/></button></form>}><main className="ownerDashboard">
+ return <DashboardShell pointsOnly={pointsOnly} name={b.name} owner={actor.name} status={status} demo={demo} mobilePreview={mobilePreview} homeUrl={demo?'/demo/panel':'/panel?business='+b.id} planName={planName} price={price} responseLimit={responseLimit} periodDay={periodDay} logout={<form action={logout}><button className="logoutButton" aria-label="Cerrar sesión" title="Cerrar sesión"><Icon name="logout" size={18}/></button></form>}><main className="ownerDashboard">
  {!demo&&!active&&<AccountState b={b}/>}
  <section id="inicio" data-panel="inicio" className="ownerBlock">
   <div className="ownerMetrics ownerOverviewMetrics">
