@@ -400,10 +400,15 @@
 @media(prefers-reduced-motion:reduce){.nvIndustryPhotoCard>img{transition:none}}
 
 
-/* Automatic continuous industry-photo carousel: the duplicated halves make the loop seamless. */
-.nivalLanding .nvCarouselTrack{gap:0;animation:nvPhotoCarousel 150s linear infinite;will-change:transform}
+
+
+/* The carousel is auto-animated by its client component; no swipe is needed. */
+.nivalLanding .nvCarouselViewport{overflow:hidden;touch-action:pan-y}
+.nivalLanding .nvCarouselTrack{gap:0;animation:none;will-change:transform}
 .nivalLanding .nvIndustryPhotoCard{margin-right:18px}
-.nivalLanding .nvCarouselViewport:active .nvCarouselTrack{animation-play-state:paused}
-@keyframes nvPhotoCarousel{to{transform:translate3d(-50%,0,0)}}
 @media(max-width:640px){.nivalLanding .nvIndustryPhotoCard{margin-right:14px}}
-@media(prefers-reduced-motion:reduce){.nivalLanding .nvCarouselTrack{animation-duration:180s!important;animation-iteration-count:infinite!important}}
+
+
+/* Hero uses the same live points-card visual shown in the product walkthrough. */
+.nvHeroSystemImage{display:block;width:100%;max-width:470px;height:540px;object-fit:contain;border-radius:22px;filter:drop-shadow(0 24px 32px #19332122)}
+@media(max-width:640px){.nvHeroSystemImage{height:400px;max-width:390px}}
