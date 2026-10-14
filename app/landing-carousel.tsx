@@ -26,7 +26,7 @@ export default function IndustryCarousel() {
       if (distance <= 0) return;
 
       animation?.cancel();
-      const speed = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 12 : 24;
+      const speed = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 18 : 36;
       animation = track.animate(
         [
           { transform: 'translate3d(0, 0, 0)' },
