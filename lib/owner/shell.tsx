@@ -9,6 +9,7 @@ function normalizeSection(section:string){
  return section;
 }
 const customerItems:MenuItem[]=[
+ {id:'clientes',label:'Todos los clientes'},
  {id:'clientes-new',label:'Nuevos'}, {id:'clientes-frequent',label:'Frecuentes'},
  {id:'clientes-risk',label:'En riesgo'}, {id:'clientes-absent',label:'Sin visita este mes'},
 ];
@@ -22,11 +23,11 @@ function makeItems(reviewLimit:number):MenuItem[]{
   {id:'inicio',label:'Dashboard',icon:'inicio'},
   {id:'tarjetas',label:'Tarjetas',icon:'compartir',children:cardItems},
   {id:'clientes',label:'Clientes',icon:'clientes',children:customerItems},
+  ...(reviewLimit>0?[{id:'google',label:'Google y reseñas',icon:'google'}]:[]),
   {id:'gestion',label:'Gestión',icon:'trend',children:[
    {id:'equipo',label:'Personal'},
    {id:'canjes',label:'Historial de canjes',href:'/panel/puntos?view=canjes'},
    {id:'estadisticas-puntos',label:'Actividad de puntos'},
-   ...(reviewLimit>0?[{id:'google',label:'Google y reseñas'}]:[]),
    {id:'informes',label:'Informes',href:'/panel/reportes'},
   ]},
   {id:'ajustes',label:'Ajustes',icon:'settings',children:[
