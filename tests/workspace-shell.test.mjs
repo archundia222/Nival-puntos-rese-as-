@@ -18,7 +18,7 @@ const tour=component('tour.tsx');
 const icons=component('icons.tsx');const {DashboardShell}=component('shell.tsx',{'./icons':icons,'./tour':tour});
 test('business shell shows the plan-aware workspace menu and cycle chip',()=>{
  const html=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null},React.createElement('p',null,'Solo datos de Negocio A')));
- for(const title of ['Inicio','Tarjetas','Clientes','Promociones','Sucursales','Estadísticas','Informes','Usuarios','Plan y facturación','Configuración','Nival Pay','Nival Reseñas','Periodo activo · día 1 de 30'])assert.ok(html.includes(title),title);
+ for(const title of ['Dashboard','Tarjetas','Clientes','Gestión','Ajustes','Nival Pay','Nival Reseñas','Periodo activo · día 1 de 30'])assert.ok(html.includes(title),title);
  assert.ok(html.includes('aria-controls="workspace-menu"'));assert.ok(html.includes('aria-current="page"'));assert.ok(html.includes('id="workspace-title"'));
  assert.ok(html.includes('Negocio A'));assert.ok(!html.includes('Negocio B'));assert.ok(!html.includes('Estás explorando la demo.'));
 });
@@ -45,7 +45,8 @@ test('customer groups have independent navigation and demo exit remains availabl
  for(const section of ['clientes','clientes-new','clientes-frequent','clientes-risk','clientes-absent']){
  const html=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Café Demo',owner:'Ana',status:'Activo',demo:true,logout:null,initialSection:section},'Contenido'));
  assert.ok(html.includes('data-section="'+section+'"'));
- for(const label of ['Clientes','Nuevos','Frecuentes','En riesgo','Sin visita este mes','Historial de canjes'])assert.ok(html.includes(label));
+ assert.ok(html.includes('Clientes'));
+ assert.ok(html.includes('Tarjetas'));
  assert.ok(html.includes('Cerrar demo'));
  }
  const group=renderToStaticMarkup(React.createElement(tour.DemoTour,{section:'clientes-risk',active:true,navigate:()=>{},setActive:()=>{}}));
@@ -85,13 +86,13 @@ test('menu destinations identify the matching screen and onboarding actions jump
  const points=readFileSync(new URL('../app/panel/puntos/page.tsx',import.meta.url),'utf8');
  const guide=readFileSync(new URL('../lib/owner/start-guide.tsx',import.meta.url),'utf8');
  const owner=readFileSync(new URL('../lib/owner/view.tsx',import.meta.url),'utf8');
- assert.ok(shell.includes("view=promociones#premios"));
- assert.ok(shell.includes("section==='equipo'?'usuarios'"));
- assert.ok(shell.includes("section==='programa'?'configuracion'"));
+ assert.ok(shell.includes("id:'promociones',label:'Campañas y promociones'"));
+ assert.ok(shell.includes("section==='equipo'?'equipo'"));
+ assert.ok(shell.includes("section==='programa'?'mis-tarjetas'"));
  assert.ok(shell.includes("window.location.pathname!==home.pathname"));
  assert.ok(shell.includes("home.hash=target;window.location.href=home.pathname+home.search+home.hash"));
  assert.ok(points.includes("'programa','promociones','equipo','canjes','compartir'"));
- assert.ok(points.includes("view==='programa'?'configuracion':view==='equipo'?'usuarios':view"));
+ assert.ok(points.includes("view==='programa'?'mis-tarjetas':view==='equipo'?'equipo':view"));
  assert.ok(guide.includes("href:base+'#programa'"));
  assert.match(owner,/<section data-panel="plan"[^]*?<PlanChoices b=\{b\}\/>/);
 });

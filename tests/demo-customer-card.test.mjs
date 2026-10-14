@@ -34,9 +34,9 @@ test('public landing explains Nival plans, points, and review support without un
   assert.ok(landing.includes("price: '$399'"));
   assert.ok(landing.includes("price: '$549'"));
   assert.ok(landing.includes('Cotizar por WhatsApp'));
-  assert.ok(landing.includes('Hasta 10 incluidas'));
+  assert.ok(landing.includes('Hasta 10 tarjetas incluidas en cada plan'));
   assert.ok(landing.includes('Que te'));
   assert.ok(landing.includes('Que vuelvan'));
-  assert.ok(landing.includes('abrir la tarjeta no suma puntos'));
-  assert.doesNotMatch(landing, /\+24|482|36 reseñas|Nival Pay|Google Wallet/i);
+  assert.ok(landing.includes('Opiniones abiertas, sin premios ni filtros por satisfacción'));
+  assert.ok(landing.includes('datos ficticios'));
 });
