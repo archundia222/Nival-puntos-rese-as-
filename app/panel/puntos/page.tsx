@@ -1,6 +1,6 @@
 import {StaffAccess} from '../../../lib/points/staff-access';
 import {StartGuide} from '../../../lib/owner/start-guide';
-import {entitlements} from '../../../lib/foundation/entitlements.mjs';
+import {entitlements,planLimits} from '../../../lib/foundation/entitlements.mjs';
 import {AccountState} from '../../../lib/owner/account-state';
 import {redirect} from 'next/navigation';
 import {DashboardShell} from "../../../lib/owner/shell";
@@ -98,7 +98,7 @@ export default async function PointsPanel({
         ))}
       </nav>
 
-      {programView&&<><CardWorkspace businessId={b.id} business={b.name} slug={b.slug} program={program} reward={rewards.find((r:any) => r.active)} metrics={cardMetrics} recent={recent} period={period} reviewCards={reviewCards} reviewManager={<ReviewCardManager businessId={b.id} branchId={branches.find((x:any)=>x.is_primary)?.id} branchName={b.name} cards={reviewCards} googleUrl={b.google_maps_url}/>} editor={<ProgramEditor businessId={b.id} business={b.name} program={program} reward={rewards.find((r:any) => r.active)} />}/><details className="reviewBox extraRewards"><summary>Administrar premios adicionales</summary>
+      {programView&&<><CardWorkspace businessId={b.id} business={b.name} slug={b.slug} program={program} reward={rewards.find((r:any) => r.active)} metrics={cardMetrics} recent={recent} period={period} reviewCards={reviewCards} nfcLimit={planLimits(b).nfcCards} reviewManager={<ReviewCardManager businessId={b.id} branchId={branches.find((x:any)=>x.is_primary)?.id} branchName={b.name} cards={reviewCards} googleUrl={b.google_maps_url} cardLimit={planLimits(b).nfcCards}/>} editor={<ProgramEditor businessId={b.id} business={b.name} program={program} reward={rewards.find((r:any) => r.active)} />}/><details className="reviewBox extraRewards"><summary>Administrar premios adicionales</summary>
         <h2>Premios y reglas avanzadas</h2><p>Conserva tus premios, edita su información y define el orden de entrega. Las metas que un cliente ya eligió se protegen hasta su canje.</p><details><summary>¿Cómo funcionan los otros modos?</summary><p>Premios a elegir: cada cliente elige una meta. Por etapas: los premios se entregan en el orden configurado. Los premios asignados y su costo se muestran hasta completar el canje.</p></details><h3 id="premios">Premios del programa</h3>{!rewards.length&&<p className="ownerEmpty">Todavía no tienes un premio. Agrégalo antes de compartir la tarjeta con tus clientes.</p>}
         {rewards.map((r) => (
           <details key={r.id} className="customerRow"><summary>{r.name} · {r.points_cost} puntos · {r.active?'Activo':'Desactivado'}</summary>
