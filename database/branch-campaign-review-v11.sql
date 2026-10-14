@@ -88,6 +88,7 @@ begin
  if url is not null and (length(url)>2000 or url !~ '^https://')
  then raise exception 'Enlace HTTPS inválido'; end if;
  update nival_pr.branches set google_maps_url=nullif(trim(url),'') where id=br and business_id=b;
+ if url is null then update nival_pr.review_cards set active=false where business_id=b and branch_id=br; end if;
  update nival_pr.short_links l set target_url=url
  from nival_pr.review_cards c where c.code=l.code and c.business_id=b and c.branch_id=br and url is not null;
  insert into nival_pr.audit_log(actor_id,action,entity,entity_id,business_id,data)
