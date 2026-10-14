@@ -280,3 +280,5 @@ body{background:var(--nival-cream);color:var(--nival-text)}
  .kanban{grid-template-columns:1fr}
  .kanbanCol{min-height:120px}
 }
+/* White, stamp-and-QR loyalty card inspired by the provided reference. */
+.nivalConfiguredCard[data-theme="minimal"]{background:#fff!important;background-image:none!important;border:1px solid #d7dce0;color:var(--card-text,#17352f);box-shadow:0 16px 38px #18372918}.nivalConfiguredCard[data-theme="minimal"]:before{display:none}.nivalConfiguredCard[data-theme="minimal"] :is(h1,.cardProgram,.cardExpiry,.cardGoal,.cardQrInside,footer){color:var(--card-text,#17352f);text-shadow:none}.nivalConfiguredCard[data-theme="minimal"] .cardMonogram{background:#183c2e;color:white}.nivalConfiguredCard[data-theme="minimal"] .cardPointGrid i{background:var(--point-idle,#e4e8eb);border-color:#d7dce0;color:#9aa6ad}.nivalConfiguredCard[data-theme="minimal"] .cardPointGrid i.isFilled{background:var(--point-active,#7fa9dc);border-color:var(--point-active,#7fa9dc);color:#fff}.nivalConfiguredCard[data-theme="minimal"] .cardGoal b{color:#17352f}.nivalConfiguredCard[data-theme="minimal"] .cardQrInside{border-top-color:#e2e7e8}

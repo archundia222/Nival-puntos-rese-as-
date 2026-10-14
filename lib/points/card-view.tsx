@@ -79,8 +79,8 @@ export function CardView({
     points = Number(card.balance),
     ready = goal > 0 && points >= goal;
   const visibleDots=Math.min(goal||10,20),filledDots=Math.min(Math.round((points/Math.max(goal,1))*visibleDots),visibleDots);
-  const baseCardColor=business.program?.rules?.card_design?.theme==="noche"?"#17352f":business.program?.rules?.card_design?.theme==="botanico"?"#315641":cardColor(business.program?.color);
-  const configuredStyle={"--card-color":baseCardColor,"--card-text":readableCardText(design.textColor,baseCardColor),"--card-accent":design.secondaryColor||"#cfe87a","--point-active":design.pointActive||design.secondaryColor||"#cfe87a","--point-idle":design.pointInactive||"#ffffff35"} as React.CSSProperties;
+  const baseCardColor=design.theme==="minimal"?"#ffffff":design.theme==="noche"?"#17352f":design.theme==="botanico"?"#315641":cardColor(business.program?.color);
+  const configuredStyle={"--card-color":baseCardColor,"--card-text":design.theme==="minimal"?(design.textColor||"#17352f"):readableCardText(design.textColor,baseCardColor),"--card-accent":design.secondaryColor||"#cfe87a","--point-active":design.pointActive||design.secondaryColor||"#cfe87a","--point-idle":design.pointInactive||"#ffffff35"} as React.CSSProperties;
   return (
     <>
       <p className="cardWelcome">Tu tarjeta está lista. Muéstrala después de tu compra para sumar puntos.</p>
@@ -91,7 +91,7 @@ export function CardView({
           {
             ...configuredStyle,
             "--card-color": baseCardColor,
-            backgroundImage: business.program?.rules?.card_design?.background ? "linear-gradient(120deg, rgba(15,45,35,.84), rgba(15,45,35,.48)), url('" + business.program.rules.card_design.background + "')" : undefined,
+            backgroundImage: business.program?.rules?.card_design?.background ? "linear-gradient(120deg, rgba(15,45,35,.15), rgba(15,45,35,.08)), url('" + business.program.rules.card_design.background + "')" : undefined,
             backgroundSize: "cover",
             backgroundPosition: `${business.program?.rules?.card_design?.backgroundX??50}% ${business.program?.rules?.card_design?.backgroundY??50}%`,
           } as React.CSSProperties
@@ -108,11 +108,11 @@ export function CardView({
             ) : (
               <span className="cardMonogram">{business.name.slice(0, 1)}</span>
             )}
-            <small style={{color:"#fff",textShadow:"0 1px 4px #000"}}>{business.name}</small>
+            <small style={design.theme==="minimal"?{color:design.textColor||"#17352f"}:{color:"#fff",textShadow:"0 1px 4px #000"}}>{business.name}</small>
           </div>
           <span className="cardExpiry">{design.expiryMonths?`Puntos válidos ${design.expiryMonths} meses`:"Los puntos no caducan"}</span>
         </div>
-        <p className="cardProgram" style={{color:"#fff",textShadow:"0 1px 4px #000"}}>
+        <p className="cardProgram" style={design.theme==="minimal"?{color:design.textColor||"#17352f",textShadow:"none"}:{color:"#fff",textShadow:"0 1px 4px #000"}}>
           {business.program?.name || "Tus recompensas"}
         </p>
         <h1>{card.name}</h1>
@@ -129,7 +129,7 @@ export function CardView({
               width: (goal ? Math.min(points / goal, 1) * 100 : 0) + "%",
             }}
           />
-        </div></>:<div className="cardPointGrid" aria-label={`${points} de ${goal} puntos acumulados`}>{Array.from({length:visibleDots},(_,i)=><i key={i} className={i<filledDots?"isFilled":""}>{design.pointIcon==="star"?"★":design.pointIcon==="heart"?"♥":design.pointIcon==="coffee"?"●":"✦"}</i>)}</div>}
+        </div></>:<div className="cardPointGrid" aria-label={`${points} de ${goal} puntos acumulados`}>{Array.from({length:visibleDots},(_,i)=><i key={i} className={i<filledDots?"isFilled":""}>{design.pointIcon==="star"?"★":design.pointIcon==="heart"?"♥":design.pointIcon==="coffee"?"☕":"✦"}</i>)}</div>}
         <div className="cardGoal">
           <span>
             {ready

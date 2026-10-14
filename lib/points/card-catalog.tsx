@@ -2,11 +2,11 @@
 import {useState} from "react";
 import {ProgramEditor} from "./program-editor";
 
-type Reward={id:string;name:string;points_cost:number;active?:boolean};
+type Reward={id:string;name:string;points_cost:number;active?:boolean;expires_at?:string|null;stock?:number|null};
 type Program={name?:string;color?:string;card_enabled?:boolean;points_per_visit?:number;mode?:string;rules?:Record<string,any>;logo_url?:string|null};
 export function CardCatalog({businessId,business,program,rewards}:{businessId:string;business:string;program?:Program;rewards:Reward[]}){
  const [editing,setEditing]=useState(false),[giftHelp,setGiftHelp]=useState(false);
- const activeRewards=rewards.filter(r=>r.active!==false),pointsActive=!!program&&program.card_enabled!==false;
+ const activeRewards=rewards.filter(r=>r.active!==false&&(!r.expires_at||new Date(r.expires_at).getTime()>Date.now())&&(r.stock==null||Number(r.stock)>0)),pointsActive=!!program&&program.card_enabled!==false;
  function editPoints(){if(pointsActive&&!window.confirm("¿Quieres editar esta tarjeta de puntos?"))return;setEditing(true);setGiftHelp(false);}
  return <div className="cardCatalog">
   <div className="cardCatalogGrid">

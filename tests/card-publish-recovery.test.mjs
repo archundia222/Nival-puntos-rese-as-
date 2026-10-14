@@ -12,7 +12,8 @@ test('card editor keeps edits in a local draft until explicit publish',()=>{
  assert.ok(editor.includes('cardEnabled'));
  assert.ok(editor.includes('rewardName')&&editor.includes('rewardCost'));
  assert.ok(editor.includes('QR PERSONAL')&&editor.includes('00000000'));
- assert.ok(editor.includes('Información')&&editor.includes('Diseño')&&editor.includes('Detalles'));
+ assert.ok(editor.includes('Promociones')&&editor.includes('Diseño')&&editor.includes('Detalles'));
+ assert.ok(editor.includes('campaignRules')&&editor.includes('at_risk')&&editor.includes('Elegir al azar'));
  assert.ok(editor.includes('secondaryColor')&&editor.includes('askBirthday')&&editor.includes('squareLogo'));
 });
 

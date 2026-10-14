@@ -204,11 +204,27 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
   const rewardName = val(f, "rewardName"), rewardCost = Number(val(f, "rewardCost"));
   const cardEnabled = val(f, "cardEnabled") === "on";
   let cardDesign: Record<string, unknown> = {};
+  let campaignRules: { strategy: "manual" | "random"; targets: Record<string, string[]> };
+  try {
+    const parsed = JSON.parse(val(f, "campaignRules") || "{}");
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed) || !["manual", "random"].includes(parsed.strategy)) throw new Error();
+    const targets = parsed.targets || {};
+    const keys = ["all", "frequent", "at_risk"];
+    if (!targets || typeof targets !== "object" || Array.isArray(targets) || Object.keys(targets).some((key) => !keys.includes(key))) throw new Error();
+    const clean: Record<string, string[]> = {};
+    for (const key of keys) {
+      const ids = targets[key] ?? [];
+      if (!Array.isArray(ids) || ids.length > 10 || ids.some((id: unknown) => typeof id !== "string" || !uuid(id))) throw new Error();
+      clean[key] = [...new Set(ids)];
+    }
+    if (!clean.all.length || !clean.frequent.length || !clean.at_risk.length) throw new Error();
+    campaignRules = { strategy: parsed.strategy, targets: clean };
+  } catch { return { error: "Asigna al menos una promoción activa a todos los clientes, frecuentes y clientes en riesgo." }; }
   try {
     const parsed = JSON.parse(val(f, "cardDesign") || "{}");
     if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
       cardDesign = {
-        theme: ["nival", "botanico", "noche"].includes(parsed.theme) ? parsed.theme : "nival",
+        theme: ["minimal", "nival", "botanico", "noche"].includes(parsed.theme) ? parsed.theme : "minimal",
         headline: String(parsed.headline || "Cliente de ejemplo").slice(0, 60),
         footer: String(parsed.footer || "").slice(0, 80),
         secondaryColor: /^#[a-f0-9]{6}$/i.test(String(parsed.secondaryColor||"")) ? String(parsed.secondaryColor) : "#cfe87a",
@@ -262,6 +278,9 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
     return { error: "Revisa las reglas del programa." };
   try {
     await requireTool(actor, b);
+    const promotionIds = [...new Set(Object.values(campaignRules.targets).flat())];
+    const validPromotions = await query(actor, "select r.id from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 and r.active and (r.expires_at is null or r.expires_at>now()) and (r.stock is null or r.stock>0) and r.id=any($2::uuid[])", [b, promotionIds]);
+    if (validPromotions.length !== promotionIds.length) return { error: "Una promoción seleccionada ya no está activa. Actualiza la selección y vuelve a publicar." };
     const activeReward = await query(actor,"select r.id from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 and r.active order by r.position,r.id limit 1",[b]);
     await transaction(actor, [
       { text: "insert into nival_pr.programs(business_id,name,mode,points_per_visit,color,rules,logo_url,card_enabled) values($1,$2,$3,$4,$5,$6::jsonb,$7,$8) on conflict(business_id) do update set name=excluded.name,mode=excluded.mode,points_per_visit=excluded.points_per_visit,color=excluded.color,rules=coalesce(programs.rules, '{}'::jsonb) || excluded.rules,logo_url=excluded.logo_url,card_enabled=excluded.card_enabled", values: [
@@ -276,6 +295,7 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
           double_points_weekday:doublePointsDay===''?null:Number(doublePointsDay),
           bonus_multiplier:2,
           card_design: cardDesign,
+          campaign_rules: campaignRules,
         }),
         logo || null,
         cardEnabled,

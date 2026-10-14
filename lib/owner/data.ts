@@ -20,7 +20,7 @@ export async function ownerData(actor:Actor,businessId:string,range:ReturnType<t
   query(actor,'select r.* from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 order by r.position,r.id',[businessId]),
   query(actor,'select amount,method,reference,paid_at,period_start,period_end from nival_pr.payments where business_id=$1 order by paid_at desc limit 20',[businessId]),
  ]);
- const [activeRewards]=await query(actor,'select count(*)::int count from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 and r.active',[businessId]);
+ const [activeRewards]=await query(actor,'select count(*)::int count from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 and r.active and (r.expires_at is null or r.expires_at>now()) and (r.stock is null or r.stock>0)',[businessId]);
  const [replyUsage]=await query(actor,`select count(*)::int used from nival_pr.reviews rv join nival_pr.businesses b on b.id=rv.business_id
   where b.id=$1 and rv.published_at>=coalesce(b.service_started_at,b.paid_until-interval '30 days')+greatest(0,floor(extract(epoch from now()-coalesce(b.service_started_at,b.paid_until-interval '30 days'))/2592000))*interval '30 days'
    and rv.published_at<coalesce(b.service_started_at,b.paid_until-interval '30 days')+(greatest(0,floor(extract(epoch from now()-coalesce(b.service_started_at,b.paid_until-interval '30 days'))/2592000))+1)*interval '30 days'`,[businessId]);
