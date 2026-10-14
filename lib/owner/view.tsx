@@ -18,7 +18,6 @@ import {defaultMessages} from './messages.mjs';
 import {saveMessageTemplate} from './actions';
 import {saveSegments} from './actions';
 import {CardCatalog} from '../points/card-catalog';
-import {ProgramPreview} from '../points/program-preview';
 import {ReviewCardManager} from './review-card-manager';
 import {BranchManager} from './branch-manager';
 const number=(v:number)=>Number(v||0).toLocaleString('es-MX');
@@ -60,7 +59,7 @@ export function OwnerView({actor,b,businesses,range,data,demo=false,mobilePrevie
   <div className="ownerMetrics ownerOverviewMetrics">
    <Metric label="Total de usuarios" value={registered}/>
    <Metric label="Nuevos usuarios" value={current.new_customers}/>
-   <Metric label="Usuarios activos" value={current.active_customers}/>
+   <Metric label="Usuarios activos" value={current.active_customers||0}/>
    <Metric label="Visitas registradas" value={current.visits}/>
   </div>
   <ActivityChart items={activityRows}/>
@@ -73,7 +72,7 @@ export function OwnerView({actor,b,businesses,range,data,demo=false,mobilePrevie
   <section className="ownerCard includedOverview" id="complementos"><h2>Complementos incluidos</h2><div><article><b>Nival Pay</b><span>Página de pago y tarjeta NFC.</span><small>Incluido</small></article><article><b>Nival Reseñas</b><span>Hasta 10 tarjetas NFC con QR para reseñas.</span><small>Incluido</small></article></div></section>
  </section>
  <section data-panel="compartir-programa" className="ownerBlock"><div className="ownerSectionTitle"><h2>Compartir programa</h2><p>Comparte el enlace o el QR para que tus clientes creen su tarjeta de puntos.</p></div><ShareTools slug={b.slug} name={b.name} demo={demo}/></section>
- <section data-panel="mis-tarjetas" className="ownerBlock"><div className="ownerSectionTitle"><h2>Mis tarjetas</h2><p>Administra tus dos sistemas de lealtad desde un solo lugar.</p></div>{!demo?<CardCatalog businessId={b.id} business={b.name} program={data.program} rewards={data.rewards||[]}/>:<article className="ownerCard"><h3>Tarjetas de ejemplo</h3><ProgramPreview business={b.name} program={data.program} reward={data.rewards?.find((r:Record<string,any>)=>r.active)}/></article>}</section>
+ <section data-panel="mis-tarjetas" className="ownerBlock"><div className="ownerSectionTitle"><h2>Mis tarjetas</h2><p>Administra tus dos sistemas de lealtad desde un solo lugar.</p></div><CardCatalog businessId={b.id} business={b.name} program={data.program} rewards={data.rewards||[]} demo={demo}/></section>
  <section data-panel="estadisticas-puntos" className="ownerBlock"><div className="ownerSectionTitle"><h2>Estadísticas · Puntos</h2><p>Impacto del programa, lealtad y crecimiento de ingresos durante el periodo seleccionado.</p></div><div className="ownerMetrics"><Metric label="Visitas" value={current.visits}/><Metric label="Clientes nuevos" value={current.new_customers}/><Metric label="Canjes registrados" value={current.redeemed}/><Metric label="Ticket promedio" value={'$'+number(current.visits?Number(current.ticket_revenue||0)/Number(current.visits):0)+' MXN'}/><Metric label="Ingresos del programa" value={'$'+number(current.ticket_revenue||0)+' MXN'} previous={Number(prev.ticket_revenue||0)}/><RetentionMetric current={current} previous={prev}/></div></section>
  <section data-panel="estadisticas-resenas" className="ownerBlock"><div className="ownerSectionTitle"><h2>Estadísticas · Reseñas</h2><p>Reseñas registradas y respuestas confirmadas en el periodo.</p></div><div className="ownerMetrics"><Metric label="Calificación en Google" value={last?Number(last.rating).toFixed(1)+' / 5':'—'}/><Metric label="Reseñas nuevas" value={data.google?.fresh??'—'}/><Metric label="Respuestas usadas" value={`${reviewed} / ${responseLimit}`}/></div>{last&&<Bars title="Distribución por estrellas" items={[5,4,3,2,1].map(n=>({label:n+' estrellas',value:Number((last.distribution||{})[n]||0),color:'#175d47'}))}/>}</section>
  <section data-panel="comparacion-zona" className="ownerBlock"><div className="ownerSectionTitle"><h2>Comparación con tu zona</h2></div><p>{data.zoneComparison?`Tu calificación es ${data.zoneComparison.rating}; el promedio de negocios similares es ${data.zoneComparison.average_rating}.`: 'Nival cargará manualmente los datos de negocios similares de tu zona.'}</p></section>
