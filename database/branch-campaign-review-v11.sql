@@ -10,10 +10,8 @@ from nival_pr.businesses b where br.business_id=b.id and br.is_primary and br.go
 alter table nival_pr.review_cards add column if not exists branch_id uuid;
 update nival_pr.review_cards c set branch_id=br.id from nival_pr.branches br
 where c.business_id=br.business_id and br.is_primary and c.branch_id is null;
-do $$ begin
- alter table nival_pr.review_cards add constraint review_cards_branch_business_fk
+alter table nival_pr.review_cards add constraint review_cards_branch_business_fk
  foreign key(branch_id,business_id) references nival_pr.branches(id,business_id);
-exception when duplicate_object then null; end $$;
 create index if not exists review_cards_branch_idx on nival_pr.review_cards(branch_id) where active;
 
 create table if not exists nival_pr.branch_review_reports(
