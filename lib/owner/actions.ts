@@ -20,10 +20,23 @@ export async function saveMessageTemplate(_:Result,f:FormData):Promise<Result>{
  try{await requireTool(actor,businessId);await query(actor,'insert into nival_pr.message_templates(business_id,segment,body) values($1,$2,$3) on conflict(business_id,segment) do update set body=excluded.body',[businessId,segment,body]);revalidatePath('/panel');return {success:'Plantilla guardada. Revisa cada mensaje antes de enviarlo.'};}catch{return {error:'No se pudo guardar. Comprueba la vigencia de tu plan.'};}
 }
 
+export async function saveBranchCampaigns(_:Result,f:FormData):Promise<Result>{
+ const actor=await guardAction(['owner'],f),businessId=String(f.get('businessId')||''),branchId=String(f.get('branchId')||'');
+ if(!/^[0-9a-f-]{36}$/i.test(businessId)||!/^[0-9a-f-]{36}$/i.test(branchId))return {error:'Sucursal inválida.'};
+ const strategy=String(f.get('strategy')||'manual');if(!['manual','random'].includes(strategy))return {error:'Selección inválida.'};
+ const targets:Record<string,string[]>={};
+ for(const key of ['all','frequent','at_risk']){const ids=f.getAll('target_'+key).map(String);if(ids.length<1||ids.length>10||ids.some(id=>!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)))return {error:'Selecciona de 1 a 10 promociones para cada grupo.'};targets[key]=[...new Set(ids)];}
+ try{await requireTool(actor,businessId);await query({role:'auth',id:actor.id},'select nival_pr_private.save_branch_campaigns($1,$2,$3::jsonb)',[businessId,branchId,JSON.stringify({strategy,targets})]);revalidatePath('/panel');return {success:'Campañas guardadas. Se aplicarán a nuevas metas sin modificar las ya bloqueadas.'};}catch{return {error:'No se pudieron guardar las promociones. Comprueba que estén activas.'};}
+}
+export async function saveBranchGoogleUrl(_:Result,f:FormData):Promise<Result>{
+ const actor=await guardAction(['owner'],f),businessId=String(f.get('businessId')||''),branchId=String(f.get('branchId')||''),url=String(f.get('googleUrl')||'').trim();
+ if(!/^[0-9a-f-]{36}$/i.test(businessId)||!/^[0-9a-f-]{36}$/i.test(branchId)||url.length>2000||(url&&!/^https:\/\//.test(url)))return {error:'Introduce una URL HTTPS válida.'};
+ try{await requireTool(actor,businessId);await query({role:'auth',id:actor.id},'select nival_pr_private.save_branch_google_url($1,$2,$3)',[businessId,branchId,url||null]);revalidatePath('/panel');return {success:'Ficha de Google guardada para esta sucursal.'};}catch{return {error:'No se pudo guardar el enlace.'};}
+}
 export async function manageReviewCard(_:Result,f:FormData):Promise<Result>{
- const actor=await guardAction(['owner'],f),businessId=String(f.get('businessId')||''),code=String(f.get('code')||'').trim()||null,label=String(f.get('label')||'').trim(),active=f.get('active')!=='false';
- if(!/^[0-9a-f-]{36}$/i.test(businessId)||code&&!/^[a-f0-9]{18}$/.test(code)||label.length>80)return {error:'Revisa el nombre de la tarjeta.'};
- try{await requireTool(actor,businessId);await query({role:'auth',id:actor.id},'select nival_pr_private.manage_review_card($1,$2,$3,$4)',[businessId,code,label,active]);revalidatePath('/panel');return {success:code?'Tarjeta QR actualizada.':'Tarjeta QR creada.'};}
+ const actor=await guardAction(['owner'],f),businessId=String(f.get('businessId')||''),code=String(f.get('code')||'').trim()||null,label=String(f.get('label')||'').trim(),branchId=String(f.get('branchId')||''),active=f.get('active')!=='false';
+ if(!/^[0-9a-f-]{36}$/i.test(businessId)||!/^[0-9a-f-]{36}$/i.test(branchId)||code&&!/^[a-f0-9]{18}$/.test(code)||label.length>80)return {error:'Revisa el nombre de la tarjeta.'};
+ try{await requireTool(actor,businessId);await query({role:'auth',id:actor.id},'select nival_pr_private.manage_review_card_branch($1,$2,$3,$4,$5)',[businessId,branchId,code,label,active]);revalidatePath('/panel');return {success:code?'Tarjeta QR actualizada.':'Tarjeta QR creada.'};}
  catch(e){const m=String((e as {message?:string})?.message||'');return {error:/Máximo 10/.test(m)?m:/Configura primero/.test(m)?'Agrega la URL de Google en los datos del negocio antes de crear las tarjetas.':'No se pudo actualizar la tarjeta QR.'};}
 }
 
