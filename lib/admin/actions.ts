@@ -212,19 +212,20 @@ export async function publishContent(_:Result,f:FormData):Promise<Result>{
 
 export async function saveGoogleReport(_:Result,f:FormData):Promise<Result>{
  const actor=await guardAction(['superadmin'],f);
- const businessId=val(f,'businessId'),kind=val(f,'periodKind')||'month',inputPeriod=val(f,'period'),range=periodRange(kind,inputPeriod);
+ const businessId=val(f,'businessId'),branchId=val(f,'branchId'),kind=val(f,'periodKind')||'month',inputPeriod=val(f,'period'),range=periodRange(kind,inputPeriod);
  const rating=Number(val(f,'rating')),total=Number(val(f,'total')),fresh=Number(val(f,'new')),answered=Number(val(f,'answered')),notes=val(f,'notes'),summary=val(f,'summary'),changes=val(f,'changes');
- if(!uuid(businessId)||range.kind!==kind||range.key!==inputPeriod||notes.length>5000||summary.length>10000||changes.length>5000)return {error:'Revisa el negocio, el periodo y la longitud de los textos.'};
+ if(!uuid(businessId)||!uuid(branchId)||range.kind!==kind||range.key!==inputPeriod||notes.length>5000||summary.length>10000||changes.length>5000)return {error:'Revisa el negocio, el periodo y la longitud de los textos.'};
  const distribution=Object.fromEntries([1,2,3,4,5].map(n=>[n,Number(val(f,'star'+n))]));
  const error=validateGoogle({rating,total,fresh,answered,distribution});if(error)return {error};
  const insights=encodeReviewInsights(f,total);if(insights.error)return {error:insights.error};
  const checklist=Object.fromEntries(Object.keys(checklistLabels).map(k=>[k,f.get('check_'+k)==='on']));
  try{
- await transaction(actor,[{text:`insert into nival_pr.review_reports(business_id,period,period_kind,rating,total_reviews,new_reviews,answered,distribution,profile_checklist,notes,created_by,answered_scope,manual_summary)
- values($1,$2::date,$3,$4,$5,$6,$7,$8::jsonb,$9::jsonb,$10,$11,'period',$12)
- on conflict(business_id,period,period_kind) do update set rating=excluded.rating,total_reviews=excluded.total_reviews,new_reviews=excluded.new_reviews,answered=excluded.answered,distribution=excluded.distribution,profile_checklist=excluded.profile_checklist,notes=excluded.notes,created_by=excluded.created_by,answered_scope=excluded.answered_scope,manual_summary=excluded.manual_summary`,values:[businessId,range.start,kind,rating,total,fresh,answered,JSON.stringify(distribution),JSON.stringify(checklist),insights.value,actor.id,summary||null]},
+ const [branch]=await query(actor,'select id from nival_pr.branches where id=$1 and business_id=$2 and active',[branchId,businessId]);if(!branch)return {error:'La sucursal no pertenece al negocio.'};
+ await transaction(actor,[{text:`insert into nival_pr.branch_review_reports(business_id,branch_id,period,period_kind,rating,total_reviews,new_reviews,answered,distribution,profile_checklist,notes,created_by,answered_scope,manual_summary)
+ values($1,$2,$3::date,$4,$5,$6,$7,$8,$9::jsonb,$10::jsonb,$11,$12,'period',$13)
+ on conflict(branch_id,period,period_kind) do update set rating=excluded.rating,total_reviews=excluded.total_reviews,new_reviews=excluded.new_reviews,answered=excluded.answered,distribution=excluded.distribution,profile_checklist=excluded.profile_checklist,notes=excluded.notes,created_by=excluded.created_by,answered_scope=excluded.answered_scope,manual_summary=excluded.manual_summary`,values:[businessId,branchId,range.start,kind,rating,total,fresh,answered,JSON.stringify(distribution),JSON.stringify(checklist),insights.value,actor.id,summary||null]},
  ...(changes?[{text:"insert into nival_pr.changelog(business_id,date,description) values($1,($2::date::timestamp at time zone 'America/Mexico_City'),$3)",values:[businessId,val(f,'changeDate')||range.today,changes]}]:[])]);
- await audit(actor,'google_report.saved','review_reports',businessId,{period:range.key,kind,rating,total,new:fresh,answered});
+ await audit(actor,'google_report.saved','review_reports',businessId,{period:range.key,branchId,kind,rating,total,new:fresh,answered});
  revalidatePath('/admin');revalidatePath('/panel');return {success:'Reporte guardado. Ya está disponible en el panel del dueño.'};
  }catch(e){return {error:cleanError(e)}}
 }

@@ -1,0 +1,4 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';const read=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8');
+test('branch campaign assignment and review reports are persisted with branch scoping',()=>{const sql=read('database/branch-campaign-review-v11.sql');for(const key of ['save_branch_campaigns','branch_review_reports','manage_review_card_branch','next_reward','list_branch_settings'])assert.ok(sql.includes(key));});
+test('owner dashboard exposes selected branch controls',()=>{const v=read('lib/owner/view.tsx');for(const x of ['<BranchGoogleSettings','branchRules={data.selectedBranch?.campaign_rules}','branchId={data.selectedBranch?.id}'])assert.ok(v.includes(x));});
+test('Google reports are saved for selected branch',()=>{assert.ok(read('lib/admin/actions.ts').includes('insert into nival_pr.branch_review_reports'));assert.ok(read('lib/owner/google-form.tsx').includes('name="branchId"'));});
