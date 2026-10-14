@@ -398,3 +398,12 @@
 .nvIndustryPhotoCard[aria-hidden="true"]{pointer-events:none}
 @media(max-width:640px){.nvIndustryPhotoCard{flex-basis:min(78vw,330px);height:295px;border-radius:17px}.nvIndustryPhotoCaption{right:19px;bottom:19px;left:19px}.nvIndustryPhotoCaption>h3{font-size:31px}}
 @media(prefers-reduced-motion:reduce){.nvIndustryPhotoCard>img{transition:none}}
+
+
+/* Automatic continuous industry-photo carousel: the duplicated halves make the loop seamless. */
+.nivalLanding .nvCarouselTrack{gap:0;animation:nvPhotoCarousel 150s linear infinite;will-change:transform}
+.nivalLanding .nvIndustryPhotoCard{margin-right:18px}
+.nivalLanding .nvCarouselViewport:active .nvCarouselTrack{animation-play-state:paused}
+@keyframes nvPhotoCarousel{to{transform:translate3d(-50%,0,0)}}
+@media(max-width:640px){.nivalLanding .nvIndustryPhotoCard{margin-right:14px}}
+@media(prefers-reduced-motion:reduce){.nivalLanding .nvCarouselTrack{animation-duration:180s!important;animation-iteration-count:infinite!important}}
