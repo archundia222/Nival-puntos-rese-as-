@@ -265,3 +265,18 @@ body{background:var(--nival-cream);color:var(--nival-text)}
 .nivalConfiguredCard[data-theme="nival"]:before{display:none}
 .nivalConfiguredCard .cardProgress i{background:var(--card-accent,#cfe87a)}
 .nivalConfiguredCard .cardNumbers .cardSeal{color:var(--card-accent,#cfe87a)}
+
+/* Admin center: keep the navigation compact and usable on phones. */
+@media(max-width:640px){
+ .adminSidebar{position:static;top:auto;max-height:none;overflow:visible;background:transparent;border:0;padding:0;box-shadow:none}
+ .adminSidebar .adminBrand{display:none}
+ .adminSidebar nav{display:flex;gap:8px;margin:0;padding:0 0 6px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none}
+ .adminSidebar nav::-webkit-scrollbar{display:none}
+ .adminSidebar nav a{flex:0 0 auto;width:auto;min-height:42px;padding:8px 13px;border-radius:999px;white-space:nowrap;font-size:13px;line-height:1.15}
+ .adminHead{gap:12px;padding:12px 0 18px}
+ .adminHead h1{font-size:clamp(30px,8vw,38px);line-height:1.05}
+ .adminHead p{font-size:15px;line-height:1.45}
+ .adminSection{padding:26px 0}
+ .kanban{grid-template-columns:1fr}
+ .kanbanCol{min-height:120px}
+}
