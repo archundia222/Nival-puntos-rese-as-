@@ -14,11 +14,7 @@ const plans = [
   { name: 'Plus', price: '$549', tagline: 'Más respuestas y contexto sobre tu zona.', responses: 'Hasta 100 respuestas a reseñas cada 30 días, preparadas por Nival.', comparison: 'Comparación de calificación y reseñas con negocios similares de tu zona.', featured: false },
 ];
 
-const industries = [
-  ['cafeterias', 'Cafeterías'], ['restaurantes', 'Restaurantes'], ['taquerias', 'Taquerías'],
-  ['barberias', 'Barberías'], ['esteticas', 'Estéticas'], ['consultorios', 'Consultorios dentales'],
-  ['heladerias', 'Heladerías'], ['industrias', 'Gimnasios y estudios'],
-] as const;
+
 
 
 
@@ -44,11 +40,7 @@ function ProductLinks() {
   </div>;
 }
 
-function IndustryLinks() {
-  return <div className="nvDropdownPanel nvIndustryDropdown">
-    {industries.map(([id, label]) => <a href={`#${id}`} key={id}><b>{label}</b><small>Un programa de puntos para tu negocio.</small></a>)}
-  </div>;
-}
+
 
 export default function Home() {
   return (
@@ -59,7 +51,7 @@ export default function Home() {
           <NivalMark />
           <nav className="nvDesktopNav" aria-label="Navegación principal">
             <details className="nvDropdown"><summary>Producto <span aria-hidden="true">⌄</span></summary><ProductLinks /></details>
-            <details className="nvDropdown"><summary>Industrias <span aria-hidden="true">⌄</span></summary><IndustryLinks /></details>
+            <a href="#industrias">Negocios</a>
             <a href="#como-funciona">Cómo funciona</a><a href="#planes">Planes</a><a href="#preguntas">Preguntas</a>
           </nav>
           <div className="nvNavActions"><a className="nvLogin" href="/acceso">Iniciar sesión</a><a className="nvNavCta" href={whatsapp} target="_blank" rel="noreferrer">Hablemos <LandingIcon name="arrow" /></a></div>
