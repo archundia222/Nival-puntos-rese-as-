@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';const read=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8');
+test('single-mode campaign redemption accepts the customer selected reward',()=>{const sql=read('database/branch-campaign-redemption-v13.sql');assert.match(sql,/new.reward_id is distinct from nival_pr_private.next_reward\(new.customer_id\)/);assert.doesNotMatch(sql,/new.reward_id<>\(select id from nival_pr.rewards/);assert.match(sql,/Evidencia no verificada/);assert.match(sql,/Saldo insuficiente/);});
