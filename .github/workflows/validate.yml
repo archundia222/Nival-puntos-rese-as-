@@ -7,6 +7,7 @@ on:
       - fix/admin-private-access
       - feature/full-site-qa
       - feature/paneles-planes-intuitivos
+      - feat/nival-branch-campaign-reviews-20261014
   pull_request:
 jobs:
   validate:
