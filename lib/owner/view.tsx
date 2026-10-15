@@ -22,7 +22,7 @@ import {ReviewCardManager} from './review-card-manager';
 import {BranchManager} from './branch-manager';
 import {NextActions} from './next-actions';
 import {CampaignOverview} from './campaign-overview';
-import {StartGuide} from './start-guide';
+import {StartGuide,startGuideState} from './start-guide';
 import type {Actor} from '../foundation/db';
 import {SegmentCard} from './clients';
 import {BranchGoogleSettings} from './branch-google-settings';
@@ -45,6 +45,7 @@ export function OwnerView({actor,b,businesses,range,data,demo=false,mobilePrevie
  const returners=data.segments.filter((c:Record<string,any>)=>c.is_frequent).length;
  const pendingReviews=data.google&&data.google.answered!==null?Math.max(0,Number(data.google.fresh)-Number(data.google.answered)):null;
  const status=active||demo?'Activo':b.status==='pausado'?'Pausado':'Por activar';
+ const startState=demo?null:await startGuideState(actor as Actor,b.id);
  if(!demo&&!active&&!data.segments.length&&!data.last)return <DashboardShell name={b.name} owner={actor.name} status={status} demo={false} logout={<form action={logout}><button>Cerrar sesión</button></form>}><AccountState b={b}/></DashboardShell>;
  const responseLimit=limits.reviewLimit;
  const planName=price>=549?'Plus':price>=399?'Esencial':'Básico';
@@ -63,7 +64,7 @@ export function OwnerView({actor,b,businesses,range,data,demo=false,mobilePrevie
  return <DashboardShell pointsOnly={pointsOnly} name={b.name} owner={actor.name} status={status} demo={demo} mobilePreview={mobilePreview} homeUrl={demo?'/demo/panel':'/panel?business='+b.id+(data.selectedBranch?.id?'&branch='+data.selectedBranch.id:'')} planName={planName} price={price} responseLimit={responseLimit} periodDay={periodDay} branches={data.branches||[]} branchId={data.selectedBranch?.id} logout={<form action={logout}><button className="logoutButton" aria-label="Cerrar sesión" title="Cerrar sesión"><Icon name="logout" size={18}/></button></form>}><main className="ownerDashboard">
  {!demo&&!active&&<AccountState b={b}/>}
  <section id="inicio" data-panel="inicio" className="ownerBlock">
-  {!demo&&<StartGuide actor={actor as Actor} businessId={b.id}/>}
+  {!demo&&startState&&!startState.complete?<StartGuide state={startState}/>:<NextActions riskCount={riskCount} newCount={newCount} activePromotions={Number(data.activeRewards||0)} pendingReviews={pendingReviews} reviewLimit={responseLimit} repliesUsed={reviewed} branchName={data.selectedBranch?.name||b.name}/>}
   <div className="ownerMetrics ownerOverviewMetrics">
    <Metric label="Total de usuarios" value={registered}/>
    <Metric label="Nuevos usuarios" value={current.new_customers}/>
