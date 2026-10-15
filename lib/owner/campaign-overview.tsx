@@ -2,14 +2,69 @@ import {Icon} from './icons';
 import {ActionForm} from '../foundation/forms';
 import {Hidden} from '../foundation/fields';
 import {saveBranchCampaigns} from './actions';
+
 type Promotion={id:string;name:string;points_cost:number;active?:boolean;expires_at?:string|null;stock?:number|null};
 type CampaignRules={strategy?:'manual'|'random';targets?:Record<string,string[]>};
+
 export function CampaignOverview({businessId,demo,program,rewards,branchName,branchId,branchRules}:{businessId:string;demo:boolean;program?:Record<string,any>;rewards:Promotion[];branchName:string;branchId?:string;branchRules?:CampaignRules|null}){
  const active=rewards.filter(r=>r.active!==false&&(!r.expires_at||Date.parse(r.expires_at)>Date.now())&&(r.stock==null||Number(r.stock)>0));
- const rules:CampaignRules=branchRules||program?.rules?.campaign_rules||{};const targets=rules.targets||{};
- const segments=[['all','Todos los clientes','Promoción general'],['frequent','Frecuentes','Agradece la constancia'],['at_risk','En riesgo','Invita a regresar']] as const;
+ const rules:CampaignRules=branchRules||program?.rules?.campaign_rules||{};
+ const targets=rules.targets||{};
+ const segments=[
+  ['all','Todos los clientes','Un premio para cualquier cliente.'],
+  ['frequent','Frecuentes','Agradece que vuelvan seguido.'],
+  ['at_risk','En riesgo','Anímalos a regresar.']
+ ] as const;
  const assigned=(key:string)=>active.filter(r=>Array.isArray(targets[key])&&targets[key].includes(r.id));
  const configured=segments.every(([key])=>assigned(key).length>0);
  const editUrl=demo?'#promociones':'/panel/puntos?business='+encodeURIComponent(businessId)+'&view=promociones#premios';
- return <><div className="ownerSectionTitle"><span className="workspaceEyebrow">MOTOR DE FIDELIZACIÓN</span><h2>Campañas y promociones</h2><p>Las promociones se crean en el catálogo del negocio. Aquí eliges cuáles ofrecer en {branchName}, según el segmento de cada cliente.</p></div><div className="campaignSummary"><article className="ownerCard ownerMetric"><span>Promociones activas</span><strong>{active.length} / 10</strong><small>Premios disponibles en el catálogo</small></article><article className="ownerCard ownerMetric"><span>Selección de campañas</span><strong style={{fontSize:23}}>{rules.strategy==='random'?'Aleatoria':'Manual'}</strong><small>{branchRules?'Configuración de esta sucursal':'Configuración general del negocio'}</small></article><article className="ownerCard ownerMetric"><span>Asignaciones por segmento</span><strong style={{fontSize:23}}>{configured?'3 / 3':'Pendientes'}</strong><small>{configured?'Promociones guardadas para los tres grupos':'Selecciona promociones para cada grupo'}</small></article></div><div className="campaignActions"><a className="workspacePrimary" href={editUrl}><Icon name="gift" size={16}/> Crear o editar promociones</a><a className="workspaceSecondary" href="#mis-tarjetas"><Icon name="card" size={16}/> Diseñar la tarjeta</a></div>{!demo&&branchId&&<div className="ownerCard branchCampaignEditor"><h3>Asignación automática · {branchName}</h3><p>Las reglas se aplican cuando un cliente recibe una nueva meta. Si ya tiene una meta bloqueada, se conserva hasta el canje.</p>{active.length?<ActionForm action={saveBranchCampaigns} label="Guardar campañas de esta sucursal"><Hidden name="businessId" value={businessId}/><Hidden name="branchId" value={branchId}/><label className="wide">Cómo elegir una promoción<select name="strategy" defaultValue={rules.strategy||'manual'}><option value="manual">Primera de las seleccionadas</option><option value="random">Aleatoria entre las seleccionadas</option></select></label>{segments.map(([key,label])=><fieldset className="wide campaignSegment" key={key}><legend>{label}</legend>{active.map(r=><label key={r.id}><input type="checkbox" name={'target_'+key} value={r.id} defaultChecked={assigned(key).some(a=>a.id===r.id)}/><span>{r.name} · {r.points_cost} puntos</span></label>)}</fieldset>)}</ActionForm>:<p className="ownerEmpty">Primero crea al menos una promoción activa en el catálogo.</p>}</div>}<div className="ownerSectionTitle"><h2>Promociones por segmento</h2><p>Las asignaciones guardadas para la sucursal aparecen aquí. No se envían mensajes automáticamente.</p></div><div className="campaignSegmentGrid">{segments.map(([key,label,detail])=><article className="ownerCard" key={key}><span className="workspaceEyebrow">{detail.toUpperCase()}</span><h3>{label}</h3>{assigned(key).length?assigned(key).map(r=><span className="campaignPill" key={r.id}>{r.name} · {r.points_cost} puntos</span>):<p>No hay una promoción activa asignada a este grupo.</p>}</article>)}</div><div className="ownerSectionTitle"><h2>Promociones disponibles</h2><p>Los premios se comparten entre sucursales, pero las asignaciones se guardan por separado.</p></div>{active.length?<div className="ownerMetrics">{active.map(r=><article className="ownerCard ownerMetric" key={r.id}><span>Activa</span><strong style={{fontSize:19,lineHeight:1.3}}>{r.name}</strong><small>{r.points_cost} puntos</small></article>)}</div>:<p className="ownerEmpty">Aún no hay promociones activas.</p>}<p className="campaignFootnote">Sucursal seleccionada: {branchName}. La asignación usa la sucursal de la última visita, o la principal si el cliente aún no tiene visitas.</p></>;
+ return <>
+  <div className="ownerSectionTitle campaignIntro">
+   <span className="workspaceEyebrow">PROMOCIONES</span>
+   <h2>Elige qué premio recibe cada cliente</h2>
+   <p>Primero crea un premio. Después asígnalo a los grupos que quieras.</p>
+  </div>
+  <div className="campaignWorkflow" aria-label="Pasos para configurar promociones">
+   <article className={'campaignWorkflowStep'+(active.length?' isDone':' isCurrent')}>
+    <span className="campaignStepNumber">{active.length?'✓':'1'}</span>
+    <div className="campaignStepCopy"><small>PASO 1</small><h3>{active.length?'Premios activos':'Crea tu primer premio'}</h3><p>{active.length?'Ya puedes asignar promociones a tus clientes.':'El premio aparecerá en tu tarjeta de puntos.'}</p></div>
+    <span className="campaignStepCount">{active.length} / 10</span>
+    <a className="workspacePrimary" href={editUrl}>{active.length?'Administrar premios':'Crear premio'}</a>
+   </article>
+   <article className={'campaignWorkflowStep'+(active.length?' isCurrent':' isLocked')}>
+    <span className="campaignStepNumber">2</span>
+    <div className="campaignStepCopy"><small>PASO 2 · {branchName}</small><h3>Elige quién recibe cada premio</h3><p>{active.length?'Asigna un premio a todos, frecuentes o clientes en riesgo.':'Se activa cuando tengas un premio.'}</p></div>
+    <span className="campaignStepStatus">{active.length?(configured?'Listo':'Pendiente'):'Primero crea un premio'}</span>
+   </article>
+  </div>
+  {demo&&<p className="campaignDemoNote">Estás viendo una muestra. Los cambios se hacen desde la cuenta del negocio.</p>}
+  {!demo&&branchId&&active.length>0&&<section className="ownerCard branchCampaignEditor campaignEditor">
+   <header className="campaignEditorHeader"><span className="campaignStepNumber">2</span><div><h3>Asignar premios a clientes</h3><p>Esta regla se aplica al iniciar una meta nueva en {branchName}.</p></div></header>
+   <ActionForm action={saveBranchCampaigns} label="Guardar cambios">
+    <Hidden name="businessId" value={businessId}/>
+    <Hidden name="branchId" value={branchId}/>
+    <label className="wide campaignStrategyLabel">Si eliges varios premios
+     <select name="strategy" defaultValue={rules.strategy||'manual'}>
+      <option value="manual">Usar el primero de la lista</option>
+      <option value="random">Elegir uno al azar</option>
+     </select>
+     <small>Elige uno o varios premios para cada grupo.</small>
+    </label>
+    {segments.map(([key,label,help])=><fieldset className="wide campaignSegment" key={key}>
+     <legend><span>{label}</span><small>{help}</small></legend>
+     <div className="campaignChoices">{active.map(r=><label className="campaignChoice" key={r.id}>
+      <input type="checkbox" name={'target_'+key} value={r.id} defaultChecked={assigned(key).some(a=>a.id===r.id)}/>
+      <span><strong>{r.name}</strong><small>{r.points_cost} puntos</small></span>
+     </label>)}</div>
+    </fieldset>)}
+    <p className="wide campaignSaveHint">Los clientes que ya tienen una meta conservan su premio actual.</p>
+   </ActionForm>
+  </section>}
+  {!demo&&!active.length&&<article className="ownerCard campaignEmpty">
+   <span className="campaignEmptyIcon" aria-hidden="true"><Icon name="gift" size={20}/></span>
+   <div><h3>Aún no hay premios activos</h3><p>Crea uno para poder elegir a qué clientes ofrecerlo.</p></div>
+   <a className="workspacePrimary" href={editUrl}>Crear primer premio <span aria-hidden="true">→</span></a>
+  </article>}
+  {active.length>0&&<p className="campaignFootnote">Configuración de la sucursal seleccionada: {branchName}.</p>}
+ </>;
 }
