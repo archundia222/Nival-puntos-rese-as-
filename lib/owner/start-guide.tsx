@@ -1,4 +1,5 @@
 import {query,type Actor} from '../foundation/db';
+import {Icon} from './icons';
 
 export async function startGuideState(actor:Actor,businessId:string){
  const [state]=await query(actor,`select
@@ -7,9 +8,9 @@ export async function startGuideState(actor:Actor,businessId:string){
  exists(select 1 from nival_pr.point_ledger where business_id=$1 and type='visit') visit`,[businessId]);
  const base='/panel/puntos?business='+businessId+'&view=programa';
  const steps=[
-  {done:state.program,label:'Configura tu tarjeta',text:'Elige su diseño y los puntos por visita.',action:'Configurar tarjeta',href:base+'#programa'},
-  {done:state.reward,label:'Activa un premio',text:'Define qué recibe el cliente al juntar puntos.',action:'Crear premio',href:base+'#premios'},
-  {done:state.visit,label:'Prueba una visita',text:'Registra una visita para ver el flujo completo.',action:'Registrar visita',href:'/panel/operar?business='+businessId},
+  {done:state.program,label:'Tarjeta',icon:'card',action:'Diseñar tarjeta',href:base+'#programa'},
+  {done:state.reward,label:'Premio',icon:'gift',action:'Crear premio',href:base+'#premios'},
+  {done:state.visit,label:'Primera visita',icon:'check',action:'Registrar visita',href:'/panel/operar?business='+businessId},
  ];
  return {steps,complete:steps.every(s=>s.done),completed:steps.filter(s=>s.done).length};
 }
@@ -21,13 +22,14 @@ export async function StartGuide({state,actor,businessId}:{state?:SetupState;act
  const next=current.steps.find(s=>!s.done)!;
  return <section className="ownerCard startGuide" aria-labelledby="start-guide-title">
   <header className="startGuideHeading">
-   <div><span className="workspaceEyebrow">EMPIEZA POR AQUÍ</span><h2 id="start-guide-title">Pon tu programa en marcha</h2><p>Completa estos pasos para empezar a sumar visitas y entregar premios.</p></div>
-   <span className="startGuideProgress">{current.completed} de {current.steps.length} listos</span>
+   <div><span className="workspaceEyebrow">PUESTA EN MARCHA</span><h2 id="start-guide-title">Tu programa</h2></div>
+   <span className="startGuideProgress">{current.completed} / {current.steps.length}</span>
   </header>
-  <ol aria-label="Pasos para configurar el programa">{current.steps.map((s,i)=><li key={s.label} className={s.done?'isDone':''}>
-   <span className="startStepNumber" aria-hidden="true">{s.done?'✓':i+1}</span>
-   <div><a href={s.href}>{s.label}</a><small>{s.done?'Listo':s.text}</small></div>
+  <div className="startGuideTrack" role="progressbar" aria-label="Progreso del programa" aria-valuemin={0} aria-valuemax={current.steps.length} aria-valuenow={current.completed}><i style={{width:(current.completed/current.steps.length*100)+'%'}}/></div>
+  <ol aria-label="Progreso del programa">{current.steps.map((s,i)=><li key={s.label} className={s.done?'isDone':s===next?'isCurrent':''} aria-current={s===next?'step':undefined}>
+   <span className="startStepIcon"><Icon name={s.icon} size={22}/></span>
+   <span>{s.label}</span>
   </li>)}</ol>
-  <a className="workspacePrimary startGuideNext" href={next.href}>{next.action} <span aria-hidden="true">→</span></a>
+  <a className="workspacePrimary startGuideNext" href={next.href}>{next.action} <Icon name="arrow" size={17}/></a>
  </section>;
 }
