@@ -15,15 +15,16 @@ export async function startGuideState(actor:Actor,businessId:string){
 }
 
 type SetupState=Awaited<ReturnType<typeof startGuideState>>;
-export function StartGuide({state}:{state:SetupState}){
- if(state.complete)return null;
- const next=state.steps.find(s=>!s.done)!;
+export async function StartGuide({state,actor,businessId}:{state?:SetupState;actor?:Actor;businessId?:string}){
+ const current=state||(actor&&businessId?await startGuideState(actor,businessId):null);
+ if(!current||current.complete)return null;
+ const next=current.steps.find(s=>!s.done)!;
  return <section className="ownerCard startGuide" aria-labelledby="start-guide-title">
   <header className="startGuideHeading">
    <div><span className="workspaceEyebrow">EMPIEZA POR AQUÍ</span><h2 id="start-guide-title">Pon tu programa en marcha</h2><p>Completa estos pasos para empezar a sumar visitas y entregar premios.</p></div>
-   <span className="startGuideProgress">{state.completed} de {state.steps.length} listos</span>
+   <span className="startGuideProgress">{current.completed} de {current.steps.length} listos</span>
   </header>
-  <ol aria-label="Pasos para configurar el programa">{state.steps.map((s,i)=><li key={s.label} className={s.done?'isDone':''}>
+  <ol aria-label="Pasos para configurar el programa">{current.steps.map((s,i)=><li key={s.label} className={s.done?'isDone':''}>
    <span className="startStepNumber" aria-hidden="true">{s.done?'✓':i+1}</span>
    <div><a href={s.href}>{s.label}</a><small>{s.done?'Listo':s.text}</small></div>
   </li>)}</ol>
