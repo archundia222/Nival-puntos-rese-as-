@@ -16,7 +16,7 @@ export function ReviewCardManager({businessId,branchId,branchName,cards,googleUr
    <h3>Google</h3><a className="workspacePrimary" href="#google">Conectar ficha <Icon name="arrow" size={17}/></a>
   </article>:null}
   {canCreate&&visible.length===0?<article className="ownerCard reviewCreateCard">
-   <div className="reviewQrArt" aria-hidden="true"><span/><span/><span/><span/><span/><span/><span/><span/></div>
+   <div className="reviewQrArt" aria-hidden="true"><Icon name="compartir" size={86}/></div>
    <div className="reviewCreateContent"><div className="reviewPhysicalCard"><small>NIVAL · GOOGLE</small><strong>{branchName}</strong><span>Tu QR para reseñas</span></div>
     <ActionForm action={manageReviewCard} label="Crear QR"><Hidden name="businessId" value={businessId}/><Hidden name="branchId" value={branchId||''}/><label className="reviewNameField"><span>Nombre del QR</span><input name="label" required maxLength={80} placeholder="Mostrador"/></label></ActionForm>
    </div>
