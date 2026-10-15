@@ -2,17 +2,21 @@ import {ActionForm} from '../foundation/forms';
 import {Field,Hidden} from '../foundation/fields';
 import {manageBranch} from './actions';
 
-export function BranchManager({businessId,branches,branchLimit}:{businessId:string;branches:Record<string,any>[];branchLimit:number}){
+export function BranchManager({businessId,branches,branchStats,branchLimit}:{businessId:string;branches:Record<string,any>[];branchStats:Record<string,any>[];branchLimit:number}){
  const active=branches.filter(b=>b.active).length;
  return <div className="branchManager">
-  {branches.map(branch=><article className="ownerCard branchItem" key={branch.id}>
-   <div className="branchHeader"><div><h3>{branch.name}{branch.is_primary?' · Principal':''}</h3><p>Código de sucursal: <strong>{branch.code}</strong> · {branch.staff_count} empleados · {branch.active?'Activa':'Pausada'}</p></div></div>
-   <ActionForm action={manageBranch} label="Guardar cambios"><Hidden name="businessId" value={businessId}/><Hidden name="branchId" value={branch.id}/><Field name="name" label="Nombre de sucursal" value={branch.name}/><Hidden name="active" value="true"/></ActionForm>
-   {!branch.is_primary&&branch.active&&<ActionForm action={manageBranch} label="Pausar sucursal"><Hidden name="businessId" value={businessId}/><Hidden name="branchId" value={branch.id}/><Hidden name="name" value={branch.name}/><Hidden name="active" value="false"/></ActionForm>}
-   {!branch.is_primary&&!branch.active&&<ActionForm action={manageBranch} label="Reactivar sucursal"><Hidden name="businessId" value={businessId}/><Hidden name="branchId" value={branch.id}/><Hidden name="name" value={branch.name}/><Hidden name="active" value="true"/></ActionForm>}
-  </article>)}
-  <p>{active} de {branchLimit} sucursales activas en tu plan.</p>
-  {active<branchLimit&&<ActionForm action={manageBranch} label="Agregar sucursal"><Hidden name="businessId" value={businessId}/><Field name="name" label="Nombre de la nueva sucursal"/></ActionForm>}
-  {active>=branchLimit&&<p className="ownerEmpty">Llegaste al límite de tu plan. Puedes cambiar de plan para agregar más sucursales.</p>}
+  <header className="branchManagerHead"><span>{active} <small>/ {branchLimit} activas</small></span>
+   {active<branchLimit&&<details className="branchAdd"><summary>+ Agregar sucursal</summary><ActionForm action={manageBranch} label="Crear sucursal"><Hidden name="businessId" value={businessId}/><Field name="name" label="Nombre"/><Hidden name="active" value="true"/></ActionForm></details>}
+  </header>
+  <div className="branchGrid">{branches.map(branch=>{const stats=branchStats.find(x=>x.branch_id===branch.id)||{};return <article className={'ownerCard branchItem'+(!branch.active?' isPaused':'')} key={branch.id}>
+   <div className="branchCardTop"><span className="branchAvatar">{branch.name.slice(0,1).toUpperCase()}</span><span className={'branchStatus'+(branch.active?'':' isPaused')}>{branch.active?'Activa':'Pausada'}</span></div>
+   <h3>{branch.name}</h3><small className="branchCode">{branch.is_primary?'Principal · ':''}{branch.code}</small>
+   <div className="branchStatGrid"><div><strong>{Number(stats.customers||0).toLocaleString('es-MX')}</strong><small>Clientes</small></div><div><strong>{Number(stats.visits||0).toLocaleString('es-MX')}</strong><small>Visitas</small></div><div><strong>{Number(stats.redemptions||0).toLocaleString('es-MX')}</strong><small>Canjes</small></div></div>
+   {branch.active&&<a className="branchSelect" href={'/panel?business='+encodeURIComponent(businessId)+'&branch='+encodeURIComponent(branch.id)+'#inicio'}>Ver dashboard de esta sucursal <span aria-hidden="true">→</span></a>}
+   <details className="branchEdit"><summary>Editar sucursal</summary><ActionForm action={manageBranch} label="Guardar"><Hidden name="businessId" value={businessId}/><Hidden name="branchId" value={branch.id}/><Field name="name" label="Nombre" value={branch.name}/><Hidden name="active" value={String(Boolean(branch.active))}/></ActionForm>
+    {!branch.is_primary&&<ActionForm action={manageBranch} label={branch.active?'Pausar sucursal':'Reactivar sucursal'}><Hidden name="businessId" value={businessId}/><Hidden name="branchId" value={branch.id}/><Hidden name="name" value={branch.name}/><Hidden name="active" value={String(!branch.active)}/></ActionForm>}
+   </details>
+  </article>})}</div>
+  {active>=branchLimit&&<p className="branchLimitNote">Límite de sucursales alcanzado</p>}
  </div>;
 }
