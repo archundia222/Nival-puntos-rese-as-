@@ -97,10 +97,10 @@ test('first sale: registration → paid code → setup → enrollment → owner 
   await db.query("select set_config('npr.user_id','',false)");
   const closeSql=source('lib/reputation/period-summary.ts').match(/return systemQuery\(`([\s\S]*?)`\);/)[1];
   const closed=await db.query(closeSql);
-  assert.equal(closed.rows.length,1);
+  assert.equal(closed.rows.length,2,'One branch PDF and one consolidated PDF');
   assert.equal(closed.rows[0].business_id,b);
   const report=(await db.query("select status,analysis->>'plan' plan,analysis->'metrics' metrics from nival_pr.generated_reports where id=$1",[closed.rows[0].id])).rows[0];
-  assert.equal(report.status,'approved');assert.equal(report.plan,'Puntos');
+  assert.equal(report.status,'approved');assert.equal(report.plan,'Básico');
   assert.ok(Number(report.metrics.visits)>=2);
   assert.equal((await db.query(closeSql)).rows.length,0,'Summary generation is idempotent');
   await scope('npr_v2_auth');assert.equal(Boolean((await publicData()).active),false);

@@ -77,7 +77,7 @@ export async function closePeriodSummaries(){
  )
  insert into nival_pr.generated_reports(business_id,branch_id,kind,period_start,period_end,rating,total_reviews,analysis,status,created_by,approved_at)
  select s.business_id,s.branch_id,'period_summary',s.period_start,s.period_end,s.rating,s.total_reviews,
-  jsonb_build_object('plan',case when s.price_mxn=549 then 'Plus' when s.price_mxn=399 then 'Esencial' else 'Puntos' end,'branch_name',s.branch_name,
+  jsonb_build_object('plan',case when s.price_mxn=549 then 'Plus' when s.price_mxn=399 then 'Esencial' else 'Básico' end,'branch_name',s.branch_name,
    'metrics',s.metrics,
    'reviews',case when s.review_limit>0 and not s.points_only and s.rating is not null then
     jsonb_build_object('rating',s.rating,'total_reviews',s.total_reviews,'new_reviews',s.new_reviews,
