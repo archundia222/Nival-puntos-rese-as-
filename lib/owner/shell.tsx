@@ -31,7 +31,7 @@ function makeItems(reviewLimit:number):MenuItem[]{
    {id:'informes',label:'Informes',href:'/panel/reportes'},
   ]},
   {id:'ajustes',label:'Ajustes',icon:'settings',children:[
-   {id:'configuracion',label:'Reglas del programa'},
+   {id:'datos-negocio',label:'Datos del negocio'},
    {id:'plan',label:'Plan y facturación'},
   ]},
  ];
@@ -58,7 +58,7 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
    }
    window.location.href=hrefFor(item.href);return;
   }
-  const target=item.id==='estadisticas'?'estadisticas-puntos':item.id==='tarjetas'?'mis-tarjetas':item.id==='gestion'?'equipo':item.id==='ajustes'?'configuracion':item.id;
+  const target=item.id==='estadisticas'?'estadisticas-puntos':item.id==='tarjetas'?'mis-tarjetas':item.id==='gestion'?'equipo':item.id==='datos-negocio'?'ajustes':item.id==='ajustes'?'configuracion':item.id;
   if(homeUrl){const home=new URL(homeUrl,window.location.origin);if(window.location.pathname!==home.pathname){home.hash=target;window.location.href=home.pathname+home.search+home.hash;return;}}
   setSection(target);
   if(item.children)setExpanded(current=>current.includes(item.id)?current:[...current,item.id]);
@@ -66,7 +66,7 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
   window.scrollTo({top:0,behavior:'smooth'});requestAnimationFrame(()=>document.getElementById('workspace-title')?.focus());
  }
  function render(item:MenuItem,depth=0){
-  const active=section===item.id||(item.id==='clientes'&&section.startsWith('clientes'))||(item.id==='gestion'&&(section==='equipo'||section.startsWith('estadisticas')||section==='google'||section==='informes'||section==='canjes'))||(item.id==='ajustes'&&(section==='configuracion'||section==='plan'))||(item.id==='tarjetas'&&(section==='compartir-programa'||section==='tus-tarjetas'||section==='mis-tarjetas'||section==='promociones'));
+  const active=section===item.id||(item.id==='clientes'&&section.startsWith('clientes'))||(item.id==='gestion'&&(section==='equipo'||section.startsWith('estadisticas')||section==='google'||section==='informes'||section==='canjes'))||(item.id==='ajustes'&&(section==='configuracion'||section==='plan'||section==='ajustes'))||(item.id==='datos-negocio'&&section==='ajustes')||(item.id==='tarjetas'&&(section==='compartir-programa'||section==='tus-tarjetas'||section==='mis-tarjetas'||section==='promociones'));
   if(item.children)return <div className={'workspaceMenuGroup'+(depth?' isNested':'')} key={item.id}>
    <button className={'workspaceNavItem'+(active?' isActive':'')} aria-expanded={expanded.includes(item.id)} aria-controls={'workspace-submenu-'+item.id} onClick={()=>toggle(item.id)} aria-current={active?'page':undefined}>{item.icon&&<Icon name={item.icon}/>}<span><strong>{item.label}</strong></span><i aria-hidden="true"/></button>
    {expanded.includes(item.id)&&<div className="workspaceSubmenu" id={'workspace-submenu-'+item.id} aria-label={item.label}>{item.children.map(child=>render(child,depth+1))}</div>}
@@ -75,7 +75,7 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
  }
  const menu=[...items,{id:'complementos-label',label:'COMPLEMENTOS'},
   {id:'nival-pay',label:'Nival Pay',icon:'card'}, {id:'nival-resenas',label:'Nival Reseñas',icon:'google'}] as MenuItem[];
- const sectionAlias=section==='equipo'?'equipo':section==='programa'?'mis-tarjetas':section==='promociones'||section==='premios'?'promociones':section;
+ const sectionAlias=section==='ajustes'?'datos-negocio':section==='equipo'?'equipo':section==='programa'?'mis-tarjetas':section==='promociones'||section==='premios'?'promociones':section;
  const current=menu.flatMap(x=>[x,...(x.children||[])]).flatMap(x=>[x,...(x.children||[])]).find(x=>x.id===sectionAlias)||items[0];
  return <div className="nivalShell" data-section={section} data-open={open} data-collapsed={collapsed}>
   <a className="workspaceSkip" href="#workspace-title">Ir al contenido</a>
