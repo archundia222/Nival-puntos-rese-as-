@@ -7,9 +7,9 @@ export function SegmentCard({title,description,segment,customers,templates,busin
  const count=customers.length;
  useEffect(()=>{let current=true;generateAdvice(segment,{count,templates,variant,businessName}).then(text=>{if(current)setAdvice(text);}).catch(()=>{if(current)setAdvice('No se pudo cargar el consejo. Inténtalo de nuevo.');});return ()=>{current=false;};},[segment,count,templates,variant,businessName]);
  return <article className="ownerCard segmentCard"><div className="segmentHead"><div><h3>{title}</h3><p>{description}</p></div><strong>{customers.length}</strong></div>
- {customers.length>0?<><div className="ownerAdvice"><p>{advice||'Preparando consejo…'}</p><button type="button" onClick={()=>setVariant(v=>(v+1)%3)}>Otro consejo</button></div>
- <ul className="segmentList">{customers.slice((page-1)*10,page*10).map(c=><CustomerContact key={c.id} customer={c} businessName={businessName} demo={demo} segment={segment} messages={messages}/>)}</ul>
- {customers.length>10&&<nav className="customerPagination" aria-label="Páginas de contactos"><button type="button" disabled={page===1} onClick={()=>setPage(v=>v-1)}>Anterior</button><span>Página {page} de {Math.ceil(count/10)}</span><button type="button" disabled={page*10>=count} onClick={()=>setPage(v=>v+1)}>Siguiente</button></nav>}</>:
+ {customers.length>0?<><div className="ownerAdvice"><span>RECOMENDACIÓN</span><p>{advice||'Preparando consejo…'}</p><button type="button" onClick={()=>setVariant(v=>(v+1)%3)}>Otra</button></div>
+ <details className="segmentContacts"><summary>Ver clientes y contactar <span>{count}</span></summary><ul className="segmentList">{customers.slice((page-1)*10,page*10).map(c=><CustomerContact key={c.id} customer={c} businessName={businessName} demo={demo} segment={segment} messages={messages}/>)}</ul>
+ {customers.length>10&&<nav className="customerPagination" aria-label="Páginas de contactos"><button type="button" disabled={page===1} onClick={()=>setPage(v=>v-1)}>Anterior</button><span>Página {page} de {Math.ceil(count/10)}</span><button type="button" disabled={page*10>=count} onClick={()=>setPage(v=>v+1)}>Siguiente</button></nav>}</details></>:
  <p className="ownerEmpty">No hay clientes en este segmento. Se actualizará al registrar visitas con el QR personal.</p>}</article>;
 }
 function CustomerContact({customer:c,businessName,demo=false,segment='active',messages=[]}:{customer:Record<string,any>;businessName:string;demo?:boolean;segment?:string;messages?:Record<string,any>[]}){
