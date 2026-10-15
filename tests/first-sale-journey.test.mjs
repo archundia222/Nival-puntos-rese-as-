@@ -10,6 +10,17 @@ test('first sale: registration → paid code → setup → enrollment → owner 
  try{
   await db.exec('create schema neon_auth;create table neon_auth."user"(id uuid primary key)');
   for(const name of ['foundation-neon','points-neon','points-lifecycle','points-legacy-phones','owner-panel','owner-report-scope','legal-pilot','registration-pilot','reputation-v6','lealtad-v6','points-only-plan-v1','activation-plan-v2','entitlements-v2','owner-tools-v2','service-access-v3','plan-review-pipeline-v8','plan-pricing-v9','promotions-redemption-value-v1','period-summary-v1','review-cards-v1','branches-v1','weekday-bonus-v1','card-publish-recovery-v1','card-customization-v2'])await db.exec(source('database/'+name+'.sql'));
+  await db.exec(`alter table nival_pr.generated_reports add column if not exists branch_id uuid;
+   alter table nival_pr.reviews add column if not exists branch_id uuid;
+   create table nival_pr.branch_review_reports(
+    id uuid primary key default gen_random_uuid(),business_id uuid not null,branch_id uuid not null,
+    period date not null,period_kind text not null,rating numeric not null,total_reviews int not null,
+    new_reviews int not null,answered int not null,distribution jsonb not null default '{}'::jsonb,
+    profile_checklist jsonb not null default '{}'::jsonb,manual_summary text,
+    unique(branch_id,period,period_kind));
+   grant select on nival_pr.branch_review_reports to npr_v2_owner,npr_v2_admin;
+   drop index if exists nival_pr.generated_reports_period_summary_once;
+   create unique index generated_reports_period_summary_once on nival_pr.generated_reports(business_id,branch_id,period_start,period_end) nulls not distinct where kind='period_summary';`);
   await db.query('insert into neon_auth."user" values($1),($2)',[owner,admin]);
   await db.query("insert into nival_pr.profiles(id,role,full_name) values($1,'owner','Ana'),($2,'superadmin','Nival')",[owner,admin]);
   const scope=async(role,id='')=>{await db.exec('reset role;set role '+role);await db.query("select set_config('npr.user_id',$1,false)",[id]);};

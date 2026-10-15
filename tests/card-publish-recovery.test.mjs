@@ -20,7 +20,7 @@ test('card editor keeps edits in a local draft until explicit publish',()=>{
 test('card workspace exposes a collection, detail metrics, owner exports and review QR manager',()=>{
  const workspace=read('lib/points/card-workspace.tsx'),page=read('app/panel/puntos/page.tsx'),exportRoute=read('app/api/points/export/route.ts'),qrRoute=read('app/api/points/qr/route.ts');
  for(const label of ['Tus tarjetas','Tarjetas QR de reseñas','Actividad del programa','Registros recientes','Editar tarjeta','Exportar clientes','Exportar movimientos'])assert.ok(workspace.includes(label),label);
- assert.ok(page.includes('CardWorkspace')&&page.includes('list_review_cards'));
+ assert.ok(page.includes('CardWorkspace')&&page.includes('list_branch_review_cards'));
  assert.ok(exportRoute.includes('requireRole("owner")')&&exportRoute.includes('requireBusiness'));
  assert.ok(qrRoute.includes('format==="png"')&&qrRoute.includes('format==="pdf"'));
 });
