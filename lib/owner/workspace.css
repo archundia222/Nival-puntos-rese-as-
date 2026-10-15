@@ -421,3 +421,9 @@
  .reviewQrArt{width:130px}
  .reviewCreateContent .configGrid{grid-template-columns:1fr}
 }
+
+
+/* Use a QR symbol, never a scannable-looking placeholder. */
+.reviewQrArt{display:grid;place-items:center;background:#f5f8f2!important;background-image:none!important;border:0!important;color:#1b5238}
+.reviewQrArt svg{width:86px;height:86px;stroke-width:1.4}
+.reviewQrArt span{display:none}
