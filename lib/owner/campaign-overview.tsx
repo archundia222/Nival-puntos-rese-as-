@@ -11,55 +11,30 @@ export function CampaignOverview({businessId,demo,program,rewards,branchName,bra
  const rules:CampaignRules=branchRules||program?.rules?.campaign_rules||{};
  const targets=rules.targets||{};
  const segments=[
-  ['all','Todos los clientes','Un premio para cualquier cliente.'],
-  ['frequent','Frecuentes','Agradece que vuelvan seguido.'],
-  ['at_risk','En riesgo','Anímalos a regresar.']
+  ['all','Todos','clientes'],
+  ['frequent','Frecuentes','points'],
+  ['at_risk','En riesgo','clock']
  ] as const;
  const assigned=(key:string)=>active.filter(r=>Array.isArray(targets[key])&&targets[key].includes(r.id));
- const configured=segments.every(([key])=>assigned(key).length>0);
  const editUrl=demo?'/acceso':'/panel/puntos?business='+encodeURIComponent(businessId)+'&view=promociones#premios';
  return <>
   <div className="ownerSectionTitle campaignIntro">
    <span className="workspaceEyebrow">PROMOCIONES</span>
-   <h2>Elige qué premio recibe cada cliente</h2>
-   <p>Primero crea un premio. Después asígnalo a los grupos que quieras.</p>
+   <h2>Premios para tus clientes</h2>
   </div>
-  <div className="campaignWorkflow" aria-label="Pasos para configurar promociones">
-   <article className={'campaignWorkflowStep'+(active.length?' isDone':' isCurrent')}>
-    <span className="campaignStepNumber">{active.length?'✓':'1'}</span>
-    <div className="campaignStepCopy"><small>PASO 1</small><h3>{active.length?'Premios activos':'Crea tu primer premio'}</h3><p>{active.length?'Ya puedes asignar promociones a tus clientes.':'El premio aparecerá en tu tarjeta de puntos.'}</p></div>
-    <span className="campaignStepCount">{active.length} / 10 premios</span>
-    <a className="workspacePrimary" href={editUrl}>{demo?'Entrar para configurar':active.length?'Administrar premios':'Crear premio'}</a>
-   </article>
-   <article className={'campaignWorkflowStep'+(active.length?' isCurrent':' isLocked')}>
-    <span className="campaignStepNumber">2</span>
-    <div className="campaignStepCopy"><small>PASO 2 · {branchName}</small><h3>Elige quién recibe cada premio</h3><p>{active.length?'Asigna un premio a todos, frecuentes o clientes en riesgo.':'Se activa cuando tengas un premio.'}</p></div>
-    <span className="campaignStepStatus">{active.length?(configured?'Listo':'Pendiente'):'Primero crea un premio'}</span>
-   </article>
-  </div>
-  {demo&&<p className="campaignDemoNote">Estás viendo una muestra. Los cambios se hacen desde la cuenta del negocio.</p>}
-  {!demo&&branchId&&active.length>0&&<section className="ownerCard branchCampaignEditor campaignEditor">
-   <header className="campaignEditorHeader"><span className="campaignStepNumber">2</span><div><h3>Asignar premios a clientes</h3><p>Esta regla se aplica al iniciar una meta nueva en {branchName}.</p></div></header>
-   <ActionForm action={saveBranchCampaigns} label="Guardar cambios">
-    <Hidden name="businessId" value={businessId}/>
-    <Hidden name="branchId" value={branchId}/>
-    <label className="wide campaignStrategyLabel">Si eliges varios premios
-     <select name="strategy" defaultValue={rules.strategy||'manual'}>
-      <option value="manual">Usar el primero de la lista</option>
-      <option value="random">Elegir uno al azar</option>
-     </select>
-     <small>Elige uno o varios premios para cada grupo.</small>
-    </label>
-    {segments.map(([key,label,help])=><fieldset className="wide campaignSegment" key={key}>
-     <legend><span>{label}</span><small>{help}</small></legend>
-     <div className="campaignChoices">{active.map(r=><label className="campaignChoice" key={r.id}>
-      <input type="checkbox" name={'target_'+key} value={r.id} defaultChecked={assigned(key).some(a=>a.id===r.id)}/>
-      <span><strong>{r.name}</strong><small>{r.points_cost} puntos</small></span>
-     </label>)}</div>
-    </fieldset>)}
-    <p className="wide campaignSaveHint">Los clientes que ya tienen una meta conservan su premio actual.</p>
-   </ActionForm>
-  </section>}
-  {active.length>0&&<p className="campaignFootnote">Configuración de la sucursal seleccionada: {branchName}.</p>}
+  {!active.length?<article className="ownerCard campaignEmpty">
+   <div className="campaignCardArt"><Icon name="gift" size={42}/><span>PREMIO</span><i>✦</i></div>
+   <div className="campaignEmptyText"><h3>Tu primer premio</h3><a className="workspacePrimary" href={editUrl}>{demo?'Entrar':'Crear premio'} <Icon name="arrow" size={17}/></a></div>
+  </article>:<>
+   <div className="campaignRewardStrip" aria-label="Premios activos">{active.map((reward,index)=><article className="campaignRewardCard" key={reward.id}><span className="campaignRewardIcon"><Icon name="gift" size={20}/></span><strong>{reward.name}</strong><small>{reward.points_cost} pts</small><a href={editUrl} aria-label={'Editar premio '+reward.name}><Icon name="arrow" size={17}/></a></article>)}<a className="campaignAddReward" href={editUrl}><Icon name="check" size={18}/><span>{active.length} / 10</span></a></div>
+   {demo?<div className="campaignAudienceGrid">{segments.map(([key,label,icon])=><article className="campaignAudienceCard" key={key}><span className="campaignAudienceIcon"><Icon name={icon} size={22}/></span><strong>{label}</strong><span className="campaignAudienceStatus">Configura tu cuenta</span></article>)}</div>:branchId&&<section className="ownerCard campaignEditor">
+    <header className="campaignEditorHeader"><span className="campaignBranchMark"><Icon name="pin" size={19}/></span><div><h3>Elige el premio</h3><span className="campaignBranchName">{branchName}</span></div></header>
+    <ActionForm action={saveBranchCampaigns} label="Guardar">
+     <Hidden name="businessId" value={businessId}/><Hidden name="branchId" value={branchId}/>
+     <label className="campaignStrategyLabel">Asignación<select name="strategy" defaultValue={rules.strategy||'manual'}><option value="manual">En el orden elegido</option><option value="random">Al azar</option></select></label>
+     <div className="campaignAudienceGrid">{segments.map(([key,label,icon])=><fieldset className="campaignAudienceCard" key={key}><legend><span className="campaignAudienceIcon"><Icon name={icon} size={22}/></span><strong>{label}</strong></legend><div className="campaignChoices">{active.map(reward=><label className="campaignChoice" key={reward.id}><input type="checkbox" name={'target_'+key} value={reward.id} defaultChecked={assigned(key).some(item=>item.id===reward.id)}/><span><strong>{reward.name}</strong><small>{reward.points_cost} pts</small></span></label>)}</div></fieldset>)}</div>
+    </ActionForm>
+   </section>}
+  </>}
  </>;
 }
