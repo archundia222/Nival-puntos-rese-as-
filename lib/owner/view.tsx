@@ -72,7 +72,6 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
    <Metric label="Visitas registradas" value={current.visits}/>
     <RetentionMetric current={current} previous={prev}/>
   </div>
-  <NextActions riskCount={riskCount} newCount={newCount} activePromotions={Number(data.activeRewards||0)} pendingReviews={pendingReviews} reviewLimit={responseLimit} repliesUsed={reviewed} branchName={data.selectedBranch?.name||b.name}/>
    <ActivityChart items={activityRows}/>
   <div className="ownerDashboardGrid">
    <article className="ownerCard clientStatusCard"><h2>Estado de tus clientes</h2><p>Toca un grupo para abrir su lista.</p>{groupRows.map(([id,label,count,color])=><a className="clientStatusRow" href={'#'+id} key={id}><span>{label}</span><b>{count}</b><i><em style={{width:(registered?Math.min(100,count/registered*100):0)+'%',background:color}}/></i></a>)}</article>
