@@ -22,6 +22,8 @@ import {ReviewCardManager} from './review-card-manager';
 import {BranchManager} from './branch-manager';
 import {NextActions} from './next-actions';
 import {CampaignOverview} from './campaign-overview';
+import {StartGuide} from './start-guide';
+import type {Actor} from '../foundation/db';
 import {SegmentCard} from './clients';
 import {BranchGoogleSettings} from './branch-google-settings';
 const number=(v:number)=>Number(v||0).toLocaleString('es-MX');
@@ -61,6 +63,7 @@ export function OwnerView({actor,b,businesses,range,data,demo=false,mobilePrevie
  return <DashboardShell pointsOnly={pointsOnly} name={b.name} owner={actor.name} status={status} demo={demo} mobilePreview={mobilePreview} homeUrl={demo?'/demo/panel':'/panel?business='+b.id+(data.selectedBranch?.id?'&branch='+data.selectedBranch.id:'')} planName={planName} price={price} responseLimit={responseLimit} periodDay={periodDay} branches={data.branches||[]} branchId={data.selectedBranch?.id} logout={<form action={logout}><button className="logoutButton" aria-label="Cerrar sesión" title="Cerrar sesión"><Icon name="logout" size={18}/></button></form>}><main className="ownerDashboard">
  {!demo&&!active&&<AccountState b={b}/>}
  <section id="inicio" data-panel="inicio" className="ownerBlock">
+  {!demo&&<StartGuide actor={actor as Actor} businessId={b.id}/>}
   <div className="ownerMetrics ownerOverviewMetrics">
    <Metric label="Total de usuarios" value={registered}/>
    <Metric label="Nuevos usuarios" value={current.new_customers}/>
