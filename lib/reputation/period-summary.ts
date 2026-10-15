@@ -57,8 +57,21 @@ export async function closePeriodSummaries(){
     and l.created_at>=(x.period_start::timestamp at time zone 'America/Mexico_City')
     and l.created_at<((x.period_end+1)::timestamp at time zone 'America/Mexico_City')
   ) m on true
-  left join lateral (select * from (select rating,total_reviews,new_reviews,answered,distribution,manual_summary,period from nival_pr.branch_review_reports r where x.branch_id is not null and r.business_id=x.business_id and r.branch_id=x.branch_id union all select rating,total_reviews,new_reviews,answered,distribution,manual_summary,period from nival_pr.review_reports r where x.branch_id is null and r.business_id=x.business_id) r
-    where r.period between x.period_start and x.period_end order by r.period desc limit 1) rr
+  left join lateral (
+    select z.rating,z.total_reviews,z.new_reviews,z.answered,z.distribution,z.manual_summary,z.period from (
+     select r.rating,r.total_reviews,r.new_reviews,r.answered,r.distribution,r.manual_summary,r.period,0 priority
+      from nival_pr.branch_review_reports r where x.branch_id is not null and r.business_id=x.business_id and r.branch_id=x.branch_id and r.period between x.period_start and x.period_end
+     union all
+     select round(sum(t.rating*t.total_reviews)/nullif(sum(t.total_reviews),0),2),sum(t.total_reviews)::int,sum(t.new_reviews)::int,sum(t.answered)::int,
+      jsonb_build_object('1',sum(coalesce((t.distribution->>'1')::int,0)),'2',sum(coalesce((t.distribution->>'2')::int,0)),'3',sum(coalesce((t.distribution->>'3')::int,0)),'4',sum(coalesce((t.distribution->>'4')::int,0)),'5',sum(coalesce((t.distribution->>'5')::int,0))),
+      null::text,max(t.period),0
+      from (select distinct on (r.branch_id) r.* from nival_pr.branch_review_reports r where x.branch_id is null and r.business_id=x.business_id and r.period between x.period_start and x.period_end order by r.branch_id,r.period desc) t
+      having count(*)>0
+     union all
+     select r.rating,r.total_reviews,r.new_reviews,r.answered,r.distribution,r.manual_summary,r.period,1 priority
+      from nival_pr.review_reports r where x.branch_id is null and r.business_id=x.business_id and r.period between x.period_start and x.period_end
+    ) z order by z.priority,z.period desc limit 1
+   ) rr
     on x.review_limit>0 and not x.points_only
   left join nival_pr.business_comparisons bc on bc.business_id=x.business_id and x.price_mxn=549 and x.branch_id is null
  )
