@@ -254,3 +254,80 @@
 
 /* Nival: action center and campaign overview */
 .nivalShell .ownerActionCenter{padding:24px 26px;margin:0 0 24px;background:linear-gradient(135deg,#fff,#f4f8f3);border-color:#dfe9df}.ownerActionCenter h2{font-size:21px;font-weight:650;letter-spacing:-.5px;margin:4px 0}.ownerActionCenter header p{font-size:12px;color:#718277;margin:0 0 18px}.ownerActionGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.ownerActionLink{display:flex;align-items:flex-start;gap:12px;padding:18px;border:1px solid #e1eae2;background:#fff;border-radius:12px;color:#234c39;transition:transform .16s,border-color .16s}.ownerActionLink:hover{transform:translateY(-2px);border-color:#9abda5}.ownerActionLink>svg{flex-shrink:0;color:#27664e}.ownerActionLink strong{display:block;font-size:13px;line-height:1.35}.ownerActionLink small{display:block;margin-top:6px;color:#7b8a7e;font-size:11px;line-height:1.5}.nivalShell .campaignSummary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:22px}.campaignSummary .ownerMetric{margin:0}.campaignSegmentGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:24px}.campaignSegmentGrid .ownerCard{margin:0}.campaignSegmentGrid h3{margin:6px 0 8px!important}.campaignSegmentGrid p{font-size:12px;color:#7b8a7e;line-height:1.6}.campaignPill{display:inline-block;background:#edf5e9;color:#2c674b;border-radius:20px;padding:5px 10px;margin:4px 5px 0 0;font-size:11px}.campaignFootnote{font-size:12px;color:#738375;line-height:1.7}.campaignActions{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 24px}.nivalShell .segmentCard{margin-top:18px}@media(max-width:900px){.ownerActionGrid,.campaignSegmentGrid{grid-template-columns:1fr}.nivalShell .campaignSummary{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:580px){.nivalShell .campaignSummary{grid-template-columns:1fr}.nivalShell .ownerActionCenter{padding:18px}}
+
+
+/* UX: one clear next step, concise states, and readable promotion assignments. */
+.nivalShell .startGuide{padding:24px;border:1px solid #dce8df;background:linear-gradient(135deg,#fff 55%,#f3f7f1);margin-bottom:24px}
+.startGuideHeading{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.startGuideHeading h2{font-size:22px;letter-spacing:-.5px;margin:6px 0}
+.startGuideHeading p{font-size:13px;line-height:1.5;color:#718076;margin:0}
+.startGuideProgress,.campaignStepCount,.campaignStepStatus,.reviewCardCount{display:inline-flex;align-items:center;border-radius:999px;background:#edf4ed;color:#3f684d;padding:8px 11px;font-size:12px;font-weight:700;white-space:nowrap}
+.nivalShell .startGuide ol{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:20px 0 16px}
+.nivalShell .startGuide li{display:flex;align-items:flex-start;gap:11px;padding:14px;background:#fff;border:1px solid #e6ece6;border-radius:12px}
+.startGuide li .startStepNumber,.campaignStepNumber,.reviewCardStep{display:grid;place-items:center;flex:0 0 27px;height:27px;border-radius:50%;background:#e8f1e8;color:#275b41;font-size:13px;font-weight:700}
+.startGuide li.isDone .startStepNumber{background:#28694d;color:#fff}
+.startGuide li a{color:#293d30;text-decoration:none;font-size:14px}
+.startGuide li a:hover{text-decoration:underline}
+.startGuide li small{font-size:12px;line-height:1.45;color:#79867b}
+.nivalShell .startGuideNext{min-height:42px;padding:11px 16px;font-size:13px!important}
+.campaignIntro{margin-bottom:16px}
+.campaignIntro h2{font-size:23px!important}
+.campaignWorkflow{display:grid;gap:12px;margin-bottom:18px}
+.campaignWorkflowStep{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;align-items:center;gap:15px;padding:16px 18px;border:1px solid #e3eae4;border-radius:13px;background:#fff}
+.campaignWorkflowStep.isCurrent{border-color:#b8d0bd;background:#f9fcf8}
+.campaignWorkflowStep.isLocked{background:#f7f8f6;color:#929b92}
+.campaignWorkflowStep.isDone>.campaignStepNumber{background:#28694d;color:#fff}
+.campaignStepCopy small{font-size:10px;letter-spacing:1px;color:#819084}
+.campaignStepCopy h3{margin:3px 0;font-size:15px}
+.campaignStepCopy p{margin:0;color:#758276;font-size:12px;line-height:1.4}
+.campaignWorkflowStep.isLocked .campaignStepCopy p{color:#929b92}
+.campaignStepStatus{font-size:11px}
+.campaignStepStatus:empty{display:none}
+.campaignEditor{padding:22px!important}
+.campaignEditorHeader{display:flex;align-items:flex-start;gap:12px;margin-bottom:18px}
+.campaignEditorHeader h3{margin:1px 0 3px!important}
+.campaignEditorHeader p{margin:0;color:#748176;font-size:12px;line-height:1.5}
+.campaignStrategyLabel{display:grid;gap:7px;color:#53695b!important;font-size:13px!important;font-weight:650}
+.campaignStrategyLabel small{color:#879287;font-size:12px;font-weight:400}
+.nivalShell .campaignSegment{display:block;padding:16px;border-color:#e7ece7}
+.campaignSegment legend{padding:0 8px}
+.campaignSegment legend span{display:block;color:#284b36;font-size:14px;font-weight:700}
+.campaignSegment legend small{display:block;margin:3px 0 8px;color:#829084;font-size:12px;font-weight:400}
+.nivalShell .campaignChoices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.nivalShell .campaignChoice{display:flex;align-items:center;gap:10px;min-height:54px;padding:10px 12px;border:1px solid #e8eee8;border-radius:10px;background:#fff;cursor:pointer}
+.nivalShell .campaignChoice:has(input:checked){border-color:#91b79a;background:#f3f8f2}
+.nivalShell .campaignChoice input{width:18px;height:18px;min-height:18px;margin:0;accent-color:#28694d}
+.campaignChoice strong{display:block;color:#344a39;font-size:13px}
+.campaignChoice small{display:block;margin-top:3px;color:#829084;font-size:11px}
+.campaignSaveHint{margin:0;color:#89948a;font-size:12px;line-height:1.5}
+.campaignEmpty{display:flex;align-items:center;gap:14px;padding:20px!important}
+.campaignEmptyIcon{display:grid;place-items:center;flex:0 0 42px;height:42px;border-radius:12px;background:#eef5ed;color:#376c4f}
+.campaignEmpty h3{margin:0 0 4px!important}
+.campaignEmpty p,.campaignDemoNote{margin:0;color:#788579;font-size:13px;line-height:1.5}
+.campaignEmpty .workspacePrimary{margin-left:auto;white-space:nowrap}
+.campaignFootnote{font-size:12px;color:#778479;margin:12px 0 0}
+.reviewCardHeading{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin:0 0 14px}
+.reviewCardHeading h3{font-size:20px;margin:4px 0}
+.reviewCardHeading p{font-size:13px;color:#718076;margin:0}
+.reviewCardGuide{display:flex;align-items:flex-start;gap:14px;padding:20px!important}
+.reviewCardGuide>div{flex:1;min-width:0}
+.reviewCardGuide h3{margin:0 0 4px!important}
+.reviewCardGuide>div>p{margin:0 0 12px;color:#748176;font-size:13px;line-height:1.5}
+.reviewCardGuide .configGrid{margin:12px 0 0;grid-template-columns:1fr auto;align-items:end}
+.reviewCardGuide .configGrid label{font-size:13px!important}
+.reviewCardGuide .configGrid input{margin-top:6px}
+.reviewCardGuide .configGrid button{align-self:end}
+.reviewCardCount{background:#f1f4ef;color:#617363}
+@media(max-width:760px){
+ .nivalShell .startGuide ol{grid-template-columns:1fr}
+ .campaignWorkflowStep{grid-template-columns:auto minmax(0,1fr);align-items:start}
+ .campaignStepCount,.campaignStepStatus{grid-column:2;justify-self:start}
+ .campaignWorkflowStep>a{grid-column:2;justify-self:start}
+ .campaignEmpty{align-items:flex-start;flex-wrap:wrap}
+ .campaignEmpty .workspacePrimary{margin-left:56px}
+ .nivalShell .campaignChoices{grid-template-columns:1fr}
+ .reviewCardHeading{flex-direction:column}
+ .reviewCardGuide{flex-direction:column}
+ .reviewCardGuide .configGrid{grid-template-columns:1fr}
+ .reviewCardGuide .configGrid button{width:100%}
+}
