@@ -67,8 +67,7 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
   {needsSetup?<StartGuide state={startState!}/>:<NextActions riskCount={riskCount} frequentCount={frequentCount} newCount={newCount} activePromotions={Number(data.activeRewards||0)} pendingReviews={pendingReviews} reviewLimit={responseLimit} branchName={data.selectedBranch?.name||b.name}/>}
   <div className="ownerImpactHeading"><div><span className="workspaceEyebrow">RESULTADOS DEL PERIODO</span><h2>El impacto de tu programa</h2></div><span>{data.selectedBranch?.name||b.name}</span></div>
   <div className="ownerMetrics ownerOverviewMetrics">
-   <Metric label="Clientes" value={registered}/>
-   <Metric label="Clientes nuevos" value={current.new_customers}/>
+   <Metric label="Clientes nuevos" value={current.new_customers} previous={Number(prev.new_customers)}/>
    <Metric label="Premios canjeados" value={current.redeemed||0}/>
    <Metric label="Visitas registradas" value={current.visits}/>
     <RetentionMetric current={current} previous={prev}/>
@@ -76,7 +75,6 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
   <div className="ownerDashboardGrid ownerImpactGrid">
    <ActivityChart items={activityRows}/>
    <article className="ownerCard clientStatusCard"><h2>Grupos de clientes</h2><p>Abre un grupo para ver acciones.</p>{groupRows.map(([id,label,count,color])=><a className="clientStatusRow" href={'#'+id} key={id}><span>{label}</span><b>{count}</b><i><em style={{width:(registered?Math.min(100,count/registered*100):0)+'%',background:color}}/></i></a>)}</article>
-   <article className="ownerCard periodReportCard"><span className="workspaceEyebrow">CLIENTES NUEVOS</span><strong>{number(current.new_customers)}</strong><small>{Number(current.new_customers)-Number(prev.new_customers)>0?'+':''}{number(Number(current.new_customers)-Number(prev.new_customers))} frente al periodo anterior</small><a href="#estadisticas-puntos">Ver impacto en puntos <Icon name="arrow" size={15}/></a></article>
   </div>
   {responseLimit>0&&<article className="ownerCard googleOverview"><div><span className="workspaceEyebrow">GOOGLE Y RESEÑAS</span><h2>Reseñas respondidas</h2><p>{data.google?`${number(data.google.fresh)} reseñas nuevas · ${reviewed} respuestas usadas · ${number(pendingReviews||0)} por responder`:'Aún no hay un reporte de reseñas para este periodo.'}</p><div className="replyProgress"><i style={{width:reviewPct+'%'}}/></div><strong className="reviewQuota">{reviewed} / {responseLimit} respuestas del negocio en este periodo</strong></div><div className="googleOverviewScore"><strong>{last?Number(last.rating).toFixed(1):'—'}</strong><span>{last?`${number(last.total_reviews)} reseñas`:'Sin reporte'}</span></div><a href="#google">Ver reseñas <Icon name="arrow" size={15}/></a></article>}
   {planName==='Plus'&&<article className="ownerCard zoneOverview"><div><span className="workspaceEyebrow">COMPARACIÓN CON TU ZONA</span><h2>Tu negocio frente a negocios parecidos</h2></div>{data.zoneComparison?<div className="zoneValues"><span>Tu negocio <b>{data.zoneComparison.rating} · {data.zoneComparison.reviews} reseñas</b></span><span>Promedio de la zona <b>{data.zoneComparison.average_rating} · {data.zoneComparison.average_reviews} reseñas</b></span><strong>Diferencia de calificación: {data.zoneComparison.difference>0?'+':''}{data.zoneComparison.difference}</strong></div>:<p>La comparación aparecerá aquí cuando Nival cargue los datos de negocios similares en tu zona.</p>}</article>}

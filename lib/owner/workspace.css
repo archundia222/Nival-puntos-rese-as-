@@ -540,14 +540,14 @@
 .ownerActionLink:hover{transform:translateY(-2px);border-color:#ffffff44;background:#ffffff16}
 .ownerActionIcon{display:grid;flex:0 0 40px;width:40px;height:40px;place-items:center;border:1px solid #ffffff24;border-radius:13px;background:#ffffff12;color:#d9edcf}
 .ownerActionCopy{display:grid;gap:2px;min-width:0}
-.ownerActionCopy>small{color:#c1d5c6;font-size:9px;font-weight:700;letter-spacing:1px}
+.nivalShell .ownerActionCenter .ownerActionCopy>small{color:#e1efdf!important;font-size:9px;font-weight:700;letter-spacing:1px}
 .ownerActionCopy>strong{color:#fff;font-size:28px;line-height:1.08;letter-spacing:-.8px}
 .ownerActionCopy>span{color:#d9e5da;font-size:11px}
 .ownerActionCopy>b{display:flex;align-items:center;gap:5px;margin-top:6px;color:#e4f3dc;font-size:11px;font-weight:650}
 .ownerImpactHeading{display:flex;align-items:end;justify-content:space-between;gap:16px;margin:0 0 11px;padding:0 2px}
 .ownerImpactHeading h2{margin:3px 0 0;color:#20362b;font-size:19px;letter-spacing:-.45px}
 .ownerImpactHeading>span{padding:6px 10px;border:1px solid #e2eae3;border-radius:999px;background:#fff;color:#51675a;font-size:10px;font-weight:650}
-.nivalShell .ownerOverviewMetrics{grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:0 0 14px}
+.nivalShell .ownerOverviewMetrics{grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0 0 14px}
 .nivalShell .ownerOverviewMetrics .ownerMetric{min-height:99px;margin:0;padding:15px 16px;border:1px solid #e7ece8;border-radius:15px;background:#fff;box-shadow:0 5px 16px #1b38290a}
 .nivalShell .ownerMetric>span{font-size:11px;color:#6b7a70}
 .nivalShell .ownerMetric>strong{margin-top:8px;color:#193d2d;font-size:27px;letter-spacing:-.7px}
@@ -633,7 +633,7 @@
 .customerDirectoryDetails>.customerExplorer{margin:0;border:0;border-top:1px solid #edf1ed;border-radius:0;box-shadow:none}
 
 @media(max-width:1100px){
- .nivalShell .ownerOverviewMetrics{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .nivalShell .ownerOverviewMetrics{grid-template-columns:repeat(2,minmax(0,1fr))}
  .nivalShell .ownerImpactGrid{grid-template-columns:minmax(0,1.3fr) minmax(230px,.8fr)}
 }
 @media(max-width:760px){
