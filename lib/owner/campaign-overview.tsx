@@ -28,7 +28,7 @@ export function CampaignOverview({businessId,demo,program,rewards,branchName,bra
    <article className={'campaignWorkflowStep'+(active.length?' isDone':' isCurrent')}>
     <span className="campaignStepNumber">{active.length?'✓':'1'}</span>
     <div className="campaignStepCopy"><small>PASO 1</small><h3>{active.length?'Premios activos':'Crea tu primer premio'}</h3><p>{active.length?'Ya puedes asignar promociones a tus clientes.':'El premio aparecerá en tu tarjeta de puntos.'}</p></div>
-    <span className="campaignStepCount">{active.length} / 10</span>
+    <span className="campaignStepCount">{active.length} / 10 premios</span>
     <a className="workspacePrimary" href={editUrl}>{demo?'Entrar para configurar':active.length?'Administrar premios':'Crear premio'}</a>
    </article>
    <article className={'campaignWorkflowStep'+(active.length?' isCurrent':' isLocked')}>
