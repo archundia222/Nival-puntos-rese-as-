@@ -7,7 +7,7 @@ export async function reportPdf(report:any):Promise<Buffer>{
  if(report.kind==='period_summary'){
   const m=a.metrics||{},plan=a.plan||'Puntos';
   doc.font('Helvetica-Bold').fontSize(25).fillColor('#164d3b').text('NIVAL');
-  heading(report.business_name);line('Resumen del periodo · Plan '+plan);
+  heading(report.business_name);line('Sucursal: '+(report.branch_name||a.branch_name||'Todas las sucursales (consolidado)'));line('Resumen del periodo · Plan '+plan);
   line('Periodo: '+String(report.period_start).slice(0,10)+' al '+String(report.period_end).slice(0,10));
   heading('Impacto del programa de puntos');
   line('Visitas registradas: '+(m.visits||0));line('Puntos otorgados: '+(m.points||0));
@@ -21,7 +21,7 @@ export async function reportPdf(report:any):Promise<Buffer>{
   if(plan==='Plus'&&a.comparison){heading('Comparación con la zona');line('Negocio: '+a.comparison.business_rating+' / 5 · '+a.comparison.business_reviews+' reseñas');line('Promedio de la zona: '+a.comparison.zone_rating+' / 5 · '+a.comparison.zone_reviews+' reseñas');}
   line('Este resumen refleja los registros disponibles en Nival al cierre del periodo.');doc.end();return done;
  }
- doc.font('Helvetica-Bold').fontSize(25).fillColor('#164d3b').text('NIVAL');heading(report.business_name);
+ doc.font('Helvetica-Bold').fontSize(25).fillColor('#164d3b').text('NIVAL');heading(report.business_name);line('Sucursal: '+(report.branch_name||a.branch_name||'Todas las sucursales (consolidado)'));
  line(report.kind==='diagnosis'?'Diagnóstico inicial':report.kind==='week'?'Resumen semanal':'Reporte mensual');
  line('Estado: '+(report.status==='approved'?'Aprobado por Nival':'Borrador para revisión'));
  line('Periodo: '+String(report.period_start).slice(0,10)+' al '+String(report.period_end).slice(0,10)+' (fecha final no incluida)');
