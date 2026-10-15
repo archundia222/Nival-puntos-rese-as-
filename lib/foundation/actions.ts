@@ -209,7 +209,7 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
     const parsed = JSON.parse(val(f, "campaignRules") || "{}");
     if (!parsed || typeof parsed !== "object" || Array.isArray(parsed) || !["manual", "random"].includes(parsed.strategy)) throw new Error();
     const targets = parsed.targets || {};
-    const keys = ["all", "frequent", "at_risk"];
+    const keys = ["all", "new", "frequent", "at_risk", "lost", "absent"];
     if (!targets || typeof targets !== "object" || Array.isArray(targets) || Object.keys(targets).some((key) => !keys.includes(key))) throw new Error();
     const clean: Record<string, string[]> = {};
     for (const key of keys) {
@@ -217,9 +217,8 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
       if (!Array.isArray(ids) || ids.length > 10 || ids.some((id: unknown) => typeof id !== "string" || !uuid(id))) throw new Error();
       clean[key] = [...new Set(ids)];
     }
-    if (!clean.all.length || !clean.frequent.length || !clean.at_risk.length) throw new Error();
     campaignRules = { strategy: parsed.strategy, targets: clean };
-  } catch { return { error: "Asigna al menos una promoción activa a todos los clientes, frecuentes y clientes en riesgo." }; }
+  } catch { return { error: "Revisa la selección de premios por grupo." }; }
   try {
     const parsed = JSON.parse(val(f, "cardDesign") || "{}");
     if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
@@ -282,6 +281,7 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
     const validPromotions = await query(actor, "select r.id from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 and r.active and (r.expires_at is null or r.expires_at>now()) and (r.stock is null or r.stock>0) and r.id=any($2::uuid[])", [b, promotionIds]);
     if (validPromotions.length !== promotionIds.length) return { error: "Una promoción seleccionada ya no está activa. Actualiza la selección y vuelve a publicar." };
     const activeReward = await query(actor,"select r.id from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 and r.active order by r.position,r.id limit 1",[b]);
+    if (activeReward.length && !campaignRules.targets.all.length) return { error: "Asigna al menos un premio a Todos. Los demás grupos son opcionales." };
     await transaction(actor, [
       { text: "insert into nival_pr.programs(business_id,name,mode,points_per_visit,color,rules,logo_url,card_enabled) values($1,$2,$3,$4,$5,$6::jsonb,$7,$8) on conflict(business_id) do update set name=excluded.name,mode=excluded.mode,points_per_visit=excluded.points_per_visit,color=excluded.color,rules=coalesce(programs.rules, '{}'::jsonb) || excluded.rules,logo_url=excluded.logo_url,card_enabled=excluded.card_enabled", values: [
         b,

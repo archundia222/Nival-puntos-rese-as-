@@ -517,3 +517,11 @@
 .reviewQrArt{display:grid;place-items:center;background:#f5f8f2!important;background-image:none!important;border:0!important;color:#1b5238}
 .reviewQrArt svg{width:86px;height:86px;stroke-width:1.4}
 .reviewQrArt span{display:none}
+
+/* Make segment targeting scannable in the card editor. */
+.nivalCardEditor .campaignAssignment{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
+.nivalCardEditor .campaignAssignment>legend,.nivalCardEditor .campaignAssignment>p,.nivalCardEditor .campaignAssignment>.campaignStrategy{grid-column:1/-1}
+.nivalCardEditor .campaignAssignment .campaignSegment{align-content:start;min-width:0}
+.nivalCardEditor .campaignSegment>label{min-width:0;line-height:1.35}
+.nivalCardEditor .campaignSegment>label>span{overflow-wrap:anywhere}
+@media(max-width:700px){.nivalCardEditor .campaignAssignment{grid-template-columns:1fr}.nivalCardEditor .campaignAssignment>legend,.nivalCardEditor .campaignAssignment>p,.nivalCardEditor .campaignAssignment>.campaignStrategy{grid-column:auto}}

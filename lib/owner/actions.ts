@@ -25,7 +25,7 @@ export async function saveBranchCampaigns(_:Result,f:FormData):Promise<Result>{
  if(!/^[0-9a-f-]{36}$/i.test(businessId)||!/^[0-9a-f-]{36}$/i.test(branchId))return {error:'Sucursal inválida.'};
  const strategy=String(f.get('strategy')||'manual');if(!['manual','random'].includes(strategy))return {error:'Selección inválida.'};
  const targets:Record<string,string[]>={};
- for(const key of ['all','frequent','at_risk']){const ids=f.getAll('target_'+key).map(String);if(ids.length<1||ids.length>10||ids.some(id=>!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)))return {error:'Selecciona de 1 a 10 promociones para cada grupo.'};targets[key]=[...new Set(ids)];}
+ for(const key of ['all','new','frequent','at_risk','lost','absent']){const ids=[...new Set(f.getAll('target_'+key).map(String))];if(ids.some(id=>!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id))||ids.length>10||(key==='all'&&ids.length<1))return {error:'Elige al menos un premio para Todos. Los demás grupos son opcionales.'};targets[key]=ids;}
  try{await requireTool(actor,businessId);await query({role:'auth',id:actor.id},'select nival_pr_private.save_branch_campaigns($1,$2,$3::jsonb)',[businessId,branchId,JSON.stringify({strategy,targets})]);revalidatePath('/panel');return {success:'Campañas guardadas. Se aplicarán a nuevas metas sin modificar las ya bloqueadas.'};}catch{return {error:'No se pudieron guardar las promociones. Comprueba que estén activas.'};}
 }
 export async function saveBranchGoogleUrl(_:Result,f:FormData):Promise<Result>{
