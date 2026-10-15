@@ -17,7 +17,7 @@ export function CampaignOverview({businessId,demo,program,rewards,branchName,bra
  ] as const;
  const assigned=(key:string)=>active.filter(r=>Array.isArray(targets[key])&&targets[key].includes(r.id));
  const configured=segments.every(([key])=>assigned(key).length>0);
- const editUrl=demo?'#promociones':'/panel/puntos?business='+encodeURIComponent(businessId)+'&view=promociones#premios';
+ const editUrl=demo?'/acceso':'/panel/puntos?business='+encodeURIComponent(businessId)+'&view=promociones#premios';
  return <>
   <div className="ownerSectionTitle campaignIntro">
    <span className="workspaceEyebrow">PROMOCIONES</span>
@@ -29,7 +29,7 @@ export function CampaignOverview({businessId,demo,program,rewards,branchName,bra
     <span className="campaignStepNumber">{active.length?'✓':'1'}</span>
     <div className="campaignStepCopy"><small>PASO 1</small><h3>{active.length?'Premios activos':'Crea tu primer premio'}</h3><p>{active.length?'Ya puedes asignar promociones a tus clientes.':'El premio aparecerá en tu tarjeta de puntos.'}</p></div>
     <span className="campaignStepCount">{active.length} / 10</span>
-    <a className="workspacePrimary" href={editUrl}>{active.length?'Administrar premios':'Crear premio'}</a>
+    <a className="workspacePrimary" href={editUrl}>{demo?'Entrar para configurar':active.length?'Administrar premios':'Crear premio'}</a>
    </article>
    <article className={'campaignWorkflowStep'+(active.length?' isCurrent':' isLocked')}>
     <span className="campaignStepNumber">2</span>
@@ -60,11 +60,6 @@ export function CampaignOverview({businessId,demo,program,rewards,branchName,bra
     <p className="wide campaignSaveHint">Los clientes que ya tienen una meta conservan su premio actual.</p>
    </ActionForm>
   </section>}
-  {!demo&&!active.length&&<article className="ownerCard campaignEmpty">
-   <span className="campaignEmptyIcon" aria-hidden="true"><Icon name="gift" size={20}/></span>
-   <div><h3>Aún no hay premios activos</h3><p>Crea uno para poder elegir a qué clientes ofrecerlo.</p></div>
-   <a className="workspacePrimary" href={editUrl}>Crear primer premio <span aria-hidden="true">→</span></a>
-  </article>}
   {active.length>0&&<p className="campaignFootnote">Configuración de la sucursal seleccionada: {branchName}.</p>}
  </>;
 }
