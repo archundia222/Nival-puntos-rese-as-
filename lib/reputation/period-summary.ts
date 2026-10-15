@@ -34,16 +34,25 @@ export async function closePeriodSummaries(){
     count(distinct l.customer_id) filter(where l.type='visit')::int visiting_customers,
     coalesce(avg(l.ticket_value_mxn) filter(where l.type='visit' and l.ticket_value_mxn is not null),0)::numeric(12,2) average_ticket,
     coalesce(sum(l.ticket_value_mxn) filter(where l.type='visit'),0)::numeric(12,2) program_income,
-    count(*) filter(where l.type='visit' and l.customer_id in (
-      select customer_id from nival_pr.point_ledger where business_id=x.business_id and type='visit'
-      and (x.branch_id is null or branch_id=x.branch_id) and created_at>=(x.period_start::timestamp at time zone 'America/Mexico_City')
-      and created_at<((x.period_end+1)::timestamp at time zone 'America/Mexico_City')
-      group by customer_id having count(*)>1
+    count(distinct l.customer_id) filter(where l.type='visit' and exists(
+      select 1 from nival_pr.point_ledger older where older.business_id=x.business_id
+       and older.customer_id=l.customer_id and older.type='visit'
+       and (x.branch_id is null or older.branch_id=x.branch_id)
+       and older.created_at<l.created_at
     ))::int returning_customers,
-    (select count(*)::int from nival_pr.customers c where c.business_id=x.business_id
-      and (x.branch_id is null or exists(select 1 from nival_pr.point_ledger v where v.business_id=x.business_id and v.customer_id=c.id and v.branch_id=x.branch_id and v.type='visit'))
-      and c.created_at>=(x.period_start::timestamp at time zone 'America/Mexico_City')
-      and c.created_at<((x.period_end+1)::timestamp at time zone 'America/Mexico_City')) new_customers
+    (case when x.branch_id is null then
+      (select count(*)::int from nival_pr.customers c where c.business_id=x.business_id
+       and c.created_at>=(x.period_start::timestamp at time zone 'America/Mexico_City')
+       and c.created_at<((x.period_end+1)::timestamp at time zone 'America/Mexico_City'))
+     else
+      (select count(distinct v.customer_id)::int from nival_pr.point_ledger v
+       where v.business_id=x.business_id and v.branch_id=x.branch_id and v.type='visit'
+       and v.created_at>=(x.period_start::timestamp at time zone 'America/Mexico_City')
+       and v.created_at<((x.period_end+1)::timestamp at time zone 'America/Mexico_City')
+       and not exists(select 1 from nival_pr.point_ledger older where older.business_id=v.business_id
+        and older.branch_id=v.branch_id and older.customer_id=v.customer_id and older.type='visit'
+        and older.created_at<(x.period_start::timestamp at time zone 'America/Mexico_City')))
+     end) new_customers
    from nival_pr.point_ledger l where l.business_id=x.business_id and (x.branch_id is null or l.branch_id=x.branch_id)
     and l.created_at>=(x.period_start::timestamp at time zone 'America/Mexico_City')
     and l.created_at<((x.period_end+1)::timestamp at time zone 'America/Mexico_City')
