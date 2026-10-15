@@ -666,11 +666,12 @@
 .impactMasterHeader h2{margin:5px 0;color:#172c24;font-size:25px;letter-spacing:-.8px}
 .impactMasterHeader p{margin:7px 0 0;color:#637268;font-size:12px;line-height:1.6}
 .impactBranchChip{flex:none;padding:8px 12px;border:1px solid #e1e9df;border-radius:99px;background:#fff;color:#52695b;font-size:11px;font-weight:650}
-.impactMasterMetrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px;align-items:stretch}
+.impactMasterMetrics{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:11px;align-items:stretch}
 .impactMetric,.impactGoogleCard{min-width:0;padding:15px;border:1px solid #e5ece4;border-radius:15px;background:#fff}
 .impactMetric{display:flex;flex-direction:column;gap:8px}
 .impactMetric>small,.impactGoogleHead small{color:#78877c;font-size:9px;font-weight:750;letter-spacing:.8px}
 .impactMetric>strong{color:#194432;font-size:29px;line-height:1;letter-spacing:-1px}
+.impactMetric:nth-child(4)>strong{font-size:22px;letter-spacing:-.5px}
 .impactMetric>span{color:#718077;font-size:10px;line-height:1.5}
 .impactGoogleCard{display:flex;flex-direction:column;gap:10px;background:#f9fbf8}
 .impactGoogleHead{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
@@ -709,6 +710,7 @@
 .editorSetupProgress li.isDone>span{background:#e4f1e5;color:#286247}
 .editorSetupProgress li.isCurrent{border-color:#a9cbb3;color:#244d39;font-weight:700}
 .editorSetupProgress li.isCurrent>span{background:#dcece0;color:#244d39}
+@media(max-width:1200px){.impactMasterMetrics{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:1000px){.impactMasterMetrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){.nivalShell .impactMaster{padding:16px;border-radius:18px}.impactMasterHeader h2{font-size:21px}.impactMasterMetrics{grid-template-columns:repeat(2,minmax(0,1fr))}.impactMasterDetails{grid-template-columns:1fr}.impactZoneBench{align-items:flex-start;flex-direction:column}.impactZoneBench .zoneValues{justify-content:flex-start}}
 @media(max-width:560px){.impactMasterHeader{flex-direction:column}.impactMasterHeader h2{font-size:20px}.impactMasterMetrics{grid-template-columns:1fr}.impactMetric{padding:13px}.impactMetric>strong{font-size:25px}.impactGoogleLinks{align-items:flex-start;flex-direction:column}.impactGoogleLinks details[open] .branchGoogleSettings{left:0;right:auto}.editorSetupProgress>div{align-items:flex-start;flex-direction:column;gap:4px}.editorSetupProgress ol{align-items:flex-start;flex-direction:column}.editorSetupProgress li{width:100%}}

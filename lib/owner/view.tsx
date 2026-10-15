@@ -63,11 +63,12 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
  {!demo&&!active&&<AccountState b={b}/>}
  <section id="inicio" data-panel="inicio" className="ownerBlock">
   <section className="impactMaster" aria-labelledby="impact-master-title">
-   <header className="impactMasterHeader"><div><span className="workspaceEyebrow">RESUMEN DEL PERIODO</span><h2 id="impact-master-title">El impacto de Nival, en una sola vista</h2><p>{number(current.visits)} visitas registradas · {number(current.returning_customers||0)} clientes que volvieron · {number(current.redeemed||0)} premios entregados</p></div><span className="impactBranchChip">{data.selectedBranch?.name||b.name}</span></header>
+   <header className="impactMasterHeader"><div><span className="workspaceEyebrow">RESUMEN DEL PERIODO</span><h2 id="impact-master-title">El impacto de Nival, en una sola vista</h2><p>Visitas, clientes que regresan, canjes e importe registrado por {data.selectedBranch?.name||b.name}.</p></div><span className="impactBranchChip">{data.selectedBranch?.name||b.name}</span></header>
    <div className="impactMasterMetrics">
     <article className="impactMetric"><small>VISITAS REGISTRADAS</small><strong>{number(current.visits)}</strong><span>{Number(current.visits)-Number(prev.visits)>=0?'+':''}{number(Number(current.visits)-Number(prev.visits))} vs. periodo anterior</span></article>
     <article className="impactMetric"><small>CLIENTES QUE VOLVIERON</small><strong>{number(current.returning_customers||0)}</strong><span>de {number(current.active_customers||0)} clientes activos</span></article>
-    <article className="impactMetric"><small>PREMIOS ENTREGADOS</small><strong>{number(current.redeemed||0)}</strong><span>{number(current.pending||0)} canjes por revisar</span></article>
+    <article className="impactMetric"><small>CANJES REGISTRADOS</small><strong>{number(current.redeemed||0)}</strong><span>{number(current.pending||0)} por revisar</span></article>
+    <article className="impactMetric"><small>IMPORTE REGISTRADO EN VISITAS</small><strong>${number(current.ticket_revenue||0)}</strong><span>MXN capturados por tu equipo</span></article>
     {responseLimit>0&&<article className="impactGoogleCard">
      <div className="impactGoogleHead"><div><small>GOOGLE Y RESEÑAS</small><strong>{last?Number(last.rating).toFixed(1)+' / 5':'Ficha pendiente'}</strong></div>{data.selectedBranch?.google_maps_url&&<a href={data.selectedBranch.google_maps_url} target="_blank" rel="noopener noreferrer">Abrir ficha <Icon name="arrow" size={14}/></a>}</div>
      <div className="impactGoogleFacts"><span><b>{last?number(last.total_reviews):'—'}</b> reseñas</span><span><b>{data.google?.answered!==null&&data.google?number(data.google.answered):'—'}</b> respondidas en el periodo</span></div>
