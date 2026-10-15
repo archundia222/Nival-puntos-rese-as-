@@ -300,7 +300,10 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
         logo || null,
         cardEnabled,
       ] },
-      ...(activeReward.length ? [{text:"update nival_pr.rewards set name=$2,points_cost=$3 where id=$1",values:[activeReward[0].id,rewardName,rewardCost]}] : [{text:"insert into nival_pr.rewards(program_id,name,points_cost,position,active) select id,$2,$3,0,true from nival_pr.programs where business_id=$1",values:[b,rewardName,rewardCost]}]),
+      ...(activeReward.length ? [{text:"update nival_pr.rewards set name=$2,points_cost=$3 where id=$1",values:[activeReward[0].id,rewardName,rewardCost]}] : [
+        {text:"insert into nival_pr.rewards(program_id,name,points_cost,position,active) select id,$2,$3,0,true from nival_pr.programs where business_id=$1",values:[b,rewardName,rewardCost]},
+        {text:"update nival_pr.programs p set rules=jsonb_set(coalesce(p.rules,'{}'::jsonb),'{campaign_rules,targets,all}',to_jsonb(array(select r.id::text from nival_pr.rewards r where r.program_id=p.id and r.active order by r.position,r.id limit 1)),true) where p.business_id=$1",values:[b]},
+      ]),
     ]);
   } catch (e) {
     return failure(e);

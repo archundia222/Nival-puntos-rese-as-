@@ -659,3 +659,56 @@
 }
 .nivalShell .dashboardGoogleSummary{padding:20px 22px}.dashboardGoogleSummary>header{display:flex;justify-content:space-between;align-items:center;gap:16px}.dashboardGoogleSummary>header h2{margin:4px 0 0;font-size:17px}.dashboardGoogleSummary>header p{margin:4px 0 0;color:#68766e;font-size:11px}.dashboardGoogleMetrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0}.dashboardGoogleMetrics>div{display:grid;gap:4px;padding:13px;border:1px solid #edf0e9;border-radius:10px;background:#fafbf8}.dashboardGoogleMetrics small{color:#78867c;font-size:9px;font-weight:700;letter-spacing:.7px}.dashboardGoogleMetrics strong{color:#18382b;font-size:18px}.dashboardReviewSummary{padding:14px 16px;border-left:3px solid #28644c;border-radius:0 9px 9px 0;background:#f6f8f4;color:#52645a;font-size:12px;line-height:1.7}.dashboardReviewSummary>strong{color:#18382b}.dashboardReviewSummary p{margin:5px 0 0}.dashboardGoogleSummary .branchGoogleSettings{margin:15px 0 0;padding:14px;background:#fff;box-shadow:none}.dashboardGoogleSummary .branchGoogleSettings h3{margin:0 0 5px}.dashboardGoogleSummary .branchGoogleSettings>p{font-size:11px}.dashboardGoogleMore{display:inline-flex;align-items:center;gap:7px;margin-top:15px;color:#176347;font-size:11px;font-weight:700}.nivalShell .cardCatalogEditor>header p{max-width:620px;margin:7px 0 0;color:#68766e;font-size:12px;line-height:1.6}
 @media(max-width:700px){.nivalShell .dashboardGoogleSummary{padding:16px}.dashboardGoogleSummary>header{align-items:flex-start;flex-direction:column}.dashboardGoogleMetrics{grid-template-columns:1fr;gap:7px}.dashboardGoogleMetrics>div{grid-template-columns:1fr auto;align-items:center;padding:10px 12px}.dashboardGoogleMetrics strong{font-size:16px}.dashboardGoogleSummary .branchGoogleSettings{padding:12px}}
+
+/* The dashboard is the single home for the program's impact and review summary. */
+.nivalShell .impactMaster{display:grid;gap:18px;padding:22px;border:1px solid #dce6dc;border-radius:22px;background:linear-gradient(145deg,#fff 0%,#f6f9f4 100%);box-shadow:0 12px 32px #1d3b2a0a}
+.impactMasterHeader{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.impactMasterHeader h2{margin:5px 0;color:#172c24;font-size:25px;letter-spacing:-.8px}
+.impactMasterHeader p{margin:7px 0 0;color:#637268;font-size:12px;line-height:1.6}
+.impactBranchChip{flex:none;padding:8px 12px;border:1px solid #e1e9df;border-radius:99px;background:#fff;color:#52695b;font-size:11px;font-weight:650}
+.impactMasterMetrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px;align-items:stretch}
+.impactMetric,.impactGoogleCard{min-width:0;padding:15px;border:1px solid #e5ece4;border-radius:15px;background:#fff}
+.impactMetric{display:flex;flex-direction:column;gap:8px}
+.impactMetric>small,.impactGoogleHead small{color:#78877c;font-size:9px;font-weight:750;letter-spacing:.8px}
+.impactMetric>strong{color:#194432;font-size:29px;line-height:1;letter-spacing:-1px}
+.impactMetric>span{color:#718077;font-size:10px;line-height:1.5}
+.impactGoogleCard{display:flex;flex-direction:column;gap:10px;background:#f9fbf8}
+.impactGoogleHead{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.impactGoogleHead>div{display:grid;gap:5px}
+.impactGoogleHead strong{color:#1c4635;font-size:20px;line-height:1.1}
+.impactGoogleHead>a,.impactGoogleLinks>a{display:inline-flex;align-items:center;gap:5px;color:#216347;font-size:10px;font-weight:700;text-decoration:none}
+.impactGoogleFacts{display:grid;grid-template-columns:1fr 1fr;gap:7px;color:#77847a;font-size:9px;line-height:1.45}
+.impactGoogleFacts b{display:block;color:#344f40;font-size:15px}
+.impactGoogleCard .replyProgress{margin:0;height:5px}
+.impactReplyQuota{margin-top:-6px;color:#77847a;font-size:9px}
+.impactReviewSummary{display:-webkit-box;overflow:hidden;margin:0;color:#526459;font-size:10px;line-height:1.55;-webkit-box-orient:vertical;-webkit-line-clamp:4}
+.impactGoogleLinks{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto;padding-top:5px}
+.impactGoogleLinks details{position:relative}
+.impactGoogleLinks summary{color:#63766a;font-size:9px;cursor:pointer}
+.impactGoogleLinks details[open]{position:relative;z-index:2}
+.impactGoogleLinks details[open] .branchGoogleSettings{position:absolute;right:0;top:22px;width:min(420px,80vw);padding:15px;border:1px solid #dfe8df;border-radius:13px;background:#fff;box-shadow:0 14px 35px #18332620}
+.impactMasterDetails{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(230px,.8fr);gap:12px}
+.impactMasterDetails>.ownerActivityCard,.impactMasterDetails>.clientStatusCard{min-width:0;margin:0}
+.impactMasterDetails .clientStatusCard{padding:16px}
+.impactMasterDetails .clientStatusCard>header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:7px}
+.impactMasterDetails .clientStatusCard h3{margin:3px 0;color:#20382d;font-size:14px;letter-spacing:-.25px}
+.impactMasterDetails .clientStatusCard>header>a{display:inline-flex;align-items:center;gap:4px;color:#286246;font-size:9px;font-weight:700;text-decoration:none;white-space:nowrap}
+.impactZoneBench{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 17px;border:1px solid #dce8dd;border-radius:15px;background:#edf5ef}
+.impactZoneBench h3{margin:4px 0 0;color:#204a37;font-size:14px}
+.impactZoneBench>p{margin:0;color:#607467;font-size:10px;line-height:1.5}
+.impactZoneBench .zoneValues{display:flex;align-items:center;justify-content:flex-end;gap:15px;flex-wrap:wrap;color:#617368;font-size:9px}
+.impactZoneBench .zoneValues span{display:grid;gap:3px}
+.impactZoneBench .zoneValues b,.impactZoneBench .zoneValues strong{color:#234b39;font-size:11px}
+.editorSetupProgress{margin:15px 0;padding:14px 16px;border:1px solid #dce8de;border-radius:14px;background:#f6faf5}
+.editorSetupProgress>div{display:flex;justify-content:space-between;align-items:center;gap:12px;color:#214b38;font-size:12px}
+.editorSetupProgress>div>span{color:#718178;font-size:10px}
+.editorSetupProgress ol{display:flex;gap:8px;margin:12px 0 0;padding:0;list-style:none}
+.editorSetupProgress li{display:flex;align-items:center;gap:7px;min-width:0;padding:7px 10px;border:1px solid #e2e9e1;border-radius:99px;background:#fff;color:#778279;font-size:10px}
+.editorSetupProgress li>span{display:grid;width:19px;height:19px;place-items:center;border-radius:50%;background:#f0f3ef;color:#758078;font-size:9px;font-weight:750}
+.editorSetupProgress li.isDone{border-color:#cfe2d2;color:#286247}
+.editorSetupProgress li.isDone>span{background:#e4f1e5;color:#286247}
+.editorSetupProgress li.isCurrent{border-color:#a9cbb3;color:#244d39;font-weight:700}
+.editorSetupProgress li.isCurrent>span{background:#dcece0;color:#244d39}
+@media(max-width:1000px){.impactMasterMetrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.nivalShell .impactMaster{padding:16px;border-radius:18px}.impactMasterHeader h2{font-size:21px}.impactMasterMetrics{grid-template-columns:repeat(2,minmax(0,1fr))}.impactMasterDetails{grid-template-columns:1fr}.impactZoneBench{align-items:flex-start;flex-direction:column}.impactZoneBench .zoneValues{justify-content:flex-start}}
+@media(max-width:560px){.impactMasterHeader{flex-direction:column}.impactMasterHeader h2{font-size:20px}.impactMasterMetrics{grid-template-columns:1fr}.impactMetric{padding:13px}.impactMetric>strong{font-size:25px}.impactGoogleLinks{align-items:flex-start;flex-direction:column}.impactGoogleLinks details[open] .branchGoogleSettings{left:0;right:auto}.editorSetupProgress>div{align-items:flex-start;flex-direction:column;gap:4px}.editorSetupProgress ol{align-items:flex-start;flex-direction:column}.editorSetupProgress li{width:100%}}

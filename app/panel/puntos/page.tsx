@@ -1,5 +1,5 @@
 import {StaffAccess} from '../../../lib/points/staff-access';
-import {StartGuide} from '../../../lib/owner/start-guide';
+import {startGuideState} from '../../../lib/owner/start-guide';
 import {entitlements,planLimits} from '../../../lib/foundation/entitlements.mjs';
 import {AccountState} from '../../../lib/owner/account-state';
 import {redirect} from 'next/navigation';
@@ -67,6 +67,7 @@ export default async function PointsPanel({
     [b.id],
   );
   const period=["7","30","90","365"].includes(params.period||"")?params.period! : "30";
+  const setupState=programView?await startGuideState(actor,b.id):null;
   let cardMetrics={visits:0,customers:0,redemptions:0,income:null as number|null},recent:any[]=[],reviewCards:any[]=[];
   if(programView){
     try{
@@ -82,7 +83,7 @@ export default async function PointsPanel({
   }
   return (
     <DashboardShell name={b.name} owner={actor.name} status={b.status==='activo'?'Activo':'Inactivo'} demo={false} initialSection={view==='programa'?'mis-tarjetas':view==='equipo'?'equipo':view} homeUrl={'/panel?business='+b.id} planName={b.plan_name||'Puntos'} price={Number(b.price_mxn||299)} responseLimit={Number(b.features?.review_limit||0)} periodDay={Math.max(1,Math.min(30,Math.floor((Date.now()-(Date.parse(String(b.paid_until||''))-30*86400000))/86400000)+1))} logout={<form action={logout}><button className="logoutButton" aria-label="Cerrar sesión"><Icon name="logout" size={18}/></button></form>}>
-    {view==='programa'&&<StartGuide actor={actor} businessId={b.id}/>}<main className="dashboard programWorkspace">
+    <main className="dashboard programWorkspace">
       <header className="dashHead">
         <div>
           <small>NIVAL · PUNTOS</small>
@@ -98,7 +99,7 @@ export default async function PointsPanel({
         ))}
       </nav>
 
-      {programView&&<><CardWorkspace businessId={b.id} business={b.name} slug={b.slug} program={program} reward={rewards.find((r:any) => r.active)} metrics={cardMetrics} recent={recent} period={period} reviewCards={reviewCards} nfcLimit={planLimits(b).nfcCards} reviewManager={<ReviewCardManager businessId={b.id} branchId={branches.find((x:any)=>x.is_primary)?.id} branchName={b.name} cards={reviewCards} googleUrl={b.google_maps_url} cardLimit={planLimits(b).nfcCards}/>} editor={<ProgramEditor businessId={b.id} business={b.name} program={program} reward={rewards.find((r:any) => r.active)} />}/><details className="reviewBox extraRewards"><summary>Administrar premios adicionales</summary>
+      {programView&&<><CardWorkspace businessId={b.id} business={b.name} slug={b.slug} program={program} reward={rewards.find((r:any) => r.active)} metrics={cardMetrics} recent={recent} period={period} reviewCards={reviewCards} nfcLimit={planLimits(b).nfcCards} reviewManager={<ReviewCardManager businessId={b.id} branchId={branches.find((x:any)=>x.is_primary)?.id} branchName={b.name} cards={reviewCards} googleUrl={b.google_maps_url} cardLimit={planLimits(b).nfcCards}/>} editor={<ProgramEditor businessId={b.id} business={b.name} program={program} reward={rewards.find((r:any) => r.active)} setupState={setupState||undefined}/>} /><details className="reviewBox extraRewards"><summary>Administrar premios adicionales</summary>
         <h2>Premios y reglas avanzadas</h2><p>Conserva tus premios, edita su información y define el orden de entrega. Las metas que un cliente ya eligió se protegen hasta su canje.</p><details><summary>¿Cómo funcionan los otros modos?</summary><p>Premios a elegir: cada cliente elige una meta. Por etapas: los premios se entregan en el orden configurado. Los premios asignados y su costo se muestran hasta completar el canje.</p></details><h3 id="premios">Premios del programa</h3>{!rewards.length&&<p className="ownerEmpty">Todavía no tienes un premio. Agrégalo antes de compartir la tarjeta con tus clientes.</p>}
         {rewards.map((r) => (
           <details key={r.id} className="customerRow"><summary>{r.name} · {r.points_cost} puntos · {r.active?'Activo':'Desactivado'}</summary>

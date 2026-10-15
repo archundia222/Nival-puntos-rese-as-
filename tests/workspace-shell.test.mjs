@@ -78,11 +78,19 @@ test('review report displays grounded themes and actions, legacy report makes no
  assert.ok(legacy.includes('Pendiente de análisis'));assert.ok(legacy.includes('Consejo manual'));assert.ok(!legacy.includes('Servicio amable'));
 });
 
-test('card personalization guide lives under Puntos, not the Resumen section',()=>{
+test('card setup progress lives inside the real card configurator',()=>{
  const owner=readFileSync(new URL('../lib/owner/view.tsx',import.meta.url),'utf8');
  const points=readFileSync(new URL('../app/panel/puntos/page.tsx',import.meta.url),'utf8');
+ const catalog=readFileSync(new URL('../lib/points/card-catalog.tsx',import.meta.url),'utf8');
+ const editor=readFileSync(new URL('../lib/points/program-editor.tsx',import.meta.url),'utf8');
+ const actions=readFileSync(new URL('../lib/foundation/actions.ts',import.meta.url),'utf8');
  assert.ok(!owner.includes('{startGuide}'));
- assert.ok(points.includes("view==='programa'&&<StartGuide"));
+ assert.ok(!points.includes('<StartGuide'));
+ assert.ok(points.includes('setupState={setupState||undefined}'));
+ assert.ok(catalog.includes('setupState={setupState}'));
+ assert.ok(editor.includes('editorSetupProgress')&&editor.includes('Pasos para poner en marcha'));
+ assert.ok(!editor.includes('firstCardGuide'));
+ assert.ok(actions.includes("'{campaign_rules,targets,all}'"));
  assert.ok(points.includes('<CardWorkspace')&&points.includes('Administrar premios adicionales'));
 });
 
