@@ -1027,3 +1027,29 @@
  .nivalShell .impactPeriodFilter button{font-size:11px}
  .nivalShell .returningRevenueCopy>strong{font-size:42px}
 }
+
+/* Inicio: checklist de alto contraste y estado vacío sin métricas ficticias. */
+.nivalShell .startGuide{background:#fffef8!important;color:#17392d!important;border:1px solid #dce6dc!important;box-shadow:0 8px 24px #173d310c!important}
+.nivalShell .startGuideHeading h2{color:#17392d!important}
+.nivalShell .startGuideHeading .workspaceEyebrow{color:#53695c!important}
+.nivalShell .startGuideProgress{background:#e8f0d7!important;color:#234c38!important}
+.nivalShell .startGuideTrack{background:#e6ebdf!important}
+.nivalShell .startGuideTrack i{background:#9ab744!important}
+.nivalShell .startGuideStep{color:#244333!important}
+.nivalShell .startGuideStep:hover{background:#f0f4e9!important}
+.nivalShell .startStepIcon{border-color:#d9e2d3!important;background:#f0f3eb!important;color:#637366!important}
+.nivalShell .startStepCopy strong{color:#203d2e!important;font-size:13px}
+.nivalShell .startStepCopy small{color:#5a6f5e!important}
+.nivalShell .startGuideStep>svg:last-child{color:#668539!important}
+.nivalShell .startGuide li.isDone .startStepIcon{background:#e4efd9!important;color:#21553c!important}
+.nivalShell .startGuide li.isDone .startStepCopy strong{color:#21553c!important}
+.nivalShell .startGuide li.isCurrent .startGuideStep{background:#173d31!important;color:#fffef8!important}
+.nivalShell .startGuide li.isCurrent .startStepIcon{background:#d8ef78!important;color:#173d31!important}
+.nivalShell .startGuide li.isCurrent .startStepCopy strong{color:#fffef8!important}
+.nivalShell .startGuide li.isCurrent .startStepCopy small{color:#e3edda!important}
+.nivalShell .startGuide li.isCurrent .startGuideStep>svg:last-child{color:#d8ef78!important}
+.nivalShell .startGuide li:not(.isCurrent):not(.isDone) .startStepCopy small{display:none}
+.nivalShell .returningRevenueCard.isAwaitingData{min-height:unset}
+.nivalShell .returningRevenueCard.isAwaitingData .returningRevenueCopy>strong{color:#fffef8}
+.nivalShell .ownerActivityCard .ownerEmpty,.nivalShell .customerMixCard .ownerEmpty{color:#53695c}
+@media(max-width:540px){.nivalShell .startGuide{padding:17px!important}.nivalShell .startGuideHeading h2{font-size:22px!important}.nivalShell .startGuideStep{min-height:52px;padding:7px 5px}.nivalShell .startStepCopy strong{font-size:13px}}

@@ -77,10 +77,13 @@ test('sidebar accordion opens only the active group and keeps a single page titl
 test('home presents points, gift cards and reviews, while an empty account avoids zero metrics',()=>{
  const owner=readFileSync(new URL('../lib/owner/view.tsx',import.meta.url),'utf8');
  for(const label of ["name:'Puntos'","name:'Tarjeta de regalo'","name:'Google y reseñas'","href={'#'+product.id}"])assert.ok(owner.includes(label),label);
- assert.ok(owner.includes('{emptyState&&<><StartGuide'));
+ assert.ok(owner.includes('{emptyState&&<StartGuide state={startState||undefined}/>'));
+ assert.ok(owner.includes('{!emptyState&&<div className="impactMasterMetrics">'));
+ assert.ok(owner.includes("emptyState?'—':money(returningRevenue)"));
  assert.ok(owner.includes('<ProductHub data={{...data,hasPayCard:Boolean(b.pay_card_url)}}/>'));
- assert.ok(owner.includes('{!emptyState&&<>'));
- assert.ok(owner.includes('className="returningRevenueCard"'));
+ assert.ok(owner.includes('  <>'));
+ assert.ok(owner.includes('Aún no hay reportes.'));
+ assert.ok(owner.includes("className={'returningRevenueCard'+(emptyState?' isAwaitingData':'')}"));
  assert.ok(owner.includes('Resumen del periodo'));
  assert.ok(owner.indexOf('className="impactFeatureGrid"')<owner.indexOf('className="impactMasterDetails"'));
 });
