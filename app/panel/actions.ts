@@ -25,6 +25,7 @@ export async function recordMovement(_:ActionResult,form:FormData):Promise<Actio
 }
 export async function updateReward(_:ActionResult,form:FormData):Promise<ActionResult>{const goal=Number(form.get('goal'));const risk=Number(form.get('risk'));const reward=String(form.get('reward')||'').trim();if(!Number.isInteger(goal)||goal<1||goal>100000||!Number.isInteger(risk)||risk<1||risk>365||!reward||reward.length>150)return {error:'Revisa la meta, el premio y los días de riesgo.'};try{const{client,user}=await authenticated();const{data,error}=await client.from('npr_businesses').update({reward_goal:goal,reward_name:reward,risk_days:risk}).eq('owner_id',user.id).select('id');if(error||!data?.length)return {error:'No se pudo guardar la configuración.'};revalidatePath('/panel');return {success:'Configuración guardada.'};}catch{return {error:'Inicia sesión para continuar.'};}}
 export async function logout(){const{client}=await authenticated();const{error}=await client.auth.signOut();if(error)throw Error('No se pudo cerrar sesión.');redirect('/acceso');}
+export async function logoutPersonal(){const{client}=await authenticated();const{error}=await client.auth.signOut();if(error)throw Error('No se pudo cerrar sesión.');redirect('/personal/acceso');}
 
 export async function saveReviewLink(_:ActionResult,form:FormData):Promise<ActionResult>{
  const displayName=String(form.get('displayName')||'').trim();
