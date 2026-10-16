@@ -7,6 +7,7 @@ import {redirect} from 'next/navigation';
 import {revalidatePath} from 'next/cache';
 import {createClient} from '../../lib/backend/server';
 import {backendConfigured} from '../../lib/backend/config';
+import {accessibleBusiness} from '../../lib/backend/business';
 export type ActionResult={error?:string;success?:string};
 async function authenticated(){if(!backendConfigured())throw Error('setup');const client=await createClient();const{data,error}=await client.auth.getUser();if(error||!data.user)throw Error('auth');return {client,user:data.user};}
 export async function createBusiness(_:ActionResult,form:FormData):Promise<ActionResult>{
@@ -16,11 +17,11 @@ export async function createBusiness(_:ActionResult,form:FormData):Promise<Actio
 }
 export async function addCustomer(_:ActionResult,form:FormData):Promise<ActionResult>{
  const name=String(form.get('name')||'').trim();const phone=String(form.get('phone')||'').replace(/\D/g,'');if(!name||name.length>100||(phone&&!/^\d{7,15}$/.test(phone)))return {error:'Revisa el nombre y el teléfono (7 a 15 dígitos).'};
- try{const{client,user}=await authenticated();const{data:business,error:readError}=await client.from('npr_businesses').select('id').eq('owner_id',user.id).single();if(readError||!business)return {error:'Primero registra tu negocio.'};const{error}=await client.from('npr_customers').insert({business_id:business.id,name,phone:phone||null});if(error)return {error:error.code==='23505'?'Ese teléfono ya está registrado.':'No se pudo guardar el cliente.'};revalidatePath('/panel');return {success:'Cliente registrado.'};}catch{return {error:'Inicia sesión para registrar clientes.'};}
+ try{const{client,user}=await authenticated();const access=await accessibleBusiness(client,user.id);if(!access)return {error:'No tienes un negocio o una asignación de personal activa.'};const{error}=await client.from('npr_customers').insert({business_id:access.business.id,name,phone:phone||null});if(error)return {error:error.code==='23505'?'Ese teléfono ya está registrado.':'No se pudo guardar el cliente.'};revalidatePath('/panel');revalidatePath('/personal');return {success:'Cliente registrado.'};}catch{return {error:'Inicia sesión para registrar clientes.'};}
 }
 export async function recordMovement(_:ActionResult,form:FormData):Promise<ActionResult>{
  const id=String(form.get('customerId')||'');const kind=String(form.get('kind')||'');if(!/^[0-9a-f-]{36}$/i.test(id)||!['visit','redeem'].includes(kind))return {error:'Movimiento inválido.'};
- try{const{client,user}=await authenticated();const{data:business,error:be}=await client.from('npr_businesses').select('id,reward_goal').eq('owner_id',user.id).single();if(be||!business)return {error:'Negocio no disponible.'};const{error}=await client.from('npr_movements').insert({business_id:business.id,customer_id:id,kind,points:kind==='visit'?1:-business.reward_goal});if(error)return {error:'No se pudo registrar. Comprueba el cliente y sus puntos disponibles.'};revalidatePath('/panel');return {success:kind==='visit'?'Visita registrada.':'Premio canjeado.'};}catch{return {error:'Inicia sesión para continuar.'};}
+ try{const{client,user}=await authenticated();const access=await accessibleBusiness(client,user.id);if(!access)return {error:'No tienes un negocio o una asignación de personal activa.'};const business=access.business;const{error}=await client.from('npr_movements').insert({business_id:business.id,customer_id:id,kind,points:kind==='visit'?1:-business.reward_goal});if(error)return {error:'No se pudo registrar. Comprueba el cliente y sus puntos disponibles.'};revalidatePath('/panel');revalidatePath('/personal');return {success:kind==='visit'?'Visita registrada.':'Premio canjeado.'};}catch{return {error:'Inicia sesión para continuar.'};}
 }
 export async function updateReward(_:ActionResult,form:FormData):Promise<ActionResult>{const goal=Number(form.get('goal'));const risk=Number(form.get('risk'));const reward=String(form.get('reward')||'').trim();if(!Number.isInteger(goal)||goal<1||goal>100000||!Number.isInteger(risk)||risk<1||risk>365||!reward||reward.length>150)return {error:'Revisa la meta, el premio y los días de riesgo.'};try{const{client,user}=await authenticated();const{data,error}=await client.from('npr_businesses').update({reward_goal:goal,reward_name:reward,risk_days:risk}).eq('owner_id',user.id).select('id');if(error||!data?.length)return {error:'No se pudo guardar la configuración.'};revalidatePath('/panel');return {success:'Configuración guardada.'};}catch{return {error:'Inicia sesión para continuar.'};}}
 export async function logout(){const{client}=await authenticated();const{error}=await client.auth.signOut();if(error)throw Error('No se pudo cerrar sesión.');redirect('/acceso');}
@@ -56,4 +57,28 @@ export async function manageCustomerCard(_:ActionResult,form:FormData):Promise<A
   if(error||!data)return {error:'No se pudo actualizar la tarjeta. Revisa la configuración.'};
   revalidatePath('/panel');return {success:operation==='disable'?'Tarjeta desactivada.':operation==='rotate'?'Nuevo enlace creado. El anterior ya no funciona.':'Tarjeta activada.'};
  }catch{return {error:'Inicia sesión para administrar las tarjetas.'};}
+}
+
+export async function manageStaff(_:ActionResult,form:FormData):Promise<ActionResult>{
+ const operation=String(form.get('operation')||'');
+ try{
+  const{client,user}=await authenticated();
+  const owned=await client.from('npr_businesses').select('id').eq('owner_id',user.id).maybeSingle();
+  if(owned.error||!owned.data)return {error:'Solo la cuenta responsable puede administrar personal.'};
+  let result;
+  if(operation==='add'){
+   const email=String(form.get('email')||'').trim().toLowerCase();
+   if(email.length>254||!/^\S+@\S+\.\S+$/.test(email))return {error:'Escribe un correo válido.'};
+   result=await (client as any).rpc('npr_assign_staff',{email});
+   if(result.error)return {error:'No encontramos una cuenta con ese correo verificado. Pide al empleado que cree su cuenta y confirme el correo.'};
+   revalidatePath('/panel');return {success:'Acceso de personal activado.'};
+  }
+  if(operation==='revoke'){
+   const userId=String(form.get('userId')||'');if(!/^[0-9a-f-]{36}$/i.test(userId))return {error:'Cuenta inválida.'};
+   result=await (client as any).rpc('npr_revoke_staff',{userId});
+   if(result.error)return {error:'No se pudo quitar el acceso.'};
+   revalidatePath('/panel');return {success:'Acceso desactivado.'};
+  }
+  return {error:'Acción inválida.'};
+ }catch{return {error:'Inicia sesión como responsable del negocio.'};}
 }
