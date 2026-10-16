@@ -1,3 +1,37 @@
 import DemoNotice from './components/demo-notice';
-const wa="https://wa.me/525539044788?text=Hola%2C%20quiero%20informaci%C3%B3n%20de%20Nival%20Puntos%20%2B%20Rese%C3%B1as";
-export default function Home(){return <main><DemoNotice/><nav><b>NIVAL</b><span>Puntos + Reseñas</span><a className="primary" href="/acceso">Acceso a mi negocio</a></nav><section className="hero"><div className="pill">Programa de lealtad + reputación</div><h1>Haz que tus clientes <em>regresen</em> y además te <em>recomienden.</em></h1><p>Nival Puntos + Reseñas ayuda a negocios locales a premiar visitas frecuentes y conseguir más reseñas de Google con un proceso simple.</p><a className="primary" href={wa}>Quiero una demostración</a></section><section><h2>Dos objetivos. Un solo sistema.</h2><div className="grid"><article><strong>01 · PUNTOS</strong><h3>Premia a quien vuelve</h3><p>Registra manualmente las visitas o compras del cliente y suma puntos. Define premios claros para incentivar la siguiente visita.</p></article><article><strong>02 · RESEÑAS</strong><h3>Convierte una buena experiencia en una reseña</h3><p>Facilita el acceso a la ficha de Google del negocio para que el cliente pueda dejar su opinión sin buscarla manualmente.</p></article></div></section><section className="steps"><h2>Así funciona la primera versión</h2><div className="grid three"><article><b>1</b><h3>Crea tu cuenta</h3><p>En la prueba, el dueño configura su negocio y configura su programa de puntos directamente desde la web.</p></article><article><b>2</b><h3>Uso en mostrador</h3><p>El negocio registra al cliente y sus puntos desde un panel sencillo.</p></article><article><b>3</b><h3>Seguimiento Nival</h3><p>Nival revisa manualmente la ficha de Google y carga los resultados para generar el resumen mensual del negocio.</p></article></div></section><section className="cta"><h2>Empieza simple. Automatiza cuando tenga sentido.</h2><p>La primera versión está diseñada para validar el servicio con negocios reales sin depender de integraciones externas.</p><a className="primary" href={wa}>Hablar por WhatsApp</a></section><footer>Nival Tech · Puntos + Reseñas</footer></main>}
+
+const whatsapp='https://wa.me/525539044788?text=Hola%2C%20quiero%20conocer%20Nival%20Puntos%20%2B%20Rese%C3%B1as';
+
+const metrics=[['Clientes','0'],['Visitas','0'],['Premios','0'],['Reseñas','0']];
+
+export default function Home(){
+ return <main className="marketingSite">
+  <DemoNotice/>
+  <nav className="siteNav"><a className="siteLogo" href="/" aria-label="Nival, inicio">NIVAL<span> PUNTOS + RESEÑAS</span></a><div><a href="#como-funciona">Cómo funciona</a><a className="navLogin" href="/acceso">Entrar</a></div></nav>
+
+  <section className="hero marketingHero">
+   <div className="heroCopy"><div className="pill"><span className="statusDot"/> Lealtad y reputación, en un solo lugar</div>
+    <h1>Haz que cada visita <em>cuente.</em></h1>
+    <p>Premia a tus clientes frecuentes y facilita que compartan su experiencia en Google.</p>
+    <div className="heroActions"><a className="primary" href={whatsapp}>Conocer Nival <span aria-hidden="true">↗</span></a><a className="secondary" href="/acceso">Entrar a mi negocio</a></div>
+    <small className="honestNote">Puntos y actividad en tu panel. Las reseñas de Google se gestionan manualmente.</small>
+   </div>
+   <div className="dashboardPreview" aria-label="Vista de ejemplo del panel de Nival">
+    <div className="previewTop"><div><span className="previewLabel">PANEL DEL NEGOCIO</span><strong>Tu mes, de un vistazo</strong></div><span className="previewMark">N</span></div>
+    <div className="previewMetrics">{metrics.map(([label,value])=><article key={label}><span>{label}</span><b>{value}</b></article>)}</div>
+    <div className="previewBottom"><div><span className="progressMark">↗</span><p><strong>El progreso es claro.</strong><br/>Visitas, premios y reseñas en una sola vista.</p></div><span className="previewPeriod">EJEMPLO</span></div>
+   </div>
+  </section>
+
+  <section className="valueSection"><div className="sectionIntro"><span className="eyebrow">UNA OPERACIÓN MÁS SIMPLE</span><h2>Lo importante, <em>sin ruido.</em></h2></div><div className="valueGrid">
+   <article><span className="valueNumber">01</span><h3>Reconoce a quien vuelve</h3><p>Registra clientes, suma visitas y lleva el avance hacia su premio.</p></article>
+   <article><span className="valueNumber">02</span><h3>Haz fácil dejar una reseña</h3><p>Comparte un enlace directo a la ficha de Google de tu negocio.</p></article>
+   <article><span className="valueNumber">03</span><h3>Entiende el movimiento</h3><p>Consulta clientes, visitas, canjes y reseñas por mes.</p></article>
+  </div></section>
+
+  <section id="como-funciona" className="howSection"><div className="howIntro"><span className="eyebrow">ASÍ EMPIEZAS</span><h2>Listo para usar en el mostrador.</h2></div><ol className="howSteps"><li><b>1</b><div><strong>Configura tu negocio</strong><p>Define tu premio y comparte tu enlace de reseñas.</p></div></li><li><b>2</b><div><strong>Registra visitas</strong><p>Busca al cliente y suma su visita con un toque.</p></div></li><li><b>3</b><div><strong>Revisa resultados</strong><p>Consulta la actividad de tu negocio en el panel mensual.</p></div></li></ol></section>
+
+  <section className="closingCta"><div><span className="eyebrow">NIVAL PUNTOS + RESEÑAS</span><h2>Más clientes que regresan. Una operación que se entiende.</h2></div><a className="primary" href={whatsapp}>Hablar con Nival <span aria-hidden="true">↗</span></a></section>
+  <footer className="siteFooter"><a className="siteLogo" href="/">NIVAL<span> PUNTOS + RESEÑAS</span></a><span>Nival Tech · Lealtad para negocios</span><a href="/acceso">Acceso al panel</a></footer>
+ </main>;
+}
