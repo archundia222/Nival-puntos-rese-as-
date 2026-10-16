@@ -288,3 +288,254 @@ body{background:var(--nival-cream);color:var(--nival-text)}
 }
 /* White, stamp-and-QR loyalty card inspired by the provided reference. */
 .nivalConfiguredCard[data-theme="minimal"]{background:#fff!important;background-image:none!important;border:1px solid #d7dce0;color:var(--card-text,#17352f);box-shadow:0 16px 38px #18372918}.nivalConfiguredCard[data-theme="minimal"]:before{display:none}.nivalConfiguredCard[data-theme="minimal"] :is(h1,.cardProgram,.cardExpiry,.cardGoal,.cardQrInside,footer){color:var(--card-text,#17352f);text-shadow:none}.nivalConfiguredCard[data-theme="minimal"] .cardMonogram{background:#183c2e;color:white}.nivalConfiguredCard[data-theme="minimal"] .cardPointGrid i{background:var(--point-idle,#e4e8eb);border-color:#d7dce0;color:#9aa6ad}.nivalConfiguredCard[data-theme="minimal"] .cardPointGrid i.isFilled{background:var(--point-active,#7fa9dc);border-color:var(--point-active,#7fa9dc);color:#fff}.nivalConfiguredCard[data-theme="minimal"] .cardGoal b{color:#17352f}.nivalConfiguredCard[data-theme="minimal"] .cardQrInside{border-top-color:#e2e7e8}
+/* Etapa 3: experiencia móvil de la tarjeta del cliente. */
+.nivalCustomerFlow {
+  --customer-paper: var(--color-surface);
+  --customer-cream: var(--color-background);
+  --customer-ink: var(--color-text);
+  --customer-muted: var(--color-text-muted);
+  --customer-line: var(--color-border);
+  --customer-forest: var(--palette-forest);
+  --customer-lime: var(--palette-lime);
+  color: var(--customer-ink);
+}
+.nivalCustomerFlow .cardWelcome {
+  margin: 0 0 var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-left: 4px solid var(--customer-lime);
+  border-radius: 0 var(--radius-control) var(--radius-control) 0;
+  background: var(--customer-paper);
+  color: var(--customer-ink);
+  font-size: var(--type-1);
+  line-height: 1.5;
+}
+.nivalCustomerFlow .nivalConfiguredCard {
+  border: 0;
+  border-radius: var(--radius-panel);
+  box-shadow: var(--shadow-panel);
+  padding: var(--space-4);
+}
+.nivalCustomerFlow .cardProgram {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+}
+.nivalCustomerFlow .nivalConfiguredCard h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 8vw, 3rem);
+  line-height: 1.05;
+  overflow-wrap: anywhere;
+}
+.nivalCustomerFlow .cardNumbers.compact strong {
+  font-size: clamp(3.5rem, 18vw, 5rem);
+}
+.nivalCustomerFlow .cardProgress {
+  height: 0.75rem;
+  margin: var(--space-2) 0;
+}
+.nivalCustomerFlow .cardGoal {
+  align-items: flex-start;
+  font-size: var(--type-1);
+  line-height: 1.4;
+}
+.nivalCustomerFlow .cardGoal b {
+  max-width: 58%;
+  font-size: 1rem;
+}
+.nivalCustomerFlow .cardQrInside {
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  padding-top: var(--space-2);
+  font-size: 0.75rem;
+}
+.nivalCustomerFlow .cardQrInside img {
+  width: 4rem;
+  height: 4rem;
+  border-radius: var(--radius-control);
+}
+.nivalCustomerFlow .personalQr,
+.nivalCustomerFlow .customerCardDetails,
+.nivalCustomerFlow .reviewBox,
+.nivalCustomerFlow .cardHelp {
+  margin: var(--space-3) 0;
+  padding: var(--space-3);
+  border: 1px solid var(--customer-line);
+  border-radius: var(--radius-card);
+  background: var(--customer-paper);
+  box-shadow: var(--shadow-card);
+  color: var(--customer-ink);
+}
+.nivalCustomerFlow .personalQr {
+  text-align: left;
+}
+.nivalCustomerFlow .personalQr > div {
+  max-width: 38rem;
+  margin: 0 auto;
+}
+.nivalCustomerFlow .personalQr small,
+.nivalCustomerFlow .customerEyebrow {
+  color: var(--customer-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+.nivalCustomerFlow .personalQr h2,
+.nivalCustomerFlow .customerCardDetails h2,
+.nivalCustomerFlow .reviewBox h2,
+.nivalCustomerFlow .cardHistory h2 {
+  color: var(--customer-ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 7vw, 2.5rem);
+  line-height: 1.1;
+}
+.nivalCustomerFlow .personalQr p {
+  color: var(--customer-muted);
+  font-size: var(--type-1);
+  line-height: 1.5;
+}
+.nivalCustomerFlow .personalQr img {
+  width: min(14rem, 70vw);
+  padding: var(--space-2);
+  border: 1px solid var(--customer-line);
+  border-radius: var(--radius-card);
+  background: white;
+}
+.nivalCustomerFlow .personalQr > small {
+  max-width: 38rem;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+.nivalCustomerFlow .manualCardCode {
+  max-width: 38rem;
+  margin: var(--space-2) auto;
+  padding: var(--space-2);
+  border: 1px solid var(--customer-line);
+  border-radius: var(--radius-control);
+  background: var(--customer-cream);
+  color: var(--customer-ink);
+}
+.nivalCustomerFlow .manualCardCode strong {
+  overflow-wrap: anywhere;
+  font-size: clamp(1.5rem, 8vw, 2rem);
+  letter-spacing: 0.12em;
+}
+.nivalCustomerFlow .personalQr button,
+.nivalCustomerFlow .reviewBox button,
+.nivalCustomerFlow .reviewBox input[type="submit"] {
+  min-height: 3rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  padding: 0.75rem 1.5rem;
+  background: var(--customer-forest);
+  color: var(--color-inverse-text);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.nivalCustomerFlow :is(button, a, summary, input, select):focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+.nivalCustomerFlow button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+.nivalCustomerFlow .cardHelp summary {
+  color: var(--customer-forest);
+  font-size: var(--type-1);
+  line-height: 1.5;
+}
+.nivalCustomerFlow .cardHelp p,
+.nivalCustomerFlow .customerCardDetails p,
+.nivalCustomerFlow .reviewBox p {
+  color: var(--customer-muted);
+  font-size: var(--type-1);
+  line-height: 1.6;
+}
+.nivalCustomerFlow .cardHistory {
+  margin: var(--space-4) 0;
+  padding: 0 var(--space-1);
+}
+.nivalCustomerFlow .cardHistory .customerEyebrow {
+  margin: 0;
+}
+.nivalCustomerFlow .cardHistory h2 {
+  margin: var(--space-1) 0 var(--space-2);
+}
+.nivalCustomerFlow .cardHistory > div {
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 4.5rem;
+  border-bottom: 1px solid var(--customer-line);
+  color: var(--customer-ink);
+}
+.nivalCustomerFlow .cardHistory > div > span {
+  font-weight: 700;
+}
+.nivalCustomerFlow .cardHistory small {
+  color: var(--customer-muted);
+  font-size: 0.8125rem;
+  font-weight: 400;
+}
+.nivalCustomerFlow .cardHistory b {
+  flex: 0 0 auto;
+  color: var(--customer-forest);
+  font-size: 1.25rem;
+}
+.nivalCustomerFlow .customerHistoryEmpty {
+  padding: var(--space-3);
+  border: 1px dashed var(--customer-line);
+  border-radius: var(--radius-card);
+  background: var(--customer-paper);
+  color: var(--customer-muted);
+  line-height: 1.6;
+}
+.nivalCustomerFlow .lockedGoal {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--customer-line);
+  border-radius: var(--radius-control);
+  background: var(--customer-cream);
+  color: var(--customer-ink);
+  font-size: var(--type-1);
+  line-height: 1.5;
+}
+.nivalCustomerFlow .pointCongrats {
+  max-width: calc(100% - 2rem);
+  border-color: var(--customer-lime);
+  background: var(--customer-lime);
+  color: var(--palette-forest-deep);
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+.nivalCustomerFlow .loyaltyFooter {
+  color: var(--customer-muted);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+.nivalCustomerFlow .loyaltyFooter a {
+  color: var(--customer-forest);
+  font-weight: 700;
+  text-decoration-thickness: 0.1em;
+  text-underline-offset: 0.2em;
+}
+@media (max-width: 500px) {
+  .nivalCustomerFlow .nivalConfiguredCard {
+    padding: var(--space-3) var(--space-2);
+    border-radius: var(--radius-card);
+  }
+  .nivalCustomerFlow .cardTop {
+    align-items: flex-start;
+  }
+  .nivalCustomerFlow .cardExpiry {
+    max-width: 45%;
+    font-size: 0.75rem;
+  }
+  .nivalCustomerFlow .personalQr,
+  .nivalCustomerFlow .customerCardDetails,
+  .nivalCustomerFlow .reviewBox,
+  .nivalCustomerFlow .cardHelp {
+    padding: var(--space-2);
+  }
+  .nivalCustomerFlow .cardHistory > div {
+    padding: var(--space-2) 0;
+  }
+}

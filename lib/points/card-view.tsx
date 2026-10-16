@@ -82,7 +82,7 @@ export function CardView({
   const baseCardColor=design.theme==="minimal"?"#ffffff":design.theme==="noche"?"#17352f":design.theme==="botanico"?"#315641":cardColor(business.program?.color);
   const configuredStyle={"--card-color":baseCardColor,"--card-text":design.theme==="minimal"?(design.textColor||"#17352f"):readableCardText(design.textColor,baseCardColor),"--card-accent":design.secondaryColor||"#cfe87a","--point-active":design.pointActive||design.secondaryColor||"#cfe87a","--point-idle":design.pointInactive||"#ffffff35"} as React.CSSProperties;
   return (
-    <>
+    <div className="nivalCustomerFlow">
       <p className="cardWelcome">Tu tarjeta está lista. Muéstrala después de tu compra para sumar puntos.</p>
       <article
         className={"loyaltyCard nivalConfiguredCard " + (pulse ? "cardPulse" : "")}
@@ -206,10 +206,11 @@ export function CardView({
         </p>
       )}
       <details className="cardHelp"><summary>¿Cómo guardo o recupero mi tarjeta?</summary><p>Guarda esta página en los favoritos de este navegador. En Android también puedes usar “Agregar a pantalla de inicio”. Si cambias de celular, borras los datos o abres otro navegador, vuelve al enlace de este negocio y recupera tu tarjeta con el teléfono registrado. Tus puntos e historial se conservan.</p><p>Los puntos se suman por compras registradas por el negocio. Al entregar un premio se descuentan los puntos indicados; puedes revisar cada movimiento aquí.</p></details>
-      <section className="cardHistory">
-        <h2>Tus últimos movimientos</h2>
+      <section className="cardHistory" aria-labelledby="customer-history-heading">
+        <p className="customerEyebrow">TU AVANCE</p>
+        <h2 id="customer-history-heading">Historial de puntos</h2>
         {!card.history.length ? (
-          <p>Tu historia aquí empieza con tu primera visita.</p>
+          <p className="customerHistoryEmpty">Cuando el negocio registre tu primera visita, aquí verás tus puntos y canjes.</p>
         ) : (
           card.history.map((m: any, i: number) => (
             <div key={i}>
@@ -235,6 +236,6 @@ export function CardView({
           ))
         )}
       </section>
-    </>
+    </div>
   );
 }
