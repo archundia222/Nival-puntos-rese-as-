@@ -9,33 +9,36 @@ function normalizeSection(section:string){
  return section;
 }
 function groupForSection(section:string):string|null{
- if(['mis-tarjetas','tus-tarjetas','programa','promociones','premios','compartir-programa','compartir'].includes(section))return 'fidelidad';
+ if(['mis-tarjetas','tus-tarjetas','programa','promociones','premios','compartir-programa','compartir'].includes(section))return 'programa';
  if(['google','nival-resenas'].includes(section))return 'resenas';
- if(section==='nival-pay')return 'productos';
- if(['equipo','estadisticas','estadisticas-puntos','canjes'].includes(section))return 'operacion';
- if(['configuracion','ajustes','datos-negocio','plan'].includes(section))return 'ajustes';
+ if(section==='nival-pay')return 'cuenta';
+ if(['equipo','usuarios','estadisticas','estadisticas-puntos','canjes','informes','sucursales'].includes(section))return 'operacion';
+ if(['configuracion','ajustes','datos-negocio','plan'].includes(section))return 'cuenta';
  return null;
 }
 function makeItems(reviewLimit:number):MenuItem[]{
  const items:MenuItem[]=[
   {id:'inicio',label:'Inicio',icon:'inicio'},
-  {id:'fidelidad',label:'Tarjetas',icon:'gift',children:[
+  {id:'programa',label:'Programa de puntos',icon:'gift',children:[
    {id:'mis-tarjetas',label:'Tarjeta de puntos'},
    {id:'compartir-programa',label:'Compartir programa'},
   ]},
   {id:'clientes',label:'Clientes',icon:'clientes'},
-  {id:'sucursales',label:'Sucursales',icon:'pin'},
-  {id:'usuarios',label:'Usuarios',icon:'clientes',href:'/panel/puntos?view=equipo'},
-  {id:'informes',label:'Informes',icon:'file',href:'/panel/reportes'},
-  {id:'plan',label:'Facturación',icon:'card'},
-  {id:'configuracion',label:'Configuración',icon:'settings'},
+  {id:'operacion',label:'Operación',icon:'file',children:[
+   {id:'sucursales',label:'Sucursales'},
+   {id:'equipo',label:'Equipo',href:'/panel/puntos?view=equipo'},
+   {id:'informes',label:'Informes',href:'/panel/reportes'},
+   {id:'canjes',label:'Canjes'},
+  ]},
  ];
  if(reviewLimit>0)items.push({id:'resenas',label:'Reseñas',icon:'google',children:[
   {id:'google',label:'Reseñas de Google'},
   {id:'nival-resenas',label:'Tarjetas QR y NFC'},
  ]});
- items.push({id:'productos',label:'Productos adicionales',icon:'card',children:[
-  {id:'nival-pay',label:'Nival Pay · regalo'},
+ items.push({id:'cuenta',label:'Cuenta',icon:'settings',children:[
+  {id:'plan',label:'Facturación'},
+  {id:'configuracion',label:'Configuración'},
+  {id:'productos',label:'Productos adicionales',children:[{id:'nival-pay',label:'Nival Pay · regalo'}]},
  ]});
  return items;
 }
@@ -63,14 +66,14 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
    }
    window.location.href=hrefFor(item.href);return;
   }
-  const target=item.id==='estadisticas'?'estadisticas-puntos':item.id==='tarjetas'||item.id==='fidelidad'?'mis-tarjetas':item.id==='gestion'||item.id==='operacion'?'equipo':item.id==='datos-negocio'?'ajustes':item.id==='ajustes'?'configuracion':item.id;
+  const target=item.id==='estadisticas'?'estadisticas-puntos':item.id==='tarjetas'||item.id==='fidelidad'||item.id==='programa'?'mis-tarjetas':item.id==='gestion'||item.id==='operacion'?'equipo':item.id==='usuarios'?'equipo':item.id==='datos-negocio'?'ajustes':item.id==='ajustes'?'configuracion':item.id==='productos'?'nival-pay':item.id;
   if(homeUrl){const home=new URL(homeUrl,window.location.origin);if(window.location.pathname!==home.pathname){home.hash=target;window.location.href=home.pathname+home.search+home.hash;return;}}
   setSection(target);setExpanded(groupForSection(target));
   setOpen(false);window.history.replaceState(null,'',window.location.pathname+window.location.search+'#'+target);
   window.scrollTo({top:0,behavior:'smooth'});requestAnimationFrame(()=>document.getElementById('workspace-title')?.focus());
  }
  function render(item:MenuItem,depth=0){
-  const active=section===item.id||(item.id==='clientes'&&section.startsWith('clientes'))||(item.id==='usuarios'&&section==='equipo')||(item.id==='operacion'&&(section==='equipo'||section.startsWith('estadisticas')||section==='canjes'))||(item.id==='productos'&&section==='nival-pay')||(item.id==='resenas'&&(section==='google'||section==='nival-resenas'))||(item.id==='configuracion'&&(section==='ajustes'||section==='configuracion'))||(item.id==='ajustes'&&(section==='configuracion'||section==='plan'||section==='ajustes'))||(item.id==='datos-negocio'&&section==='ajustes')||(item.id==='fidelidad'&&(section==='compartir-programa'||section==='tus-tarjetas'||section==='mis-tarjetas'||section==='promociones'));
+  const active=section===item.id||(item.id==='clientes'&&section.startsWith('clientes'))||(item.id==='operacion'&&(section==='equipo'||section==='usuarios'||section.startsWith('estadisticas')||section==='canjes'||section==='informes'||section==='sucursales'))||(item.id==='cuenta'&&(section==='plan'||section==='ajustes'||section==='configuracion'||section==='nival-pay'))||(item.id==='productos'&&section==='nival-pay')||(item.id==='resenas'&&(section==='google'||section==='nival-resenas'))||(item.id==='configuracion'&&section==='ajustes')||(item.id==='programa'&&(section==='compartir-programa'||section==='tus-tarjetas'||section==='mis-tarjetas'||section==='promociones'));
   if(item.children)return <div className={'workspaceMenuGroup'+(depth?' isNested':'')} key={item.id}>
    <button className={'workspaceNavItem'+(active?' isActive':'')} aria-expanded={expanded===item.id} aria-controls={'workspace-submenu-'+item.id} onClick={()=>toggle(item.id)} aria-current={active?'page':undefined}>{item.icon&&<Icon name={item.icon}/>}<span><strong>{item.label}</strong></span><i aria-hidden="true"/></button>
    {expanded===item.id&&<div className="workspaceSubmenu" id={'workspace-submenu-'+item.id} aria-label={item.label}>{item.children.map(child=>render(child,depth+1))}</div>}
@@ -78,8 +81,9 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
   return <button key={item.id} className={'workspaceNavItem'+(active?' isActive':'')+(depth?' isSubItem':'')} aria-current={active?'page':undefined} onClick={()=>navigate(item)}>{item.icon&&<Icon name={item.icon}/>}<span><strong>{item.label}</strong></span></button>;
  }
  const menu=[...items] as MenuItem[];
- const sectionAlias=section==='ajustes'?'configuracion':section.startsWith('clientes-')?'clientes':section==='equipo'?'usuarios':section==='programa'?'mis-tarjetas':section==='promociones'||section==='premios'?'mis-tarjetas':section;
- const current=menu.flatMap(x=>[x,...(x.children||[])]).flatMap(x=>[x,...(x.children||[])]).find(x=>x.id===sectionAlias)||items[0];
+ const sectionAlias=section==='ajustes'?'configuracion':section.startsWith('clientes-')?'clientes':section==='programa'?'mis-tarjetas':section==='promociones'||section==='premios'?'mis-tarjetas':section;
+ const flatten=(list:MenuItem[]):MenuItem[]=>list.flatMap(x=>[x,...(x.children?flatten(x.children):[])]);
+ const current=flatten(menu).find(x=>x.id===sectionAlias)||items[0];
  return <div className="nivalShell" data-section={section} data-open={open} data-collapsed={collapsed}>
   <a className="workspaceSkip" href="#workspace-title">Ir al contenido</a>
   {mobile&&open&&<button className="workspaceBackdrop" tabIndex={-1} aria-label="Cerrar menú" onClick={()=>{setOpen(false);trigger.current?.focus();}}/>}
