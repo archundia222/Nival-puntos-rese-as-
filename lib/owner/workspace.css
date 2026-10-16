@@ -894,3 +894,37 @@
 @media(max-width:900px){.nivalShell .impactFeatureGrid{grid-template-columns:minmax(0,1.2fr) minmax(235px,.8fr)}.nivalShell .customerMixBody{gap:12px}.nivalShell .customerMixCard{padding:19px}.nivalShell .impactMasterDetails{grid-template-columns:minmax(0,1fr) minmax(245px,.8fr)}}
 @media(max-width:700px){.nivalShell .impactMasterHeader{align-items:flex-start;flex-direction:column;gap:14px}.nivalShell .impactPeriodFilter{justify-self:start}.nivalShell .impactFeatureGrid{grid-template-columns:1fr}.nivalShell .returningRevenueCard{min-height:200px;padding:22px}.nivalShell .customerMixCard{padding:19px 21px}.nivalShell .customerMixBody{justify-content:flex-start;gap:22px}.nivalShell .impactMasterDetails{grid-template-columns:1fr}.nivalShell .impactMasterDetails>.ownerActivityCard,.nivalShell .impactMasterDetails>.clientStatusCard{min-height:unset}.nivalShell .productHubGrid{grid-template-columns:1fr}.nivalShell .productHubCard{min-height:72px}.nivalShell .impactGoogleCard{padding:19px}.nivalShell .impactGoogleStats{padding:15px 0 0;border-top:1px solid #e4ebe2;border-left:0}}
 @media(max-width:460px){.nivalShell .impactMasterHeader h2{font-size:25px}.nivalShell .impactPeriodFilter{width:100%;justify-content:space-between}.nivalShell .impactPeriodFilter>span{padding-inline:5px}.nivalShell .impactPeriodFilter button{flex:1;padding-inline:5px}.nivalShell .impactMasterMetrics .impactMetric{padding:12px 9px}.nivalShell .impactMasterMetrics .impactMetric>small{font-size:8px;letter-spacing:.3px}.nivalShell .impactMasterMetrics .impactMetric>strong{font-size:23px}.nivalShell .impactMasterMetrics .impactMetric>span{font-size:9px}.nivalShell .returningRevenueCopy>span{max-width:260px;font-size:9px}.nivalShell .returningRevenueCopy>strong{font-size:44px}.nivalShell .customerMixBody{gap:17px}.nivalShell .impactMasterDetails>.ownerActivityCard,.nivalShell .impactMasterDetails>.clientStatusCard{padding:17px}}
+/* The demo's fixed 360px preview needs container-scoped mobile rules too. */
+.mobilePreview .nivalShell .workspaceContent{padding:18px 13px 26px}
+.mobilePreview .nivalShell .workspacePageHeading{align-items:center;flex-direction:row;margin-bottom:16px}
+.mobilePreview .nivalShell .workspacePageHeading h1{font-size:27px}
+.mobilePreview .nivalShell .workspacePeriodChip{display:none}
+.mobilePreview .nivalShell .workspacePlanChips{margin-left:auto}
+.mobilePreview .nivalShell .productHubGrid{grid-template-columns:1fr;gap:8px}
+.mobilePreview .nivalShell .impactMaster{gap:10px;padding:0}
+.mobilePreview .nivalShell .impactMasterHeader{align-items:stretch;flex-direction:column;gap:14px}
+.mobilePreview .nivalShell .impactMasterHeader>div{width:100%;max-width:none}
+.mobilePreview .nivalShell .impactMasterHeader h2{font-size:25px}
+.mobilePreview .nivalShell .impactMasterHeader p{font-size:12px}
+.mobilePreview .nivalShell .impactPeriodFilter{width:100%;justify-self:stretch;justify-content:space-between}
+.mobilePreview .nivalShell .impactPeriodFilter>span{padding-inline:5px}
+.mobilePreview .nivalShell .impactPeriodFilter button{flex:1;padding-inline:5px}
+.mobilePreview .nivalShell .impactFeatureGrid{grid-template-columns:1fr}
+.mobilePreview .nivalShell .returningRevenueCard{min-height:200px;padding:22px}
+.mobilePreview .nivalShell .returningRevenueCopy>span{max-width:260px;font-size:9px}
+.mobilePreview .nivalShell .returningRevenueCopy>strong{font-size:44px}
+.mobilePreview .nivalShell .customerMixBody{gap:17px}
+.mobilePreview .nivalShell .impactMasterMetrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+.mobilePreview .nivalShell .impactMasterMetrics .impactMetric{min-height:92px;padding:12px 9px;border-right:0}
+.mobilePreview .nivalShell .impactMasterMetrics .impactMetric:nth-child(odd){border-right:1px solid #e7ebdf}
+.mobilePreview .nivalShell .impactMasterMetrics .impactMetric>small{font-size:8px;letter-spacing:.3px}
+.mobilePreview .nivalShell .impactMasterMetrics .impactMetric>strong{font-size:23px}
+.mobilePreview .nivalShell .impactMasterMetrics .impactMetric>span{font-size:9px}
+.mobilePreview .nivalShell .impactMasterDetails{grid-template-columns:1fr}
+.mobilePreview .nivalShell .impactMasterDetails>.ownerActivityCard,.mobilePreview .nivalShell .impactMasterDetails>.clientStatusCard{min-height:unset;padding:17px}
+.mobilePreview .nivalShell .impactGoogleCard{grid-template-columns:1fr;padding:18px}
+.mobilePreview .nivalShell .impactGoogleStats{padding:14px 0 0;border-top:1px solid #e4ebe2;border-left:0}
+.mobilePreview .nivalShell .workspaceTopbar{padding-inline:12px}
+.mobilePreview .nivalShell .topbarUser{gap:8px}
+.mobilePreview .nivalShell .topbarUser .userName{display:none}
+.mobilePreview .nivalShell .workspaceStatus{font-size:9px}
