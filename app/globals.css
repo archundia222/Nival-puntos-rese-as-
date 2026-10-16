@@ -204,7 +204,13 @@
 .authShell>.reviewBox{max-width:680px;border-radius:18px;box-shadow:0 16px 42px #102a1b14;border-color:#dce5dd}
 .authShell>.reviewBox h2{font-size:clamp(25px,3vw,31px)}
 .authShell .configGrid button{background:#0f2a1f;border-radius:10px}
+.authPanelLinks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:22px;padding-top:18px;border-top:1px solid #e2e8df}
+.authPanelLinks a{display:flex;min-height:54px;flex-direction:column;justify-content:center;gap:3px;padding:11px 14px;border:1px solid #dce5dd;border-radius:12px;background:#fff;color:#172720;font-weight:750;text-decoration:none;line-height:1.2;transition:background .15s,border-color .15s,transform .15s}
+.authPanelLinks a span{color:#68766f;font-size:12px;font-weight:600}
+.authPanelLinks a:hover{background:#f5f8f4;border-color:#1f7654;transform:translateY(-1px)}
+.authPanelLinks a:focus-visible{outline:3px solid #1f7654;outline-offset:2px}
 @media(max-width:720px){.authShell{padding-top:28px}.authHead h1{font-size:42px}.authShell>.reviewBox{padding:22px;border-radius:16px}}
+@media(max-width:520px){.authPanelLinks{grid-template-columns:1fr}.authPanelLinks a{min-height:52px}}
 
 /* Nival design system shared by public, owner, admin and staff surfaces. */
 :root{--nival-forest:#0c2a1f;--nival-green:#1f7654;--nival-lime:#d8f365;--nival-cream:#f8f6ef;--nival-paper:#fffefa;--nival-text:#172720}
