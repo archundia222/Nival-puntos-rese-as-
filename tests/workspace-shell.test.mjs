@@ -81,7 +81,7 @@ test('home presents points, gift cards and reviews, while an empty account avoid
  assert.ok(owner.includes('<ProductHub data={{...data,hasPayCard:Boolean(b.pay_card_url)}}/>'));
  assert.ok(owner.includes('{!emptyState&&<>'));
  assert.ok(owner.includes('className="returningRevenueCard"'));
- assert.ok(owner.includes('Así se mueve tu negocio'));
+ assert.ok(owner.includes('Resumen del periodo'));
  assert.ok(owner.indexOf('className="impactFeatureGrid"')<owner.indexOf('className="impactMasterDetails"'));
 });
 
