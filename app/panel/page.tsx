@@ -8,6 +8,7 @@ import {createClient} from '../../lib/backend/server';
 import {backendConfigured} from '../../lib/backend/config';
 import {BusinessForm,CustomerForm,RewardForm} from './forms';
 import {logout} from './actions';
+import {StaffManager} from './staff-manager';
 
 export const dynamic='force-dynamic';
 
@@ -22,7 +23,7 @@ export default async function Panel(){
   .eq('owner_id',claims.claims.sub).maybeSingle();
 
  if(error)return <main className="dashboard"><h1>Tu panel</h1><p role="alert">No se pudo consultar tu negocio. Inténtalo nuevamente.</p><a href="/acceso">Volver al acceso</a></main>;
- if(!business)return <main className="dashboard setupPage"><header className="dashHead"><div><small>NIVAL · PUNTOS + RESEÑAS</small><h1>Empieza con tu negocio</h1><p>Solo necesitamos su nombre para preparar tu espacio.</p></div><form action={logout}><button className="quietButton">Cerrar sesión</button></form></header><section className="setupCard"><span className="stepLabel">PASO 1 DE 1</span><BusinessForm/></section></main>;
+ if(!business){const member=await client.from('npr_business_members').select('business_id').eq('user_id',claims.claims.sub).eq('active',true).maybeSingle();if(member.data)redirect('/personal');return <main className="dashboard setupPage"><header className="dashHead"><div><small>NIVAL · PUNTOS + RESEÑAS</small><h1>Empieza con tu negocio</h1><p>Solo necesitamos su nombre para preparar tu espacio.</p></div><form action={logout}><button className="quietButton">Cerrar sesión</button></form></header><section className="setupCard"><span className="stepLabel">PASO 1 DE 1</span><BusinessForm/></section></main>;}
 
  const[{data:customers,error:ce},{data:movements,error:me},{data:reviews,error:re}]=await Promise.all([
   readAll((start,end)=>client.from('npr_customers').select('id,name,phone,created_at').eq('business_id',business.id).order('created_at',{ascending:false}).order('id').range(start,end)),
@@ -44,6 +45,8 @@ export default async function Panel(){
   :{data:null,error:null};
  const cardMap=new Map((cards||[]).map(card=>[card.id,card]));
  const{data:reviewLink,error:linkError}=await client.from('npr_review_links').select('id,display_name,google_url,active').eq('business_id',business.id).maybeSingle();
+ const staffResult=await (client as any).rpc('npr_list_staff');
+ const staff=staffResult.error?[]:staffResult.data||[];
  const now=Date.now();
  const customerSummaries=(customers||[]).map(customer=>{
   const summary=summaries.get(customer.id)||{balance:0,visits:0,lastVisit:null};
@@ -104,6 +107,7 @@ export default async function Panel(){
      <p className="rewardPreview"><span>PREMIO</span><strong>{business.reward_name}</strong><small>{business.reward_goal} puntos</small></p>
      <RewardForm goal={business.reward_goal} reward={business.reward_name} risk={business.risk_days}/>
     </section>
+    <StaffManager staff={staff} error={!!staffResult.error}/>
     {(!customerCardsConfigured()||cardsError)&&<p className="quietNotice">Las tarjetas públicas de puntos están en preparación. Puedes registrar clientes, visitas y canjes desde aquí.</p>}
    </aside>
   </section>
