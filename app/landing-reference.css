@@ -21,7 +21,8 @@
 .nvIndustryDropdown{width:300px;grid-template-columns:1fr 1fr}
 .nvIndustryDropdown a{padding:9px}
 .nvNavActions{display:flex;align-items:center;gap:18px;flex:0 0 auto}
-.nvLogin{color:var(--nv-forest);font-size:14px;font-weight:700;text-decoration:none;white-space:nowrap}
+.nvLogin{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 17px;border:1px solid var(--nv-line);border-radius:999px;background:var(--nv-paper);color:var(--nv-forest);font-size:14px;font-weight:750;text-decoration:none;white-space:nowrap;transition:background .18s,border-color .18s}
+.nvLogin:hover{background:var(--nv-mist);border-color:#b9c8bb}
 .nvNavCta,.nvButton{display:inline-flex;align-items:center;justify-content:center;gap:11px;min-height:52px;padding:0 22px;border:1px solid transparent;border-radius:999px;text-decoration:none;font-size:15px;font-weight:750;transition:transform .2s ease,background .2s ease,box-shadow .2s ease}
 .nvNavCta{min-height:46px;padding-inline:21px;background:var(--nv-forest);color:white}
 .nvNavCta:hover,.nvButton:hover{transform:translateY(-2px);box-shadow:0 10px 24px #103c2c22}
@@ -266,7 +267,7 @@
  .nvReviewsGrid{gap:40px}.nvOwnerSection{grid-template-columns:minmax(0,.65fr) minmax(0,1.35fr);gap:30px}
 }
 @media(max-width:900px){
- .nvDesktopNav,.nvLogin{display:none}.nvNavInner{min-height:72px}.nvNavActions{margin-left:auto}.nvMobileMenu{position:relative;display:block;flex:0 0 auto}
+ .nvDesktopNav{display:none}.nvNavInner{min-height:72px}.nvNavActions{margin-left:auto}.nvLogin{min-height:40px;padding-inline:13px;font-size:12px}.nvMobileMenu{position:relative;display:block;flex:0 0 auto}
  .nvMobileMenu>button{display:flex;align-items:center;gap:7px;padding:10px 3px;border:0;background:transparent;color:var(--nv-forest);font-family:inherit;font-size:12px;font-weight:750;cursor:pointer}
  .nvHamburger{display:grid;gap:5px;width:22px}.nvHamburger i{display:block;width:22px;height:2px;border-radius:3px;background:var(--nv-forest)}
  .nvMobilePanel{position:fixed;inset:72px 0 0;z-index:22;width:100%;max-width:none;display:grid;align-content:start;gap:0;overflow-y:auto;margin:0;padding:15px 24px 110px;background:#f8f6eefc;box-shadow:0 18px 32px #182c1d12}
@@ -431,6 +432,7 @@
  .nvNavInner{min-height:68px}
  .nvMobilePanel{inset:68px 0 0;padding-inline:22px}
 }
+@media(max-width:480px){.nvNavCta{display:none}.nvNavActions{gap:8px}.nvLogin{min-height:40px;padding-inline:15px}}
 
 /* Compact launch hero, with small product moments around the existing phone visual. */
 .nvNavInner{min-height:68px}
