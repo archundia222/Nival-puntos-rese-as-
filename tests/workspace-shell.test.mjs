@@ -34,6 +34,7 @@ test('business shell shows the plan-aware workspace menu and cycle chip',()=>{
 test('demo and program settings reuse the same shell with explicit demo status and active configuration menu',()=>{
  const html=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Café Demo',owner:'Ana',status:'Activo',demo:true,logout:null,initialSection:'ajustes'},'Contenido de ejemplo'));
  assert.ok(html.includes('data-section="ajustes"'));assert.ok(html.includes('>Demo</span>'));assert.ok(html.includes('Datos de demostración'));
+ assert.ok(html.includes('Datos de ejemplo'));
  assert.ok(!html.includes('workspaceDemoBanner'));assert.ok(!html.includes('Estás explorando la demo.'));assert.ok(!html.includes('href="/acceso"'));
 });
 
@@ -80,7 +81,7 @@ test('sidebar accordion opens only the active group and keeps a single page titl
 });
 test('home presents points, gift cards and reviews, while an empty account avoids zero metrics',()=>{
  const owner=readFileSync(new URL('../lib/owner/view.tsx',import.meta.url),'utf8');
- for(const label of ["name:'Puntos'","name:'Tarjeta de regalo'","name:'Google y reseñas'","href={'#'+product.id}"])assert.ok(owner.includes(label),label);
+ for(const label of ["name:'Puntos'","name:'Tarjeta de regalo'","name:'Tarjetas de reseñas'","detail:'10 QR y NFC incluidas'","href={'#'+product.id}"])assert.ok(owner.includes(label),label);
  assert.ok(owner.includes('{emptyState&&<StartGuide state={startState||undefined}/>'));
  assert.ok(owner.includes('{!emptyState&&<div className="impactMasterMetrics">'));
  assert.ok(owner.includes("emptyState?'—':money(returningRevenue)"));

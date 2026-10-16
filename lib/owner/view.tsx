@@ -38,7 +38,7 @@ function ProductHub({data}:{data:Record<string,any>}){
  const products=[
   {id:'mis-tarjetas',name:'Puntos',detail:'Tarjeta digital y premios',status:activePoints?'Activa':'Sin activar',action:'Abrir sección',icon:'points',tone:'points'},
   {id:'nival-pay',name:'Tarjeta de regalo',detail:'Nival Pay · NFC y QR',status:data.hasPayCard?'Activa':'Disponible',action:'Abrir sección',icon:'card',tone:'gift'},
-  {id:'nival-resenas',name:'Google y reseñas',detail:'QR y tarjetas NFC',status:activeReviewCards?`${activeReviewCards} activas`:'Sin activar',action:'Abrir sección',icon:'google',tone:'reviews'},
+  {id:'nival-resenas',name:'Tarjetas de reseñas',detail:'10 QR y NFC incluidas',status:activeReviewCards?`${activeReviewCards} activas`:'Sin activar',action:'Abrir sección',icon:'google',tone:'reviews'},
  ];
  return <section className="productHub" aria-labelledby="product-hub-title"><header><span className="workspaceEyebrow">TU NEGOCIO</span><h2 id="product-hub-title">Tus productos</h2></header><div className="productHubGrid">{products.map(product=><a className={'productHubCard product-'+product.tone} href={'#'+product.id} key={product.id}><span className="productHubSymbol" aria-hidden="true"><Icon name={product.icon} size={25}/></span><span className="productHubStatus">{product.status}</span><strong>{product.name}</strong><small>{product.detail}</small><span className="productHubAction">{product.action} <Icon name="arrow" size={15}/></span></a>)}</div></section>;
 }

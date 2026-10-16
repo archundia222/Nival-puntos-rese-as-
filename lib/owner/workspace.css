@@ -1082,4 +1082,5 @@
 .nivalShell .ownerBlock[data-panel="equipo"] .ownerSectionTitle,
 .nivalShell .ownerBlock[data-panel="plan"] .ownerSectionTitle,
 .nivalShell .ownerBlock[data-panel="configuracion"] .ownerSectionTitle{padding:var(--space-3);border-radius:var(--radius-card);background:var(--color-surface);border:1px solid var(--color-border)}
+.nivalShell .workspaceExampleTag{display:inline-flex;align-items:center;min-height:28px;margin:0 0 var(--space-1);padding:4px 10px;border-radius:var(--radius-pill);background:var(--color-inverse);color:var(--color-inverse-text);font-size:11px;font-weight:700;letter-spacing:.02em}
 @media(prefers-reduced-motion:reduce){.nivalShell *, .nivalShell *::before, .nivalShell *::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
