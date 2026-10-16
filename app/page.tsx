@@ -46,7 +46,7 @@ export default function Home() {
           <nav className="nvDesktopNav" aria-label="Navegación principal">
             <a href="#como-funciona">Cómo funciona</a><a href="#planes">Planes</a><a href="#contacto">Contacto</a>
           </nav>
-          <div className="nvNavActions"><a className="nvNavCta" href={whatsapp} target="_blank" rel="noreferrer">Cotizar por WhatsApp <LandingIcon name="arrow" /></a></div>
+          <div className="nvNavActions"><a className="nvLogin" href="/acceso">Entrar</a><a className="nvNavCta" href={whatsapp} target="_blank" rel="noreferrer">Cotizar por WhatsApp <LandingIcon name="arrow" /></a></div>
           <LandingMobileNav />
         </div>
       </header>
