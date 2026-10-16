@@ -25,7 +25,7 @@ export function ReviewCardManager({businessId,branchId,branchName,cards,googleUr
    </div>
   </article>}
   {active>=cardLimit&&<p className="ownerEmpty">Llegaste al límite de tarjetas de tu plan ({cardLimit}).</p>}
-  {demoCards.map(label=><article className="ownerCard reviewCardItem reviewDemoCard" key={label}><div className="reviewPhysicalCard"><small>NIVAL · RESEÑAS · EJEMPLO</small><strong>{label}</strong><span>Lista para configurar</span></div><p>Tarjeta ilustrativa. La demo no guarda cambios.</p></article>)}
+  {demoCards.map(label=><article className="ownerCard reviewCardItem reviewDemoCard" key={label}><div className="reviewPhysicalCard"><small>NIVAL · RESEÑAS · EJEMPLO</small><strong>{label}</strong><span>Lista para configurar</span><i className="reviewCardMockMark"><Icon name="compartir" size={28}/></i></div><p>Tarjeta ilustrativa. La demo no guarda cambios.</p></article>)}
   {visible.map(card=><article className="ownerCard reviewCardItem" key={card.code}>
    <div className="reviewPhysicalCard"><small>NIVAL · GOOGLE</small><strong>{card.label}</strong><span>{card.active?'Activo':'Pausado'}</span>{card.active&&<img className="reviewCardInlineQr" src={'/api/reviews/qr?code='+encodeURIComponent(card.code)} alt={'QR de reseñas de Google de '+card.label}/>}</div>
    <div className="reviewCardActions">{card.active&&<><a className="workspacePrimary" href={'/api/reviews/qr?code='+card.code+'&download=1'} download><Icon name="download" size={17}/> Descargar</a><a className="workspaceSecondary" href={'/r/'+card.code} target="_blank" rel="noreferrer">Probar</a></>}

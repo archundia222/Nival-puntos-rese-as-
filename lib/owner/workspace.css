@@ -1170,4 +1170,5 @@
 .nivalShell .giftCardSystemTile .giftCatalogMock{background:#304b35!important}
 .nivalShell .giftCatalogMock>i{display:grid;place-items:center;width:36px;height:36px;border:1px solid #ffffff55;border-radius:12px;color:#e8efcf}
 .nivalShell .reviewCardItem .reviewPhysicalCard{aspect-ratio:1.7/1;min-height:154px;border-radius:16px;background:#173d30;box-shadow:0 10px 24px #183b2b14}
+.nivalShell .reviewPhysicalCard .reviewCardMockMark{position:absolute;right:14px;top:50%;display:grid;place-items:center;width:52px;height:52px;transform:translateY(-50%);border:1px solid #ffffff4d;border-radius:13px;color:#eff5df;font-style:normal}
 @media(max-width:700px){.nivalShell .cardCatalogGrid{grid-template-columns:1fr}.nivalShell .cardSystemTile{min-height:220px}}
