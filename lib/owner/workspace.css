@@ -826,3 +826,70 @@
 @media(max-width:1050px){.nivalShell .workspaceContent{padding-inline:22px}.nivalShell .productHubGrid{gap:9px}.nivalShell .productHubCard{padding:14px}.nivalShell .impactMaster{grid-template-columns:1fr}.nivalShell .impactPeriodFilter{grid-column:1;grid-row:auto;justify-self:start}.nivalShell .impactMasterMetrics{grid-column:1}}
 @media(max-width:760px){.nivalShell .workspaceContent{padding:21px 17px 30px}.nivalShell .workspacePageHeading{margin-bottom:16px}.nivalShell .workspacePageHeading h1{font-size:30px}.nivalShell .productHubGrid{grid-template-columns:1fr}.nivalShell .productHubCard{min-height:100px;padding:14px 16px}.nivalShell .productHubStatus{top:12px;right:12px}.nivalShell .impactMaster{padding:16px}.nivalShell .impactMasterMetrics{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:8px}.nivalShell .impactMasterMetrics .impactMetric{padding:8px 10px;border-right:0}.nivalShell .impactMasterMetrics .impactMetric:first-child{padding-left:10px}.nivalShell .impactMasterMetrics .impactMetric:nth-child(odd){border-right:1px solid #e7ebdf}.nivalShell .impactMasterMetrics .impactReturningRevenue{grid-column:1/-1;border-top:1px solid #e7ebdf;padding-top:13px}.nivalShell .startGuide ol{grid-template-columns:1fr 1fr}.nivalShell .workspacePlanChips{margin-left:auto}}
 @media(max-width:540px){.nivalShell .workspaceContent{padding:18px 13px 26px}.nivalShell .workspacePageHeading{align-items:center;flex-direction:row}.nivalShell .workspacePageHeading h1{font-size:27px}.nivalShell .workspacePeriodChip{display:none}.nivalShell .productHubGrid{gap:8px}.nivalShell .productHub>header h2{font-size:17px}.nivalShell .impactMaster{gap:10px;padding:14px}.nivalShell .impactMasterHeader h2{font-size:18px}.nivalShell .impactPeriodFilter{width:100%;justify-self:stretch;justify-content:space-between}.nivalShell .impactPeriodFilter>span{padding-left:3px}.nivalShell .impactPeriodFilter button{flex:1;padding-inline:4px}.nivalShell .impactMasterMetrics .impactMetric>strong{font-size:22px}.nivalShell .impactMasterMetrics .impactMetric>small{font-size:8px}.nivalShell .startGuide{padding:18px}.nivalShell .startGuideHeading h2{font-size:20px}.nivalShell .startGuide ol{grid-template-columns:1fr}.nivalShell .startGuideStep{min-height:48px}.nivalShell .workspaceTopbar{padding-inline:12px}.nivalShell .topbarUser{gap:8px}.nivalShell .topbarUser .userName{display:none}.nivalShell .workspaceStatus{font-size:9px}}
+
+/* Premium home: lead with the measured outcome, then the evidence and actions. */
+.nivalShell .impactMaster{grid-template-columns:minmax(0,1fr);gap:18px;margin:4px 0 18px;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
+.nivalShell .impactMasterHeader{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.nivalShell .impactMasterHeader .workspaceEyebrow{color:#718271;font-size:10px;letter-spacing:1.15px}
+.nivalShell .impactMasterHeader h2{margin:4px 0 2px;font-size:clamp(25px,2.5vw,32px);font-weight:650;letter-spacing:-.9px}
+.nivalShell .impactMasterHeader p{margin:0;color:#708074;font-size:13px}
+.nivalShell .impactPeriodFilter{grid-column:auto;grid-row:auto;justify-self:end;flex:0 0 auto;border:1px solid #e1e6d9;background:#fffdf7;border-radius:12px;padding:4px}
+.nivalShell .impactPeriodFilter>span{font-size:11px}
+.nivalShell .impactPeriodFilter button{min-height:36px;padding-inline:13px;font-size:12px}
+.nivalShell .impactFeatureGrid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(270px,.85fr);gap:14px;min-width:0}
+.nivalShell .returningRevenueCard{position:relative;isolation:isolate;display:flex;min-height:218px;flex-direction:column;justify-content:space-between;overflow:hidden;padding:25px 28px;border-radius:20px;background:#173d31;color:#faf8ed;box-shadow:0 14px 32px #173d3122}
+.nivalShell .returningRevenueCopy{position:relative;z-index:1;display:grid;gap:8px;max-width:480px}
+.nivalShell .returningRevenueCopy>span{color:#d6e4c7;font-size:10px;font-weight:700;letter-spacing:1px}
+.nivalShell .returningRevenueCopy>strong{color:#faffeb;font-size:clamp(40px,5vw,58px);font-weight:650;letter-spacing:-2.4px;line-height:1}
+.nivalShell .returningRevenueCopy>small{max-width:390px;color:#cad8c7;font-size:12px;line-height:1.5}
+.nivalShell .returningRevenueFoot{position:relative;z-index:1;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:18px}
+.nivalShell .revenueTag{padding:7px 10px;border:1px solid #ffffff26;border-radius:99px;color:#f4f2e8;font-size:11px}
+.nivalShell .revenueChange{display:flex;align-items:center;gap:5px;color:#173d31;background:#d8ef78;padding:7px 10px;border-radius:99px;font-size:11px;font-weight:750}
+.nivalShell .revenueChange i{font-style:normal;font-weight:550}
+.nivalShell .revenueOrb{position:absolute;z-index:-1;right:-68px;bottom:-146px;width:320px;height:320px;border:1px solid #d8ef7840;border-radius:50%;box-shadow:0 0 0 22px #d8ef7812,0 0 0 50px #d8ef780b}
+.nivalShell .customerMixCard{display:flex;min-width:0;flex-direction:column;justify-content:center;margin:0;padding:22px 24px;border:1px solid #e0e5d8;border-radius:20px;background:#fffef8;box-shadow:0 8px 22px #173d3109}
+.nivalShell .customerMixCard header{margin-bottom:14px}
+.nivalShell .customerMixCard header .workspaceEyebrow{font-size:9px;letter-spacing:1px;color:#758275}
+.nivalShell .customerMixCard h3{margin:3px 0 0;color:#173d31;font-size:17px;letter-spacing:-.3px}
+.nivalShell .customerMixBody{display:flex;align-items:center;justify-content:flex-start;gap:20px}
+.nivalShell .customerMixDonut{width:106px;height:106px;flex:0 0 106px;padding:9px;border-radius:50%;box-shadow:inset 0 0 0 1px #173d3110}
+.nivalShell .customerMixDonut>span{display:flex;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;border-radius:50%;background:#fffef8}
+.nivalShell .customerMixDonut b{color:#173d31;font-size:24px;line-height:1}
+.nivalShell .customerMixDonut small{margin-top:3px;color:#718075;font-size:10px}
+.nivalShell .customerMixLegend{display:grid;gap:11px;min-width:0;font-size:11px}
+.nivalShell .customerMixLegend span{display:grid;grid-template-columns:10px auto min-content;align-items:center;gap:7px;color:#5c7161;white-space:nowrap}
+.nivalShell .customerMixLegend b{color:#173d31;font-size:13px}
+.nivalShell .customerMixLegend i{width:8px;height:8px;border-radius:50%}
+.nivalShell .customerMixLegend .mixReturning{background:#174d37}
+.nivalShell .customerMixLegend .mixNew{background:#d9ed78}
+.nivalShell .impactMasterMetrics{grid-template-columns:repeat(3,minmax(0,1fr));gap:0;padding:0;border:1px solid #e1e6da;border-radius:15px;background:#fffef8;overflow:hidden}
+.nivalShell .impactMasterMetrics .impactMetric{min-height:unset;padding:15px 19px;border-right:1px solid #e7ebdf}
+.nivalShell .impactMasterMetrics .impactMetric:last-child{border-right:0}
+.nivalShell .impactMasterMetrics .impactMetric>small{font-size:10px;letter-spacing:.65px}
+.nivalShell .impactMasterMetrics .impactMetric>strong{font-size:29px;line-height:1.1}
+.nivalShell .impactMasterMetrics .impactMetric>span{margin-top:2px;color:#64786a;font-size:11px}
+.nivalShell .impactMasterDetails{grid-template-columns:minmax(0,1.3fr) minmax(270px,.9fr);gap:14px;margin:0 0 18px}
+.nivalShell .impactMasterDetails>.ownerActivityCard,.nivalShell .impactMasterDetails>.clientStatusCard{min-height:275px;padding:22px;border:1px solid #e1e6da;border-radius:18px;background:#fffef8;box-shadow:0 7px 20px #173d3107}
+.nivalShell .impactMasterDetails .ownerActivityCard h2,.nivalShell .impactMasterDetails .clientStatusCard h3{font-size:18px;letter-spacing:-.35px}
+.nivalShell .impactMasterDetails .ownerActivityChart{height:172px;margin-top:12px}
+.nivalShell .clientStatusAdvice{margin:8px 0 4px;color:#758377;font-size:11px;line-height:1.4}
+.nivalShell .clientStatusRow{grid-template-columns:1fr auto;gap:7px 10px;padding:11px 2px;font-size:12px}
+.nivalShell .clientStatusRow>i{grid-column:1/-1;height:4px}
+.nivalShell .productHub{margin:20px 0 18px;padding:20px 0 0!important;border-top:1px solid #dfe5d8}
+.nivalShell .productHub>header{margin-bottom:11px}
+.nivalShell .productHub>header .workspaceEyebrow{display:none}
+.nivalShell .productHub>header h2{font-size:16px}
+.nivalShell .productHubGrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.nivalShell .productHubCard{grid-template-columns:34px 1fr;grid-template-rows:auto auto;min-height:76px;padding:12px 14px;border-color:#e3e7db;border-radius:13px;box-shadow:none}
+.nivalShell .productHubSymbol{grid-row:1/3;width:34px;height:34px;border-radius:10px}
+.nivalShell .productHubSymbol svg{width:20px;height:20px}
+.nivalShell .productHubStatus{top:11px;right:12px;font-size:9px}
+.nivalShell .productHubCard strong{align-self:end;padding-right:48px;font-size:13px}
+.nivalShell .productHubCard small{font-size:10px}
+.nivalShell .productHubAction{display:none}
+.nivalShell .impactGoogleCard{margin:0 0 18px;padding:25px 27px;border-radius:18px;box-shadow:0 7px 20px #173d3107}
+.nivalShell .impactGoogleStatus>strong{font-size:28px;letter-spacing:-.55px}
+.nivalShell .impactGoogleStats{padding-left:26px}
+@media(max-width:900px){.nivalShell .impactFeatureGrid{grid-template-columns:minmax(0,1.2fr) minmax(235px,.8fr)}.nivalShell .customerMixBody{gap:12px}.nivalShell .customerMixCard{padding:19px}.nivalShell .impactMasterDetails{grid-template-columns:minmax(0,1fr) minmax(245px,.8fr)}}
+@media(max-width:700px){.nivalShell .impactMasterHeader{align-items:flex-start;flex-direction:column;gap:14px}.nivalShell .impactPeriodFilter{justify-self:start}.nivalShell .impactFeatureGrid{grid-template-columns:1fr}.nivalShell .returningRevenueCard{min-height:200px;padding:22px}.nivalShell .customerMixCard{padding:19px 21px}.nivalShell .customerMixBody{justify-content:flex-start;gap:22px}.nivalShell .impactMasterDetails{grid-template-columns:1fr}.nivalShell .impactMasterDetails>.ownerActivityCard,.nivalShell .impactMasterDetails>.clientStatusCard{min-height:unset}.nivalShell .productHubGrid{grid-template-columns:1fr}.nivalShell .productHubCard{min-height:72px}.nivalShell .impactGoogleCard{padding:19px}.nivalShell .impactGoogleStats{padding:15px 0 0;border-top:1px solid #e4ebe2;border-left:0}}
+@media(max-width:460px){.nivalShell .impactMasterHeader h2{font-size:25px}.nivalShell .impactPeriodFilter{width:100%;justify-content:space-between}.nivalShell .impactPeriodFilter>span{padding-inline:5px}.nivalShell .impactPeriodFilter button{flex:1;padding-inline:5px}.nivalShell .impactMasterMetrics .impactMetric{padding:12px 9px}.nivalShell .impactMasterMetrics .impactMetric>small{font-size:8px;letter-spacing:.3px}.nivalShell .impactMasterMetrics .impactMetric>strong{font-size:23px}.nivalShell .impactMasterMetrics .impactMetric>span{font-size:9px}.nivalShell .returningRevenueCopy>span{max-width:260px;font-size:9px}.nivalShell .returningRevenueCopy>strong{font-size:44px}.nivalShell .customerMixBody{gap:17px}.nivalShell .impactMasterDetails>.ownerActivityCard,.nivalShell .impactMasterDetails>.clientStatusCard{padding:17px}}
