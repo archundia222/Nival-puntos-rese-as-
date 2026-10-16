@@ -1,5 +1,4 @@
 import {StaffAccess} from '../../../lib/points/staff-access';
-import {startGuideState} from '../../../lib/owner/start-guide';
 import {entitlements,planLimits} from '../../../lib/foundation/entitlements.mjs';
 import {AccountState} from '../../../lib/owner/account-state';
 import {redirect} from 'next/navigation';
@@ -23,7 +22,7 @@ export const dynamic = "force-dynamic";
 export default async function PointsPanel({
   searchParams,
 }: {
-  searchParams: Promise<{ business?: string;view?:string;period?:string }>;
+  searchParams: Promise<{ business?: string;view?:string;period?:string;edit?:string }>;
 }) {
   const actor = await requireRole("owner"),
     params = await searchParams;
@@ -66,7 +65,6 @@ export default async function PointsPanel({
     [b.id],
   );
   const period=["7","30","90","365"].includes(params.period||"")?params.period! : "30";
-  const setupState=programView?await startGuideState(actor,b.id):null;
   let cardMetrics={visits:0,customers:0,redemptions:0,income:null as number|null},recent:any[]=[];
   if(programView){
     try{
@@ -97,8 +95,8 @@ export default async function PointsPanel({
         ))}
       </nav>
 
-      {programView&&<><CardWorkspace businessId={b.id} business={b.name} slug={b.slug} program={program} reward={rewards.find((r:any) => r.active)} metrics={cardMetrics} recent={recent} period={period} editor={<ProgramEditor businessId={b.id} business={b.name} program={program} reward={rewards.find((r:any) => r.active)} setupState={setupState||undefined}/>} /><details className="reviewBox extraRewards"><summary>Administrar premios adicionales</summary>
-        <h2>Premios y reglas avanzadas</h2><p>Conserva tus premios, edita su información y define el orden de entrega. Las metas que un cliente ya eligió se protegen hasta su canje.</p><details><summary>¿Cómo funcionan los otros modos?</summary><p>Premios a elegir: cada cliente elige una meta. Por etapas: los premios se entregan en el orden configurado. Los premios asignados y su costo se muestran hasta completar el canje.</p></details><h3 id="premios">Premios del programa</h3>{!rewards.length&&<p className="ownerEmpty">Todavía no tienes un premio. Agrégalo antes de compartir la tarjeta con tus clientes.</p>}
+      {programView&&<><CardWorkspace businessId={b.id} business={b.name} slug={b.slug} program={program} reward={rewards.find((r:any) => r.active)} metrics={cardMetrics} recent={recent} period={period} initialEdit={params.edit==='1'} editor={<ProgramEditor businessId={b.id} business={b.name} program={program} reward={rewards.find((r:any) => r.active)} promotions={rewards.filter((r:any)=>r.active).map((r:any)=>({id:r.id,name:r.name,points_cost:r.points_cost}))}/>} />{program?<details className="reviewBox extraRewards"><summary>Premios adicionales ({rewards.length})</summary>
+        <h2>Premios</h2><h3 id="premios">Premios del programa</h3>{!rewards.length&&<p className="ownerEmpty">Agrega premios para ofrecer más opciones a tus clientes.</p>}
         {rewards.map((r) => (
           <details key={r.id} className="customerRow"><summary>{r.name} · {r.points_cost} puntos · {r.active?'Activo':'Desactivado'}</summary>
             <h3>
@@ -152,8 +150,8 @@ export default async function PointsPanel({
                 : 0
             }
           />
-        </ActionForm><a className="workspacePrimary" href={'/panel?business='+b.id+'#compartir'}>Siguiente: compartir QR y tarjeta →</a>
-      </details>
+        </ActionForm><a className="workspacePrimary" href={'/panel?business='+b.id+'#compartir'}>Compartir tarjeta y QR</a>
+      </details>:<section className="reviewBox firstRewardGuide" id="premios"><div><h2>Tu primer premio se crea con la tarjeta</h2><p>Define puntos y premio arriba. Al guardar la tarjeta, queda listo para tus clientes.</p></div><a className="workspacePrimary" href={'/panel/puntos?business='+b.id+'&view=programa&edit=1#card-editor'}>Configurar tarjeta</a></section>}
       </>}
       {view==='equipo'&&<section className="reviewBox" id="personal">
         <h2>Tu equipo</h2><p>También puedes atender tú desde <a href={'/panel/operar?business='+b.id}>Puntos y canjes</a>. Crea un acceso solo para quienes van a registrar visitas o entregar premios.</p>

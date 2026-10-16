@@ -8,8 +8,8 @@ import {setCardEnabled} from "../foundation/actions";
 import {cardColor} from "./card-color";
 type Metric={visits:number;customers:number;redemptions:number;income:number|null};
 type Recent={name:string;type:string;points:number;reward?:string|null;created_at:string};
-export function CardWorkspace({businessId,business,slug,program,reward,metrics,recent,period,editor}:{businessId:string;business:string;slug:string;program:any;reward:any;metrics:Metric;recent:Recent[];period:string;editor:ReactNode}){
- const [screen,setScreen]=useState<"list"|"detail"|"edit">("list"),router=useRouter();
+export function CardWorkspace({businessId,business,slug,program,reward,metrics,recent,period,editor,initialEdit=false}:{businessId:string;business:string;slug:string;program:any;reward:any;metrics:Metric;recent:Recent[];period:string;editor:ReactNode;initialEdit?:boolean}){
+ const [screen,setScreen]=useState<"list"|"detail"|"edit">(initialEdit?"edit":"list"),router=useRouter();
  const design=program?.rules?.card_design||{},color=cardColor(program?.color),active=program?.card_enabled!==false;
  const card=<article className="loyaltyCard nivalConfiguredCard" data-theme={design.theme||"nival"} style={{"--card-color":color,"--card-text":design.textColor||"#fff","--card-accent":design.secondaryColor||"#cfe87a","--point-active":design.pointActive||"#cfe87a","--point-idle":design.pointInactive||"#ffffff30",backgroundImage:design.background?`linear-gradient(120deg, rgba(15,45,35,.72), rgba(15,45,35,.32)),url('${design.background}')`:undefined,backgroundSize:"cover",backgroundPosition:`${design.backgroundX??50}% ${design.backgroundY??50}%`} as React.CSSProperties}>
   <div className="cardTop"><div>{program?.logo_url?<img className="cardLogo" src={program.logo_url} alt={`Logo de ${business}`}/>:<span className="cardMonogram">{business.slice(0,1).toUpperCase()}</span>}<small>{business}</small></div><span className="cardExpiry">{design.expiryMonths?`Puntos válidos ${design.expiryMonths} meses`:"Los puntos no caducan"}</span></div>

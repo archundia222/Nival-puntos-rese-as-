@@ -347,7 +347,7 @@ export async function addReward(_: Result, f: FormData): Promise<Result> {
       "insert into nival_pr.rewards(program_id,name,points_cost,position,photo_url,reward_type,value_mxn) select id,$2,$3,$4,nullif($5,''),$6,$7 from nival_pr.programs where business_id=$1 returning id",
       [b, name, cost, position,photoUrl,rewardType,valueMxn],
     );
-    if (!row) return { error: "Primero guarda el programa." };
+    if (!row) return { error: "Configura y guarda tu tarjeta en «Mis tarjetas» antes de agregar otro premio." };
   } catch (e) {
     return failure(e);
   }

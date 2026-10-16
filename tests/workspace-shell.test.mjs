@@ -61,12 +61,15 @@ test('customer groups are filtered inside Customers and demo exit remains availa
 
 test('sidebar accordion opens only the active group and leaves Dashboard in the page title',()=>{
  const html=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null,initialSection:'plan'},'Contenido'));
+ const css=readFileSync(new URL('../lib/owner/workspace.css',import.meta.url),'utf8');
  assert.match(html,/aria-expanded="true"[^>]*aria-controls="workspace-submenu-ajustes"/);
  assert.ok(!html.includes('id="workspace-submenu-tarjetas"'));
  assert.ok(!html.includes('id="workspace-submenu-gestion"'));
  const dashboard=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null},'Contenido'));
  assert.ok(dashboard.includes('<h1 id="workspace-title" tabindex="-1">Dashboard</h1>'));
  assert.ok(!dashboard.includes('Mi negocio <span class="breadcrumbSlash">/</span> <strong>Dashboard</strong>'));
+ assert.ok(css.includes('background:#173d31')&&css.includes('background:#d8ef78'));
+ assert.ok(css.includes('workspaceNav button[aria-current] strong{color:#173d31}'));
 });
 
 test('onboarding steps are single clickable rows with one highlighted next step',async()=>{
@@ -105,20 +108,28 @@ test('review report displays grounded themes and actions, legacy report makes no
  assert.ok(legacy.includes('Pendiente de análisis'));assert.ok(legacy.includes('Consejo manual'));assert.ok(!legacy.includes('Servicio amable'));
 });
 
-test('card setup progress lives inside the real card configurator',()=>{
+test('first reward is configured with the card and extra rewards appear only after publishing',()=>{
  const owner=readFileSync(new URL('../lib/owner/view.tsx',import.meta.url),'utf8');
  const points=readFileSync(new URL('../app/panel/puntos/page.tsx',import.meta.url),'utf8');
  const catalog=readFileSync(new URL('../lib/points/card-catalog.tsx',import.meta.url),'utf8');
  const editor=readFileSync(new URL('../lib/points/program-editor.tsx',import.meta.url),'utf8');
+ const cardWorkspace=readFileSync(new URL('../lib/points/card-workspace.tsx',import.meta.url),'utf8');
  const actions=readFileSync(new URL('../lib/foundation/actions.ts',import.meta.url),'utf8');
  assert.ok(!owner.includes('{startGuide}'));
  assert.ok(!points.includes('<StartGuide'));
- assert.ok(points.includes('setupState={setupState||undefined}'));
  assert.ok(catalog.includes('setupState={setupState}'));
- assert.ok(editor.includes('editorSetupProgress')&&editor.includes('Pasos para poner en marcha'));
+ assert.ok(!points.includes('setupState={setupState||undefined}'));
+ assert.ok(!editor.includes('editorSetupProgress'));
+ assert.ok(editor.includes('Configura el premio y publícalo en un paso.'));
+ assert.ok(cardWorkspace.includes('initialEdit?"edit":"list"'));
+ assert.ok(points.includes('initialEdit={params.edit===\'1\'}'));
+ assert.ok(points.includes('{program?<details className="reviewBox extraRewards"'));
+ assert.ok(points.includes('Tu primer premio se crea con la tarjeta'));
+ assert.ok(points.includes('Configurar tarjeta'));
  assert.ok(!editor.includes('firstCardGuide'));
  assert.ok(actions.includes("'{campaign_rules,targets,all}'"));
- assert.ok(points.includes('<CardWorkspace')&&points.includes('Administrar premios adicionales'));
+ assert.ok(points.includes('<CardWorkspace')&&points.includes('Premios adicionales ('));
+ assert.ok(actions.includes('Configura y guarda tu tarjeta en «Mis tarjetas» antes de agregar otro premio.'));
 });
 
 test('menu destinations identify the matching screen and onboarding actions jump to their forms',()=>{
@@ -133,6 +144,8 @@ test('menu destinations identify the matching screen and onboarding actions jump
  assert.ok(shell.includes("home.hash=target;window.location.href=home.pathname+home.search+home.hash"));
  assert.ok(points.includes("'programa','promociones','equipo','canjes','compartir'"));
  assert.ok(points.includes("view==='programa'?'mis-tarjetas':view==='equipo'?'equipo':view"));
+ assert.ok(guide.includes("&view=programa&edit=1#card-editor"));
+ assert.ok(shell.includes("setSection('mis-tarjetas');setExpanded('tarjetas')"));
  assert.ok(guide.includes("href:base+'#programa'"));
  assert.match(owner,/<section data-panel="plan"[^]*?<PlanChoices b=\{b\}\/>/);
 });

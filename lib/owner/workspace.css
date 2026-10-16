@@ -693,3 +693,32 @@
 @media(max-width:1050px){.impactMasterDetails{grid-template-columns:1fr 1fr}.impactMasterDetails>.ownerActivityCard{grid-column:1/-1}.nivalShell .startGuide ol{grid-template-columns:1fr 1fr}}
 @media(max-width:760px){.nivalShell .impactMaster{padding:18px}.impactMasterMetrics{grid-template-columns:1fr 1fr}.impactMasterDetails{grid-template-columns:1fr}.impactMasterDetails>.ownerActivityCard{grid-column:auto}.nivalShell .impactGoogleCard{grid-template-columns:1fr;padding:18px}.impactGoogleStats{padding:14px 0 0;border-top:1px solid #e4ebe2;border-left:0}.impactGoogleActions{gap:10px}.nivalShell .startGuide ol{grid-template-columns:1fr 1fr!important}}
 @media(max-width:560px){.nivalShell .startGuide{padding:19px}.startGuideHeading h2{font-size:22px}.nivalShell .startGuide ol{grid-template-columns:1fr!important;gap:3px}.startGuideStep{min-height:56px}.impactPeriodFilter{width:100%;justify-content:space-between;flex-wrap:nowrap}.impactPeriodFilter>span{padding:0 5px}.impactPeriodFilter button{flex:1;padding:0 7px}.impactMasterMetrics{grid-template-columns:1fr 1fr}.nivalShell .impactMasterMetrics .impactMetric{min-height:92px;padding:8px}.impactMasterMetrics .impactMetric>strong{font-size:23px}.impactGoogleFacts b{font-size:19px}}
+
+/* Nival palette: deep green sidebar, cream type and lime active state. */
+.nivalShell .workspaceSidebar{background:#173d31;border-right:1px solid #254c3d;color:#f7f3e5}
+.nivalShell .workspaceBrand .brandMark{background:#d8ef78;color:#173d31}
+.nivalShell .workspaceBrand .brandWords{color:#f7f3e5}
+.nivalShell .workspaceBrand .brandWords>span{color:#c4d3b6}
+.nivalShell .workspaceBusiness{background:#204838;border-color:#456654;color:#fbf8ec}
+.nivalShell .workspaceBusiness .businessAvatar{background:#d8ef78;color:#173d31}
+.nivalShell .workspaceBusiness small{color:#d1dfc9}
+.nivalShell .workspaceNavCaption{color:#abc0aa}
+.nivalShell .workspaceNav button{color:#d9e4d8}
+.nivalShell .workspaceNav button strong{color:#f4f1e5}
+.nivalShell .workspaceNav button:hover{background:#244c3c}
+.nivalShell .workspaceNav button[aria-current]{background:#d8ef78;color:#173d31}
+.nivalShell .workspaceNav button[aria-current] strong{color:#173d31}
+.nivalShell .workspaceNav button[aria-current] i{background:#173d31}
+.nivalShell .workspaceSidebarBottom .workspacePlanSummary{color:#f7f3e5}
+.nivalShell .workspaceSidebarBottom .workspacePlanSummary small{color:#cad8c5}
+.nivalShell .workspaceSidebarBottom .workspaceHelp{background:#204838;border-color:#456654;color:#f7f3e5}
+.nivalShell .workspaceSidebarBottom .workspaceHelp>span{color:#cad8c5}
+.nivalShell .workspaceSidebarBottom .workspaceLegal a{color:#c4d3c1}
+.nivalShell .workspaceSidebar .drawerClose{background:#204838;border-color:#456654;color:#f7f3e5}
+.nivalShell .workspaceSidebar .includedTag{background:#d8ef78;color:#173d31}
+.firstRewardGuide{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.firstRewardGuide h2{margin:0!important;font-size:16px!important}
+.firstRewardGuide p{margin:4px 0 0;color:#748176;font-size:12px}
+.firstRewardGuide>div{min-width:0}
+.firstRewardGuide>a{white-space:nowrap}
+@media(max-width:640px){.firstRewardGuide{align-items:flex-start;flex-direction:column}.firstRewardGuide>a{white-space:normal}}

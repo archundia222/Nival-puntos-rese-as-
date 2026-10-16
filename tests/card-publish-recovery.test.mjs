@@ -5,7 +5,7 @@ const read=p=>readFileSync(p,'utf8');
 
 test('card editor keeps edits in a local draft until explicit publish',()=>{
  const editor=read('lib/points/program-editor.tsx');
- assert.ok(editor.includes('Guardar y publicar'));
+ assert.ok(editor.includes('Guardar tarjeta'));
  assert.ok(editor.includes('Borrador actualizado. Publícalo cuando esté listo.'));
  assert.ok(!editor.includes('Guardar ahora'));
  assert.ok(!editor.includes('automáticamente'));
