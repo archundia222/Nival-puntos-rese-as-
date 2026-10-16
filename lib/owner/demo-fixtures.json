@@ -1,6 +1,3 @@
-Warning: truncated output (original token count: 10669)
-Total output lines: 1345
-
 {
   "day": {
     "settings": null,
@@ -444,7 +441,472 @@ Total output lines: 1345
         "is_frequent": true,
         "is_risk": false,
         "is_lost": false,
-        …3669 tokens truncated…      "first_visit": "2026-09-15T00:00:00.000Z",
+        "absent_month": false
+      },
+      {
+        "id": "cf7119ca-e010-4614-aaf8-f026b24f7b8c",
+        "name": "Cliente 8",
+        "phone": "",
+        "visits": 3,
+        "recent_visits": 3,
+        "first_visit": "2026-09-15T00:00:00.000Z",
+        "last_visit": "2026-10-04T00:00:00.000Z",
+        "is_new": false,
+        "is_frequent": true,
+        "is_risk": false,
+        "is_lost": false,
+        "absent_month": false
+      },
+      {
+        "id": "57abf6e8-c0ad-4923-a5dc-ed20c4357c84",
+        "name": "Cliente 10",
+        "phone": "",
+        "visits": 2,
+        "recent_visits": 0,
+        "first_visit": "2026-07-06T00:00:00.000Z",
+        "last_visit": "2026-09-04T00:00:00.000Z",
+        "is_new": false,
+        "is_frequent": false,
+        "is_risk": true,
+        "is_lost": false,
+        "absent_month": true
+      },
+      {
+        "id": "5d10db61-81df-4c66-8e76-99ee6c53f7fc",
+        "name": "Cliente 11",
+        "phone": "",
+        "visits": 2,
+        "recent_visits": 0,
+        "first_visit": "2026-06-07T00:00:00.000Z",
+        "last_visit": "2026-08-06T00:00:00.000Z",
+        "is_new": false,
+        "is_frequent": false,
+        "is_risk": true,
+        "is_lost": false,
+        "absent_month": true
+      },
+      {
+        "id": "b6eede8b-d510-4e05-8633-0f2867496769",
+        "name": "Cliente 12",
+        "phone": "",
+        "visits": 2,
+        "recent_visits": 0,
+        "first_visit": "2026-06-27T00:00:00.000Z",
+        "last_visit": "2026-08-26T00:00:00.000Z",
+        "is_new": false,
+        "is_frequent": false,
+        "is_risk": true,
+        "is_lost": false,
+        "absent_month": true
+      },
+      {
+        "id": "9387bf41-626b-4164-95f2-61803c71c71d",
+        "name": "Cliente 13",
+        "phone": "",
+        "visits": 2,
+        "recent_visits": 0,
+        "first_visit": "2026-06-07T00:00:00.000Z",
+        "last_visit": "2026-08-05T00:00:00.000Z",
+        "is_new": false,
+        "is_frequent": false,
+        "is_risk": false,
+        "is_lost": true,
+        "absent_month": true
+      },
+      {
+        "id": "a3fa027a-db4c-4f89-bd04-e97012f9fc1a",
+        "name": "Cliente 14",
+        "phone": "",
+        "visits": 2,
+        "recent_visits": 0,
+        "first_visit": "2026-04-08T00:00:00.000Z",
+        "last_visit": "2026-07-07T00:00:00.000Z",
+        "is_new": false,
+        "is_frequent": false,
+        "is_risk": false,
+        "is_lost": true,
+        "absent_month": true
+      },
+      {
+        "id": "1976a133-64da-4de4-9c81-06cfae3fd3fc",
+        "name": "Cliente 15",
+        "phone": "",
+        "visits": 2,
+        "recent_visits": 0,
+        "first_visit": "2026-02-07T00:00:00.000Z",
+        "last_visit": "2026-06-27T00:00:00.000Z",
+        "is_new": false,
+        "is_frequent": false,
+        "is_risk": false,
+        "is_lost": true,
+        "absent_month": true
+      },
+      {
+        "id": "2f4945e4-ccd4-4c9a-9cae-5b5e7de96fce",
+        "name": "Cliente 16",
+        "phone": "",
+        "visits": 2,
+        "recent_visits": 0,
+        "first_visit": "2025-10-05T00:00:00.000Z",
+        "last_visit": "2026-08-04T00:00:00.000Z",
+        "is_new": false,
+        "is_frequent": false,
+        "is_risk": false,
+        "is_lost": true,
+        "absent_month": true
+      },
+      {
+        "id": "621dc204-7e84-4947-815f-07253922b908",
+        "name": "Cliente 9",
+        "phone": "",
+        "visits": 2,
+        "recent_visits": 0,
+        "first_visit": "2026-07-07T00:00:00.000Z",
+        "last_visit": "2026-08-21T00:00:00.000Z",
+        "is_new": false,
+        "is_frequent": false,
+        "is_risk": true,
+        "is_lost": false,
+        "absent_month": true
+      },
+      {
+        "id": "29c7df83-8175-4f63-a832-7a2580e3b93a",
+        "name": "Cliente 1",
+        "phone": "",
+        "visits": 1,
+        "recent_visits": 1,
+        "first_visit": "2026-10-04T00:00:00.000Z",
+        "last_visit": "2026-10-04T00:00:00.000Z",
+        "is_new": true,
+        "is_frequent": false,
+        "is_risk": false,
+        "is_lost": false,
+        "absent_month": false
+      },
+      {
+        "id": "f1136710-5e9e-4129-a2e0-92cc44679f0d",
+        "name": "Cliente 17",
+        "phone": "",
+        "visits": 1,
+        "recent_visits": 1,
+        "first_visit": "2026-09-15T00:00:00.000Z",
+        "last_visit": "2026-09-15T00:00:00.000Z",
+        "is_new": false,
+        "is_frequent": false,
+        "is_risk": false,
+        "is_lost": false,
+        "absent_month": true
+      },
+      {
+        "id": "f2034791-ebf4-45b6-a5ce-86296a22de3c",
+        "name": "Cliente 18",
+        "phone": "",
+        "visits": 1,
+        "recent_visits": 0,
+        "first_visit": "2026-09-05T00:00:00.000Z",
+        "last_visit": "2026-09-05T00:00:00.000Z",
+        "is_new": false,
+        "is_frequent": false,
+        "is_risk": false,
+        "is_lost": false,
+        "absent_month": true
+      },
+      {
+        "id": "854dcde6-673f-45c8-bea5-114d60bcd17f",
+        "name": "Cliente 2",
+        "phone": "",
+        "visits": 1,
+        "recent_visits": 1,
+        "first_visit": "2026-10-03T00:00:00.000Z",
+        "last_visit": "2026-10-03T00:00:00.000Z",
+        "is_new": true,
+        "is_frequent": false,
+        "is_risk": false,
+        "is_lost": false,
+        "absent_month": false
+      },
+      {
+        "id": "94aa9372-f081-483a-95b3-5c563291a547",
+        "name": "Cliente 3",
+        "phone": "",
+        "visits": 1,
+        "recent_visits": 1,
+        "first_visit": "2026-10-02T00:00:00.000Z",
+        "last_visit": "2026-10-02T00:00:00.000Z",
+        "is_new": true,
+        "is_frequent": false,
+        "is_risk": false,
+        "is_lost": false,
+        "absent_month": false
+      },
+      {
+        "id": "d3d88a10-6ac6-410a-a5b6-55145dba8740",
+        "name": "Cliente 4",
+        "phone": "",
+        "visits": 1,
+        "recent_visits": 1,
+        "first_visit": "2026-10-01T00:00:00.000Z",
+        "last_visit": "2026-10-01T00:00:00.000Z",
+        "is_new": true,
+        "is_frequent": false,
+        "is_risk": false,
+        "is_lost": false,
+        "absent_month": false
+      },
+      {
+        "id": "543fe2ae-c3b4-4b70-8c15-ce95e96cdefb",
+        "name": "Cliente 19",
+        "phone": "",
+        "visits": 0,
+        "recent_visits": 0,
+        "first_visit": null,
+        "last_visit": null,
+        "is_new": false,
+        "is_frequent": false,
+        "is_risk": false,
+        "is_lost": false,
+        "absent_month": true
+      },
+      {
+        "id": "3b2b7631-fb18-48cf-851b-9edebbf73a1d",
+        "name": "Cliente 20",
+        "phone": "",
+        "visits": 0,
+        "recent_visits": 0,
+        "first_visit": null,
+        "last_visit": null,
+        "is_new": false,
+        "is_frequent": false,
+        "is_risk": false,
+        "is_lost": false,
+        "absent_month": true
+      }
+    ],
+    "metrics": [
+      {
+        "period": "current",
+        "visits": 8,
+        "points": 8,
+        "redeemed": 0,
+        "pending": 0,
+        "new_customers": 4,
+        "active_customers": 8,
+        "returning_customers": 4,
+        "returning_revenue": 2450
+      },
+      {
+        "period": "previous",
+        "visits": 11,
+        "points": 11,
+        "redeemed": 0,
+        "pending": 0,
+        "new_customers": 6,
+        "active_customers": 11,
+        "returning_customers": 5,
+        "returning_revenue": 1890
+      }
+    ],
+    "ranking": [
+      {
+        "staff_id": "11111111-1111-4111-8111-111111111111",
+        "visits": 8,
+        "redemptions": 0,
+        "reversed": 0,
+        "pending": 0,
+        "customers": 8,
+        "name": "Equipo de Café Demo"
+      }
+    ],
+    "last": {
+      "id": "8f54be4e-b401-4311-bb5b-96c2bdf1e623",
+      "business_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+      "period": "2026-10-01",
+      "rating": "4.5",
+      "total_reviews": 110,
+      "new_reviews": 10,
+      "answered": 7,
+      "distribution": {
+        "1": 3,
+        "2": 2,
+        "3": 5,
+        "4": 22,
+        "5": 78
+      },
+      "profile_checklist": {
+        "menu": true,
+        "fotos": true,
+        "horarios": true,
+        "reservas": false,
+        "categoria": true,
+        "preguntas": false,
+        "descripcion": false,
+        "publicaciones": false
+      },
+      "notes": "NIVAL_REVIEW_INSIGHTS_V1:{\"version\": 1, \"notes\": \"Agrega una descripción clara del negocio y revisa las preguntas sin respuesta. Usa fotos recientes de tus productos disponibles.\", \"analyzed\": 10, \"positive\": [{\"theme\": \"Atención amable (ejemplo ficticio)\", \"count\": 7}, {\"theme\": \"Buen sabor del café (ejemplo ficticio)\", \"count\": 5}], \"negative\": [{\"theme\": \"Espera al pedir (ejemplo ficticio)\", \"count\": 3}], \"improve\": \"Ejemplo: revisar el tiempo entre pedido y entrega durante una semana y ajustar la atención en horas de mayor demanda.\", \"keep\": \"Ejemplo: mantener el saludo amable y revisar la preparación del café con el equipo.\"}",
+      "created_by": "11111111-1111-4111-8111-111111111111",
+      "period_kind": "month",
+      "answered_scope": "period"
+    },
+    "reports": [
+      {
+        "id": "8f54be4e-b401-4311-bb5b-96c2bdf1e623",
+        "business_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+        "period": "2026-10-01",
+        "rating": "4.5",
+        "total_reviews": 110,
+        "new_reviews": 10,
+        "answered": 7,
+        "distribution": {
+          "1": 3,
+          "2": 2,
+          "3": 5,
+          "4": 22,
+          "5": 78
+        },
+        "profile_checklist": {
+          "menu": true,
+          "fotos": true,
+          "horarios": true,
+          "reservas": false,
+          "categoria": true,
+          "preguntas": false,
+          "descripcion": false,
+          "publicaciones": false
+        },
+        "notes": "Agrega una descripción clara del negocio y revisa las preguntas sin respuesta. Usa fotos recientes de tus productos disponibles.",
+        "created_by": "11111111-1111-4111-8111-111111111111",
+        "period_kind": "month",
+        "answered_scope": "period"
+      }
+    ],
+    "google": {
+      "fresh": 10,
+      "answered": 7,
+      "resolution": "month"
+    },
+    "changes": [
+      {
+        "id": "5a81a5de-5322-45cf-8602-2ca56335d57b",
+        "business_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+        "date": "2026-10-03T18:00:00.000Z",
+        "description": "Actualizamos los horarios y agregamos fotos del menú."
+      }
+    ],
+    "templates": [
+      {
+        "segment": "absent",
+        "text": "Tienes {n} clientes que no han venido este mes. Si todavía no tienen visitas, explica cómo mostrar su QR al mesero."
+      },
+      {
+        "segment": "absent",
+        "text": "Tienes {n} clientes que no han venido este mes. Comparte una novedad concreta del negocio solo si ya está disponible."
+      },
+      {
+        "segment": "absent",
+        "text": "Tienes {n} clientes que no han venido este mes. Consulta su historial antes de escribir y evita mensajes repetidos."
+      },
+      {
+        "segment": "frequent",
+        "text": "Tienes {n} clientes frecuentes. Agradéceles personalmente su constancia en la próxima visita."
+      },
+      {
+        "segment": "frequent",
+        "text": "Tienes {n} clientes frecuentes. Pregúntales qué producto volverían a pedir y usa sus respuestas al planear tu menú."
+      },
+      {
+        "segment": "frequent",
+        "text": "Tienes {n} clientes frecuentes. Revisa sus premios disponibles y recuerda al equipo ofrecer el canje cuando corresponda."
+      },
+      {
+        "segment": "lost",
+        "text": "Tienes {n} clientes perdidos. Si aceptaron contacto, pregunta de forma individual si desean recibir novedades del negocio."
+      },
+      {
+        "segment": "lost",
+        "text": "Tienes {n} clientes perdidos. Envía un saludo breve y deja claro que pueden pedir que no les escribas de nuevo."
+      },
+      {
+        "segment": "lost",
+        "text": "Tienes {n} clientes perdidos. Revisa si su última visita coincidió con cambios de horario o menú; usa esa información para investigar."
+      },
+      {
+        "segment": "new",
+        "text": "Tienes {n} clientes nuevos. Pregunta qué los trajo al negocio y registra las respuestas para identificar qué canales funcionan."
+      },
+      {
+        "segment": "new",
+        "text": "Tienes {n} clientes nuevos. Revisa que el mesero haya registrado sus visitas y les haya mostrado su tarjeta digital."
+      },
+      {
+        "segment": "new",
+        "text": "Tienes {n} clientes nuevos. En su siguiente visita, explica cómo consultar sus puntos y cuál es su próximo premio."
+      },
+      {
+        "segment": "risk",
+        "text": "Tienes {n} clientes en riesgo. Escribe de forma individual para preguntar si hubo algo que podrías mejorar en su última visita."
+      },
+      {
+        "segment": "risk",
+        "text": "Tienes {n} clientes en riesgo. Pregunta qué horarios les resultan cómodos antes de proponerles volver."
+      },
+      {
+        "segment": "risk",
+        "text": "Tienes {n} clientes en riesgo. Revisa su historial antes de escribirles y menciona su premio pendiente solo si realmente lo tienen."
+      }
+    ]
+  },
+  "year": {
+    "settings": null,
+    "segments": [
+      {
+        "id": "a5ab883d-2696-457d-9b57-65bada6d86d1",
+        "name": "Cliente 5",
+        "phone": "",
+        "visits": 3,
+        "recent_visits": 3,
+        "first_visit": "2026-09-15T00:00:00.000Z",
+        "last_visit": "2026-10-04T00:00:00.000Z",
+        "is_new": false,
+        "is_frequent": true,
+        "is_risk": false,
+        "is_lost": false,
+        "absent_month": false
+      },
+      {
+        "id": "27cedb14-9113-4c99-adaa-33723b033ef3",
+        "name": "Cliente 6",
+        "phone": "",
+        "visits": 3,
+        "recent_visits": 3,
+        "first_visit": "2026-09-15T00:00:00.000Z",
+        "last_visit": "2026-10-04T00:00:00.000Z",
+        "is_new": false,
+        "is_frequent": true,
+        "is_risk": false,
+        "is_lost": false,
+        "absent_month": false
+      },
+      {
+        "id": "2edd8d14-a445-4166-a97d-2e0c99e10fc4",
+        "name": "Cliente 7",
+        "phone": "",
+        "visits": 3,
+        "recent_visits": 3,
+        "first_visit": "2026-09-15T00:00:00.000Z",
+        "last_visit": "2026-10-04T00:00:00.000Z",
+        "is_new": false,
+        "is_frequent": true,
+        "is_risk": false,
+        "is_lost": false,
+        "absent_month": false
+      },
+      {
+        "id": "cf7119ca-e010-4614-aaf8-f026b24f7b8c",
+        "name": "Cliente 8",
+        "phone": "",
+        "visits": 3,
+        "recent_visits": 3,
+        "first_visit": "2026-09-15T00:00:00.000Z",
         "last_visit": "2026-10-04T00:00:00.000Z",
         "is_new": false,
         "is_frequent": true,
