@@ -1,11 +1,13 @@
 "use client";
 import {useState} from "react";
 import {ProgramEditor} from "./program-editor";
+import {ReviewCardManager} from "../owner/review-card-manager";
+import {ShareTools} from "../owner/share-tools";
 
 type Reward={id:string;name:string;points_cost:number;active?:boolean;expires_at?:string|null;stock?:number|null};
 type Program={name?:string;color?:string;card_enabled?:boolean;points_per_visit?:number;mode?:string;rules?:Record<string,any>;logo_url?:string|null};
 type SetupState={steps:{done:boolean;label:string}[];complete:boolean;completed:number};
-export function CardCatalog({businessId,business,program,rewards,demo=false,setupState}:{businessId:string;business:string;program?:Program;rewards:Reward[];demo?:boolean;nfcLimit?:number;payCardActive?:boolean;payCardUrl?:string;setupState?:SetupState}){
+export function CardCatalog({businessId,business,slug,program,rewards,demo=false,setupState,nfcLimit=0,branchId,branchName,reviewCards=[],googleUrl}:{businessId:string;business:string;slug:string;program?:Program;rewards:Reward[];demo?:boolean;nfcLimit?:number;branchId?:string;branchName:string;reviewCards?:Record<string,any>[];googleUrl?:string|null;setupState?:SetupState}){
  const [editing,setEditing]=useState(false);
  const activeRewards=rewards.filter(r=>r.active!==false&&(!r.expires_at||new Date(r.expires_at).getTime()>Date.now())&&(r.stock==null||Number(r.stock)>0)),pointsActive=!!program&&program.card_enabled!==false;
  function editPoints(){setEditing(true);requestAnimationFrame(()=>document.getElementById('point-card-editor')?.scrollIntoView({behavior:'smooth',block:'start'}));}
@@ -19,7 +21,9 @@ export function CardCatalog({businessId,business,program,rewards,demo=false,setu
    </article>
   </div>
   {demo&&<p className="cardCatalogDemoNote">Vista de muestra: en una cuenta activa podrás editar y publicar cada tarjeta.</p>}
+  {nfcLimit>0&&<section className="cardCatalogNfc" aria-label="Tarjetas QR y NFC"><h2>Tarjetas QR y NFC</h2><p>Configura las tarjetas para que tus clientes dejen una reseña. Incluidas según tu plan.</p><ReviewCardManager businessId={businessId} branchId={branchId} branchName={branchName} cards={reviewCards} googleUrl={googleUrl} cardLimit={nfcLimit}/></section>}
   {editing&&<section id="point-card-editor" className="cardCatalogEditor" tabIndex={-1}><header><div><small>EDITOR DE TARJETA</small><h3>Tarjeta de puntos y reglas</h3><p>Define los puntos por visita, los límites de registro, los premios y el diseño que ven tus clientes.</p></div><button type="button" className="workspaceSecondary" onClick={()=>setEditing(false)}>Volver a mis tarjetas</button></header>
+   <div className="cardCatalogShare"><h3>Compartir esta tarjeta</h3><p>Usa el enlace o el QR para que tus clientes creen su tarjeta.</p><ShareTools slug={slug} name={business} demo={demo}/></div>
    {demo?<div className="cardCatalogNotice"><h4>Editar tarjeta de puntos</h4><p>Esta vista de muestra no guarda cambios. En tu negocio real podrás elegir las promociones, definir el diseño y publicar la tarjeta.</p></div>:<ProgramEditor businessId={businessId} business={business} program={program} reward={activeRewards[0]} promotions={activeRewards} setupState={setupState}/>}
   </section>}
  </div>;

@@ -18,10 +18,10 @@ const tour=component('tour.tsx');
 const icons=component('icons.tsx');const {DashboardShell}=component('shell.tsx',{'./icons':icons,'./tour':tour});
 test('business shell shows the plan-aware workspace menu and cycle chip',()=>{
  const html=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null},React.createElement('p',null,'Solo datos de Negocio A')));
- for(const title of ['Inicio','Programa de puntos','Clientes','Operación','Cuenta','Día 1 de 30'])assert.ok(html.includes(title),title);
- assert.ok(html.includes('Reseñas'));
+ for(const title of ['Inicio','Tarjetas','Clientes','Operación','Cuenta','Día 1 de 30'])assert.ok(html.includes(title),title);
+ assert.ok(!html.includes('Tarjetas QR y NFC'));
  const reviewPlan=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null,responseLimit:20,initialSection:'nival-resenas'},React.createElement('p',null,'Contenido')));
- assert.ok(reviewPlan.includes('Reseñas'));assert.ok(reviewPlan.includes('Tarjetas QR y NFC'));
+ assert.ok(reviewPlan.includes('Tarjetas'));assert.ok(!reviewPlan.includes('Tarjetas QR y NFC'));
  const operation=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null,initialSection:'sucursales'},React.createElement('p',null,'Contenido')));
  for(const title of ['Sucursales','Equipo','Informes','Canjes'])assert.ok(operation.includes(title),title);
  const account=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null,initialSection:'plan'},React.createElement('p',null,'Contenido')));
@@ -49,9 +49,9 @@ test('mobile preview keeps the closed drawer out of keyboard navigation',()=>{
 });
 
 test('guided demo covers every panel section and starts with clear next and free exploration actions',()=>{
- assert.deepEqual(Array.from(tour.tourSteps,s=>s.key),['inicio','programa','clientes','google','equipo','compartir','ajustes']);
+ assert.deepEqual(Array.from(tour.tourSteps,s=>s.key),['inicio','programa','clientes','equipo','ajustes']);
  const html=renderToStaticMarkup(React.createElement(tour.DemoTour,{section:'inicio',active:true,navigate:()=>{},setActive:()=>{}}));
- assert.ok(html.includes('Paso 1 de 7'));assert.ok(html.includes('Siguiente paso'));assert.ok(html.includes('Explorar libremente'));
+ assert.ok(html.includes('Paso 1 de 5'));assert.ok(html.includes('Siguiente paso'));assert.ok(html.includes('Explorar libremente'));
  const final=renderToStaticMarkup(React.createElement(tour.DemoTour,{section:'ajustes',active:true,navigate:()=>{},setActive:()=>{}}));assert.ok(final.includes('Terminar recorrido'));
 });
 
@@ -60,13 +60,13 @@ test('customer groups are filtered inside Customers and demo exit remains availa
  const html=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Café Demo',owner:'Ana',status:'Activo',demo:true,logout:null,initialSection:section},'Contenido'));
  assert.ok(html.includes('data-section="'+section+'"'));
  assert.ok(html.includes('Clientes'));
- assert.ok(html.includes('Programa de puntos'));
+ assert.ok(html.includes('Tarjetas'));
  assert.ok(html.includes('Cuenta'));
  assert.ok(html.includes('Cerrar demo'));
  assert.ok(!html.includes('Frecuentes'));assert.ok(!html.includes('En riesgo'));
  }
  const group=renderToStaticMarkup(React.createElement(tour.DemoTour,{section:'clientes-risk',active:true,navigate:()=>{},setActive:()=>{}}));
- assert.ok(group.includes('Paso 3 de 7'));
+ assert.ok(group.includes('Paso 3 de 5'));
 });
 
 test('sidebar accordion opens only the active group and keeps a single page title',()=>{
@@ -85,22 +85,22 @@ test('sidebar accordion opens only the active group and keeps a single page titl
 });
 test('selected owner menu destinations reveal their matching panel instead of leaving a blank workspace',()=>{
  const css=readFileSync(new URL('../lib/owner/workspace.css',import.meta.url),'utf8');
- for(const [section,panel] of [['inicio','inicio'],['mis-tarjetas','mis-tarjetas'],['compartir-programa','compartir-programa'],['clientes','clientes'],['equipo','equipo'],['sucursales','sucursales'],['informes','informes'],['canjes','canjes'],['google','google'],['nival-resenas','nival-resenas'],['nival-pay','nival-pay'],['plan','plan'],['configuracion','configuracion'],['ajustes','ajustes']])assert.ok(css.includes(`.nivalShell[data-section="${section}"] [data-panel="${panel}"]`),`${section} → ${panel}`);
+ for(const [section,panel] of [['inicio','inicio'],['mis-tarjetas','mis-tarjetas'],['clientes','clientes'],['equipo','equipo'],['sucursales','sucursales'],['informes','informes'],['canjes','canjes'],['nival-pay','nival-pay'],['plan','plan'],['configuracion','configuracion'],['ajustes','ajustes']])assert.ok(css.includes(`.nivalShell[data-section="${section}"] [data-panel="${panel}"]`),`${section} → ${panel}`);
  assert.match(css,/\[data-panel="compartir"\]\{display:block\}/);
  assert.ok(css.includes('@media(max-width:700px){.nivalShell .cardCatalogGrid{grid-template-columns:1fr}}'));
 });
 test('home prioritizes the active points and reviews products, while an empty account avoids zero metrics',()=>{
  const owner=readFileSync(new URL('../lib/owner/view.tsx',import.meta.url),'utf8');
- for(const label of ["name:'Puntos'","name:'Tarjetas QR y NFC'","detail:`Administra tus tarjetas de reseñas · hasta ${nfcLimit}`","name:'Reseñas de Google'","href={'#'+product.id}"])assert.ok(owner.includes(label),label);
+ for(const label of ["<ProductHub","<article className=\"impactGoogleCard\""])assert.ok(owner.includes(label),label);assert.ok(readFileSync(new URL('../lib/points/card-catalog.tsx',import.meta.url),'utf8').includes('Tarjetas QR y NFC'));
  assert.ok(!owner.includes("name:'Tarjeta de regalo'"));
  assert.ok(readFileSync(new URL('../lib/owner/shell.tsx',import.meta.url),'utf8').includes("{id:'nival-pay',label:'Tarjeta de regalo · Nival Pay'}"));
- assert.ok(owner.includes('nfcLimit>0?['));
+ assert.ok(owner.includes('nfcLimit={limits.nfcCards}'));assert.ok(owner.includes('REPUTACIÓN EN GOOGLE'));
  assert.ok(owner.includes('{emptyState&&<StartGuide state={startState||undefined}/>'));
  assert.ok(owner.includes('{!emptyState&&<div className="impactMasterMetrics">'));
  assert.ok(owner.includes("emptyState?'—':money(returningRevenue)"));
  assert.ok(owner.includes('<ProductHub data={data} reviewLimit={responseLimit} nfcLimit={limits.nfcCards}/>'));
  assert.ok(owner.includes('  <>'));
- assert.ok(owner.includes('Aún no hay reportes.'));
+ assert.ok(owner.includes('El primer resumen de reseñas aparecerá cuando Nival prepare el reporte.'));assert.ok(owner.includes('Ver análisis y recomendaciones'));assert.ok(!owner.includes('data-panel="google"'));
  assert.ok(owner.includes('{demo&&mobilePreview&&<input type="hidden" name="mobile" value="1"/>}'));
  assert.ok(owner.includes("className={'returningRevenueCard'+(emptyState?' isAwaitingData':'')}"));
  assert.ok(owner.includes('Resumen del periodo'));
@@ -177,7 +177,7 @@ test('menu destinations identify the matching screen and onboarding actions jump
  assert.ok(!shell.includes("id:'promociones',label:'Premios y promociones'"));
  assert.ok(shell.includes("item.id==='usuarios'?'equipo':item.id"));
  assert.ok(readFileSync(new URL('../lib/owner/view.tsx',import.meta.url),'utf8').includes('<CampaignOverview'));
- assert.ok(shell.includes("section==='programa'?'mis-tarjetas'"));
+ assert.ok(shell.includes("item.id==='fidelidad'||item.id==='programa'?'mis-tarjetas'"));
  assert.ok(shell.includes("window.location.pathname!==home.pathname"));
  assert.ok(shell.includes("home.hash=target;window.location.href=home.pathname+home.search+home.hash"));
  assert.ok(points.includes("'programa','promociones','equipo','canjes','compartir'"));

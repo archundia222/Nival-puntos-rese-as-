@@ -1,11 +1,9 @@
 'use client';
 export const tourSteps=[
- {key:'inicio',title:'Mira cómo va tu negocio',text:'Consulta visitas, clientes nuevos y premios. Compara los resultados con el periodo anterior.'},
- {key:'programa',title:'Configura tu tarjeta de puntos',text:'En Puntos → Configuración de tarjeta eliges el diseño, las reglas de visita y tus premios.'},
+ {key:'inicio',title:'Mira cómo va tu negocio',text:'Consulta visitas, clientes y el resumen de Google: calificación, reseñas, respuestas y recomendaciones.'},
+ {key:'programa',title:'Configura tus tarjetas',text:'En Tarjetas eliges el diseño y las reglas de puntos. También administras las tarjetas QR y NFC incluidas en tu plan; compartir está en la configuración de la tarjeta.'},
  {key:'clientes',title:'Encuentra a tus próximos clientes frecuentes',text:'Abre el menú: cada grupo tiene su propia sección. Busca clientes, recorre las páginas y exporta la lista. Prueba buscar “Cliente 5”.'},
- {key:'google',title:'Revisa tu reputación en Google',text:'Revisa los elogios y quejas más frecuentes, qué mejorar y qué mantener. El análisis de reseñas lo carga Nival con cada reporte.'},
  {key:'equipo',title:'Conoce la actividad de tu equipo',text:'Revisa quién registra visitas y canjes. En tu cuenta puedes administrar los accesos de tus meseros.'},
- {key:'compartir',title:'Invita a tus clientes a volver',text:'Prueba copiar el enlace o descargar el QR. En tu negocio, este QR abre tu tarjeta de lealtad.'},
  {key:'ajustes',title:'Administra tu cuenta',text:'Consulta los datos del negocio y tu plan. La demo no modifica ningún negocio real.'},
 ] as const;
 export function DemoTour({section,active,navigate,setActive}:{section:string;active:boolean;navigate:(key:string)=>void;setActive:(active:boolean)=>void}){

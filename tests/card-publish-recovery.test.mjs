@@ -17,14 +17,14 @@ test('card editor keeps edits in a local draft until explicit publish',()=>{
  assert.ok(editor.includes('secondaryColor')&&editor.includes('askBirthday')&&editor.includes('squareLogo'));
 });
 
-test('points cards stay in their collection and review QR management stays in Nival Reseñas',()=>{
+test('points and review QR cards share the Cards workspace with plan limits',()=>{
  const workspace=read('lib/points/card-workspace.tsx'),page=read('app/panel/puntos/page.tsx'),exportRoute=read('app/api/points/export/route.ts'),qrRoute=read('app/api/points/qr/route.ts');
  const owner=read('lib/owner/view.tsx');
  const catalog=read('lib/points/card-catalog.tsx');
  for(const label of ['Tus tarjetas','Actividad del programa','Registros recientes','Editar tarjeta','Exportar clientes','Exportar movimientos'])assert.ok(workspace.includes(label),label);
  assert.ok(!workspace.includes('Tarjetas QR de reseñas'));
  assert.ok(page.includes('CardWorkspace')&&!page.includes('list_branch_review_cards'));
- assert.ok(owner.includes('data-panel="nival-resenas"')&&owner.includes('<ReviewCardManager'));
+ assert.ok(owner.includes('data-panel="mis-tarjetas"')&&owner.includes('reviewCards={data.reviewCards||[]}'));assert.ok(catalog.includes('<ReviewCardManager')&&catalog.includes('cardLimit={nfcLimit}'));assert.ok(catalog.includes('Compartir esta tarjeta'));
  const manager=read('lib/owner/review-card-manager.tsx');assert.ok(manager.includes('className="reviewCardInlineQr"'));assert.ok(manager.includes("/api/reviews/qr?code='+encodeURIComponent(card.code)"));
  assert.ok(!catalog.includes('giftMock')&&!catalog.includes('Tarjeta de regalo'));
  assert.ok(owner.includes('data-panel="nival-pay"'));
