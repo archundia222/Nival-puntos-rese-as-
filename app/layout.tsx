@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import './globals.css';
 import '../lib/owner/workspace.css';
+import './dashboard-metrics.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://nival-puntos-resenas.vercel.app'),
