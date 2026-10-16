@@ -5,7 +5,7 @@ export default function DemoCustomerCard() {
   const goal = 10;
 
   return (
-    <main className="loyaltyShell">
+    <main className="loyaltyShell nivalCustomerFlow">
       <header className="loyaltyHeader">
         <a href="/demo/panel">Nival · Café Nube</a>
         <span>Vista de ejemplo</span>
