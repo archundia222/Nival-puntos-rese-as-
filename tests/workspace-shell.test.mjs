@@ -18,7 +18,10 @@ const tour=component('tour.tsx');
 const icons=component('icons.tsx');const {DashboardShell}=component('shell.tsx',{'./icons':icons,'./tour':tour});
 test('business shell shows the plan-aware workspace menu and cycle chip',()=>{
  const html=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null},React.createElement('p',null,'Solo datos de Negocio A')));
- for(const title of ['Inicio','Puntos y premios','Tarjeta de regalo','Google y reseñas','Clientes','Sucursales','Operación','Ajustes','Día 1 de 30'])assert.ok(html.includes(title),title);
+ for(const title of ['Inicio','Tarjetas','Clientes','Sucursales','Usuarios','Informes','Facturación','Configuración','Productos adicionales','Día 1 de 30'])assert.ok(html.includes(title),title);
+ assert.ok(!html.includes('Reseñas'));
+ const reviewPlan=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null,responseLimit:20,initialSection:'nival-resenas'},React.createElement('p',null,'Contenido')));
+ assert.ok(reviewPlan.includes('Reseñas'));assert.ok(reviewPlan.includes('Tarjetas QR y NFC'));
  assert.ok(html.includes('aria-controls="workspace-menu"'));assert.ok(html.includes('aria-current="page"'));assert.ok(html.includes('id="workspace-title"'));
  assert.ok(!html.includes('Incluido'));
  assert.ok(html.includes('Negocio A'));assert.ok(!html.includes('Negocio B'));assert.ok(!html.includes('Estás explorando la demo.'));
@@ -52,8 +55,8 @@ test('customer groups are filtered inside Customers and demo exit remains availa
  const html=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Café Demo',owner:'Ana',status:'Activo',demo:true,logout:null,initialSection:section},'Contenido'));
  assert.ok(html.includes('data-section="'+section+'"'));
  assert.ok(html.includes('Clientes'));
- assert.ok(html.includes('Puntos y premios'));
- assert.ok(html.includes('Tarjeta de regalo'));
+ assert.ok(html.includes('Tarjetas'));
+ assert.ok(html.includes('Productos adicionales'));
  assert.ok(html.includes('Cerrar demo'));
  assert.ok(!html.includes('Frecuentes'));assert.ok(!html.includes('En riesgo'));
  }
@@ -64,9 +67,10 @@ test('customer groups are filtered inside Customers and demo exit remains availa
 test('sidebar accordion opens only the active group and keeps a single page title',()=>{
  const html=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null,initialSection:'plan'},'Contenido'));
  const css=readFileSync(new URL('../lib/owner/workspace.css',import.meta.url),'utf8');
- assert.match(html,/aria-expanded="true"[^>]*aria-controls="workspace-submenu-ajustes"/);
+ assert.ok(html.includes('<h1 id="workspace-title" tabindex="-1">Facturación</h1>'));
+ assert.ok(!html.includes('workspace-submenu-ajustes'));
  assert.ok(!html.includes('id="workspace-submenu-fidelidad"'));
- assert.ok(!html.includes('id="workspace-submenu-operacion"'));
+ assert.ok(!html.includes('id="workspace-submenu-productos"'));
  assert.ok(!html.includes('id="workspace-submenu-resenas"'));
  const dashboard=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null},'Contenido'));
  assert.ok(dashboard.includes('<h1 id="workspace-title" tabindex="-1">Inicio</h1>'));
@@ -154,8 +158,9 @@ test('menu destinations identify the matching screen and onboarding actions jump
  const points=readFileSync(new URL('../app/panel/puntos/page.tsx',import.meta.url),'utf8');
  const guide=readFileSync(new URL('../lib/owner/start-guide.tsx',import.meta.url),'utf8');
  const owner=readFileSync(new URL('../lib/owner/view.tsx',import.meta.url),'utf8');
- assert.ok(shell.includes("id:'promociones',label:'Premios y promociones'"));
- assert.ok(shell.includes("section==='equipo'?'equipo'"));
+ assert.ok(!shell.includes("id:'promociones',label:'Premios y promociones'"));
+ assert.ok(shell.includes("item.id==='usuarios'?'equipo':item.id"));
+ assert.ok(readFileSync(new URL('../lib/owner/view.tsx',import.meta.url),'utf8').includes('<CampaignOverview'));
  assert.ok(shell.includes("section==='programa'?'mis-tarjetas'"));
  assert.ok(shell.includes("window.location.pathname!==home.pathname"));
  assert.ok(shell.includes("home.hash=target;window.location.href=home.pathname+home.search+home.hash"));

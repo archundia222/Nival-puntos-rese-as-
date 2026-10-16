@@ -11,36 +11,32 @@ function normalizeSection(section:string){
 function groupForSection(section:string):string|null{
  if(['mis-tarjetas','tus-tarjetas','programa','promociones','premios','compartir-programa','compartir'].includes(section))return 'fidelidad';
  if(['google','nival-resenas'].includes(section))return 'resenas';
+ if(section==='nival-pay')return 'productos';
  if(['equipo','estadisticas','estadisticas-puntos','canjes'].includes(section))return 'operacion';
  if(['configuracion','ajustes','datos-negocio','plan'].includes(section))return 'ajustes';
  return null;
 }
-const loyaltyItems:MenuItem[]=[
- {id:'mis-tarjetas',label:'Tarjeta de puntos'},
- {id:'promociones',label:'Premios y promociones'},
-];
 function makeItems(reviewLimit:number):MenuItem[]{
  const items:MenuItem[]=[
   {id:'inicio',label:'Inicio',icon:'inicio'},
-  {id:'fidelidad',label:'Puntos y premios',icon:'gift',children:loyaltyItems},
-  {id:'nival-pay',label:'Tarjeta de regalo',icon:'card'},
-  {id:'resenas',label:'Google y reseñas',icon:'google',children:[
-   {id:'google',label:reviewLimit>0?'Análisis y respuestas':'Ficha de Google'},
-   {id:'nival-resenas',label:'Tarjetas QR y NFC'},
+  {id:'fidelidad',label:'Tarjetas',icon:'gift',children:[
+   {id:'mis-tarjetas',label:'Tarjeta de puntos'},
+   {id:'compartir-programa',label:'Compartir programa'},
   ]},
   {id:'clientes',label:'Clientes',icon:'clientes'},
   {id:'sucursales',label:'Sucursales',icon:'pin'},
-  {id:'operacion',label:'Operación',icon:'file',children:[
-   {id:'equipo',label:'Personal'},
-   {id:'canjes',label:'Historial de canjes',href:'/panel/puntos?view=canjes'},
-   {id:'estadisticas-puntos',label:'Actividad de puntos'},
-  ]},
+  {id:'usuarios',label:'Usuarios',icon:'clientes',href:'/panel/puntos?view=equipo'},
   {id:'informes',label:'Informes',icon:'file',href:'/panel/reportes'},
-  {id:'ajustes',label:'Ajustes',icon:'settings',children:[
-   {id:'datos-negocio',label:'Datos del negocio'},
-   {id:'plan',label:'Plan y facturación'},
-  ]},
+  {id:'plan',label:'Facturación',icon:'card'},
+  {id:'configuracion',label:'Configuración',icon:'settings'},
  ];
+ if(reviewLimit>0)items.push({id:'resenas',label:'Reseñas',icon:'google',children:[
+  {id:'google',label:'Reseñas de Google'},
+  {id:'nival-resenas',label:'Tarjetas QR y NFC'},
+ ]});
+ items.push({id:'productos',label:'Productos adicionales',icon:'card',children:[
+  {id:'nival-pay',label:'Nival Pay · regalo'},
+ ]});
  return items;
 }
 
@@ -58,7 +54,7 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
  function navigate(item:MenuItem){
   if(item.href){
    if(demo){
-    const target=item.id==='canjes'?'canjes':item.id==='informes'?'informes':item.id;
+    const target=item.id==='canjes'?'canjes':item.id==='informes'?'informes':item.id==='usuarios'?'equipo':item.id;
     setSection(target);setOpen(false);
     window.history.replaceState(null,'',window.location.pathname+window.location.search+'#'+target);
     window.scrollTo({top:0,behavior:'smooth'});
@@ -74,7 +70,7 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
   window.scrollTo({top:0,behavior:'smooth'});requestAnimationFrame(()=>document.getElementById('workspace-title')?.focus());
  }
  function render(item:MenuItem,depth=0){
-  const active=section===item.id||(item.id==='clientes'&&section.startsWith('clientes'))||(item.id==='operacion'&&(section==='equipo'||section.startsWith('estadisticas')||section==='canjes'))||(item.id==='resenas'&&(section==='google'||section==='nival-resenas'))||(item.id==='ajustes'&&(section==='configuracion'||section==='plan'||section==='ajustes'))||(item.id==='datos-negocio'&&section==='ajustes')||(item.id==='fidelidad'&&(section==='compartir-programa'||section==='tus-tarjetas'||section==='mis-tarjetas'||section==='promociones'));
+  const active=section===item.id||(item.id==='clientes'&&section.startsWith('clientes'))||(item.id==='usuarios'&&section==='equipo')||(item.id==='operacion'&&(section==='equipo'||section.startsWith('estadisticas')||section==='canjes'))||(item.id==='productos'&&section==='nival-pay')||(item.id==='resenas'&&(section==='google'||section==='nival-resenas'))||(item.id==='configuracion'&&(section==='ajustes'||section==='configuracion'))||(item.id==='ajustes'&&(section==='configuracion'||section==='plan'||section==='ajustes'))||(item.id==='datos-negocio'&&section==='ajustes')||(item.id==='fidelidad'&&(section==='compartir-programa'||section==='tus-tarjetas'||section==='mis-tarjetas'||section==='promociones'));
   if(item.children)return <div className={'workspaceMenuGroup'+(depth?' isNested':'')} key={item.id}>
    <button className={'workspaceNavItem'+(active?' isActive':'')} aria-expanded={expanded===item.id} aria-controls={'workspace-submenu-'+item.id} onClick={()=>toggle(item.id)} aria-current={active?'page':undefined}>{item.icon&&<Icon name={item.icon}/>}<span><strong>{item.label}</strong></span><i aria-hidden="true"/></button>
    {expanded===item.id&&<div className="workspaceSubmenu" id={'workspace-submenu-'+item.id} aria-label={item.label}>{item.children.map(child=>render(child,depth+1))}</div>}
@@ -82,7 +78,7 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
   return <button key={item.id} className={'workspaceNavItem'+(active?' isActive':'')+(depth?' isSubItem':'')} aria-current={active?'page':undefined} onClick={()=>navigate(item)}>{item.icon&&<Icon name={item.icon}/>}<span><strong>{item.label}</strong></span></button>;
  }
  const menu=[...items] as MenuItem[];
- const sectionAlias=section==='ajustes'?'datos-negocio':section.startsWith('clientes-')?'clientes':section==='equipo'?'equipo':section==='programa'?'mis-tarjetas':section==='promociones'||section==='premios'?'promociones':section;
+ const sectionAlias=section==='ajustes'?'configuracion':section.startsWith('clientes-')?'clientes':section==='equipo'?'usuarios':section==='programa'?'mis-tarjetas':section==='promociones'||section==='premios'?'mis-tarjetas':section;
  const current=menu.flatMap(x=>[x,...(x.children||[])]).flatMap(x=>[x,...(x.children||[])]).find(x=>x.id===sectionAlias)||items[0];
  return <div className="nivalShell" data-section={section} data-open={open} data-collapsed={collapsed}>
   <a className="workspaceSkip" href="#workspace-title">Ir al contenido</a>

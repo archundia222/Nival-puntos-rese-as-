@@ -1053,3 +1053,33 @@
 .nivalShell .returningRevenueCard.isAwaitingData .returningRevenueCopy>strong{color:#fffef8}
 .nivalShell .ownerActivityCard .ownerEmpty,.nivalShell .customerMixCard .ownerEmpty{color:#53695c}
 @media(max-width:540px){.nivalShell .startGuide{padding:17px!important}.nivalShell .startGuideHeading h2{font-size:22px!important}.nivalShell .startGuideStep{min-height:52px;padding:7px 5px}.nivalShell .startStepCopy strong{font-size:13px}}
+
+/* Stage 5: owner workspace finishes on the shared role tokens. */
+.nivalShell{
+ --ws-bg:var(--color-background);--ws-ink:var(--color-text);--ws-muted:var(--color-text-muted);
+ --ws-line:var(--color-border);--ws-green:var(--palette-forest);--ws-sidebar:264px;
+ background:var(--color-background);color:var(--color-text);font-family:var(--font-body)
+}
+.nivalShell .workspaceSidebar{background:var(--palette-forest);border-color:var(--palette-forest-deep)}
+.nivalShell .workspaceTopbar{background:var(--color-surface);border-color:var(--color-border)}
+.nivalShell .workspaceContent{background:var(--color-background)}
+.nivalShell .workspacePageHeading h1,.nivalShell .ownerSectionTitle h2{color:var(--color-inverse)}
+.nivalShell .ownerCard,.nivalShell .ownerChart,.nivalShell .customerDirectoryDetails{background:var(--color-surface);border-color:var(--color-border);box-shadow:var(--shadow-card)}
+.nivalShell .workspaceNav{gap:var(--space-1)}
+.nivalShell .workspaceNav button{min-height:44px;border-radius:var(--radius-control);transition:background-color .16s ease,color .16s ease}
+.nivalShell .workspaceNav button:focus-visible,.nivalShell .workspaceTopbar button:focus-visible,.nivalShell a:focus-visible,.nivalShell input:focus-visible,.nivalShell select:focus-visible,.nivalShell textarea:focus-visible,.nivalShell summary:focus-visible{outline:3px solid var(--color-focus);outline-offset:3px}
+.nivalShell .workspaceNav button[aria-current]{background:var(--color-accent);color:var(--color-accent-text)}
+.nivalShell .workspaceNav button[aria-current] strong{color:var(--color-accent-text)}
+.nivalShell .workspaceNavItem.isSubItem{min-height:40px}
+.nivalShell .workspacePlanSummary{padding-top:var(--space-2)!important}
+.nivalShell .workspaceSidebarBottom .workspaceHelp{border-radius:var(--radius-control)}
+.nivalShell .workspacePrimary{background:var(--color-inverse);border-color:var(--color-inverse)}
+.nivalShell .impactMaster,.nivalShell .productHub{margin-bottom:var(--space-3)}
+.nivalShell .ownerSectionTitle{margin-bottom:var(--space-3)}
+.nivalShell .ownerBlock[data-panel="mis-tarjetas"] .ownerSectionTitle,
+.nivalShell .ownerBlock[data-panel="clientes"] .ownerSectionTitle,
+.nivalShell .ownerBlock[data-panel="sucursales"] .ownerSectionTitle,
+.nivalShell .ownerBlock[data-panel="equipo"] .ownerSectionTitle,
+.nivalShell .ownerBlock[data-panel="plan"] .ownerSectionTitle,
+.nivalShell .ownerBlock[data-panel="configuracion"] .ownerSectionTitle{padding:var(--space-3);border-radius:var(--radius-card);background:var(--color-surface);border:1px solid var(--color-border)}
+@media(prefers-reduced-motion:reduce){.nivalShell *, .nivalShell *::before, .nivalShell *::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
