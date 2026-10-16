@@ -4,7 +4,7 @@ import {authClient} from '../../lib/backend/client';
 type Mode='login'|'register'|'recover'|'resend';
 const titles={login:'Iniciar sesión',register:'Crear cuenta',recover:'Recuperar contraseña',resend:'Confirmar mi correo'};
 const buttons={login:'Entrar',register:'Crear cuenta',recover:'Enviar enlace de recuperación',resend:'Reenviar confirmación'};
-export default function AccessForm(){
+export default function AccessForm({next='/panel',allowRegistration=true}:{next?:string;allowRegistration?:boolean}){
  const [mode,setMode]=useState<Mode>('login');const [email,setEmail]=useState('');const [password,setPassword]=useState('');const [busy,setBusy]=useState(false);const [notice,setNotice]=useState('');const [failed,setFailed]=useState(false);
  function changeMode(value:Mode){setMode(value);setNotice('');setFailed(false);setPassword('');}
  async function submit(event:React.FormEvent){
@@ -18,7 +18,7 @@ export default function AccessForm(){
    }else if(mode==='login'){
     const {error}=await client.signIn.email({email:address,password});
     if(error){setFailed(true);setNotice('No se pudo iniciar sesión. Revisa tus datos o confirma tu correo.');return;}
-    window.location.href='/panel';
+    window.location.href=next;
    }else if(mode==='recover'){
     const {error}=await client.requestPasswordReset({email:address,redirectTo:new URL('/restablecer',window.location.origin).href});if(error)throw error;
     setNotice('Si existe una cuenta con ese correo, recibirás un enlace para cambiar tu contraseña. Revisa también la carpeta de spam.');
@@ -29,5 +29,5 @@ export default function AccessForm(){
   }catch{setFailed(true);setNotice('No se pudo completar la solicitud. Espera un minuto y vuelve a intentarlo.');}finally{setBusy(false);}
  }
  const passwordNeeded=mode==='login'||mode==='register';
- return <section className="reviewBox"><h2>{titles[mode]}</h2><form className="configGrid" onSubmit={submit}><label>Correo<input type="email" required autoComplete="email" maxLength={254} value={email} onChange={event=>setEmail(event.target.value)} disabled={busy}/></label>{passwordNeeded&&<label>Contraseña<input type="password" required minLength={mode==='register'?8:1} maxLength={128} autoComplete={mode==='register'?'new-password':'current-password'} value={password} onChange={event=>setPassword(event.target.value)} disabled={busy}/></label>}<button disabled={busy}>{busy?'Procesando…':buttons[mode]}</button></form><p role={failed?'alert':'status'} className={failed?'error':''}>{notice}</p><div className="actions">{mode==='login'?<><button type="button" disabled={busy} onClick={()=>changeMode('register')}>Crear una cuenta</button><button type="button" disabled={busy} onClick={()=>changeMode('recover')}>Olvidé mi contraseña</button><button type="button" disabled={busy} onClick={()=>changeMode('resend')}>No recibí la confirmación</button></>:<button type="button" disabled={busy} onClick={()=>changeMode('login')}>Volver a iniciar sesión</button>}</div></section>;
+ return <section className="reviewBox"><h2>{titles[mode]}</h2><form className="configGrid" onSubmit={submit}><label>Correo<input type="email" required autoComplete="email" maxLength={254} value={email} onChange={event=>setEmail(event.target.value)} disabled={busy}/></label>{passwordNeeded&&<label>Contraseña<input type="password" required minLength={mode==='register'?8:1} maxLength={128} autoComplete={mode==='register'?'new-password':'current-password'} value={password} onChange={event=>setPassword(event.target.value)} disabled={busy}/></label>}<button disabled={busy}>{busy?'Procesando…':buttons[mode]}</button></form><p role={failed?'alert':'status'} className={failed?'error':''}>{notice}</p><div className="actions">{mode==='login'?<>{allowRegistration&&<button type="button" disabled={busy} onClick={()=>changeMode('register')}>Crear una cuenta</button><button type="button" disabled={busy} onClick={()=>changeMode('recover')}>Olvidé mi contraseña</button><button type="button" disabled={busy} onClick={()=>changeMode('resend')}>No recibí la confirmación</button></>:<button type="button" disabled={busy} onClick={()=>changeMode('login')}>Volver a iniciar sesión</button>}</div></section>;
 }
