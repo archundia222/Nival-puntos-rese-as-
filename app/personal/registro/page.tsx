@@ -1,0 +1,3 @@
+import EmployeeRegistrationForm from './form';
+import {backendConfigured} from '../../../lib/backend/config';
+export default function EmployeeRegistration(){return <main className="dashboard"><header className="dashHead"><div><small>NIVAL · PERSONAL DE TIENDA</small><h1>Regístrate para trabajar en tu tienda</h1><p>Crea tu cuenta con el correo que te dará el responsable.</p></div><a href="/entradas">Volver a accesos</a></header>{backendConfigured()?<EmployeeRegistrationForm/>:<section className="reviewBox"><h2>Registro no disponible</h2><p>La conexión de cuentas aún no está configurada.</p></section>}</main>}
