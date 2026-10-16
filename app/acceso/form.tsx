@@ -4,7 +4,7 @@ import {authClient} from '../../lib/backend/client';
 type Mode='login'|'register'|'recover'|'resend';
 const titles={login:'Iniciar sesión',register:'Crear cuenta',recover:'Recuperar contraseña',resend:'Confirmar mi correo'};
 const buttons={login:'Entrar',register:'Crear cuenta',recover:'Enviar enlace de recuperación',resend:'Reenviar confirmación'};
-export default function AccessForm({next='/panel',allowRegistration=true}:{next?:string;allowRegistration?:boolean}){
+export default function AccessForm({next='/panel',allowRegistration=true,registerLabel='Crear una cuenta'}:{next?:string;allowRegistration?:boolean;registerLabel?:string}){
  const [mode,setMode]=useState<Mode>('login');const [email,setEmail]=useState('');const [password,setPassword]=useState('');const [busy,setBusy]=useState(false);const [notice,setNotice]=useState('');const [failed,setFailed]=useState(false);
  function changeMode(value:Mode){setMode(value);setNotice('');setFailed(false);setPassword('');}
  async function submit(event:React.FormEvent){
@@ -12,8 +12,8 @@ export default function AccessForm({next='/panel',allowRegistration=true}:{next?
   try{
    const client=authClient;const address=email.trim();
    if(mode==='register'){
-    const {data,error}=await client.signUp.email({email:address,password,name:address.split('@')[0],callbackURL:new URL('/panel',window.location.origin).href});if(error)throw error;
-    if(data?.user){window.location.href='/panel';return;}
+    const {data,error}=await client.signUp.email({email:address,password,name:address.split('@')[0],callbackURL:new URL(next,window.location.origin).href});if(error)throw error;
+    if(data?.user){window.location.href=next;return;}
     setNotice('Revisa tu correo para confirmar tu cuenta. Si ya la tienes, inicia sesión.');
    }else if(mode==='login'){
     const {error}=await client.signIn.email({email:address,password});
@@ -23,11 +23,11 @@ export default function AccessForm({next='/panel',allowRegistration=true}:{next?
     const {error}=await client.requestPasswordReset({email:address,redirectTo:new URL('/restablecer',window.location.origin).href});if(error)throw error;
     setNotice('Si existe una cuenta con ese correo, recibirás un enlace para cambiar tu contraseña. Revisa también la carpeta de spam.');
    }else{
-    const {error}=await client.sendVerificationEmail({email:address,callbackURL:new URL('/panel',window.location.origin).href});if(error)throw error;
+    const {error}=await client.sendVerificationEmail({email:address,callbackURL:new URL(next,window.location.origin).href});if(error)throw error;
     setNotice('Si tu cuenta necesita confirmación, recibirás un nuevo correo. Revisa también la carpeta de spam.');
    }
   }catch{setFailed(true);setNotice('No se pudo completar la solicitud. Espera un minuto y vuelve a intentarlo.');}finally{setBusy(false);}
  }
  const passwordNeeded=mode==='login'||mode==='register';
- return <section className="reviewBox"><h2>{titles[mode]}</h2><form className="configGrid" onSubmit={submit}><label>Correo<input type="email" required autoComplete="email" maxLength={254} value={email} onChange={event=>setEmail(event.target.value)} disabled={busy}/></label>{passwordNeeded&&<label>Contraseña<input type="password" required minLength={mode==='register'?8:1} maxLength={128} autoComplete={mode==='register'?'new-password':'current-password'} value={password} onChange={event=>setPassword(event.target.value)} disabled={busy}/></label>}<button disabled={busy}>{busy?'Procesando…':buttons[mode]}</button></form><p role={failed?'alert':'status'} className={failed?'error':''}>{notice}</p><div className="actions">{mode==='login'?<>{allowRegistration&&<button type="button" disabled={busy} onClick={()=>changeMode('register')}>Crear una cuenta</button>}<button type="button" disabled={busy} onClick={()=>changeMode('recover')}>Olvidé mi contraseña</button><button type="button" disabled={busy} onClick={()=>changeMode('resend')}>No recibí la confirmación</button></>:<button type="button" disabled={busy} onClick={()=>changeMode('login')}>Volver a iniciar sesión</button>}</div></section>;
+ return <section className="reviewBox"><h2>{mode==='register'?registerLabel:titles[mode]}</h2><form className="configGrid" onSubmit={submit}><label>Correo<input type="email" required autoComplete="email" maxLength={254} value={email} onChange={event=>setEmail(event.target.value)} disabled={busy}/></label>{passwordNeeded&&<label>Contraseña<input type="password" required minLength={mode==='register'?8:1} maxLength={128} autoComplete={mode==='register'?'new-password':'current-password'} value={password} onChange={event=>setPassword(event.target.value)} disabled={busy}/></label>}<button disabled={busy}>{busy?'Procesando…':mode==='register'?registerLabel:buttons[mode]}</button></form><p role={failed?'alert':'status'} className={failed?'error':''}>{notice}</p><div className="actions">{mode==='login'?<>{allowRegistration&&<button type="button" disabled={busy} onClick={()=>changeMode('register')}>{registerLabel}</button>}<button type="button" disabled={busy} onClick={()=>changeMode('recover')}>Olvidé mi contraseña</button><button type="button" disabled={busy} onClick={()=>changeMode('resend')}>No recibí la confirmación</button></>:<button type="button" disabled={busy} onClick={()=>changeMode('login')}>Volver a iniciar sesión</button>}</div></section>;
 }
