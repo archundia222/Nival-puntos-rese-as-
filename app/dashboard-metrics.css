@@ -1,0 +1,43 @@
+/* Métricas del inicio: mantener todos los datos y darles jerarquía visual. */
+.nivalLanding .nvDashboardMetrics article{
+  position:relative;
+  border-color:#dce6db;
+  border-radius:12px;
+  background:#f7f9f2;
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+.nivalLanding .nvDashboardMetrics article::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:12px;
+  right:12px;
+  height:3px;
+  border-radius:0 0 4px 4px;
+  background:#247351;
+}
+.nivalLanding .nvDashboardMetrics article:nth-child(2)::before{background:#7a9d3b}
+.nivalLanding .nvDashboardMetrics article:nth-child(3)::before{background:#c58a35}
+.nivalLanding .nvDashboardMetrics article:nth-child(4)::before{background:#49759a}
+.nivalLanding .nvDashboardMetrics article:hover{transform:translateY(-2px);box-shadow:0 8px 18px #173d3112}
+.nivalLanding .nvDashboardMetrics small{min-height:unset;color:#42564a;font-size:11px;font-weight:650}
+.nivalLanding .nvDashboardMetrics b{margin-top:5px;font-size:29px;line-height:1.05}
+
+.nivalShell .impactMetric>small{color:#40584a;font-size:11px;letter-spacing:.65px}
+.nivalShell .impactMetric>strong{font-size:30px}
+.nivalShell .impactMetric .metricChange{font-size:10px}
+
+@media(max-width:700px){
+  .nivalLanding .nvDashboardMetrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .nivalLanding .nvDashboardMetrics article{min-height:82px;padding:12px 10px}
+  .nivalLanding .nvDashboardMetrics small{font-size:10px}
+  .nivalLanding .nvDashboardMetrics b{font-size:25px}
+  .nivalShell .impactMasterMetrics .impactMetric>small{font-size:10px}
+  .nivalShell .impactMasterMetrics .impactMetric>strong{font-size:28px}
+  .nivalShell .impactMasterMetrics .impactMetric .metricChange{font-size:10px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .nivalLanding .nvDashboardMetrics article{transition:none}
+  .nivalLanding .nvDashboardMetrics article:hover{transform:none}
+}
