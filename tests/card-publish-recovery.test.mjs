@@ -25,6 +25,7 @@ test('points cards stay in their collection and review QR management stays in Ni
  assert.ok(!workspace.includes('Tarjetas QR de reseñas'));
  assert.ok(page.includes('CardWorkspace')&&!page.includes('list_branch_review_cards'));
  assert.ok(owner.includes('data-panel="nival-resenas"')&&owner.includes('<ReviewCardManager'));
+ const manager=read('lib/owner/review-card-manager.tsx');assert.ok(manager.includes('className="reviewCardInlineQr"'));assert.ok(manager.includes("/api/reviews/qr?code='+encodeURIComponent(card.code)"));
  assert.ok(!catalog.includes('giftMock')&&!catalog.includes('Tarjeta de regalo'));
  assert.ok(owner.includes('data-panel="nival-pay"'));
  assert.ok(exportRoute.includes('requireRole("owner")')&&exportRoute.includes('requireBusiness'));

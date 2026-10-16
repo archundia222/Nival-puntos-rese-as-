@@ -23,7 +23,7 @@ export function ReviewCardManager({businessId,branchId,branchName,cards,googleUr
   </article>:null}
   {googleUrl&&active>=cardLimit&&visible.length===0&&<p className="ownerEmpty">Límite alcanzado</p>}
   {visible.map(card=><article className="ownerCard reviewCardItem" key={card.code}>
-   <div className="reviewPhysicalCard"><small>NIVAL · GOOGLE</small><strong>{card.label}</strong><span>{card.active?'Activo':'Pausado'}</span></div>
+   <div className="reviewPhysicalCard"><small>NIVAL · GOOGLE</small><strong>{card.label}</strong><span>{card.active?'Activo':'Pausado'}</span>{card.active&&<img className="reviewCardInlineQr" src={'/api/reviews/qr?code='+encodeURIComponent(card.code)} alt={'QR de reseñas de Google de '+card.label}/>}</div>
    <div className="reviewCardActions">{card.active&&<><a className="workspacePrimary" href={'/api/reviews/qr?code='+card.code+'&download=1'} download><Icon name="download" size={17}/> Descargar</a><a className="workspaceSecondary" href={'/r/'+card.code} target="_blank" rel="noreferrer">Probar</a></>}
     {(card.active||active<cardLimit)&&<ActionForm action={manageReviewCard} label={card.active?'Guardar':'Reactivar'}><Hidden name="businessId" value={businessId}/><Hidden name="branchId" value={branchId||''}/><Hidden name="code" value={card.code}/><label className="reviewNameField"><span>Nombre</span><input name="label" defaultValue={card.label} required maxLength={80}/></label><Hidden name="active" value="true"/></ActionForm>}
     {card.active&&<ActionForm action={manageReviewCard} label="Pausar"><Hidden name="businessId" value={businessId}/><Hidden name="branchId" value={branchId||''}/><Hidden name="code" value={card.code}/><Hidden name="label" value={card.label}/><Hidden name="active" value="false"/></ActionForm>}

@@ -93,7 +93,7 @@ test('home prioritizes the active points and reviews products, while an empty ac
  const owner=readFileSync(new URL('../lib/owner/view.tsx',import.meta.url),'utf8');
  for(const label of ["name:'Puntos'","name:'Tarjetas QR y NFC'","detail:`Administra tus tarjetas de reseñas · hasta ${nfcLimit}`","name:'Reseñas de Google'","href={'#'+product.id}"])assert.ok(owner.includes(label),label);
  assert.ok(!owner.includes("name:'Tarjeta de regalo'"));
- assert.ok(readFileSync(new URL('../lib/owner/shell.tsx',import.meta.url),'utf8').includes("{id:'nival-pay',label:'Nival Pay · regalo'}"));
+ assert.ok(readFileSync(new URL('../lib/owner/shell.tsx',import.meta.url),'utf8').includes("{id:'nival-pay',label:'Tarjeta de regalo · Nival Pay'}"));
  assert.ok(owner.includes('nfcLimit>0?['));
  assert.ok(owner.includes('{emptyState&&<StartGuide state={startState||undefined}/>'));
  assert.ok(owner.includes('{!emptyState&&<div className="impactMasterMetrics">'));
@@ -104,6 +104,8 @@ test('home prioritizes the active points and reviews products, while an empty ac
  assert.ok(owner.includes('{demo&&mobilePreview&&<input type="hidden" name="mobile" value="1"/>}'));
  assert.ok(owner.includes("className={'returningRevenueCard'+(emptyState?' isAwaitingData':'')}"));
  assert.ok(owner.includes('Resumen del periodo'));
+ assert.ok(owner.includes('<article className="impactGoogleCard">'));assert.ok(owner.includes('responseLimit>0?<>'));
+ const shell=readFileSync(new URL('../lib/owner/shell.tsx',import.meta.url),'utf8');assert.ok(shell.includes("{id:'complementos',label:'Complementos'"));assert.ok(shell.includes("{id:'nival-pay',label:'Tarjeta de regalo · Nival Pay'}"));
  assert.ok(owner.indexOf('className="impactFeatureGrid"')<owner.indexOf('className="impactMasterDetails"'));
 });
 

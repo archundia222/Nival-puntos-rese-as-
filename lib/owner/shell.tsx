@@ -11,7 +11,7 @@ function normalizeSection(section:string){
 function groupForSection(section:string):string|null{
  if(['mis-tarjetas','tus-tarjetas','programa','promociones','premios','compartir-programa','compartir'].includes(section))return 'programa';
  if(['google','nival-resenas'].includes(section))return 'resenas';
- if(section==='nival-pay')return 'cuenta';
+ if(section==='nival-pay')return 'complementos';
  if(['equipo','usuarios','estadisticas','estadisticas-puntos','canjes','informes','sucursales'].includes(section))return 'operacion';
  if(['configuracion','ajustes','datos-negocio','plan'].includes(section))return 'cuenta';
  return null;
@@ -38,8 +38,8 @@ function makeItems(reviewLimit:number,nfcLimit:number):MenuItem[]{
  items.push({id:'cuenta',label:'Cuenta',icon:'settings',children:[
   {id:'plan',label:'Facturación'},
   {id:'configuracion',label:'Configuración'},
-  {id:'productos',label:'Productos adicionales',children:[{id:'nival-pay',label:'Nival Pay · regalo'}]},
  ]});
+ items.push({id:'complementos',label:'Complementos',icon:'gift',children:[{id:'nival-pay',label:'Tarjeta de regalo · Nival Pay'}]});
  return items;
 }
 
@@ -73,7 +73,7 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
   window.scrollTo({top:0,behavior:'smooth'});requestAnimationFrame(()=>document.getElementById('workspace-title')?.focus());
  }
  function render(item:MenuItem,depth=0){
-  const active=section===item.id||(item.id==='clientes'&&section.startsWith('clientes'))||(item.id==='operacion'&&(section==='equipo'||section==='usuarios'||section.startsWith('estadisticas')||section==='canjes'||section==='informes'||section==='sucursales'))||(item.id==='cuenta'&&(section==='plan'||section==='ajustes'||section==='configuracion'||section==='nival-pay'))||(item.id==='productos'&&section==='nival-pay')||(item.id==='resenas'&&(section==='google'||section==='nival-resenas'))||(item.id==='configuracion'&&section==='ajustes')||(item.id==='programa'&&(section==='compartir-programa'||section==='tus-tarjetas'||section==='mis-tarjetas'||section==='promociones'));
+  const active=section===item.id||(item.id==='clientes'&&section.startsWith('clientes'))||(item.id==='operacion'&&(section==='equipo'||section==='usuarios'||section.startsWith('estadisticas')||section==='canjes'||section==='informes'||section==='sucursales'))||(item.id==='cuenta'&&(section==='plan'||section==='ajustes'||section==='configuracion'))||(item.id==='complementos'&&section==='nival-pay')||(item.id==='resenas'&&(section==='google'||section==='nival-resenas'))||(item.id==='configuracion'&&section==='ajustes')||(item.id==='programa'&&(section==='compartir-programa'||section==='tus-tarjetas'||section==='mis-tarjetas'||section==='promociones'));
   if(item.children)return <div className={'workspaceMenuGroup'+(depth?' isNested':'')} key={item.id}>
    <button className={'workspaceNavItem'+(active?' isActive':'')} aria-expanded={expanded===item.id} aria-controls={'workspace-submenu-'+item.id} onClick={()=>toggle(item.id)} aria-current={active?'page':undefined}>{item.icon&&<Icon name={item.icon}/>}<span><strong>{item.label}</strong></span><i aria-hidden="true"/></button>
    {expanded===item.id&&<div className="workspaceSubmenu" id={'workspace-submenu-'+item.id} aria-label={item.label}>{item.children.map(child=>render(child,depth+1))}</div>}
