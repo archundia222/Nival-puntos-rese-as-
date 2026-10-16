@@ -971,3 +971,59 @@
 .mobilePreview .nivalShell .impactFeatureGrid{grid-template-columns:1fr}
 .mobilePreview .nivalShell .impactMasterHeader h2{font-size:23px}
 .mobilePreview .nivalShell .returningRevenueCard{min-height:190px}
+
+/* Higher contrast and a shared home layout for demo and live accounts. */
+.nivalShell{--ws-ink:#19352a;--ws-muted:#50665a;--ws-bg:#f3f5ef;color:#19352a}
+.nivalShell .workspaceContent{background:#f3f5ef}
+.nivalShell .workspacePageHeading h1{color:#17392d;font-size:31px;font-weight:700;letter-spacing:-1.1px}
+.nivalShell .workspaceEyebrow{color:#53695c}
+.nivalShell .impactMasterHeader .workspaceEyebrow,.nivalShell .customerMixCard header .workspaceEyebrow,.nivalShell .impactGoogleStatus .workspaceEyebrow,.nivalShell .productHub>header .workspaceEyebrow{color:#53695c}
+.nivalShell .impactMasterHeader h2{color:#17392d;font-size:27px;font-weight:700}
+.nivalShell .impactPeriodFilter{border-color:#cad8cb;background:#fffef9;box-shadow:0 3px 9px #173d3108}
+.nivalShell .impactPeriodFilter>span{color:#53695c;font-weight:700}
+.nivalShell .impactPeriodFilter button{color:#41574a}
+.nivalShell .returningRevenueCard{background:linear-gradient(120deg,#103c2d 0%,#164632 100%);border:1px solid #225a40;box-shadow:0 10px 22px #173d311a}
+.nivalShell .returningRevenueCard .revenueOrb{display:none}
+.nivalShell .returningRevenueCard:before{content:"";position:absolute;inset:22px auto 22px 0;width:3px;border-radius:0 4px 4px 0;background:#d8ef78}
+.nivalShell .returningRevenueCopy>span{color:#e2edcd}
+.nivalShell .returningRevenueCard .returningRevenueCopy>small{color:#f2f5ec!important}
+.nivalShell .revenueTag{color:#fffdf3;border-color:#ffffff52}
+.nivalShell .customerMixCard header .workspaceEyebrow{font-size:10px}
+.nivalShell .customerMixCard h3{color:#183c2e}
+.nivalShell .customerMixLegend span{color:#405b4c}
+.nivalShell .impactMasterMetrics .impactMetric>small{color:#52685b;font-size:10px;font-weight:750}
+.nivalShell .impactMasterMetrics .impactMetric>strong{color:#17392d;font-weight:700}
+.nivalShell .impactMasterMetrics .impactMetric .metricChange{display:inline-flex;align-items:center;gap:4px;width:max-content;max-width:100%;padding:4px 7px;border-radius:99px;background:#edf3e8;color:#355d43;font-size:10px;font-weight:700;line-height:1.3}
+.nivalShell .impactMasterMetrics .impactMetric .metricChange.isPositive{background:#edf4e6;color:#245f43}
+.nivalShell .impactMasterMetrics .impactMetric .metricChange.isNegative{background:#f7ece7;color:#824f3a}
+.nivalShell .impactMasterMetrics .impactMetric .metricChange.isNeutral{background:#eef0ec;color:#58665c}
+.nivalShell .impactMasterDetails .clientStatusAdvice{color:#4f6658;font-size:12px}
+.nivalShell .impactMasterDetails .clientStatusRow{color:#304b3b;font-size:12px}
+.nivalShell .impactMasterDetails .clientStatusRow>b{color:#193c2e;font-size:13px}
+.nivalShell .impactMasterDetails .ownerActivityCard .activityDayLabels{color:#52675b}
+.nivalShell .activityLegend{color:#40584a}
+.nivalShell .productHubCard strong{color:#1b3c2f}
+.nivalShell .productHubCard small{color:#53675a}
+.nivalShell .workspaceStatus{color:#674f1d;background:#f6edce}
+.nivalShell .workspaceStatus.isActive{color:#1e6744;background:#e4f0e1}
+.nivalShell .workspaceDemoBanner{display:none}
+.nivalShell .workspacePageHeading{margin-bottom:20px}
+.nivalShell .workspacePageHeading h1,.nivalShell .impactMasterHeader h2{line-height:1.16}
+.nivalShell .impactGoogleCard{color:#1a382c}
+.nivalShell .impactGoogleCard p,.nivalShell .impactGooglePending,.nivalShell .impactReplyQuota{color:#4e6558}
+.nivalShell .impactGoogleActions a{white-space:nowrap}
+.nivalShell :focus-visible{outline:3px solid #9aba45;outline-offset:3px}
+@media(max-width:700px){
+ .nivalShell .workspacePageHeading{margin-bottom:16px}
+ .nivalShell .impactMasterHeader h2{font-size:24px}
+ .nivalShell .impactMasterMetrics{grid-template-columns:1fr 1fr}
+ .nivalShell .impactMasterMetrics .impactMetric{min-height:104px;align-content:center;gap:7px;padding:13px 11px}
+ .nivalShell .impactMasterMetrics .impactMetric:last-child{grid-column:1/-1;border-top:1px solid #e7ebdf}
+ .nivalShell .impactMasterMetrics .impactMetric .metricChange{font-size:9px}
+}
+@media(max-width:440px){
+ .nivalShell .workspacePageHeading h1{font-size:28px}
+ .nivalShell .impactMasterHeader h2{font-size:22px}
+ .nivalShell .impactPeriodFilter button{font-size:11px}
+ .nivalShell .returningRevenueCopy>strong{font-size:42px}
+}

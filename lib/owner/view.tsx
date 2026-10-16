@@ -87,9 +87,9 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
     <CustomerMix current={current}/>
    </div>
    <div className="impactMasterMetrics">
-    <article className="impactMetric"><small>VISITAS</small><strong>{number(current.visits)}</strong><span className={'metricChange '+(Number(current.visits||0)>=Number(prev.visits||0)?'isPositive':'isNegative')}>{percentChange(Number(current.visits||0),Number(prev.visits||0))} vs. periodo anterior</span></article>
-    <article className="impactMetric"><small>CLIENTES NUEVOS</small><strong>{number(current.new_customers||0)}</strong><span className={'metricChange '+(Number(current.new_customers||0)>=Number(prev.new_customers||0)?'isPositive':'isNegative')}>{percentChange(Number(current.new_customers||0),Number(prev.new_customers||0))} vs. periodo anterior</span></article>
-    <article className="impactMetric"><small>PREMIOS CANJEADOS</small><strong>{number(current.redeemed||0)}</strong><span className={'metricChange '+(Number(current.redeemed||0)>=Number(prev.redeemed||0)?'isPositive':'isNegative')}>{percentChange(Number(current.redeemed||0),Number(prev.redeemed||0))} vs. periodo anterior</span></article>
+    <article className="impactMetric"><small>VISITAS</small><strong>{number(current.visits)}</strong><span className={'metricChange '+(Number(current.visits||0)>Number(prev.visits||0)?'isPositive':Number(current.visits||0)<Number(prev.visits||0)?'isNegative':'isNeutral')}>{percentChange(Number(current.visits||0),Number(prev.visits||0))} vs. periodo anterior</span></article>
+    <article className="impactMetric"><small>CLIENTES NUEVOS</small><strong>{number(current.new_customers||0)}</strong><span className={'metricChange '+(Number(current.new_customers||0)>Number(prev.new_customers||0)?'isPositive':Number(current.new_customers||0)<Number(prev.new_customers||0)?'isNegative':'isNeutral')}>{percentChange(Number(current.new_customers||0),Number(prev.new_customers||0))} vs. periodo anterior</span></article>
+    <article className="impactMetric"><small>PREMIOS CANJEADOS</small><strong>{number(current.redeemed||0)}</strong><span className={'metricChange '+(Number(current.redeemed||0)>Number(prev.redeemed||0)?'isPositive':Number(current.redeemed||0)<Number(prev.redeemed||0)?'isNegative':'isNeutral')}>{percentChange(Number(current.redeemed||0),Number(prev.redeemed||0))} vs. periodo anterior</span></article>
    </div>
   </section>
   {responseLimit>0&&<article className="impactGoogleCard">
