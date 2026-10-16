@@ -19,7 +19,7 @@ const icons=component('icons.tsx');const {DashboardShell}=component('shell.tsx',
 test('business shell shows the plan-aware workspace menu and cycle chip',()=>{
  const html=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null},React.createElement('p',null,'Solo datos de Negocio A')));
  for(const title of ['Inicio','Programa de puntos','Clientes','Operación','Cuenta','Día 1 de 30'])assert.ok(html.includes(title),title);
- assert.ok(!html.includes('Reseñas'));
+ assert.ok(html.includes('Reseñas'));
  const reviewPlan=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null,responseLimit:20,initialSection:'nival-resenas'},React.createElement('p',null,'Contenido')));
  assert.ok(reviewPlan.includes('Reseñas'));assert.ok(reviewPlan.includes('Tarjetas QR y NFC'));
  const operation=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null,initialSection:'sucursales'},React.createElement('p',null,'Contenido')));
@@ -91,14 +91,14 @@ test('selected owner menu destinations reveal their matching panel instead of le
 });
 test('home prioritizes the active points and reviews products, while an empty account avoids zero metrics',()=>{
  const owner=readFileSync(new URL('../lib/owner/view.tsx',import.meta.url),'utf8');
- for(const label of ["name:'Puntos'","name:'Tarjetas de reseñas'","detail:'10 QR y NFC incluidas'","href={'#'+product.id}"])assert.ok(owner.includes(label),label);
+ for(const label of ["name:'Puntos'","name:'Tarjetas QR y NFC'","detail:`Administra tus tarjetas de reseñas · hasta ${nfcLimit}`","name:'Reseñas de Google'","href={'#'+product.id}"])assert.ok(owner.includes(label),label);
  assert.ok(!owner.includes("name:'Tarjeta de regalo'"));
  assert.ok(readFileSync(new URL('../lib/owner/shell.tsx',import.meta.url),'utf8').includes("{id:'nival-pay',label:'Nival Pay · regalo'}"));
- assert.ok(owner.includes('reviewLimit>0?['));
+ assert.ok(owner.includes('nfcLimit>0?['));
  assert.ok(owner.includes('{emptyState&&<StartGuide state={startState||undefined}/>'));
  assert.ok(owner.includes('{!emptyState&&<div className="impactMasterMetrics">'));
  assert.ok(owner.includes("emptyState?'—':money(returningRevenue)"));
- assert.ok(owner.includes('<ProductHub data={data} reviewLimit={responseLimit}/>'));
+ assert.ok(owner.includes('<ProductHub data={data} reviewLimit={responseLimit} nfcLimit={limits.nfcCards}/>'));
  assert.ok(owner.includes('  <>'));
  assert.ok(owner.includes('Aún no hay reportes.'));
  assert.ok(owner.includes('{demo&&mobilePreview&&<input type="hidden" name="mobile" value="1"/>}'));

@@ -1116,6 +1116,7 @@
 .nivalShell[data-section="programa"] [data-panel="programa"]{display:none}
 .nivalShell[data-section^="clientes-"] [data-panel="clientes"]{display:none}
 .nivalShell .workspaceNavItem.isActive{position:relative;background:var(--color-accent)!important;color:var(--color-accent-text)!important;box-shadow:inset 3px 0 0 var(--color-accent-text),0 2px 8px #081f151c}
+.nivalShell .workspaceNavItem[aria-disabled="true"]{opacity:.68;cursor:not-allowed}
 .nivalShell .workspaceNavItem.isActive strong{color:var(--color-accent-text)!important;font-weight:750!important}
 .nivalShell .workspaceNavItem.isActive>svg{color:var(--color-accent-text)}
 .nivalShell .workspaceNavItem:hover:not(.isActive){background:#ffffff16;color:#fffef7}
