@@ -1,10 +1,11 @@
 import {OwnerView} from '../../../lib/owner/view';
-import {periodRange} from '../../../lib/owner/domain.mjs';
+import {periodRange,rollingPeriodRange} from '../../../lib/owner/domain.mjs';
 import fixture from '../../../lib/owner/demo-fixtures.json';
-export default async function DemoOwner({searchParams}:{searchParams:Promise<{kind?:string;period?:string;mobile?:string;embed?:string}>}){
+export default async function DemoOwner({searchParams}:{searchParams:Promise<{kind?:string;period?:string;days?:string;mobile?:string;embed?:string}>}){
  const params=await searchParams;
- const range=periodRange(params.kind,params.period,new Date('2026-10-05T12:00:00Z'));
- const data=fixture[range.kind as keyof typeof fixture];
+ const demoNow=new Date('2026-10-05T12:00:00Z');
+ const range=params.days?rollingPeriodRange(Number(params.days),demoNow):periodRange(params.kind,params.period,demoNow);
+ const data=params.days==='7'?fixture.day:params.days==='90'?fixture.year:params.days==='30'?fixture.month:fixture[range.kind as keyof typeof fixture];
  const exampleKey=range.kind==='day'?'2026-10-05':range.kind==='year'?'2026':'2026-10';
  const shown=range.key===exampleKey?data:{...data,metrics:data.metrics.map(r=>({...r,visits:0,points:0,new_customers:0,redeemed:0,pending:0})),ranking:[],last:null,google:null,reports:[],changes:[]};
  const b={id:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',name:'Café Demo',slug:'cafe-demo',status:'activo'};

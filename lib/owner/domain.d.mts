@@ -2,6 +2,7 @@ export const segmentKeys:string[];
 export const checklistLabels:Record<string,string>;
 export function mexicoToday(now?:Date):string;
 export function periodRange(kind?:string,value?:string,now?:Date):{kind:string;key:string;start:string;end:string;previous:string;today:string};
+export function rollingPeriodRange(days?:number,now?:Date):{kind:'day';key:string;start:string;end:string;previous:string;today:string;days:number};
 export function inclusivePeriodEnd(exclusiveEnd:string):string;
 export function formatPeriodDate(value:string):string;
 export function generateAdvice(segment:string,businessContext:{templates:{segment:string;text:string}[];variant:number;count:number;businessName?:string}):Promise<string>;

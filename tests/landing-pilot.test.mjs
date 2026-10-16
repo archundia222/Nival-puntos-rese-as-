@@ -19,7 +19,7 @@ test('landing states both product pillars and uses product visuals',()=>{
 });
 
 test('plans and included features retain the confirmed prices and new plan limits',()=>{
-  for(const x of ["price: '$299'","price: '$399'","price: '$549'",'3 tarjetas NFC gratis','6 tarjetas NFC gratis','12 tarjetas NFC gratis','resumen mensual en PDF','Hasta 10 respuestas','Hasta 30 respuestas','Hasta 100 respuestas',"branches: '1 sucursal'","branches: 'Hasta 5 sucursales'","branches: 'Hasta 10 sucursales'",'No se publican automáticamente']) assert.ok(page.includes(x),x);
+  for(const x of ["price: '$299'","price: '$399'","price: '$549'",'Programa de puntos por visita','Tarjeta digital configurable','Hasta 10 sucursales','Hasta 10 tarjetas NFC + QR de reseñas gratis','30 respuestas a reseñas por periodo de 30 días','hasta 100 respuestas a reseñas por periodo de 30 días','Comparación de calificación y reseñas','No incluye','RECOMENDADO','Nival Pay y las tarjetas de reseñas son productos aparte']) assert.ok(page.includes(x),x);
   assert.ok(page.includes('quoteUrl(plan.name)'));
 });
 
@@ -42,7 +42,7 @@ test('wallet availability and legal draft status are stated clearly',()=>{
 });
 
 test('responsive layout, keyboard focus, reduced motion and swipeable cards are present',()=>{
-  for(const x of ['#como-funciona','#resenas','#mostrador','#panel','#planes','#preguntas']) assert.ok(page.includes(x),x);
+  for(const x of ['id="como-funciona"','id="resenas"','id="contacto"','id="panel"','id="planes"','id="preguntas"']) assert.ok(page.includes(x),x);
   assert.match(page,/nvMobileStickyCta/);
   assert.match(css,/@media\(max-width:640px\)/);
   assert.match(css,/focus-visible/);

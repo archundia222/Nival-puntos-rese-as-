@@ -5,7 +5,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {PGlite} from '@electric-sql/pglite';
 import {readFileSync} from 'node:fs';
-import {periodRange,generateAdvice,validateGoogle,inclusivePeriodEnd,formatPeriodDate,formatCustomerVisitDate} from '../lib/owner/domain.mjs';
+import {periodRange,rollingPeriodRange,generateAdvice,validateGoogle,inclusivePeriodEnd,formatPeriodDate,formatCustomerVisitDate} from '../lib/owner/domain.mjs';
 const owner='11111111-1111-4111-8111-111111111111',other='22222222-2222-4222-8222-222222222222',b='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',bb='bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
 test('20 customers: manual SQL has correct five segments, editable thresholds and RLS isolation',async()=>{
  const {db}=await ownerFixture();try{
@@ -40,6 +40,10 @@ test('periods use Mexico dates and previous calendar periods including leap days
  const week=periodRange('week','2026-W41');assert.deepEqual({start:week.start,end:week.end,previous:week.previous},{start:'2026-10-05',end:'2026-10-12',previous:'2026-09-28'});assert.equal(periodRange('week','2020-W01').start,'2019-12-30');assert.equal(periodRange('week','2025-W53',new Date('2026-10-05T12:00:00Z')).key,'2026-W41');
  assert.equal(periodRange('day','2024-02-29').end,'2024-03-01');assert.equal(periodRange('year','2026').previous,'2025-01-01');
  assert.equal(periodRange('day','2026-02-31',now).key,'2026-09-30');
+});
+test('rolling dashboard periods cover 7, 30 and 90 full Mexico calendar days',()=>{
+ const now=new Date('2026-10-05T02:00:00Z');
+ for(const days of [7,30,90]){const range=rollingPeriodRange(days,now);assert.equal(range.days,days);assert.equal(range.today,'2026-10-04');assert.equal(range.end,'2026-10-05');assert.equal((Date.parse(range.end+'T00:00:00Z')-Date.parse(range.start+'T00:00:00Z'))/86400000,days);assert.equal((Date.parse(range.start+'T00:00:00Z')-Date.parse(range.previous+'T00:00:00Z'))/86400000,days);}
 });
 test('customer visit dates preserve their calendar day across Mexico timezone rendering',()=>{
  assert.equal(formatCustomerVisitDate('2026-09-04T00:00:00.000Z'),'4 sep 2026');

@@ -393,8 +393,7 @@
 .nvIndustryPhotoCaption{position:absolute;z-index:1;right:24px;bottom:22px;left:24px;display:grid;gap:7px}
 .nvIndustryPhotoCaption>small{font-size:10px;font-weight:800;letter-spacing:.16em;opacity:.78}
 .nvIndustryPhotoCaption>h3{margin:0;font-family:'DM Serif Display',Georgia,serif;font-size:clamp(27px,3vw,36px);font-weight:400;line-height:1.05}
-.nvIndustryPhotoCaption>span{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px;opacity:.9}
-.nvIndustryPhotoCaption>span>b{display:grid;place-items:center;width:30px;height:30px;border:1px solid #ffffff80;border-radius:50%;font-size:15px;font-weight:400}
+.nvIndustryPhotoCaption>span{font-size:12px;opacity:.9}
 .nvIndustryPhotoCard[aria-hidden="true"]{pointer-events:none}
 @media(max-width:640px){.nvIndustryPhotoCard{flex-basis:min(78vw,330px);height:295px;border-radius:17px}.nvIndustryPhotoCaption{right:19px;bottom:19px;left:19px}.nvIndustryPhotoCaption>h3{font-size:31px}}
 @media(prefers-reduced-motion:reduce){.nvIndustryPhotoCard>img{transition:none}}
@@ -432,3 +431,53 @@
  .nvNavInner{min-height:68px}
  .nvMobilePanel{inset:68px 0 0;padding-inline:22px}
 }
+
+/* Compact launch hero, with small product moments around the existing phone visual. */
+.nvNavInner{min-height:68px}
+.nvHero{min-height:0;padding-block:22px 34px;gap:22px}
+.nvHeroCopy{padding-block:8px 18px}
+.nvHero h1 em{color:var(--nv-forest);background:linear-gradient(transparent 68%,var(--nv-lime) 68%);padding:0 .035em}
+.nvHeroVisual{min-height:520px}
+.nvHeroSystemImage{position:relative;z-index:1}
+.nvHeroFloat{position:absolute;z-index:3;display:grid;gap:2px;padding:12px 15px;border:1px solid #e6eadf;border-radius:15px;background:#fffefa;box-shadow:0 15px 35px #103c2c1c;color:var(--nv-forest);animation:nvFloatIn .75s both,nvFloatDrift 5s ease-in-out 1s infinite alternate}
+.nvHeroFloat>b{font-size:13px;line-height:1.2}.nvHeroFloat>small{color:#65736a;font-size:10px}.nvHeroFloatPoints{left:0;top:21%;grid-template-columns:35px auto;column-gap:9px;min-width:164px;animation-delay:.12s,1.12s}
+.nvHeroFloatPoints>span{grid-row:span 2;display:grid;place-items:center;width:35px;height:35px;border-radius:50%;background:var(--nv-lime);color:#263e2f;font-size:17px;font-weight:850}
+.nvHeroFloatReview{right:0;bottom:21%;min-width:190px;animation-delay:.28s,1.28s}.nvHeroReviewStars{color:#8ba82b;font-size:12px;letter-spacing:2px}
+.nvHeroFloatCount{right:6%;top:10%;min-width:126px;animation-delay:.42s,1.42s}.nvHeroFloatCount>small{font-size:8px;font-weight:850;letter-spacing:.13em;color:#6c7d70}.nvHeroFloatCount>b{font-size:22px;line-height:1.15}.nvHeroFloatCount>b>i{color:#859387;font-size:14px;font-style:normal}.nvHeroFloatCount>em{color:#557345;font-size:10px;font-style:normal}
+.nvHeroFloatCount .nvCountWindow{display:inline-block;height:1em;overflow:hidden;vertical-align:bottom}.nvCountRoll{display:grid;animation:nvCountAdvance 3.3s cubic-bezier(.2,.7,.2,1) 1s forwards}.nvCountRoll i{height:1em;color:var(--nv-forest);font-style:normal;line-height:1}
+@keyframes nvCountAdvance{to{transform:translateY(-66.666%)}}
+@keyframes nvFloatIn{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes nvFloatDrift{to{translate:0 -7px}}
+.nvHowGrid{align-items:stretch}
+.nvHowCard{display:grid;grid-template-rows:auto 310px auto 1fr;height:100%;min-height:0}
+.nvHowImage{height:310px}
+.nvHowCard h3{min-height:34px}
+.nvHowCard>p{align-self:start}
+.nvHowImage.nvDashboardArt{background:#ebe9e2}
+.nvHowImage.nvDashboardArt img{width:100%;height:100%;object-fit:cover;object-position:top center}
+.nvPlanDetails{align-content:start;gap:13px}
+.nvPlanDetails>span{font-size:13px;line-height:1.45}
+.nvPlanExcluded{display:grid;gap:8px;margin-top:auto;padding-top:16px;border-top:1px solid #e8ece5;color:#7d8780;font-size:12px}
+.nvPlanExcluded>b{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#737d76}
+.nvPlanExcluded ul{display:grid;gap:5px;margin:0;padding-left:17px}
+.nvPlanExcluded li{line-height:1.4}
+.nvPlanExcluded>span{color:#8b948d}
+@media(max-width:960px){
+ .nvHero{padding-block:18px 25px;gap:12px}
+ .nvHeroFloatPoints{left:-2%}.nvHeroFloatReview{right:-2%}
+}
+@media(max-width:640px){
+ .nvNavInner{min-height:66px}.nvNavCta{min-height:38px;padding-inline:11px;font-size:10px;gap:5px}
+ .nvHero{padding-block:10px 18px;gap:0}
+ .nvHeroVisual{min-height:370px;margin-top:0}
+ .nvHeroFloat{padding:9px 10px;border-radius:12px}
+ .nvHeroFloatPoints{top:16%;left:-1%;grid-template-columns:27px auto;min-width:133px;column-gap:7px}
+ .nvHeroFloatPoints>span{width:27px;height:27px;font-size:14px}
+ .nvHeroFloat>b{font-size:11px}.nvHeroFloat>small{font-size:8px}
+ .nvHeroFloatReview{right:-1%;bottom:16%;min-width:155px}
+ .nvHeroFloatCount{right:1%;top:3%;min-width:104px}.nvHeroFloatCount>b{font-size:18px}.nvHeroFloatCount>em{font-size:8px}
+ .nvHowCard{grid-template-rows:auto 270px auto 1fr}
+ .nvHowImage{height:270px}
+ .nvPlanExcluded{margin-top:20px}
+}
+@media(prefers-reduced-motion:reduce){.nvHeroFloat{animation:none;opacity:1;translate:none}.nvCountRoll{animation:none}}

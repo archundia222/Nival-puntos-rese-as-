@@ -99,7 +99,7 @@ test('menu destinations identify the matching screen and onboarding actions jump
  const points=readFileSync(new URL('../app/panel/puntos/page.tsx',import.meta.url),'utf8');
  const guide=readFileSync(new URL('../lib/owner/start-guide.tsx',import.meta.url),'utf8');
  const owner=readFileSync(new URL('../lib/owner/view.tsx',import.meta.url),'utf8');
- assert.ok(shell.includes("id:'promociones',label:'Campañas y promociones'"));
+ assert.ok(shell.includes("id:'promociones',label:'Premios y promociones'"));
  assert.ok(shell.includes("section==='equipo'?'equipo'"));
  assert.ok(shell.includes("section==='programa'?'mis-tarjetas'"));
  assert.ok(shell.includes("window.location.pathname!==home.pathname"));

@@ -14,17 +14,17 @@ const customerItems:MenuItem[]=[
  {id:'clientes-risk',label:'En riesgo'}, {id:'clientes-absent',label:'Sin visita este mes'},
 ];
 const cardItems:MenuItem[]=[
- {id:'promociones',label:'Campañas y promociones'},
+ {id:'promociones',label:'Premios y promociones'},
  {id:'mis-tarjetas',label:'Mis tarjetas'},
 ];
 function makeItems(reviewLimit:number):MenuItem[]{
  const items:MenuItem[]=[
-  {id:'sucursales',label:'Sucursales',icon:'trend'},
+  {id:'sucursales',label:'Sucursales',icon:'pin'},
   {id:'inicio',label:'Dashboard',icon:'inicio'},
   {id:'tarjetas',label:'Tarjetas',icon:'compartir',children:cardItems},
   {id:'clientes',label:'Clientes',icon:'clientes',children:customerItems},
   ...(reviewLimit>0?[{id:'google',label:'Google y reseñas',icon:'google'}]:[]),
-  {id:'gestion',label:'Gestión',icon:'trend',children:[
+  {id:'gestion',label:'Gestión',icon:'file',children:[
    {id:'equipo',label:'Personal'},
    {id:'canjes',label:'Historial de canjes',href:'/panel/puntos?view=canjes'},
    {id:'estadisticas-puntos',label:'Actividad de puntos'},
@@ -38,7 +38,7 @@ function makeItems(reviewLimit:number):MenuItem[]{
  return items;
 }
 
-export function DashboardShell({name,owner,status,demo,logout,children,initialSection='inicio',homeUrl,mobilePreview=false,pointsOnly=false,planName='Básico',price=299,responseLimit=0,periodDay=1,branches=[],branchId}:{name:string;owner:string;status:string;demo:boolean;logout:React.ReactNode;children:React.ReactNode;initialSection?:string;homeUrl?:string;mobilePreview?:boolean;pointsOnly?:boolean;planName?:string;price?:number;responseLimit?:number;periodDay?:number;branches?:Record<string,any>[];branchId?:string}){
+export function DashboardShell({name,owner,status,demo,logout,children,initialSection='inicio',homeUrl,mobilePreview=false,pointsOnly=false,planName='Puntos',price=299,responseLimit=0,periodDay=1,branches=[],branchId}:{name:string;owner:string;status:string;demo:boolean;logout:React.ReactNode;children:React.ReactNode;initialSection?:string;homeUrl?:string;mobilePreview?:boolean;pointsOnly?:boolean;planName?:string;price?:number;responseLimit?:number;periodDay?:number;branches?:Record<string,any>[];branchId?:string}){
  const [section,setSection]=useState(()=>normalizeSection(initialSection)),[open,setOpen]=useState(false),[collapsed,setCollapsed]=useState(false),[mobile,setMobile]=useState(mobilePreview),[expanded,setExpanded]=useState<string[]>(initialSection.startsWith('clientes')?['clientes']:['tus-tarjetas','programa','mis-tarjetas','promociones','compartir-programa','compartir','tarjetas'].includes(initialSection)?['tarjetas']:initialSection==='equipo'||initialSection.startsWith('estadisticas')||initialSection==='google'||initialSection==='informes'||initialSection==='canjes'?['gestion']:initialSection==='configuracion'||initialSection==='plan'?['ajustes']:[]);
  const sidebar=useRef<HTMLElement>(null),trigger=useRef<HTMLButtonElement>(null);
  const items=makeItems(responseLimit);
@@ -74,7 +74,7 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
   return <button key={item.id} className={'workspaceNavItem'+(active?' isActive':'')+(depth?' isSubItem':'')} aria-current={active?'page':undefined} onClick={()=>navigate(item)}>{item.icon&&<Icon name={item.icon}/>}<span><strong>{item.label}</strong></span>{item.id==='nival-pay'||item.id==='nival-resenas'?<b className="includedTag">Incluido</b>:null}</button>;
  }
  const menu=[...items,{id:'complementos-label',label:'COMPLEMENTOS'},
-  {id:'nival-pay',label:'Nival Pay',icon:'card'}, {id:'nival-resenas',label:'Nival Reseñas',icon:'google'}] as MenuItem[];
+  {id:'nival-pay',label:'Nival Pay',icon:'card'}, {id:'nival-resenas',label:'Nival Reseñas',icon:'compartir'}] as MenuItem[];
  const sectionAlias=section==='ajustes'?'datos-negocio':section==='equipo'?'equipo':section==='programa'?'mis-tarjetas':section==='promociones'||section==='premios'?'promociones':section;
  const current=menu.flatMap(x=>[x,...(x.children||[])]).flatMap(x=>[x,...(x.children||[])]).find(x=>x.id===sectionAlias)||items[0];
  return <div className="nivalShell" data-section={section} data-open={open} data-collapsed={collapsed}>

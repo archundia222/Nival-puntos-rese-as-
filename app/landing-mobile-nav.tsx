@@ -27,11 +27,9 @@ export default function LandingMobileNav() {
       <span className="nvHamburger" aria-hidden="true"><i /><i /></span><span>{open ? 'Cerrar' : 'Menú'}</span>
     </button>
     {open && <nav className="nvMobilePanel" id="nv-mobile-nav" aria-label="Navegación móvil">
-      <a href="#puntos" onClick={() => setOpen(false)}>Producto</a>
       <a href="#como-funciona" onClick={() => setOpen(false)}>Cómo funciona</a>
-      <a href="#industrias" onClick={() => setOpen(false)}>Negocios</a>
       <a href="#planes" onClick={() => setOpen(false)}>Planes</a>
-      <a href="#preguntas" onClick={() => setOpen(false)}>Preguntas</a>
+      <a href="#contacto" onClick={() => setOpen(false)}>Contacto</a>
       <a className="nvMobileLogin" href="/acceso" onClick={() => setOpen(false)}>Iniciar sesión</a>
       <a className="nvMobileQuote" href={whatsapp} target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>Cotizar por WhatsApp <LandingIcon name="arrow" /></a>
     </nav>}
