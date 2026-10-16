@@ -1,0 +1,56 @@
+:root {
+  --palette-forest: #173d2f;
+  --palette-forest-deep: #102e23;
+  --palette-lime: #d8f26a;
+  --palette-cream: #f5f1e7;
+  --palette-paper: #fffdf7;
+  --palette-stone: #d9ded5;
+  --palette-ink: #1d2c24;
+  --palette-muted: #59675e;
+  --palette-danger: #a53328;
+  --palette-success: #27633e;
+  --palette-warning: #795100;
+
+  --color-background: var(--palette-cream);
+  --color-surface: var(--palette-paper);
+  --color-surface-raised: #ffffff;
+  --color-border: var(--palette-stone);
+  --color-text: var(--palette-ink);
+  --color-text-muted: var(--palette-muted);
+  --color-accent: var(--palette-lime);
+  --color-accent-text: var(--palette-forest-deep);
+  --color-inverse: var(--palette-forest);
+  --color-inverse-text: var(--palette-paper);
+  --color-danger: var(--palette-danger);
+  --color-success: var(--palette-success);
+  --color-warning: var(--palette-warning);
+  --color-focus: var(--palette-forest);
+
+  --font-body: "Source Sans 3", Arial, sans-serif;
+  --font-display: "DM Serif Display", Georgia, serif;
+  --type-1: 1rem;
+  --type-2: 1.5rem;
+  --type-3: 2rem;
+  --type-4: 2.5rem;
+  --type-5: 3rem;
+  --type-6: 3.5rem;
+  --type-7: 4rem;
+  --type-8: 4.5rem;
+
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-5: 2.5rem;
+  --space-6: 3rem;
+  --space-8: 4rem;
+  --space-10: 5rem;
+  --space-12: 6rem;
+
+  --radius-control: 0.75rem;
+  --radius-card: 1.5rem;
+  --radius-panel: 2rem;
+  --radius-pill: 999px;
+  --shadow-card: 0 0.5rem 1.5rem rgb(16 46 35 / 8%);
+  --shadow-panel: 0 1.5rem 4rem rgb(16 46 35 / 14%);
+}
