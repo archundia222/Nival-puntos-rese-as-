@@ -5,7 +5,7 @@ import {ProgramEditor} from "./program-editor";
 type Reward={id:string;name:string;points_cost:number;active?:boolean;expires_at?:string|null;stock?:number|null};
 type Program={name?:string;color?:string;card_enabled?:boolean;points_per_visit?:number;mode?:string;rules?:Record<string,any>;logo_url?:string|null};
 type SetupState={steps:{done:boolean;label:string}[];complete:boolean;completed:number};
-export function CardCatalog({businessId,business,program,rewards,demo=false,nfcLimit=3,payCardActive=false,payCardUrl='',setupState}:{businessId:string;business:string;program?:Program;rewards:Reward[];demo?:boolean;nfcLimit?:number;payCardActive?:boolean;payCardUrl?:string;setupState?:SetupState}){
+export function CardCatalog({businessId,business,program,rewards,demo=false,setupState}:{businessId:string;business:string;program?:Program;rewards:Reward[];demo?:boolean;nfcLimit?:number;payCardActive?:boolean;payCardUrl?:string;setupState?:SetupState}){
  const [editing,setEditing]=useState(false);
  const activeRewards=rewards.filter(r=>r.active!==false&&(!r.expires_at||new Date(r.expires_at).getTime()>Date.now())&&(r.stock==null||Number(r.stock)>0)),pointsActive=!!program&&program.card_enabled!==false;
  function editPoints(){setEditing(true);requestAnimationFrame(()=>document.getElementById('point-card-editor')?.scrollIntoView({behavior:'smooth',block:'start'}));}
@@ -16,12 +16,6 @@ export function CardCatalog({businessId,business,program,rewards,demo=false,nfcL
    <div className="cardCatalogMock" style={{background:program?.color||'#173f32'}}><small>NIVAL · PUNTOS</small><strong>{business}</strong><span>{activeRewards[0]?.name||'Premio por configurar'}</span><i>•••• •••• ••••</i></div>
     <div><h3>Tarjeta de puntos</h3></div>
     <button className="workspacePrimary" type="button" onClick={editPoints}>Configurar tarjeta y reglas</button>
-   </article>
-   <article className="ownerCard cardSystemTile">
-   <div className="cardSystemTop"><span className="cardSystemIcon">◇</span><span className={payCardActive?"cardSystemStatus isOn":"cardSystemStatus"}>{payCardActive?"Activa":"Pendiente"}</span></div>
-   <div className="cardCatalogMock giftMock"><small>NIVAL · REGALO</small><strong>{business}</strong><span>Tarjeta NFC · {nfcLimit} incluidas</span><i>•••• •••• ••••</i></div>
-    <div><h3>Tarjeta de regalo</h3><small>{nfcLimit} tarjetas NFC</small></div>
-    {payCardUrl?<a className="workspaceSecondary" href={payCardUrl} target="_blank" rel="noopener noreferrer">Ver tarjeta</a>:<a className="workspaceSecondary" href={'/panel?business='+encodeURIComponent(businessId)+'#nival-pay'}>Configurar en Nival Pay</a>}
    </article>
   </div>
   {demo&&<p className="cardCatalogDemoNote">Vista de muestra: en una cuenta activa podrás editar y publicar cada tarjeta.</p>}
