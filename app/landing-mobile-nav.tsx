@@ -30,7 +30,7 @@ export default function LandingMobileNav() {
       <a href="#como-funciona" onClick={() => setOpen(false)}>Cómo funciona</a>
       <a href="#planes" onClick={() => setOpen(false)}>Planes</a>
       <a href="#contacto" onClick={() => setOpen(false)}>Contacto</a>
-      <a className="nvMobileLogin" href="/entradas" onClick={() => setOpen(false)}>Entrar a mi cuenta</a>
+      <a className="nvMobileLogin" href="/acceso" onClick={() => setOpen(false)}>Entrar a mi cuenta</a>\n      <a href="/personal/acceso" onClick={() => setOpen(false)}>Acceso de personal</a>
       <a className="nvMobileQuote" href={whatsapp} target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>Cotizar por WhatsApp <LandingIcon name="arrow" /></a>
     </nav>}
   </div>;
