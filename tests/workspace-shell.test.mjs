@@ -20,6 +20,7 @@ test('business shell shows the plan-aware workspace menu and cycle chip',()=>{
  const html=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null},React.createElement('p',null,'Solo datos de Negocio A')));
  for(const title of ['Inicio','Puntos y premios','Tarjeta de regalo','Google y reseñas','Clientes','Sucursales','Operación','Ajustes','Día 1 de 30'])assert.ok(html.includes(title),title);
  assert.ok(html.includes('aria-controls="workspace-menu"'));assert.ok(html.includes('aria-current="page"'));assert.ok(html.includes('id="workspace-title"'));
+ assert.ok(!html.includes('Incluido'));
  assert.ok(html.includes('Negocio A'));assert.ok(!html.includes('Negocio B'));assert.ok(!html.includes('Estás explorando la demo.'));
  const shell=readFileSync(new URL('../lib/owner/shell.tsx',import.meta.url),'utf8');
  assert.match(shell,/onClick=\{\(\)=>toggle\(item\.id\)\}/);

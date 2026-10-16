@@ -79,7 +79,7 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
    <button className={'workspaceNavItem'+(active?' isActive':'')} aria-expanded={expanded===item.id} aria-controls={'workspace-submenu-'+item.id} onClick={()=>toggle(item.id)} aria-current={active?'page':undefined}>{item.icon&&<Icon name={item.icon}/>}<span><strong>{item.label}</strong></span><i aria-hidden="true"/></button>
    {expanded===item.id&&<div className="workspaceSubmenu" id={'workspace-submenu-'+item.id} aria-label={item.label}>{item.children.map(child=>render(child,depth+1))}</div>}
   </div>;
-  return <button key={item.id} className={'workspaceNavItem'+(active?' isActive':'')+(depth?' isSubItem':'')} aria-current={active?'page':undefined} onClick={()=>navigate(item)}>{item.icon&&<Icon name={item.icon}/>}<span><strong>{item.label}</strong></span>{item.id==='nival-pay'||item.id==='nival-resenas'?<b className="includedTag">Incluido</b>:null}</button>;
+  return <button key={item.id} className={'workspaceNavItem'+(active?' isActive':'')+(depth?' isSubItem':'')} aria-current={active?'page':undefined} onClick={()=>navigate(item)}>{item.icon&&<Icon name={item.icon}/>}<span><strong>{item.label}</strong></span></button>;
  }
  const menu=[...items] as MenuItem[];
  const sectionAlias=section==='ajustes'?'datos-negocio':section.startsWith('clientes-')?'clientes':section==='equipo'?'equipo':section==='programa'?'mis-tarjetas':section==='promociones'||section==='premios'?'promociones':section;

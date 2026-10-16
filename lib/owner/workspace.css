@@ -739,10 +739,10 @@
 .nivalShell .workspaceNavItem.isSubItem{min-height:36px;padding:6px 10px 6px 39px}
 .nivalShell .workspaceNavItem.isSubItem strong{font-size:11px}
 .nivalShell .workspaceSubmenu{gap:2px;margin:1px 0 5px}
-.nivalShell .workspaceNavItem[aria-expanded="true"] i{transform:rotate(45deg);border-radius:1px}
-.nivalShell .workspaceNavItem i{transition:transform .15s ease}
+.nivalShell .workspaceNavItem i{width:7px;height:7px;margin-left:auto;border:0;border-right:1.5px solid #c3d7bd;border-bottom:1.5px solid #c3d7bd;border-radius:0;background:transparent;transform:rotate(45deg);transition:transform .15s ease}
+.nivalShell .workspaceNavItem[aria-expanded="true"] i{transform:rotate(225deg)}
 .nivalShell .workspaceSidebarBottom{padding-top:14px}
-.nivalShell .workspaceSidebarBottom .workspacePlanSummary{padding:0 8px 10px;font-size:11px}
+.nivalShell .workspaceSidebarBottom .workspacePlanSummary{display:grid;gap:1px;padding:0 8px 10px;font-size:11px}
 .nivalShell .workspaceSidebarBottom .workspacePlanSummary small{font-size:10px}
 .nivalShell .workspaceSidebarBottom .workspaceHelp{padding:11px;border-radius:10px}
 .nivalShell .workspaceSidebarBottom .workspaceLegal{margin-top:12px}
@@ -774,7 +774,7 @@
 .nivalShell .startStepCopy strong{font-size:12px;color:#fff9e9}
 .nivalShell .startStepCopy small{color:#bdcdb9;font-size:10px}
 .nivalShell .startGuideStep>svg:last-child{margin-left:auto;color:#d8ef78}
-.nivalShell .productHub{margin:0 0 24px}
+.nivalShell .productHub{margin:0 0 24px;padding:0!important}
 .nivalShell .productHub>header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 10px}
 .nivalShell .productHub>header .workspaceEyebrow{color:#778779}
 .nivalShell .productHub>header h2{margin:0;font-size:18px;letter-spacing:-.35px;color:#173d31}
