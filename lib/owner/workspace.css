@@ -842,6 +842,7 @@
 .nivalShell .returningRevenueCopy>span{color:#d6e4c7;font-size:10px;font-weight:700;letter-spacing:1px}
 .nivalShell .returningRevenueCopy>strong{color:#faffeb;font-size:clamp(40px,5vw,58px);font-weight:650;letter-spacing:-2.4px;line-height:1}
 .nivalShell .returningRevenueCopy>small{max-width:390px;color:#cad8c7;font-size:12px;line-height:1.5}
+.nivalShell .returningRevenueCard .returningRevenueCopy>small{max-width:405px;color:#f0f4e7!important;font-size:13px;line-height:1.55;opacity:1;white-space:normal}
 .nivalShell .returningRevenueFoot{position:relative;z-index:1;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:18px}
 .nivalShell .revenueTag{padding:7px 10px;border:1px solid #ffffff26;border-radius:99px;color:#f4f2e8;font-size:11px}
 .nivalShell .revenueChange{display:flex;align-items:center;gap:5px;color:#173d31;background:#d8ef78;padding:7px 10px;border-radius:99px;font-size:11px;font-weight:750}
