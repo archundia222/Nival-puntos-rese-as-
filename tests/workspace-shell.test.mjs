@@ -87,6 +87,7 @@ test('selected owner menu destinations reveal their matching panel instead of le
  const css=readFileSync(new URL('../lib/owner/workspace.css',import.meta.url),'utf8');
  for(const [section,panel] of [['inicio','inicio'],['mis-tarjetas','mis-tarjetas'],['compartir-programa','compartir-programa'],['clientes','clientes'],['equipo','equipo'],['sucursales','sucursales'],['informes','informes'],['canjes','canjes'],['google','google'],['nival-resenas','nival-resenas'],['nival-pay','nival-pay'],['plan','plan'],['configuracion','configuracion'],['ajustes','ajustes']])assert.ok(css.includes(`.nivalShell[data-section="${section}"] [data-panel="${panel}"]`),`${section} → ${panel}`);
  assert.match(css,/\[data-panel="compartir"\]\{display:block\}/);
+ assert.ok(css.includes('@media(max-width:700px){.nivalShell .cardCatalogGrid{grid-template-columns:1fr}}'));
 });
 test('home prioritizes the active points and reviews products, while an empty account avoids zero metrics',()=>{
  const owner=readFileSync(new URL('../lib/owner/view.tsx',import.meta.url),'utf8');
