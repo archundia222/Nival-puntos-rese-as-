@@ -1148,3 +1148,5 @@
 @media(max-width:600px){.nivalShell .productHubCard{grid-template-columns:32px 1fr auto;gap:9px}.nivalShell .productHubStatus{grid-column:2;grid-row:2}.nivalShell .productHubAction{grid-column:3;grid-row:1/3}.nivalShell .productHub>header{display:block}}
 @media(max-width:960px){.nivalShell .workspacePageHeading{align-items:flex-start}.nivalShell .workspacePageHeading h1{font-size:29px}}
 @media(prefers-reduced-motion:reduce){.nivalShell .workspaceNavItem{transition:none!important}}
+
+.nivalShell .cardCatalogGrid{grid-template-columns:minmax(0,620px)}
