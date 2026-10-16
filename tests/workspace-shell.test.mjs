@@ -24,7 +24,7 @@ test('business shell shows the plan-aware workspace menu and cycle chip',()=>{
  const shell=readFileSync(new URL('../lib/owner/shell.tsx',import.meta.url),'utf8');
  assert.match(shell,/onClick=\{\(\)=>toggle\(item\.id\)\}/);
  assert.match(shell,/aria-controls=\{'workspace-submenu-'\+item\.id\}/);
- assert.match(shell,/function groupForSection/);assert.match(shell,/setExpanded\(current=>current===id\?null:id\)/);
+ assert.match(shell,/function groupForSection/);assert.match(shell,/if\(expanded===id\)\{setExpanded\(null\);return;\}/);assert.ok(shell.includes('navigate(destination[id])'));
  assert.match(shell,/const normalized=normalizeSection\(key\)/);
 });
 test('demo and program settings reuse the same shell with explicit demo status and active configuration menu',()=>{
