@@ -91,7 +91,7 @@ test('selected owner menu destinations reveal their matching panel instead of le
 });
 test('home prioritizes the active points and reviews products, while an empty account avoids zero metrics',()=>{
  const owner=readFileSync(new URL('../lib/owner/view.tsx',import.meta.url),'utf8');
- for(const label of ["<ProductHub","<article className=\"impactGoogleCard\""])assert.ok(owner.includes(label),label);assert.ok(readFileSync(new URL('../lib/points/card-catalog.tsx',import.meta.url),'utf8').includes('Tarjetas QR y NFC'));
+ for(const label of ["<ProductHub","className=\"impactGoogleCard\""])assert.ok(owner.includes(label),label);assert.ok(readFileSync(new URL('../lib/points/card-catalog.tsx',import.meta.url),'utf8').includes('Tarjetas QR y NFC'));
  assert.ok(!owner.includes("name:'Tarjeta de regalo'"));
  assert.ok(readFileSync(new URL('../lib/owner/shell.tsx',import.meta.url),'utf8').includes("{id:'nival-pay',label:'Tarjeta de regalo · Nival Pay'}"));
  assert.ok(owner.includes('nfcLimit={limits.nfcCards}'));assert.ok(owner.includes('REPUTACIÓN EN GOOGLE'));
@@ -104,7 +104,7 @@ test('home prioritizes the active points and reviews products, while an empty ac
  assert.ok(owner.includes('{demo&&mobilePreview&&<input type="hidden" name="mobile" value="1"/>}'));
  assert.ok(owner.includes("className={'returningRevenueCard'+(emptyState?' isAwaitingData':'')}"));
  assert.ok(owner.includes('Resumen del periodo'));
- assert.ok(owner.includes('<article className="impactGoogleCard">'));assert.ok(owner.includes('responseLimit>0?<>'));
+ assert.ok(owner.includes('className="impactGoogleCard"'));assert.ok(owner.includes('responseLimit>0?<>'));
  const shell=readFileSync(new URL('../lib/owner/shell.tsx',import.meta.url),'utf8');assert.ok(shell.includes("{id:'complementos',label:'Complementos'"));assert.ok(shell.includes("{id:'nival-pay',label:'Tarjeta de regalo · Nival Pay'}"));
  assert.ok(owner.indexOf('className="impactFeatureGrid"')<owner.indexOf('className="impactMasterDetails"'));
 });

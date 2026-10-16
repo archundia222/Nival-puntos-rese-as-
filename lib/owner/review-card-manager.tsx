@@ -15,12 +15,12 @@ export function ReviewCardManager({businessId,branchId,branchName,cards,googleUr
    <span className="reviewConnectIcon"><Icon name="google" size={34}/></span>
    <h3>Google</h3><a className="workspacePrimary" href="#google">Conectar ficha <Icon name="arrow" size={17}/></a>
   </article>:null}
-  {canCreate&&visible.length===0?<article className="ownerCard reviewCreateCard">
+  {canCreate&&<article className="ownerCard reviewCreateCard">
    <div className="reviewQrArt" aria-hidden="true"><Icon name="compartir" size={86}/></div>
    <div className="reviewCreateContent"><div className="reviewPhysicalCard"><small>NIVAL · GOOGLE</small><strong>{branchName}</strong><span>Tu QR para reseñas</span></div>
     <ActionForm action={manageReviewCard} label="Crear QR"><Hidden name="businessId" value={businessId}/><Hidden name="branchId" value={branchId||''}/><label className="reviewNameField"><span>Nombre del QR</span><input name="label" required maxLength={80} placeholder="Mostrador"/></label></ActionForm>
    </div>
-  </article>:null}
+  </article>}
   {googleUrl&&active>=cardLimit&&visible.length===0&&<p className="ownerEmpty">Límite alcanzado</p>}
   {visible.map(card=><article className="ownerCard reviewCardItem" key={card.code}>
    <div className="reviewPhysicalCard"><small>NIVAL · GOOGLE</small><strong>{card.label}</strong><span>{card.active?'Activo':'Pausado'}</span>{card.active&&<img className="reviewCardInlineQr" src={'/api/reviews/qr?code='+encodeURIComponent(card.code)} alt={'QR de reseñas de Google de '+card.label}/>}</div>
