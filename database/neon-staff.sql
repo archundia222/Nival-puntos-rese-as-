@@ -9,6 +9,7 @@ create table public.npr_business_members (
  created_at timestamptz not null default now(),
  primary key (business_id,user_id)
 );
+create unique index if not exists npr_active_staff_one_business on public.npr_business_members(user_id) where active;
 alter table public.npr_business_members enable row level security;
 revoke all on public.npr_business_members from public,npr_anon,npr_app;
 create policy member_self_read on public.npr_business_members for select to npr_app
