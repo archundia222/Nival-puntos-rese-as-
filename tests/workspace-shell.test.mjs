@@ -83,6 +83,7 @@ test('home presents points, gift cards and reviews, while an empty account avoid
  assert.ok(owner.includes('<ProductHub data={{...data,hasPayCard:Boolean(b.pay_card_url)}}/>'));
  assert.ok(owner.includes('  <>'));
  assert.ok(owner.includes('Aún no hay reportes.'));
+ assert.ok(owner.includes('{demo&&mobilePreview&&<input type="hidden" name="mobile" value="1"/>}'));
  assert.ok(owner.includes("className={'returningRevenueCard'+(emptyState?' isAwaitingData':'')}"));
  assert.ok(owner.includes('Resumen del periodo'));
  assert.ok(owner.indexOf('className="impactFeatureGrid"')<owner.indexOf('className="impactMasterDetails"'));
