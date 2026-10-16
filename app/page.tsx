@@ -28,7 +28,7 @@ export default function Home() {
       <div className="nvNavInner">
         <NivalMark />
         <nav className="nvDesktopNav" aria-label="Navegación principal"><a href="#como-funciona">Cómo funciona</a><a href="#resenas">Reseñas</a><a href="#industrias">Negocios</a><a href="#planes">Planes</a></nav>
-        <div className="nvNavActions"><a className="nvLogin" href="/entradas">Entrar</a><a className="nvNavCta" href={whatsapp} target="_blank" rel="noreferrer">Cotizar <LandingIcon name="arrow" /></a></div>
+        <div className="nvNavActions"><a className="nvLogin" href="/acceso">Entrar</a><a className="nvNavCta" href={whatsapp} target="_blank" rel="noreferrer">Cotizar <LandingIcon name="arrow" /></a></div>
         <LandingMobileNav />
       </div>
     </header>
@@ -80,6 +80,6 @@ export default function Home() {
 
     <section className="nvFinalCta" id="contacto"><div className="nvContainer nvFinalInner"><div className="nvFinalCtaCopy"><Eyebrow>PARA NEGOCIOS LOCALES</Eyebrow><h2>Haz que la próxima visita <em>cuente.</em></h2><p>Cuéntanos de tu negocio y te ayudamos a elegir un plan.</p></div><div className="nvFinalCtaAction"><span className="nvCtaMark" aria-hidden="true">N</span><small>NIVAL · MÉXICO</small><strong>Hablemos de tu negocio.</strong><p>Atención personal para elegir el plan.</p><a className="nvButton nvButtonLime" href={whatsapp} target="_blank" rel="noreferrer">Cotizar por WhatsApp <LandingIcon name="arrow" /></a></div></div></section>
 
-    <footer className="nvFooter"><div className="nvContainer"><div className="nvFooterTop"><div><NivalMark /><span>Puntos y reseñas para negocios locales.</span></div><nav aria-label="Enlaces del pie"><a href="#como-funciona">Cómo funciona</a><a href="#resenas">Reseñas</a><a href="#planes">Planes</a><a href="#preguntas">Preguntas</a></nav></div><div className="nvFooterBottom"><small>© 2026 Nival Tech · México</small><nav aria-label="Accesos"><a href="/entradas">Entradas</a></nav></div></div></footer>
+    <footer className="nvFooter"><div className="nvContainer"><div className="nvFooterTop"><div><NivalMark /><span>Puntos y reseñas para negocios locales.</span></div><nav aria-label="Enlaces del pie"><a href="#como-funciona">Cómo funciona</a><a href="#resenas">Reseñas</a><a href="#planes">Planes</a><a href="#preguntas">Preguntas</a></nav></div><div className="nvFooterBottom"><small>© 2026 Nival Tech · México</small><nav aria-label="Accesos"><a href="/acceso">Negocio</a><a href="/personal/acceso">Personal</a><a href="/acceso?destino=admin">Administración</a></nav></div></div></footer>
   </main>;
 }
