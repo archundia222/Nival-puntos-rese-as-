@@ -539,3 +539,271 @@ body{background:var(--nival-cream);color:var(--nival-text)}
     padding: var(--space-2) 0;
   }
 }
+
+/* Etapa 4: operación del personal, con foco en móvil y evidencia de canje. */
+.nivalStaffFlow {
+  --staff-paper: var(--color-surface);
+  --staff-cream: var(--color-background);
+  --staff-ink: var(--color-text);
+  --staff-muted: var(--color-text-muted);
+  --staff-line: var(--color-border);
+  --staff-forest: var(--palette-forest);
+  --staff-lime: var(--palette-lime);
+  width: 100%;
+  max-width: 52rem;
+  margin: var(--space-3) auto;
+  padding: clamp(var(--space-2), 4vw, var(--space-4));
+  border: 1px solid var(--staff-line);
+  border-radius: var(--radius-panel);
+  background: var(--staff-paper);
+  box-shadow: var(--shadow-card);
+  color: var(--staff-ink);
+}
+.nivalStaffFlow :is(h2, h3, p) {
+  overflow-wrap: anywhere;
+}
+.nivalStaffFlow .scannerIntro {
+  display: grid;
+  gap: var(--space-1);
+}
+.nivalStaffFlow .scannerIntro small,
+.nivalStaffFlow .scannedCustomer > small {
+  color: var(--staff-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+.nivalStaffFlow .scannerIntro h2 {
+  margin: 0;
+  color: var(--staff-ink);
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 7vw, 3rem);
+  line-height: 1.05;
+}
+.nivalStaffFlow .scannerIntro p,
+.nivalStaffFlow .notice {
+  margin: 0;
+  color: var(--staff-muted);
+  font-size: var(--type-1);
+  line-height: 1.5;
+}
+.nivalStaffFlow .scanButton,
+.nivalStaffFlow .phoneSearch button,
+.nivalStaffFlow .scannedCustomer > button,
+.nivalStaffFlow .scannedCustomer > .primary,
+.nivalStaffFlow .redeemBox button,
+.nivalStaffFlow .scannedCustomer > button.primary {
+  min-height: 3rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  padding: 0.75rem 1.5rem;
+  background: var(--staff-forest);
+  color: var(--color-inverse-text);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+}
+.nivalStaffFlow .scanButton {
+  width: 100%;
+  margin-top: var(--space-1);
+  background: var(--staff-lime) !important;
+  color: var(--palette-forest-deep) !important;
+}
+.nivalStaffFlow :is(button, a, input, select):focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+.nivalStaffFlow button:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+.nivalStaffFlow .cameraFrame {
+  min-height: 15rem;
+  border: 1px solid var(--staff-line);
+  border-radius: var(--radius-card);
+  background: var(--palette-forest-deep);
+}
+.nivalStaffFlow .cameraFrame video {
+  min-height: 15rem;
+  max-height: min(55vh, 30rem);
+}
+.nivalStaffFlow .cameraFrame span {
+  padding: var(--space-1);
+  background: rgb(16 46 35 / 72%);
+  font-size: var(--type-1);
+}
+.nivalStaffFlow .phoneSearch {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: var(--space-1);
+  margin: var(--space-3) 0;
+  padding: var(--space-2);
+  border: 1px solid var(--staff-line);
+  border-radius: var(--radius-card);
+  background: var(--staff-cream);
+}
+.nivalStaffFlow .phoneSearch label,
+.nivalStaffFlow .ticketValueField,
+.nivalStaffFlow .redeemBox label {
+  display: grid;
+  gap: var(--space-1);
+  color: var(--staff-ink);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.nivalStaffFlow :is(input:not([type="checkbox"]), select) {
+  width: 100%;
+  min-width: 0;
+  min-height: 3rem;
+  border: 1px solid var(--staff-line);
+  border-radius: var(--radius-control);
+  padding: 0.75rem;
+  background: var(--staff-paper);
+  color: var(--staff-ink);
+  font: inherit;
+}
+.nivalStaffFlow input[type="file"] {
+  min-height: 3.5rem;
+  padding: var(--space-1);
+  font-size: 0.875rem;
+}
+.nivalStaffFlow .error,
+.nivalStaffFlow .scanSuccess {
+  padding: var(--space-2);
+  border: 1px solid currentcolor;
+  border-radius: var(--radius-control);
+  font-size: var(--type-1);
+  line-height: 1.5;
+}
+.nivalStaffFlow .error {
+  color: var(--color-danger);
+  background: color-mix(in srgb, var(--color-danger) 7%, var(--staff-paper));
+}
+.nivalStaffFlow .scanSuccess {
+  color: var(--color-success);
+  background: color-mix(in srgb, var(--color-success) 8%, var(--staff-paper));
+}
+.nivalStaffFlow .scannedCustomer {
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--staff-line);
+  border-radius: var(--radius-card);
+  background: var(--staff-paper);
+}
+.nivalStaffFlow .scannedCustomer h2 {
+  margin: 0;
+  color: var(--staff-ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 6vw, 2.5rem);
+  line-height: 1.1;
+}
+.nivalStaffFlow .scannedCustomer > p {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-1);
+  margin: 0;
+  color: var(--staff-muted);
+}
+.nivalStaffFlow .scannedCustomer > p strong {
+  color: var(--staff-forest);
+  font-size: clamp(2.5rem, 12vw, 4rem);
+  line-height: 1;
+}
+.nivalStaffFlow .ticketValueField {
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--staff-line);
+}
+.nivalStaffFlow .redeemBox {
+  display: grid;
+  gap: var(--space-2);
+  margin: var(--space-1) 0;
+  padding: var(--space-2);
+  border: 1px solid var(--staff-line);
+  border-radius: var(--radius-card);
+  background: var(--staff-cream);
+}
+.nivalStaffFlow .redeemBox h3 {
+  margin: 0;
+  color: var(--staff-ink);
+  font-family: var(--font-display);
+  font-size: var(--type-2);
+}
+.nivalStaffFlow .redeemBox p {
+  margin: 0;
+  color: var(--staff-muted);
+  line-height: 1.5;
+}
+.nivalStaffFlow .redeemBox label small {
+  color: var(--staff-muted);
+  font-size: 0.8125rem;
+  font-weight: 400;
+}
+.nivalStaffFlow .redeemBox .consentLabel {
+  display: flex !important;
+  align-items: flex-start;
+  gap: var(--space-1);
+  font-weight: 400;
+}
+.nivalStaffFlow .redeemBox .consentLabel input {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex: 0 0 auto;
+  accent-color: var(--staff-forest);
+}
+.nivalStaffFlow .evidencePreview {
+  margin: 0;
+  padding: var(--space-1);
+  border: 1px solid var(--staff-line);
+  border-radius: var(--radius-control);
+  background: var(--staff-paper);
+}
+.nivalStaffFlow .evidencePreview img {
+  display: block;
+  width: 100%;
+  max-height: 20rem;
+  border-radius: calc(var(--radius-control) - 0.25rem);
+  object-fit: contain;
+  background: var(--staff-cream);
+}
+.nivalStaffFlow .evidencePreview figcaption {
+  padding: var(--space-1) 0 0;
+  color: var(--staff-muted);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+.nivalStaffFlow .notice {
+  margin-top: var(--space-3);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--staff-line);
+  font-size: 0.875rem;
+}
+@media (max-width: 640px) {
+  .nivalStaffFlow {
+    padding: var(--space-2);
+    border-radius: var(--radius-card);
+  }
+  .nivalStaffFlow .phoneSearch {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .nivalStaffFlow .phoneSearch button {
+    width: 100%;
+  }
+  .nivalStaffFlow .scannedCustomer {
+    padding: var(--space-2);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nivalStaffFlow *,
+  .nivalStaffFlow *::before,
+  .nivalStaffFlow *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

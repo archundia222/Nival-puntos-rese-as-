@@ -18,6 +18,7 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
     [error, setError] = useState(""),
     [success, setSuccess] = useState(""),
     [photo, setPhoto] = useState<File | null>(null),
+    [photoPreview, setPhotoPreview] = useState(""),
     [confirmed, setConfirmed] = useState(false),
     [whatsapp, setWhatsapp] = useState(""),[completed,setCompleted]=useState(false);
   useEffect(() => {
@@ -27,6 +28,15 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
       controls.current?.stop();
     };
   }, []);
+  useEffect(() => {
+    if (!photo) {
+      setPhotoPreview("");
+      return;
+    }
+    const preview = URL.createObjectURL(photo);
+    setPhotoPreview(preview);
+    return () => URL.revokeObjectURL(preview);
+  }, [photo]);
   function stop() {
     cameraGeneration.current++;
     controls.current?.stop();
@@ -165,11 +175,11 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
     }
   }
   return (
-    <section className="scannerWorkspace">
+    <section className="scannerWorkspace nivalStaffFlow" aria-labelledby="staff-scanner-heading">
       <div className="scannerIntro">
-        <small>UNA VISITA, UN PASO MÁS</small>
-        <h2>{mode==='visit'?'Sumar puntos':'Canjear premios'}</h2>
-        <p>{mode==='visit'?'1. Identifica al cliente. 2. Confirma su compra. 3. Suma sus puntos.':'1. Identifica al cliente. 2. Comprueba su premio. 3. Registra la entrega con una foto.'}</p><p>Usa el QR personal del cliente, no el QR del mostrador.</p>
+        <small>OPERACIÓN DEL CLIENTE</small>
+        <h2 id="staff-scanner-heading">{mode==='visit'?'Sumar puntos':'Canjear premio'}</h2>
+        <p>{mode==='visit'?'Busca al cliente y registra su visita.':'Busca al cliente y confirma la entrega del premio.'}</p><p>Escanea el QR de la tarjeta personal o ingresa el código del cliente.</p>
         <button
           className="scanButton"
           disabled={busy}
@@ -253,9 +263,12 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
                       type="file"
                       accept="image/jpeg,image/png,image/webp"
                       capture="environment"
+                      aria-describedby="redemption-photo-help"
                       onChange={(e) => setPhoto(e.target.files?.[0] || null)}
                     />
+                    <small id="redemption-photo-help">Toma la foto del ticket o elige una imagen clara.</small>
                   </label>
+                  {photo && photoPreview && <figure className="evidencePreview"><img src={photoPreview} alt="Vista previa del ticket seleccionado"/><figcaption>Revisa la foto antes de confirmar el canje.</figcaption></figure>}
                   <label className="consentLabel">
                     <input
                       type="checkbox"
