@@ -18,10 +18,14 @@ const tour=component('tour.tsx');
 const icons=component('icons.tsx');const {DashboardShell}=component('shell.tsx',{'./icons':icons,'./tour':tour});
 test('business shell shows the plan-aware workspace menu and cycle chip',()=>{
  const html=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null},React.createElement('p',null,'Solo datos de Negocio A')));
- for(const title of ['Inicio','Tarjetas','Clientes','Sucursales','Usuarios','Informes','Facturación','Configuración','Productos adicionales','Día 1 de 30'])assert.ok(html.includes(title),title);
+ for(const title of ['Inicio','Programa de puntos','Clientes','Operación','Cuenta','Día 1 de 30'])assert.ok(html.includes(title),title);
  assert.ok(!html.includes('Reseñas'));
  const reviewPlan=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null,responseLimit:20,initialSection:'nival-resenas'},React.createElement('p',null,'Contenido')));
  assert.ok(reviewPlan.includes('Reseñas'));assert.ok(reviewPlan.includes('Tarjetas QR y NFC'));
+ const operation=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null,initialSection:'sucursales'},React.createElement('p',null,'Contenido')));
+ for(const title of ['Sucursales','Equipo','Informes','Canjes'])assert.ok(operation.includes(title),title);
+ const account=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null,initialSection:'plan'},React.createElement('p',null,'Contenido')));
+ assert.ok(account.includes('Facturación'));
  assert.ok(html.includes('aria-controls="workspace-menu"'));assert.ok(html.includes('aria-current="page"'));assert.ok(html.includes('id="workspace-title"'));
  assert.ok(!html.includes('Incluido'));
  assert.ok(html.includes('Negocio A'));assert.ok(!html.includes('Negocio B'));assert.ok(!html.includes('Estás explorando la demo.'));
@@ -56,8 +60,8 @@ test('customer groups are filtered inside Customers and demo exit remains availa
  const html=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Café Demo',owner:'Ana',status:'Activo',demo:true,logout:null,initialSection:section},'Contenido'));
  assert.ok(html.includes('data-section="'+section+'"'));
  assert.ok(html.includes('Clientes'));
- assert.ok(html.includes('Tarjetas'));
- assert.ok(html.includes('Productos adicionales'));
+ assert.ok(html.includes('Programa de puntos'));
+ assert.ok(html.includes('Cuenta'));
  assert.ok(html.includes('Cerrar demo'));
  assert.ok(!html.includes('Frecuentes'));assert.ok(!html.includes('En riesgo'));
  }
@@ -69,9 +73,9 @@ test('sidebar accordion opens only the active group and keeps a single page titl
  const html=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null,initialSection:'plan'},'Contenido'));
  const css=readFileSync(new URL('../lib/owner/workspace.css',import.meta.url),'utf8');
  assert.ok(html.includes('<h1 id="workspace-title" tabindex="-1">Facturación</h1>'));
- assert.ok(!html.includes('workspace-submenu-ajustes'));
- assert.ok(!html.includes('id="workspace-submenu-fidelidad"'));
- assert.ok(!html.includes('id="workspace-submenu-productos"'));
+ assert.ok(html.includes('id="workspace-submenu-cuenta"'));
+ assert.ok(!html.includes('id="workspace-submenu-programa"'));
+ assert.ok(!html.includes('id="workspace-submenu-operacion"'));
  assert.ok(!html.includes('id="workspace-submenu-resenas"'));
  const dashboard=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null},'Contenido'));
  assert.ok(dashboard.includes('<h1 id="workspace-title" tabindex="-1">Inicio</h1>'));
@@ -79,13 +83,21 @@ test('sidebar accordion opens only the active group and keeps a single page titl
  assert.ok(css.includes('background:#173d31')&&css.includes('background:#d8ef78'));
  assert.ok(css.includes('.workspaceNavItem[aria-expanded="true"] i'));
 });
-test('home presents points, gift cards and reviews, while an empty account avoids zero metrics',()=>{
+test('selected owner menu destinations reveal their matching panel instead of leaving a blank workspace',()=>{
+ const css=readFileSync(new URL('../lib/owner/workspace.css',import.meta.url),'utf8');
+ for(const [section,panel] of [['inicio','inicio'],['mis-tarjetas','mis-tarjetas'],['compartir-programa','compartir-programa'],['clientes','clientes'],['equipo','equipo'],['sucursales','sucursales'],['informes','informes'],['canjes','canjes'],['google','google'],['nival-resenas','nival-resenas'],['nival-pay','nival-pay'],['plan','plan'],['configuracion','configuracion'],['ajustes','ajustes']])assert.ok(css.includes(`.nivalShell[data-section="${section}"] [data-panel="${panel}"]`),`${section} → ${panel}`);
+ assert.match(css,/\[data-panel="compartir"\]\{display:block\}/);
+});
+test('home prioritizes the active points and reviews products, while an empty account avoids zero metrics',()=>{
  const owner=readFileSync(new URL('../lib/owner/view.tsx',import.meta.url),'utf8');
- for(const label of ["name:'Puntos'","name:'Tarjeta de regalo'","name:'Tarjetas de reseñas'","detail:'10 QR y NFC incluidas'","href={'#'+product.id}"])assert.ok(owner.includes(label),label);
+ for(const label of ["name:'Puntos'","name:'Tarjetas de reseñas'","detail:'10 QR y NFC incluidas'","href={'#'+product.id}"])assert.ok(owner.includes(label),label);
+ assert.ok(!owner.includes("name:'Tarjeta de regalo'"));
+ assert.ok(readFileSync(new URL('../lib/owner/shell.tsx',import.meta.url),'utf8').includes("{id:'nival-pay',label:'Nival Pay · regalo'}"));
+ assert.ok(owner.includes('reviewLimit>0?['));
  assert.ok(owner.includes('{emptyState&&<StartGuide state={startState||undefined}/>'));
  assert.ok(owner.includes('{!emptyState&&<div className="impactMasterMetrics">'));
  assert.ok(owner.includes("emptyState?'—':money(returningRevenue)"));
- assert.ok(owner.includes('<ProductHub data={{...data,hasPayCard:Boolean(b.pay_card_url)}}/>'));
+ assert.ok(owner.includes('<ProductHub data={data} reviewLimit={responseLimit}/>'));
  assert.ok(owner.includes('  <>'));
  assert.ok(owner.includes('Aún no hay reportes.'));
  assert.ok(owner.includes('{demo&&mobilePreview&&<input type="hidden" name="mobile" value="1"/>}'));
