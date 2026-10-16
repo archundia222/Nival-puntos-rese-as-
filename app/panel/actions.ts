@@ -71,6 +71,7 @@ export async function manageStaff(_:ActionResult,form:FormData):Promise<ActionRe
    const email=String(form.get('email')||'').trim().toLowerCase();
    if(email.length>254||!/^\S+@\S+\.\S+$/.test(email))return {error:'Escribe un correo válido.'};
    result=await (client as any).rpc('npr_assign_staff',{email});
+   if(result.error?.code==='23505')return {error:'Esa cuenta ya tiene acceso activo a otro negocio. Desactiva primero ese acceso.'};
    if(result.error)return {error:'No encontramos una cuenta con ese correo verificado. Pide al empleado que cree su cuenta y confirme el correo.'};
    revalidatePath('/panel');return {success:'Acceso de personal activado.'};
   }
