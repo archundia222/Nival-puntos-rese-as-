@@ -1,52 +1,79 @@
-import test from 'node:test';
-import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import test from "node:test";
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 
-const page=readFileSync('app/page.tsx','utf8');
-const css=readFileSync('app/landing-reference.css','utf8');
-const layout=readFileSync('app/layout.tsx','utf8');
-const carousel=readFileSync('app/landing-carousel.tsx','utf8');
+const page = readFileSync("app/page.tsx", "utf8");
+const css = readFileSync("app/landing-reference.css", "utf8");
+const layout = readFileSync("app/layout.tsx", "utf8");
 
-test('landing states both product pillars and uses product visuals',()=>{
-  for(const x of ['Que vuelvan.','Que te elijan.','TARJETA DE PUNTOS + RESEÑAS DE GOOGLE','nvHeroSystemImage','/assets/img/google-phone.webp','/assets/img/step-02.webp','/assets/img/step-03.webp']) assert.ok(page.includes(x),x);
-  assert.match(css,/\.nvHeroSystemImage/);
+test("landing has eight sections and labeled image placeholders", () => {
+  for (const text of [
+    "Que vuelvan.",
+    "Que te elijan.",
+    "Escanean.",
+    "Suman. Canjean.",
+    "La próxima visita",
+    "TU PANEL",
+    "number={1}",
+    "number={11}",
+    "Ejemplos de diseño",
+  ]) {
+    assert.ok(page.includes(text), text);
+  }
+  assert.equal((page.match(/<section\b/g) || []).length, 8);
+  for (const id of [
+    "como-funciona",
+    "resenas",
+    "planes",
+    "preguntas",
+    "contacto",
+  ])
+    assert.ok(page.includes(`id="${id}"`), id);
   assert.ok(page.includes('href="/demo"'));
   assert.ok(page.includes('href="/acceso"'));
-  assert.doesNotMatch(page,/>Hablemos\s*</);
-  assert.ok(!page.includes('Cotizar por WhatsApp" href={whatsapp}'));
-  assert.match(css,/@keyframes nvCardApproach/);
-  assert.match(css,/prefers-reduced-motion:reduce\)\{\.nvHeroSystemImage\{animation:none/);
 });
 
-test('plans and included features retain the confirmed prices and new plan limits',()=>{
-  for(const x of ["price: '$299'","price: '$399'","price: '$549'",'Programa de puntos por visita','Tarjeta digital configurable','Hasta 10 sucursales','Hasta 10 tarjetas NFC + QR de reseñas gratis','30 respuestas a reseñas por periodo de 30 días','hasta 100 respuestas a reseñas por periodo de 30 días','Comparación de calificación y reseñas','No incluye','RECOMENDADO','Nival Pay y las tarjetas de reseñas son productos aparte']) assert.ok(page.includes(x),x);
-  assert.ok(page.includes('quoteUrl(plan.name)'));
+test("prices and included review cards match the confirmed offer", () => {
+  for (const text of [
+    'price: "$299"',
+    'price: "$399"',
+    'price: "$549"',
+    "10 tarjetas NFC + QR para reseñas",
+    "Hasta 30 respuestas a reseñas cada 30 días",
+    "Hasta 100 respuestas a reseñas cada 30 días",
+    "RECOMENDADO",
+    "quoteUrl(plan.name)",
+  ]) {
+    assert.ok(page.includes(text), text);
+  }
+  assert.doesNotMatch(page, /Nival Pay/);
 });
 
-test('no free trial or fabricated social proof is promised',()=>{
-  assert.doesNotMatch(page,/prueba gratuita|15 días gratis/i);
-  assert.match(page,/DATOS FICTICIOS/);
-  assert.match(page,/Clientes registrados[\s\S]*186/);
-  assert.match(page,/nvMobileStickyCta[\s\S]*aria-label="Cotizar por WhatsApp"/);
-  assert.doesNotMatch(page,/nvQuickSteps|Imagen pendiente/);
-  assert.doesNotMatch(page,/Negocios que ya usan Nival|testimonio|clientes activos/i);
-  assert.match(carousel,/EJEMPLOS ILUSTRATIVOS/);
+test("examples are labeled and unconfirmed business rules are not promised", () => {
+  assert.match(page, /Ejemplos/);
+  assert.match(page, /Plazo de respuesta por confirmar/);
+  assert.match(page, /umbral por confirmar/);
+  assert.doesNotMatch(
+    page,
+    /186 clientes|342 visitas|24 premios|testimonio|clientes activos/i,
+  );
+  assert.match(page, /Datos de ejemplo|DATOS DE EJEMPLO/);
 });
 
-test('wallet availability and legal draft status are stated clearly',()=>{
-  assert.match(page,/Google Wallet está disponible cuando la integración está activa/);
-  assert.match(page,/Apple Wallet no está disponible actualmente/);
-  assert.match(page,/borrador para revisión legal/);
-  assert.match(layout,/Tarjeta de puntos y reseñas de Google para negocios locales/);
-  assert.match(layout,/og:image|images:/);
+test("legal links are marked for legal review and brand name is NIVAL", () => {
+  assert.match(page, /NIVAL/);
+  assert.match(page, /pendiente de revisión legal/);
+  assert.match(
+    layout,
+    /Tarjeta de puntos y reseñas de Google para negocios locales/,
+  );
 });
 
-test('responsive layout, keyboard focus, reduced motion and swipeable cards are present',()=>{
-  for(const x of ['id="como-funciona"','id="resenas"','id="contacto"','id="panel"','id="planes"','id="preguntas"']) assert.ok(page.includes(x),x);
-  assert.match(page,/nvMobileStickyCta/);
-  assert.match(css,/@media\(max-width:640px\)/);
-  assert.match(css,/focus-visible/);
-  assert.match(css,/prefers-reduced-motion/);
-  assert.match(carousel,/onPointerDown/);
-  assert.match(carousel,/prefers-reduced-motion/);
+test("responsive layout, keyboard focus, reduced motion and carousel are present", () => {
+  assert.match(css, /@media\s*\(max-width:\s*800px\)/);
+  assert.match(css, /focus-visible/);
+  assert.match(css, /prefers-reduced-motion/);
+  assert.match(css, /@keyframes nvCarousel/);
+  assert.match(css, /@keyframes nvFloat/);
+  assert.match(css, /@keyframes nvPulse/);
 });
