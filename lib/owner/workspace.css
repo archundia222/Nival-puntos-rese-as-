@@ -126,144 +126,7 @@
 .branchAdd{position:relative}
 .branchAdd>summary{display:grid;place-items:center;min-height:44px;padding:0 15px;border:1px solid #246e56;border-radius:10px;background:#fff;color:#246e56;cursor:pointer;font-size:12px;font-weight:750;list-style:none}
 .branchAdd>summary::-webkit-details-marker{display:none}
-.branchAdd[open] form{position:absolute;z-index:5;right:0;top:50px;display:grid;gap:9px;width:min(320px,80vw);padding:16px;border:1px solid #d7e2d8;border-radius:14px;background:white;box-shadow:0 16px 36px #173f2820}
-.branchAdd form label{display:grid;gap:5px;font-size:11px!important}
-.branchAdd form input{min-height:42px;padding:8px 10px;border:1px solid #cad8cc;border-radius:9px}
-.branchLimitNote{margin:12px 0;color:#68796c;font-size:11px}
-.nivalShell .cardCatalogGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
-.nivalShell .cardSystemTile{position:relative;min-height:0;gap:17px;padding:20px!important;border-radius:19px;background:linear-gradient(155deg,#fff,#f9fbf8);overflow:hidden}
-.nivalShell .cardSystemTop{position:absolute;z-index:2;top:14px;left:14px;right:14px}
-.nivalShell .cardSystemIcon{width:34px;height:34px;border:1px solid #ffffff80;background:#ffffff26;color:#fff;font-size:19px}
-.nivalShell .cardSystemStatus{border-color:#fff7;background:#ffffffd9;backdrop-filter:blur(6px)}
-.nivalShell .cardCatalogMock{position:relative;isolation:isolate;min-height:190px;padding:22px;border-radius:18px;background:linear-gradient(140deg,#214f3c,#143b2e 62%,#0d2c23)!important;box-shadow:0 16px 34px #15352625}
-.nivalShell .cardCatalogMock:before{position:absolute;z-index:-1;content:"";width:180px;height:180px;right:-44px;top:-74px;border:1px solid #ffffff26;border-radius:50%;box-shadow:0 0 0 22px #ffffff0a,0 0 0 48px #ffffff08}
-.nivalShell .cardCatalogMock>small{font-size:9px;letter-spacing:1.6px;color:#e5eedf}
-.nivalShell .cardCatalogMock>strong{font-size:22px;font-weight:650;letter-spacing:-.5px}
-.nivalShell .cardCatalogMock>span{font-size:12px;color:#edf3e8}
-.nivalShell .cardCatalogMock>i{font-size:11px;letter-spacing:4px;color:#d9e8d9}
-.nivalShell .cardCatalogMock.giftMock{background:linear-gradient(145deg,#c6b585,#8c7a51 60%,#625638)!important}
-.nivalShell .giftMock:before{border-color:#ffffff45;box-shadow:0 0 0 22px #ffffff12,0 0 0 48px #ffffff0a}
-.nivalShell .giftMock>small,.nivalShell .giftMock>span,.nivalShell .giftMock>i{color:#fff8e6}
-.nivalShell .cardSystemTile h3{font:650 18px/1.3 'Plus Jakarta Sans',sans-serif;margin:0!important;color:#193b2e}
-.nivalShell .cardSystemTile>div:nth-child(3){display:flex;align-items:baseline;justify-content:space-between;gap:8px}
-.nivalShell .cardSystemTile>div:nth-child(3)>small{color:#68796c;font-size:10px;letter-spacing:0}
-.nivalShell .cardSystemTile button{min-height:46px;border-radius:11px}
-.nivalShell .cardCatalogEditor{border-radius:20px;padding:24px;box-shadow:0 14px 40px #183e260c}
-.nivalShell .cardCatalogEditor>header{padding-bottom:16px;border-bottom:1px solid #e8eee7}
-.nivalShell .cardCatalogEditor h3{font:650 21px 'Plus Jakarta Sans',sans-serif}
-@media(max-width:1100px){.nivalShell .branchGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.nivalShell .ownerOverviewMetrics{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:650px){.nivalShell .branchGrid{grid-template-columns:1fr}.nivalShell .ownerOverviewMetrics{grid-template-columns:repeat(2,minmax(0,1fr))}.campaignHeading{align-items:flex-start}.campaignCreate{padding:0 12px;font-size:11px}.campaignRewardCard{min-height:126px;padding:15px}.nivalShell .campaignEditor{padding:16px}.nivalShell .campaignAudienceGrid{grid-template-columns:1fr}.branchAdd[open] form{right:0}.branchStatGrid>div{padding:9px 4px}.nivalShell .cardCatalogGrid{grid-template-columns:1fr}.nivalShell .cardCatalogMock{min-height:178px}.nivalShell .cardCatalogEditor{padding:16px}}
-
-.nivalShell .workspaceNav button[aria-current=page] strong{color:#fff;font-weight:650}
-.nivalShell .startGuide{padding:24px;border:2px solid #27694f;margin-bottom:24px;background:#fff}.startGuide h2{font-size:24px;margin:8px 0}.startGuide ol{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));list-style:none;padding:0;gap:12px;margin:22px 0}.startGuide li{padding:16px;background:#f0f4ef;border:1px solid #bacbbd;border-radius:12px}.startGuide li>b{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:#174e3b;color:white;margin-bottom:8px}.startGuide li a{display:block;font-weight:700;color:#173d2b;text-decoration:underline}.startGuide li small{display:block;margin-top:6px;color:#435b4a}.startGuide .isDone{opacity:.75}.staffAccess input{width:100%;margin:8px 0}.staffAccess p{font-size:13px}.programWorkspace .configGrid details{padding:12px;border:1px solid #bacbbd;border-radius:10px}.programWorkspace .customerRow>summary{padding:12px;font-weight:700;cursor:pointer}.programWorkspace .customerRow .configGrid{padding:12px}.programTabs a[aria-current=page]{background:#174e3b;color:white}.resultCopy{padding:14px;border:1px solid #7caa8d;border-radius:12px;background:#eef5ee}.resultCopy input{font-family:monospace;font-size:20px;letter-spacing:1px}.resultCopy button{margin-top:10px}@media(max-width:650px){.startGuide ol{grid-template-columns:1fr}.startGuide li{padding:12px}.startGuide li>b{float:left;margin-right:12px}.nivalShell .startGuide{padding:18px}}
-
-
-/* Secondary labels remain readable on light backgrounds. */
-.nivalShell{--ws-muted:#4f5d53}
-.nivalShell .brandWords>span,.nivalShell .workspaceBusiness small,.nivalShell .menuCaption,
-.nivalShell .workspaceNav button small,.nivalShell .workspaceHelp>span,.nivalShell .workspaceLegal a,
-.nivalShell .workspaceEyebrow,.nivalShell .workspacePageHeading p,.nivalShell .workspaceSecure,
-.nivalShell .topbarLocation,.nivalShell .workspacePeriod>div,.nivalShell .ownerFilter label,
-.nivalShell .periodCaption,.nivalShell .ownerMetric>span,.nivalShell .ownerMetric small,
-.nivalShell .ownerSectionTitle>small,.nivalShell .ownerSectionTitle p,.nivalShell .cardCaption,
-.nivalShell .nextActions>a small,.nivalShell .chartHint,.nivalShell .ownerEmpty,
-.nivalShell .segmentHead p,.nivalShell .clientIdentity small,.nivalShell .contactComposer small,
-.nivalShell .ownerAdvice p,.nivalShell .explorerCount,.nivalShell .explorerPrivacy,
-.nivalShell .customerTable th,.nivalShell .customerTable td,.nivalShell .customerTable td strong,
-.nivalShell .workspaceSectionSubhead p,.nivalShell .workspaceInfoCard p,.nivalShell .shareLinkCard p,
-.nivalShell .qrShowcase p,.nivalShell .qrShowcase small,.nivalShell .shareSteps>div,
-.nivalShell .settingsOverview p,.nivalShell .settingsOverview dt,.nivalShell .workspaceFooter{color:#4f5d53}
-.nivalShell .workspaceDemoBanner,.nivalShell .workspaceDemoBanner a{color:#514526}
-.nivalShell .workspaceStatus{color:#5b4b24}
-.nivalShell .workspaceStatus.isActive{color:#285d3b}
-.nivalShell .workspaceNavCaption{color:#4f5d53;font-size:10px}
-.nivalShell .breadcrumbSlash{color:#69766d}
-.nivalShell .customerBadge{color:#405a2c}
-.nivalShell .customerBadge.needsCare{color:#67511f}
-
-/* Navigation organized around the owner's three daily jobs. */
-.workspaceNavGroup{display:grid;gap:4px}.workspaceNavCaption{font-size:9px;font-weight:750;color:#96a09a;letter-spacing:1.4px;padding:12px 12px 5px}.workspacePointsGroup>summary,.workspaceClientGroup>summary{display:flex;align-items:center;gap:13px;position:relative;min-height:53px;padding:12px 13px;border-radius:10px;color:#748078;cursor:pointer;list-style:none}.workspacePointsGroup>summary::-webkit-details-marker,.workspaceClientGroup>summary::-webkit-details-marker{display:none}.workspacePointsGroup>summary>svg{flex-shrink:0}.workspacePointsGroup>summary>span{flex:1}.workspacePointsGroup>summary strong,.workspaceClientGroup>summary strong{display:block;font-size:13px;font-weight:550;color:#56655b}.workspacePointsGroup>summary small,.workspaceClientGroup>summary small{display:block;font-size:10px;margin-top:2px;color:#557968}.workspacePointsGroup>summary:hover,.workspaceClientGroup>summary:hover{background:#f5f8f6}.workspacePointsGroup>summary[aria-current],.workspaceClientGroup>summary[aria-current]{background:#eaf2ed;color:#276447}.workspacePointsGroup>summary[aria-current] strong,.workspaceClientGroup>summary[aria-current] strong{color:#24563e;font-weight:650}.workspacePointsGroup>summary>i,.workspaceClientGroup>summary>i{width:7px;height:7px;border-right:1.5px solid #71847a;border-bottom:1.5px solid #71847a;transform:rotate(45deg);margin:0 4px 4px auto}.workspacePointsGroup[open]>summary>i,.workspaceClientGroup[open]>summary>i{transform:rotate(225deg);margin-bottom:0}.workspacePointsGroup .clientSubmenu{margin:3px 0 8px 18px;padding-left:12px}.workspacePointsGroup .clientSubmenu button{min-height:44px;padding:8px 10px}.workspacePointsGroup .clientSubmenu button small{display:block}.workspaceClientGroup{width:100%}.workspaceClientGroup>summary{padding:8px 10px;min-height:44px}.workspaceClientGroup .clientSubmenu{margin-left:10px}.workspaceUtilityButton{margin-top:8px!important}.nivalShell .workspaceTextLink{display:inline-flex;margin:2px 0 10px;color:#246e56;font-size:13px;font-weight:650}.ownerSummarySignals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:18px 0}.nivalShell .ownerSummarySignals .ownerCard{display:flex;flex-direction:column;align-items:flex-start;gap:9px;min-height:190px;padding:20px}.summarySignal>strong{font-size:25px;line-height:1.2;letter-spacing:-.5px;color:#254b39}.summarySignal>p{flex:1;margin:0;color:#718078;font-size:12px;line-height:1.65}.summarySignal>a{display:inline-flex;align-items:center;gap:8px;border:0;background:transparent;padding:4px 0;color:#246e56;font-size:12px;font-weight:700;cursor:pointer}.ownerSummaryAdvice{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:12px 0 26px}.nivalShell .ownerSummaryAdvice .ownerCard{padding:20px;background:#f8faf7}.ownerSummaryAdvice .workspaceEyebrow{display:block;margin-bottom:8px}.ownerSummaryAdvice p{margin:0;color:#56685c;font-size:13px;line-height:1.7}
-@media(max-width:1100px){.ownerSummarySignals{grid-template-columns:repeat(2,minmax(0,1fr))}.ownerSummarySignals .summarySignal:last-child{grid-column:1/-1}}
-@media(max-width:600px){.ownerSummarySignals,.ownerSummaryAdvice{grid-template-columns:1fr}.ownerSummarySignals .summarySignal:last-child{grid-column:auto}.nivalShell .ownerSummarySignals .ownerCard{min-height:0;padding:18px}.workspacePointsGroup .clientSubmenu button small{display:none}}
-
-.nivalShell[data-section="programa"] [data-panel="programa"]{display:block}
-
-/* Densidad más compacta en el panel de negocio */
-.nivalShell{--ws-sidebar:248px;font-family:'Source Sans 3',Arial,Helvetica,sans-serif}
-.workspaceSidebar{padding:24px 18px 20px}
-.workspaceBrand{padding-bottom:22px}
-.brandMark{width:33px;height:33px;font-size:21px}
-.brandWords{font-size:25px}
-.workspaceBusiness{padding:10px;margin-bottom:23px}
-.workspaceNav button{min-height:48px;padding:10px 12px;gap:11px}
-.workspaceTopbar{height:68px;padding:0 32px}
-.workspaceContent{padding:28px 32px 20px}
-.workspacePageHeading{margin-bottom:21px}
-.workspacePageHeading h1{font-size:26px}
-.workspacePeriod{padding:9px 13px}
-.nivalShell .periodCaption{margin:7px 0 18px}
-.workspaceHero{grid-template-columns:1fr 185px;gap:22px;padding:28px;margin-bottom:22px}
-.workspaceHero h2{font-size:clamp(23px,2vw,31px);margin:12px 0 9px}
-@media(max-width:1200px){
- .nivalShell{--ws-sidebar:232px}
- .workspaceTopbar{padding:0 25px}
- .workspaceContent{padding:25px 24px 18px}
-}
-
-/* Editorial Nival accents across the business and staff workspace. */
-.nivalShell .workspacePageHeading h1,.nivalShell .workspaceHero h1,.nivalShell .programWorkspace .dashHead h1{font-family:'DM Serif Display',Georgia,serif;font-weight:400;letter-spacing:-.02em}
-.nivalShell .workspaceTopbar .hamburger,.nivalShell .workspaceSidebar button[aria-current=page]{border-radius:10px}
-@media(max-width:640px){.nivalShell .workspaceContent{padding-bottom:calc(32px + env(safe-area-inset-bottom))}.nivalShell .programTabs{display:flex;gap:8px;overflow-x:auto;max-width:100%;scrollbar-width:thin}.nivalShell .programTabs a{flex:0 0 auto;min-height:44px}}
-
-
-/* Ajustes de espacio en el panel de negocio; el rail colapsado conserva solo iconos completos. */
-@media(min-width:961px){
- .nivalShell{--ws-sidebar:228px}
- .workspaceTopbar{height:60px;padding-inline:clamp(18px,1.8vw,28px)}
- .workspaceContent{max-width:none;padding:18px clamp(18px,1.8vw,28px) 18px}
- .workspacePageHeading{margin-bottom:15px;gap:14px}
- .workspacePageHeading h1{font-size:23px;margin:5px 0}
- .workspacePageHeading p{font-size:11px}
- .workspaceHero{grid-template-columns:minmax(0,1fr) 140px;gap:16px;padding:20px;margin-bottom:16px}
- .workspaceHero h2{font-size:clamp(22px,1.7vw,28px);margin:10px 0 8px}
- .workspaceHero p{font-size:12px;margin-bottom:14px}
- .heroSignal{padding:15px 10px}
- .heroSignal>strong{font-size:42px}
- .nivalShell .ownerSectionTitle{margin-bottom:14px}
- .nivalShell .ownerSectionTitle h2{font-size:19px}
- .nivalShell .ownerSectionTitle p{font-size:11px!important;margin:5px 0}
- .nivalShell .ownerMetrics{gap:8px;margin-bottom:16px}
- .nivalShell .ownerMetric{min-height:108px;padding:14px 12px;gap:8px}
- .nivalShell .ownerMetric strong{font-size:27px}
- .nivalShell .ownerCard,.nivalShell .ownerChart{padding:18px;margin-bottom:14px}
- .nivalShell .ownerCard h3{font-size:14px;margin:5px 0 12px}
- .nivalShell .periodCaption{margin:6px 0 14px}
- .overviewBottom{gap:14px}
- .workspaceSectionSubhead{margin:22px 0 14px}
- .nivalShell[data-collapsed="true"] .workspaceBrand{justify-content:center;padding:0 0 20px}
- .nivalShell[data-collapsed="true"] .workspaceNavCaption,
- .nivalShell[data-collapsed="true"] .workspaceMenuGroup>summary>span,
- .nivalShell[data-collapsed="true"] .workspaceMenuGroup>summary>i,
- .nivalShell[data-collapsed="true"] .workspaceSidebarBottom{display:none!important}
- .nivalShell[data-collapsed="true"] .workspaceNav{gap:8px}
- .nivalShell[data-collapsed="true"] .workspaceNavGroup{width:100%}
- .nivalShell[data-collapsed="true"] .workspaceNav>div>button,
- .nivalShell[data-collapsed="true"] .workspaceMenuGroup>summary{justify-content:center;gap:0;width:100%;min-height:46px;padding:8px}
- .nivalShell[data-collapsed="true"] .workspaceNav>div>button>span,
- .nivalShell[data-collapsed="true"] .workspaceNav>div>button>i,
- .nivalShell[data-collapsed="true"] .workspaceMenuGroup>.clientSubmenu{display:none!important}
- .nivalShell[data-collapsed="true"] .workspaceNav>div>button>svg,
- .nivalShell[data-collapsed="true"] .workspaceMenuGroup>summary>svg{width:22px;height:22px;flex:0 0 22px}
-}
-
-/* Nival offer redesign: shared visual language for the owner workspace. */
-.nivalShell{--ws-ink:#10241f;--ws-muted:#637168;--ws-line:#e3dfd4;--ws-green:#0e7c66;--ws-bg:#f4f2ec;--ws-sidebar:264px;background:#f4f2ec;color:#10241f;font-family:'Plus Jakarta Sans',Arial,sans-serif}
-.nivalShell .workspaceSidebar{background:#10241f;color:#f8f7f1;border:0;padding:24px 16px 18px}
-.nivalShell .brandMark{background:#1f4a3f;border-radius:10px}.nivalShell .brandWords{color:#fff;font-size:25px}.nivalShell .brandWords>span{color:#b9c9c1}.nivalShell .workspaceBusiness{background:#17372f;border-color:#35554b;color:white}.nivalShell .workspaceBusiness small{color:#c0cec7}.nivalShell .businessAvatar{background:#e5ede8;color:#1f4a3f}
-.nivalShell .workspaceNavCaption{font-size:10px;font-weight:700;color:#a9beb5;letter-spacing:1.3px;padding:14px 10px 7px}
-.nivalShell .workspaceNav{gap:3px}.nivalShell .workspaceNav button{min-height:42px;padding:9px 10px;border-radius:8px;color:#d8e2dc;gap:10px}.nivalShell .workspaceNav button strong{font-family:inherit;color:inherit;font-weight:500;font-size:12px}.nivalShell .workspaceNav button:hover{background:#18362e}.nivalShell .workspaceNav button[aria-current]{background:#1f4a3f;color:white}.nivalShell .workspaceNav button[aria-current] strong{color:white;font-weight:700}.nivalShell .workspaceNav button[aria-current] i{background:#72b298}.nivalShell .workspaceSubmenu{margin:2px 0 5px 18px;padding-left:9px;border-left:1px solid #35554b}.nivalShell .workspaceNav .workspaceSubmenu button{min-height:36px;font-size:11px}
-.nivalShell .includedTag{margin-left:auto;background:#d9f2e8;color:#145844;font-size:9px;font-weight:700;border-radius:20px;padding:3px 7px}.nivalShell .workspaceSidebarBottom{padding-top:16px}.nivalShell .workspacePlanSummary{color:white;border-top:1px solid #35554b;padding:14px 8px 10px}.nivalShell .workspacePlanSummary strong,.nivalShell .workspacePlanSummary small{display:block}.nivalShell .workspacePlanSummary small{color:#c0cec7;font-size:10px}.nivalShell .workspaceHelp{background:#17372f;border-color:#587366;color:white}.nivalShell .workspaceHelp>span{color:#d4dfd8}.nivalShell .workspaceLegal a{color:#c0cec7}
-.nivalShell .workspaceContent{background:#f4f2ec;max-width:none;padding:30px clamp(18px,3.4vw,54px)}.nivalShell .workspaceTopbar{background:#fff;border-color:#e3dfd4;height:66px}.nivalShell .workspacePageHeading{margin-bottom:22px;align-items:flex-end}.nivalShell .workspacePageHeading h1{font:700 28px/1.2 'Plus Jakarta Sans',sans-serif;color:#10241f;letter-spacing:-.7px;margin:0}.nivalShell .workspacePageHeading p{display:none}.nivalShell .workspaceEyebrow{color:#607168}.workspacePlanChips{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.workspacePlanChip,.workspacePeriodChip{display:inline-flex;align-items:center;min-height:32px;border:1px solid #e3dfd4;background:white;border-radius:30px;padding:5px 11px;font-size:10px;font-weight:650;color:#24473c;white-space:nowrap}.workspacePeriodChip{background:#e8f2ec;border-color:#d6e6dc;color:#285843}
+.bra…4177 tokens truncated…l .workspaceContent{background:#f4f2ec;max-width:none;padding:30px clamp(18px,3.4vw,54px)}.nivalShell .workspaceTopbar{background:#fff;border-color:#e3dfd4;height:66px}.nivalShell .workspacePageHeading{margin-bottom:22px;align-items:flex-end}.nivalShell .workspacePageHeading h1{font:700 28px/1.2 'Plus Jakarta Sans',sans-serif;color:#10241f;letter-spacing:-.7px;margin:0}.nivalShell .workspacePageHeading p{display:none}.nivalShell .workspaceEyebrow{color:#607168}.workspacePlanChips{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.workspacePlanChip,.workspacePeriodChip{display:inline-flex;align-items:center;min-height:32px;border:1px solid #e3dfd4;background:white;border-radius:30px;padding:5px 11px;font-size:10px;font-weight:650;color:#24473c;white-space:nowrap}.workspacePeriodChip{background:#e8f2ec;border-color:#d6e6dc;color:#285843}
 .nivalShell .ownerDashboard{font-family:'Plus Jakarta Sans',sans-serif}.nivalShell .ownerMetrics{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0 0 18px}.nivalShell .ownerCard,.nivalShell .ownerChart{background:white;border:1px solid #e3dfd4;border-radius:14px;box-shadow:none}.nivalShell .ownerMetric{min-height:120px;padding:18px;gap:8px}.nivalShell .ownerMetric>span{color:#576a60!important;font-size:11px!important}.nivalShell .ownerMetric strong{font-size:30px;color:#10241f}.nivalShell .ownerMetric small{font-size:10px;color:#65766d!important}.nivalShell .replyProgress,.nivalShell .periodProgress{height:7px;background:#e8eee9;border-radius:10px;overflow:hidden}.nivalShell .replyProgress i,.nivalShell .periodProgress i{height:100%;display:block;background:#0e7c66;border-radius:10px}.nivalShell .ownerDashboardGrid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);gap:14px;margin-bottom:14px}.nivalShell .clientStatusCard,.nivalShell .periodReportCard{padding:20px}.nivalShell .clientStatusCard h2,.nivalShell .periodReportCard h2,.nivalShell .includedOverview h2,.nivalShell .googleOverview h2,.nivalShell .zoneOverview h2{font:700 16px/1.35 'Plus Jakarta Sans',sans-serif;letter-spacing:-.25px;color:#10241f;margin:0 0 5px}.nivalShell .clientStatusCard>p,.nivalShell .periodReportCard>p{margin:0 0 14px;color:#68766e!important;font-size:11px}.clientStatusRow{display:grid;grid-template-columns:minmax(125px,1fr) 42px minmax(90px,1.15fr);align-items:center;gap:10px;color:#263c33;font-size:11px;padding:9px 0;border-top:1px solid #f0eee8}.clientStatusRow b{text-align:right}.clientStatusRow>i{height:7px;border-radius:8px;background:#edf0eb;overflow:hidden}.clientStatusRow>i em{display:block;height:100%;border-radius:8px}.periodReportCard{display:flex;flex-direction:column;gap:7px}.periodProgressLabels{display:flex;justify-content:space-between;color:#607168;font-size:10px}.periodReportCard>strong{font-size:11px;color:#285843}.periodReportCard>a,.googleOverview>a{align-self:flex-start;color:#0e7c66;font-size:11px;font-weight:700}.nivalShell .googleOverview,.nivalShell .zoneOverview{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px 18px;padding:18px 20px;margin-bottom:14px}.googleOverview>div:first-child>p,.zoneOverview>p{margin:5px 0 0;color:#65746b!important;font-size:11px}.googleOverviewScore{text-align:right}.googleOverviewScore strong,.googleOverviewScore span{display:block}.googleOverviewScore strong{font-size:26px}.googleOverviewScore span{font-size:10px;color:#65746b}.googleOverview>a{grid-column:1/-1}.zoneValues{display:grid;gap:6px;grid-column:1/-1;font-size:11px;color:#53645a}.zoneValues b{margin-left:6px;color:#1c3a30}.zoneValues>strong{color:#0e7c66}.nivalShell .includedOverview{padding:18px 20px;margin:0}.includedOverview>div{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}.includedOverview article{position:relative;display:grid;gap:4px;background:#f8f8f4;border:1px solid #eeece5;border-radius:10px;padding:12px}.includedOverview article b{font-size:12px}.includedOverview article span{font-size:10px;color:#65746b}.includedOverview article small{position:absolute;right:10px;top:10px;background:#e4f3ec;color:#195c49;border-radius:20px;padding:3px 7px;font-size:9px;font-weight:700}
 .nivalShell .ownerSectionTitle h2{font:700 22px 'Plus Jakarta Sans',sans-serif}.nivalShell .ownerSectionTitle p{color:#66756d!important}.customerBackLink{display:inline-block;color:#0e7c66;font-size:11px;font-weight:700;margin:0 0 14px}.customerGroupTabs{display:flex;gap:8px;overflow:auto;padding:1px 1px 12px;margin-bottom:2px}.customerGroupTabs a{white-space:nowrap;border:1px solid #e3dfd4;background:white;border-radius:24px;padding:8px 13px;color:#34483f;font-size:10px}.customerGroupTabs a[aria-current=page]{background:#0e7c66;border-color:#0e7c66;color:white}.customerAdvice{background:#e5f1ed;border-radius:10px;padding:13px 16px;margin:0 0 15px}.customerAdvice b{font-size:9px;letter-spacing:1px;color:#1f5d4a}.customerAdvice p{margin:3px 0 0;color:#213c32!important;font-size:11px}.nivalShell .customerExplorer{padding:14px 18px}.nivalShell .customerExplorer .explorerCount{font-size:10px;color:#6a776f!important}.nivalShell .customerTable{min-width:600px}.nivalShell .customerTable th{font-size:9px;color:#65746b}.nivalShell .customerTable td{font-size:11px}.nivalShell .customerTable td strong{font-size:11px}.nivalShell .ownerDashboard [data-panel="estadisticas-puntos"],.nivalShell .ownerDashboard [data-panel="comparacion-zona"],.nivalShell .ownerDashboard [data-panel="tarjetas"],.nivalShell .ownerDashboard [data-panel="promociones"],.nivalShell .ownerDashboard [data-panel="sucursales"],.nivalShell .ownerDashboard [data-panel="nival-pay"],.nivalShell .ownerDashboard [data-panel="nival-resenas"],.nivalShell .ownerDashboard [data-panel="plan"],.nivalShell .ownerDashboard [data-panel="configuracion"]{display:none}
 .nivalShell[data-section="tarjetas"] [data-panel="tarjetas"],.nivalShell[data-section="promociones"] [data-panel="promociones"],.nivalShell[data-section="sucursales"] [data-panel="sucursales"],.nivalShell[data-section="estadisticas-puntos"] [data-panel="estadisticas-puntos"],.nivalShell[data-section="comparacion-zona"] [data-panel="comparacion-zona"],.nivalShell[data-section="nival-pay"] [data-panel="nival-pay"],.nivalShell[data-section="nival-resenas"] [data-panel="nival-resenas"],.nivalShell[data-section="plan"] [data-panel="plan"],.nivalShell[data-section="configuracion"] [data-panel="configuracion"]{display:block}
@@ -774,3 +637,59 @@
 @media(max-width:1100px){.impactGoogleCard{grid-template-columns:1fr 1fr}.impactReviewSummary{grid-column:1;grid-row:auto}.impactGoogleLinks{grid-column:2;grid-row:auto;align-items:flex-start}.impactGoogleCard .replyProgress,.impactReplyQuota{grid-column:1/-1}.impactMasterDetails{grid-template-columns:1fr 1fr}.impactMasterDetails>.ownerActivityCard{grid-column:1/-1}}
 @media(max-width:760px){.impactMasterMetrics{grid-template-columns:repeat(2,minmax(0,1fr))}.impactGoogleCard{grid-template-columns:1fr}.impactReviewSummary,.impactGoogleLinks,.impactGoogleCard .replyProgress,.impactReplyQuota{grid-column:1;grid-row:auto}.impactGoogleLinks{align-items:flex-start}.impactMasterDetails{grid-template-columns:1fr}.impactMasterDetails>.ownerActivityCard{grid-column:auto}.customerMixBody{justify-content:flex-start}.startGuide ol{grid-template-columns:1fr 1fr!important}.explorerFilters{grid-template-columns:1fr 1fr}.explorerSearch{grid-column:1/-1}}
 @media(max-width:560px){.impactPeriodFilter{justify-content:flex-start;flex-wrap:wrap}.impactMasterMetrics{grid-template-columns:1fr}.impactMetric{min-height:unset}.impactGoogleCard{padding:14px}.startGuide ol{grid-template-columns:1fr!important}.explorerFilters{grid-template-columns:1fr}.explorerSearch{grid-column:auto}.automaticPromotionSwitches{grid-template-columns:1fr}}
+
+/* Dashboard refinements: one surface per block, with quiet rows inside. */
+.nivalShell .startGuide{margin:0 0 18px;padding:clamp(22px,4vw,38px);border:1px solid #dce6dc;border-radius:20px;background:linear-gradient(145deg,#fff 0%,#f6f9f4 100%);box-shadow:0 12px 32px #1d3b2a0a}
+.startGuideHeading{align-items:center;margin-bottom:0}
+.startGuideHeading h2{margin:5px 0 0;color:#193d2c;font-size:25px;letter-spacing:-.7px}
+.startGuideProgress{color:#234f39;font-size:13px;font-weight:750}
+.startGuideTrack{height:6px;margin:17px 0 13px;background:#e5ece3}
+.nivalShell .startGuide ol{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:0;padding:0;list-style:none}
+.nivalShell .startGuide li{display:block;min-width:0;min-height:0;padding:0;border:0;border-radius:12px;background:transparent;box-shadow:none}
+.startGuideStep{display:flex;min-height:64px;align-items:center;gap:10px;padding:9px 10px;border-radius:11px;color:#40594a;text-decoration:none;transition:background .15s,color .15s}
+.startGuideStep:hover{background:#edf3ec}
+.startStepIcon{display:grid;width:36px;height:36px;flex:0 0 36px;place-items:center;border-radius:10px;background:#edf2eb;color:#63806b}
+.startStepCopy{display:grid;min-width:0;gap:2px;flex:1}
+.startStepCopy strong{font-size:11px;line-height:1.3}
+.startStepCopy small{color:#78867c;font-size:9px}
+.startGuide li.isDone .startStepIcon{background:#e6f0e4;color:#286247}
+.startGuide li.isDone .startStepCopy strong{color:#286247}
+.startGuide li.isCurrent .startGuideStep{background:#174d37;color:#fff;box-shadow:0 5px 14px #174d3725}
+.startGuide li.isCurrent .startStepIcon{background:#d9ed78;color:#174d37}
+.startGuide li.isCurrent .startStepCopy small{color:#e3edda}
+.nivalShell .impactMaster{gap:14px;padding:22px 24px;border:1px solid #dce6dc;border-radius:20px;background:linear-gradient(145deg,#fff 0%,#f6f9f4 100%);box-shadow:0 10px 28px #1d3b2a0a}
+.impactMasterHeader h2{margin:3px 0;color:#172c24;font-size:24px}
+.impactMasterHeader p{margin:5px 0 0}
+.impactPeriodFilter{justify-content:flex-start;width:max-content;max-width:100%;margin:0;padding:4px;border:1px solid #dce6dc;border-radius:12px;background:#fff}
+.impactPeriodFilter>span{align-self:center;padding:0 10px;color:#627167;font-size:11px;font-weight:650}
+.impactPeriodFilter button{min-height:34px;padding:0 14px;border:0;border-radius:8px;background:transparent;color:#56675b;font-size:11px;font-weight:650;cursor:pointer}
+.impactPeriodFilter button[aria-pressed="true"]{background:#174d37;color:#fff}
+.impactMasterMetrics{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0}
+.nivalShell .impactMasterMetrics .impactMetric{min-height:102px;gap:6px;margin:0;padding:10px 12px;border:0;border-radius:0;background:transparent;box-shadow:none}
+.impactMasterMetrics .impactMetric>small{color:#77867a;font-size:9px;font-weight:750;letter-spacing:.55px}
+.impactMasterMetrics .impactMetric>strong{margin:0;color:#194432;font-size:27px}
+.impactMasterMetrics .impactMetric>span{font-size:10px}
+.impactMasterMetrics .impactMetric .impactRevenueNote{font-size:9px}
+.impactMasterDetails{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(190px,.8fr) minmax(210px,.9fr);gap:12px;margin-top:16px}
+.impactMasterDetails>.ownerActivityCard,.impactMasterDetails>.customerMixCard,.impactMasterDetails>.clientStatusCard{min-width:0;margin:0;padding:18px;border:1px solid #e5ece4;border-radius:14px;background:#fff;box-shadow:0 3px 9px #253b2e05}
+.nivalShell .impactGoogleCard{display:grid;grid-column:1/-1;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:stretch;gap:22px;margin:18px 0;padding:24px;border:1px solid #dce6dc;border-radius:18px;background:linear-gradient(145deg,#fff,#f8faf6);box-shadow:0 8px 24px #1d3b2a0a}
+.impactGoogleStatus{display:flex;min-width:0;flex-direction:column;align-items:flex-start;gap:8px}
+.impactGoogleStatus>strong{color:#193d2c;font-size:25px;line-height:1.15}
+.impactGoogleActions{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.impactGoogleActions .workspacePrimary{min-height:38px;padding:8px 13px;white-space:nowrap}
+.impactGoogleActions>a:not(.workspacePrimary){color:#286246;font-size:11px;font-weight:700}
+.impactGooglePending{color:#718077;font-size:11px}
+.impactGoogleEdit{color:#627167;font-size:10px}
+.impactGoogleEdit summary{cursor:pointer}
+.impactReviewSummary{max-width:60ch;margin:2px 0 0;line-height:1.55}
+.impactGoogleStats{display:grid;align-content:center;gap:16px;padding:4px 0 4px 22px;border-left:1px solid #e4ebe2}
+.impactGoogleFacts{grid-template-columns:1fr 1fr;gap:14px;color:#718077;font-size:11px}
+.impactGoogleFacts b{color:#244a37;font-size:22px}
+.impactReplyProgress{display:grid;gap:8px}
+.impactReplyProgress .replyProgress{height:8px;margin:0;border-radius:99px;background:#e7ede5}
+.impactReplyProgress .replyProgress i{border-radius:inherit;background:#a8c75f}
+.impactReplyQuota{color:#52665a;font-size:11px;font-weight:650}
+.workspaceNavGroup .workspaceSubmenu{display:grid;gap:3px}
+@media(max-width:1050px){.impactMasterDetails{grid-template-columns:1fr 1fr}.impactMasterDetails>.ownerActivityCard{grid-column:1/-1}.nivalShell .startGuide ol{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){.nivalShell .impactMaster{padding:18px}.impactMasterMetrics{grid-template-columns:1fr 1fr}.impactMasterDetails{grid-template-columns:1fr}.impactMasterDetails>.ownerActivityCard{grid-column:auto}.nivalShell .impactGoogleCard{grid-template-columns:1fr;padding:18px}.impactGoogleStats{padding:14px 0 0;border-top:1px solid #e4ebe2;border-left:0}.impactGoogleActions{gap:10px}.nivalShell .startGuide ol{grid-template-columns:1fr 1fr!important}}
+@media(max-width:560px){.nivalShell .startGuide{padding:19px}.startGuideHeading h2{font-size:22px}.nivalShell .startGuide ol{grid-template-columns:1fr!important;gap:3px}.startGuideStep{min-height:56px}.impactPeriodFilter{width:100%;justify-content:space-between;flex-wrap:nowrap}.impactPeriodFilter>span{padding:0 5px}.impactPeriodFilter button{flex:1;padding:0 7px}.impactMasterMetrics{grid-template-columns:1fr 1fr}.nivalShell .impactMasterMetrics .impactMetric{min-height:92px;padding:8px}.impactMasterMetrics .impactMetric>strong{font-size:23px}.impactGoogleFacts b{font-size:19px}}

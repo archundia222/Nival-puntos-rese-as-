@@ -24,7 +24,7 @@ test('business shell shows the plan-aware workspace menu and cycle chip',()=>{
  const shell=readFileSync(new URL('../lib/owner/shell.tsx',import.meta.url),'utf8');
  assert.match(shell,/onClick=\{\(\)=>toggle\(item\.id\)\}/);
  assert.match(shell,/aria-controls=\{'workspace-submenu-'\+item\.id\}/);
- assert.match(shell,/'tus-tarjetas','programa','mis-tarjetas'/);
+ assert.match(shell,/function groupForSection/);assert.match(shell,/setExpanded\(current=>current===id\?null:id\)/);
  assert.match(shell,/const normalized=normalizeSection\(key\)/);
 });
 test('demo and program settings reuse the same shell with explicit demo status and active configuration menu',()=>{
@@ -46,16 +46,43 @@ test('guided demo covers every panel section and starts with clear next and free
  const final=renderToStaticMarkup(React.createElement(tour.DemoTour,{section:'ajustes',active:true,navigate:()=>{},setActive:()=>{}}));assert.ok(final.includes('Terminar recorrido'));
 });
 
-test('customer groups have independent navigation and demo exit remains available without the tour',()=>{
+test('customer groups are filtered inside Customers and demo exit remains available without the tour',()=>{
  for(const section of ['clientes','clientes-new','clientes-frequent','clientes-risk','clientes-absent']){
  const html=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Café Demo',owner:'Ana',status:'Activo',demo:true,logout:null,initialSection:section},'Contenido'));
  assert.ok(html.includes('data-section="'+section+'"'));
  assert.ok(html.includes('Clientes'));
  assert.ok(html.includes('Tarjetas'));
  assert.ok(html.includes('Cerrar demo'));
+ assert.ok(!html.includes('Frecuentes'));assert.ok(!html.includes('En riesgo'));
  }
  const group=renderToStaticMarkup(React.createElement(tour.DemoTour,{section:'clientes-risk',active:true,navigate:()=>{},setActive:()=>{}}));
  assert.ok(group.includes('Paso 3 de 7'));
+});
+
+test('sidebar accordion opens only the active group and leaves Dashboard in the page title',()=>{
+ const html=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null,initialSection:'plan'},'Contenido'));
+ assert.match(html,/aria-expanded="true"[^>]*aria-controls="workspace-submenu-ajustes"/);
+ assert.ok(!html.includes('id="workspace-submenu-tarjetas"'));
+ assert.ok(!html.includes('id="workspace-submenu-gestion"'));
+ const dashboard=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null},'Contenido'));
+ assert.ok(dashboard.includes('<h1 id="workspace-title" tabindex="-1">Dashboard</h1>'));
+ assert.ok(!dashboard.includes('Mi negocio <span class="breadcrumbSlash">/</span> <strong>Dashboard</strong>'));
+});
+
+test('onboarding steps are single clickable rows with one highlighted next step',async()=>{
+ const guide=component('start-guide.tsx',{'./icons':icons,'../foundation/db':{query:async()=>[]}});
+ const state={complete:false,completed:0,steps:[
+  {done:false,label:'Crear premio',icon:'gift',href:'/premio'},
+  {done:false,label:'Activar tarjeta',icon:'card',href:'/tarjeta'},
+  {done:false,label:'Colocar QR de reseñas',icon:'google',href:'/qr'},
+  {done:false,label:'Registrar primer cliente',icon:'check',href:'/cliente'},
+ ]};
+ const html=renderToStaticMarkup(await guide.StartGuide({state}));
+ assert.equal((html.match(/Crear premio/g)||[]).length,1);
+ assert.equal((html.match(/class="startGuideStep/g)||[]).length,4);
+ assert.equal((html.match(/aria-current="step"/g)||[]).length,1);
+ assert.ok(!html.includes('startGuideNext'));
+ assert.ok(html.includes('0 / 4'));
 });
 
 const {CustomerExplorer}=component('customer-explorer.tsx',{'./icons':icons,'./explorer.mjs':explorer});
