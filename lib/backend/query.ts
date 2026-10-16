@@ -2,7 +2,7 @@ import {neon} from '@neondatabase/serverless';
 export type Row=Record<string,any>&{id:string;name:string;display_name:string;google_url:string;active:boolean;created_at:string;customer_id:string;kind:'visit'|'redeem';points:number;happened_at:string;rating:number;review_date:string;answered_at:string|null;checked_on:string;review_count:number;findings:string;recommendations:string};
 type QueryError={code?:string;message:string};
 type Result<T>={data:T|null;error:QueryError|null};
-const tables=new Set(['npr_operators','npr_businesses','npr_customers','npr_movements','npr_reviews','npr_diagnostics','npr_review_links']);
+const tables=new Set(['npr_operators','npr_businesses','npr_business_members','npr_customers','npr_movements','npr_reviews','npr_diagnostics','npr_review_links']);
 const identifier=(value:string)=>{if(!/^[a-z_][a-z0-9_]*$/.test(value))throw Error('Invalid column');return `"${value}"`;};
 export class Query implements PromiseLike<Result<Row[]>>{
  private columns='*';private returning=false;private values:Record<string,unknown>|null=null;private operation:'select'|'insert'|'update'='select';private filters:{column:string;value:unknown}[]=[];private sort:{column:string;asc:boolean}[]=[];private offset=0;private count=500;
@@ -41,5 +41,15 @@ export function scopedClient(role:'npr_app'|'npr_anon'|'npr_card_reader',scope:s
   const results=await sql.transaction([sql.query(`set local role ${role}`),sql.query("select set_config('npr.user_id',$1,true), set_config('npr.card_token',$2,true)",[role==='npr_app'?scope:'',role==='npr_card_reader'?scope:'']),sql.query(text,params)]);
   return results[2] as Row[];
  };
- return {from:(table:string)=>new Query(table,execute)};
+ const functions:Record<string,{sql:string;params:string[]}>={
+  npr_list_staff:{sql:'select * from public.npr_list_staff()',params:[]},
+  npr_assign_staff:{sql:'select * from public.npr_assign_staff($1)',params:['email']},
+  npr_revoke_staff:{sql:'select * from public.npr_revoke_staff($1::uuid)',params:['userId']}
+ };
+ return {from:(table:string)=>new Query(table,execute),rpc:async(name:string,args:Record<string,unknown>={})=>{
+  const fn=functions[name];if(!fn)return {data:null,error:{message:'Database operation failed'}};
+  const params=fn.params.map(key=>args[key]);
+  if(params.some(value=>value===undefined))return {data:null,error:{message:'Database operation failed'}};
+  try{return {data:await execute(fn.sql,params),error:null};}catch(error){return {data:null,error:{code:(error as {code?:string}).code,message:'Database operation failed'}};}
+ }};
 }
