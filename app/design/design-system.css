@@ -1,0 +1,586 @@
+.designPage {
+  --design-width: 76rem;
+  min-height: 100vh;
+  background: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--type-1);
+  line-height: 1.5;
+  padding: 0 var(--space-4);
+}
+.designPage * {
+  box-sizing: border-box;
+}
+.designPage a {
+  color: inherit;
+}
+.designPage :focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 4px;
+}
+.designHeader,
+.designIntro,
+.designNav,
+.designSection,
+.designFooter {
+  max-width: var(--design-width);
+  margin-inline: auto;
+}
+.designHeader {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-border);
+}
+.designWordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--type-1);
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-decoration: none;
+}
+.designWordmark span {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--color-inverse);
+  color: var(--color-inverse-text);
+  font-family: var(--font-display);
+  font-size: var(--type-2);
+  letter-spacing: 0;
+}
+.designBack {
+  font-weight: 700;
+  text-decoration: none;
+}
+.designBack span {
+  margin-left: var(--space-1);
+}
+.designIntro {
+  display: grid;
+  grid-template-columns: 1.4fr 0.6fr;
+  gap: var(--space-8);
+  align-items: end;
+  padding-block: var(--space-12) var(--space-10);
+}
+.designEyebrow,
+.designComponentLabel {
+  font-size: var(--type-1);
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.designEyebrow {
+  color: var(--color-success);
+  margin: 0 0 var(--space-2);
+}
+.designIntro h1 {
+  font-family: var(--font-display);
+  font-size: clamp(var(--type-6), 8vw, var(--type-8));
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  margin: 0;
+  max-width: 11ch;
+}
+.designIntro h1 em {
+  font-style: normal;
+  color: var(--color-success);
+}
+.designLead {
+  color: var(--color-text-muted);
+  font-size: var(--type-2);
+  line-height: 1.4;
+  max-width: 36rem;
+  margin: var(--space-3) 0 0;
+}
+.designIntroNote {
+  background: var(--color-inverse);
+  color: var(--color-inverse-text);
+  padding: var(--space-4);
+  border-radius: var(--radius-card);
+}
+.designIntroNote span {
+  display: inline-block;
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-pill);
+  font-weight: 800;
+}
+.designIntroNote p {
+  margin: var(--space-2) 0 0;
+  color: var(--color-inverse-text);
+}
+.designNav {
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  padding-block: 0 var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+.designNav a {
+  white-space: nowrap;
+  text-decoration: none;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+}
+.designNav a:hover {
+  background: var(--color-surface);
+}
+.designSection {
+  padding-block: var(--space-10);
+  border-bottom: 1px solid var(--color-border);
+  scroll-margin-top: var(--space-3);
+}
+.designSectionHeading {
+  max-width: 42rem;
+  margin-bottom: var(--space-5);
+}
+.designSectionHeading h2 {
+  font-family: var(--font-display);
+  font-size: var(--type-5);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.designSectionHeading > p:last-child {
+  color: var(--color-text-muted);
+  font-size: var(--type-1);
+  margin: var(--space-2) 0 0;
+}
+.designTokenGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+.designToken {
+  min-height: 88px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+}
+.designTokenSwatch {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: var(--radius-control);
+  background: var(--token-swatch);
+  border: 1px solid var(--color-border);
+}
+.designToken b,
+.designToken code {
+  display: block;
+}
+.designToken b {
+  font-size: var(--type-1);
+}
+.designToken code {
+  color: var(--color-text-muted);
+  font-size: var(--type-1);
+  overflow-wrap: anywhere;
+}
+.designToken--background {
+  --token-swatch: var(--color-background);
+}
+.designToken--surface {
+  --token-swatch: var(--color-surface);
+}
+.designToken--border {
+  --token-swatch: var(--color-border);
+}
+.designToken--text {
+  --token-swatch: var(--color-text);
+}
+.designToken--muted {
+  --token-swatch: var(--color-text-muted);
+}
+.designToken--accent {
+  --token-swatch: var(--color-accent);
+}
+.designToken--success {
+  --token-swatch: var(--color-success);
+}
+.designToken--warning {
+  --token-swatch: var(--color-warning);
+}
+.designToken--danger {
+  --token-swatch: var(--color-danger);
+}
+.designDarkSample {
+  margin-top: var(--space-3);
+  padding: var(--space-5);
+  border-radius: var(--radius-panel);
+  background: var(--color-inverse);
+  color: var(--color-inverse-text);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.designDarkSample .designEyebrow {
+  color: var(--color-accent);
+  margin-bottom: var(--space-1);
+}
+.designDarkSample h3 {
+  font-family: var(--font-display);
+  font-size: var(--type-4);
+  font-weight: 400;
+  line-height: 1.1;
+  margin: 0;
+}
+.designTypeSection {
+  display: grid;
+  grid-template-columns: 0.75fr 1.25fr;
+  gap: var(--space-8);
+  align-items: center;
+}
+.designTypeSamples {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border-radius: var(--radius-panel);
+  box-shadow: var(--shadow-card);
+}
+.designTypeDisplay {
+  font-family: var(--font-display);
+  font-size: var(--type-5);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+.designTypeSamples h3 {
+  font-size: var(--type-2);
+  margin: 0 0 var(--space-1);
+}
+.designTypeSamples p {
+  margin: 0 0 var(--space-2);
+  color: var(--color-text-muted);
+}
+.designTypeSamples small {
+  font-size: var(--type-1);
+  font-weight: 700;
+  color: var(--color-success);
+}
+.designComponentGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+.dsSurface {
+  min-width: 0;
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+.designComponentLabel {
+  font-size: var(--type-1);
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-2);
+}
+.designButtonRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
+}
+.dsButton {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    background-color 0.16s ease,
+    border-color 0.16s ease,
+    transform 0.16s ease;
+}
+.dsButton:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.dsButton:disabled {
+  opacity: 0.56;
+  cursor: not-allowed;
+}
+.dsButton--primary {
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+}
+.dsButton--primary:hover:not(:disabled) {
+  background: var(--palette-forest);
+  color: var(--color-inverse-text);
+}
+.dsButton--secondary {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+.dsButton--secondary:hover:not(:disabled) {
+  background: var(--color-background);
+  border-color: var(--color-text-muted);
+}
+.dsButton--quiet {
+  background: transparent;
+  color: var(--color-success);
+}
+.dsButton--quiet:hover:not(:disabled) {
+  background: var(--color-background);
+}
+.dsButton--danger {
+  background: var(--color-danger);
+  color: var(--color-inverse-text);
+}
+.dsButton--danger:hover:not(:disabled) {
+  filter: brightness(0.9);
+}
+.dsSpinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: dsSpin 0.8s linear infinite;
+}
+@keyframes dsSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.dsField {
+  display: grid;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
+}
+.dsField label {
+  font-weight: 700;
+}
+.dsField input {
+  min-height: 48px;
+  width: 100%;
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface-raised);
+  color: var(--color-text);
+  font: inherit;
+}
+.dsField input::placeholder {
+  color: var(--color-text-muted);
+}
+.dsField input:focus {
+  border-color: var(--color-focus);
+}
+.dsField small {
+  color: var(--color-text-muted);
+}
+.dsField--error input {
+  border-color: var(--color-danger);
+}
+.dsFieldError {
+  color: var(--color-danger) !important;
+  font-weight: 700;
+}
+.dsStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-weight: 800;
+}
+.dsStatus > span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.dsStatus--neutral {
+  color: var(--color-text-muted);
+}
+.dsStatus--success {
+  color: var(--color-success);
+}
+.dsStatus--warning {
+  color: var(--color-warning);
+}
+.dsStatus--danger {
+  color: var(--color-danger);
+}
+.designStateGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+.designStateContent {
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.designStateContent p {
+  color: var(--color-text-muted);
+  margin: var(--space-1) 0 0;
+}
+.dsSkeleton {
+  display: grid;
+  gap: var(--space-1);
+  padding-block: var(--space-2);
+}
+.dsSkeleton span {
+  height: 16px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(
+    90deg,
+    var(--color-border),
+    var(--color-background),
+    var(--color-border)
+  );
+  background-size: 200% 100%;
+  animation: dsShimmer 1.4s ease-in-out infinite;
+}
+.dsSkeleton span:nth-child(1) {
+  width: 48%;
+}
+.dsSkeleton span:nth-child(2) {
+  width: 82%;
+}
+.dsSkeleton span:nth-child(3) {
+  width: 64%;
+}
+@keyframes dsShimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+.designEmptySurface {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.dsEmpty {
+  width: 100%;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-3);
+}
+.dsEmptyMark {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+  font-size: var(--type-3);
+  font-weight: 700;
+}
+.dsEmpty h3 {
+  font-size: var(--type-2);
+  margin: var(--space-2) 0 var(--space-1);
+}
+.dsEmpty p {
+  color: var(--color-text-muted);
+  margin: 0;
+  max-width: 28rem;
+}
+.designFooter {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding-block: var(--space-4);
+  color: var(--color-text-muted);
+}
+.designFooter span:first-child {
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+@media (max-width: 800px) {
+  .designPage {
+    padding-inline: var(--space-2);
+  }
+  .designIntro {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+    padding-block: var(--space-8);
+  }
+  .designIntro h1 {
+    font-size: clamp(var(--type-5), 12vw, var(--type-7));
+  }
+  .designTypeSection {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .designComponentGrid {
+    grid-template-columns: 1fr;
+  }
+  .designTokenGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .designSection {
+    padding-block: var(--space-6);
+  }
+}
+@media (max-width: 520px) {
+  .designHeader {
+    height: 64px;
+  }
+  .designIntro h1 {
+    font-size: var(--type-5);
+  }
+  .designLead {
+    font-size: var(--type-1);
+  }
+  .designSectionHeading h2 {
+    font-size: var(--type-4);
+  }
+  .designTokenGrid,
+  .designStateGrid {
+    grid-template-columns: 1fr;
+  }
+  .designDarkSample,
+  .designTypeSamples,
+  .designFooter {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .designDarkSample h3,
+  .designTypeDisplay {
+    font-size: var(--type-4);
+  }
+  .designFooter {
+    gap: var(--space-1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .designPage *,
+  .designPage *::before,
+  .designPage *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
