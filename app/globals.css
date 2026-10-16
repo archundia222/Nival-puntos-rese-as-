@@ -630,7 +630,7 @@ body{background:var(--nival-cream);color:var(--nival-text)}
 }
 .nivalStaffFlow .cameraFrame span {
   padding: var(--space-1);
-  background: rgb(16 46 35 / 72%);
+  background: color-mix(in srgb, var(--palette-forest-deep) 82%, transparent);
   font-size: var(--type-1);
 }
 .nivalStaffFlow .phoneSearch {
