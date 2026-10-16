@@ -1154,3 +1154,20 @@
 
 .nivalShell .cardCatalogGrid{grid-template-columns:minmax(0,620px)}
 @media(max-width:700px){.nivalShell .cardCatalogGrid{grid-template-columns:1fr}}
+
+/* Keep every product card readable at the end of the dashboard on mobile. */
+.nivalShell .workspaceContent .ownerDashboard .ownerActionCenter{background-color:#173d30!important;background-image:linear-gradient(120deg,#173d30 0%,#245744 64%,#38694f 100%)!important;color:#fff!important;opacity:1!important;filter:none!important;isolation:isolate}
+.nivalShell .workspaceContent .ownerDashboard .ownerActionCenter h2{color:#fff!important;opacity:1!important}
+.nivalShell .workspaceContent .ownerDashboard .ownerActionCenter .ownerActionLink{background-color:#244e3b!important;color:#fff!important;opacity:1!important}
+.nivalShell .workspaceContent .ownerDashboard .ownerActionCenter .ownerActionCopy>small{color:#e1efdf!important;opacity:1!important}
+.nivalShell .workspaceContent .ownerDashboard .ownerActionCenter .ownerActionCopy>strong{color:#fff!important;opacity:1!important}
+.nivalShell .workspaceContent .ownerDashboard .ownerActionCenter .ownerActionCopy>span{color:#e0ebe1!important;opacity:1!important}
+.nivalShell .workspaceContent .ownerDashboard .ownerActionCenter .ownerActionCopy>b{color:#eff8e8!important;opacity:1!important}
+.nivalShell .cardCatalogGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.nivalShell .cardSystemTile{min-height:245px;border:1px solid #dfe6dd;border-radius:18px;background:#fffefa;box-shadow:0 10px 28px #183b2b0b}
+.nivalShell .cardSystemTile .cardCatalogMock{position:relative;min-height:154px;background:#173d30!important;border-radius:16px}
+.nivalShell .giftCardSystemTile .cardSystemIcon{background:#e9eedc;color:#254634}
+.nivalShell .giftCardSystemTile .giftCatalogMock{background:#304b35!important}
+.nivalShell .giftCatalogMock>i{display:grid;place-items:center;width:36px;height:36px;border:1px solid #ffffff55;border-radius:12px;color:#e8efcf}
+.nivalShell .reviewCardItem .reviewPhysicalCard{aspect-ratio:1.7/1;min-height:154px;border-radius:16px;background:#173d30;box-shadow:0 10px 24px #183b2b14}
+@media(max-width:700px){.nivalShell .cardCatalogGrid{grid-template-columns:1fr}.nivalShell .cardSystemTile{min-height:220px}}
