@@ -50,8 +50,9 @@ export default function Home() {
       <section className="nvHero" aria-labelledby="hero-title">
         <div className="nvContainer nvHeroGrid">
           <div className="nvHeroCopy" data-reveal>
-            <h1 id="hero-title">La visita de hoy también cuenta para la próxima.</h1>
-            <p>Nival reúne puntos digitales para premiar el regreso, tarjetas NFC y QR que llevan a tu ficha de Google, y tarjetas de regalo digitales. Lo administras desde un solo panel.</p>
+            <span className="nvEyebrow">LEALTAD DIGITAL PARA NEGOCIOS</span>
+            <h1 id="hero-title">Puntos, reseñas y regalos. Desde tu mostrador.</h1>
+            <p>Tu cliente suma puntos, abre tu ficha de Google con NFC o QR y puede llevarse una tarjeta de regalo digital. Tú lo manejas desde un solo lugar.</p>
             <div className="nvHeroActions"><a className="nvButton nvButtonPrimary" href={whatsapp()} target="_blank" rel="noreferrer">Cotizar por WhatsApp <LandingIcon name="arrow" /></a><a className="nvButton nvButtonOutline" href="/demo/panel">Ver el panel en acción</a></div>
             <div className="nvHeroProof"><span>Sin app para tus clientes</span><i /> <span>Desde $299 MXN / 30 días</span></div>
           </div>
