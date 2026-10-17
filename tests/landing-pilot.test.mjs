@@ -16,7 +16,7 @@ test("landing explains the products, business types, dashboard and plans", () =>
     "De una buena visita a tu ficha.",
     "Que también te regalen.",
     "Mira qué pasa.<br /><em>Decide qué sigue.</em>",
-    "Elige lo que tu negocio necesita.",
+    "Elige cómo quieres crecer.",
     "Antes de empezar.",
     "Del mostrador al siguiente paso.",
     "Nival gestiona las respuestas de forma manual y con tu permiso.",
@@ -58,11 +58,12 @@ test("prices and plan limits match the current entitlements", () => {
   ]) assert.ok(page.includes(text), text);
   assert.match(page, /tarjeta de regalo digital/i);
   assert.match(page, /tarjeta digital de puntos/i);
-  assert.match(page, /tarjetas NFC \+ QR<br\/>para reseñas/i);
-  assert.match(page, /respuestas Google<br\/>por periodo/);
-  assert.match(page, /tarjeta de regalo Nival Pay y resumen PDF mensual/);
+  assert.match(page, /className="nvPlanPerks"/);
+  assert.match(page, /por 30 días/);
+  assert.match(page, /EN TODOS LOS PLANES/);
+  assert.match(page, /Tarjeta digital de puntos <i>·<\/i> Tarjeta de regalo Nival Pay <i>·<\/i> Resumen mensual en PDF/);
   assert.match(page, /Nival gestiona las respuestas de forma manual y con tu permiso/);
-  assert.match(page, /resumen PDF mensual/);
+  assert.match(page, /resumen mensual en PDF/i);
   assert.match(page, /Tu equipo registra la visita/);
   assert.match(page, /Nival responde reseñas manualmente/);
 });

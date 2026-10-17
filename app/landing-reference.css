@@ -67,3 +67,42 @@
 @keyframes nvPointPulse{0%,100%{filter:brightness(1);transform:scaleX(1)}50%{filter:brightness(1.12);transform:scaleX(.92)}}
 @media(max-width:760px){.nvJourney{grid-template-columns:1fr;gap:15px;padding:18px}.nvJourneyHead>b{max-width:none;font-size:22px}.nvJourneySteps{grid-template-columns:1fr}.nvJourneyStep{grid-template-columns:27px 1fr;min-height:0;padding:12px 0;border-top:1px solid color-mix(in srgb,var(--nv-paper),transparent 82%);border-left:0}.nvJourneyStep>i{grid-row:span 2}.nvPlanFit{min-height:0;margin-top:5px}.nvPlanMetrics{margin-bottom:10px}.nvPlanMetrics b{font-size:20px}.nvPlanMetrics span{font-size:8px}}
 @media(prefers-reduced-motion:reduce){.nvMotionReady [data-reveal]{opacity:1;transform:none;transition:none}.nvCardProgress i{animation:none}.nvProductCard,.nvProductImage .nvPhoto{transition:none}}
+
+/* Pricing cards read as choices first, with the shared value separated below. */
+.nvPlansIntro{margin-bottom:24px}
+.nvPlansIntro h2{max-width:760px;margin:9px 0 0}
+.nvPlansIntro>p{max-width:260px}
+.nvPlanCard{min-height:408px;padding:24px 23px 21px;transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+.nvPlanCard:hover{transform:translateY(-4px);border-color:var(--nv-success);box-shadow:0 20px 48px color-mix(in srgb,var(--nv-dark),transparent 86%)}
+.nvPlanCard.is-featured:hover{border-color:var(--nv-lime);box-shadow:0 22px 50px color-mix(in srgb,var(--nv-dark),transparent 73%)}
+.nvPlanTop{min-height:78px;padding-right:68px}
+.nvPlanName{font-size:10px;letter-spacing:.13em}
+.nvPlanFit{min-height:0;margin:8px 0 0;font-size:12px;line-height:1.4}
+.nvPlanPrice{display:flex;align-items:baseline;gap:8px;margin:13px 0 18px;padding-bottom:17px;border-bottom:1px solid var(--nv-border)}
+.nvPlanPrice strong{font-size:clamp(42px,4vw,52px);line-height:.95;letter-spacing:-.075em;color:var(--nv-dark)}
+.nvPlanPrice>span{color:var(--nv-muted);font-size:11px;font-weight:800}
+.nvPlanPrice i{font-style:normal;font-weight:600}
+.nvPlanCard.is-featured .nvPlanPrice{border-color:color-mix(in srgb,var(--nv-paper),transparent 78%)}
+.nvPlanCard.is-featured .nvPlanPrice strong{color:var(--nv-paper)}
+.nvPlanCard.is-featured .nvPlanPrice>span{color:var(--nv-on-dark-soft)}
+.nvPlanCard ul.nvPlanPerks{gap:9px;margin:0 0 16px;padding:0;list-style:none}
+.nvPlanPerks li{display:grid;grid-template-columns:38px 1fr;align-items:center;gap:10px;min-height:38px;color:var(--nv-text);font-size:12px;font-weight:750;line-height:1.3}
+.nvPlanPerks li>b{display:grid;width:36px;height:34px;place-items:center;border-radius:11px;background:var(--nv-cream);color:var(--nv-dark);font-size:16px;letter-spacing:-.04em}
+.nvPlanPerks li>span{color:var(--nv-muted)}
+.nvPlanCard.is-featured .nvPlanPerks li>span{color:var(--nv-on-dark-soft)}
+.nvPlanCard.is-featured .nvPlanPerks li>b{background:color-mix(in srgb,var(--nv-paper),transparent 88%);color:var(--nv-lime)}
+.nvPlanCard>.nvPlanPlusLine{min-height:32px;margin:0 0 12px;font-size:11px}
+.nvPlanCard:not(:has(.nvPlanPlusLine))>.nvButton{margin-top:auto}
+.nvPlanCard>.nvButton{min-height:48px;margin-top:auto}
+.nvPlanCard.is-featured>.nvButton{background:var(--nv-lime);color:var(--nv-dark)!important}
+.nvPlanIncludes{display:flex;align-items:center;justify-content:space-between;gap:22px;margin-top:16px;padding:18px 22px;border-radius:18px;background:var(--nv-lime);color:var(--nv-dark)}
+.nvPlanIncludes>div{display:grid;gap:4px;flex:0 0 auto}
+.nvPlanIncludes>div>span{font-size:8px;font-weight:900;letter-spacing:.14em}
+.nvPlanIncludes>div>b{font-size:14px;letter-spacing:-.02em}
+.nvPlanIncludes>p{margin:0;font-size:12px;font-weight:750;line-height:1.5;text-align:right}
+.nvPlanIncludes>p i{padding-inline:4px;font-style:normal;opacity:.55}
+.nvPlanFoot{margin-top:11px;font-size:10px}
+@media(max-width:950px){.nvPlanCard{padding:21px 18px}.nvPlanTop{padding-right:58px}.nvPlanPerks li{grid-template-columns:34px 1fr;gap:8px;font-size:11px}.nvPlanPerks li>b{width:32px}.nvPlanIncludes>p{font-size:11px}}
+@media(max-width:760px){.nvPlansIntro>p{max-width:420px}.nvPlanCard,.nvPlanCard.is-featured{min-height:0;padding:21px}.nvPlanTop{min-height:0;padding-right:72px}.nvPlanPrice{margin:15px 0 14px;padding-bottom:14px}.nvPlanPrice strong{font-size:44px}.nvPlanPerks li{grid-template-columns:38px 1fr;min-height:38px;font-size:12px}.nvPlanPerks li>b{width:36px}.nvPlanCard>.nvButton{margin-top:13px}.nvPlanCard:not(:has(.nvPlanPlusLine))>.nvButton{margin-top:13px}.nvPlanIncludes{align-items:flex-start;flex-direction:column;gap:10px;padding:17px}.nvPlanIncludes>p{text-align:left}.nvPlanIncludes>p i{padding-inline:2px}}
+@media(max-width:420px){.nvPlanCard,.nvPlanCard.is-featured{padding:18px}.nvPlanTop{padding-right:64px}.nvPlanFit{font-size:11px}.nvPlanPrice strong{font-size:42px}.nvPlanIncludes>p{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.nvPlanCard{transition:none}}
