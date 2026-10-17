@@ -136,7 +136,7 @@ test('large customer directory bounds rendered rows and segment pages do not off
  assert.ok(empty.includes('No hay clientes en este grupo'));assert.ok(!empty.includes('Página 0'));
 });
 
-const {ReviewInsights}=component('review-insights.tsx',{'./review-insights.mjs':insights});
+const {ReviewInsights}=component('review-insights-view.tsx',{'./review-insights.mjs':insights});
 test('review report displays grounded themes and actions, legacy report makes no inferred text claims',()=>{
  const f=new FormData();for(const [key,value] of Object.entries({analyzed:'5',positiveTheme0:'Servicio amable',positiveCount0:'4',negativeTheme0:'Espera',negativeCount0:'2',improve:'Medir tiempos',keep:'Mantener el saludo'}))f.set(key,value);
  const html=renderToStaticMarkup(React.createElement(ReviewInsights,{notes:insights.encodeReviewInsights(f,10).value}));

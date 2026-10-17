@@ -81,8 +81,9 @@ test("sample metrics are labeled and real images replace upload placeholders", (
   assert.match(page, /tarjetas NFC \+ QR que abren reseñas de Google/i);
   assert.match(page, /TU FICHA DE GOOGLE/);
   assert.match(page, /áreas de mejora/i);
-  assert.match(page, /iframe src="\/demo\/panel\?embed=1&amp;days=30"/);
-  assert.match(page, /Demo interactiva del panel real de Nival/);
+  assert.match(page, /<OwnerView/);
+  assert.match(page, /demoRange/);
+  assert.match(page, /nvLivePanelBody/);
   assert.match(ownerView, /Nuevos y recurrentes/);
   assert.match(ownerView, /impactGoogleCard/);
   assert.match(ownerView, /REPUTACIÓN EN GOOGLE/);

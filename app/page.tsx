@@ -3,6 +3,10 @@ import LandingIcon from "./landing-icon";
 import LandingMobileNav from "./landing-mobile-nav";
 import LandingIndustryCarousel from "./landing-industry-carousel";
 import LandingMotion from "./landing-motion";
+import { OwnerView } from "../lib/owner/view";
+import { rollingPeriodRange } from "../lib/owner/domain.mjs";
+import { demoRollingPeriod } from "../lib/owner/demo-period.mjs";
+import demoFixture from "../lib/owner/demo-fixtures.json";
 import "./landing-reference.css";
 
 const whatsapp = (plan?: string) =>
@@ -13,6 +17,13 @@ const plans = [
   { name: "Esencial", price: "$399", reviews: "30", branches: "5", nfc: "6", fit: "Para atender más reseñas y varios puntos de venta.", featured: true },
   { name: "Plus", price: "$549", reviews: "100", branches: "10", nfc: "12", fit: "Para ampliar la gestión y comparar tu zona." },
 ];
+
+const demoNow = new Date("2026-10-05T12:00:00Z");
+const demoRange = rollingPeriodRange(30, demoNow);
+const demoSource = demoRollingPeriod(demoFixture.month, demoRange);
+const demoBusiness = { id: "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa", name: "Café Demo", slug: "cafe-demo", status: "activo", price_mxn: 549, plan_name: "Plus", pay_card_url: "/demo/panel#nival-pay", pay_card_label: "Café Demo" };
+const demoBranches = [{ id: "demo-branch-1", business_id: demoBusiness.id, name: "Condesa", active: true, is_primary: true }, { id: "demo-branch-2", business_id: demoBusiness.id, name: "Roma Norte", active: true }, { id: "demo-branch-3", business_id: demoBusiness.id, name: "Mixcoac", active: true }];
+const demoOwnerData = { ...demoSource, repliesUsed: 94, activeRewards: 3, zoneComparison: { rating: 4.8, reviews: 1486, average_rating: 4.5, average_reviews: 1320, difference: 0.3, sample: true }, branches: demoBranches, selectedBranch: demoBranches[0] };
 
 function Photo({ src, alt, className = "", priority = false }: { src: string; alt: string; className?: string; priority?: boolean }) {
   return <Image src={src} alt={alt} fill priority={priority} sizes="(max-width: 760px) 100vw, 50vw" className={`nvPhoto ${className}`} />;
@@ -79,7 +90,7 @@ export default function Home() {
 
       <section className="nvPanelSection" id="panel" aria-labelledby="panel-title">
         <div className="nvContainer"><div className="nvDashboardIntro" data-reveal><span className="nvEyebrow">PANEL REAL · DEMO INTERACTIVA</span><h2 id="panel-title">Esto es lo que ves en Inicio.</h2><p>Gráficas de visitas, clientes por grupo y seguimiento de Google en el mismo panel. La demo abre un negocio de ejemplo con plan Plus.</p><a className="nvTextLink" href="/demo/panel">Abrir demo completa <LandingIcon name="arrow" /></a></div>
-          <div className="nvLivePanel" data-reveal><div className="nvLivePanelBar"><span><i /> CAFÉ DEMO · DATOS DE EJEMPLO</span><a href="/demo/panel">Abrir pantalla completa <LandingIcon name="arrow" /></a></div><iframe src="/demo/panel?embed=1&amp;days=30" title="Demo interactiva del panel real de Nival con datos de ejemplo" loading="lazy" /></div>
+          <div className="nvLivePanel" data-reveal><div className="nvLivePanelBar"><span><i /> CAFÉ DEMO · DATOS DE EJEMPLO</span><a href="/demo/panel">Abrir pantalla completa <LandingIcon name="arrow" /></a></div><div className="nvLivePanelBody"><OwnerView actor={{id:"11111111-1111-4111-8111-111111111111",name:"Dueño de Café Demo"}} b={demoBusiness} businesses={[demoBusiness]} range={demoRange} data={demoOwnerData} demo /></div></div>
           <small className="nvDashboardFoot">La demo es interactiva; las cifras y el negocio son de ejemplo.</small>
         </div>
       </section>
