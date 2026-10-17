@@ -221,7 +221,7 @@
 .nvDashboardIntro>.nvTextLink{color:var(--nv-lime)!important}
 .nvDashboardMock{grid-template-columns:210px minmax(0,1fr);border:0;border-radius:26px;box-shadow:0 28px 80px color-mix(in srgb,var(--nv-dark),transparent 40%)}
 .nvDashSidebar{padding:28px 17px}
-.nvDashMain{padding:30px 34px 26px}
+.nvDashMain{padding:30px 34px 26px;color:var(--nv-text)}
 .nvDashTop h3{font-size:30px}
 .nvDashTitle{margin:24px 0 14px}
 .nvDashTitle h4{font-size:21px}
