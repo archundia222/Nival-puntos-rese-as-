@@ -48,7 +48,7 @@ test("prices and plan limits match the current entitlements", () => {
     "Comparación con negocios cercanos",
   ]) assert.ok(page.includes(text), text);
   assert.match(page, /tarjeta de regalo digital/i);
-  assert.match(page, /como complementos/i);
+  assert.match(page, /opción adicional a tu plan/i);
 });
 
 test("sample metrics are labeled and real images replace upload placeholders", () => {
