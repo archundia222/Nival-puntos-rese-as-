@@ -81,6 +81,8 @@ test("sample metrics are labeled and real images replace upload placeholders", (
   assert.match(page, /TU FICHA DE GOOGLE/);
   assert.match(page, /áreas de mejora/i);
   assert.match(page, /<OwnerView/);
+  assert.match(page, /demo embedded/);
+  assert.match(ownerView, /embedded\?\x27div\x27:\x27main\x27/);
   assert.match(page, /demoRange/);
   assert.match(page, /nvLivePanelBody/);
   assert.match(ownerView, /Nuevos y recurrentes/);
