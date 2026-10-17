@@ -1177,3 +1177,78 @@
 @media(max-width:600px){.nivalShell .customerResultsHead{align-items:flex-start}.customerCards{grid-template-columns:1fr}.nivalShell .customerProfileCard{min-height:220px}.nivalShell .customerProfileStats b{font-size:20px}.nivalShell .activityTotalLine strong{font-size:28px}}
 
 .nivalShell .impactMasterDetails .activityGridLines line{stroke:#e7ece6;stroke-width:1;stroke-dasharray:3 5}
+.nivalShell .customerExplorer{padding:20px 22px;border-radius:18px;background:#fffefa;box-shadow:0 8px 24px #19392b08}
+.customerSegmentHeading{display:flex;align-items:center;gap:12px;margin:0 0 15px}
+.customerSegmentHeading .customerBackLink{margin:0}
+.customerSegmentPill{display:inline-flex;align-items:center;min-height:28px;padding:4px 10px;border-radius:999px;background:#edf2e9;color:#244d3c;font-size:11px;font-weight:700}
+.nivalShell .customerExplorer .workspaceCardHead{margin-bottom:17px}
+.nivalShell .customerExplorer .workspaceCardHead h3{margin:2px 0 0;font-size:21px;color:#183b2e}
+.nivalShell .customerExplorer .explorerFilters{grid-template-columns:minmax(210px,1fr) 175px 175px;gap:10px;align-items:end;margin-bottom:12px}
+.nivalShell .customerExplorer .explorerSearch>span,.nivalShell .customerExplorer .explorerFilters>label{font-size:11px!important;color:#586b5d}
+.nivalShell .customerExplorer .explorerSearch>div,.nivalShell .customerExplorer .explorerFilters select{min-height:42px;border:1px solid #dfe6dd;border-radius:10px;background:#fbfcf8;color:#253f32}
+.nivalShell .customerExplorer .explorerSearch>div{display:flex;align-items:center;gap:9px;padding:0 12px}
+.nivalShell .customerExplorer .explorerSearch input{width:100%;border:0;background:transparent;outline:0;color:#1d302a;font-size:14px}
+.nivalShell .customerExplorer .explorerFilters select{padding:0 11px}
+.customerListMeta{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 2px;border-top:1px solid #edf1eb}
+.customerListMeta .explorerCount{margin:0;color:#40584a;font-size:12px;font-weight:700}
+.customerListMeta>span{color:#7b887f;font-size:11px}
+.customerRows{display:grid;gap:8px}
+.nivalShell .customerListRow{display:grid;grid-template-columns:minmax(220px,1.4fr) minmax(210px,1.1fr) minmax(115px,.7fr) auto;align-items:center;gap:16px;min-height:83px;padding:12px 14px;border:1px solid #e6ebe3;border-radius:13px;background:#fff;transition:border-color .15s,background-color .15s}
+.nivalShell .customerListRow:hover{border-color:#c9d9c9;background:#fcfdf9}
+.customerListIdentity{display:grid;grid-template-columns:38px minmax(0,1fr);align-items:center;gap:0 10px}
+.customerListIdentity .customerInitial{grid-row:1/3;width:38px;height:38px;background:#e9f0e6;color:#214532}
+.customerListIdentity>div{display:grid;gap:2px;min-width:0}
+.customerListIdentity>div strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#1c3529;font-size:14px;font-weight:700}
+.customerListIdentity>div>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#7b887f;font-size:11px}
+.customerListIdentity .customerSegment{grid-column:2;justify-self:start;margin-top:5px;padding:3px 8px;font-size:10px}
+.customerListMetrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.customerListMetrics>div{display:grid;gap:2px;padding-left:10px;border-left:1px solid #edf0e9}
+.customerListMetrics>div:first-child{padding-left:0;border:0}
+.customerListMetrics strong{color:#244634;font-size:17px;line-height:1.1;font-variant-numeric:tabular-nums}
+.customerListMetrics span,.customerListLastVisit span{color:#859087;font-size:10px}
+.customerListLastVisit{display:grid;gap:4px}
+.customerListLastVisit strong{color:#52665a;font-size:11px;font-weight:650}
+.customerListOpen{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:38px;padding:0 11px;border:1px solid #dce6dc;border-radius:9px;color:#244f3a;font-size:11px;font-weight:700;white-space:nowrap}
+.customerListOpen:hover{background:#eff5ec}
+.nivalShell .customerExplorer .ownerEmpty{padding:22px;border:1px dashed #d7e0d6;border-radius:12px;background:#fbfcf8;color:#66756b;text-align:center}
+.nivalShell .cardCatalog{display:grid;gap:18px}
+.cardCatalogHeading{display:flex;align-items:flex-end;justify-content:space-between}
+.cardCatalogHeading h2{margin:3px 0 0;font-size:21px;color:#183b2e}
+.cardCatalogHeading p{margin:5px 0 0;color:#6d7b70;font-size:12px}
+.nivalShell .cardCatalogGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.nivalShell .cardSystemTile{display:grid;grid-template-rows:auto auto 1fr auto;gap:13px;min-height:0;padding:17px;border:1px solid #dfe6dd;border-radius:16px;background:#fffefa;box-shadow:0 6px 18px #19392b07}
+.cardSystemTop{display:flex;align-items:center;justify-content:space-between}
+.cardSystemIcon{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:#edf2e8;color:#1e4b36}
+.cardSystemStatus{padding:5px 9px;border-radius:999px;background:#f1f2ef;color:#69766d;font-size:10px;font-weight:700}
+.cardSystemStatus.isOn{background:#e9f2e8;color:#286047}
+.nivalShell .cardSystemTile .cardCatalogMock{position:relative;display:flex;min-height:156px;flex-direction:column;align-items:flex-start;justify-content:space-between;overflow:hidden;padding:17px 18px;border-radius:14px;background:#173d30!important;aspect-ratio:1.82/1;color:#fff}
+.cardSystemTile .cardCatalogMock:after{position:absolute;right:-32px;bottom:-74px;width:180px;height:180px;border:1px solid #ffffff20;border-radius:50%;content:"";box-shadow:0 0 0 23px #ffffff08,0 0 0 46px #ffffff05;pointer-events:none}
+.cardSystemTile .cardCatalogMock small{position:relative;z-index:1;color:#d9e4d7;font-size:9px;font-weight:700;letter-spacing:1.4px}
+.cardSystemTile .cardCatalogMock strong{position:relative;z-index:1;color:white;font-size:21px;line-height:1.15}
+.cardSystemTile .cardCatalogMock>span{position:relative;z-index:1;color:#e3ece1;font-size:12px}
+.cardSystemTile .cardCatalogMock>i{position:absolute;right:17px;bottom:15px;z-index:1;display:grid;place-items:center;width:35px;height:35px;border:1px solid #ffffff55;border-radius:10px;color:#e5f0d3;font-style:normal}
+.cardSystemCopy h3{margin:0;color:#183b2e;font-size:16px}
+.cardSystemCopy p{margin:4px 0 0;color:#718076;font-size:11px;line-height:1.45}
+.nivalShell .cardSystemTile>.workspacePrimary{display:flex;align-items:center;justify-content:center;gap:8px;min-height:42px;margin-top:2px;border-radius:10px;background:#1d4534;color:#fff;font-size:12px;font-weight:700}
+.nivalShell .giftCardSystemTile .giftCatalogMock{background:#314d39!important}
+.nivalShell .giftCardSystemTile .cardSystemIcon{background:#f0f1df;color:#40583b}
+.cardCatalogDemoNote{margin:0;color:#77857b;font-size:11px}
+.cardCatalogNfc{display:grid;gap:14px;padding:18px;border:1px solid #dfe6dd;border-radius:16px;background:#fffefa;box-shadow:0 6px 18px #19392b07}
+.cardCatalogNfcHeader{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.cardCatalogNfcHeader h2{margin:3px 0 0;color:#183b2e;font-size:18px}
+.cardCatalogNfcHeader p{margin:4px 0 0;color:#718076;font-size:11px}
+.cardCatalogNfcLimit{padding:6px 10px;border-radius:999px;background:#edf3e8;color:#385b43;font-size:11px;font-weight:700;white-space:nowrap}
+.nivalShell .cardCatalogNfc .reviewCardManager{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px}
+.nivalShell .cardCatalogNfc .reviewCardHeading{grid-column:1/-1;justify-content:flex-end;padding:0;margin:0}
+.nivalShell .cardCatalogNfc .reviewCardHeadingActions{justify-content:flex-end}
+.nivalShell .cardCatalogNfc .reviewAddButton{min-height:40px;border-radius:9px}
+.nivalShell .cardCatalogNfc .reviewCardItem,.nivalShell .cardCatalogNfc .reviewCreateCard,.nivalShell .cardCatalogNfc .reviewConnectCard{display:flex;flex-direction:column;gap:12px;min-width:0;margin:0;padding:13px;border:1px solid #e1e7de;border-radius:14px;background:#fff;box-shadow:none}
+.nivalShell .cardCatalogNfc .reviewPhysicalCard{position:relative;display:flex;min-height:150px;flex-direction:column;justify-content:space-between;overflow:hidden;padding:16px;border-radius:12px;background:#173d30;color:#fff;aspect-ratio:1.82/1}
+.nivalShell .cardCatalogNfc .reviewPhysicalCard small{color:#dbe7d9;font-size:9px;letter-spacing:1.2px}
+.nivalShell .cardCatalogNfc .reviewPhysicalCard strong{color:#fff;font-size:18px}
+.nivalShell .cardCatalogNfc .reviewPhysicalCard>span{color:#e0e9dd;font-size:11px}
+.nivalShell .cardCatalogNfc .reviewCardActions{display:flex;align-items:center;flex-wrap:wrap;gap:7px}
+.nivalShell .cardCatalogNfc .reviewCardActions .workspacePrimary,.nivalShell .cardCatalogNfc .reviewCardActions .workspaceSecondary{min-height:38px;padding:8px 11px;border-radius:9px}
+.nivalShell .cardCatalogNfc .reviewCardInlineQr{position:absolute;right:12px;top:50%;width:45px;height:45px;transform:translateY(-50%);border:3px solid white;border-radius:5px}
+@media(max-width:760px){.nivalShell .customerExplorer{padding:16px}.nivalShell .customerExplorer .explorerFilters{grid-template-columns:1fr 1fr}.nivalShell .customerExplorer .explorerSearch{grid-column:1/-1}.nivalShell .customerListRow{grid-template-columns:minmax(0,1fr) auto;gap:10px 12px;padding:12px}.customerListIdentity{grid-column:1/-1}.customerListMetrics{grid-column:1/-1}.customerListLastVisit{grid-column:1}.customerListOpen{grid-column:2;grid-row:3}.nivalShell .cardCatalogGrid{grid-template-columns:1fr}.nivalShell .cardSystemTile{padding:15px}.cardCatalogNfc{padding:15px}}
+@media(max-width:430px){.nivalShell .customerExplorer .explorerFilters{grid-template-columns:1fr}.nivalShell .customerExplorer .explorerSearch{grid-column:auto}.customerListMeta>span{display:none}.nivalShell .cardCatalogNfcHeader{align-items:flex-start;flex-direction:column}.cardCatalogNfcLimit{align-self:flex-start}}

@@ -93,7 +93,7 @@ test('home prioritizes the active points and reviews products, while an empty ac
  const owner=readFileSync(new URL('../lib/owner/view.tsx',import.meta.url),'utf8');
  for(const label of ["<ProductHub","className=\"impactGoogleCard\""])assert.ok(owner.includes(label),label);assert.ok(readFileSync(new URL('../lib/points/card-catalog.tsx',import.meta.url),'utf8').includes('Tarjetas QR y NFC'));
  assert.ok(!owner.includes("name:'Tarjeta de regalo'"));
- assert.ok(readFileSync(new URL('../lib/owner/shell.tsx',import.meta.url),'utf8').includes("{id:'nival-pay',label:'Tarjeta de regalo · Nival Pay'}"));
+ assert.ok(!readFileSync(new URL('../lib/owner/shell.tsx',import.meta.url),'utf8').includes("label:'Complementos'"));
  assert.ok(owner.includes('nfcLimit={limits.nfcCards}'));assert.ok(owner.includes('REPUTACIÓN EN GOOGLE'));
  assert.ok(owner.includes('{emptyState&&<StartGuide state={startState||undefined}/>'));
  assert.ok(owner.includes('{!emptyState&&<div className="impactMasterMetrics">'));
@@ -105,7 +105,7 @@ test('home prioritizes the active points and reviews products, while an empty ac
  assert.ok(owner.includes("className={'returningRevenueCard'+(emptyState?' isAwaitingData':'')}"));
  assert.ok(owner.includes('Resumen del periodo'));
  assert.ok(owner.includes('className="impactGoogleCard"'));assert.ok(owner.includes('responseLimit>0?<>'));
- const shell=readFileSync(new URL('../lib/owner/shell.tsx',import.meta.url),'utf8');assert.ok(shell.includes("{id:'complementos',label:'Complementos'"));assert.ok(shell.includes("{id:'nival-pay',label:'Tarjeta de regalo · Nival Pay'}"));
+ const shell=readFileSync(new URL('../lib/owner/shell.tsx',import.meta.url),'utf8');assert.ok(!shell.includes("{id:'complementos',label:'Complementos'"));assert.ok(readFileSync(new URL('../lib/points/card-catalog.tsx',import.meta.url),'utf8').includes('href="#nival-pay"'));
  assert.ok(owner.indexOf('className="impactFeatureGrid"')<owner.indexOf('className="impactMasterDetails"'));
 });
 
@@ -129,7 +129,7 @@ const {CustomerExplorer}=component('customer-explorer.tsx',{'./icons':icons,'./e
 test('large customer directory bounds rendered rows and segment pages do not offer other group filters',()=>{
  const customers=Array.from({length:43},(_,i)=>({id:String(i),name:'Cliente '+i,visits:1,is_risk:true}));
  const html=renderToStaticMarkup(React.createElement(CustomerExplorer,{customers,fixedSegment:'risk'}));
- assert.equal((html.match(/data-label="Teléfono"/g)||[]).length,20);
+ assert.equal((html.match(/class="customerListRow"/g)||[]).length,20);
  assert.ok(html.includes('Página 1 de 3'));assert.ok(html.includes('43 clientes'));
  assert.ok(!html.includes('Tipo de cliente'));
  const empty=renderToStaticMarkup(React.createElement(CustomerExplorer,{customers:[],fixedSegment:'risk'}));

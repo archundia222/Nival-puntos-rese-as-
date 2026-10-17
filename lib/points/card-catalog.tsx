@@ -13,22 +13,23 @@ export function CardCatalog({businessId,business,slug,program,rewards,demo=false
  const activeRewards=rewards.filter(r=>r.active!==false&&(!r.expires_at||new Date(r.expires_at).getTime()>Date.now())&&(r.stock==null||Number(r.stock)>0)),pointsActive=!!program&&program.card_enabled!==false;
  function editPoints(){setEditing(true);requestAnimationFrame(()=>document.getElementById('point-card-editor')?.scrollIntoView({behavior:'smooth',block:'start'}));}
  return <div className="cardCatalog">
+  <header className="cardCatalogHeading"><div><span className="workspaceEyebrow">TU NEGOCIO</span><h2>Tarjetas activas</h2><p>Configura cómo tus clientes suman puntos o comparten una tarjeta.</p></div></header>
   <div className="cardCatalogGrid">
    <article className="ownerCard cardSystemTile">
-    <div className="cardSystemTop"><span className="cardSystemIcon">✳</span><span className={pointsActive?"cardSystemStatus isOn":"cardSystemStatus"}>{pointsActive?"Activa":"Inactiva"}</span></div>
-   <div className="cardCatalogMock" style={{background:program?.color||'#173f32'}}><small>NIVAL · PUNTOS</small><strong>{business}</strong><span>{activeRewards[0]?.name||'Premio por configurar'}</span><i>•••• •••• ••••</i></div>
-    <div><h3>Tarjeta de puntos</h3></div>
-    <button className="workspacePrimary" type="button" onClick={editPoints}>Configurar tarjeta y reglas</button>
+    <div className="cardSystemTop"><span className="cardSystemIcon"><Icon name="points" size={21}/></span><span className={pointsActive?"cardSystemStatus isOn":"cardSystemStatus"}>{pointsActive?"Activa":"Por configurar"}</span></div>
+    <div className="cardCatalogMock pointsCatalogMock" style={{background:program?.color||'#173f32'}}><small>NIVAL · PUNTOS</small><strong>{business}</strong><span>{activeRewards[0]?.name||'Premio por configurar'}</span><i aria-hidden="true"><Icon name="points" size={23}/></i></div>
+    <div className="cardSystemCopy"><h3>Puntos</h3><p>La tarjeta que registra las visitas y el saldo de tus clientes.</p></div>
+    <button className="workspacePrimary" type="button" onClick={editPoints}>Configurar puntos <Icon name="arrow" size={15}/></button>
    </article>
    <article className="ownerCard cardSystemTile giftCardSystemTile">
     <div className="cardSystemTop"><span className="cardSystemIcon"><Icon name="gift" size={22}/></span><span className={giftCardUrl?"cardSystemStatus isOn":"cardSystemStatus"}>{giftCardUrl?"Activa":"Disponible"}</span></div>
     <div className="cardCatalogMock giftCatalogMock"><small>NIVAL · REGALO</small><strong>{business}</strong><span>Un detalle para compartir</span><i aria-hidden="true"><Icon name="gift" size={22}/></i></div>
-    <div><h3>Tarjeta de regalo</h3></div>
-    <a className="workspacePrimary" href="#nival-pay">{giftCardUrl?"Ver y compartir":"Configurar tarjeta de regalo"}</a>
+    <div className="cardSystemCopy"><h3>Tarjeta de regalo</h3><p>Nival Pay · comparte una tarjeta de regalo con tus clientes.</p></div>
+    <a className="workspacePrimary" href="#nival-pay">{giftCardUrl?"Abrir Nival Pay":"Configurar regalo"} <Icon name="arrow" size={15}/></a>
    </article>
   </div>
-  {demo&&<p className="cardCatalogDemoNote">Vista de muestra: en una cuenta activa podrás editar y publicar cada tarjeta.</p>}
-  {nfcLimit>0&&<section className="cardCatalogNfc" aria-label="Tarjetas QR y NFC"><h2>Tarjetas QR y NFC</h2><p>Configura las tarjetas para que tus clientes dejen una reseña. Incluidas según tu plan.</p><ReviewCardManager businessId={businessId} branchId={branchId} branchName={branchName} cards={reviewCards} googleUrl={googleUrl} cardLimit={nfcLimit} demo={demo}/></section>}
+  {demo&&<p className="cardCatalogDemoNote">Datos de ejemplo · los cambios no se guardan.</p>}
+  {nfcLimit>0&&<section className="cardCatalogNfc" aria-label="Tarjetas QR y NFC"><header className="cardCatalogNfcHeader"><div><span className="workspaceEyebrow">RESEÑAS</span><h2>Tarjetas NFC y QR</h2><p>Agrega una por ubicación: cada tarjeta abre el enlace para dejar una reseña.</p></div><span className="cardCatalogNfcLimit">{reviewCards.filter(c=>c.active).length}/{nfcLimit} activas</span></header><ReviewCardManager businessId={businessId} branchId={branchId} branchName={branchName} cards={reviewCards} googleUrl={googleUrl} cardLimit={nfcLimit} demo={demo}/></section>}
   {editing&&<section id="point-card-editor" className="cardCatalogEditor" tabIndex={-1}><header><div><small>EDITOR DE TARJETA</small><h3>Tarjeta de puntos y reglas</h3><p>Define los puntos por visita, los límites de registro, los premios y el diseño que ven tus clientes.</p></div><button type="button" className="workspaceSecondary" onClick={()=>setEditing(false)}>Volver a mis tarjetas</button></header>
    <div className="cardCatalogShare"><h3>Compartir esta tarjeta</h3><p>Usa el enlace o el QR para que tus clientes creen su tarjeta.</p><ShareTools slug={slug} name={business} demo={demo}/></div>
    {demo?<div className="cardCatalogNotice"><h4>Editar tarjeta de puntos</h4><p>Esta vista de muestra no guarda cambios. En tu negocio real podrás elegir las promociones, definir el diseño y publicar la tarjeta.</p></div>:<ProgramEditor businessId={businessId} business={business} program={program} reward={activeRewards[0]} promotions={activeRewards} setupState={setupState}/>}
