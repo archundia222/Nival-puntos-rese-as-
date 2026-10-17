@@ -50,17 +50,14 @@ export default function Home() {
       <section className="nvHero" aria-labelledby="hero-title">
         <div className="nvContainer nvHeroGrid">
           <div className="nvHeroCopy" data-reveal>
-            <span className="nvEyebrow">NIVAL · LEALTAD DIGITAL PARA NEGOCIOS</span>
-            <h1 id="hero-title"><span>Haz que vuelvan.</span><br /><em>Que te encuentren.</em></h1>
-            <p>Puntos digitales para premiar visitas, tarjetas NFC + QR que abren reseñas de Google, tarjeta de regalo y seguimiento de tu ficha desde un solo panel.</p>
+            <h1 id="hero-title">La visita de hoy también cuenta para la próxima.</h1>
+            <p>Nival reúne puntos digitales para premiar el regreso, tarjetas NFC y QR que llevan a tu ficha de Google, y tarjetas de regalo digitales. Lo administras desde un solo panel.</p>
             <div className="nvHeroActions"><a className="nvButton nvButtonPrimary" href={whatsapp()} target="_blank" rel="noreferrer">Cotizar por WhatsApp <LandingIcon name="arrow" /></a><a className="nvButton nvButtonOutline" href="/demo/panel">Ver el panel en acción</a></div>
             <div className="nvHeroProof"><span>Sin app para tus clientes</span><i /> <span>Desde $299 MXN / 30 días</span></div>
           </div>
           <div className="nvHeroImageWrap" aria-label="Cafetería con una tarjeta NFC sobre el mostrador" data-reveal>
             <Photo src="/assets/img/landing/6105.webp" alt="Mostrador de cafetería con luz de mañana y soporte para teléfono" priority />
             <div className="nvHeroCard"><span>CAFÉ DEMO · EJEMPLO</span><b>Cada visita cuenta</b><div className="nvCardProgress"><i /><i /><i /><i /><i /><i /></div><small>4 de 6 visitas</small></div>
-            <div className="nvFloat nvFloatPoints"><b>+1 punto</b><small>En su tarjeta digital</small></div>
-            <div className="nvFloat nvFloatGoogle"><b>Google · ejemplo</b><small>Nueva reseña</small><span aria-hidden="true">★★★★★</span></div>
           </div>
         </div>
       </section>
