@@ -10,14 +10,16 @@ const layout = readFileSync("app/layout.tsx", "utf8");
 
 test("landing explains the products, business types, dashboard and plans", () => {
   for (const text of [
-    "Una visita más.",
-    "Un motivo para volver.",
-    "Cada visita cuenta.",
-    "Opiniones a un toque.",
-    "Un detalle que se comparte.",
-    "Todo lo importante,<br /><em>en Inicio.</em>",
-    "Precios sin sorpresas.",
-    "¿Te queda alguna duda?",
+    "La visita termina.",
+    "La relación sigue.",
+    "Un premio a la vista.",
+    "De una buena visita a tu ficha.",
+    "Que también te regalen.",
+    "Mira qué pasa.<br /><em>Decide qué sigue.</em>",
+    "Elige lo que tu negocio necesita.",
+    "Antes de empezar.",
+    "Del mostrador al siguiente paso.",
+    "Nival gestiona las respuestas de forma manual y con tu permiso.",
   ]) assert.ok(page.includes(text), text);
   assert.ok(carousel.includes("De la cafetería a la barbería."));
   assert.ok(page.includes("<LandingIndustryCarousel />"));
@@ -52,10 +54,17 @@ test("prices and plan limits match the current entitlements", () => {
     'branches: "5"',
     'branches: "10"',
     "RECOMENDADO",
-    "Comparación con negocios cercanos",
+    "Comparación con negocios similares de tu zona",
   ]) assert.ok(page.includes(text), text);
   assert.match(page, /tarjeta de regalo digital/i);
   assert.match(page, /tarjeta digital de puntos/i);
+  assert.match(page, /tarjetas NFC \+ QR<br\/>para reseñas/i);
+  assert.match(page, /respuestas Google<br\/>por periodo/);
+  assert.match(page, /tarjeta de regalo Nival Pay y resumen PDF mensual/);
+  assert.match(page, /Nival gestiona las respuestas de forma manual y con tu permiso/);
+  assert.match(page, /resumen PDF mensual/);
+  assert.match(page, /Tu equipo registra la visita/);
+  assert.match(page, /Nival responde reseñas manualmente/);
 });
 
 test("sample metrics are labeled and real images replace upload placeholders", () => {
@@ -67,8 +76,8 @@ test("sample metrics are labeled and real images replace upload placeholders", (
     assert.ok(existsSync(`public/assets/img/landing/${image}.webp`), image);
   for (const image of ["puntos", "resenas"])
     assert.ok(existsSync(`public/assets/img/landing/${image}.webp`), image);
-  assert.match(page, /Cada visita cuenta\./);
-  assert.match(page, /Opiniones a un toque\./);
+  assert.match(page, /Un premio a la vista\./);
+  assert.match(page, /De una buena visita a tu ficha\./);
   assert.match(page, /Nuevos y recurrentes/);
   assert.match(page, /INGRESOS DE CLIENTES RECURRENTES/);
   assert.match(page, /selector de sucursal|Sucursal seleccionada/i);
@@ -101,6 +110,6 @@ test("business carousel advances automatically and pauses for interaction or red
   assert.match(carousel, /onFocus/);
   assert.match(carousel, /Pausar/);
   assert.match(carousel, /Siguiente negocio/);
-  assert.match(page, /El avance hacia su premio queda a la vista/);
-  assert.match(page, /NFC y QR llevan al enlace de tu negocio/);
+  assert.match(page, /tu cliente ve su avance en el celular/);
+  assert.match(page, /NFC o QR/);
 });
