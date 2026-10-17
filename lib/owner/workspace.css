@@ -1273,4 +1273,6 @@
 .cardTypeOptions button:hover,.cardTypeOptions a:hover{border-color:#b7cabb;background:#f7faf5}
 .cardTypeOptions .isUnavailable{opacity:.55}
 @media(max-width:760px){.nivalShell .cardCatalogHeading{align-items:stretch;flex-direction:column}.cardCatalogAddButton{width:100%;min-height:48px}.cardTypeOptions{grid-template-columns:1fr}.cardTypeOptions button,.cardTypeOptions a{min-height:58px}}
+.nivalShell .cardSystemTile .cardCatalogMock,.nivalShell .cardCatalogNfc .reviewPhysicalCard{width:100%;height:auto;min-height:0;aspect-ratio:1.82/1;align-self:stretch}
+.nivalShell .cardCatalogNfc{width:100%;min-width:0;box-sizing:border-box}
 .customerDemoNote{margin:0 0 16px;padding:10px 14px;border-radius:12px;background:var(--surface-soft,#edf2e8);color:var(--text-soft,#52665a);font-size:.85rem}
