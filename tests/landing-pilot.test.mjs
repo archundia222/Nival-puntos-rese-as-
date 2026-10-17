@@ -95,9 +95,12 @@ test("responsive layout, keyboard focus and reduced motion are present", () => {
 
 test("business carousel advances automatically and pauses for interaction or reduced motion", () => {
   assert.match(carousel, /setInterval/);
-  assert.match(carousel, /4200/);
+  assert.match(carousel, /3800/);
   assert.match(carousel, /prefers-reduced-motion:\s*reduce/);
   assert.match(carousel, /onMouseEnter/);
   assert.match(carousel, /onFocus/);
   assert.match(carousel, /Pausar/);
+  assert.match(carousel, /Siguiente negocio/);
+  assert.match(page, /El avance hacia su premio queda a la vista/);
+  assert.match(page, /NFC y QR llevan al enlace de tu negocio/);
 });

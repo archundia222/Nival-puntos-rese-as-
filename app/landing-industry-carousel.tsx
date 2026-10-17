@@ -15,7 +15,7 @@ const industries = [
 export default function LandingIndustryCarousel() {
   const rail = useRef<HTMLDivElement>(null);
   const [paused, setPaused] = useState(false);
-  const [motionAllowed, setMotionAllowed] = useState(false);
+  const [motionAllowed, setMotionAllowed] = useState(true);
 
   useEffect(() => {
     const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -30,14 +30,26 @@ export default function LandingIndustryCarousel() {
     if (!element || paused || !motionAllowed) return;
     const timer = window.setInterval(() => {
       if (document.hidden) return;
-      const firstCard = element.querySelector<HTMLElement>(".nvIndustryTile");
-      if (!firstCard) return;
-      const step = firstCard.getBoundingClientRect().width + 16;
+      const card = element.querySelector<HTMLElement>(".nvIndustryTile");
+      if (!card) return;
+      const step = card.getBoundingClientRect().width + 16;
       const atEnd = element.scrollLeft + element.clientWidth >= element.scrollWidth - 8;
       element.scrollTo({ left: atEnd ? 0 : element.scrollLeft + step, behavior: "smooth" });
-    }, 4200);
+    }, 3800);
     return () => window.clearInterval(timer);
   }, [motionAllowed, paused]);
+
+  const move = (direction: -1 | 1) => {
+    const element = rail.current;
+    const card = element?.querySelector<HTMLElement>(".nvIndustryTile");
+    if (!element || !card) return;
+    const step = card.getBoundingClientRect().width + 16;
+    const max = element.scrollWidth - element.clientWidth;
+    const next = direction > 0
+      ? (element.scrollLeft + step >= max - 8 ? 0 : element.scrollLeft + step)
+      : (element.scrollLeft <= 8 ? max : element.scrollLeft - step);
+    element.scrollTo({ left: next, behavior: motionAllowed ? "smooth" : "auto" });
+  };
 
   return (
     <section className="nvIndustrySection" id="giros" aria-labelledby="industry-title">
@@ -48,9 +60,16 @@ export default function LandingIndustryCarousel() {
             <h2 id="industry-title">De la cafetería a la barbería.</h2>
           </div>
           <div className="nvIndustryControls">
-            <small>Imágenes ilustrativas</small>
-            <button type="button" onClick={() => setPaused((value) => !value)} aria-pressed={paused}>
-              {paused ? "Reanudar" : "Pausar"} carrusel
+            <small>{motionAllowed ? "Imágenes ilustrativas" : "Explora con las flechas"}</small>
+            <button type="button" aria-label="Negocio anterior" onClick={() => move(-1)}>←</button>
+            <button type="button" aria-label="Siguiente negocio" onClick={() => move(1)}>→</button>
+            <button
+              type="button"
+              onClick={() => setPaused((value) => !value)}
+              aria-pressed={paused || !motionAllowed}
+              disabled={!motionAllowed}
+            >
+              {!motionAllowed ? "Movimiento reducido" : paused ? "Reanudar" : "Pausar"}
             </button>
           </div>
         </div>

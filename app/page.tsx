@@ -60,7 +60,11 @@ export default function Home() {
             <article className="nvProductCard nvProductReviews"><div className="nvProductImage"><Photo src="/assets/img/landing/resenas.webp" alt="Cliente acerca su teléfono a una tarjeta NFC para dejar una reseña" /><span className="nvProductBadge">NFC + QR</span></div><div className="nvProductBody"><span className="nvValueKicker">RESEÑAS</span><h3>Opiniones a un toque.</h3><p>Acerca a tus clientes al enlace de reseña de tu negocio.</p><a href="/demo">Ver reseñas <LandingIcon name="arrow" /></a></div></article>
             <article className="nvProductCard nvProductGift"><div className="nvProductImage"><Photo src="/assets/img/landing/6111.webp" alt="Una persona comparte café y pan dulce en una cafetería" /><div className="nvGiftPreview"><small>NIVAL PAY · EJEMPLO</small><b>Un regalo<br/>para disfrutar</b><span>Tarjeta digital</span></div></div><div className="nvProductBody"><span className="nvValueKicker">TARJETA DE REGALO</span><h3>Un detalle que se comparte.</h3><p>Comparte una tarjeta de regalo digital con Nival Pay.</p><a href={whatsapp('tarjeta de regalo Nival Pay')} target="_blank" rel="noreferrer">Conocer Nival Pay <LandingIcon name="arrow" /></a></div></article>
           </div>
-          <div className="nvWhyRow"><div><span>¿Por qué puntos?</span><b>La meta de volver se vuelve visible.</b><i aria-hidden="true">● ● ● ○ ○</i></div><div><span>¿Por qué reseñas?</span><b>Menos pasos entre una buena visita y tu enlace.</b><i aria-hidden="true">NFC&nbsp; / &nbsp;QR</i></div></div>
+          <aside className="nvWhyRow" aria-label="Cómo se complementan puntos y reseñas">
+            <span className="nvWhyLabel">UNA VISITA PUEDE HACER MÁS</span>
+            <div className="nvWhyItem"><i aria-hidden="true">01</i><b>Premia la visita</b><span>El avance hacia su premio queda a la vista.</span></div>
+            <div className="nvWhyItem"><i aria-hidden="true">02</i><b>Facilita opinar</b><span>NFC y QR llevan al enlace de tu negocio.</span></div>
+          </aside>
         </div>
       </section>
 
