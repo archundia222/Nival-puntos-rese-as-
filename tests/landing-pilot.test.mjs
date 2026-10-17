@@ -105,6 +105,7 @@ test("responsive layout, keyboard focus and reduced motion are present", () => {
   assert.match(css, /@media\s*\(max-width:\s*760px\)/);
   assert.match(css, /@media\s*\(max-width:\s*420px\)/);
   assert.match(css, /\.nvHero h1>span\+span\{margin-top:\.16em/);
+  assert.match(css, /\.nvHero h1>span\+span\{[^}]*color:var\(--nv-dark\)/);
   assert.match(css, /font-size:clamp\(38px,3\.8vw,50px\)/);
   assert.match(css, /:focus-visible/);
   assert.match(css, /prefers-reduced-motion/);
