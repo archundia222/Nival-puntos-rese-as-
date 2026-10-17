@@ -10,11 +10,11 @@ const layout = readFileSync("app/layout.tsx", "utf8");
 test("landing explains the products, business types, dashboard and plans", () => {
   for (const text of [
     "Que vuelvan.",
-    "Tu mostrador, tu manera.",
-    "Premia la próxima visita.",
-    "Haz fácil dejar su opinión.",
-    "Regala una visita.",
-    "Todo empieza en <em>Inicio.</em>",
+    "De la cafetería a la barbería.",
+    "Cada visita cuenta.",
+    "Opiniones a un toque.",
+    "Un detalle que se comparte.",
+    "El día empieza en <em>Inicio.</em>",
     "Precios sin sorpresas.",
     "¿Te queda alguna duda?",
   ]) assert.ok(page.includes(text), text);
@@ -48,7 +48,7 @@ test("prices and plan limits match the current entitlements", () => {
     "Comparación con negocios cercanos",
   ]) assert.ok(page.includes(text), text);
   assert.match(page, /tarjeta de regalo digital/i);
-  assert.match(page, /opción adicional a tu plan/i);
+  assert.match(page, /tarjeta digital de puntos/i);
 });
 
 test("sample metrics are labeled and real images replace upload placeholders", () => {
@@ -60,12 +60,15 @@ test("sample metrics are labeled and real images replace upload placeholders", (
     assert.ok(existsSync(`public/assets/img/landing/${image}.webp`), image);
   for (const image of ["puntos", "resenas"])
     assert.ok(existsSync(`public/assets/img/landing/${image}.webp`), image);
-  assert.match(page, /Premia la próxima visita\./);
-  assert.match(page, /Haz fácil dejar su opinión\./);
+  assert.match(page, /Cada visita cuenta\./);
+  assert.match(page, /Opiniones a un toque\./);
   assert.match(page, /Nuevos y recurrentes/);
   assert.match(page, /INGRESOS DE CLIENTES RECURRENTES/);
   assert.match(page, /selector de sucursal|Sucursal seleccionada/i);
   assert.match(page, /Tu reputación, a la vista\./);
+  assert.match(page, /Tus grupos/);
+  assert.match(page, /COMPARATIVO LOCAL · EJEMPLO/);
+  assert.match(page, /PLAN PLUS/);
   for (const image of ["industry-cafe.webp", "industry-taqueria.webp", "industry-restaurant.webp", "nival-counter-display.webp"])
     assert.ok(existsSync(`public/assets/img/${image}`), image);
 });

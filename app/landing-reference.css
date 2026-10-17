@@ -133,6 +133,36 @@
 @media(max-width:760px){.nvIndustrySection{padding:36px 0 42px}.nvIndustryHeading{display:block;margin-bottom:16px}.nvIndustryHeading>p{margin-top:9px;font-size:12px}.nvIndustryTile{flex-basis:160px}.nvIndustryTile>div{height:116px}.nvIndustryTile2{flex-basis:182px}.nvIndustryTile2>div{height:132px}.nvIndustryTile4{flex-basis:175px}.nvIndustryTile4>div{height:125px}.nvValueSection{padding:60px 0}.nvSectionHeading{display:block;margin-bottom:20px}.nvSectionHeading>p{max-width:420px;margin:10px 0 0}.nvProductGrid{grid-template-columns:1fr;gap:13px}.nvProductCard{display:grid;grid-template-columns:.83fr 1.17fr;min-height:212px}.nvProductImage{height:100%;min-height:212px}.nvProductBody{padding:18px}.nvProductBody h3{font-size:23px}.nvProductBody p{font-size:12px}.nvWhyRow{grid-template-columns:1fr;gap:9px;margin-top:13px}.nvWhyRow>div{padding:14px 16px}.nvWhyRow span{flex-basis:112px}.nvPanelSection{padding:60px 0}.nvDashboardIntro{grid-template-columns:1fr;margin-bottom:18px}.nvDashboardIntro>.nvTextLink{grid-column:1;grid-row:auto;margin-top:10px}.nvDashboardMock{grid-template-columns:1fr;border-radius:17px}.nvDashSidebar{display:none}.nvDashMain{padding:15px}.nvDashTop h3{font-size:22px}.nvDashTitle{align-items:flex-start;flex-direction:column;gap:9px}.nvDashTitle h4{font-size:16px}.nvDashPeriods{align-self:stretch;justify-content:space-between}.nvDashPeriods>*{text-align:center;flex:1}.nvDashRevenue{padding:15px}.nvDashAnalytics{grid-template-columns:1fr;gap:8px}.nvDashMix{grid-template-columns:100px 1fr;align-items:center}.nvDashMix>small,.nvDashMix>h4{grid-column:1/-1}.nvDashMix ul{gap:9px}.nvDashMix li{font-size:10px}.nvDashMix li b{font-size:11px}.nvDonut{width:85px;height:85px}.nvDonut>div{width:63px;height:63px}.nvDashActivity svg{height:105px}.nvDashGoogle{grid-template-columns:30px minmax(0,1fr);gap:8px;padding:11px}.nvGoogleQuota{grid-column:2;grid-template-columns:auto 1fr;padding:7px 0 0;border-left:0;border-top:1px solid var(--nv-border)}.nvGoogleQuota>div{grid-column:1/-1}.nvGoogleQuota>small br{display:none}.nvGoogleQuota>small{font-size:8px}.nvDashboardFoot{font-size:8px}}
 @media(max-width:420px){.nvIndustryHeading h2{font-size:32px}.nvProductCard{grid-template-columns:1fr;min-height:0}.nvProductImage{height:clamp(190px,58vw,250px);min-height:0}.nvProductBody{padding:17px 17px 19px}.nvProductBody p{margin-bottom:12px}.nvWhyRow>div{align-items:flex-start;flex-direction:column;gap:5px}.nvWhyRow span{flex:auto}.nvDashboardIntro h2{font-size:39px}.nvDashMain{padding:12px}.nvDashRevenue>strong{font-size:30px}.nvDashRevenue>p{font-size:9px}.nvDashRevenue>span{font-size:8px}.nvDashMix{grid-template-columns:88px 1fr}.nvDonut{width:76px;height:76px}.nvDonut>div{width:56px;height:56px}}
 @media(prefers-reduced-motion:reduce){.nvIndustryTile .nvPhoto,.nvProductImage .nvPhoto{transition:none}}
+
+/* Editorial product layout: one clear entry point, two supporting products. */
+.nvProductGrid{grid-template-columns:1.1fr .9fr;grid-template-rows:repeat(2,minmax(0,1fr));gap:18px}
+.nvProductCard{display:grid;grid-template-columns:1fr 1fr;min-height:0;padding:0;overflow:hidden}
+.nvProductPoints{grid-row:span 2;grid-template-columns:1fr;grid-template-rows:minmax(310px,1fr) auto}
+.nvProductPoints .nvProductImage{height:100%;min-height:310px;margin:0}
+.nvProductReviews,.nvProductGift{grid-template-columns:.92fr 1.08fr}
+.nvProductReviews .nvProductImage,.nvProductGift .nvProductImage{height:100%;min-height:240px;margin:0}
+.nvProductBody{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:clamp(20px,2.5vw,34px)}
+.nvProductBody h3{font-size:clamp(23px,2.4vw,32px);line-height:1.03;letter-spacing:-.055em}
+.nvProductBody p{font-size:14px;line-height:1.5}
+.nvProductBody>a{margin-top:18px}
+.nvProductPoints .nvProductBody{padding:28px 32px 32px}
+.nvProductPoints .nvProductBody h3{font-size:clamp(30px,3.6vw,45px)}
+.nvProductImage .nvPhoto{transition:transform .45s ease}
+.nvProductCard:hover .nvProductImage .nvPhoto{transform:scale(1.035)}
+.nvDashAnalytics{grid-template-columns:.85fr 1.55fr .8fr}
+.nvDashGroups{display:flex;flex-direction:column;gap:12px}
+.nvDashGroups>div{display:grid;grid-template-columns:8px 1fr auto;align-items:center;gap:7px}
+.nvDashGroups>div>b{font-size:12px}
+.nvDashBenchmark{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;margin-top:10px;padding:12px 15px;border:1px solid var(--nv-border);border-radius:12px;background:var(--nv-paper)}
+.nvDashBenchmark>span{color:var(--nv-muted);font-size:8px;font-weight:850;letter-spacing:.1em}
+.nvDashBenchmark>b{font-size:13px}.nvDashBenchmark>b i{margin-left:6px;color:var(--nv-muted);font-size:9px;font-style:normal;font-weight:600}
+.nvDashBenchmark>div{display:flex;width:100px;height:7px;overflow:hidden;border-radius:99px;background:var(--nv-border)}
+.nvDashBenchmark>div span:first-child{width:60%;background:var(--nv-success)}.nvDashBenchmark>div span:last-child{width:40%;background:var(--nv-lime)}
+.nvDashBenchmark>small{color:var(--nv-muted);font-size:9px}.nvDashBenchmark>small strong{color:var(--nv-text)}
+@media(max-width:950px){.nvDashAnalytics{grid-template-columns:.8fr 1.2fr}.nvDashGroups{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);align-items:center}.nvDashGroups>small,.nvDashGroups>h4{grid-column:1/-1}.nvDashBenchmark{grid-template-columns:1fr auto auto}.nvDashBenchmark>span{grid-column:1/-1}}
+@media(max-width:760px){.nvProductGrid{grid-template-columns:1fr;grid-template-rows:auto;gap:13px}.nvProductCard,.nvProductPoints,.nvProductReviews,.nvProductGift{grid-row:auto;grid-template-columns:.82fr 1.18fr;grid-template-rows:auto;min-height:212px}.nvProductPoints .nvProductImage,.nvProductReviews .nvProductImage,.nvProductGift .nvProductImage{height:100%;min-height:212px}.nvProductBody,.nvProductPoints .nvProductBody{padding:18px}.nvProductBody h3,.nvProductPoints .nvProductBody h3{font-size:23px}.nvProductBody p{font-size:12px}.nvProductBody>a{margin-top:12px}.nvDashAnalytics{grid-template-columns:1fr}.nvDashGroups{grid-column:auto;display:flex}.nvDashGroups>small,.nvDashGroups>h4{grid-column:auto}.nvDashBenchmark{grid-template-columns:1fr auto;gap:7px}.nvDashBenchmark>div{grid-column:1/-1;width:100%}.nvDashBenchmark>small{grid-column:1/-1}}
+@media(max-width:420px){.nvProductCard,.nvProductPoints,.nvProductReviews,.nvProductGift{grid-template-columns:1fr}.nvProductImage,.nvProductPoints .nvProductImage,.nvProductReviews .nvProductImage,.nvProductGift .nvProductImage{height:190px;min-height:190px}.nvProductBody,.nvProductPoints .nvProductBody{padding:18px}.nvProductBody h3,.nvProductPoints .nvProductBody h3{font-size:24px}}
+@media(prefers-reduced-motion:reduce){.nvProductImage .nvPhoto{transition:none}}
 .nvProductGift .nvProductImage>.nvPhoto{object-position:center 54%}
 .nvGiftPreview{position:absolute;right:14px;bottom:14px;display:flex;min-width:154px;flex-direction:column;gap:7px;padding:14px 16px;border:1px solid color-mix(in srgb,var(--nv-paper),transparent 72%);border-radius:14px;background:var(--nv-dark);color:var(--nv-paper);box-shadow:var(--nv-shadow);transform:rotate(3deg)}
 .nvGiftPreview small{color:var(--nv-on-dark-soft);font-size:7px;font-weight:900;letter-spacing:.1em}
