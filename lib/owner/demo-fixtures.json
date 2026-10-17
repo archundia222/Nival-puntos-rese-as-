@@ -2049,7 +2049,8 @@
       "notes": "NIVAL_REVIEW_INSIGHTS_V1:{\"version\":1,\"notes\":\"Datos de ejemplo. La atención amable y el café son temas destacados; conviene revisar las reseñas recientes cada semana.\",\"analyzed\":123,\"positive\":[{\"theme\":\"Atención amable (ejemplo)\",\"count\":71},{\"theme\":\"Café y pan dulce (ejemplo)\",\"count\":58}],\"negative\":[{\"theme\":\"Tiempo de espera (ejemplo)\",\"count\":19}],\"improve\":\"Ejemplo: revisar tiempos de entrega en horas pico.\",\"keep\":\"Ejemplo: mantener el saludo amable y la calidad del café.\"}",
       "created_by": "11111111-1111-4111-8111-111111111111",
       "period_kind": "month",
-      "answered_scope": "period"
+      "answered_scope": "period",
+      "manual_summary": "Ejemplo: tus clientes destacan la atención amable y el café. Conviene revisar los tiempos de espera en horas pico."
     },
     "reports": [
       {
@@ -2080,7 +2081,8 @@
         "notes": "NIVAL_REVIEW_INSIGHTS_V1:{\"version\":1,\"notes\":\"Datos de ejemplo. La atención amable y el café son temas destacados; conviene revisar las reseñas recientes cada semana.\",\"analyzed\":123,\"positive\":[{\"theme\":\"Atención amable (ejemplo)\",\"count\":71},{\"theme\":\"Café y pan dulce (ejemplo)\",\"count\":58}],\"negative\":[{\"theme\":\"Tiempo de espera (ejemplo)\",\"count\":19}],\"improve\":\"Ejemplo: revisar tiempos de entrega en horas pico.\",\"keep\":\"Ejemplo: mantener el saludo amable y la calidad del café.\"}",
         "created_by": "11111111-1111-4111-8111-111111111111",
         "period_kind": "month",
-        "answered_scope": "period"
+        "answered_scope": "period",
+        "manual_summary": "Ejemplo: tus clientes destacan la atención amable y el café. Conviene revisar los tiempos de espera en horas pico."
       }
     ],
     "google": {
@@ -4376,7 +4378,8 @@
       "notes": "NIVAL_REVIEW_INSIGHTS_V1:{\"version\":1,\"notes\":\"Datos de ejemplo. La atención amable y el café son temas destacados; conviene revisar las reseñas recientes cada semana.\",\"analyzed\":123,\"positive\":[{\"theme\":\"Atención amable (ejemplo)\",\"count\":71},{\"theme\":\"Café y pan dulce (ejemplo)\",\"count\":58}],\"negative\":[{\"theme\":\"Tiempo de espera (ejemplo)\",\"count\":19}],\"improve\":\"Ejemplo: revisar tiempos de entrega en horas pico.\",\"keep\":\"Ejemplo: mantener el saludo amable y la calidad del café.\"}",
       "created_by": "11111111-1111-4111-8111-111111111111",
       "period_kind": "month",
-      "answered_scope": "period"
+      "answered_scope": "period",
+      "manual_summary": "Ejemplo: tus clientes destacan la atención amable y el café. Conviene revisar los tiempos de espera en horas pico."
     },
     "reports": [
       {
@@ -4407,7 +4410,8 @@
         "notes": "NIVAL_REVIEW_INSIGHTS_V1:{\"version\":1,\"notes\":\"Datos de ejemplo. La atención amable y el café son temas destacados; conviene revisar las reseñas recientes cada semana.\",\"analyzed\":123,\"positive\":[{\"theme\":\"Atención amable (ejemplo)\",\"count\":71},{\"theme\":\"Café y pan dulce (ejemplo)\",\"count\":58}],\"negative\":[{\"theme\":\"Tiempo de espera (ejemplo)\",\"count\":19}],\"improve\":\"Ejemplo: revisar tiempos de entrega en horas pico.\",\"keep\":\"Ejemplo: mantener el saludo amable y la calidad del café.\"}",
         "created_by": "11111111-1111-4111-8111-111111111111",
         "period_kind": "month",
-        "answered_scope": "period"
+        "answered_scope": "period",
+        "manual_summary": "Ejemplo: tus clientes destacan la atención amable y el café. Conviene revisar los tiempos de espera en horas pico."
       }
     ],
     "google": {
@@ -6710,7 +6714,8 @@
       "notes": "NIVAL_REVIEW_INSIGHTS_V1:{\"version\":1,\"notes\":\"Datos de ejemplo. La atención amable y el café son temas destacados; conviene revisar las reseñas recientes cada semana.\",\"analyzed\":123,\"positive\":[{\"theme\":\"Atención amable (ejemplo)\",\"count\":71},{\"theme\":\"Café y pan dulce (ejemplo)\",\"count\":58}],\"negative\":[{\"theme\":\"Tiempo de espera (ejemplo)\",\"count\":19}],\"improve\":\"Ejemplo: revisar tiempos de entrega en horas pico.\",\"keep\":\"Ejemplo: mantener el saludo amable y la calidad del café.\"}",
       "created_by": "11111111-1111-4111-8111-111111111111",
       "period_kind": "month",
-      "answered_scope": "period"
+      "answered_scope": "period",
+      "manual_summary": "Ejemplo: tus clientes destacan la atención amable y el café. Conviene revisar los tiempos de espera en horas pico."
     },
     "reports": [
       {
@@ -6741,7 +6746,8 @@
         "notes": "NIVAL_REVIEW_INSIGHTS_V1:{\"version\":1,\"notes\":\"Datos de ejemplo. La atención amable y el café son temas destacados; conviene revisar las reseñas recientes cada semana.\",\"analyzed\":123,\"positive\":[{\"theme\":\"Atención amable (ejemplo)\",\"count\":71},{\"theme\":\"Café y pan dulce (ejemplo)\",\"count\":58}],\"negative\":[{\"theme\":\"Tiempo de espera (ejemplo)\",\"count\":19}],\"improve\":\"Ejemplo: revisar tiempos de entrega en horas pico.\",\"keep\":\"Ejemplo: mantener el saludo amable y la calidad del café.\"}",
         "created_by": "11111111-1111-4111-8111-111111111111",
         "period_kind": "month",
-        "answered_scope": "period"
+        "answered_scope": "period",
+        "manual_summary": "Ejemplo: tus clientes destacan la atención amable y el café. Conviene revisar los tiempos de espera en horas pico."
       }
     ],
     "google": {
