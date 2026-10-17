@@ -3,24 +3,31 @@ import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 
 const page = readFileSync("app/page.tsx", "utf8");
+const carousel = readFileSync("app/landing-industry-carousel.tsx", "utf8");
 const mobileNav = readFileSync("app/landing-mobile-nav.tsx", "utf8");
 const css = readFileSync("app/landing-reference.css", "utf8");
 const layout = readFileSync("app/layout.tsx", "utf8");
 
 test("landing explains the products, business types, dashboard and plans", () => {
   for (const text of [
-    "Que vuelvan.",
-    "De la cafetería a la barbería.",
+    "Una visita más.",
+    "Un motivo para volver.",
     "Cada visita cuenta.",
     "Opiniones a un toque.",
     "Un detalle que se comparte.",
-    "El día empieza en <em>Inicio.</em>",
+    "Todo lo importante,<br /><em>en Inicio.</em>",
     "Precios sin sorpresas.",
     "¿Te queda alguna duda?",
   ]) assert.ok(page.includes(text), text);
-  assert.equal((page.match(/<section\b/g) || []).length, 6);
-  for (const id of ["giros", "producto", "panel", "planes", "preguntas"])
+  assert.ok(carousel.includes("De la cafetería a la barbería."));
+  assert.ok(page.includes("<LandingIndustryCarousel />"));
+  assert.equal(
+    ((page.match(/<section\b/g) || []).length + (carousel.match(/<section\b/g) || []).length),
+    6,
+  );
+  for (const id of ["producto", "panel", "planes", "preguntas"])
     assert.ok(page.includes(`id="${id}"`), id);
+  assert.ok(carousel.includes('id="giros"'), "giros");
   for (const href of ["#giros", "#producto", "#panel", "#planes", "#preguntas"])
     assert.ok(page.includes(href), href);
   assert.ok(page.includes('href="/demo"'));
@@ -84,4 +91,16 @@ test("responsive layout, keyboard focus and reduced motion are present", () => {
   assert.match(css, /@media\s*\(max-width:\s*420px\)/);
   assert.match(css, /:focus-visible/);
   assert.match(css, /prefers-reduced-motion/);
+});
+
+test("business carousel advances automatically and pauses for interaction or reduced motion", () => {
+  assert.match(carousel, /setInterval/);
+  assert.match(carousel, /3800/);
+  assert.match(carousel, /prefers-reduced-motion:\s*reduce/);
+  assert.match(carousel, /onMouseEnter/);
+  assert.match(carousel, /onFocus/);
+  assert.match(carousel, /Pausar/);
+  assert.match(carousel, /Siguiente negocio/);
+  assert.match(page, /El avance hacia su premio queda a la vista/);
+  assert.match(page, /NFC y QR llevan al enlace de tu negocio/);
 });

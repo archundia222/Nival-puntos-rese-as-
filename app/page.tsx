@@ -1,6 +1,7 @@
 import Image from "next/image";
 import LandingIcon from "./landing-icon";
 import LandingMobileNav from "./landing-mobile-nav";
+import LandingIndustryCarousel from "./landing-industry-carousel";
 import "./landing-reference.css";
 
 const whatsapp = (plan?: string) =>
@@ -37,42 +38,38 @@ export default function Home() {
       <section className="nvHero" aria-labelledby="hero-title">
         <div className="nvContainer nvHeroGrid">
           <div className="nvHeroCopy">
-            <span className="nvEyebrow">PUNTOS Y RESEÑAS PARA TU NEGOCIO</span>
-            <h1 id="hero-title"><span>Que vuelvan.</span><br /><em>Que te elijan.</em></h1>
-            <p>Puntos, reseñas y tarjetas NFC. Todo desde tu negocio.</p>
-            <div className="nvHeroActions"><a className="nvButton nvButtonPrimary" href={whatsapp()} target="_blank" rel="noreferrer">Platiquemos <LandingIcon name="arrow" /></a><a className="nvButton nvButtonOutline" href="/demo">Ver demo</a></div>
-            <div className="nvHeroProof"><span>Sin app para tus clientes</span><i /> <span>QR + NFC</span><i /> <span>Desde $299 MXN</span></div>
+            <span className="nvEyebrow">NIVAL · PUNTOS, RESEÑAS Y REGALO</span>
+            <h1 id="hero-title"><span>Una visita más.</span><br /><em>Un motivo para volver.</em></h1>
+            <p>Fideliza con puntos, facilita reseñas y comparte tarjetas de regalo. Sin otra app para tus clientes.</p>
+            <div className="nvHeroActions"><a className="nvButton nvButtonPrimary" href={whatsapp()} target="_blank" rel="noreferrer">Cotizar por WhatsApp <LandingIcon name="arrow" /></a><a className="nvButton nvButtonOutline" href="/demo">Explorar demo</a></div>
+            <div className="nvHeroProof"><span>QR + NFC</span><i /> <span>Desde $299 MXN / 30 días</span></div>
           </div>
           <div className="nvHeroImageWrap" aria-label="Cafetería con una tarjeta NFC sobre el mostrador">
             <Photo src="/assets/img/landing/6105.webp" alt="Mostrador de cafetería con luz de mañana y soporte para teléfono" priority />
-            <div className="nvHeroCard"><span>CAFÉ DEMO · EJEMPLO</span><b>Tu próxima visita</b><div className="nvCardProgress"><i /><i /><i /><i /><i /><i /></div><small>4 de 6 visitas</small></div>
-            <div className="nvFloat nvFloatPoints"><b>+1 punto</b><small>Visita registrada</small></div>
+            <div className="nvHeroCard"><span>CAFÉ DEMO · EJEMPLO</span><b>Cada visita cuenta</b><div className="nvCardProgress"><i /><i /><i /><i /><i /><i /></div><small>4 de 6 visitas</small></div>
+            <div className="nvFloat nvFloatPoints"><b>+1 punto</b><small>En su tarjeta digital</small></div>
           </div>
-        </div>
-      </section>
-
-      <section className="nvIndustrySection" id="giros" aria-labelledby="industry-title">
-        <div className="nvContainer"><div className="nvIndustryHeading"><div><span className="nvEyebrow">NIVAL SE ADAPTA A TU MOSTRADOR</span><h2 id="industry-title">De la cafetería a la barbería.</h2></div><p>Un vistazo a los negocios donde Nival hace sentido.</p></div>
-          <div className="nvIndustryRail" aria-label="Ejemplos de giros donde usar Nival">
-            {[['industry-cafe.webp','Cafeterías'],['industry-taqueria.webp','Taquerías'],['landing/6107.webp','Panaderías'],['industry-restaurant.webp','Restaurantes'],['industry-barber.webp','Barberías'],['industry-salon.webp','Salones']].map(([src,label],i)=><article className={`nvIndustryTile nvIndustryTile${i+1}`} key={label}><div><Photo src={`/assets/img/${src}`} alt={`${label}: ejemplo ilustrativo de negocio`} /></div><b>{label}</b></article>)}
-          </div><small className="nvIndustryNote">Imágenes ilustrativas · desplaza para explorar</small>
         </div>
       </section>
 
       <section className="nvValueSection" id="producto" aria-labelledby="product-title">
         <div className="nvContainer">
-          <div className="nvSectionHeading"><div><span className="nvEyebrow">TRES PRODUCTOS · UN MISMO NEGOCIO</span><h2 id="product-title">Haz que la visita<br /><em>valga la pena.</em></h2></div><p>Elige por dónde empezar.</p></div>
+          <div className="nvSectionHeading"><div><span className="nvEyebrow">TRES FORMAS DE CUIDAR CADA VISITA</span><h2 id="product-title">Un detalle que<br /><em>sí se recuerda.</em></h2></div><p>Elige lo que mejor encaja con tu negocio.</p></div>
           <div className="nvProductGrid">
-            <article className="nvProductCard nvProductPoints"><div className="nvProductImage"><Photo src="/assets/img/landing/puntos.webp" alt="Cliente acerca su teléfono al mostrador y suma puntos en su tarjeta digital" /></div><div className="nvProductBody"><span className="nvValueKicker">PUNTOS</span><h3>Cada visita cuenta.</h3><p>Un avance claro hacia el premio que tú eliges.</p><a href="/demo">Ver puntos <LandingIcon name="arrow" /></a></div></article>
-            <article className="nvProductCard nvProductReviews"><div className="nvProductImage"><Photo src="/assets/img/landing/resenas.webp" alt="Cliente acerca su teléfono a una tarjeta NFC para dejar una reseña" /></div><div className="nvProductBody"><span className="nvValueKicker">RESEÑAS</span><h3>Opiniones a un toque.</h3><p>NFC y QR para facilitar la visita a Google.</p><a href="/demo">Ver reseñas <LandingIcon name="arrow" /></a></div></article>
-            <article className="nvProductCard nvProductGift"><div className="nvProductImage"><Photo src="/assets/img/landing/6111.webp" alt="Una persona comparte café y pan dulce en una cafetería" /><div className="nvGiftPreview"><small>NIVAL PAY · EJEMPLO</small><b>Un regalo<br/>para disfrutar</b><span>Tarjeta digital · NFC + QR</span></div></div><div className="nvProductBody"><span className="nvValueKicker">TARJETA DE REGALO</span><h3>Un detalle que se comparte.</h3><p>Comparte una tarjeta de regalo digital con Nival Pay.</p><a href={whatsapp('tarjeta de regalo Nival Pay')} target="_blank" rel="noreferrer">Conocer Nival Pay <LandingIcon name="arrow" /></a></div></article>
+            <article className="nvProductCard nvProductPoints"><div className="nvProductImage"><Photo src="/assets/img/landing/puntos.webp" alt="Cliente acerca su teléfono al mostrador y suma puntos en su tarjeta digital" /><span className="nvProductBadge">+1 punto · ejemplo</span></div><div className="nvProductBody"><span className="nvValueKicker">PUNTOS</span><h3>Cada visita cuenta.</h3><p>Tu cliente ve cuánto le falta para su premio.</p><a href="/demo">Ver puntos <LandingIcon name="arrow" /></a></div></article>
+            <article className="nvProductCard nvProductReviews"><div className="nvProductImage"><Photo src="/assets/img/landing/resenas.webp" alt="Cliente acerca su teléfono a una tarjeta NFC para dejar una reseña" /><span className="nvProductBadge">NFC + QR</span></div><div className="nvProductBody"><span className="nvValueKicker">RESEÑAS</span><h3>Opiniones a un toque.</h3><p>Acerca a tus clientes al enlace de reseña de tu negocio.</p><a href="/demo">Ver reseñas <LandingIcon name="arrow" /></a></div></article>
+            <article className="nvProductCard nvProductGift"><div className="nvProductImage"><Photo src="/assets/img/landing/6111.webp" alt="Una persona comparte café y pan dulce en una cafetería" /><div className="nvGiftPreview"><small>NIVAL PAY · EJEMPLO</small><b>Un regalo<br/>para disfrutar</b><span>Tarjeta digital</span></div></div><div className="nvProductBody"><span className="nvValueKicker">TARJETA DE REGALO</span><h3>Un detalle que se comparte.</h3><p>Comparte una tarjeta de regalo digital con Nival Pay.</p><a href={whatsapp('tarjeta de regalo Nival Pay')} target="_blank" rel="noreferrer">Conocer Nival Pay <LandingIcon name="arrow" /></a></div></article>
           </div>
-          <div className="nvWhyRow"><div><span>¿Por qué puntos?</span><b>Para que volver tenga premio.</b></div><div><span>¿Por qué reseñas?</span><b>Para que opinar tome un toque.</b></div></div>
+          <aside className="nvWhyRow" aria-label="Cómo se complementan puntos y reseñas">
+            <span className="nvWhyLabel">UNA VISITA PUEDE HACER MÁS</span>
+            <div className="nvWhyItem"><i aria-hidden="true">01</i><b>Premia la visita</b><span>El avance hacia su premio queda a la vista.</span></div>
+            <div className="nvWhyItem"><i aria-hidden="true">02</i><b>Facilita opinar</b><span>NFC y QR llevan al enlace de tu negocio.</span></div>
+          </aside>
         </div>
       </section>
 
       <section className="nvPanelSection" id="panel" aria-labelledby="panel-title">
-        <div className="nvContainer"><div className="nvDashboardIntro"><span className="nvEyebrow">TU NEGOCIO, DE UN VISTAZO</span><h2 id="panel-title">El día empieza en <em>Inicio.</em></h2><p>Visitas, clientes y reseñas en un mismo Dashboard.</p><a className="nvTextLink" href="/demo">Ver el panel <LandingIcon name="arrow" /></a></div>
+        <div className="nvContainer"><div className="nvDashboardIntro"><span className="nvEyebrow">TU NEGOCIO, DE UN VISTAZO</span><h2 id="panel-title">Todo lo importante,<br /><em>en Inicio.</em></h2><p>Clientes, actividad y reseñas de Google en el mismo Dashboard.</p><a className="nvTextLink" href="/demo">Ver el panel <LandingIcon name="arrow" /></a></div>
           <div className="nvDashboardMock" aria-label="Vista ilustrativa del Dashboard de Nival">
             <div className="nvDashSidebar"><div className="nvDashBrand"><i>N</i><b>nival</b></div><small>CAFÉ DEMO</small><span className="is-selected">⌂　Inicio</span><span>▧　Tarjetas</span><span>♙　Clientes</span><span>▤　Operación</span><span>⚙　Cuenta</span></div>
             <div className="nvDashMain"><div className="nvDashTop"><div><small>CAFÉ DEMO · DATOS DE EJEMPLO · PLAN PLUS</small><h3>Inicio</h3></div><button type="button" aria-label="Sucursal seleccionada">⌖　Centro</button></div>
@@ -87,6 +84,8 @@ export default function Home() {
           </div><small className="nvDashboardFoot">Vista y métricas de ejemplo · incluye herramientas según el plan.</small>
         </div>
       </section>
+
+      <LandingIndustryCarousel />
 
       <section className="nvPlansSection" id="planes" aria-labelledby="plans-title">
         <div className="nvContainer"><div className="nvPlansIntro"><div><span className="nvEyebrow">ELIGE SEGÚN TU NEGOCIO</span><h2 id="plans-title">Precios sin sorpresas.</h2></div><p>Todos los planes duran 30 días e incluyen puntos, reseñas y resumen en PDF.</p></div>
