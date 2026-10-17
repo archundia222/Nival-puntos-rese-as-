@@ -38,11 +38,11 @@ test("public landing explains Nival plans, points, and review support without un
   assert.ok(landing.includes('price: "$299"'));
   assert.ok(landing.includes('price: "$399"'));
   assert.ok(landing.includes('price: "$549"'));
-  assert.ok(landing.includes("Quiero conocer Nival"));
+  assert.ok(landing.includes("Cotizar por WhatsApp"));
   assert.ok(landing.includes('nfc: "3"'));
   assert.ok(landing.includes('nfc: "6"'));
   assert.ok(landing.includes('nfc: "12"'));
   assert.ok(landing.includes("Comparación con negocios cercanos"));
-  assert.ok(landing.includes("Que vuelvan."));
+  assert.ok(landing.includes("Una visita más."));
   assert.ok(landing.includes("CAFÉ DEMO · EJEMPLO"));
 });
