@@ -18,7 +18,10 @@ function groupForSection(section:string):string|null{
 function makeItems(reviewLimit:number,nfcLimit:number):MenuItem[]{
  const items:MenuItem[]=[
   {id:'inicio',label:'Inicio',icon:'inicio'},
-  {id:'mis-tarjetas',label:'Tarjetas',icon:'gift'},
+  {id:'tarjetas',label:'Tarjetas',icon:'gift',children:[
+   {id:'mis-tarjetas',label:'Tarjeta de puntos',href:'/panel/puntos?view=programa'},
+   {id:'premios',label:'Premios y recompensas',href:'/panel/puntos?view=premios'},
+  ]},
   {id:'clientes',label:'Clientes',icon:'clientes'},
   {id:'operacion',label:'Operación',icon:'file',children:[
    {id:'sucursales',label:'Sucursales'},
@@ -64,7 +67,7 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
   window.scrollTo({top:0,behavior:'smooth'});requestAnimationFrame(()=>document.getElementById('workspace-title')?.focus());
  }
  function render(item:MenuItem,depth=0){
-  const active=section===item.id||(item.id==='mis-tarjetas'&&['mis-tarjetas','google','nival-resenas','compartir-programa','compartir','promociones','nival-pay'].includes(section))||(item.id==='clientes'&&section.startsWith('clientes'))||(item.id==='operacion'&&(section==='equipo'||section==='usuarios'||section.startsWith('estadisticas')||section==='canjes'||section==='informes'||section==='sucursales'))||(item.id==='cuenta'&&(section==='plan'||section==='ajustes'||section==='configuracion'))||(item.id==='configuracion'&&section==='ajustes');
+  const active=section===item.id||(item.id==='tarjetas'&&['mis-tarjetas','google','nival-resenas','compartir-programa','compartir','promociones','nival-pay','premios'].includes(section))||(item.id==='mis-tarjetas'&&['mis-tarjetas','google','nival-resenas','compartir-programa','compartir','promociones','nival-pay'].includes(section))||(item.id==='clientes'&&section.startsWith('clientes'))||(item.id==='operacion'&&(section==='equipo'||section==='usuarios'||section.startsWith('estadisticas')||section==='canjes'||section==='informes'||section==='sucursales'))||(item.id==='cuenta'&&(section==='plan'||section==='ajustes'||section==='configuracion'))||(item.id==='configuracion'&&section==='ajustes');
   if(item.children)return <div className={'workspaceMenuGroup'+(depth?' isNested':'')} key={item.id}>
    <button className={'workspaceNavItem'+(active?' isActive':'')} aria-expanded={expanded===item.id} aria-controls={'workspace-submenu-'+item.id} onClick={()=>toggle(item.id)} aria-current={active?'page':undefined}>{item.icon&&<Icon name={item.icon}/>}<span><strong>{item.label}</strong></span><i aria-hidden="true"/></button>
    {expanded===item.id&&<div className="workspaceSubmenu" id={'workspace-submenu-'+item.id} aria-label={item.label}>{item.children.map(child=>render(child,depth+1))}</div>}
@@ -72,7 +75,7 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
   return <button key={item.id} className={'workspaceNavItem'+(active?' isActive':'')+(depth?' isSubItem':'')} aria-current={active?'page':undefined} aria-disabled={item.disabled||undefined} title={item.disabled?'Revisa tu plan para activar esta herramienta':undefined} onClick={()=>!item.disabled&&navigate(item)}>{item.icon&&<Icon name={item.icon}/>}<span><strong>{item.label}</strong></span></button>;
  }
  const menu=[...items] as MenuItem[];
- const sectionAlias=section==='ajustes'?'configuracion':section.startsWith('clientes-')?'clientes':section==='programa'||section==='promociones'||section==='premios'||section==='google'||section==='nival-resenas'||section==='compartir-programa'||section==='nival-pay'?'mis-tarjetas':section;
+ const sectionAlias=section==='ajustes'?'configuracion':section.startsWith('clientes-')?'clientes':section==='programa'||section==='promociones'||section==='google'||section==='nival-resenas'||section==='compartir-programa'||section==='nival-pay'?'mis-tarjetas':section;
  const flatten=(list:MenuItem[]):MenuItem[]=>list.flatMap(x=>[x,...(x.children?flatten(x.children):[])]);
  const current=flatten(menu).find(x=>x.id===sectionAlias)||items[0];
  return <div className="nivalShell" data-section={section} data-open={open} data-collapsed={collapsed}>

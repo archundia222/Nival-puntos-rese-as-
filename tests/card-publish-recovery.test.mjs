@@ -19,7 +19,7 @@ test('card editor keeps edits in a local draft until explicit publish',()=>{
  assert.ok(editor.includes('autoWelcome')&&editor.includes('autoMissYou'));
  assert.ok(editor.includes('accept="image/*"')&&editor.includes('optimizeCardImage'));
  assert.ok(editor.includes('Un punto por visita completada')&&!editor.includes('Horas mínimas entre visitas')&&!editor.includes('Máximo de visitas por día'));
- assert.ok(editor.includes('tab===1&&<aside className="liveCardPreview">'));
+ assert.ok(editor.includes('tab===2&&<aside className="liveCardPreview">'));
  const optimizer=read('lib/points/image-optimizer.ts');assert.ok(optimizer.includes('12 * 1024 * 1024')&&optimizer.includes('canvasBlob'));
 });
 

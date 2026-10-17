@@ -41,7 +41,7 @@ export default async function PointsPanel({
   await requireBusiness(actor, b.id);
   if(!entitlements(b).active)return <main className="dashboard"><a href={"/panel?business="+b.id}>Mi negocio</a><AccountState b={b}/></main>;
   if(params.view==='compartir')redirect('/panel?business='+b.id+'#compartir');
-  const view=['programa','promociones','equipo','canjes','compartir'].includes(params.view||'')?params.view:'programa';
+  const view=['programa','promociones','premios','equipo','canjes','compartir'].includes(params.view||'')?params.view:'programa';
   const programView=view==='programa'||view==='promociones';
   const [program] = await query(
     actor,
@@ -56,7 +56,7 @@ export default async function PointsPanel({
   const branches=await query(authScope(actor.id),"select * from nival_pr_private.list_branches($1)",[b.id]);
   const rewards = await query(
     actor,
-    "select r.id,r.name,r.points_cost,r.position,r.active,r.weight,r.stock,r.photo_url,to_char((r.expires_at at time zone 'America/Mexico_City')-interval '1 day','YYYY-MM-DD') expiry from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 order by r.position",
+    "select r.id,r.name,r.points_cost,r.position,r.active,r.weight,r.stock,r.photo_url,r.reward_type,r.value_mxn,to_char((r.expires_at at time zone 'America/Mexico_City')-interval '1 day','YYYY-MM-DD') expiry from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 order by r.position",
     [b.id],
   );
   const redemptions = await query(
@@ -95,7 +95,7 @@ export default async function PointsPanel({
         ))}
       </nav>
 
-      {programView&&<><CardWorkspace businessId={b.id} business={b.name} slug={b.slug} program={program} reward={rewards.find((r:any) => r.active)} metrics={cardMetrics} recent={recent} period={period} initialEdit={params.edit==='1'} editor={<ProgramEditor businessId={b.id} business={b.name} program={program} reward={rewards.find((r:any) => r.active)} promotions={rewards.filter((r:any)=>r.active).map((r:any)=>({id:r.id,name:r.name,points_cost:r.points_cost}))}/>} />{program?<details className="reviewBox extraRewards"><summary>Premios adicionales ({rewards.length})</summary>
+      {programView&&<CardWorkspace businessId={b.id} business={b.name} slug={b.slug} program={program} reward={rewards.find((r:any) => r.active)} metrics={cardMetrics} recent={recent} period={period} initialEdit={params.edit==='1'} editor={<ProgramEditor businessId={b.id} business={b.name} program={program} reward={rewards.find((r:any) => r.active)} promotions={rewards.filter((r:any)=>r.active).map((r:any)=>({id:r.id,name:r.name,points_cost:r.points_cost}))}/>} />}{view==='premios'&&<>{program?<section className="reviewBox extraRewards"><h2>Premios y recompensas</h2><p>Crea y administra lo que tus clientes pueden obtener con sus puntos.</p>
         <h2>Premios</h2><h3 id="premios">Premios del programa</h3>{!rewards.length&&<p className="ownerEmpty">Agrega premios para ofrecer más opciones a tus clientes.</p>}
         {rewards.map((r) => (
           <details key={r.id} className="customerRow"><summary>{r.name} · {r.points_cost} puntos · {r.active?'Activo':'Desactivado'}</summary>
@@ -151,7 +151,7 @@ export default async function PointsPanel({
             }
           />
         </ActionForm><a className="workspacePrimary" href={'/panel?business='+b.id+'#compartir'}>Compartir tarjeta y QR</a>
-      </details>:<section className="reviewBox firstRewardGuide" id="premios"><div><h2>Tu primer premio se crea con la tarjeta</h2><p>Define puntos y premio arriba. Al guardar la tarjeta, queda listo para tus clientes.</p></div><a className="workspacePrimary" href={'/panel/puntos?business='+b.id+'&view=programa&edit=1#card-editor'}>Configurar tarjeta</a></section>}
+      </section>:<section className="reviewBox firstRewardGuide" id="premios"><div><h2>Crea primero tu tarjeta</h2><p>Guarda la tarjeta y su primer premio para administrar recompensas aquí.</p></div><a className="workspacePrimary" href={'/panel/puntos?business='+b.id+'&view=programa&edit=1#card-editor'}>Configurar tarjeta</a></section>}
       </>}
       {view==='equipo'&&<section className="reviewBox" id="personal">
         <h2>Tu equipo</h2><p>También puedes atender tú desde <a href={'/panel/operar?business='+b.id}>Puntos y canjes</a>. Crea un acceso solo para quienes van a registrar visitas o entregar premios.</p>

@@ -202,6 +202,8 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
   const color = val(f, "color");
   const logo = val(f, "logo");
   const rewardName = val(f, "rewardName"), rewardCost = Number(val(f, "rewardCost"));
+  let rewardOrder: string[] = [];
+  try { const parsed=JSON.parse(val(f,"rewardOrder")||"[]"); if(!Array.isArray(parsed)||parsed.length>100||parsed.some(id=>typeof id!=="string"||!uuid(id))||new Set(parsed).size!==parsed.length)throw new Error(); rewardOrder=parsed; } catch { return {error:"Revisa el orden de los premios."}; }
   const cardEnabled = val(f, "cardEnabled") === "on";
   let cardDesign: Record<string, unknown> = {};
   let campaignRules: { strategy: "manual" | "random"; targets: Record<string, string[]>; autoWelcome: boolean; autoMissYou: boolean };
@@ -260,7 +262,7 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
     !uuid(b) ||
     !name ||
     name.length > 150 ||
-    !["single", "choose", "sequence"].includes(mode) ||
+    !["single", "choose", "sequence", "surprise"].includes(mode) ||
     !Number.isInteger(points) ||
     points < 1 ||
     points > 1000 ||
@@ -281,6 +283,7 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
     const validPromotions = await query(actor, "select r.id from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 and r.active and (r.expires_at is null or r.expires_at>now()) and (r.stock is null or r.stock>0) and r.id=any($2::uuid[])", [b, promotionIds]);
     if (validPromotions.length !== promotionIds.length) return { error: "Una promoción seleccionada ya no está activa. Actualiza la selección y vuelve a publicar." };
     const activeReward = await query(actor,"select r.id from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 and r.active order by r.position,r.id limit 1",[b]);
+    if(rewardOrder.length){const existing=await query(actor,"select r.id from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 and r.active and r.id=any($2::uuid[])",[b,rewardOrder]);if(existing.length!==rewardOrder.length)return {error:"La lista de premios cambió. Actualiza la página e inténtalo de nuevo."};}
     if (activeReward.length) {
       if (campaignRules.autoWelcome) campaignRules.targets.new = [activeReward[0].id];
       if (campaignRules.autoMissYou) {
@@ -310,6 +313,7 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
       ...(activeReward.length ? [{text:"update nival_pr.rewards set name=$2,points_cost=$3 where id=$1",values:[activeReward[0].id,rewardName,rewardCost]}] : [
         {text:"with created as (insert into nival_pr.rewards(program_id,name,points_cost,position,active) select id,$2,$3,0,true from nival_pr.programs where business_id=$1 returning id) update nival_pr.programs p set rules=jsonb_set(coalesce(p.rules,'{}'::jsonb),'{campaign_rules,targets}',jsonb_build_object('all',jsonb_build_array((select id::text from created)),'new',case when $4 then jsonb_build_array((select id::text from created)) else '[]'::jsonb end,'at_risk',case when $5 then jsonb_build_array((select id::text from created)) else '[]'::jsonb end,'lost',case when $5 then jsonb_build_array((select id::text from created)) else '[]'::jsonb end,'frequent','[]'::jsonb,'absent','[]'::jsonb),true) where p.business_id=$1",values:[b,rewardName,rewardCost,campaignRules.autoWelcome,campaignRules.autoMissYou]},
       ]),
+      ...(rewardOrder.length?[{text:"update nival_pr.rewards r set position=(ordered.ordinality-1)::int from unnest($2::uuid[]) with ordinality ordered(id,ordinality),nival_pr.programs p where p.business_id=$1 and r.program_id=p.id and r.id=ordered.id",values:[b,rewardOrder]}]:[]),
     ]);
   } catch (e) {
     return failure(e);

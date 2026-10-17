@@ -157,15 +157,20 @@ test('first reward is configured with the card and extra rewards appear only aft
  assert.ok(catalog.includes('setupState={setupState}'));
  assert.ok(!points.includes('setupState={setupState||undefined}'));
  assert.ok(!editor.includes('editorSetupProgress'));
- assert.ok(editor.includes('Configura el premio y publícalo en un paso.'));
+ assert.ok(editor.includes('Premio inicial'));
+ assert.ok(editor.includes('¿Cómo se mostrarán los premios?'));
+ assert.ok(editor.includes('Al azar para cada cliente'));
+ assert.ok(editor.includes('rewardOrder'));
  assert.ok(cardWorkspace.includes('initialEdit?"edit":"list"'));
  assert.ok(points.includes('initialEdit={params.edit===\'1\'}'));
- assert.ok(points.includes('{program?<details className="reviewBox extraRewards"'));
- assert.ok(points.includes('Tu primer premio se crea con la tarjeta'));
+ assert.ok(points.includes("view==='premios'"));
+ assert.ok(points.includes('<h2>Premios y recompensas</h2>'));
  assert.ok(points.includes('Configurar tarjeta'));
  assert.ok(!editor.includes('firstCardGuide'));
     assert.ok(actions.includes("'{campaign_rules,targets}'"));
- assert.ok(points.includes('<CardWorkspace')&&points.includes('Premios adicionales ('));
+ assert.ok(points.includes('<CardWorkspace')&&points.includes("view==='premios'"));
+ assert.ok(!editor.includes('Tipo de recompensas'));
+ assert.ok(actions.includes('"surprise"'));
  assert.ok(actions.includes('Configura y guarda tu tarjeta en «Mis tarjetas» antes de agregar otro premio.'));
 });
 
@@ -180,7 +185,7 @@ test('menu destinations identify the matching screen and onboarding actions jump
  assert.ok(shell.includes("item.id==='fidelidad'||item.id==='programa'?'mis-tarjetas'"));
  assert.ok(shell.includes("window.location.pathname!==home.pathname"));
  assert.ok(shell.includes("home.hash=target;window.location.href=home.pathname+home.search+home.hash"));
- assert.ok(points.includes("'programa','promociones','equipo','canjes','compartir'"));
+ assert.ok(points.includes("'programa','promociones','premios','equipo','canjes','compartir'"));
  assert.ok(points.includes("view==='programa'?'mis-tarjetas':view==='equipo'?'equipo':view"));
  assert.ok(guide.includes("&view=programa&edit=1#card-editor"));
  assert.ok(shell.includes("setSection('mis-tarjetas');setExpanded('fidelidad')"));
