@@ -1,36 +1,28 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 
 const page = readFileSync("app/page.tsx", "utf8");
+const mobileNav = readFileSync("app/landing-mobile-nav.tsx", "utf8");
 const css = readFileSync("app/landing-reference.css", "utf8");
 const layout = readFileSync("app/layout.tsx", "utf8");
 
-test("landing has eight sections and labeled image placeholders", () => {
+test("landing tells the product story in five short sections", () => {
   for (const text of [
-    "Haz que tu negocio sea",
-    "Tres pasos. Un",
-    "Puntos",
-    "Tu panel te dice",
-    "number={1}",
-    "number={11}",
-    "Ejemplos de diseño",
-  ]) {
-    assert.ok(page.includes(text), text);
-  }
-  assert.equal((page.match(/<section\b/g) || []).length, 8);
-  for (const id of [
-    "producto",
-    "panel",
-    "como-funciona",
-    "resenas",
-    "planes",
-    "preguntas",
-    "contacto",
-  ])
+    "Que vuelvan.",
+    "Tres herramientas.",
+    "Entras y sabes",
+    "Precios sin sorpresas.",
+    "¿Te queda alguna duda?",
+  ]) assert.ok(page.includes(text), text);
+  assert.equal((page.match(/<section\b/g) || []).length, 5);
+  for (const id of ["producto", "panel", "planes", "preguntas"])
     assert.ok(page.includes(`id="${id}"`), id);
   assert.ok(page.includes('href="/demo"'));
   assert.ok(page.includes('href="/acceso"'));
+  for (const anchor of ["#producto", "#panel", "#planes", "#preguntas"])
+    assert.ok(mobileNav.includes(anchor), anchor);
+  assert.doesNotMatch(mobileNav, /#como-funciona|#resenas|#contacto/);
 });
 
 test("prices and plan limits match the current entitlements", () => {
@@ -38,46 +30,40 @@ test("prices and plan limits match the current entitlements", () => {
     'price: "$299"',
     'price: "$399"',
     'price: "$549"',
-    "3 tarjetas NFC + QR para reseñas",
-    "6 tarjetas NFC + QR para reseñas",
-    "12 tarjetas NFC + QR para reseñas",
-    "10 respuestas a reseñas / periodo",
-    "30 respuestas a reseñas / periodo",
-    "100 respuestas a reseñas / periodo",
+    'nfc: "3"',
+    'nfc: "6"',
+    'nfc: "12"',
+    'reviews: "10"',
+    'reviews: "30"',
+    'reviews: "100"',
+    'branches: "1"',
+    'branches: "5"',
+    'branches: "10"',
     "RECOMENDADO",
     "Comparación con negocios cercanos",
-  ]) {
-    assert.ok(page.includes(text), text);
-  }
-  assert.match(page, /Nival Pay/);
-  assert.match(page, /como complemento/);
+  ]) assert.ok(page.includes(text), text);
+  assert.match(page, /tarjeta de regalo o Nival Pay/i);
+  assert.match(page, /como complementos/i);
 });
 
-test("examples are labeled and unconfirmed business rules are not promised", () => {
-  assert.match(page, /Ejemplos/);
-  assert.match(page, /plazo de respuesta del servicio está pendiente de confirmar/);
-  assert.match(page, /Según la actividad configurada/);
-  assert.doesNotMatch(
-    page,
-    /186 clientes|342 visitas|24 premios|testimonio|clientes activos/i,
-  );
-  assert.match(page, /Datos de ejemplo|DATOS DE EJEMPLO/);
+test("sample metrics are labeled and real images replace upload placeholders", () => {
+  assert.match(page, /EJEMPLO|ejemplo/);
+  assert.match(page, /Datos de ejemplo/);
+  assert.match(page, /periodo para identificar clientes en riesgo se configura/);
+  assert.doesNotMatch(page, /Espacio para imagen|pendiente de recibir/);
+  for (const image of ["6105", "6106", "6107", "6109", "6111", "6112", "6113", "6114"])
+    assert.ok(existsSync(`public/assets/img/landing/${image}.webp`), image);
 });
 
 test("legal links are marked for legal review and brand name is NIVAL", () => {
   assert.match(page, /NIVAL/);
-  assert.match(page, /pendiente de revisión legal/);
-  assert.match(
-    layout,
-    /Tarjeta de puntos y reseñas de Google para negocios locales/,
-  );
+  assert.match(page, /pendientes de revisión legal/);
+  assert.match(layout, /Tarjeta de puntos y reseñas de Google para negocios locales/);
 });
 
-test("responsive layout, keyboard focus, reduced motion and carousel are present", () => {
-  assert.match(css, /@media\s*\(max-width:\s*800px\)/);
-  assert.match(css, /focus-visible/);
+test("responsive layout, keyboard focus and reduced motion are present", () => {
+  assert.match(css, /@media\s*\(max-width:\s*760px\)/);
+  assert.match(css, /@media\s*\(max-width:\s*420px\)/);
+  assert.match(css, /:focus-visible/);
   assert.match(css, /prefers-reduced-motion/);
-  assert.match(css, /@keyframes nvCarousel/);
-  assert.match(css, /@keyframes nvFloat/);
-  assert.match(css, /@keyframes nvPulse/);
 });

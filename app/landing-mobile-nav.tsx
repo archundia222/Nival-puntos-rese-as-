@@ -3,11 +3,7 @@
 import { useEffect, useState } from "react";
 import LandingIcon from "./landing-icon";
 
-const whatsapp =
-  "https://wa.me/525539044788?text=" +
-  encodeURIComponent(
-    "Hola, quiero cotizar Nival Puntos + Reseñas para mi negocio.",
-  );
+const whatsapp = "https://wa.me/525539044788?text=" + encodeURIComponent("Hola, quiero conocer Nival para mi negocio.");
 
 export default function LandingMobileNav() {
   const [open, setOpen] = useState(false);
@@ -49,22 +45,13 @@ export default function LandingMobileNav() {
           id="nv-mobile-nav"
           aria-label="Navegación móvil"
         >
-          <a href="#producto" onClick={() => setOpen(false)}>
-            Producto
-          </a>
+          <a href="#producto" onClick={() => setOpen(false)}>Qué incluye</a>
           <a href="#panel" onClick={() => setOpen(false)}>Tu panel</a>
-          <a href="#como-funciona" onClick={() => setOpen(false)}>Cómo funciona</a>
-          <a href="#resenas" onClick={() => setOpen(false)}>
-            Reseñas
-          </a>
           <a href="#planes" onClick={() => setOpen(false)}>
             Planes
           </a>
           <a href="#preguntas" onClick={() => setOpen(false)}>
             Preguntas
-          </a>
-          <a href="#contacto" onClick={() => setOpen(false)}>
-            Contacto
           </a>
           <a
             className="nvMobileLogin"
@@ -80,7 +67,7 @@ export default function LandingMobileNav() {
             rel="noreferrer"
             onClick={() => setOpen(false)}
           >
-            Cotizar por WhatsApp <LandingIcon name="arrow" />
+            Cotizar <LandingIcon name="arrow" />
           </a>
         </nav>
       )}
