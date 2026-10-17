@@ -128,9 +128,9 @@ test("Google review charts explain counts and avoid a false one-point trend", ()
   assert.match(charts, /total\?Math\.round\(x\.value\/total\*100\)/);
   assert.match(charts, /data\.length===1/);
   assert.match(charts, /Solo hay una medición guardada/);
-  assert.match(charts, /new Map\\(reports\\.map/);
-  assert.match(ownerView, /n===1\\?'1 estrella'/);
+  assert.match(charts, /new Map\(reports\.map/);
+  assert.match(ownerView, /n===1\?'1 estrella'/);
   const workspaceCss = readFileSync("lib/owner/workspace.css", "utf8");
-  assert.match(workspaceCss, /\\.nivalShell \\.impactGoogleMore\\{grid-column:1\\/-1/);
-  assert.match(workspaceCss, /\\.nivalShell \\.impactGoogleMore \\.ownerChartGrid\\{grid-template-columns:repeat\\(2/);
+  assert.match(workspaceCss, /\.nivalShell \.impactGoogleMore\{grid-column:1\/-1/);
+  assert.match(workspaceCss, /\.nivalShell \.impactGoogleMore \.ownerChartGrid\{grid-template-columns:repeat\(2/);
 });
