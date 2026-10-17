@@ -123,14 +123,21 @@ test("business carousel loops automatically and has no visible controls", () => 
 
 test("Google review charts explain counts and avoid a false one-point trend", () => {
   const charts = readFileSync("lib/owner/charts.tsx", "utf8");
+  const workspaceCss = readFileSync("lib/owner/workspace.css", "utf8");
   assert.match(ownerView, /Reseñas por calificación/);
-  assert.match(charts, /Cada barra compara cuántas reseñas recibió el negocio/);
+  assert.match(charts, /La barra muestra la cantidad\. A la derecha: número de reseñas y porcentaje del total/);
   assert.match(charts, /total\?Math\.round\(x\.value\/total\*100\)/);
   assert.match(charts, /data\.length===1/);
   assert.match(charts, /Solo hay una medición guardada/);
   assert.match(charts, /new Map\(reports\.map/);
   assert.match(ownerView, /n===1\?'1 estrella'/);
-  const workspaceCss = readFileSync("lib/owner/workspace.css", "utf8");
   assert.match(workspaceCss, /\.nivalShell \.impactGoogleMore\{grid-column:1\/-1/);
   assert.match(workspaceCss, /\.nivalShell \.impactGoogleMore \.ownerChartGrid\{grid-template-columns:repeat\(2/);
+});
+
+test("demo Nival Pay is clearly illustrative and never requests a business QR", () => {
+  assert.match(ownerView, /const giftCardActive=!demo&&Boolean\(b\.pay_card_url\)/);
+  assert.match(ownerView, /demo\?'Ejemplo'/);
+  assert.match(ownerView, /La demo no tiene un enlace de regalo ni un QR para compartir/);
+  assert.match(ownerView, /giftCardUrl=\{giftCardActive\?b\.pay_card_url:null\}/);
 });
