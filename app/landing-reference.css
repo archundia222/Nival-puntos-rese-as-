@@ -99,12 +99,16 @@
 .nvPlanIncludes>div{display:grid;gap:4px;flex:0 0 auto}
 .nvPlanIncludes>div>span{font-size:8px;font-weight:900;letter-spacing:.14em}
 .nvPlanIncludes>div>b{font-size:14px;letter-spacing:-.02em}
-.nvPlanIncludes>p{margin:0;font-size:12px;font-weight:750;line-height:1.5;text-align:right}
-.nvPlanIncludes>p i{padding-inline:4px;font-style:normal;opacity:.55}
+.nvPlanCardLead{margin:0 0 9px;color:var(--nv-muted);font-size:10px;font-weight:800}
+.nvPlanCard.is-featured .nvPlanCardLead{color:var(--nv-on-dark-soft)}
+.nvPlanIncludes>ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px 18px;margin:0;padding:0;list-style:none}
+.nvPlanIncludes>ul li{display:flex;align-items:flex-start;gap:7px;font-size:11px;font-weight:750;line-height:1.4}
+.nvPlanIncludes>ul svg{width:14px;height:14px;flex:0 0 14px}
 .nvPlanFoot{margin-top:11px;font-size:10px}
-@media(max-width:950px){.nvPlanCard{padding:21px 18px}.nvPlanTop{padding-right:58px}.nvPlanPerks li{grid-template-columns:34px 1fr;gap:8px;font-size:11px}.nvPlanPerks li>b{width:32px}.nvPlanIncludes>p{font-size:11px}}
-@media(max-width:760px){.nvPlansIntro>p{max-width:420px}.nvPlanCard,.nvPlanCard.is-featured{min-height:0;padding:21px}.nvPlanTop{min-height:0;padding-right:72px}.nvPlanPrice{margin:15px 0 14px;padding-bottom:14px}.nvPlanPrice strong{font-size:44px}.nvPlanPerks li{grid-template-columns:38px 1fr;min-height:38px;font-size:12px}.nvPlanPerks li>b{width:36px}.nvPlanCard>.nvButton{margin-top:13px}.nvPlanCard:not(:has(.nvPlanPlusLine))>.nvButton{margin-top:13px}.nvPlanIncludes{align-items:flex-start;flex-direction:column;gap:10px;padding:17px}.nvPlanIncludes>p{text-align:left}.nvPlanIncludes>p i{padding-inline:2px}}
-@media(max-width:420px){.nvPlanCard,.nvPlanCard.is-featured{padding:18px}.nvPlanTop{padding-right:64px}.nvPlanFit{font-size:11px}.nvPlanPrice strong{font-size:42px}.nvPlanIncludes>p{font-size:11px}}
+@media(max-width:950px){.nvPlanCard{padding:21px 18px}.nvPlanTop{padding-right:58px}.nvPlanPerks li{grid-template-columns:34px 1fr;gap:8px;font-size:11px}.nvPlanPerks li>b{width:32px}}
+.nvPlanIncludes>ul{flex:1}
+@media(max-width:760px){.nvPlansIntro>p{max-width:420px}.nvPlanCard,.nvPlanCard.is-featured{min-height:0;padding:21px}.nvPlanTop{min-height:0;padding-right:72px}.nvPlanPrice{margin:15px 0 14px;padding-bottom:14px}.nvPlanPrice strong{font-size:44px}.nvPlanPerks li{grid-template-columns:38px 1fr;min-height:38px;font-size:12px}.nvPlanPerks li>b{width:36px}.nvPlanCard>.nvButton{margin-top:13px}.nvPlanCard:not(:has(.nvPlanPlusLine))>.nvButton{margin-top:13px}.nvPlanIncludes{align-items:flex-start;flex-direction:column;gap:10px;padding:17px}.nvPlanIncludes>ul{grid-template-columns:1fr}}
+@media(max-width:420px){.nvPlanCard,.nvPlanCard.is-featured{padding:18px}.nvPlanTop{padding-right:64px}.nvPlanFit{font-size:11px}.nvPlanPrice strong{font-size:42px}}
 @media(prefers-reduced-motion:reduce){.nvPlanCard{transition:none}}
 
 /* Hero leads with the actual service and lets the product imagery move gently. */
@@ -155,7 +159,7 @@
 .nvIndustryHeading h2{font-size:clamp(34px,4.2vw,54px)}
 .nvIndustryHeading>small{color:color-mix(in srgb,var(--nv-dark),transparent 25%);font-size:10px;font-weight:750}
 .nvIndustryViewport{overflow:hidden;margin-inline:calc((min(100vw - 64px,1200px) - 100vw)/2);padding:4px 0 12px;mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
-.nvIndustryTrack{display:flex;width:max-content;animation:nvIndustryScroll 54s linear infinite;will-change:transform}
+.nvIndustryTrack{display:flex;width:max-content;animation:nvIndustryScroll 22s linear infinite;will-change:transform}
 .nvIndustryTile{position:relative;flex:0 0 clamp(235px,26vw,330px);height:clamp(165px,20vw,245px);margin-right:16px;overflow:hidden;padding:0;border:0;border-radius:18px;background:transparent;box-shadow:none}
 .nvIndustryTile img{object-fit:cover;transition:transform .5s ease}
 .nvIndustryTile:after{position:absolute;inset:35% 0 0;background:linear-gradient(0deg,color-mix(in srgb,var(--nv-dark),transparent 12%),transparent);content:""}
