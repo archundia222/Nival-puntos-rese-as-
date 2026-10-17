@@ -87,7 +87,7 @@ export default function Home() {
 
       <section className="nvPanelSection" id="panel" aria-labelledby="panel-title">
         <div className="nvContainer"><div className="nvDashboardIntro" data-reveal><span className="nvEyebrow">PANEL REAL · DEMO INTERACTIVA</span><h2 id="panel-title">Esto es lo que ves en Inicio.</h2><p>Gráficas de visitas, clientes por grupo y seguimiento de Google en el mismo panel. La demo abre un negocio de ejemplo con plan Plus.</p><a className="nvTextLink" href="/demo/panel">Abrir demo completa <LandingIcon name="arrow" /></a></div>
-          <div className="nvLivePanel" data-reveal><div className="nvLivePanelBar"><span><i /> CAFÉ DEMO · DATOS DE EJEMPLO</span><a href="/demo/panel">Abrir pantalla completa <LandingIcon name="arrow" /></a></div><div className="nvLivePanelBody"><OwnerView actor={{id:"11111111-1111-4111-8111-111111111111",name:"Dueño de Café Demo"}} b={demoBusiness} businesses={[demoBusiness]} range={demoRange} data={demoOwnerData} demo /></div></div>
+          <div className="nvLivePanel" data-reveal><div className="nvLivePanelBar"><span><i /> CAFÉ DEMO · DATOS DE EJEMPLO</span><a href="/demo/panel">Abrir pantalla completa <LandingIcon name="arrow" /></a></div><div className="nvLivePanelBody"><OwnerView actor={{id:"11111111-1111-4111-8111-111111111111",name:"Dueño de Café Demo"}} b={demoBusiness} businesses={[demoBusiness]} range={demoRange} data={demoOwnerData} demo embedded /></div></div>
           <small className="nvDashboardFoot">La demo es interactiva; las cifras y el negocio son de ejemplo.</small>
         </div>
       </section>
