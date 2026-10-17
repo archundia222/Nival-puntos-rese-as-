@@ -5,13 +5,17 @@ const read=p=>readFileSync(p,'utf8');
 
 test('card editor keeps edits in a local draft until explicit publish',()=>{
  const editor=read('lib/points/program-editor.tsx');
- assert.ok(editor.includes('Guardar y publicar')&&editor.includes('Publicar tarjeta'));
- assert.ok(editor.includes('Borrador actualizado. Publícalo cuando esté listo.'));
+ assert.ok(editor.includes('tab===4&&<button type="submit"')&&editor.includes('Publicar tarjeta'));
+ assert.ok(editor.includes('if(tab!==4||!formRef.current)return;'),'publishing is blocked before the final step');
+ assert.ok(editor.includes('Completa cada paso; podrás publicar al final.'));
+ assert.ok(editor.includes('Promoción para esta tarjeta')&&editor.includes('Crear promociones'));
+ assert.ok(editor.includes('primaryRewardId'),'the card selects a saved catalog promotion');
  assert.ok(!editor.includes('Guardar ahora'));
  assert.ok(!editor.includes('automáticamente'));
  assert.ok(editor.includes('cardEnabled'));
  assert.ok(editor.includes('type="hidden" name="name"')&&editor.includes('type="hidden" name="points"')&&editor.includes('type="hidden" name="rewardName"'),'values from other editor tabs are submitted too');
  assert.ok(editor.includes('rewardName')&&editor.includes('rewardCost'));
+ assert.ok(editor.includes('setRewardOrder(current=>[e.target.value,...current.filter(id=>id!==e.target.value)])'),'selected promotion is first in the display order');
  assert.ok(editor.includes('QR PERSONAL')&&editor.includes('00000000'));
  assert.ok(editor.includes('Promociones')&&editor.includes('Diseño')&&editor.includes('Detalles'));
  assert.ok(editor.includes('campaignRules')&&editor.includes('at_risk')&&editor.includes('Elegir uno al azar'));
@@ -21,6 +25,18 @@ test('card editor keeps edits in a local draft until explicit publish',()=>{
  assert.ok(editor.includes('Un punto por visita completada')&&!editor.includes('Horas mínimas entre visitas')&&!editor.includes('Máximo de visitas por día'));
  assert.ok(editor.includes('tab===2&&<aside className="liveCardPreview">'));
  const optimizer=read('lib/points/image-optimizer.ts');assert.ok(optimizer.includes('12 * 1024 * 1024')&&optimizer.includes('canvasBlob'));
+});
+
+
+test('promotion catalog is available before the card and saved promotions can be selected later',()=>{
+ const page=read('app/panel/puntos/page.tsx'),actions=read('lib/foundation/actions.ts'),workspace=read('lib/points/card-workspace.tsx');
+ assert.ok(page.includes("{view==='premios'&&<><section className=\"reviewBox extraRewards\">"),'catalog does not require an existing points program');
+ assert.ok(actions.includes('catalog_only\\":true'),'first promotion creates a catalog-only program');
+ assert.ok(actions.includes('primaryRewardId')&&actions.includes('select r.id from nival_pr.rewards'),'card saves an existing business promotion');
+ assert.ok(workspace.includes('program?.rules?.catalog_only')&&workspace.includes('Aún sin tarjeta'),'catalog-only program is not shown as a published card');
+ const guide=read('lib/owner/start-guide.tsx');
+ assert.ok(guide.includes("label:'Crear tu primera promoción'")&&guide.includes("view=premios#premios"),'the first setup step opens promotion creation');
+ assert.ok(guide.includes("label:'Configurar y publicar tu tarjeta'")&&guide.includes("view=programa")&&guide.includes("href:base+'&edit=1#card-editor'"),'the next setup step opens the complete card flow');
 });
 
 test('points and review QR cards share the Cards workspace with plan limits',()=>{

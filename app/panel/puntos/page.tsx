@@ -95,7 +95,7 @@ export default async function PointsPanel({
         ))}
       </nav>
 
-      {programView&&<CardWorkspace businessId={b.id} business={b.name} slug={b.slug} program={program} reward={rewards.find((r:any) => r.active)} metrics={cardMetrics} recent={recent} period={period} initialEdit={params.edit==='1'} editor={<ProgramEditor businessId={b.id} business={b.name} program={program} reward={rewards.find((r:any) => r.active)} promotions={rewards.filter((r:any)=>r.active).map((r:any)=>({id:r.id,name:r.name,points_cost:r.points_cost}))}/>} />}{view==='premios'&&<>{program?<section className="reviewBox extraRewards"><h2>Premios y recompensas</h2><p>Crea y administra lo que tus clientes pueden obtener con sus puntos.</p>
+      {programView&&<CardWorkspace businessId={b.id} business={b.name} slug={b.slug} program={program} reward={rewards.find((r:any) => r.active)} metrics={cardMetrics} recent={recent} period={period} initialEdit={params.edit==='1'} editor={<ProgramEditor businessId={b.id} business={b.name} program={program} reward={rewards.find((r:any) => r.active)} promotions={rewards.filter((r:any)=>r.active).map((r:any)=>({id:r.id,name:r.name,points_cost:r.points_cost}))}/>} />}{view==='premios'&&<><section className="reviewBox extraRewards"><h2>Premios y recompensas</h2><p>Crea y publica las promociones que después podrás elegir al configurar tu tarjeta de puntos.</p>
         <h2>Premios</h2><h3 id="premios">Premios del programa</h3>{!rewards.length&&<p className="ownerEmpty">Agrega premios para ofrecer más opciones a tus clientes.</p>}
         {rewards.map((r) => (
           <details key={r.id} className="customerRow"><summary>{r.name} · {r.points_cost} puntos · {r.active?'Activo':'Desactivado'}</summary>
@@ -132,9 +132,9 @@ export default async function PointsPanel({
             </ActionForm>
           </details>
         ))}
-        <ActionForm action={addReward} label="Agregar premio">
+        <ActionForm action={addReward} label="Crear promoción">
           <Hidden name="businessId" value={b.id} />
-          <Field name="name" label="Nombre del premio o promoción" />
+          <Field name="name" label="Nombre de la promoción o premio" />
           <label>Tipo<select name="rewardType" defaultValue="product"><option value="product">Producto</option><option value="discount">Descuento</option></select></label>
           <Field name="valueMxn" label="Valor en pesos (MXN)" type="number" min={0} max={1000000} step={0.01} required={false}/>
           <Field name="photoUrl" label="Foto del producto (URL HTTPS)" required={false}/>
@@ -151,7 +151,7 @@ export default async function PointsPanel({
             }
           />
         </ActionForm><a className="workspacePrimary" href={'/panel?business='+b.id+'#compartir'}>Compartir tarjeta y QR</a>
-      </section>:<section className="reviewBox firstRewardGuide" id="premios"><div><h2>Crea primero tu tarjeta</h2><p>Guarda la tarjeta y su primer premio para administrar recompensas aquí.</p></div><a className="workspacePrimary" href={'/panel/puntos?business='+b.id+'&view=programa&edit=1#card-editor'}>Configurar tarjeta</a></section>}
+      </section>
       </>}
       {view==='equipo'&&<section className="reviewBox" id="personal">
         <h2>Tu equipo</h2><p>También puedes atender tú desde <a href={'/panel/operar?business='+b.id}>Puntos y canjes</a>. Crea un acceso solo para quienes van a registrar visitas o entregar premios.</p>

@@ -145,7 +145,7 @@ test('review report displays grounded themes and actions, legacy report makes no
  assert.ok(legacy.includes('Pendiente de análisis'));assert.ok(legacy.includes('Consejo manual'));assert.ok(!legacy.includes('Servicio amable'));
 });
 
-test('first reward is configured with the card and extra rewards appear only after publishing',()=>{
+test('catalog promotions can be created before card setup and selected in the editor',()=>{
  const owner=readFileSync(new URL('../lib/owner/view.tsx',import.meta.url),'utf8');
  const points=readFileSync(new URL('../app/panel/puntos/page.tsx',import.meta.url),'utf8');
  const catalog=readFileSync(new URL('../lib/points/card-catalog.tsx',import.meta.url),'utf8');
@@ -157,7 +157,8 @@ test('first reward is configured with the card and extra rewards appear only aft
  assert.ok(catalog.includes('setupState={setupState}'));
  assert.ok(!points.includes('setupState={setupState||undefined}'));
  assert.ok(!editor.includes('editorSetupProgress'));
- assert.ok(editor.includes('Premio inicial'));
+ assert.ok(editor.includes('Promoción para esta tarjeta'));
+ assert.ok(editor.includes('tab!==4'));
  assert.ok(editor.includes('¿Cómo se mostrarán los premios?'));
  assert.ok(editor.includes('Al azar para cada cliente'));
  assert.ok(editor.includes('rewardOrder'));
@@ -165,13 +166,15 @@ test('first reward is configured with the card and extra rewards appear only aft
  assert.ok(points.includes('initialEdit={params.edit===\'1\'}'));
  assert.ok(points.includes("view==='premios'"));
  assert.ok(points.includes('<h2>Premios y recompensas</h2>'));
- assert.ok(points.includes('Configurar tarjeta'));
+ assert.ok(points.includes('Crear promoción'));
+ assert.ok(points.includes('Crea y publica las promociones'));
+ assert.ok(editor.includes('Crear promociones'));
  assert.ok(!editor.includes('firstCardGuide'));
-    assert.ok(actions.includes("'{campaign_rules,targets}'"));
+    assert.ok(actions.includes('catalog_only')&&actions.includes('primaryRewardId'));
  assert.ok(points.includes('<CardWorkspace')&&points.includes("view==='premios'"));
  assert.ok(!editor.includes('Tipo de recompensas'));
  assert.ok(actions.includes('"surprise"'));
- assert.ok(actions.includes('Configura y guarda tu tarjeta en «Mis tarjetas» antes de agregar otro premio.'));
+ assert.ok(actions.includes('Promoción publicada en tu catálogo. Ya puedes elegirla al configurar la tarjeta.'));
 });
 
 test('menu destinations identify the matching screen and onboarding actions jump to their forms',()=>{
@@ -187,8 +190,8 @@ test('menu destinations identify the matching screen and onboarding actions jump
  assert.ok(shell.includes("home.hash=target;window.location.href=home.pathname+home.search+home.hash"));
  assert.ok(points.includes("'programa','promociones','premios','equipo','canjes','compartir'"));
  assert.ok(points.includes("view==='programa'?'mis-tarjetas':view==='equipo'?'equipo':view"));
- assert.ok(guide.includes("&view=programa&edit=1#card-editor"));
+ assert.ok(guide.includes("href:base+'&edit=1#card-editor'"));
  assert.ok(shell.includes("setSection('mis-tarjetas');setExpanded('fidelidad')"));
- assert.ok(guide.includes("href:base+'#programa'"));
+ assert.ok(guide.includes("label:'Crear tu primera promoción'")&&guide.includes("view=premios#premios"));
  assert.match(owner,/<section data-panel="plan"[^]*?<PlanChoices b=\{b\}\/>/);
 });

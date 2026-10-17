@@ -9,8 +9,8 @@ export async function startGuideState(actor:Actor,businessId:string,reviewCards:
  const base='/panel/puntos?business='+businessId+'&view=programa';
  const reviewQr=reviewCards.some(card=>card.active);
  const steps=[
-  {done:state.reward,label:'Configurar y registrar tu primer premio',icon:'gift',href:'/panel/puntos?business='+businessId+'&view=programa&edit=1#card-editor'},
-  {done:state.program,label:'Activar tarjeta',icon:'card',href:base+'#programa'},
+  {done:state.reward,label:'Crear tu primera promoción',icon:'gift',href:'/panel/puntos?business='+businessId+'&view=premios#premios'},
+  {done:state.program,label:'Configurar y publicar tu tarjeta',icon:'card',href:base+'&edit=1#card-editor'},
   {done:reviewQr,label:'Colocar QR de reseñas',icon:'google',href:'/panel?business='+businessId+'#nival-resenas'},
   {done:state.customer,label:'Registrar primer cliente',icon:'check',href:'/panel?business='+businessId+'#compartir-programa'},
  ];

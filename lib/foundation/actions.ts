@@ -202,6 +202,7 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
   const color = val(f, "color");
   const logo = val(f, "logo");
   const rewardName = val(f, "rewardName"), rewardCost = Number(val(f, "rewardCost"));
+  const primaryRewardId = val(f, "primaryRewardId");
   let rewardOrder: string[] = [];
   try { const parsed=JSON.parse(val(f,"rewardOrder")||"[]"); if(!Array.isArray(parsed)||parsed.length>100||parsed.some(id=>typeof id!=="string"||!uuid(id))||new Set(parsed).size!==parsed.length)throw new Error(); rewardOrder=parsed; } catch { return {error:"Revisa el orden de los premios."}; }
   const cardEnabled = val(f, "cardEnabled") === "on";
@@ -274,26 +275,37 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
     max > 2147483647 ||
     (doublePointsDay!==''&&(!/^\d$/.test(doublePointsDay)||Number(doublePointsDay)>6))||
     !/^#[a-f0-9]{6}$/i.test(color) ||
-    !rewardName || rewardName.length > 150 || !Number.isInteger(rewardCost) || rewardCost < 1 || rewardCost > 100000
+    !uuid(primaryRewardId) || !rewardName || rewardName.length > 150 || !Number.isInteger(rewardCost) || rewardCost < 1 || rewardCost > 100000
   )
     return { error: "Revisa las reglas del programa." };
   try {
     await requireTool(actor, b);
+    const [selectedReward] = await query(actor, "select r.id from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 and r.id=$2 and r.active and (r.expires_at is null or r.expires_at>now()) and (r.stock is null or r.stock>0)", [b, primaryRewardId]);
+    if (!selectedReward) return { error: "Elige una promoción activa de tu catálogo. Si aún no tienes, créala en Tarjetas → Premios y recompensas." };
     const promotionIds = [...new Set(Object.values(campaignRules.targets).flat())];
     const validPromotions = await query(actor, "select r.id from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 and r.active and (r.expires_at is null or r.expires_at>now()) and (r.stock is null or r.stock>0) and r.id=any($2::uuid[])", [b, promotionIds]);
     if (validPromotions.length !== promotionIds.length) return { error: "Una promoción seleccionada ya no está activa. Actualiza la selección y vuelve a publicar." };
     const activeReward = await query(actor,"select r.id from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 and r.active order by r.position,r.id limit 1",[b]);
-    if(rewardOrder.length){const existing=await query(actor,"select r.id from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 and r.active and r.id=any($2::uuid[])",[b,rewardOrder]);if(existing.length!==rewardOrder.length)return {error:"La lista de premios cambió. Actualiza la página e inténtalo de nuevo."};}
+    let rewardPositions:number[]=[];
+    let rewardPositionOffset=0;
+    if(rewardOrder.length){
+      const existing=await query(actor,"select r.id,r.position from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 and r.active and r.id=any($2::uuid[]) order by r.position,r.id",[b,rewardOrder]);
+      if(existing.length!==rewardOrder.length)return {error:"La lista de premios cambió. Actualiza la página e inténtalo de nuevo."};
+      rewardPositions=existing.map((row:any)=>Number(row.position));
+      const [maximum]=await query(actor,"select coalesce(max(r.position),-1)::int max_position from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1",[b]);
+      rewardPositionOffset=Number(maximum?.max_position??-1);
+      if(rewardPositionOffset+rewardOrder.length>2147483647)return {error:"No se pudo reordenar la lista porque alcanzó su límite. Ajusta el orden de los premios e inténtalo de nuevo."};
+    }
     if (activeReward.length) {
-      if (campaignRules.autoWelcome) campaignRules.targets.new = [activeReward[0].id];
+      if (campaignRules.autoWelcome) campaignRules.targets.new = [primaryRewardId];
       if (campaignRules.autoMissYou) {
-        campaignRules.targets.at_risk = [activeReward[0].id];
-        campaignRules.targets.lost = [activeReward[0].id];
+        campaignRules.targets.at_risk = [primaryRewardId];
+        campaignRules.targets.lost = [primaryRewardId];
       }
     }
     if (activeReward.length && !campaignRules.targets.all.length) return { error: "Asigna al menos un premio a Todos. Los demás grupos son opcionales." };
     await transaction(actor, [
-      { text: "insert into nival_pr.programs(business_id,name,mode,points_per_visit,color,rules,logo_url,card_enabled) values($1,$2,$3,$4,$5,$6::jsonb,$7,$8) on conflict(business_id) do update set name=excluded.name,mode=excluded.mode,points_per_visit=excluded.points_per_visit,color=excluded.color,rules=coalesce(programs.rules, '{}'::jsonb) || excluded.rules,logo_url=excluded.logo_url,card_enabled=excluded.card_enabled", values: [
+      { text: "insert into nival_pr.programs(business_id,name,mode,points_per_visit,color,rules,logo_url,card_enabled) values($1,$2,$3,$4,$5,$6::jsonb,$7,$8) on conflict(business_id) do update set name=excluded.name,mode=excluded.mode,points_per_visit=excluded.points_per_visit,color=excluded.color,rules=(coalesce(programs.rules, '{}'::jsonb)-'catalog_only') || excluded.rules,logo_url=excluded.logo_url,card_enabled=excluded.card_enabled", values: [
         b,
         name,
         mode,
@@ -310,10 +322,10 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
         logo || null,
         cardEnabled,
       ] },
-      ...(activeReward.length ? [{text:"update nival_pr.rewards set name=$2,points_cost=$3 where id=$1",values:[activeReward[0].id,rewardName,rewardCost]}] : [
-        {text:"with created as (insert into nival_pr.rewards(program_id,name,points_cost,position,active) select id,$2,$3,0,true from nival_pr.programs where business_id=$1 returning id) update nival_pr.programs p set rules=jsonb_set(coalesce(p.rules,'{}'::jsonb),'{campaign_rules,targets}',jsonb_build_object('all',jsonb_build_array((select id::text from created)),'new',case when $4 then jsonb_build_array((select id::text from created)) else '[]'::jsonb end,'at_risk',case when $5 then jsonb_build_array((select id::text from created)) else '[]'::jsonb end,'lost',case when $5 then jsonb_build_array((select id::text from created)) else '[]'::jsonb end,'frequent','[]'::jsonb,'absent','[]'::jsonb),true) where p.business_id=$1",values:[b,rewardName,rewardCost,campaignRules.autoWelcome,campaignRules.autoMissYou]},
-      ]),
-      ...(rewardOrder.length?[{text:"update nival_pr.rewards r set position=(ordered.ordinality-1)::int from unnest($2::uuid[]) with ordinality ordered(id,ordinality),nival_pr.programs p where p.business_id=$1 and r.program_id=p.id and r.id=ordered.id",values:[b,rewardOrder]}]:[]),
+      ...(rewardOrder.length?[
+        {text:"update nival_pr.rewards r set position=$3::int+ordered.ordinality::int from unnest($2::uuid[]) with ordinality ordered(id,ordinality),nival_pr.programs p where p.business_id=$1 and r.program_id=p.id and r.id=ordered.id",values:[b,rewardOrder,rewardPositionOffset]},
+        {text:"update nival_pr.rewards r set position=ordered.position from unnest($2::uuid[],$3::int[]) ordered(id,position),nival_pr.programs p where p.business_id=$1 and r.program_id=p.id and r.id=ordered.id",values:[b,rewardOrder,rewardPositions]},
+      ]:[]),
     ]);
   } catch (e) {
     return failure(e);
@@ -352,17 +364,17 @@ export async function addReward(_: Result, f: FormData): Promise<Result> {
     return { error: "Revisa el premio, su costo y su posición." };
   try {
     await requireTool(actor, b);
-    const [row] = await query(
-      actor,
-      "insert into nival_pr.rewards(program_id,name,points_cost,position,photo_url,reward_type,value_mxn) select id,$2,$3,$4,nullif($5,''),$6,$7 from nival_pr.programs where business_id=$1 returning id",
-      [b, name, cost, position,photoUrl,rewardType,valueMxn],
-    );
+    const results=await transaction(actor,[
+      {text:"insert into nival_pr.programs(business_id,name,mode,points_per_visit,color,rules,card_enabled) values($1,'Programa de puntos','single',1,'#f4f4f0','{\"min_hours_between_visits\":0,\"max_visits_per_day\":2147483647,\"catalog_only\":true}',false) on conflict(business_id) do nothing",values:[b]},
+      {text:"insert into nival_pr.rewards(program_id,name,points_cost,position,photo_url,reward_type,value_mxn) select id,$2,$3,$4,nullif($5,''),$6,$7 from nival_pr.programs where business_id=$1 returning id",values:[b,name,cost,position,photoUrl,rewardType,valueMxn]},
+    ]);
+    const [row]=results[1]||[];
     if (!row) return { error: "Configura y guarda tu tarjeta en «Mis tarjetas» antes de agregar otro premio." };
   } catch (e) {
     return failure(e);
   }
   revalidatePath("/panel");revalidatePath("/panel/puntos");
-  return { success: "Premio agregado. Tu tarjeta ya muestra el premio." };
+  return { success: "Promoción publicada en tu catálogo. Ya puedes elegirla al configurar la tarjeta." };
 }
 export async function customerLink(_: Result, f: FormData): Promise<Result> {
   const actor = await guardAction(["owner", "superadmin"],f);
