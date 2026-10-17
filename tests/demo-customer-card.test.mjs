@@ -43,6 +43,6 @@ test("public landing explains Nival plans, points, and review support without un
   assert.ok(landing.includes('nfc: "6"'));
   assert.ok(landing.includes('nfc: "12"'));
   assert.ok(landing.includes("Comparación con negocios similares de tu zona"));
-  assert.ok(landing.includes("La visita termina."));
+  assert.ok(landing.includes("Haz que vuelvan."));
   assert.ok(landing.includes("CAFÉ DEMO · EJEMPLO"));
 });

@@ -7,21 +7,22 @@ const carousel = readFileSync("app/landing-industry-carousel.tsx", "utf8");
 const mobileNav = readFileSync("app/landing-mobile-nav.tsx", "utf8");
 const css = readFileSync("app/landing-reference.css", "utf8");
 const layout = readFileSync("app/layout.tsx", "utf8");
+const ownerView = readFileSync("lib/owner/view.tsx", "utf8");
 
 test("landing explains the products, business types, dashboard and plans", () => {
   for (const text of [
-    "La visita termina.",
-    "La relación sigue.",
-    "Un premio a la vista.",
-    "De una buena visita a tu ficha.",
-    "Que también te regalen.",
-    "Mira qué pasa.<br /><em>Decide qué sigue.</em>",
+    "Haz que vuelvan.",
+    "Que te encuentren.",
+    "Que cada visita acerque el premio.",
+    "De tu mostrador a Google.",
+    "Comparte algo que invita a volver.",
+    "Esto es lo que ves en Inicio.",
     "Elige cómo quieres crecer.",
-    "Antes de empezar.",
-    "Del mostrador al siguiente paso.",
+    "Lo esencial, sin vueltas.",
+    "Empieza en el mostrador.",
     "Nival gestiona las respuestas de forma manual y con tu permiso.",
   ]) assert.ok(page.includes(text), text);
-  assert.ok(carousel.includes("De la cafetería a la barbería."));
+  assert.ok(carousel.includes("Nival cabe en tu día a día."));
   assert.ok(page.includes("<LandingIndustryCarousel />"));
   assert.equal(
     ((page.match(/<section\b/g) || []).length + (carousel.match(/<section\b/g) || []).length),
@@ -32,7 +33,7 @@ test("landing explains the products, business types, dashboard and plans", () =>
   assert.ok(carousel.includes('id="giros"'), "giros");
   for (const href of ["#giros", "#producto", "#panel", "#planes", "#preguntas"])
     assert.ok(page.includes(href), href);
-  assert.ok(page.includes('href="/demo"'));
+  assert.ok(page.includes('href="/demo/panel"'));
   assert.ok(page.includes('href="/acceso"'));
   for (const anchor of ["#producto", "#panel", "#planes", "#preguntas"])
     assert.ok(mobileNav.includes(anchor), anchor);
@@ -64,29 +65,30 @@ test("prices and plan limits match the current entitlements", () => {
   assert.match(page, /Tarjeta digital de puntos <i>·<\/i> Tarjeta de regalo Nival Pay <i>·<\/i> Resumen mensual en PDF/);
   assert.match(page, /Nival gestiona las respuestas de forma manual y con tu permiso/);
   assert.match(page, /resumen mensual en PDF/i);
-  assert.match(page, /Tu equipo registra la visita/);
+  assert.match(page, /Tu equipo suma visitas/);
   assert.match(page, /Nival responde reseñas manualmente/);
 });
 
 test("sample metrics are labeled and real images replace upload placeholders", () => {
   assert.match(page, /EJEMPLO|ejemplo/);
   assert.match(page, /datos de ejemplo/i);
-  assert.match(page, /ÚLTIMOS 30 DÍAS/);
+  assert.match(ownerView, /periodDays/);
   assert.doesNotMatch(page, /Espacio para imagen|pendiente de recibir/);
   for (const image of ["6105", "6106", "6107", "6109", "6111", "6112", "6113", "6114"])
     assert.ok(existsSync(`public/assets/img/landing/${image}.webp`), image);
   for (const image of ["puntos", "resenas"])
     assert.ok(existsSync(`public/assets/img/landing/${image}.webp`), image);
-  assert.match(page, /Un premio a la vista\./);
-  assert.match(page, /De una buena visita a tu ficha\./);
-  assert.match(page, /Nuevos y recurrentes/);
-  assert.match(page, /INGRESOS DE CLIENTES RECURRENTES/);
-  assert.match(page, /selector de sucursal|Sucursal seleccionada/i);
-  assert.match(page, /Tu reputación, a la vista\./);
-  assert.match(page, /Tus grupos/);
-  assert.match(page, /COMPARATIVO LOCAL · EJEMPLO/);
-  assert.match(page, /PLAN PLUS/);
-  for (const image of ["industry-cafe.webp", "industry-taqueria.webp", "industry-restaurant.webp", "nival-counter-display.webp"])
+  assert.match(page, /tarjetas NFC \+ QR que abren reseñas de Google/i);
+  assert.match(page, /TU FICHA DE GOOGLE/);
+  assert.match(page, /áreas de mejora/i);
+  assert.match(page, /iframe src="\/demo\/panel\?embed=1&amp;days=30"/);
+  assert.match(page, /Demo interactiva del panel real de Nival/);
+  assert.match(ownerView, /Nuevos y recurrentes/);
+  assert.match(ownerView, /impactGoogleCard/);
+  assert.match(ownerView, /REPUTACIÓN EN GOOGLE/);
+  assert.match(ownerView, /Ver análisis y recomendaciones/);
+  assert.match(ownerView, /Comparación con negocios de la misma categoría en la zona/);
+  for (const image of ["industry-cafe.webp", "industry-taqueria.webp", "industry-restaurant.webp", "industry-clinic.webp", "industry-ice-cream.webp"])
     assert.ok(existsSync(`public/assets/img/${image}`), image);
 });
 
@@ -103,14 +105,14 @@ test("responsive layout, keyboard focus and reduced motion are present", () => {
   assert.match(css, /prefers-reduced-motion/);
 });
 
-test("business carousel advances automatically and pauses for interaction or reduced motion", () => {
-  assert.match(carousel, /setInterval/);
-  assert.match(carousel, /3800/);
-  assert.match(carousel, /prefers-reduced-motion:\s*reduce/);
-  assert.match(carousel, /onMouseEnter/);
-  assert.match(carousel, /onFocus/);
-  assert.match(carousel, /Pausar/);
-  assert.match(carousel, /Siguiente negocio/);
-  assert.match(page, /tu cliente ve su avance en el celular/);
-  assert.match(page, /NFC o QR/);
+test("business carousel loops automatically and has no visible controls", () => {
+  assert.match(css, /@keyframes nvIndustryScroll/);
+  assert.match(css, /animation:nvIndustryScroll/);
+  assert.match(carousel, /industry-clinic\.webp/);
+  assert.match(carousel, /industry-ice-cream\.webp/);
+  assert.match(carousel, /landing\/6107\.webp/);
+  assert.match(css, /prefers-reduced-motion:\s*reduce/);
+  assert.doesNotMatch(carousel, /Pausar|Siguiente negocio|Negocio anterior|aria-label=".*flecha/i);
+  assert.match(page, /cada cliente ve cuánto le falta en su celular/);
+  assert.match(page, /Acerca el teléfono o escanea el QR/);
 });
