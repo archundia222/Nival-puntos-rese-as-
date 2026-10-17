@@ -11,8 +11,7 @@ const ownerView = readFileSync("lib/owner/view.tsx", "utf8");
 
 test("landing explains the products, business types, dashboard and plans", () => {
   for (const text of [
-    "Haz que vuelvan.",
-    "Que te encuentren.",
+    "La visita de hoy también cuenta para la próxima.",
     "Que cada visita acerque el premio.",
     "De tu mostrador a Google.",
     "Comparte algo que invita a volver.",
@@ -78,7 +77,7 @@ test("sample metrics are labeled and real images replace upload placeholders", (
     assert.ok(existsSync(`public/assets/img/landing/${image}.webp`), image);
   for (const image of ["puntos", "resenas"])
     assert.ok(existsSync(`public/assets/img/landing/${image}.webp`), image);
-  assert.match(page, /tarjetas NFC \+ QR que abren reseñas de Google/i);
+  assert.match(page, /tarjetas NFC y QR que llevan a tu ficha de Google/i);
   assert.match(page, /TU FICHA DE GOOGLE/);
   assert.match(page, /áreas de mejora/i);
   assert.match(page, /<OwnerView/);
