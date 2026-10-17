@@ -11,7 +11,7 @@ export function ReviewCardManager({businessId,branchId,branchName,cards,googleUr
  function addDemoCard(){if(demo&&active<cardLimit){const label=`Tarjeta ${active+1}`;setDemoCards(current=>[...current,label]);}}
  return <div className="reviewCardManager">
   <header className="reviewCardHeading">
-   <div className="reviewCardHeadingActions">{canCreate&&(demo?<button type="button" className="workspacePrimary reviewAddButton" onClick={addDemoCard}>Agregar QR <span aria-hidden="true">+</span></button>:<button type="button" className="workspacePrimary reviewAddButton" aria-expanded={adding} onClick={()=>setAdding(value=>!value)}>{adding?'Cancelar':'Agregar QR'} {adding&&<Icon name="close" size={16}/>}</button>)}</div>
+   <div className="reviewCardHeadingActions">{canCreate&&(demo?<button type="button" className="workspacePrimary reviewAddButton" onClick={addDemoCard}>Agregar tarjeta QR <span aria-hidden="true">+</span></button>:<button type="button" className="workspacePrimary reviewAddButton" aria-expanded={adding} onClick={()=>setAdding(value=>!value)}>{adding?'Cancelar':'Agregar tarjeta QR'} {adding&&<Icon name="close" size={16}/>}</button>)}</div>
   </header>
   {!googleUrl&&!demo?<article className="ownerCard reviewConnectCard">
    <span className="reviewConnectIcon"><Icon name="google" size={34}/></span>
