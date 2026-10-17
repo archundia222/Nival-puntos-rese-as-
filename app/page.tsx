@@ -38,7 +38,7 @@ export default function Home() {
         <div className="nvContainer nvHeroGrid">
           <div className="nvHeroCopy">
             <span className="nvEyebrow">PUNTOS Y RESEÑAS PARA TU NEGOCIO</span>
-            <h1 id="hero-title">Que vuelvan.<br /><em>Que te elijan.</em></h1>
+            <h1 id="hero-title"><span>Que vuelvan.</span><br /><em>Que te elijan.</em></h1>
             <p>Premia las visitas y atiende tus reseñas desde un solo lugar.</p>
             <div className="nvHeroActions"><a className="nvButton nvButtonPrimary" href={whatsapp()} target="_blank" rel="noreferrer">Quiero conocer Nival <LandingIcon name="arrow" /></a><a className="nvButton nvButtonOutline" href="/demo">Ver demo</a></div>
             <div className="nvHeroProof"><span>Sin app para tus clientes</span><i /> <span>QR + NFC</span><i /> <span>Desde $299 MXN</span></div>

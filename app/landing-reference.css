@@ -34,3 +34,8 @@
   .nvValueDashboard h3{grid-column:1;grid-row:3}
   .nvValueDashboard p{grid-column:1;grid-row:4}
 }
+.nvHeroGrid{grid-template-columns:.92fr 1.08fr;gap:40px}
+.nvHero h1{font-size:clamp(52px,6vw,76px)}
+.nvHero h1 span,.nvHero h1 em{white-space:nowrap}
+@media(max-width:950px){.nvHeroGrid{grid-template-columns:1fr;gap:26px}.nvHero h1{font-size:clamp(54px,8vw,72px)}.nvHeroImageWrap{min-height:430px}}
+@media(max-width:420px){.nvHero h1{font-size:clamp(44px,13vw,52px)}}
