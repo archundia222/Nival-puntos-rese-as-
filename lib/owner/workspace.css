@@ -638,6 +638,35 @@
 @media(max-width:760px){.impactMasterMetrics{grid-template-columns:repeat(2,minmax(0,1fr))}.impactGoogleCard{grid-template-columns:1fr}.impactReviewSummary,.impactGoogleLinks,.impactGoogleCard .replyProgress,.impactReplyQuota{grid-column:1;grid-row:auto}.impactGoogleLinks{align-items:flex-start}.impactMasterDetails{grid-template-columns:1fr}.impactMasterDetails>.ownerActivityCard{grid-column:auto}.customerMixBody{justify-content:flex-start}.startGuide ol{grid-template-columns:1fr 1fr!important}.explorerFilters{grid-template-columns:1fr 1fr}.explorerSearch{grid-column:1/-1}}
 @media(max-width:560px){.impactPeriodFilter{justify-content:flex-start;flex-wrap:wrap}.impactMasterMetrics{grid-template-columns:1fr}.impactMetric{min-height:unset}.impactGoogleCard{padding:14px}.startGuide ol{grid-template-columns:1fr!important}.explorerFilters{grid-template-columns:1fr}.explorerSearch{grid-column:auto}.automaticPromotionSwitches{grid-template-columns:1fr}}
 
+/* Card editor clarity, gallery uploads, and persistent preview while designing. */
+.nivalCardEditor .promotionEditor{display:grid;gap:12px;padding:16px;border:1px solid #e1e7df;border-radius:13px;background:#fbfcf9}
+.nivalCardEditor .promotionEditor h3{margin:0;color:#254837;font-size:15px}
+.nivalCardEditor .promotionEditor>div>p,.nivalCardEditor .segmentOverrides>p{margin:4px 0;color:#6e7a70;font-size:12px;line-height:1.45}
+.nivalCardEditor .promotionEditor .automaticPromotionSwitches{margin:0}
+.nivalCardEditor .segmentOverrides{padding-top:8px;border-top:1px solid #e7ece6}
+.nivalCardEditor .segmentOverrides summary{color:#2f5f45;font-size:12px;font-weight:700;cursor:pointer}
+.nivalCardEditor .segmentOverrides summary small{display:inline;color:#758277}
+.nivalCardEditor .segmentOverrides[open]{display:grid;gap:10px}
+.nivalCardEditor .promotionEmpty{padding:12px;border-radius:9px;background:#f2f5ef}
+.nivalCardEditor .visitRuleNote{display:grid;gap:5px;padding:13px 15px;border-left:3px solid #638758;border-radius:8px;background:#f4f7ef}
+.nivalCardEditor .visitRuleNote strong{color:#294c36;font-size:12px}
+.nivalCardEditor .visitRuleNote span{color:#68766b;font-size:11px;line-height:1.5}
+.staffVisitRule{display:grid;gap:5px;margin:0 0 14px;padding:13px 15px;border-left:3px solid #638758;border-radius:8px;background:#f4f7ef}
+.staffVisitRule strong{color:#294c36;font-size:12px}
+.staffVisitRule span{color:#68766b;font-size:11px;line-height:1.5}
+.nivalCardEditor .uploadHint{margin:0;color:#718174;font-size:11px}
+.nivalCardEditor input[type=file]::file-selector-button{min-height:36px;margin-right:10px;padding:7px 12px;border:1px solid #cbd7c9;border-radius:8px;background:#f3f6ef;color:#294c36;font:inherit;font-size:11px;font-weight:700;cursor:pointer}
+.nivalCardEditor .editorStatus{font-weight:700}
+.nivalCardEditor .cardEditorPublish h3{font-size:20px}
+.nivalCardEditor .cardEditorBody{align-items:start}
+.nivalCardEditor .cardEditorBody:not(.isDesignTab){grid-template-columns:minmax(0,1fr)}
+.nivalCardEditor .cardPreviewCanvas{min-height:0;padding:14px;gap:10px}
+.nivalCardEditor .cardPreviewCanvas>.loyaltyCard{width:min(100%,440px);min-height:0;aspect-ratio:1.58;padding:18px 20px;transform:none}
+.nivalCardEditor .cardPreviewCanvas .cardQrInside img{width:32px;height:32px}
+.nivalCardEditor .cardPreviewCanvas>.loyaltyCard footer{margin-top:8px;padding-top:7px}
+@media(max-width:900px){.nivalCardEditor .cardEditorBody{grid-template-columns:minmax(0,1fr)}.nivalCardEditor .liveCardPreview{position:sticky;top:8px;z-index:30;grid-row:1;padding:10px;background:#fff;box-shadow:0 6px 22px #1735261a}.nivalCardEditor .previewHeading{margin-bottom:7px}.nivalCardEditor .previewHeading p,.nivalCardEditor .previewFootnote,.nivalCardEditor .previewCanvasMeta{display:none}.nivalCardEditor .cardPreviewCanvas{padding:6px;background:none;border:0}.nivalCardEditor .cardPreviewCanvas>.loyaltyCard{width:min(100%,400px);aspect-ratio:1.9;padding:12px 14px;border-radius:12px}.nivalCardEditor .cardPreviewCanvas .loyaltyCard h1{font-size:15px}.nivalCardEditor .cardPreviewCanvas .cardPointGrid{margin:6px 0;gap:4px}.nivalCardEditor .cardPreviewCanvas .cardPointGrid i{width:20px;height:20px;font-size:10px}.nivalCardEditor .cardPreviewCanvas .cardQrInside{display:none}.nivalCardEditor .cardPreviewCanvas .loyaltyCard footer{margin-top:5px;padding-top:4px}}
+@media(max-width:640px){.nivalCardEditor .liveCardPreview{top:4px}.nivalCardEditor .cardEditorFields{padding:14px}.nivalCardEditor .editorFooter{position:sticky;bottom:8px;z-index:20;padding:10px;background:#fff;border:1px solid #e1e7df;border-radius:12px;box-shadow:0 5px 18px #20372920}.nivalCardEditor .editorFooter .workspacePrimary{flex:1}.nivalCardEditor .cardEditorTabs{overflow-x:auto;grid-template-columns:repeat(4,minmax(105px,1fr))}.nivalCardEditor .segmentOverrides .campaignSegment{padding:10px}.nivalCardEditor .promotionEditor .automaticPromotionSwitches{grid-template-columns:1fr}}
+
 /* Dashboard refinements: one surface per block, with quiet rows inside. */
 .nivalShell .startGuide{margin:0 0 18px;padding:clamp(22px,4vw,38px);border:1px solid #dce6dc;border-radius:20px;background:linear-gradient(145deg,#fff 0%,#f6f9f4 100%);box-shadow:0 12px 32px #1d3b2a0a}
 .startGuideHeading{align-items:center;margin-bottom:0}

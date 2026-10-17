@@ -196,15 +196,15 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
     name = val(f, "name"),
     mode = val(f, "mode"),
     points = Number(val(f, "points")),
-    hours = Number(val(f, "hours")),
-    max = Number(val(f, "max")),
+    hours = 0,
+    max = 2147483647,
     doublePointsDay=val(f,"doublePointsDay");
   const color = val(f, "color");
   const logo = val(f, "logo");
   const rewardName = val(f, "rewardName"), rewardCost = Number(val(f, "rewardCost"));
   const cardEnabled = val(f, "cardEnabled") === "on";
   let cardDesign: Record<string, unknown> = {};
-  let campaignRules: { strategy: "manual" | "random"; targets: Record<string, string[]> };
+  let campaignRules: { strategy: "manual" | "random"; targets: Record<string, string[]>; autoWelcome: boolean; autoMissYou: boolean };
   try {
     const parsed = JSON.parse(val(f, "campaignRules") || "{}");
     if (!parsed || typeof parsed !== "object" || Array.isArray(parsed) || !["manual", "random"].includes(parsed.strategy)) throw new Error();
@@ -217,7 +217,7 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
       if (!Array.isArray(ids) || ids.length > 10 || ids.some((id: unknown) => typeof id !== "string" || !uuid(id))) throw new Error();
       clean[key] = [...new Set(ids)];
     }
-    campaignRules = { strategy: parsed.strategy, targets: clean };
+    campaignRules = { strategy: parsed.strategy, targets: clean, autoWelcome: parsed.autoWelcome === true, autoMissYou: parsed.autoMissYou === true };
   } catch { return { error: "Revisa la selección de premios por grupo." }; }
   try {
     const parsed = JSON.parse(val(f, "cardDesign") || "{}");
@@ -269,7 +269,7 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
     hours > 720 ||
     !Number.isInteger(max) ||
     max < 1 ||
-    max > 100 ||
+    max > 2147483647 ||
     (doublePointsDay!==''&&(!/^\d$/.test(doublePointsDay)||Number(doublePointsDay)>6))||
     !/^#[a-f0-9]{6}$/i.test(color) ||
     !rewardName || rewardName.length > 150 || !Number.isInteger(rewardCost) || rewardCost < 1 || rewardCost > 100000
@@ -281,6 +281,13 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
     const validPromotions = await query(actor, "select r.id from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 and r.active and (r.expires_at is null or r.expires_at>now()) and (r.stock is null or r.stock>0) and r.id=any($2::uuid[])", [b, promotionIds]);
     if (validPromotions.length !== promotionIds.length) return { error: "Una promoción seleccionada ya no está activa. Actualiza la selección y vuelve a publicar." };
     const activeReward = await query(actor,"select r.id from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1 and r.active order by r.position,r.id limit 1",[b]);
+    if (activeReward.length) {
+      if (campaignRules.autoWelcome) campaignRules.targets.new = [activeReward[0].id];
+      if (campaignRules.autoMissYou) {
+        campaignRules.targets.at_risk = [activeReward[0].id];
+        campaignRules.targets.lost = [activeReward[0].id];
+      }
+    }
     if (activeReward.length && !campaignRules.targets.all.length) return { error: "Asigna al menos un premio a Todos. Los demás grupos son opcionales." };
     await transaction(actor, [
       { text: "insert into nival_pr.programs(business_id,name,mode,points_per_visit,color,rules,logo_url,card_enabled) values($1,$2,$3,$4,$5,$6::jsonb,$7,$8) on conflict(business_id) do update set name=excluded.name,mode=excluded.mode,points_per_visit=excluded.points_per_visit,color=excluded.color,rules=coalesce(programs.rules, '{}'::jsonb) || excluded.rules,logo_url=excluded.logo_url,card_enabled=excluded.card_enabled", values: [
@@ -301,8 +308,7 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
         cardEnabled,
       ] },
       ...(activeReward.length ? [{text:"update nival_pr.rewards set name=$2,points_cost=$3 where id=$1",values:[activeReward[0].id,rewardName,rewardCost]}] : [
-        {text:"insert into nival_pr.rewards(program_id,name,points_cost,position,active) select id,$2,$3,0,true from nival_pr.programs where business_id=$1",values:[b,rewardName,rewardCost]},
-        {text:"update nival_pr.programs p set rules=jsonb_set(coalesce(p.rules,'{}'::jsonb),'{campaign_rules,targets,all}',to_jsonb(array(select r.id::text from nival_pr.rewards r where r.program_id=p.id and r.active order by r.position,r.id limit 1)),true) where p.business_id=$1",values:[b]},
+        {text:"with created as (insert into nival_pr.rewards(program_id,name,points_cost,position,active) select id,$2,$3,0,true from nival_pr.programs where business_id=$1 returning id) update nival_pr.programs p set rules=jsonb_set(coalesce(p.rules,'{}'::jsonb),'{campaign_rules,targets}',jsonb_build_object('all',jsonb_build_array((select id::text from created)),'new',case when $4 then jsonb_build_array((select id::text from created)) else '[]'::jsonb end,'at_risk',case when $5 then jsonb_build_array((select id::text from created)) else '[]'::jsonb end,'lost',case when $5 then jsonb_build_array((select id::text from created)) else '[]'::jsonb end,'frequent','[]'::jsonb,'absent','[]'::jsonb),true) where p.business_id=$1",values:[b,rewardName,rewardCost,campaignRules.autoWelcome,campaignRules.autoMissYou]},
       ]),
     ]);
   } catch (e) {

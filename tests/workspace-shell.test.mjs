@@ -164,7 +164,7 @@ test('first reward is configured with the card and extra rewards appear only aft
  assert.ok(points.includes('Tu primer premio se crea con la tarjeta'));
  assert.ok(points.includes('Configurar tarjeta'));
  assert.ok(!editor.includes('firstCardGuide'));
- assert.ok(actions.includes("'{campaign_rules,targets,all}'"));
+    assert.ok(actions.includes("'{campaign_rules,targets}'"));
  assert.ok(points.includes('<CardWorkspace')&&points.includes('Premios adicionales ('));
  assert.ok(actions.includes('Configura y guarda tu tarjeta en «Mis tarjetas» antes de agregar otro premio.'));
 });

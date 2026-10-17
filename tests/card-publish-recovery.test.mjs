@@ -5,16 +5,22 @@ const read=p=>readFileSync(p,'utf8');
 
 test('card editor keeps edits in a local draft until explicit publish',()=>{
  const editor=read('lib/points/program-editor.tsx');
- assert.ok(editor.includes('Guardar tarjeta'));
+ assert.ok(editor.includes('Guardar y publicar')&&editor.includes('Publicar tarjeta'));
  assert.ok(editor.includes('Borrador actualizado. Publícalo cuando esté listo.'));
  assert.ok(!editor.includes('Guardar ahora'));
  assert.ok(!editor.includes('automáticamente'));
  assert.ok(editor.includes('cardEnabled'));
+ assert.ok(editor.includes('type="hidden" name="name"')&&editor.includes('type="hidden" name="points"')&&editor.includes('type="hidden" name="rewardName"'),'values from other editor tabs are submitted too');
  assert.ok(editor.includes('rewardName')&&editor.includes('rewardCost'));
  assert.ok(editor.includes('QR PERSONAL')&&editor.includes('00000000'));
  assert.ok(editor.includes('Promociones')&&editor.includes('Diseño')&&editor.includes('Detalles'));
- assert.ok(editor.includes('campaignRules')&&editor.includes('at_risk')&&editor.includes('Elegir al azar'));
+ assert.ok(editor.includes('campaignRules')&&editor.includes('at_risk')&&editor.includes('Elegir uno al azar'));
  assert.ok(editor.includes('secondaryColor')&&editor.includes('askBirthday')&&editor.includes('squareLogo'));
+ assert.ok(editor.includes('autoWelcome')&&editor.includes('autoMissYou'));
+ assert.ok(editor.includes('accept="image/*"')&&editor.includes('optimizeCardImage'));
+ assert.ok(editor.includes('Un punto por visita completada')&&!editor.includes('Horas mínimas entre visitas')&&!editor.includes('Máximo de visitas por día'));
+ assert.ok(editor.includes('tab===1&&<aside className="liveCardPreview">'));
+ const optimizer=read('lib/points/image-optimizer.ts');assert.ok(optimizer.includes('12 * 1024 * 1024')&&optimizer.includes('canvasBlob'));
 });
 
 test('points and review QR cards share the Cards workspace with plan limits',()=>{

@@ -11,7 +11,6 @@ const ownerView = readFileSync("lib/owner/view.tsx", "utf8");
 
 test("landing explains the products, business types, dashboard and plans", () => {
   for (const text of [
-    "Puntos, reseñas y regalos. Desde tu mostrador.",
     "Que cada visita acerque el premio.",
     "De tu mostrador a Google.",
     "Comparte algo que invita a volver.",
@@ -21,6 +20,7 @@ test("landing explains the products, business types, dashboard and plans", () =>
     "Empieza en el mostrador.",
     "Nival gestiona las respuestas de forma manual y con tu permiso.",
   ]) assert.ok(page.includes(text), text);
+  assert.ok(page.includes("Puntos, reseñas y regalos.<br />Desde tu mostrador."));
   assert.ok(carousel.includes("Nival cabe en tu día a día."));
   assert.ok(page.includes("<LandingIndustryCarousel />"));
   assert.equal(
