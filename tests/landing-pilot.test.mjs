@@ -7,17 +7,22 @@ const mobileNav = readFileSync("app/landing-mobile-nav.tsx", "utf8");
 const css = readFileSync("app/landing-reference.css", "utf8");
 const layout = readFileSync("app/layout.tsx", "utf8");
 
-test("landing tells the product story in five short sections", () => {
+test("landing explains the products, business types, dashboard and plans", () => {
   for (const text of [
     "Que vuelvan.",
-    "De una visita,",
-    "Tu negocio.<br /><em>En movimiento.</em>",
+    "Tu mostrador, tu manera.",
+    "Premia la próxima visita.",
+    "Haz fácil dejar su opinión.",
+    "Regala una visita.",
+    "Todo empieza en <em>Inicio.</em>",
     "Precios sin sorpresas.",
     "¿Te queda alguna duda?",
   ]) assert.ok(page.includes(text), text);
-  assert.equal((page.match(/<section\b/g) || []).length, 5);
-  for (const id of ["producto", "panel", "planes", "preguntas"])
+  assert.equal((page.match(/<section\b/g) || []).length, 6);
+  for (const id of ["giros", "producto", "panel", "planes", "preguntas"])
     assert.ok(page.includes(`id="${id}"`), id);
+  for (const href of ["#giros", "#producto", "#panel", "#planes", "#preguntas"])
+    assert.ok(page.includes(href), href);
   assert.ok(page.includes('href="/demo"'));
   assert.ok(page.includes('href="/acceso"'));
   for (const anchor of ["#producto", "#panel", "#planes", "#preguntas"])
@@ -42,21 +47,27 @@ test("prices and plan limits match the current entitlements", () => {
     "RECOMENDADO",
     "Comparación con negocios cercanos",
   ]) assert.ok(page.includes(text), text);
-  assert.match(page, /tarjeta de regalo o Nival Pay/i);
+  assert.match(page, /tarjeta de regalo digital/i);
   assert.match(page, /como complementos/i);
 });
 
 test("sample metrics are labeled and real images replace upload placeholders", () => {
   assert.match(page, /EJEMPLO|ejemplo/);
-  assert.match(page, /Datos de ejemplo/);
-  assert.match(page, /periodo configurable/);
+  assert.match(page, /datos de ejemplo/i);
+  assert.match(page, /ÚLTIMOS 30 DÍAS/);
   assert.doesNotMatch(page, /Espacio para imagen|pendiente de recibir/);
   for (const image of ["6105", "6106", "6107", "6109", "6111", "6112", "6113", "6114"])
     assert.ok(existsSync(`public/assets/img/landing/${image}.webp`), image);
   for (const image of ["puntos", "resenas"])
     assert.ok(existsSync(`public/assets/img/landing/${image}.webp`), image);
-  assert.match(page, /Una visita más\. Un punto más\./);
-  assert.match(page, /Que tu buen servicio se note\./);
+  assert.match(page, /Premia la próxima visita\./);
+  assert.match(page, /Haz fácil dejar su opinión\./);
+  assert.match(page, /Nuevos y recurrentes/);
+  assert.match(page, /INGRESOS DE CLIENTES RECURRENTES/);
+  assert.match(page, /selector de sucursal|Sucursal seleccionada/i);
+  assert.match(page, /Tu reputación, a la vista\./);
+  for (const image of ["industry-cafe.webp", "industry-taqueria.webp", "industry-restaurant.webp", "nival-counter-display.webp"])
+    assert.ok(existsSync(`public/assets/img/${image}`), image);
 });
 
 test("legal links are marked for legal review and brand name is NIVAL", () => {

@@ -45,7 +45,8 @@ export default function LandingMobileNav() {
           id="nv-mobile-nav"
           aria-label="Navegación móvil"
         >
-          <a href="#producto" onClick={() => setOpen(false)}>Qué incluye</a>
+          <a href="#giros" onClick={() => setOpen(false)}>Negocios</a>
+          <a href="#producto" onClick={() => setOpen(false)}>Productos</a>
           <a href="#panel" onClick={() => setOpen(false)}>Tu panel</a>
           <a href="#planes" onClick={() => setOpen(false)}>
             Planes
