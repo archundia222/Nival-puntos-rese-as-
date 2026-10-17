@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import LandingIcon from "./landing-icon";
 
 const whatsapp =
-  "https://wa.me/525539044988?text=" +
+  "https://wa.me/525539044788?text=" +
   encodeURIComponent(
     "Hola, quiero cotizar Nival Puntos + Reseñas para mi negocio.",
   );
@@ -49,9 +49,11 @@ export default function LandingMobileNav() {
           id="nv-mobile-nav"
           aria-label="Navegación móvil"
         >
-          <a href="#como-funciona" onClick={() => setOpen(false)}>
-            Cómo funciona
+          <a href="#producto" onClick={() => setOpen(false)}>
+            Producto
           </a>
+          <a href="#panel" onClick={() => setOpen(false)}>Tu panel</a>
+          <a href="#como-funciona" onClick={() => setOpen(false)}>Cómo funciona</a>
           <a href="#resenas" onClick={() => setOpen(false)}>
             Reseñas
           </a>

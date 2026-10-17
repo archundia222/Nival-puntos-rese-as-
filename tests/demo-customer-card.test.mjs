@@ -39,9 +39,10 @@ test("public landing explains Nival plans, points, and review support without un
   assert.ok(landing.includes('price: "$399"'));
   assert.ok(landing.includes('price: "$549"'));
   assert.ok(landing.includes("Cotizar por WhatsApp"));
-  assert.ok(landing.includes("10 tarjetas NFC + QR para reseñas"));
-  assert.ok(landing.includes("Que te"));
-  assert.ok(landing.includes("Que vuelvan"));
-  assert.ok(landing.includes("con libertad"));
+  assert.ok(landing.includes("3 tarjetas NFC + QR para reseñas"));
+  assert.ok(landing.includes("6 tarjetas NFC + QR para reseñas"));
+  assert.ok(landing.includes("12 tarjetas NFC + QR para reseñas"));
+  assert.ok(landing.includes("Comparación con negocios cercanos"));
+  assert.ok(landing.includes("Haz que tu negocio sea"));
   assert.ok(landing.includes("DATOS DE EJEMPLO"));
 });
