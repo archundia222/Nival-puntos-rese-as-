@@ -21,5 +21,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
-  return <html lang="es-MX"><body>{children}</body></html>;
+  return <html lang="es-MX"><head><link rel="preconnect" href="https://challenges.cloudflare.com" crossOrigin="anonymous" /></head><body>{children}</body></html>;
 }

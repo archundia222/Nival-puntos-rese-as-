@@ -1,5 +1,5 @@
 'use client';
-import {useCallback,useState} from 'react';
+import {useCallback,useEffect,useState} from 'react';
 import {authClient} from '../../lib/backend/client';
 import {TurnstileWidget} from '../../lib/security/turnstile-widget';
 type Mode='login'|'register'|'recover'|'resend';
@@ -7,25 +7,29 @@ const titles={login:'Entrar como dueño de negocio',register:'Crear cuenta de ne
 const buttons={login:'Entrar a mi negocio',register:'Crear mi cuenta',recover:'Enviar enlace de recuperación',resend:'Reenviar confirmación'};
 export default function AccessForm({turnstileSiteKey,initialMode='login'}:{turnstileSiteKey:string;initialMode?:'login'|'register'}) {
  const [mode,setMode]=useState<Mode>(initialMode);const [email,setEmail]=useState('');const [password,setPassword]=useState('');const [busy,setBusy]=useState(false);const [notice,setNotice]=useState('');const [failed,setFailed]=useState(false);
- const [turnstileToken,setTurnstileToken]=useState('');const [turnstileResetKey,setTurnstileResetKey]=useState(0);
+ const [turnstileToken,setTurnstileToken]=useState('');const [turnstileResetKey,setTurnstileResetKey]=useState(0);const [turnstileStatus,setTurnstileStatus]=useState<'idle'|'checking'|'verified'>('idle');
  const receiveTurnstileToken=useCallback((token:string)=>{setTurnstileToken(token);if(token){setNotice('');setFailed(false);}},[]);
- function resetTurnstile(){setTurnstileToken('');setTurnstileResetKey(value=>value+1);}
+ function resetTurnstile(){setTurnstileToken('');setTurnstileStatus('idle');setTurnstileResetKey(value=>value+1);}
+ useEffect(()=>{
+  if(!turnstileToken){setTurnstileStatus('idle');return;}
+  let active=true;setTurnstileStatus('checking');
+  fetch('/api/security/turnstile',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:turnstileToken})})
+   .then(response=>{if(!response.ok)throw new Error('verification_failed');if(active)setTurnstileStatus('verified');})
+   .catch(()=>{if(!active)return;resetTurnstile();setFailed(true);setNotice('Cloudflare no pudo validar la verificación. Reinicié el reto; espera a que cargue y vuelve a intentarlo.');});
+  return ()=>{active=false;};
+ },[turnstileToken]);
  function changeMode(value:Mode){setMode(value);setNotice('');setFailed(false);setPassword('');resetTurnstile();}
  async function submit(event:React.FormEvent<HTMLFormElement>){
   event.preventDefault();if(busy)return;
-  if((mode==='register'||mode==='login')&&!turnstileToken){setFailed(true);setNotice('Espera a que termine la verificación de seguridad y vuelve a intentarlo.');return;}
+  if((mode==='register'||mode==='login')&&turnstileStatus!=='verified'){setFailed(true);setNotice('Espera a que termine la verificación de seguridad y vuelve a intentarlo.');return;}
   setBusy(true);setNotice('');setFailed(false);
   try{
    const client=authClient;const address=email.trim();
    if(mode==='register'){
-    const anti=await fetch('/api/security/turnstile',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:turnstileToken})});
-    if(!anti.ok){resetTurnstile();setFailed(true);setNotice('Cloudflare no pudo validar la verificación. Reinicié el reto; espera a que cargue y vuelve a crear tu cuenta.');return;}
     const {data,error}=await client.signUp.email({email:address,password,name:address.split('@')[0],callbackURL:new URL('/entrar',window.location.origin).href});if(error)throw error;
     if(data?.user){window.location.href='/entrar';return;}
     setNotice('Revisa tu correo para confirmar tu cuenta. Si ya la tienes, inicia sesión.');
    }else if(mode==='login'){
-    const anti=await fetch('/api/security/turnstile',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:turnstileToken})});
-    if(!anti.ok){resetTurnstile();setFailed(true);setNotice('Cloudflare no pudo validar la verificación. Reinicié el reto; espera a que cargue y vuelve a intentarlo.');return;}
     const {error}=await client.signIn.email({email:address,password});
     if(error){resetTurnstile();setFailed(true);setNotice('No se pudo iniciar sesión. Revisa tus datos o confirma tu correo.');return;}
     window.location.href='/entrar';
@@ -43,5 +47,5 @@ export default function AccessForm({turnstileSiteKey,initialMode='login'}:{turns
   }finally{setBusy(false);}
  }
  const passwordNeeded=mode==='login'||mode==='register';
- return <section className="reviewBox"><h2>{titles[mode]}</h2><form className="configGrid" onSubmit={submit}><label>Correo<input type="email" required autoComplete="email" maxLength={254} value={email} onChange={event=>setEmail(event.target.value)} disabled={busy}/></label>{passwordNeeded&&<label>Contraseña<input type="password" required minLength={mode==='register'?8:1} maxLength={128} autoComplete={mode==='register'?'new-password':'current-password'} value={password} onChange={event=>setPassword(event.target.value)} disabled={busy}/></label>}{(mode==='register'||mode==='login')&&<TurnstileWidget key={turnstileResetKey} siteKey={turnstileSiteKey} onTokenChange={receiveTurnstileToken}/>}<button disabled={busy||((mode==='register'||mode==='login')&&!turnstileToken)}>{busy?'Procesando…':(mode==='register'||mode==='login')&&!turnstileToken?'Validando seguridad…':buttons[mode]}</button></form><p role={failed?'alert':'status'} className={failed?'error':''}>{notice}</p><div className="actions">{mode==='login'?<><button type="button" disabled={busy} onClick={()=>changeMode('register')}>Crear cuenta de negocio</button><button type="button" disabled={busy} onClick={()=>changeMode('recover')}>Olvidé mi contraseña</button><button type="button" disabled={busy} onClick={()=>changeMode('resend')}>No recibí la confirmación</button></>:<button type="button" disabled={busy} onClick={()=>changeMode('login')}>¿Ya tienes cuenta? Inicia sesión</button>}</div><nav className="authPanelLinks" aria-label="Entrar a otros paneles"><a href="/staff/acceso">Entrar como personal <span>PIN del colaborador →</span></a><a href="/acceso-administrador">Entrar a administración <span>Panel privado de Nival →</span></a></nav></section>;
+ return <section className="reviewBox"><h2>{titles[mode]}</h2><form className="configGrid" onSubmit={submit}><label>Correo<input type="email" required autoComplete="email" maxLength={254} value={email} onChange={event=>setEmail(event.target.value)} disabled={busy}/></label>{passwordNeeded&&<label>Contraseña<input type="password" required minLength={mode==='register'?8:1} maxLength={128} autoComplete={mode==='register'?'new-password':'current-password'} value={password} onChange={event=>setPassword(event.target.value)} disabled={busy}/></label>}{(mode==='register'||mode==='login')&&<TurnstileWidget key={turnstileResetKey} siteKey={turnstileSiteKey} onTokenChange={receiveTurnstileToken}/>}<button disabled={busy||((mode==='register'||mode==='login')&&turnstileStatus!=='verified')}>{busy?'Procesando…':(mode==='register'||mode==='login')&&turnstileStatus!=='verified'?'Validando seguridad…':buttons[mode]}</button></form><p role={failed?'alert':'status'} className={failed?'error':''}>{notice||((mode==='register'||mode==='login')&&turnstileStatus==='checking'?'Verificando en segundo plano…':(mode==='register'||mode==='login')&&turnstileStatus==='verified'?'Verificación lista; ya puedes continuar.':'')}</p><div className="actions">{mode==='login'?<><button type="button" disabled={busy} onClick={()=>changeMode('register')}>Crear cuenta de negocio</button><button type="button" disabled={busy} onClick={()=>changeMode('recover')}>Olvidé mi contraseña</button><button type="button" disabled={busy} onClick={()=>changeMode('resend')}>No recibí la confirmación</button></>:<button type="button" disabled={busy} onClick={()=>changeMode('login')}>¿Ya tienes cuenta? Inicia sesión</button>}</div><nav className="authPanelLinks" aria-label="Entrar a otros paneles"><a href="/staff/acceso">Entrar como personal <span>PIN del colaborador →</span></a><a href="/acceso-administrador">Entrar a administración <span>Panel privado de Nival →</span></a></nav></section>;
 }
