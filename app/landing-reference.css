@@ -4,3 +4,33 @@
 @media(max-width:760px){.nvContainer{width:min(100% - 36px,620px)}.nvNavInner{width:calc(100% - 36px)}.nvNav{height:68px}.nvDesktopNav,.nvNavActions{display:none}.nvMobileMenu{display:block}.nvMobileMenu>button{display:flex;align-items:center;gap:7px;padding:10px 12px;border:1px solid var(--nv-border);border-radius:10px;background:var(--nv-paper);color:var(--nv-dark);font-size:12px;font-weight:800}.nvHamburger{display:grid;gap:4px}.nvHamburger i{width:15px;height:2px;background:currentColor}.nvMobilePanel{position:absolute;right:0;top:calc(100% + 8px);width:min(88vw,340px);display:grid;gap:4px;padding:12px;border:1px solid var(--nv-border);border-radius:15px;background:var(--nv-paper);box-shadow:var(--nv-shadow)}.nvMobilePanel a{padding:12px 10px;border-radius:8px;color:var(--nv-dark);font-size:14px;font-weight:750;text-decoration:none}.nvMobilePanel .nvMobileQuote{display:flex;align-items:center;justify-content:space-between;background:var(--nv-dark);color:var(--nv-paper)}.nvHero{padding:43px 0 60px}.nvHeroGrid{grid-template-columns:1fr;gap:30px}.nvHeroCopy{padding:8px 0}.nvHero h1{font-size:clamp(54px,12vw,76px)}.nvHeroCopy>p{font-size:16px}.nvHeroImageWrap{min-height:390px;margin:0 9px 0 18px}.nvHeroCard{left:-16px;bottom:18px;width:205px;padding:16px}.nvHeroCard>b{font-size:17px}.nvFloat{right:-10px;top:18%}.nvValueSection,.nvPlansSection{padding:68px 0}.nvSectionHeading{margin-bottom:23px}.nvSectionHeading h2,.nvPanelCopy h2,.nvPlansIntro h2,.nvFaqGrid h2{font-size:clamp(38px,9vw,51px)}.nvValueGrid{grid-template-columns:1fr 1fr;gap:10px}.nvValueCard{padding:10px 12px 17px;border-radius:17px}.nvValueImage{height:145px;margin:-10px -12px 13px}.nvValueReviews .nvValueImage{height:145px}.nvValueCard h3{margin:12px 0 5px;font-size:19px}.nvValueCard p{font-size:11px}.nvValueDashboard{grid-template-columns:1fr;grid-column:1/-1;padding:14px}.nvValueDashboard .nvMiniDashboard{grid-row:auto;margin:0 0 13px}.nvMiniDashboard{padding:12px}.nvMiniDashboard svg{height:58px}.nvMiniStats b{font-size:16px}.nvPanelSection{padding:68px 0}.nvPanelGrid{grid-template-columns:1fr;gap:28px}.nvPanelCopy>p{font-size:14px}.nvClientGroups{margin:17px 0 9px}.nvPanelVisual{min-height:380px}.nvPanelOverlay{right:10px;bottom:10px;left:10px;padding:14px}.nvPlansIntro{align-items:flex-start;flex-direction:column;gap:9px;margin-bottom:27px}.nvPlansIntro>p{font-size:12px}.nvPlanGrid{grid-template-columns:1fr;gap:15px}.nvPlanCard{padding:22px}.nvPlanCard h3{margin:13px 0 15px;font-size:38px}.nvPlanCard ul{gap:10px;margin-bottom:18px}.nvPlanCard li{font-size:12px}.nvAddon{grid-template-columns:1fr;gap:12px;padding:12px}.nvAddonPhotos>div{min-height:90px}.nvFaqSection{padding:62px 0}.nvFaqGrid{grid-template-columns:1fr;gap:23px}.nvFaqGrid h2{margin-bottom:0}.nvFooter{padding-top:36px}.nvFooterCta{align-items:flex-start;flex-direction:column;padding-bottom:26px}.nvFooterBottom{align-items:flex-start;flex-direction:column}.nvFooterBottom nav{gap:10px 14px}.nvLegalNote{line-height:1.5}}
 @media(max-width:420px){.nvContainer{width:calc(100% - 28px)}.nvNavInner{width:calc(100% - 28px)}.nvHero{padding-top:36px}.nvHero h1{font-size:52px}.nvHeroActions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.nvButton{min-height:46px;padding:11px 10px;font-size:11px}.nvHeroProof{gap:7px;font-size:9px}.nvHeroImageWrap{min-height:325px}.nvHeroCard{width:183px;padding:13px}.nvHeroCard>b{font-size:15px}.nvCardProgress{gap:5px;margin:13px 0 8px}.nvCardProgress i{height:9px}.nvFloat{padding:10px 12px}.nvFloat b{font-size:11px}.nvFloat small{font-size:9px}.nvValueGrid{gap:8px}.nvValueImage,.nvValueReviews .nvValueImage{height:125px}.nvValueIcon{width:32px;height:32px}.nvValueCard h3{font-size:18px}.nvValueCard p{font-size:10px}.nvMiniTop{font-size:7px}.nvMiniStats{gap:5px}.nvMiniStats>div{padding:7px}.nvMiniStats small{font-size:7px}.nvMiniStats b{font-size:14px}.nvPanelVisual{min-height:330px}.nvPanelOverlay svg{height:76px}.nvPanelPeople{gap:8px}.nvPanelPeople span{font-size:8px}.nvAddonPhotos>div{min-height:69px}.nvFooterCta h2{font-size:36px}}
 @media(prefers-reduced-motion:reduce){.nivalLanding *,.nivalLanding *::before,.nivalLanding *::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* Product imagery and clearer hierarchy */
+.nvSectionHeading{align-items:end}
+.nvSectionHeading>p{max-width:260px;margin:0 0 5px;color:var(--nv-muted);font-size:14px;line-height:1.5}
+.nvValueGrid{grid-template-columns:1fr 1fr;gap:18px}
+.nvValueCard:not(.nvValueDashboard){padding:0 0 22px}
+.nvValueCard .nvValueImage{height:clamp(250px,27vw,340px);margin:0;}
+.nvValueImage>.nvPhoto{object-position:center}
+.nvValueCardCopy{padding:21px 22px 0}
+.nvValueKicker{color:var(--nv-success);font-size:10px;font-weight:900;letter-spacing:.13em}
+.nvValueCardCopy h3{margin:9px 0 5px;font-size:clamp(22px,2.4vw,30px);letter-spacing:-.045em;line-height:1.1}
+.nvValueCardCopy p{max-width:400px;font-size:13px}
+.nvValueDashboard{grid-column:1/-1;display:grid;grid-template-columns:1.2fr .8fr;align-items:center;gap:28px;padding:24px 30px}
+.nvValueDashboard .nvMiniDashboard{grid-column:2;grid-row:1/4;margin:0}
+.nvValueDashboard .nvValueIcon{grid-column:1;grid-row:1;width:34px;height:34px}
+.nvValueDashboard h3{grid-column:1;grid-row:2;margin:0;font-size:25px}
+.nvValueDashboard p{grid-column:1;grid-row:3;margin:0;font-size:13px}
+@media(max-width:760px){
+  .nvSectionHeading{display:block}
+  .nvSectionHeading>p{margin:12px 0 0;font-size:13px}
+  .nvValueGrid{grid-template-columns:1fr;gap:14px}
+  .nvValueCard .nvValueImage{height:clamp(215px,62vw,330px)}
+  .nvValueCardCopy{padding:17px 17px 0}
+  .nvValueCardCopy h3{font-size:24px}
+  .nvValueDashboard{grid-column:auto;grid-template-columns:1fr;padding:16px}
+  .nvValueDashboard .nvMiniDashboard{grid-column:1;grid-row:1;margin:0 0 10px}
+  .nvValueDashboard .nvValueIcon{grid-column:1;grid-row:2}
+  .nvValueDashboard h3{grid-column:1;grid-row:3}
+  .nvValueDashboard p{grid-column:1;grid-row:4}
+}

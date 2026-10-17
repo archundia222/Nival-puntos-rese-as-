@@ -10,8 +10,8 @@ const layout = readFileSync("app/layout.tsx", "utf8");
 test("landing tells the product story in five short sections", () => {
   for (const text of [
     "Que vuelvan.",
-    "Tres herramientas.",
-    "Entras y sabes",
+    "De una visita,",
+    "Tu negocio.<br /><em>En movimiento.</em>",
     "Precios sin sorpresas.",
     "¿Te queda alguna duda?",
   ]) assert.ok(page.includes(text), text);
@@ -49,10 +49,14 @@ test("prices and plan limits match the current entitlements", () => {
 test("sample metrics are labeled and real images replace upload placeholders", () => {
   assert.match(page, /EJEMPLO|ejemplo/);
   assert.match(page, /Datos de ejemplo/);
-  assert.match(page, /periodo para identificar clientes en riesgo se configura/);
+  assert.match(page, /periodo configurable/);
   assert.doesNotMatch(page, /Espacio para imagen|pendiente de recibir/);
   for (const image of ["6105", "6106", "6107", "6109", "6111", "6112", "6113", "6114"])
     assert.ok(existsSync(`public/assets/img/landing/${image}.webp`), image);
+  for (const image of ["puntos", "resenas"])
+    assert.ok(existsSync(`public/assets/img/landing/${image}.webp`), image);
+  assert.match(page, /Una visita más\. Un punto más\./);
+  assert.match(page, /Que tu buen servicio se note\./);
 });
 
 test("legal links are marked for legal review and brand name is NIVAL", () => {
