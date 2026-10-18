@@ -74,6 +74,8 @@ export function CardView({
     previous.current = initial;
     setCard(initial);
   }, [initial]);
+  const policy=card.reward_policy||{}, policyMode=policy.scope==="segments"?policy.mode:business.program?.mode;
+  const eligibleRewards=policy.scope==="segments"&&Array.isArray(policy.ids)?business.rewards.filter((reward:any)=>policy.ids.includes(reward.id)):business.rewards;
   const design=business.program?.rules?.card_design||{},
     goal = card.reward?.points_cost || 0,
     points = Number(card.balance),
@@ -182,7 +184,7 @@ export function CardView({
         <button type="button" disabled={checking} onClick={()=>void manualRefresh.current(true)}>{checking?'Actualizando…':'Actualizar mis puntos'}</button>{syncMessage&&<p role="status">{syncMessage}</p>}
       </section>
       {(design.terms||design.whatsapp||design.address||design.instagram||design.facebook)&&<section className="customerCardDetails"><h2>Información del programa</h2>{design.terms&&<details><summary>Términos y condiciones</summary><p>{design.terms}</p></details>}{design.whatsapp&&<p>WhatsApp: <a href={`https://wa.me/${String(design.whatsapp).replace(/\D/g,"")}`} target="_blank" rel="noreferrer">{design.whatsapp}</a></p>}{design.address&&<p>Dirección: {design.address}</p>}{design.instagram&&<p>Instagram: {design.instagram}</p>}{design.facebook&&<p>Facebook: {design.facebook}</p>}</section>}
-      {business.active && business.program?.mode === "choose" && !card.reward && (
+      {business.active && policyMode === "choose" && !card.reward && (
         <section className="reviewBox">
           <h2>¿Cuál será tu próximo premio?</h2>
           <p>Tu elección queda bloqueada hasta canjearla.</p>
@@ -191,7 +193,7 @@ export function CardView({
             <label>
               Premio
               <select required name="rewardId">
-                {business.rewards.map((r: any) => (
+                {eligibleRewards.map((r: any) => (
                   <option key={r.id} value={r.id}>
                     {r.name} · {r.points_cost} puntos
                   </option>
@@ -201,7 +203,7 @@ export function CardView({
           </ActionForm>
         </section>
       )}
-      {business.program?.mode === "choose" && card.reward && (
+      {policyMode === "choose" && card.reward && (
         <p className="lockedGoal">
           🔒 Elegiste {card.reward.name}. Podrás cambiarlo después de canjear.
         </p>
