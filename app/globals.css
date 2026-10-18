@@ -807,3 +807,30 @@ body{background:var(--nival-cream);color:var(--nival-text)}
     transition-duration: 0.01ms !important;
   }
 }
+
+/* 2026-10-18 owner UX pass */
+.workspaceSidebar .workspaceSubmenu .workspaceNavItem.isSubItem{color:rgba(255,255,255,.9)!important}
+.workspaceSidebar .workspaceSubmenu .workspaceNavItem.isSubItem strong{color:inherit!important;font-weight:700}
+.workspaceSidebar .workspaceSubmenu .workspaceNavItem.isSubItem:hover,
+.workspaceSidebar .workspaceSubmenu .workspaceNavItem.isSubItem.isActive{color:#fff!important;background:rgba(255,255,255,.12)!important}
+.startGuide{padding:22px!important}.startGuideHeading{margin-bottom:12px!important}
+.startGuide ol{gap:8px!important}.startGuideStep{padding:12px!important}
+.cardCatalogHeading p,.cardCatalogEditor>header p,.editorHeading p{max-width:620px}
+.cardCatalogEditor{padding-top:10px}.cardCatalogEditor>header{margin-bottom:16px}
+.cardEditorTabs{position:relative;display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:8px!important}
+.cardEditorTabs:before{content:"";position:absolute;left:6%;right:6%;top:18px;height:4px;background:#dfe5df;border-radius:99px;z-index:0}
+.cardEditorTabs button{position:relative;z-index:1;min-width:0!important}
+.cardEditorTabs button[aria-current="step"]{border-color:#174d37!important;box-shadow:0 0 0 2px rgba(23,77,55,.08)}
+.nivalCardEditor .configGrid{gap:14px!important}.nivalCardEditor fieldset{padding:16px!important}
+.liveCardPreview{position:sticky;top:90px}
+.nivalConfiguredCard{background:#fff!important;color:var(--card-text,#17352f)!important;border:1px solid #dfe5df!important;box-shadow:0 16px 36px rgba(16,46,36,.12)!important}
+.nivalConfiguredCard .cardProgram{display:none!important}
+.nivalConfiguredCard h1:before{content:"Tarjeta de puntos";display:block;font:800 11px/1.2 Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;margin-bottom:7px;opacity:.7}
+.nivalConfiguredCard .cardPointGrid i{border-radius:50%!important}
+@media(max-width:760px){
+ .workspaceSidebar .workspaceSubmenu{background:rgba(255,255,255,.06)!important;border-radius:12px;padding:5px!important}
+ .cardEditorTabs{display:flex!important;overflow-x:auto!important;scroll-snap-type:x mandatory;padding-bottom:8px}
+ .cardEditorTabs:before{display:none}.cardEditorTabs button{min-width:145px!important;scroll-snap-align:start}
+ .cardEditorBody{display:block!important}.liveCardPreview{position:static;margin-top:18px}
+ .nivalCardEditor .configGrid{grid-template-columns:1fr!important}
+}
