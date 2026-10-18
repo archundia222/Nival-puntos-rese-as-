@@ -12,7 +12,7 @@ DECLARE
  recent_visits integer:=0; lifetime_visits integer:=0;
  new_days integer:=30; frequent_days integer:=30; frequent_visits integer:=3; risk_from integer:=31; lost_after integer:=60; risk_visits integer:=2;
 BEGIN
- SELECT pr.*, (cu.created_at at time zone 'America/Mexico_City')::date INTO p,customer_created
+ SELECT pr, (cu.created_at at time zone 'America/Mexico_City')::date INTO p,customer_created
  FROM nival_pr.programs pr JOIN nival_pr.customers cu ON cu.business_id=pr.business_id WHERE cu.id=c;
  IF p.id IS NULL THEN RETURN NULL; END IF;
  SELECT l.branch_id INTO br FROM nival_pr.point_ledger l WHERE l.customer_id=c AND l.type='visit' AND l.branch_id IS NOT NULL ORDER BY l.created_at DESC,l.id DESC LIMIT 1;
@@ -235,7 +235,7 @@ begin
   else
   if p.mode='single' and new.reward_id is distinct from nival_pr_private.next_reward(new.customer_id) then raise exception 'Premio fuera del modo single'; end if;
   if p.mode='choose' and not exists(select 1 from nival_pr.customer_goals where customer_id=new.customer_id and reward_id=new.reward_id and locked) then raise exception 'Selecciona tu meta antes de canjear'; end if;
-  if p.mode in ('sequence','surprise') and new.reward_id is distinct from nival_pr_private.next_reward(new.customer_id) then raise exception 'Premio fuera de secuencia'; 
+  if p.mode in ('sequence','surprise') and new.reward_id is distinct from nival_pr_private.next_reward(new.customer_id) then raise exception 'Premio fuera de secuencia'; end if;
   end if;
  elsif new.type='adjust' then
   if new.reversal_of is null then
