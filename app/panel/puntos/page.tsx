@@ -132,7 +132,7 @@ export default async function PointsPanel({
             </ActionForm>
           </details>
         ))}
-        <ActionForm action={addReward} label="Crear promoción">
+        <div id="agregar-premio" className="rewardAddPanel"><h3>Agregar premio</h3><ActionForm action={addReward} label="Crear promoción">
           <Hidden name="businessId" value={b.id} />
           <Field name="name" label="Nombre de la promoción o premio" />
           <label>Tipo<select name="rewardType" defaultValue="product"><option value="product">Producto</option><option value="discount">Descuento</option></select></label>
