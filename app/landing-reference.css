@@ -178,3 +178,23 @@
 @media(max-width:420px){.nvHero h1{font-size:clamp(40px,9.5vw,48px)}.nvHeroCopy>p{font-size:14px}.nvHeroImageWrap{min-height:310px}.nvHeroCard{width:160px;padding:11px 12px}.nvHeroCard>b{font-size:14px}.nvGoogleStorySample{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;padding:11px}.nvGoogleStorySample>div>b{font-size:16px}.nvGoogleStorySample>div>small{font-size:8px}.nvLivePanelBody{max-height:680px}.nvIndustryViewport{margin-inline:-14px}.nvIndustryTile{flex-basis:210px;height:150px}}
 @media(max-width:420px){.nvHero h1{font-size:clamp(35px,8.5vw,41px);line-height:1.12}}
 @media(prefers-reduced-motion:reduce){.nvHeroImageWrap>.nvPhoto,.nvHeroCard,.nvFloat{animation:none}.nvIndustryTrack{animation:none;transform:none}.nvIndustryTile[aria-hidden="true"]{display:none}.nvIndustryViewport{overflow-x:auto;mask-image:none}}
+
+/* Nival product clarity and responsive refinement, 2026-10-18 */
+.nivalLanding .nvContainer{max-width:1460px;width:min(calc(100% - 48px),1460px)}
+.nvHeroGrid{grid-template-columns:minmax(0,.94fr) minmax(0,1.06fr);gap:clamp(24px,4vw,68px)}
+.nvHeroCopy h1{font-size:clamp(43px,5.1vw,76px)!important;line-height:1.03!important;letter-spacing:-.045em!important}
+.nvHeroFacts{display:grid;gap:10px;list-style:none;margin:22px 0 28px;padding:0;max-width:610px}
+.nvHeroFacts li{display:flex;align-items:flex-start;gap:11px;font-size:clamp(13px,1.1vw,15px);line-height:1.38;color:#445b50}
+.nvHeroFacts li:before{content:"✓";font-weight:900;color:#226545}
+.nvHeroImageWrap .nvFloat{animation:nvCardFloat 3.4s ease-in-out infinite}
+.nvHeroImageWrap .nvHeroCard{animation:nvCardFloat 4.2s ease-in-out infinite reverse}
+@keyframes nvCardFloat{0%,100%{translate:0 0}50%{translate:0 -10px}}
+@media(max-width:760px){
+ .nivalLanding .nvContainer{width:calc(100% - 28px)}
+ .nvHeroGrid{grid-template-columns:minmax(0,1fr)}
+ .nvHeroCopy h1{font-size:clamp(40px,10vw,56px)!important}
+ .nvHeroFacts{gap:6px;margin:16px 0}
+ .nvHeroFacts li{font-size:13px}
+ .nvIndustryTrack{animation-duration:14s!important}
+}
+@media(prefers-reduced-motion:reduce){.nvHeroImageWrap .nvFloat,.nvHeroImageWrap .nvHeroCard{animation:none!important}}
