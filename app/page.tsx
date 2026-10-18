@@ -40,8 +40,13 @@ export default function Home() {
         <div className="nvContainer nvHeroGrid">
           <div className="nvHeroCopy" data-reveal>
             <span className="nvEyebrow">NIVAL · LEALTAD PARA NEGOCIOS LOCALES</span>
-            <h1 id="hero-title"><span>La visita termina.</span><br /><em>La relación sigue.</em></h1>
-            <p>Puntos para premiar regresos, NFC y QR para abrir reseñas de Google, y tarjetas de regalo digitales. En un solo espacio.</p>
+            <h1 id="hero-title">Puntos, reseñas y tarjetas digitales para tu negocio.</h1>
+            <ul className="nvHeroFacts" aria-label="Qué incluye Nival">
+              <li>1 visita válida = 1 punto en la tarjeta digital del cliente.</li>
+              <li>NFC + QR abre tu ficha de Google para dejar una reseña.</li>
+              <li>Nival responde 10, 30 o 100 reseñas por periodo según tu plan.</li>
+              <li>Panel con clientes, visitas, canjes, sucursales y reportes.</li>
+            </ul>
             <div className="nvHeroActions"><a className="nvButton nvButtonPrimary" href={whatsapp()} target="_blank" rel="noreferrer">Cotizar por WhatsApp <LandingIcon name="arrow" /></a><a className="nvButton nvButtonOutline" href="/demo">Explorar demo</a></div>
             <div className="nvHeroProof"><span>Sin app para tus clientes</span><i /> <span>Desde $299 MXN / 30 días</span></div>
           </div>
