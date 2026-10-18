@@ -117,7 +117,7 @@ export function CardView({
         <p className="cardProgram" style={design.theme==="minimal"?{color:design.textColor||"#17352f",textShadow:"none"}:{color:"#fff",textShadow:"0 1px 4px #000"}}>
           Tarjeta de puntos
         </p>
-        <h1>{card.name}</h1>
+        <h1>Tarjeta de: <span>{card.name}</span></h1>
         {design.pointView==="bar"?<><div className="cardNumbers compact"><strong aria-live="polite">{points}</strong><span>de {goal||"—"} puntos</span></div><div
           className="cardProgress"
           role="progressbar"
@@ -153,10 +153,10 @@ export function CardView({
           </div>
         )}
       </article>
-      <section className="customerRewardSummary"><h2>Tu próximo premio</h2>        <div className="customerRewardGoal">
+      <section className="customerRewardSummary"><h2>Tu próximo premio</h2>{card.reward?.photo_url&&<img className="customerRewardPhoto" src={card.reward.photo_url} alt={`Premio: ${card.reward.name}`}/>}<div className="customerRewardGoal">
           <span>
             {ready
-              ? "Tu premio está listo"
+              ? "Ya tienes los puntos para este premio"
               : card.reward
                 ? `${Math.max(goal - points, 0)} puntos para tu premio`
                 : "Meta pendiente de configuración"}
@@ -208,7 +208,7 @@ export function CardView({
           🔒 Elegiste {card.reward.name}. Podrás cambiarlo después de canjear.
         </p>
       )}
-      <details className="cardHelp"><summary>¿Cómo guardo o recupero mi tarjeta?</summary><p>Guarda esta página en los favoritos de este navegador. En Android también puedes usar “Agregar a pantalla de inicio”. Si cambias de celular, borras los datos o abres otro navegador, vuelve al enlace de este negocio y recupera tu tarjeta con el teléfono registrado. Tus puntos e historial se conservan.</p><p>Los puntos se suman por compras registradas por el negocio. Al entregar un premio se descuentan los puntos indicados; puedes revisar cada movimiento aquí.</p></details>
+      <section className="customerRewardInventory" aria-labelledby="rewards-inventory-heading"><h2 id="rewards-inventory-heading">Mis recompensas</h2><div className="rewardInventoryTabs"><div><h3>Disponibles para canjear</h3>{(card.available_rewards||[]).length?(card.available_rewards||[]).map((r:any)=><article key={r.id} className="rewardInventoryRow">{r.photo_url&&<img src={r.photo_url} alt={r.name}/>}<span><b>{r.name}</b><small>{r.points_cost} puntos · disponible</small></span></article>):<p>Aún no tienes premios disponibles para canjear.</p>}</div><div><h3>Historial de canjes</h3>{(card.redeemed_rewards||[]).length?(card.redeemed_rewards||[]).map((r:any,i:number)=><article key={r.id||i} className="rewardInventoryRow">{r.photo_url&&<img src={r.photo_url} alt={r.name}/>}<span><b>{r.name}</b><small>Canjeado · {new Date(r.created_at).toLocaleDateString("es-MX",{timeZone:"America/Mexico_City"})}</small></span></article>):<p>Aún no has canjeado premios.</p>}</div></div></section><details className="cardHelp"><summary>¿Cómo guardo o recupero mi tarjeta?</summary><p>Guarda esta página en los favoritos de este navegador. En Android también puedes usar “Agregar a pantalla de inicio”. Si cambias de celular, borras los datos o abres otro navegador, vuelve al enlace de este negocio y recupera tu tarjeta con el teléfono registrado. Tus puntos e historial se conservan.</p><p>Los puntos se suman por compras registradas por el negocio. Al entregar un premio se descuentan los puntos indicados; puedes revisar cada movimiento aquí.</p></details>
       <section className="cardHistory" aria-labelledby="customer-history-heading">
         <p className="customerEyebrow">TU AVANCE</p>
         <h2 id="customer-history-heading">Historial de puntos</h2>
