@@ -106,3 +106,35 @@
 @media(max-width:760px){.nvPlansIntro>p{max-width:420px}.nvPlanCard,.nvPlanCard.is-featured{min-height:0;padding:21px}.nvPlanTop{min-height:0;padding-right:72px}.nvPlanPrice{margin:15px 0 14px;padding-bottom:14px}.nvPlanPrice strong{font-size:44px}.nvPlanPerks li{grid-template-columns:38px 1fr;min-height:38px;font-size:12px}.nvPlanPerks li>b{width:36px}.nvPlanCard>.nvButton{margin-top:13px}.nvPlanCard:not(:has(.nvPlanPlusLine))>.nvButton{margin-top:13px}.nvPlanIncludes{align-items:flex-start;flex-direction:column;gap:10px;padding:17px}.nvPlanIncludes>p{text-align:left}.nvPlanIncludes>p i{padding-inline:2px}}
 @media(max-width:420px){.nvPlanCard,.nvPlanCard.is-featured{padding:18px}.nvPlanTop{padding-right:64px}.nvPlanFit{font-size:11px}.nvPlanPrice strong{font-size:42px}.nvPlanIncludes>p{font-size:11px}}
 @media(prefers-reduced-motion:reduce){.nvPlanCard{transition:none}}
+
+/* 2026-10-18 UX pass: denser hero, full-width desktop, faster mobile motion */
+.nivalLanding .nvContainer{width:min(100% - 48px,1320px);max-width:1320px}
+.nvHero{overflow:hidden}
+.nvHeroGrid{min-height:620px;align-items:center}
+.nvHeroCopy h1{font-size:clamp(46px,5.4vw,78px);line-height:.94;letter-spacing:-.055em;max-width:760px}
+.nvHeroFacts{list-style:none;padding:0;margin:24px 0;display:grid;gap:9px;max-width:720px}
+.nvHeroFacts li{font-size:15px;line-height:1.35;color:#40564d;display:flex;gap:10px;align-items:flex-start}
+.nvHeroFacts li:before{content:"✓";font-weight:900;color:#175d47}
+.nvHeroImageWrap{min-height:560px;box-shadow:0 28px 70px rgba(19,57,43,.12)}
+.nvHeroImageWrap .nvFloat{animation:nvFloatPulse 3.2s ease-in-out infinite}
+.nvHeroImageWrap .nvHeroCard{animation:nvCardDrift 4.4s ease-in-out infinite}
+@keyframes nvFloatPulse{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-12px) rotate(1deg)}}
+@keyframes nvCardDrift{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@media(min-width:1180px){
+ .nivalLanding .nvContainer{width:min(100% - 64px,1480px);max-width:1480px}
+ .nvHeroGrid{grid-template-columns:minmax(0,.9fr) minmax(560px,1.1fr);gap:54px}
+ .nvProductGrid{gap:22px}
+ .nvPriceGrid{gap:20px}
+}
+@media(max-width:760px){
+ .nivalLanding .nvContainer{width:calc(100% - 28px)}
+ .nvHeroGrid{min-height:auto}
+ .nvHeroCopy{padding-top:38px}
+ .nvHeroCopy h1{font-size:clamp(42px,12vw,58px);line-height:.96}
+ .nvHeroFacts{margin:18px 0;gap:7px}
+ .nvHeroFacts li{font-size:13px}
+ .nvHeroImageWrap{min-height:420px;margin-top:24px}
+ .nvIndustryTrack{animation-duration:13s!important}
+ .nvHeroImageWrap .nvFloat{animation-duration:2.4s}
+}
+@media(prefers-reduced-motion:reduce){.nvHeroImageWrap .nvFloat,.nvHeroImageWrap .nvHeroCard{animation:none!important}}
