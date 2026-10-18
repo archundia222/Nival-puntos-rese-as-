@@ -331,7 +331,7 @@ export async function addReward(_: Result, f: FormData): Promise<Result> {
     !uuid(b) ||
     !name ||
     name.length > 150 ||
-    (photoUrl.length>2000||photoUrl&&!/^https:\/\//.test(photoUrl))||
+    (photoUrl.length>900000||photoUrl&&!(/^https:\/\//.test(photoUrl)||/^data:image\/(jpeg|png|webp);base64,/.test(photoUrl)))||
     !['discount','product'].includes(rewardType)||
     (valueMxn!==null&&(!Number.isFinite(valueMxn)||valueMxn<0||valueMxn>1000000))||
     !Number.isInteger(cost) ||
