@@ -71,6 +71,8 @@ export async function POST(req: Request) {
           { error: "El premio todavía no está disponible." },
           { status: 400 },
         );
+      const [eligibility]=await query(authScope(actor.id),"select nival_pr_private.reward_is_redeemable($1::uuid,$2::uuid) as allowed",[c,customer.reward.id]);
+      if(!eligibility?.allowed)return NextResponse.json({error:"Este premio no está disponible para canje por sus reglas de vigencia. Revisa el plazo con el negocio."},{status:400});
       const { bytes, ext, type: mime } = await validatePhoto(file);
       const path = b + "/" + c + "/" + randomUUID() + "." + ext;
       if(process.env.R2_ACCOUNT_ID&&process.env.R2_ACCESS_KEY_ID&&process.env.R2_SECRET_ACCESS_KEY&&process.env.R2_EVIDENCE_BUCKET){
