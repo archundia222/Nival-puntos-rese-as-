@@ -95,8 +95,7 @@ export default async function PointsPanel({
         ))}
       </nav>
 
-      {programView&&<CardWorkspace businessId={b.id} business={b.name} slug={b.slug} program={program} reward={rewards.find((r:any) => r.active)} metrics={cardMetrics} recent={recent} period={period} initialEdit={params.edit==='1'} editor={<ProgramEditor businessId={b.id} business={b.name} program={program} reward={rewards.find((r:any) => r.active)} promotions={rewards.filter((r:any)=>r.active).map((r:any)=>({id:r.id,name:r.name,points_cost:r.points_cost}))}/>} />}{view==='premios'&&<><section className="reviewBox extraRewards"><h2>Premios y recompensas</h2><p>Crea y publica las promociones que después podrás elegir al configurar tu tarjeta de puntos.</p>
-        <h2>Premios</h2><h3 id="premios">Premios del programa</h3>{!rewards.length&&<p className="ownerEmpty">Agrega premios para ofrecer más opciones a tus clientes.</p>}
+      {programView&&<CardWorkspace businessId={b.id} business={b.name} slug={b.slug} program={program} reward={rewards.find((r:any) => r.active)} metrics={cardMetrics} recent={recent} period={period} initialEdit={params.edit==='1'} editor={<ProgramEditor businessId={b.id} business={b.name} program={program} reward={rewards.find((r:any) => r.active)} promotions={rewards.filter((r:any)=>r.active).map((r:any)=>({id:r.id,name:r.name,points_cost:r.points_cost}))}/>} />}{view==='premios'&&<><section className="reviewBox extraRewards"><header className="rewardManagerHeader"><h2 id="premios">Premios y recompensas</h2><a href="#agregar-premio" className="workspacePrimary">+ Agregar</a></header>{!rewards.length&&<p className="ownerEmpty rewardEmpty">Todavía no hay premios. Agrega el primero para configurar tu tarjeta.</p>}
         {rewards.map((r) => (
           <details key={r.id} className="customerRow"><summary>{r.name} · {r.points_cost} puntos · {r.active?'Activo':'Desactivado'}</summary>
             <h3>
@@ -141,7 +140,7 @@ export default async function PointsPanel({
           <Field name="cost" label="Puntos necesarios" type="number" min={1} />
           <Field
             name="position"
-            label="Orden del premio (0 es el primero)"
+            label="Orden del premio"
             type="number"
             min={0}
             value={
@@ -150,7 +149,7 @@ export default async function PointsPanel({
                 : 0
             }
           />
-        </ActionForm><a className="workspacePrimary" href={'/panel?business='+b.id+'#compartir'}>Compartir tarjeta y QR</a>
+        </ActionForm></div>
       </section>
       </>}
       {view==='equipo'&&<section className="reviewBox" id="personal">
