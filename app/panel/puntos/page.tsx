@@ -139,17 +139,7 @@ export default async function PointsPanel({
           <Field name="valueMxn" label="Valor en pesos (MXN)" type="number" min={0} max={1000000} step={0.01} required={false}/>
           <RewardImageInput/>
           <Field name="cost" label="Puntos necesarios" type="number" min={1} />
-          <Field
-            name="position"
-            label="Orden del premio"
-            type="number"
-            min={0}
-            value={
-              rewards.length
-                ? Math.max(...rewards.map((r) => r.position)) + 1
-                : 0
-            }
-          />
+          <Hidden name="position" value={rewards.length ? Math.max(...rewards.map((r) => r.position)) + 1 : 0}/>
         </ActionForm></div>
       </section>
       </>}
