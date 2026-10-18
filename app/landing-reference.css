@@ -219,3 +219,11 @@
 .nvPlanCard>.nvButton{display:flex!important;justify-content:center!important;gap:10px;align-items:center;margin-top:auto!important;border:1px solid #2c7056!important;background:#fff!important;color:#215c43!important;border-radius:9px!important;min-height:47px!important;text-align:center!important}
 .nvPlanCard.is-featured>.nvButton{background:#d8f26a!important;color:#173d2f!important;border-color:#d8f26a!important}
 @media(max-width:950px){.nvPlanGrid{grid-template-columns:1fr!important;max-width:540px;margin-inline:auto}.nvPlanCard,.nvPlanCard.is-featured{min-height:0!important;padding:23px 22px!important}.nvPlanFullPerks{gap:11px}}
+
+.nvHeroImageWrap .nvFloatReview{left:16px;right:auto;top:20%;animation-delay:.7s}
+.nvHeroImageWrap .nvFloatPoints{right:18px;top:auto;bottom:16%;animation-delay:.1s}
+@media(max-width:760px){
+ .nvHeroImageWrap .nvFloatReview{top:12%;left:7px;min-width:132px;padding:10px}
+ .nvHeroImageWrap .nvFloatPoints{right:7px;bottom:16%;min-width:125px;padding:10px}
+ .nvHeroImageWrap .nvFloat b{font-size:12px}
+}
