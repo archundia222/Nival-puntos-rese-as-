@@ -10,6 +10,7 @@ export function CampaignOverview({businessId,demo,program,rewards,branchName,bra
  const active=rewards.filter(r=>r.active!==false&&(!r.expires_at||Date.parse(r.expires_at)>Date.now())&&(r.stock==null||Number(r.stock)>0));
  const rules:CampaignRules=branchRules||program?.rules?.campaign_rules||{};
  const targets=rules.targets||{};
+ const usesNewPolicy=['all','segments'].includes(String(program?.rules?.campaign_rules?.scope||''));
  const segments=[
   ['all','Todos','clientes'],['new','Nuevos','check'],['frequent','Frecuentes','points'],
   ['at_risk','En riesgo','clock'],['lost','Perdidos','clock'],['absent','Sin visita este mes','trend']
@@ -26,6 +27,7 @@ export function CampaignOverview({businessId,demo,program,rewards,branchName,bra
    <div className="campaignEmptyText"><h3>Tu primer premio</h3></div>
   </article>:<>
    <div className="campaignRewardStrip" aria-label="Premios activos">{active.map((reward,index)=><article className="campaignRewardCard" key={reward.id}><span className="campaignRewardIcon"><Icon name="gift" size={20}/></span><strong>{reward.name}</strong><small>{reward.points_cost} pts</small><div className="campaignTargetTags">{segments.filter(([key])=>assigned(key).some(item=>item.id===reward.id)).map(([,label])=><span key={label}>{label}</span>)}</div><a href={editUrl} aria-label={'Editar premio '+reward.name}><Icon name="arrow" size={17}/></a></article>)}</div>
+   {usesNewPolicy&&<div className="campaignPolicyLink"><p>Los premios especiales y el método de asignación se configuran en tu tarjeta de puntos.</p><a className="workspacePrimary" href={demo?"/demo/panel#mis-tarjetas":"/panel/puntos?business="+encodeURIComponent(businessId)+"&view=programa&edit=1"}>Configurar premios por cliente <Icon name="arrow" size={15}/></a></div>}
    {demo?<div className="campaignAudienceGrid">{segments.map(([key,label,icon])=><article className="campaignAudienceCard" key={key}><span className="campaignAudienceIcon"><Icon name={icon} size={22}/></span><strong>{label}</strong><span className="campaignAudienceStatus">Configura tu cuenta</span></article>)}</div>:branchId&&<section className="ownerCard campaignEditor">
     <header className="campaignEditorHeader"><span className="campaignBranchMark"><Icon name="pin" size={19}/></span><div><h3>Asigna premios por grupo</h3><span className="campaignBranchName">{branchName}</span></div></header>
     <ActionForm action={saveBranchCampaigns} label="Guardar">
