@@ -834,3 +834,6 @@ body{background:var(--nival-cream);color:var(--nival-text)}
  .cardEditorBody{display:block!important}.liveCardPreview{position:static;margin-top:18px}
  .nivalCardEditor .configGrid{grid-template-columns:1fr!important}
 }
+
+.rewardImageInput{display:grid!important;gap:8px}.rewardImageInput input[type=file]{padding:12px;border:1px dashed #9eb0a6!important;background:#f8faf7!important}.rewardImageInput small{font-size:12px;color:#69766f}.rewardImageInput img{width:112px;height:112px;object-fit:cover;border-radius:14px;border:1px solid #dfe5df}
+.editorHint{padding:14px 16px;border:1px dashed #bdc9c1;border-radius:14px;background:#f8faf7;display:grid;gap:4px}.editorHint small{color:#65736b}
