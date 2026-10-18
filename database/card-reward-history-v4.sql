@@ -52,7 +52,9 @@ AS $function$
  from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id
  where p.business_id=b and r.active and (r.expires_at is null or r.expires_at>now()) and (r.stock is null or r.stock>0)
  and nival_pr_private.reward_is_redeemable(c.id,r.id)
- and (p.mode <> 'choose' or exists(select 1 from nival_pr.customer_goals g where g.customer_id=c.id and g.reward_id=r.id and g.locked))
+ and (case when nival_pr_private.segment_reward_policy(c.id)->>'scope'='segments'
+ then nival_pr_private.segment_reward_policy(c.id)->>'mode'<>'choose' or exists(select 1 from nival_pr.customer_goals g where g.customer_id=c.id and g.reward_id=r.id and g.locked)
+ else p.mode<>'choose' or exists(select 1 from nival_pr.customer_goals g where g.customer_id=c.id and g.reward_id=r.id and g.locked) end)
  and (nival_pr_private.segment_reward_policy(c.id)->>'scope'<>'segments' or exists(select 1 from jsonb_array_elements_text(coalesce(nival_pr_private.segment_reward_policy(c.id)->'ids','[]'::jsonb)) x(id) where x.id=r.id::text))
  ),'[]'::jsonb),
  'redeemed_rewards',coalesce((select jsonb_agg(jsonb_build_object('id',x.id,'name',x.name,'photo_url',x.photo_url,'created_at',x.created_at) order by x.created_at desc)
