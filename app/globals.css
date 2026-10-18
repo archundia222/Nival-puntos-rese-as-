@@ -868,3 +868,9 @@ body{background:var(--nival-cream);color:var(--nival-text)}
 .customerCampaignsInner{border-top:1px solid #e1e9e1;padding:20px}
 .customerCampaignsInner h3{margin:0 0 8px}.customerCampaignsInner p{line-height:1.5}
 @media(max-width:720px){.segmentRewardRules{grid-template-columns:1fr}.customerCampaigns>summary{padding:15px}}
+
+.segmentOrderList{list-style:none;margin:12px 0;padding:0;display:grid;gap:6px}
+.segmentOrderList li{display:flex;justify-content:space-between;align-items:center;background:#edf4ed;border-radius:10px;padding:7px 8px 7px 12px;gap:8px;font-size:13px}
+.segmentOrderList li>span:last-child{display:flex;gap:4px}
+.segmentOrderList button{border:1px solid #ccddce;border-radius:7px;background:#fff;color:#24593d;width:31px;height:30px;cursor:pointer}
+.segmentOrderList button:disabled{opacity:.35;cursor:default}
