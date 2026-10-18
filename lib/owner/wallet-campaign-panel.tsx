@@ -2,10 +2,10 @@ import {ActionForm} from '../foundation/forms';
 import {Hidden} from '../foundation/fields';
 import {sendWalletCampaign} from './wallet-campaign-action';
 
-export function WalletCampaignPanel({businessId,demo=false}:{businessId:string;demo?:boolean}){
+export function WalletCampaignPanel({businessId,demo=false,enabled=false}:{businessId:string;demo?:boolean;enabled?:boolean}){
  return <section className="ownerCard walletCampaignPanel" aria-labelledby="wallet-campaigns-title">
    <header><div><span className="workspaceEyebrow">CLIENTES · GOOGLE WALLET</span><h2 id="wallet-campaigns-title">Campañas y notificaciones</h2><p>Envía una oferta a los clientes de un grupo que aceptaron comunicaciones y tienen su tarjeta en Wallet.</p></div></header>
-   {demo?<p className="ownerEmpty">La demo no envía notificaciones.</p>:
+   {demo?<p className="ownerEmpty">La demo no envía notificaciones.</p>:!enabled?<p className="ownerEmpty">Las notificaciones de Google Wallet aún no están conectadas para este negocio. Nival debe configurar primero la integración.</p>:
    <ActionForm action={sendWalletCampaign} label="Enviar notificación">
     <Hidden name="businessId" value={businessId}/>
     <label>Destinatarios<select name="audience" defaultValue="at_risk"><option value="all">Todos los clientes habilitados</option><option value="new">Nuevos</option><option value="frequent">Frecuentes</option><option value="at_risk">En riesgo</option><option value="lost">Inactivos</option><option value="absent">Sin visita</option></select></label>
