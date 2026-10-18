@@ -37,6 +37,7 @@ export async function sendWalletCampaign(_:Result,form:FormData):Promise<Result>
    const [claimed]=await systemQuery(`INSERT INTO nival_pr_private.wallet_campaign_deliveries(business_id,customer_id,owner_id,audience,title,body,status)
  SELECT $1,$2,$3,$4,$5,$6,'pending'
  WHERE NOT EXISTS(SELECT 1 FROM nival_pr_private.wallet_campaign_deliveries d WHERE d.customer_id=$2 AND d.created_at>now()-interval '24 hours' AND d.status IN ('pending','sent'))
+ ON CONFLICT (customer_id,send_day) DO NOTHING
  RETURNING id`,[businessId,customer.id,actor.id,audience,title,body]);
    if(!claimed)continue;
    try {
