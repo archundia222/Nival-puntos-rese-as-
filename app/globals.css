@@ -844,3 +844,12 @@ body{background:var(--nival-cream);color:var(--nival-text)}
  .rewardAddPanel{padding:14px}
  .rewardManagerHeader h2{font-size:22px}
 }
+
+/* Customer-facing reward summary lives below the simple card. */
+.customerRewardSummary{margin:18px 0 14px;padding:18px 20px;background:#fff;border:1px solid #dce5dc;border-radius:18px;color:#153a2b}
+.customerRewardSummary h2{font-size:18px!important;letter-spacing:-.02em;margin:0 0 8px}
+.customerRewardGoal{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:13px;flex-wrap:wrap}
+.customerRewardGoal span{color:#5b7063}.customerRewardGoal b{font-size:15px}
+.nivalConfiguredCard .cardPointGrid{margin:16px 0!important}
+.nivalConfiguredCard[data-theme="minimal"]{box-shadow:0 12px 30px #1b44321b!important;border:1px solid #d3e1d5!important}
+.nivalConfiguredCard .cardProgram{text-transform:uppercase;font-size:14px!important;letter-spacing:.05em!important}
