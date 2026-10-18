@@ -130,16 +130,6 @@ export function CardView({
             }}
           />
         </div></>:<div className="cardPointGrid" aria-label={`${points} de ${goal} puntos acumulados`}>{Array.from({length:visibleDots},(_,i)=><i key={i} className={i<filledDots?"isFilled":""}>{i<filledDots?(design.pointFilledIcon==="image"&&design.stampImage?<img src={design.stampImage} alt=""/>:design.pointFilledIcon==="star"?"★":"✓"):(design.pointIcon==="star"?"☆":design.pointIcon==="heart"?"♡":design.pointIcon==="coffee"?"☕":"○")}</i>)}</div>}
-        <div className="cardGoal">
-          <span>
-            {ready
-              ? "Tu premio está listo"
-              : card.reward
-                ? `${Math.max(goal - points, 0)} puntos para tu premio`
-                : "Meta pendiente de configuración"}
-          </span>
-          <b>{card.reward?.name || "Premio por definir"}</b>
-        </div>
         <div className="cardQrInside"><img src={qr} alt="QR personal para registrar tus puntos"/><span>QR PERSONAL<br/><b>{card.manual_code||String(card.id).slice(-8).toUpperCase()}</b></span></div>
         <footer>
           <span>{business.program?.rules?.card_design?.footer || "Un lugar al que vale la pena volver."}</span>
@@ -161,6 +151,17 @@ export function CardView({
           </div>
         )}
       </article>
+      <section className="customerRewardSummary"><h2>Tu próximo premio</h2>        <div className="customerRewardGoal">
+          <span>
+            {ready
+              ? "Tu premio está listo"
+              : card.reward
+                ? `${Math.max(goal - points, 0)} puntos para tu premio`
+                : "Meta pendiente de configuración"}
+          </span>
+          <b>{card.reward?.name || "Premio por definir"}</b>
+        </div>
+</section>
       {walletAvailable&&<WalletButton slug={business.slug} />}
       <section className="personalQr">
         <div>
