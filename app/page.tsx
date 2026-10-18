@@ -58,7 +58,7 @@ export default function Home() {
           </div>
           <div className="nvHeroImageWrap" aria-label="Cafetería con una tarjeta NFC sobre el mostrador" data-reveal>
             <Photo src="/assets/img/landing/6105.webp" alt="Mostrador de cafetería con luz de mañana y soporte para teléfono" priority />
-            <div className="nvHeroCard"><span>CAFÉ DEMO · EJEMPLO</span><b>Cada visita cuenta</b><div className="nvCardProgress"><i /><i /><i /><i /><i /><i /></div><small>4 de 6 visitas</small></div>
+            <div className="nvHeroCard"><span>CAFÉ DEMO · EJEMPLO</span><b>Cada visita cuenta</b><div className="nvCardProgress"><i /><i /><i /><i /><i /><i /></div><small>4 de 6 visitas</small></div><div className="nvFloat nvFloatPoints"><b>+1 punto</b><small>Visita registrada · ejemplo</small></div><div className="nvFloat nvFloatReview"><b>Reseña de Google</b><small>NFC + QR</small></div>
           </div>
         </div>
       </section>
