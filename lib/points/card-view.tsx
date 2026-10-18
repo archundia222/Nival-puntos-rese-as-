@@ -113,7 +113,7 @@ export function CardView({
           <span className="cardExpiry">{design.expiryMonths?`Puntos válidos ${design.expiryMonths} meses`:"Los puntos no caducan"}</span>
         </div>
         <p className="cardProgram" style={design.theme==="minimal"?{color:design.textColor||"#17352f",textShadow:"none"}:{color:"#fff",textShadow:"0 1px 4px #000"}}>
-          {business.program?.name || "Tus recompensas"}
+          Tarjeta de puntos
         </p>
         <h1>{card.name}</h1>
         {design.pointView==="bar"?<><div className="cardNumbers compact"><strong aria-live="polite">{points}</strong><span>de {goal||"—"} puntos</span></div><div
@@ -129,7 +129,7 @@ export function CardView({
               width: (goal ? Math.min(points / goal, 1) * 100 : 0) + "%",
             }}
           />
-        </div></>:<div className="cardPointGrid" aria-label={`${points} de ${goal} puntos acumulados`}>{Array.from({length:visibleDots},(_,i)=><i key={i} className={i<filledDots?"isFilled":""}>{design.pointIcon==="star"?"★":design.pointIcon==="heart"?"♥":design.pointIcon==="coffee"?"☕":"✦"}</i>)}</div>}
+        </div></>:<div className="cardPointGrid" aria-label={`${points} de ${goal} puntos acumulados`}>{Array.from({length:visibleDots},(_,i)=><i key={i} className={i<filledDots?"isFilled":""}>{i<filledDots?(design.pointFilledIcon==="image"&&design.stampImage?<img src={design.stampImage} alt=""/>:design.pointFilledIcon==="star"?"★":"✓"):(design.pointIcon==="star"?"☆":design.pointIcon==="heart"?"♡":design.pointIcon==="coffee"?"☕":"○")}</i>)}</div>}
         <div className="cardGoal">
           <span>
             {ready
