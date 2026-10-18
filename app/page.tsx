@@ -97,7 +97,22 @@ export default function Home() {
 
       <section className="nvPlansSection" id="planes" aria-labelledby="plans-title">
         <div className="nvContainer"><div className="nvPlansIntro" data-reveal><div><span className="nvEyebrow">PLANES NIVAL · 30 DÍAS</span><h2 id="plans-title">Elige cómo quieres crecer.</h2></div><p>Compara el alcance y elige el plan para tu negocio.</p></div>
-          <div className="nvPlanGrid">{plans.map((plan) => <article className={`nvPlanCard${plan.featured ? " is-featured" : ""}`} key={plan.name} data-reveal>{plan.featured && <span className="nvPlanFlag">RECOMENDADO</span>}<div className="nvPlanTop"><span className="nvPlanName">NIVAL {plan.name.toUpperCase()}</span><p className="nvPlanFit">{plan.fit}</p></div><div className="nvPlanPrice"><strong>{plan.price}</strong><span>MXN <i>por 30 días</i></span></div><p className="nvPlanCardLead">Incluye estas herramientas:</p><ul className="nvPlanPerks"><li><b>{plan.nfc}</b><span>tarjetas NFC + QR que abren tu ficha de Google</span></li><li><b>{plan.reviews}</b><span>respuestas a reseñas de Google por periodo</span></li><li><b>{plan.branches}</b><span>{plan.branches === "1" ? "sucursal" : "sucursales"} para organizar tu operación</span></li></ul>{plan.name === "Plus" && <p className="nvPlanPlusLine"><LandingIcon name="check" />Comparación con negocios similares de tu zona</p>}<a className="nvButton" href={whatsapp(plan.name)} target="_blank" rel="noreferrer">Elegir {plan.name}<LandingIcon name="arrow" /></a></article>)}</div>
+          <div className="nvPlanGrid">{plans.map((plan) => <article className={`nvPlanCard${plan.featured ? " is-featured" : ""}`} key={plan.name} data-reveal>
+            <div className="nvPlanTop"><span className="nvPlanName">{plan.name === "Puntos" ? "BÁSICO · PUNTOS" : plan.name.toUpperCase()}</span>{plan.featured && <span className="nvPlanFlag">MÁS ELEGIDO</span>}</div>
+            <div className="nvPlanPrice"><strong>{plan.price}</strong><span>MXN <i>por 30 días</i></span></div>
+            <ul className="nvPlanFullPerks">
+              <li>Tarjeta digital de puntos y QR personal</li>
+              <li>Registro de visitas, puntos y canjes</li>
+              <li>Premios y promociones configurables</li>
+              <li>Clientes y segmentos en el panel</li>
+              <li><b>{plan.reviews}</b> respuestas a reseñas de Google</li>
+              <li><b>{plan.branches}</b> {plan.branches === "1" ? "sucursal" : "sucursales"}</li>
+              <li><b>{plan.nfc}</b> tarjetas NFC para abrir reseñas</li>
+              <li>Resumen de resultados en PDF</li>
+              {plan.name === "Plus" && <li>Comparación con negocios similares de tu zona</li>}
+            </ul>
+            <a className="nvButton" href={whatsapp(plan.name)} target="_blank" rel="noreferrer">Elegir {plan.name}<LandingIcon name="arrow" /></a>
+          </article>)}</div>
           <aside className="nvPlanIncludes" data-reveal><div><span>EN TODOS LOS PLANES</span><b>Lo que puedes hacer con Nival</b></div><ul><li><LandingIcon name="check"/>Dar puntos por visitas y canjear premios</li><li><LandingIcon name="check"/>Consultar visitas y grupos de clientes</li><li><LandingIcon name="check"/>Revisar calificación, reseñas y respuestas de Google en Inicio</li><li><LandingIcon name="check"/>Compartir una tarjeta digital de regalo con Nival Pay</li><li><LandingIcon name="check"/>Descargar el resumen mensual en PDF</li></ul></aside>
           <small className="nvPlanFoot">Nival gestiona las respuestas de forma manual y con tu permiso. Las cuotas se renuevan cada 30 días. Precios en MXN.</small>
         </div>
