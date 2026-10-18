@@ -17,6 +17,7 @@ import {
 } from "../../../lib/points/actions";
 
 import { ProgramEditor } from "../../../lib/points/program-editor";
+import { RewardImageInput } from "../../../lib/points/reward-image-input";
 import {CardWorkspace} from "../../../lib/points/card-workspace";
 export const dynamic = "force-dynamic";
 export default async function PointsPanel({
@@ -96,7 +97,7 @@ export default async function PointsPanel({
       </nav>
 
       {programView&&<><CardWorkspace businessId={b.id} business={b.name} slug={b.slug} program={program} reward={rewards.find((r:any) => r.active)} metrics={cardMetrics} recent={recent} period={period} initialEdit={params.edit==='1'} editor={<ProgramEditor businessId={b.id} business={b.name} program={program} reward={rewards.find((r:any) => r.active)} promotions={rewards.filter((r:any)=>r.active).map((r:any)=>({id:r.id,name:r.name,points_cost:r.points_cost}))}/>} />{program?<details className="reviewBox extraRewards"><summary>Premios adicionales ({rewards.length})</summary>
-        <h2>Premios</h2><h3 id="premios">Premios del programa</h3>{!rewards.length&&<p className="ownerEmpty">Agrega premios para ofrecer más opciones a tus clientes.</p>}
+        <h2 id="premios">Premios y recompensas</h2>{!rewards.length&&<p className="ownerEmpty">Agrega premios para ofrecer más opciones a tus clientes.</p>}
         {rewards.map((r) => (
           <details key={r.id} className="customerRow"><summary>{r.name} · {r.points_cost} puntos · {r.active?'Activo':'Desactivado'}</summary>
             <h3>
@@ -105,7 +106,7 @@ export default async function PointsPanel({
             <ActionForm action={editReward} label="Actualizar premio">
               <Hidden name="businessId" value={b.id} />
               <Hidden name="rewardId" value={r.id} />
-              <Field name="name" label="Nombre del premio o promoción" value={r.name} /><label>Tipo<select name="rewardType" defaultValue={r.reward_type||'product'}><option value="product">Producto</option><option value="discount">Descuento</option></select></label><Field name="valueMxn" label="Valor en pesos (MXN)" type="number" min={0} max={1000000} step={0.01} required={false} value={r.value_mxn??''}/><Field name="photoUrl" label="Foto del producto (URL HTTPS)" required={false} value={r.photo_url||''}/><Field
+              <Field name="name" label="Nombre del premio o promoción" value={r.name} /><label>Tipo<select name="rewardType" defaultValue={r.reward_type||'product'}><option value="product">Producto</option><option value="discount">Descuento</option></select></label><Field name="valueMxn" label="Valor en pesos (MXN)" type="number" min={0} max={1000000} step={0.01} required={false} value={r.value_mxn??''}/><RewardImageInput value={r.photo_url||""}/><Field
                 name="cost"
                 label="Puntos necesarios"
                 type="number"
@@ -137,11 +138,11 @@ export default async function PointsPanel({
           <Field name="name" label="Nombre del premio o promoción" />
           <label>Tipo<select name="rewardType" defaultValue="product"><option value="product">Producto</option><option value="discount">Descuento</option></select></label>
           <Field name="valueMxn" label="Valor en pesos (MXN)" type="number" min={0} max={1000000} step={0.01} required={false}/>
-          <Field name="photoUrl" label="Foto del producto (URL HTTPS)" required={false}/>
+          <RewardImageInput/>
           <Field name="cost" label="Puntos necesarios" type="number" min={1} />
           <Field
             name="position"
-            label="Orden del premio (0 es el primero)"
+            label="Orden del premio"
             type="number"
             min={0}
             value={
@@ -150,7 +151,7 @@ export default async function PointsPanel({
                 : 0
             }
           />
-        </ActionForm><a className="workspacePrimary" href={'/panel?business='+b.id+'#compartir'}>Compartir tarjeta y QR</a>
+        </ActionForm>
       </details>:<section className="reviewBox firstRewardGuide" id="premios"><div><h2>Tu primer premio se crea con la tarjeta</h2><p>Define puntos y premio arriba. Al guardar la tarjeta, queda listo para tus clientes.</p></div><a className="workspacePrimary" href={'/panel/puntos?business='+b.id+'&view=programa&edit=1#card-editor'}>Configurar tarjeta</a></section>}
       </>}
       {view==='equipo'&&<section className="reviewBox" id="personal">
