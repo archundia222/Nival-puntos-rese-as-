@@ -11,6 +11,8 @@ CREATE TABLE IF NOT EXISTS nival_pr_private.wallet_campaign_deliveries (
  body text NOT NULL CHECK(char_length(body) BETWEEN 1 AND 250),
  status text NOT NULL CHECK(status IN ('pending','sent','failed')),
  sent_at timestamptz,
+ send_day date NOT NULL DEFAULT ((now() AT TIME ZONE 'America/Mexico_City')::date),
+ UNIQUE(customer_id,send_day),
  created_at timestamptz NOT NULL DEFAULT now()
 );
 CREATE INDEX IF NOT EXISTS wallet_campaign_deliveries_customer_recent_idx ON nival_pr_private.wallet_campaign_deliveries(customer_id,created_at DESC);
