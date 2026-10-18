@@ -171,7 +171,9 @@ begin
  if not exists(select 1 from nival_pr.rewards rw join nival_pr.businesses bs on bs.id=b where rw.id=r and rw.program_id=p.id and rw.active
  and (rw.expires_at is null or rw.expires_at>now()) and (rw.stock is null or rw.stock>0)
  and bs.status='activo' and (bs.paid_until>now() or bs.trial_ends_at>now())) then raise exception 'Invalid reward'; end if;
- if exists(select 1 from nival_pr.customer_goals where customer_id=c and locked and reward_id<>r) then raise exception 'Goal locked'; end if;
+ if exists(select 1 from nival_pr.customer_goals g where g.customer_id=c and g.locked and g.reward_id<>r
+ and ((policy->>'scope'<>'segments') or exists(select 1 from jsonb_array_elements_text(policy->'ids') selected(id) where selected.id=g.reward_id::text)))
+ then raise exception 'Goal locked'; end if;
  insert into nival_pr.customer_goals(customer_id,reward_id,locked) values(c,r,true)
  on conflict(customer_id,reward_id) do update set locked=true;
 end $choose$;
