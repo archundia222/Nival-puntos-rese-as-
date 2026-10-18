@@ -87,7 +87,7 @@ export async function POST(req: Request) {
     const text =
       type === "visit"
         ? "insert into nival_pr.point_ledger(business_id,customer_id,type,points,staff_id,operation_id,ticket_value_mxn) select $1,$2,'visit',points_per_visit,$3,$4,$5 from nival_pr.programs where business_id=$1 returning id"
-        : "insert into nival_pr.point_ledger(business_id,customer_id,type,points,staff_id,reward_id,evidence_path,operation_id,redemption_value_mxn) select $1,$2,'redeem',-r.points_cost,$3,r.id,$5,$6,$7 from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where r.id=$4 and p.business_id=$1 and r.active returning id";
+        : "insert into nival_pr.point_ledger(business_id,customer_id,type,points,staff_id,reward_id,evidence_path,operation_id,redemption_value_mxn) select $1,$2,'redeem',-r.points_cost,$3,r.id,$5,$6,$7 from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where r.id=$4 and p.business_id=$1 and r.active and nival_pr_private.reward_is_redeemable($2::uuid,r.id) returning id";
     const [movement] = await query(
       actor,
       text,
