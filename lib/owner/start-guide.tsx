@@ -23,7 +23,7 @@ export async function StartGuide({state,actor,businessId}:{state?:SetupState;act
  if(!current||current.complete)return null;
  return <section className="ownerCard startGuide" aria-labelledby="start-guide-title">
   <header className="startGuideHeading">
-   <div><span className="workspaceEyebrow">PUESTA EN MARCHA</span><h2 id="start-guide-title">Empieza aquí</h2></div>
+   <div><span className="workspaceEyebrow">PUESTA EN MARCHA</span><h2 id="start-guide-title">Configura tu cuenta</h2></div>
    <span className="startGuideProgress">{current.completed} / {current.steps.length}</span>
   </header>
   <div className="startGuideTrack" role="progressbar" aria-label="Progreso del programa" aria-valuemin={0} aria-valuemax={current.steps.length} aria-valuenow={current.completed}><i style={{width:(current.completed/current.steps.length*100)+'%'}}/></div>
