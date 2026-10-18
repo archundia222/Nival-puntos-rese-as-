@@ -51,8 +51,8 @@ export default function Home() {
         <div className="nvContainer nvHeroGrid">
           <div className="nvHeroCopy" data-reveal>
             <span className="nvEyebrow">LEALTAD DIGITAL PARA NEGOCIOS</span>
-            <h1 id="hero-title"><span>Puntos, reseñas y regalos.</span><span>Desde tu mostrador.</span></h1>
-            <p>Tu cliente suma puntos, abre tu ficha de Google con NFC o QR y puede llevarse una tarjeta de regalo digital. Tú lo manejas desde un solo lugar.</p>
+            <h1 id="hero-title">Puntos, reseñas de Google y tarjetas digitales.</h1>
+            <ul className="nvHeroFacts"><li>Una visita válida con compra suma un punto.</li><li>Tarjetas digitales de puntos con QR personal.</li><li>NFC y QR para abrir la ficha de Google.</li><li>10, 30 o 100 respuestas a reseñas cada 30 días, según plan.</li><li>Panel de visitas, clientes, premios y sucursales.</li></ul>
             <div className="nvHeroActions"><a className="nvButton nvButtonPrimary" href={whatsapp()} target="_blank" rel="noreferrer">Cotizar por WhatsApp <LandingIcon name="arrow" /></a><a className="nvButton nvButtonOutline" href="/demo/panel">Ver el panel en acción</a></div>
             <div className="nvHeroProof"><span>Sin app para tus clientes</span><i /> <span>Desde $299 MXN / 30 días</span></div>
           </div>
