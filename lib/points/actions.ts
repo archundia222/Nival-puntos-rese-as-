@@ -83,7 +83,7 @@ export async function editReward(_: Result, f: FormData): Promise<Result> {
     !uuid(id) ||
     !['discount','product'].includes(rewardType)||
     (valueMxn!==null&&(!Number.isFinite(valueMxn)||valueMxn<0||valueMxn>1000000))||
-    !name || (photoUrl.length>2000||photoUrl&&!/^https:\/\//.test(photoUrl))||
+    !name || (photoUrl.length>900000||photoUrl&&!(/^https:\/\//.test(photoUrl)||/^data:image\/(jpeg|png|webp);base64,/.test(photoUrl)))||
     name.length > 150 ||
     !Number.isInteger(cost) ||
     cost < 1 ||
