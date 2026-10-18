@@ -17,6 +17,7 @@ import {
 } from "../../../lib/points/actions";
 
 import { ProgramEditor } from "../../../lib/points/program-editor";
+import { RewardImageInput } from "../../../lib/points/reward-image-input";
 import {CardWorkspace} from "../../../lib/points/card-workspace";
 export const dynamic = "force-dynamic";
 export default async function PointsPanel({
@@ -104,7 +105,7 @@ export default async function PointsPanel({
             <ActionForm action={editReward} label="Actualizar premio">
               <Hidden name="businessId" value={b.id} />
               <Hidden name="rewardId" value={r.id} />
-              <Field name="name" label="Nombre del premio o promoción" value={r.name} /><label>Tipo<select name="rewardType" defaultValue={r.reward_type||'product'}><option value="product">Producto</option><option value="discount">Descuento</option></select></label><Field name="valueMxn" label="Valor en pesos (MXN)" type="number" min={0} max={1000000} step={0.01} required={false} value={r.value_mxn??''}/><Field name="photoUrl" label="Foto del producto (URL HTTPS)" required={false} value={r.photo_url||''}/><Field
+              <Field name="name" label="Nombre del premio o promoción" value={r.name} /><label>Tipo<select name="rewardType" defaultValue={r.reward_type||'product'}><option value="product">Producto</option><option value="discount">Descuento</option></select></label><Field name="valueMxn" label="Valor en pesos (MXN)" type="number" min={0} max={1000000} step={0.01} required={false} value={r.value_mxn??''}/><RewardImageInput value={r.photo_url||""}/><Field
                 name="cost"
                 label="Puntos necesarios"
                 type="number"
@@ -136,7 +137,7 @@ export default async function PointsPanel({
           <Field name="name" label="Nombre de la promoción o premio" />
           <label>Tipo<select name="rewardType" defaultValue="product"><option value="product">Producto</option><option value="discount">Descuento</option></select></label>
           <Field name="valueMxn" label="Valor en pesos (MXN)" type="number" min={0} max={1000000} step={0.01} required={false}/>
-          <Field name="photoUrl" label="Foto del producto (URL HTTPS)" required={false}/>
+          <RewardImageInput/>
           <Field name="cost" label="Puntos necesarios" type="number" min={1} />
           <Field
             name="position"
