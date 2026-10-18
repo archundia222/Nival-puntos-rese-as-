@@ -884,3 +884,15 @@ body{background:var(--nival-cream);color:var(--nival-text)}
 .segmentPolicyGroupBody>div>b{font-size:13px}.segmentPolicyGroupBody>div>small{font-size:12px;color:#657669}
 .segmentPolicyHelp{font-size:12px!important;color:#5e7367;margin:0!important}
 @media(max-width:760px){.segmentPolicyEditor{padding:14px!important}.segmentPolicyRewards{grid-template-columns:1fr}.segmentPolicyGroup summary{display:grid}.segmentPolicyScope button{font-size:12px}}
+
+/* Customer lifecycle messaging lives in Customers, separate from reward rules */
+.walletCampaignPanel{margin:20px 0!important;padding:22px!important}
+.walletCampaignPanel>header h2{font-size:clamp(23px,3vw,30px);margin:6px 0 6px}
+.walletCampaignPanel>header p{max-width:650px;color:#586d5f;font-size:14px}
+.walletCampaignPanel form{display:grid;grid-template-columns:1fr 1fr;gap:13px;align-items:end}
+.walletCampaignPanel form label{display:grid;gap:7px;font-size:13px;font-weight:700;color:#264a34}
+.walletCampaignPanel form input[type=text],.walletCampaignPanel form select,.walletCampaignPanel form textarea{width:100%;border:1px solid #cad9ca;border-radius:10px;padding:12px;background:#fff;color:#193d2b;font:inherit}
+.walletCampaignPanel form label:has(textarea),.walletCampaignPanel form .consentLabel{grid-column:1/-1}
+.walletCampaignPanel form .consentLabel{display:flex!important;align-items:flex-start;font-weight:500}
+.walletCampaignNotice{border-top:1px solid #dfe9df;margin:18px 0 0;padding-top:12px;font-size:12px;color:#627667}
+@media(max-width:760px){.walletCampaignPanel{padding:16px!important}.walletCampaignPanel form{grid-template-columns:1fr}}
