@@ -176,4 +176,17 @@ begin
  on conflict(customer_id,reward_id) do update set locked=true;
 end $choose$;
 
+
+CREATE OR REPLACE FUNCTION nival_pr_private.customer_card(b uuid, h text)
+ RETURNS jsonb
+ LANGUAGE sql
+ SECURITY DEFINER
+ SET search_path TO ''
+AS $function$
+ select jsonb_build_object('id',c.id,'manual_code',c.manual_code,'name',c.name,'balance',(select coalesce(sum(points),0) from nival_pr.point_ledger where customer_id=c.id),'reward',(select jsonb_build_object('id',id,'name',name,'points_cost',points_cost) from nival_pr.rewards where id=nival_pr_private.next_reward(c.id)),
+ 'reward_policy',nival_pr_private.segment_reward_policy(c.id),'history',coalesce((select jsonb_agg(x) from (select type,points,created_at from nival_pr.point_ledger where customer_id=c.id order by created_at desc,id desc limit 6)x),'[]'::jsonb))
+ from nival_pr.customers c where c.business_id=b and c.device_token_hash=h and c.consent_at is not null and c.token_expires_at>now()
+$function$
+;
+revoke all on function nival_pr_private.segment_reward_policy(uuid) from public;
 commit;
