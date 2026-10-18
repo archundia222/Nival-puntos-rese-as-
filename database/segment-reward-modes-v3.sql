@@ -89,11 +89,11 @@ begin
      select rw.id into r from nival_pr.rewards rw where rw.program_id=p.id and rw.active
        and (rw.expires_at is null or rw.expires_at>now()) and (rw.stock is null or rw.stock>0)
        and exists(select 1 from jsonb_array_elements_text(wanted_ids) selected(id) where selected.id=rw.id::text)
-       order by rw.position,rw.id offset num_completed % greatest(jsonb_array_length(wanted_ids),1) limit 1;
+       order by (select selected.ordinality from jsonb_array_elements_text(wanted_ids) with ordinality selected(id,ordinality) where selected.id=rw.id::text),rw.id offset num_completed % greatest(jsonb_array_length(wanted_ids),1) limit 1;
      if r is null then
        select rw.id into r from nival_pr.rewards rw where rw.program_id=p.id and rw.active
        and exists(select 1 from jsonb_array_elements_text(wanted_ids) selected(id) where selected.id=rw.id::text)
-       order by rw.position,rw.id limit 1;
+       order by (select selected.ordinality from jsonb_array_elements_text(wanted_ids) with ordinality selected(id,ordinality) where selected.id=rw.id::text),rw.id limit 1;
      end if;
      return r;
    end;
