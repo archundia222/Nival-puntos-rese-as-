@@ -853,3 +853,18 @@ body{background:var(--nival-cream);color:var(--nival-text)}
 .nivalConfiguredCard .cardPointGrid{margin:16px 0!important}
 .nivalConfiguredCard[data-theme="minimal"]{box-shadow:0 12px 30px #1b44321b!important;border:1px solid #d3e1d5!important}
 .nivalConfiguredCard .cardProgram{text-transform:uppercase;font-size:14px!important;letter-spacing:.05em!important}
+
+/* Segment reward rules and communication campaigns */
+.segmentRewardRules{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}
+.segmentRewardRules .campaignSegment{min-width:0;padding:16px;border:1px solid #d9e5d9;border-radius:14px;background:#fff}
+.segmentRewardRules .campaignSegment legend{font-weight:800;padding:0 6px}
+.segmentRewardRules .campaignSegment>label{display:grid;gap:8px;color:#314d3c}
+.segmentRewardCheckboxes{display:grid;gap:8px;margin:12px 0 3px}
+.segmentRewardCheckboxes label{display:flex;gap:9px;align-items:center;font-size:13px}
+.segmentRewardCheckboxes input{width:17px;height:17px;accent-color:#236848}
+.customerCampaigns{margin:18px 0 0;border:1px solid #d6e5d8;border-radius:16px;background:#fff;overflow:hidden}
+.customerCampaigns>summary{padding:16px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.customerCampaigns>summary strong{font-size:17px}.customerCampaigns>summary span{color:#60766b;font-size:13px}
+.customerCampaignsInner{border-top:1px solid #e1e9e1;padding:20px}
+.customerCampaignsInner h3{margin:0 0 8px}.customerCampaignsInner p{line-height:1.5}
+@media(max-width:720px){.segmentRewardRules{grid-template-columns:1fr}.customerCampaigns>summary{padding:15px}}
