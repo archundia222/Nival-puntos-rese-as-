@@ -68,4 +68,5 @@ $function$
 ;
 revoke all on function nival_pr_private.reward_unlock_time(uuid,integer) from public;
 revoke all on function nival_pr_private.reward_is_redeemable(uuid,uuid) from public;
+grant execute on function nival_pr_private.reward_is_redeemable(uuid,uuid) to npr_v2_auth;
 commit;
