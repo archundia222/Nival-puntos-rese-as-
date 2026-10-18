@@ -207,21 +207,33 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
   try { const parsed=JSON.parse(val(f,"rewardOrder")||"[]"); if(!Array.isArray(parsed)||parsed.length>100||parsed.some(id=>typeof id!=="string"||!uuid(id))||new Set(parsed).size!==parsed.length)throw new Error(); rewardOrder=parsed; } catch { return {error:"Revisa el orden de los premios."}; }
   const cardEnabled = val(f, "cardEnabled") === "on";
   let cardDesign: Record<string, unknown> = {};
-  let campaignRules: { strategy: "manual" | "random"; targets: Record<string, string[]>; autoWelcome: boolean; autoMissYou: boolean };
+  let campaignRules: {strategy:"manual"|"random";targets:Record<string,string[]>;autoWelcome:boolean;autoMissYou:boolean;scope?:"all"|"segments";assignmentMode?:"sequence"|"choose"|"random";segmentModes?:Record<string,"sequence"|"choose"|"random">};
   try {
-    const parsed = JSON.parse(val(f, "campaignRules") || "{}");
-    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed) || !["manual", "random"].includes(parsed.strategy)) throw new Error();
-    const targets = parsed.targets || {};
-    const keys = ["all", "new", "frequent", "at_risk", "lost", "absent"];
-    if (!targets || typeof targets !== "object" || Array.isArray(targets) || Object.keys(targets).some((key) => !keys.includes(key))) throw new Error();
-    const clean: Record<string, string[]> = {};
-    for (const key of keys) {
-      const ids = targets[key] ?? [];
-      if (!Array.isArray(ids) || ids.length > 10 || ids.some((id: unknown) => typeof id !== "string" || !uuid(id))) throw new Error();
-      clean[key] = [...new Set(ids)];
+    const parsed = JSON.parse(val(f,"campaignRules")||"{}");
+    const keys=["all","new","frequent","at_risk","lost","absent"];
+    const allowedModes=["sequence","choose","random"];
+    if(!parsed||typeof parsed!=="object"||Array.isArray(parsed)||
+       !["manual","random"].includes(parsed.strategy)||
+       !parsed.targets||typeof parsed.targets!=="object"||Array.isArray(parsed.targets)||
+       Object.keys(parsed.targets).some(k=>!keys.includes(k)))throw Error();
+    const clean:Record<string,string[]>={};
+    for(const k of keys){
+      const ids=parsed.targets[k]??[];
+      if(!Array.isArray(ids)||ids.length>10||ids.some((id:unknown)=>typeof id!=="string"||!uuid(id)))throw Error();
+      clean[k]=[...new Set(ids)];
     }
-    campaignRules = { strategy: parsed.strategy, targets: clean, autoWelcome: parsed.autoWelcome === true, autoMissYou: parsed.autoMissYou === true };
-  } catch { return { error: "Revisa la selección de premios por grupo." }; }
+    if(!clean.all.length)throw Error();
+    const policyMode=parsed.assignmentMode??(mode==="choose"?"choose":mode==="surprise"?"random":"sequence");
+    const scope=parsed.scope??"all";
+    if(!allowedModes.includes(policyMode)||!["all","segments"].includes(scope))throw Error();
+    const segmentModes:Record<string,"sequence"|"choose"|"random">={};
+    for(const [key,value] of Object.entries(parsed.segmentModes||{})){
+      if(!keys.slice(1).includes(key)||value==null)continue;
+      if(typeof value!=="string"||!allowedModes.includes(value))throw Error();
+      segmentModes[key]=value as "sequence"|"choose"|"random";
+    }
+    campaignRules={strategy:parsed.strategy,targets:clean,autoWelcome:false,autoMissYou:false,scope,assignmentMode:policyMode,segmentModes};
+  }catch{return {error:"Revisa los premios y las reglas por tipo de cliente."};}
   try {
     const parsed = JSON.parse(val(f, "cardDesign") || "{}");
     if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
@@ -295,13 +307,6 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
       const [maximum]=await query(actor,"select coalesce(max(r.position),-1)::int max_position from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where p.business_id=$1",[b]);
       rewardPositionOffset=Number(maximum?.max_position??-1);
       if(rewardPositionOffset+rewardOrder.length>2147483647)return {error:"No se pudo reordenar la lista porque alcanzó su límite. Ajusta el orden de los premios e inténtalo de nuevo."};
-    }
-    if (activeReward.length) {
-      if (campaignRules.autoWelcome) campaignRules.targets.new = [primaryRewardId];
-      if (campaignRules.autoMissYou) {
-        campaignRules.targets.at_risk = [primaryRewardId];
-        campaignRules.targets.lost = [primaryRewardId];
-      }
     }
     if (activeReward.length && !campaignRules.targets.all.length) return { error: "Asigna al menos un premio a Todos. Los demás grupos son opcionales." };
     await transaction(actor, [
