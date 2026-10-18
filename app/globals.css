@@ -813,3 +813,34 @@ body{background:var(--nival-cream);color:var(--nival-text)}
 }
 .ownerDashboard .chartDescription{margin:-14px 0 17px;color:#6c7f74;font-size:12px;line-height:1.5}.ownerDashboard .chartBar{grid-template-columns:100px minmax(35px,1fr) 48px 40px}.ownerDashboard .chartBar>small{text-align:right;color:#6c7f74;font-size:11px}.ownerDashboard .ratingSingle{display:grid;align-content:center;min-height:150px;padding:18px;border-radius:14px;background:#f2f6f1}.ownerDashboard .ratingSingle>strong{font-size:42px;letter-spacing:-1.5px}.ownerDashboard .ratingSingle>strong span{color:#d49b24}.ownerDashboard .ratingSingle p{margin:7px 0 0;color:#63766a;font-size:13px;line-height:1.5}
 @media(max-width:600px){.ownerDashboard .chartBar{grid-template-columns:86px minmax(30px,1fr) 42px 36px;gap:6px;font-size:12px!important}.ownerDashboard .chartBar>small{font-size:10px}}
+
+/* Nival Puntos owner and card polish — 2026-10-18 */
+.workspaceSidebar .workspaceSubmenu .workspaceNavItem.isSubItem{color:#f3f8f2!important;opacity:1!important}
+.workspaceSidebar .workspaceSubmenu .workspaceNavItem.isSubItem strong{color:inherit!important;font-weight:700!important}
+.workspaceSidebar .workspaceSubmenu .workspaceNavItem.isSubItem.isActive,
+.workspaceSidebar .workspaceSubmenu .workspaceNavItem.isSubItem:hover{color:#fff!important;background:rgba(255,255,255,.15)!important}
+.startGuideHeading h2{font-size:clamp(24px,2.2vw,30px)!important}
+.rewardManagerHeader{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
+.rewardManagerHeader h2{margin:0;font-size:clamp(24px,3vw,33px)}
+.rewardEmpty{padding:34px!important;border:2px dashed #a9b9ac!important;border-radius:16px!important;background:rgba(255,255,255,.4)!important}
+.rewardAddPanel{background:#fff;border:1px solid #dce5da;padding:20px;border-radius:20px;margin-top:22px}
+.rewardAddPanel h3{margin:0 0 12px}
+.rewardImageInput{display:grid!important;gap:8px}
+.rewardImageInput input[type=file]{background:#f9fbf8;border:1px dashed #9bb09f;border-radius:12px;padding:12px;width:100%}
+.rewardImageInput small{font-size:12px;color:#586e60}
+.rewardImageInput img{width:110px;height:110px;object-fit:cover;border-radius:12px}
+.cardEditorTabs{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important}
+.cardEditorTabs button{min-width:0!important}
+.cardEditorTabs button[aria-current="step"]{box-shadow:0 0 0 2px #2b775443;border-color:#237049}
+.cardPointGrid i img{width:100%;height:100%;max-width:27px;max-height:27px;object-fit:contain;border-radius:50%}
+.nivalConfiguredCard .cardProgram{font-weight:800!important;letter-spacing:.07em}
+.nivalConfiguredCard .cardGoal{margin-top:10px}
+.nivalCardEditor .editorHeading h2{font-size:clamp(26px,3vw,34px);margin-bottom:4px}
+.nivalCardEditor .editorHeading p{font-size:14px;line-height:1.3}
+.editorHint{border:1px dashed #c0cfc2;border-radius:12px;padding:14px;color:#607466}
+@media(max-width:760px){
+ .cardEditorTabs{display:flex!important;overflow-x:auto;scroll-snap-type:x mandatory}
+ .cardEditorTabs button{min-width:148px!important;flex:0 0 148px;scroll-snap-align:start}
+ .rewardAddPanel{padding:14px}
+ .rewardManagerHeader h2{font-size:22px}
+}
