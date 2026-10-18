@@ -79,7 +79,7 @@ export function CardView({
   const design=business.program?.rules?.card_design||{},
     goal = card.reward?.points_cost || 0,
     points = Number(card.balance),
-    ready = goal > 0 && points >= goal;
+    ready = goal > 0 && points >= goal && card.reward_redeemable !== false;
   const visibleDots=Math.min(goal||10,20),filledDots=Math.min(Math.round((points/Math.max(goal,1))*visibleDots),visibleDots);
   const baseCardColor=design.theme==="minimal"?"#ffffff":design.theme==="noche"?"#17352f":design.theme==="botanico"?"#315641":cardColor(business.program?.color);
   const configuredStyle={"--card-color":baseCardColor,"--card-text":design.theme==="minimal"?(design.textColor||"#17352f"):readableCardText(design.textColor,baseCardColor),"--card-accent":design.secondaryColor||"#cfe87a","--point-active":design.pointActive||design.secondaryColor||"#cfe87a","--point-idle":design.pointInactive||"#ffffff35"} as React.CSSProperties;
@@ -153,17 +153,6 @@ export function CardView({
           </div>
         )}
       </article>
-      <section className="customerRewardSummary"><h2>Tu próximo premio</h2>{card.reward?.photo_url&&<img className="customerRewardPhoto" src={card.reward.photo_url} alt={`Premio: ${card.reward.name}`}/>}<div className="customerRewardGoal">
-          <span>
-            {ready
-              ? "Ya tienes los puntos para este premio"
-              : card.reward
-                ? `${Math.max(goal - points, 0)} puntos para tu premio`
-                : "Meta pendiente de configuración"}
-          </span>
-          <b>{card.reward?.name || "Premio por definir"}</b>
-        </div>
-</section>
       {walletAvailable&&<WalletButton slug={business.slug} />}
       <section className="personalQr">
         <div>
@@ -183,6 +172,17 @@ export function CardView({
         <p className="manualCardCode">Código manual: <strong>{card.manual_code||card.id}</strong></p>
         <button type="button" disabled={checking} onClick={()=>void manualRefresh.current(true)}>{checking?'Actualizando…':'Actualizar mis puntos'}</button>{syncMessage&&<p role="status">{syncMessage}</p>}
       </section>
+      <section className="customerRewardSummary"><h2>Tu próximo premio</h2>{card.reward?.photo_url&&<img className="customerRewardPhoto" src={card.reward.photo_url} alt={`Premio: ${card.reward.name}`}/>}<div className="customerRewardGoal">
+          <span>
+            {ready
+              ? "Tu premio está disponible para canjear"
+              : card.reward
+                ? points >= goal ? "Los puntos están completos, pero este premio ya no está vigente" : `Te faltan ${Math.max(goal - points, 0)} puntos para este premio`
+                : "Meta pendiente de configuración"}
+          </span>
+          <b>{card.reward?.name || "Premio por definir"}</b>
+        </div>
+</section>
       {(design.terms||design.whatsapp||design.address||design.instagram||design.facebook)&&<section className="customerCardDetails"><h2>Información del programa</h2>{design.terms&&<details><summary>Términos y condiciones</summary><p>{design.terms}</p></details>}{design.whatsapp&&<p>WhatsApp: <a href={`https://wa.me/${String(design.whatsapp).replace(/\D/g,"")}`} target="_blank" rel="noreferrer">{design.whatsapp}</a></p>}{design.address&&<p>Dirección: {design.address}</p>}{design.instagram&&<p>Instagram: {design.instagram}</p>}{design.facebook&&<p>Facebook: {design.facebook}</p>}</section>}
       {business.active && policyMode === "choose" && !card.reward && (
         <section className="reviewBox">
