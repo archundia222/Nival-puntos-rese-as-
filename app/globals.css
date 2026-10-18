@@ -853,3 +853,34 @@ body{background:var(--nival-cream);color:var(--nival-text)}
 .nivalConfiguredCard .cardPointGrid{margin:16px 0!important}
 .nivalConfiguredCard[data-theme="minimal"]{box-shadow:0 12px 30px #1b44321b!important;border:1px solid #d3e1d5!important}
 .nivalConfiguredCard .cardProgram{text-transform:uppercase;font-size:14px!important;letter-spacing:.05em!important}
+
+/* Reward assignment: one general policy or custom policies by audience */
+.segmentPolicyEditor{display:grid;gap:16px;padding:20px!important;background:#fcfdf9;border:1px solid #dce7dd;border-radius:20px}
+.segmentPolicyEditor header h3{font-size:clamp(20px,2vw,25px);margin:0 0 5px;color:#174631}
+.segmentPolicyEditor header p{font-size:13px;color:#617469;margin:0}
+.segmentPolicyScope{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:5px;border:1px solid #d7e3d7;background:#f0f4ef;border-radius:14px}
+.segmentPolicyScope button{min-height:48px;border:0;background:transparent;color:#4a6755;border-radius:11px;font-weight:700;padding:10px}
+.segmentPolicyScope button[aria-pressed=true]{background:#164d3b;color:#fff;box-shadow:0 2px 12px #133e2a20}
+.segmentPolicyMode{display:grid;gap:8px;font-weight:750;color:#173e2d}
+.segmentPolicyMode select,.segmentPolicyGroupBody select{width:100%;min-height:46px;padding:10px;background:white;border:1px solid #cad8cb;border-radius:10px}
+.segmentPolicyBlock{display:grid;gap:10px}
+.segmentPolicyBlock>b{font-size:14px}
+.segmentPolicyRewards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.segmentPolicyRewards label{display:flex!important;flex-direction:row!important;align-items:center;gap:12px;padding:10px 12px;border:1px solid #dce7dd;border-radius:12px;background:#fff;font-size:13px}
+.segmentPolicyRewards label input{width:17px!important;height:17px;margin:0!important;flex-shrink:0}
+.segmentPolicyRewards label span{display:grid;gap:3px}
+.segmentPolicyRewards label small{font-size:11px;color:#667b6a}
+.segmentPolicyOrder{border:1px solid #dce7dd;border-radius:12px;padding:12px}
+.segmentPolicyOrder summary{font-weight:700;cursor:pointer}
+.segmentPolicyOrder ol{padding-left:22px;margin:12px 0 0}
+.segmentPolicyOrder li{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #e7eee9;padding:8px}
+.segmentPolicyOrder li button{min-width:34px;min-height:34px;background:#f0f4ef;border:0;border-radius:8px;margin-left:4px}
+.segmentPolicyGroups{display:grid;gap:8px}
+.segmentPolicyGroup{border:1px solid #dce7dd;border-radius:13px;background:#fff;padding:14px}
+.segmentPolicyGroup summary{cursor:pointer;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.segmentPolicyGroup summary b{font-size:15px}.segmentPolicyGroup summary small{color:#748175;font-size:11px}
+.segmentPolicyGroupBody{display:grid;gap:15px;padding-top:15px}
+.segmentPolicyGroupBody>label,.segmentPolicyGroupBody>div{display:grid;gap:9px}
+.segmentPolicyGroupBody>div>b{font-size:13px}.segmentPolicyGroupBody>div>small{font-size:12px;color:#657669}
+.segmentPolicyHelp{font-size:12px!important;color:#5e7367;margin:0!important}
+@media(max-width:760px){.segmentPolicyEditor{padding:14px!important}.segmentPolicyRewards{grid-template-columns:1fr}.segmentPolicyGroup summary{display:grid}.segmentPolicyScope button{font-size:12px}}
