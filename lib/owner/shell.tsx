@@ -5,14 +5,13 @@ import {Icon} from './icons';
 type MenuItem={id:string;label:string;icon?:string;href?:string;disabled?:boolean;children?:MenuItem[]};
 function normalizeSection(section:string){
  if(['tarjetas','tus-tarjetas','programa','compartir','compartir-programa','nival-resenas'].includes(section))return 'mis-tarjetas';
- if(section==='google')return 'inicio';
+ if(section==='google')return 'reseñas';
  return section;
 }
 function groupForSection(section:string):string|null{
  if(['mis-tarjetas','tus-tarjetas','programa','promociones','premios','compartir-programa','compartir','nival-resenas'].includes(section))return 'tarjetas';
  if(section==='nival-pay')return 'tarjetas';
  if(['clientes','campañas-clientes'].includes(section))return 'clientes-menu';
- if(['equipo','asociados'].includes(section))return 'equipo-menu';
  if(['configuracion','ajustes','datos-negocio','plan'].includes(section))return 'cuenta';
  return null;
 }
@@ -27,15 +26,14 @@ function makeItems(_reviewLimit:number,_nfcLimit:number):MenuItem[]{
    {id:'clientes',label:'Clientes'},
    {id:'campañas-clientes',label:'Campañas'},
   ]},
-  {id:'sucursales',label:'Sucursales',icon:'inicio'},
-  {id:'equipo-menu',label:'Equipo',icon:'clientes',children:[
-   {id:'equipo',label:'Administración de equipo'},
-   {id:'asociados',label:'Equipo'},
-  ]},
   {id:'canjes',label:'Canjes',icon:'gift'},
+  {id:'reseñas',label:'Reseñas',icon:'file'},
   {id:'informes',label:'Informes',icon:'file'},
+  {id:'sucursales',label:'Sucursales',icon:'inicio'},
+  {id:'equipo',label:'Equipo',icon:'clientes'},
   {id:'cuenta',label:'Cuenta',icon:'settings',children:[
-   {id:'plan',label:'Facturación'},
+   {id:'plan',label:'Plan y facturación'},
+   {id:'tarjetas-nfc',label:'Mis tarjetas NFC'},
    {id:'configuracion',label:'Configuración'},
   ]},
  ];
@@ -45,7 +43,7 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
  const [section,setSection]=useState(()=>normalizeSection(initialSection)),[open,setOpen]=useState(false),[collapsed,setCollapsed]=useState(false),[mobile,setMobile]=useState(mobilePreview),[expanded,setExpanded]=useState<string|null>(()=>groupForSection(normalizeSection(initialSection)));
  const sidebar=useRef<HTMLElement>(null),trigger=useRef<HTMLButtonElement>(null);
  const items=makeItems(responseLimit,nfcLimit);
- useEffect(()=>{const m=window.matchMedia('(max-width: 960px)');const sync=()=>{setMobile(m.matches||mobilePreview);setOpen(false);};sync();m.addEventListener('change',sync);const hash=()=>{const key=window.location.hash.slice(1);if(key){if(key==='google'){setSection('inicio');setExpanded(null);requestAnimationFrame(()=>document.getElementById('google')?.scrollIntoView({behavior:'smooth',block:'center'}));return;}const normalized=normalizeSection(key);if(normalized==='card-editor'){setSection('mis-tarjetas');setExpanded('fidelidad');return;}setSection(normalized);setExpanded(groupForSection(normalized));if(normalized!==key)window.history.replaceState(null,'',window.location.pathname+window.location.search+'#'+normalized);}};hash();window.addEventListener('hashchange',hash);return()=>{m.removeEventListener('change',sync);window.removeEventListener('hashchange',hash);};},[mobilePreview]);
+ useEffect(()=>{const m=window.matchMedia('(max-width: 960px)');const sync=()=>{setMobile(m.matches||mobilePreview);setOpen(false);};sync();m.addEventListener('change',sync);const hash=()=>{const key=window.location.hash.slice(1);if(key){if(key==='google'){setSection('reseñas');setExpanded(null);return;}const normalized=normalizeSection(key);if(normalized==='card-editor'){setSection('mis-tarjetas');setExpanded('fidelidad');return;}setSection(normalized);setExpanded(groupForSection(normalized));if(normalized!==key)window.history.replaceState(null,'',window.location.pathname+window.location.search+'#'+normalized);}};hash();window.addEventListener('hashchange',hash);return()=>{m.removeEventListener('change',sync);window.removeEventListener('hashchange',hash);};},[mobilePreview]);
  useEffect(()=>{if(!open||!mobile)return;const previous=document.body.style.overflow;document.body.style.overflow='hidden';sidebar.current?.querySelector<HTMLButtonElement>('button')?.focus();const key=(e:KeyboardEvent)=>{if(e.key==='Escape'){setOpen(false);trigger.current?.focus();}if(e.key==='Tab'){const nodes=Array.from(sidebar.current?.querySelectorAll<HTMLElement>('button,a[href]')||[]);const first=nodes[0],last=nodes.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus();}}};document.addEventListener('keydown',key);return()=>{document.body.style.overflow=previous;document.removeEventListener('keydown',key);};},[open,mobile]);
  function hrefFor(path:string){const target=new URL(path,window.location.origin);if(homeUrl){const base=new URL(homeUrl,window.location.origin);if(base.searchParams.has('business')&&!target.searchParams.has('business'))target.searchParams.set('business',base.searchParams.get('business')!);if(base.searchParams.has('branch')&&!target.searchParams.has('branch'))target.searchParams.set('branch',base.searchParams.get('branch')!);}return target.pathname+(target.searchParams.size?'?'+target.searchParams.toString():'')+target.hash;}
  function toggle(id:string){
@@ -71,7 +69,7 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
   window.scrollTo({top:0,behavior:'smooth'});requestAnimationFrame(()=>document.getElementById('workspace-title')?.focus());
  }
  function render(item:MenuItem,depth=0){
-  const active=section===item.id||(item.id==='tarjetas'&&['mis-tarjetas','google','nival-resenas','compartir-programa','compartir','promociones','nival-pay','premios'].includes(section))||(item.id==='mis-tarjetas'&&['mis-tarjetas','google','nival-resenas','compartir-programa','compartir','promociones','nival-pay'].includes(section))||(item.id==='clientes-menu'&&['clientes','campañas-clientes'].includes(section))||(item.id==='equipo-menu'&&['equipo','asociados'].includes(section))||(item.id==='cuenta'&&(section==='plan'||section==='ajustes'||section==='configuracion'))||(item.id==='configuracion'&&section==='ajustes');
+  const active=section===item.id||(item.id==='tarjetas'&&['mis-tarjetas','google','nival-resenas','compartir-programa','compartir','promociones','nival-pay','premios'].includes(section))||(item.id==='mis-tarjetas'&&['mis-tarjetas','google','nival-resenas','compartir-programa','compartir','promociones','nival-pay'].includes(section))||(item.id==='clientes-menu'&&['clientes','campañas-clientes'].includes(section))||(item.id==='cuenta'&&(section==='plan'||section==='ajustes'||section==='configuracion'||section==='tarjetas-nfc'))||(item.id==='configuracion'&&section==='ajustes');
   if(item.children)return <div className={'workspaceMenuGroup'+(depth?' isNested':'')} key={item.id}>
    <button className={'workspaceNavItem'+(active?' isActive':'')} aria-expanded={expanded===item.id} aria-controls={'workspace-submenu-'+item.id} onClick={()=>toggle(item.id)} aria-current={active?'page':undefined}>{item.icon&&<Icon name={item.icon}/>}<span><strong>{item.label}</strong></span><i aria-hidden="true"/></button>
    {expanded===item.id&&<div className="workspaceSubmenu" id={'workspace-submenu-'+item.id} aria-label={item.label}>{item.children.map(child=>render(child,depth+1))}</div>}
