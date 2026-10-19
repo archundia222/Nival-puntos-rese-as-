@@ -145,6 +145,7 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
    {planName==='Plus'&&<article className="ownerCard"><h3>Comparación con la zona</h3>
     {data.zoneComparison&&!data.zoneComparison.sample?<table><thead><tr><th></th><th>Calificación</th><th>Reseñas</th></tr></thead><tbody><tr><td>Tu negocio</td><td>{data.zoneComparison.business_rating}</td><td>{data.zoneComparison.business_reviews}</td></tr><tr><td>Zona</td><td>{data.zoneComparison.zone_average_rating}</td><td>{data.zoneComparison.zone_average_reviews}</td></tr></tbody></table>:<p>Próximamente</p>}
    </article>}
+  {data.selectedBranch?.id&&<BranchGoogleSettings businessId={b.id} branchId={data.selectedBranch.id} branchName={data.selectedBranch.name||b.name} url={data.selectedBranch.google_maps_url||''}/>}
  </section>
  <section data-panel="tarjetas-nfc" className="ownerBlock"><h2>Mis tarjetas NFC</h2><div className="ownerMetrics">
    <Metric label="Puntos" value={(data.branches||[]).filter((x:Record<string,any>)=>x.active).length}/>
