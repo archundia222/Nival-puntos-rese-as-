@@ -157,7 +157,7 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
     {key:'risk',name:'Te extrañamos',count:riskCount},
     {key:'frequent',name:'Gracias por volver',count:frequentCount},
     {key:'near_reward',name:'Cerca del premio',count:data.segments.filter((c:Record<string,any>)=>Number(c.balance||0)>0).length},
-   ].map(c=><article className="campaignRewardCard" key={c.key}><strong>{c.name}</strong><small>{c.count} clientes</small><a href={'#mensaje-'+c.key}>Editar mensaje <Icon name="arrow" size={15}/></a></article>)}
+   ].map(c=><article className="campaignRewardCard" key={c.key}><strong>{c.name}</strong><small>{c.count} clientes</small><a href="#campañas-clientes">Editar mensaje <Icon name="arrow" size={15}/></a></article>)}
   </div>
   {!demo&&<div className="ownerCard"><h3>Mensajes</h3>
    {Object.entries(defaultMessages).map(([key,body])=><div key={key} id={'mensaje-'+key} style={{marginBlock:16}}>
