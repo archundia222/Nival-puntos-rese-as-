@@ -7,6 +7,9 @@ const source=p=>readFileSync(p,'utf8');
 const sql=(path,start,end)=>{const s=source(path),i=s.indexOf(start);assert.ok(i>=0,start);return s.slice(i,s.indexOf(end,i));};
 test('first sale: registration → paid code → setup → enrollment → owner visit → staff redemption → recovery → expiry',async()=>{
  const db=new PGlite();
+ const rawQuery=db.query.bind(db),rawExec=db.exec.bind(db);
+ db.query=async (...args)=>{try{return await rawQuery(...args);}catch(e){console.error('FIRST-SALE QUERY FAILED:',String(args[0]).slice(0,450));throw e;}};
+ db.exec=async (...args)=>{try{return await rawExec(...args);}catch(e){console.error('FIRST-SALE EXEC FAILED:',String(args[0]).slice(0,450));throw e;}};
  try{
   await db.exec('create schema neon_auth;create table neon_auth."user"(id uuid primary key)');
   for(const name of ['foundation-neon','points-neon','points-lifecycle','points-legacy-phones','owner-panel','owner-report-scope','legal-pilot','registration-pilot','reputation-v6','lealtad-v6','points-only-plan-v1','activation-plan-v2','entitlements-v2','owner-tools-v2','service-access-v3','plan-review-pipeline-v8','plan-pricing-v9','promotions-redemption-value-v1','period-summary-v1','review-cards-v1','branches-v1','weekday-bonus-v1','card-publish-recovery-v1','card-customization-v2'])await db.exec(source('database/'+name+'.sql'));
