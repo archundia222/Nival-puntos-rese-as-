@@ -24,7 +24,7 @@ export async function manageStaff(_: Result, f: FormData): Promise<Result> {
       "select nival_pr_private.manage_staff_branch($1,$2,$3,$4,$5,$6) id",
       [b, branchId, id || null, name, hash, id ? f.get("active") === "true" : true],
     );
-    revalidatePath("/panel/puntos");
+    revalidatePath("/panel/puntos");revalidatePath("/panel");
     return {
       success: id
         ? "Acceso actualizado al instante."
