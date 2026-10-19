@@ -6,19 +6,20 @@ import {addReward} from '../foundation/actions';
 import {editReward} from '../points/actions';
 import {RewardImageInput} from '../points/reward-image-input';
 type Reward={id:string;name:string;points_cost:number;position:number;active:boolean;photo_url?:string|null;reward_type?:string;value_mxn?:number|null;stock?:number|null;weight?:number|null;expiry?:string};
-export function RewardWorkspace({businessId,rewards}:{businessId:string;rewards:Reward[]}){
+export function RewardWorkspace({businessId,rewards,redemptions=[],periodStart}:{businessId:string;rewards:Reward[];redemptions?:Record<string,any>[];periodStart?:string}){
  const [selected,setSelected]=useState<string|null>(null);
  const [exit,setExit]=useState(false);
  const [notice,setNotice]=useState('');
  const current=rewards.find(x=>x.id===selected);
  function leave(){setSelected(null);setExit(false);setNotice('Cambios guardados');}
+ function countRedemptions(name:string){return redemptions.filter(x=>x.reward===name&&(!periodStart||new Date(x.created_at).getTime()>=new Date(periodStart).getTime())).length;}
  return <section className="rewardWorkspace">
   {selected===null?<><div className="workspaceSectionHeader"><h2>Premios y recompensas</h2><button type="button" className="workspacePrimary" onClick={()=>{setSelected('new');setNotice('')}}>+ Agregar</button></div>
    {notice&&<p role="status">{notice}</p>}
    {!rewards.length&&<div className="starterRewardSample"><span className="workspaceExampleTag">Ejemplo</span><div className="campaignCardArt" aria-hidden="true">✦</div><strong>Tu primer premio</strong><small>6 puntos · Café de cortesía</small><button type="button" className="workspacePrimary" onClick={()=>setSelected('new')}>Crear primer premio →</button></div>}
    <div className="campaignRewardStrip">{rewards.map(r=><button type="button" key={r.id} className="campaignRewardCard" onClick={()=>{setSelected(r.id);setNotice('')}} style={{cursor:'pointer',textAlign:'left'}}>
      {r.photo_url?<img src={r.photo_url} alt="" style={{width:'100%',height:140,objectFit:'cover',borderRadius:12}}/>:<div className="campaignCardArt" aria-hidden="true">✦</div>}
-     <strong>{r.name}</strong><small>{r.points_cost} puntos · {r.active?'Activo':'Inactivo'}</small>
+     <span className={"rewardStatus "+(r.active?"isActive":"isPaused")}>{r.active?"Activo":"Inactivo"}</span><strong>{r.name}</strong><small><b>{r.points_cost} puntos</b> · {countRedemptions(r.name)} canjes del periodo</small><span className="rewardEditHint">Editar →</span>
     </button>)}</div>
   </>:<div className="ownerCard rewardEditorPanel"><header className="workspaceSectionHeader"><h2>{current?'Editar premio':'Nuevo premio'}</h2><button type="button" className="workspaceSecondary" onClick={()=>setExit(true)}>Salir</button></header>
    {exit&&<div className="ownerCard" role="group" aria-label="Guardar los cambios"><strong>¿Deseas guardar los cambios?</strong><div className="workspaceActionRow">
