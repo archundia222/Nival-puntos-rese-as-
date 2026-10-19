@@ -42,7 +42,7 @@ test('points and review QR cards share the Cards workspace with plan limits',()=
  for(const label of ['Tus tarjetas','Actividad del programa','Registros recientes','Editar tarjeta','Exportar clientes','Exportar movimientos'])assert.ok(workspace.includes(label),label);
  assert.ok(!workspace.includes('Tarjetas QR de reseñas'));
  assert.ok(page.includes('CardWorkspace')&&!page.includes('list_branch_review_cards'));
- assert.ok(owner.includes('data-panel="mis-tarjetas"')&&owner.includes('reviewCards={data.reviewCards||[]}'));assert.ok(catalog.includes('<ReviewCardManager')&&catalog.includes('cardLimit={nfcLimit}'));assert.ok(catalog.includes('Compartir esta tarjeta'));
+ assert.ok(owner.includes('data-panel="mis-tarjetas"')&&owner.includes('reviewCards={data.reviewCards||[]}'));assert.ok(catalog.includes('<ReviewCardManager')&&catalog.includes('cardLimit={nfcLimit}'));assert.ok(catalog.includes('Compartir sistema de puntos')&&catalog.includes('<ShareTools'),'the single share panel keeps QR and link');
  const manager=read('lib/owner/review-card-manager.tsx');assert.ok(manager.includes('className="reviewCardInlineQr"'));assert.ok(manager.includes("/api/reviews/qr?code='+encodeURIComponent(card.code)"));
  assert.ok(catalog.includes('giftCardSystemTile')&&catalog.includes('Tarjeta de regalo'));
  assert.ok(owner.includes('data-panel="nival-pay"'));
