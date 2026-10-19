@@ -127,7 +127,7 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
    <Metric label="Clientes recurrentes" value={Number(current.returning_customers||0)}/>
   </div>
   <details className="ownerCard" open><summary><strong>Sistema de puntos</strong></summary><div className="ownerMetrics">
-   <Metric label="Puntos emitidos" value={Number(current.points_issued||current.issued||0)}/>
+   <Metric label="Puntos emitidos" value={Number(current.points||0)}/>
    <Metric label="Ingresos registrados" value={money(Number(current.ticket_revenue||0))}/>
    <RetentionMetric current={current} previous={prev}/>
   </div></details>
