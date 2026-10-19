@@ -21,6 +21,12 @@ export async function GET(req: Request) {
     const png=await QRCode.toBuffer(target,{type:"png",errorCorrectionLevel:"H",margin:4,width:900});
     const document=new PDFDocument({size:"A4",margin:54}),chunks:Buffer[]=[];
     const output=new Promise<Buffer>((resolve,reject)=>{document.on("data",chunk=>chunks.push(Buffer.from(chunk)));document.on("end",()=>resolve(Buffer.concat(chunks)));document.on("error",reject);});
+    if(url.searchParams.get("minimal")==="1"){
+      document.fontSize(18).fillColor("#173a2c").text(b.name,{align:"center"});
+      document.image(png,(document.page.width-310)/2,210,{width:310,height:310});
+      document.end();
+      return new NextResponse(new Uint8Array(await output),{headers:{"Content-Type":"application/pdf","Content-Disposition":'attachment; filename="qr-'+b.slug+'.pdf"',"Cache-Control":"no-store"}});
+    }
     document.fontSize(10).fillColor("#557063").text("NIVAL · REGISTRO DE CLIENTES",{align:"center",characterSpacing:1.5});
     document.moveDown(1.5).fontSize(25).fillColor("#173a2c").text(b.name,{align:"center"});
     document.moveDown(.5).fontSize(14).fillColor("#40574a").text("Escanea para crear tu tarjeta de puntos",{align:"center"});
