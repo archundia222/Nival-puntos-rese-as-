@@ -44,8 +44,8 @@ test('points and review QR cards share the Cards workspace with plan limits',()=
  assert.ok(page.includes('CardWorkspace')&&!page.includes('list_branch_review_cards'));
  assert.ok(owner.includes('data-panel="mis-tarjetas"')&&owner.includes('reviewCards={data.reviewCards||[]}'));assert.ok(catalog.includes('<ReviewCardManager')&&catalog.includes('cardLimit={nfcLimit}'));assert.ok(catalog.includes('Compartir sistema de puntos')&&catalog.includes('<ShareTools'),'the single share panel keeps QR and link');
  const manager=read('lib/owner/review-card-manager.tsx');assert.ok(manager.includes('className="reviewCardInlineQr"'));assert.ok(manager.includes("/api/reviews/qr?code='+encodeURIComponent(card.code)"));
- assert.ok(catalog.includes('giftCardSystemTile')&&catalog.includes('Tarjeta de regalo'));
- assert.ok(owner.includes('data-panel="nival-pay"'));
+ assert.ok(!catalog.includes('giftCardSystemTile')&&!catalog.includes('Tarjeta de regalo'),'gift card must be absent while points and review QR remain');
+ assert.ok(!owner.includes('data-panel="nival-pay"'),'retired gift page must not appear');
  assert.ok(exportRoute.includes('requireRole("owner")')&&exportRoute.includes('requireBusiness'));
  assert.ok(qrRoute.includes('format==="png"')&&qrRoute.includes('format==="pdf"'));
 });
