@@ -83,7 +83,7 @@ test('sidebar accordion opens only the selected group and keeps a single page ti
 });
 test('selected owner menu destinations reveal their matching panel instead of leaving a blank workspace',()=>{
  const css=readFileSync(new URL('../lib/owner/workspace.css',import.meta.url),'utf8');
- for(const [section,panel] of [['inicio','inicio'],['mis-tarjetas','mis-tarjetas'],['clientes','clientes'],['equipo','equipo'],['sucursales','sucursales'],['informes','informes'],['canjes','canjes'],['nival-pay','nival-pay'],['plan','plan'],['configuracion','configuracion'],['ajustes','ajustes']])assert.ok(css.includes(`.nivalShell[data-section="${section}"] [data-panel="${panel}"]`),`${section} → ${panel}`);
+ for(const [section,panel] of [['inicio','inicio'],['mis-tarjetas','mis-tarjetas'],['clientes','clientes'],['equipo','equipo'],['sucursales','sucursales'],['informes','informes'],['canjes','canjes'],['plan','plan'],['configuracion','configuracion'],['ajustes','ajustes']])assert.ok(css.includes(`.nivalShell[data-section="${section}"] [data-panel="${panel}"]`),`${section} → ${panel}`);
  assert.match(css,/\[data-panel="compartir"\]\{display:block\}/);
  assert.ok(css.includes('@media(max-width:700px){.nivalShell .cardCatalogGrid{grid-template-columns:1fr}}'));
 });
@@ -96,8 +96,9 @@ test('Inicio is a short operational summary with drilldowns, not a duplicated ca
  assert.ok(owner.includes('{emptyState&&<StartGuide state={startState||undefined}/>'));
  assert.ok(!owner.includes('Ingresos de clientes recurrentes'),'no invented ticket values');
  assert.ok(!shell.includes("label:'Complementos'"));
- assert.ok(catalog.includes('Tarjeta de regalo'),'existing cards remain available');
+ assert.ok(!catalog.includes('Tarjeta de regalo')&&!catalog.includes('id="gift-card"'),'gift card is removed from every business');
 });
+test('sidebar replaces the full top bar and keeps all account and branch controls accessible',()=>{const shell=readFileSync(new URL('../lib/owner/shell.tsx',import.meta.url),'utf8'),css=readFileSync(new URL('../lib/owner/workspace.css',import.meta.url),'utf8');assert.ok(!shell.includes('<header className="workspaceTopbar"'),'full top bar must not exist');assert.ok(shell.includes('className="sidebarIdentity"')&&shell.includes('branchPicker')&&shell.includes('workspaceStatus')&&shell.includes('demo?"Demo":status'));assert.ok(shell.includes('logout}</div>'),'logout stays in sidebar');assert.ok(shell.includes('workspaceFloatingMenu'),'mobile/desktop menu toggle remains');assert.ok(css.includes('.workspaceSubmenu')&&css.includes('isSubItem.isActive'),'submenu contrast and active state remain');const icons=['inicio','card','clientes','check','google','trend','pin','equipo','settings'];for(const icon of icons)assert.ok(shell.includes("icon:'"+icon+"'"),'distinct menu icon '+icon);});
 test('onboarding steps are single clickable rows with one highlighted next step',async()=>{
  const guide=component('start-guide.tsx',{'./icons':icons,'../foundation/db':{query:async()=>[]}});
  const state={complete:false,completed:0,steps:[
