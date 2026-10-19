@@ -57,3 +57,13 @@ export async function customerSaveUrl(business:any,customer:any) {
  if(!status||Number(status.synced_revision)===0)throw Error('Wallet not ready');
  return saveUrl(config,resources(config,business,customer,publicOrigin()),publicOrigin());
 }
+
+/** Only a conscious opt-in is stored. Issuing a save URL never confirms that a pass was added. */
+export async function recordWalletPreference(customer:any,business:any,notificationsOptIn:boolean){
+ await systemQuery(`insert into nival_pr_private.wallet_preferences(customer_id,business_id,notifications_opt_in,opted_in_at)
+ values($1,$2,$3,case when $3 then now() else null end)
+ on conflict(customer_id) do update set
+ notifications_opt_in=excluded.notifications_opt_in,
+ opted_in_at=case when excluded.notifications_opt_in then coalesce(nival_pr_private.wallet_preferences.opted_in_at,now()) else null end,
+ updated_at=now()`,[customer.id,business.id,notificationsOptIn]);
+}
