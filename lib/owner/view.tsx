@@ -83,7 +83,7 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
  <section id="inicio" data-panel="inicio" className="ownerBlock">
   <header className="impactMasterHeader"><h2>Inicio</h2><form className="impactPeriodFilter" method="get" action={demo?'/demo/panel':'/panel'}>{!demo&&<input type="hidden" name="business" value={b.id}/>} {data.selectedBranch?.id&&<input type="hidden" name="branch" value={data.selectedBranch.id}/>}
   {[7,30,90].map(days=><button type="submit" name="days" value={days} key={days} aria-pressed={periodDays===days}>{days} días</button>)}</form></header>
-  {emptyState&&<StartGuide state={startState||undefined}/>}
+  {emptyState&&<><div className="ownerCard starterPreview"><span className="workspaceExampleTag">Ejemplo · así se verá con visitas</span><div className="starterPreviewVisual" aria-hidden="true"><span style={{height:"42%"}}/><span style={{height:"74%"}}/><span style={{height:"58%"}}/><span style={{height:"86%"}}/><span style={{height:"69%"}}/><span style={{height:"100%"}}/></div><div><strong>Tu actividad aparecerá aquí</strong><p>Registra la primera visita y empieza a ver cómo vuelven tus clientes.</p><a href="#equipo" className="workspacePrimary">Preparar mi equipo →</a></div></div><StartGuide state={startState||undefined}/></>}
   <div className="ownerMetrics homePending">
     {[
       ['En riesgo',riskCount,'clientes-risk'],
@@ -178,7 +178,7 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
     {key:'risk',name:'Te extrañamos',count:riskCount},
     {key:'frequent',name:'Gracias por volver',count:frequentCount},
     {key:'near_reward',name:'Cerca del premio',count:data.segments.filter((c:Record<string,any>)=>Number(c.balance||0)>0).length},
-   ].map(c=><article className="campaignRewardCard" key={c.key}><strong>{c.name}</strong><small>{c.count} clientes</small><a href="#campañas-clientes">Editar mensaje <Icon name="arrow" size={15}/></a></article>)}
+   ].map(c=><article className="campaignRewardCard" key={c.key}><strong>{c.name}</strong><small>{c.count} clientes</small><a href={"#mensaje-"+c.key}>Editar mensaje <Icon name="arrow" size={15}/></a></article>)}
   </div>
   {!demo&&<div className="ownerCard"><h3>Mensajes</h3>
    {Object.entries(defaultMessages).map(([key,body])=><div key={key} id={'mensaje-'+key} style={{marginBlock:16}}>
