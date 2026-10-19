@@ -55,7 +55,7 @@ export async function markCampaignSent(_:Result,f:FormData):Promise<Result>{
   await requireTool(actor,businessId);
   const [plan]=await query(actor,'select p.price_mxn from nival_pr.businesses b join nival_pr.plans p on p.id=b.plan_id where b.id=$1',[businessId]);
   if(Number(plan?.price_mxn||0)<399)return {error:'Disponible en Esencial'};
-  const customers=await query(actor,'select * from nival_pr.customer_segments($1,CURRENT_DATE)',[businessId]);
+  const customers=await query(actor,`select s.*,coalesce((select sum(l.points) from nival_pr.point_ledger l where l.customer_id=s.id and l.business_id=$1),0)::int balance from nival_pr.customer_segments($1,CURRENT_DATE) s`,[businessId]);
   const ids=customers.filter(c=>segment==='new'?c.is_new:segment==='risk'?c.is_risk&&!c.is_lost:segment==='frequent'?c.is_frequent:Number(c.balance||0)>0).map(c=>String(c.id));
   if(!ids.length)return {error:'No hay clientes en este grupo.'};
   await query(actor,'insert into nival_pr.campaign_sends(business_id,segment,channel,customer_ids,created_by) values($1,$2,$3,$4::uuid[],$5)',[businessId,segment,channel,ids,actor.id]);
