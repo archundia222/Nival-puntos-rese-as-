@@ -5,28 +5,24 @@ const read=p=>readFileSync(p,'utf8');
 
 test('card editor keeps edits in a local draft until explicit publish',()=>{
  const editor=read('lib/points/program-editor.tsx');
- assert.ok(editor.includes('tab===4&&<button type="submit"')&&editor.includes('Publicar tarjeta'));
- assert.ok(editor.includes('if(tab!==4||!formRef.current)return;'),'publishing is blocked before the final step');
+ assert.ok(editor.includes('tab===3&&<button type="submit"')&&editor.includes('Publicar tarjeta'));
+ assert.ok(editor.includes('if(tab!==3||!formRef.current)return;'),'publishing is blocked before the final step');
  assert.ok(editor.includes('Completa cada paso; podrás publicar al final.'));
- assert.ok(editor.includes('Promoción para esta tarjeta')&&editor.includes('Crear promociones'));
- assert.ok(editor.includes('primaryRewardId'),'the card selects a saved catalog promotion');
+ assert.ok(editor.includes('primaryRewardId'),'a saved catalog reward is selected');
  assert.ok(!editor.includes('Guardar ahora'));
  assert.ok(!editor.includes('automáticamente'));
  assert.ok(editor.includes('cardEnabled'));
- assert.ok(editor.includes('type="hidden" name="name"')&&editor.includes('type="hidden" name="points"')&&editor.includes('type="hidden" name="rewardName"'),'values from other editor tabs are submitted too');
+ for(const field of ['name','points','rewardName'])assert.ok(editor.includes('type="hidden" name="'+field+'"'),'all tab values remain part of submit: '+field);
  assert.ok(editor.includes('rewardName')&&editor.includes('rewardCost'));
- assert.ok(editor.includes('setRewardOrder(current=>[e.target.value,...current.filter(id=>id!==e.target.value)])'),'selected promotion is first in the display order');
+ assert.ok(editor.includes('rewardOrder')&&editor.includes('setRewardOrder(next)'),'ordering stays a draft until publish');
  assert.ok(editor.includes('QR PERSONAL')&&editor.includes('00000000'));
- assert.ok(editor.includes('Promociones')&&editor.includes('Diseño')&&editor.includes('Detalles'));
- assert.ok(editor.includes('campaignRules')&&editor.includes('at_risk')&&editor.includes('Elegir uno al azar'));
- assert.ok(editor.includes('secondaryColor')&&editor.includes('askBirthday')&&editor.includes('squareLogo'));
- assert.ok(editor.includes('autoWelcome')&&editor.includes('autoMissYou'));
+ for(const word of ['Promociones','Diseño','Detalles','campaignRules','at_risk','Elegir uno al azar','secondaryColor','askBirthday','squareLogo','autoWelcome','autoMissYou'])assert.ok(editor.includes(word),word);
  assert.ok(editor.includes('accept="image/*"')&&editor.includes('optimizeCardImage'));
  assert.ok(editor.includes('Un punto por visita completada')&&!editor.includes('Horas mínimas entre visitas')&&!editor.includes('Máximo de visitas por día'));
- assert.ok(editor.includes('tab===2&&<aside className="liveCardPreview">'));
- const optimizer=read('lib/points/image-optimizer.ts');assert.ok(optimizer.includes('12 * 1024 * 1024')&&optimizer.includes('canvasBlob'));
+ assert.ok(editor.includes('tab===1&&<aside className="liveCardPreview">'),'live preview stays in design step');
+ const optimizer=read('lib/points/image-optimizer.ts');
+ assert.ok(optimizer.includes('12 * 1024 * 1024')&&optimizer.includes('canvasBlob'));
 });
-
 
 test('promotion catalog is available before the card and saved promotions can be selected later',()=>{
  const page=read('app/panel/puntos/page.tsx'),actions=read('lib/foundation/actions.ts'),workspace=read('lib/points/card-workspace.tsx');
