@@ -71,7 +71,7 @@ export async function POST(req: Request) {
           { error: "El premio todavía no está disponible." },
           { status: 400 },
         );
-      const [eligibility]=await query(authScope(actor.id),"select nival_pr_private.reward_is_redeemable($1::uuid,$2::uuid) as allowed",[c,customer.reward.id]);
+      const [eligibility]=await query(authScope(actor.id),"select nival_pr.reward_is_redeemable($1::uuid,$2::uuid) as allowed",[c,customer.reward.id]);
       if(!eligibility?.allowed)return NextResponse.json({error:"Este premio no está disponible para canje por sus reglas de vigencia. Revisa el plazo con el negocio."},{status:400});
       const { bytes, ext, type: mime } = await validatePhoto(file);
       const path = b + "/" + c + "/" + randomUUID() + "." + ext;
@@ -87,7 +87,7 @@ export async function POST(req: Request) {
     const text =
       type === "visit"
         ? "insert into nival_pr.point_ledger(business_id,customer_id,type,points,staff_id,operation_id,ticket_value_mxn) select $1,$2,'visit',points_per_visit,$3,$4,$5 from nival_pr.programs where business_id=$1 returning id"
-        : "insert into nival_pr.point_ledger(business_id,customer_id,type,points,staff_id,reward_id,evidence_path,operation_id,redemption_value_mxn) select $1,$2,'redeem',-r.points_cost,$3,r.id,$5,$6,$7 from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where r.id=$4 and p.business_id=$1 and r.active and nival_pr_private.reward_is_redeemable($2::uuid,r.id) returning id";
+        : "insert into nival_pr.point_ledger(business_id,customer_id,type,points,staff_id,reward_id,evidence_path,operation_id,redemption_value_mxn) select $1,$2,'redeem',-r.points_cost,$3,r.id,$5,$6,$7 from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where r.id=$4 and p.business_id=$1 and r.active and nival_pr.reward_is_redeemable($2::uuid,r.id) returning id";
     const [movement] = await query(
       actor,
       text,
