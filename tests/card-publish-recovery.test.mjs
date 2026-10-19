@@ -10,7 +10,7 @@ test('card editor keeps edits in a local draft until explicit publish',()=>{
  assert.ok(editor.includes('Completa cada paso; podrás publicar al final.'));
  assert.ok(editor.includes('primaryRewardId'),'a saved catalog reward is selected');
  assert.ok(!editor.includes('Guardar ahora'));
- assert.ok(!editor.includes('automáticamente'));
+ assert.doesNotMatch(editor,/tarjeta se publica automáticamente|publicar automáticamente|publicación automática/i,'publication must require owner confirmation');
  assert.ok(editor.includes('cardEnabled'));
  for(const field of ['name','points','rewardName'])assert.ok(editor.includes('type="hidden" name="'+field+'"'),'all tab values remain part of submit: '+field);
  assert.ok(editor.includes('rewardName')&&editor.includes('rewardCost'));
