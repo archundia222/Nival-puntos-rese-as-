@@ -127,6 +127,27 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
   {planName==='Plus'&&<article className="ownerCard"><header className="workspaceSectionHeader"><h3>Tu zona</h3><a href="#reseñas">Ver detalle →</a></header>{data.zoneComparison&&!data.zoneComparison.sample?<strong>{Number(data.zoneComparison.business_rating).toFixed(1)} ★ vs {Number(data.zoneComparison.zone_average_rating).toFixed(1)} ★ · {Number(data.zoneComparison.difference)>0?'+':''}{Number(data.zoneComparison.difference).toFixed(1)} ★</strong>:<p>Próximamente</p>}</article>}
   <a href="#mis-tarjetas" className="workspaceSecondary">Tus tarjetas →</a>
  </section>
+ <section data-panel="reseñas" className="ownerBlock">
+   <header className="workspaceSectionHeader"><h2>Reseñas</h2>{data.selectedBranch?.google_maps_url?<a className="workspaceSecondary" target="_blank" rel="noreferrer" href={data.selectedBranch.google_maps_url}>Abrir Google</a>:<a href="#sucursales">Agregar ficha de Google</a>}</header>
+   <div className="ownerMetrics">
+     <Metric label="Calificación" value={last?Number(last.rating).toFixed(1)+' ★':'—'}/>
+     <Metric label="Reseñas" value={Number(last?.total_reviews||0)}/>
+     <Metric label="Respondidas" value={data.google?.answered??0}/>
+     <Metric label="Por responder" value={pendingReviews??0}/>
+   </div>
+   <article className="ownerCard"><strong>{reviewed} de {responseLimit} respuestas del plan</strong><div className="replyProgress"><i style={{width:(responseLimit?Math.min(100,100*reviewed/responseLimit):0)+'%'}}/></div></article>
+   {last&&hasDistribution&&<Bars title="Reseñas por calificación" unit="Reseñas" items={[5,4,3,2,1].map(n=>({label:n+' ★',value:Number(distribution[n]||0),color:'#175d47'}))}/>}
+   <article className="ownerCard"><h3>Análisis y recomendaciones</h3>{last?.notes?<ReviewInsights notes={last.notes}/>:<p>El análisis estará disponible con el siguiente reporte.</p>}</article>
+   <article className="ownerCard"><h3>Tarjetas NFC de reseñas</h3><strong>{(data.reviewCards||[]).filter((c:Record<string,any>)=>c.active).length} de {limits.nfcCards} activas</strong><div className="workspaceActionRow"><a className="workspaceSecondary" href="#tarjetas-nfc">Ver tarjetas NFC</a></div></article>
+   {planName==='Plus'&&<article className="ownerCard"><h3>Comparación con la zona</h3>
+    {data.zoneComparison&&!data.zoneComparison.sample?<table><thead><tr><th></th><th>Calificación</th><th>Reseñas</th></tr></thead><tbody><tr><td>Tu negocio</td><td>{data.zoneComparison.business_rating}</td><td>{data.zoneComparison.business_reviews}</td></tr><tr><td>Zona</td><td>{data.zoneComparison.zone_average_rating}</td><td>{data.zoneComparison.zone_average_reviews}</td></tr></tbody></table>:<p>Próximamente</p>}
+   </article>}
+ </section>
+ <section data-panel="tarjetas-nfc" className="ownerBlock"><h2>Mis tarjetas NFC</h2><div className="ownerMetrics">
+   <Metric label="Puntos" value={(data.branches||[]).filter((x:Record<string,any>)=>x.active).length}/>
+   <Metric label="Reseñas activas" value={(data.reviewCards||[]).filter((x:Record<string,any>)=>x.active).length}/>
+   <Metric label="Reseñas incluidas" value={limits.nfcCards}/>
+ </div><a className="workspaceSecondary" href="https://wa.me/525539044788" target="_blank" rel="noreferrer">Solicitar tarjetas adicionales</a></section>
  <section data-panel="premios" className="ownerBlock"><RewardWorkspace businessId={b.id} rewards={data.rewards||[]}/></section>
  <section data-panel="mis-tarjetas" className="ownerBlock"><CardCatalog businessId={b.id} business={b.name} slug={b.slug} program={data.program} rewards={data.rewards||[]} demo={demo} nfcLimit={limits.nfcCards} branchId={data.selectedBranch?.id} branchName={data.selectedBranch?.name||b.name} reviewCards={data.reviewCards||[]} googleUrl={data.selectedBranch?.google_maps_url||null} giftCardUrl={giftCardActive?b.pay_card_url:null} setupState={startState||undefined}/></section>
  <section data-panel="estadisticas-puntos" className="ownerBlock"><div className="ownerSectionTitle"><h2>Estadísticas · Puntos</h2><p>Impacto del programa, lealtad y crecimiento de ingresos durante el periodo seleccionado.</p></div><div className="ownerMetrics"><Metric label="Visitas" value={current.visits}/><Metric label="Clientes nuevos" value={current.new_customers}/><Metric label="Canjes registrados" value={current.redeemed}/><Metric label="Ticket promedio" value={'$'+number(current.visits?Number(current.ticket_revenue||0)/Number(current.visits):0)+' MXN'}/><Metric label="Ingresos del programa" value={'$'+number(current.ticket_revenue||0)+' MXN'} previous={Number(prev.ticket_revenue||0)}/><RetentionMetric current={current} previous={prev}/></div></section>
