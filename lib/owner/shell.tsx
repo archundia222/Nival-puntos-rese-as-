@@ -21,7 +21,7 @@ function makeItems(_reviewLimit:number,_nfcLimit:number):MenuItem[]{
   {id:'inicio',label:'Inicio',icon:'inicio'},
   {id:'tarjetas',label:'Tarjetas',icon:'gift',children:[
    {id:'mis-tarjetas',label:'Mis tarjetas'},
-   {id:'premios',label:'Premios y recompensas',href:'/panel/puntos?view=premios'},
+   {id:'premios',label:'Premios y recompensas'},
   ]},
   {id:'clientes-menu',label:'Clientes',icon:'clientes',children:[
    {id:'clientes',label:'Clientes'},
