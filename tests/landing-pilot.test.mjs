@@ -20,7 +20,7 @@ test("landing explains the products, business types, dashboard and plans", () =>
     "Empieza en el mostrador.",
     "Nival gestiona las respuestas de forma manual y con tu permiso.",
   ]) assert.ok(page.includes(text), text);
-  assert.ok(page.includes("<span>Puntos, reseñas y regalos.</span><span>Desde tu mostrador.</span>"));
+  assert.ok(page.includes('<h1 id="hero-title">Puntos, reseñas de Google y tarjetas digitales.</h1>'));
   assert.ok(carousel.includes("Nival cabe en tu día a día."));
   assert.ok(page.includes("<LandingIndustryCarousel />"));
   assert.equal(
@@ -53,12 +53,13 @@ test("prices and plan limits match the current entitlements", () => {
     'branches: "1"',
     'branches: "5"',
     'branches: "10"',
-    "RECOMENDADO",
+    "MÁS ELEGIDO",
     "Comparación con negocios similares de tu zona",
   ]) assert.ok(page.includes(text), text);
   assert.match(page, /tarjeta de regalo digital/i);
+  assert.ok(page.includes('name: "Básico"')&&page.includes('Elegir {plan.name}'),"Básico label and plan selection stay consistent");
   assert.match(page, /Dar puntos por visitas y canjear premios/i);
-  assert.match(page, /className="nvPlanPerks"/);
+  assert.match(page, /className="nvPlanFullPerks"/);
   assert.match(page, /por 30 días/);
   assert.match(page, /EN TODOS LOS PLANES/);
   for (const feature of ["Dar puntos por visitas y canjear premios", "Consultar visitas y grupos de clientes", "Revisar calificación, reseñas y respuestas de Google en Inicio", "Compartir una tarjeta digital de regalo con Nival Pay", "Descargar el resumen mensual en PDF"])
@@ -87,10 +88,10 @@ test("sample metrics are labeled and real images replace upload placeholders", (
   assert.match(page, /demoRange/);
   assert.match(page, /nvLivePanelBody/);
   assert.match(ownerView, /Nuevos y recurrentes/);
-  assert.match(ownerView, /impactGoogleCard/);
-  assert.match(ownerView, /REPUTACIÓN EN GOOGLE/);
-  assert.match(ownerView, /Ver análisis y recomendaciones/);
-  assert.match(ownerView, /Comparación con negocios de la misma categoría en la zona/);
+  assert.match(ownerView, /data-panel="reseñas"/);
+  assert.match(ownerView, /<Metric label="Calificación"/);
+  assert.match(ownerView, /Análisis y recomendaciones/);
+  assert.match(ownerView, /Comparación con la zona/);
   for (const image of ["industry-cafe.webp", "industry-taqueria.webp", "industry-restaurant.webp", "industry-clinic.webp", "industry-ice-cream.webp"])
     assert.ok(existsSync(`public/assets/img/${image}`), image);
 });
@@ -133,9 +134,11 @@ test("Google review charts explain counts and avoid a false one-point trend", ()
   assert.match(charts, /data\.length===1/);
   assert.match(charts, /Solo hay una medición guardada/);
   assert.match(charts, /new Map\(reports\.map/);
-  assert.match(ownerView, /n===1\?'1 estrella'/);
-  assert.match(workspaceCss, /\.nivalShell \.impactGoogleMore\{grid-column:1\/-1/);
-  assert.match(workspaceCss, /\.nivalShell \.impactGoogleMore \.ownerChartGrid\{grid-template-columns:repeat\(2/);
+  assert.match(ownerView, /\[5,4,3,2,1\]/);
+  assert.match(ownerView, /data-panel="reseñas"/);
+  assert.match(ownerView, /<Bars title="Reseñas por calificación"/);
+  assert.match(ownerView, /<ReviewInsights/);
+  assert.ok(workspaceCss.includes('.nivalShell[data-section="reseñas"] [data-panel="reseñas"]'));
 });
 
 test("demo Nival Pay is clearly illustrative and never requests a business QR", () => {
