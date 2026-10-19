@@ -19,6 +19,7 @@ import {saveMessageTemplate,markCampaignSent} from './actions';
 import {saveSegments} from './actions';
 import {CardCatalog} from '../points/card-catalog';
 import {RewardWorkspace} from './reward-workspace';
+import {CampaignFlow} from './campaign-flow';
 import {TeamWorkspace} from './team-workspace';
 import {TeamUnified} from './team-unified';
 import {RedemptionTable} from './redemption-table';
@@ -172,34 +173,7 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
    <ReportWorkspace businessId={b.id} start={range.start} rangeKind={range.kind==='day'&&'days' in range?'month':range.kind} metrics={data.metrics||[]} activity={data.activity||[]} segments={data.segments||[]} reports={data.reports||[]} ranking={data.ranking||[]} branchStats={data.branchStats||[]} branches={data.branches||[]} branchId={data.selectedBranch?.id} rewards={data.rewards||[]} redemptions={data.redemptions||[]} review={last||null} google={data.google||null} zone={data.zoneComparison||null} plus={planName==='Plus'}/>
   </section>}
  {demo&&<section id="informes" data-panel="informes" className="ownerBlock"><div className="ownerSectionTitle"><small>MUESTRA DEL PANEL</small><h2>Informes</h2><p>Resumen del periodo de ejemplo. Los informes reales de tu negocio se preparan con sus datos registrados.</p></div><article className="ownerCard periodReportCard"><h3>Informe del periodo</h3><p>Este ejemplo muestra el avance del periodo. En una cuenta activa podrás consultar el PDF al cierre de cada ciclo.</p><div className="periodProgressLabels"><span>Día {periodDay}</span><span>Día 30</span></div><div className="periodProgress"><i style={{width:(periodDay/30*100)+'%'}}/></div></article></section>}
- <section data-panel="campañas-clientes" className="ownerBlock">{price<399?<div className="ownerCard"><h2>Campañas</h2><p>Disponible en Esencial</p><a className="workspaceSecondary" href="#plan">Ver planes</a></div>:<>
-  <div className="ownerSectionTitle"><h2>Campañas</h2></div>
-  <div className="campaignRewardStrip">
-   {[
-    {key:'new',name:'Bienvenida',count:newCount},
-    {key:'risk',name:'Te extrañamos',count:riskCount},
-    {key:'frequent',name:'Gracias por volver',count:frequentCount},
-    {key:'near_reward',name:'Cerca del premio',count:data.segments.filter((c:Record<string,any>)=>Number(c.balance||0)>0).length},
-   ].map(c=><article className="campaignRewardCard" key={c.key}><strong>{c.name}</strong><small>{c.count} clientes</small><a href={"#mensaje-"+c.key}>Editar mensaje <Icon name="arrow" size={15}/></a></article>)}
-  </div>
-  {!demo&&<div className="ownerCard"><h3>Mensajes</h3>
-   {Object.entries(defaultMessages).map(([key,body])=><div key={key} id={'mensaje-'+key} style={{marginBlock:16}}>
-    <ActionForm action={saveMessageTemplate} label="Guardar cambios"><Hidden name="businessId" value={b.id}/><Hidden name="segment" value={key}/>
-     <label>{({new:'Bienvenida',active:'Activos',frequent:'Frecuentes',risk:'Te extrañamos',lost:'Inactivos',near_reward:'Cerca del premio'} as Record<string,string>)[key]}<textarea name="body" required maxLength={1500} defaultValue={data.messages?.find((t:Record<string,any>)=>t.segment===key)?.body||body}/></label>
-    </ActionForm>
-   </div>)}
-  </div>}
-  {!demo&&<article className="ownerCard"><h3>Registrar campañas enviadas</h3>
-   {(['new','risk','frequent','near_reward'] as const).map(key=><div className="workspaceActionRow" key={key} style={{alignItems:'center',marginBlock:12}}>
-    <strong>{({new:'Bienvenida',risk:'Te extrañamos',frequent:'Gracias por volver',near_reward:'Cerca del premio'} as Record<string,string>)[key]}</strong>
-    <ActionForm action={markCampaignSent} label="Marcar como enviada"><Hidden name="businessId" value={b.id}/><Hidden name="segment" value={key}/><Hidden name="channel" value="manual"/></ActionForm>
-   </div>)}
-   <h3>Resultados</h3>
-   {(data.campaignHistory||[]).map((c:Record<string,any>)=><div className="clientStatusRow" key={c.id}><span>{({new:'Bienvenida',risk:'Te extrañamos',frequent:'Gracias por volver',near_reward:'Cerca del premio'} as Record<string,string>)[c.segment]} · {new Date(c.sent_at).toLocaleDateString('es-MX')}</span><strong>Volvieron {c.returned_count} de {c.audience_count} ({c.audience_count?Math.round(c.returned_count/c.audience_count*100):0}%) en los 14 días siguientes</strong><small>{c.channel==='manual'?'Manual':'Wallet'}</small></div>)}
-   {!(data.campaignHistory||[]).length&&<p className="ownerEmpty">Sin campañas registradas</p>}
-  </article>}
-  <p className="cardCaption">Las notificaciones automáticas de Google Wallet estarán disponibles cuando se active la integración de pases y se valide el consentimiento de tus clientes.</p>
- </>}</section>
+ <section data-panel="campañas-clientes" className="ownerBlock">{price<399?<div className="ownerCard"><h3>Disponible en Esencial</h3><p>Las campañas se activan con el plan Esencial o Plus.</p><a className="workspaceSecondary" href="#plan">Ver planes</a></div>:<CampaignFlow businessId={b.id} customers={data.segments||[]} counts={{new:newCount,risk:riskCount,frequent:frequentCount,near_reward:(data.segments||[]).filter((c:Record<string,any>)=>Number(c.balance||0)>0).length}} messages={data.messages||[]} defaults={defaultMessages} history={data.campaignHistory||[]} demo={demo}/>}</section>
  {!demo&&<section data-panel="asociados" className="ownerBlock"><TeamWorkspace businessId={b.id} slug={b.slug} staff={data.staff||[]} branches={data.branches||[]}/></section>}
  <section data-panel="equipo" className="ownerBlock"><TeamUnified businessId={b.id} slug={b.slug} staff={data.staff||[]} branches={data.branches||[]} ranking={data.ranking||[]}/></section>
  <section data-panel="compartir" className="ownerBlock"><div className="ownerSectionTitle"><small>MENOS PASOS. MÁS PARTICIPACIÓN.</small><h2>Compartir QR y tarjeta</h2><p>{demo?'Esta muestra abre una tarjeta ficticia y no guarda datos. En un negocio activo, el QR permite a cada cliente crear su tarjeta. Después de una compra, el empleado escanea el QR personal del cliente para sumar puntos.':'Este QR permite que tus clientes creen su tarjeta. Para sumar puntos, tu empleado escanea el QR personal que aparece en la tarjeta de cada cliente.'}</p></div><ShareTools slug={b.slug} name={b.name} demo={demo}/></section>
