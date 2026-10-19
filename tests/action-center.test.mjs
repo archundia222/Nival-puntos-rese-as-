@@ -2,7 +2,26 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 const read=path=>readFileSync(new URL('../'+path,import.meta.url),'utf8');
-test('action center and campaign management are wired to the existing panel',()=>{const view=read('lib/owner/view.tsx');assert.ok(view.includes('<NextActions'));assert.ok(view.includes('<CampaignOverview'));assert.ok(view.includes('<SegmentCard'));});
-test('owner navigation nests the points card and rewards catalog under Cards',()=>{const shell=read('lib/owner/shell.tsx');assert.ok(shell.includes("{id:'clientes',label:'Clientes',icon:'clientes'}"));assert.ok(!shell.includes("label:'Nuevos'"));assert.ok(!shell.includes("label:'Frecuentes'"));assert.ok(!shell.includes("label:'En riesgo'"));assert.ok(shell.includes("{id:'tarjetas',label:'Tarjetas',icon:'gift',children:"));assert.ok(shell.includes("label:'Tarjeta de puntos'"));assert.ok(shell.includes("label:'Premios y recompensas'"));assert.ok(shell.includes("{id:'operacion',label:'Operación'"));assert.ok(shell.includes("{id:'equipo',label:'Equipo',href:"));assert.ok(shell.includes("{id:'plan',label:'Facturación'}"));assert.ok(shell.includes("{id:'cuenta',label:'Cuenta'"));assert.ok(!shell.includes("{id:'complementos',label:'Complementos'"));assert.ok(!shell.includes("id:'google',label:"));assert.ok(!shell.includes("id:'nival-resenas',label:"));assert.ok(shell.includes("if(section==='google')return 'inicio'"));assert.ok(shell.includes("'nival-pay'].includes(section)"));});
-test('branch customer totals exclude customers who have never visited the selected branch',()=>{assert.ok(read('lib/owner/data.ts').includes('segments.filter(c=>!branchId||Number(c.visits)>0)'));});
-test('campaigns show persisted targeting and do not claim automatic sending',()=>{const campaign=read('lib/owner/campaign-overview.tsx');for(const x of ['at_risk','frequent','all','view=promociones#premios'])assert.ok(campaign.includes(x));assert.ok(campaign.includes('No se envían mensajes automáticamente'));});
+test('Inicio exposes a short operational summary and campaigns remain functional',()=>{
+ const view=read('lib/owner/view.tsx');
+ for(const key of ['homePending','homeQuickActions','homeCoreMetrics','data-panel="campañas-clientes"','markCampaignSent','data-panel="premios"','data-panel="mis-tarjetas"'])assert.ok(view.includes(key),key);
+ assert.ok(view.includes('<RedemptionTable'));
+});
+test('owner navigation matches the approved unified menu and keeps Cards unchanged',()=>{
+ const shell=read('lib/owner/shell.tsx');
+ const order=["{id:'inicio'","{id:'tarjetas'","{id:'clientes-menu'","{id:'canjes'","{id:'reseñas'","{id:'informes'","{id:'sucursales'","{id:'equipo'","{id:'cuenta'"];
+ const positions=order.map(key=>{const i=shell.indexOf(key);assert.ok(i>=0,key);return i;});
+ assert.deepEqual(positions,[...positions].sort((a,b)=>a-b));
+ assert.ok(shell.includes("label:'Mis tarjetas'"));
+ assert.ok(shell.includes("label:'Premios y recompensas'"));
+ assert.ok(shell.includes("label:'Mis tarjetas NFC'"));
+ assert.ok(!shell.includes("{id:'operacion',label:'Operación'"));
+});
+test('branch customer totals exclude customers who have never visited the selected branch',()=>{
+ assert.ok(read('lib/owner/data.ts').includes('segments.filter(c=>!branchId||Number(c.visits)>0)'));
+});
+test('promotions retain persisted targeting without automatic marketing',()=>{
+ const campaign=read('lib/owner/campaign-overview.tsx');
+ for(const x of ['at_risk','frequent','all','view=promociones#premios'])assert.ok(campaign.includes(x));
+ assert.ok(campaign.includes('No se envían mensajes automáticamente'));
+});
