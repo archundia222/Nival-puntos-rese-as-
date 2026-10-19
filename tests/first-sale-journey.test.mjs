@@ -82,6 +82,7 @@ test('first sale: registration → paid code → setup → enrollment → owner 
   await db.query('select nival_pr_private.store_photo($1,$2,$3,$4,$5)',[b,c,path,Buffer.from('1234567890123456').toString('base64'),'image/png']);
   await scope('npr_v2_staff',staff.id);
   assert.equal((await db.query("select has_schema_privilege('npr_v2_staff','nival_pr_private','USAGE') allowed")).rows[0].allowed,false,'Staff must not gain private schema access');
+  assert.equal((await db.query("select has_function_privilege('npr_v2_auth','nival_pr.reward_is_redeemable(uuid,uuid)','EXECUTE') allowed")).rows[0].allowed,true,'Authenticated eligibility check remains usable');
   const redeem=sql('app/api/staff/movement/route.ts',"insert into nival_pr.point_ledger(business_id,customer_id,type,points,staff_id,reward_id,evidence_path,operation_id,redemption_value_mxn)",'";');
   const {rows:[redemption]}=await db.query(redeem,[b,c,staff.id,reward.id,path,'dddddddd-dddd-4ddd-8ddd-dddddddddddd',6.5]);
   const rid=(await db.query('select id from nival_pr.redemptions where ledger_id=$1',[redemption.id])).rows[0].id;
