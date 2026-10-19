@@ -18,7 +18,7 @@ export function RedemptionTable({items,staff,branches}:{items:Item[];staff:Item[
     <td>{new Date(r.created_at).toLocaleString('es-MX',{timeZone:'America/Mexico_City'})}</td><td>{r.customer}</td><td>{r.reward}</td>
     <td>{r.value_mxn===null||r.value_mxn===undefined?'—':Number(r.value_mxn).toLocaleString('es-MX',{style:'currency',currency:'MXN'})}</td>
     <td>{staff.find(x=>x.id===r.staff_id)?.name||'—'}</td><td>{branches.find(x=>x.id===r.branch_id)?.name||'—'}</td>
-    <td>{r.photo_path?<a href={'/api/points/evidence?id='+encodeURIComponent(r.id)} target="_blank" rel="noreferrer"><img alt="Ver ticket completo" src={'/api/points/evidence?id='+encodeURIComponent(r.id)} width="52" height="52" style={{objectFit:'cover',borderRadius:8}}/></a>:'—'}</td>
+    <td>{r.photo_path?<a href={String(r.photo_path).startsWith('/assets/demo/')?String(r.photo_path):'/api/points/evidence?id='+encodeURIComponent(r.id)} target="_blank" rel="noreferrer"><img alt="Ver ticket completo" src={String(r.photo_path).startsWith('/assets/demo/')?String(r.photo_path):'/api/points/evidence?id='+encodeURIComponent(r.id)} width="52" height="52" style={{objectFit:'cover',borderRadius:8}}/></a>:'—'}</td>
    </tr>)}</tbody></table></div>:<p className="ownerEmpty">No hay canjes que coincidan con estos filtros.</p>}
  </div>;
 }
