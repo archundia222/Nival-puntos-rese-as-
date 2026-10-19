@@ -12,7 +12,7 @@ test('card designs edit live, accept owned image assets, and render on the custo
   assert.ok(editor.includes('VISTA PREVIA · BORRADOR'));
   assert.ok(editor.includes('type="file"'));
   assert.ok(editor.includes('Recorte horizontal del fondo'));
-  assert.ok(editor.includes('tab===4&&<button type="submit"')&&editor.includes('Publicar tarjeta'));
+  assert.ok(editor.includes('tab===3&&<button type="submit"')&&editor.includes('Publicar tarjeta'));
   assert.ok(!editor.includes('Guardar ahora'));
   assert.ok(action.includes('card_design: cardDesign'));
   assert.ok(action.includes("(coalesce(programs.rules, '{}'::jsonb)-'catalog_only') || excluded.rules"));
