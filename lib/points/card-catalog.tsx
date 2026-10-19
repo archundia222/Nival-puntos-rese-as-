@@ -9,7 +9,7 @@ type Reward={id:string;name:string;points_cost:number;active?:boolean;expires_at
 type Program={name?:string;color?:string;card_enabled?:boolean;points_per_visit?:number;mode?:string;rules?:Record<string,any>;logo_url?:string|null};
 type SetupState={steps:{done:boolean;label:string}[];complete:boolean;completed:number};
 export function CardCatalog({businessId,business,slug,program,rewards,demo=false,setupState,nfcLimit=0,branchId,branchName,reviewCards=[],googleUrl,giftCardUrl}:{businessId:string;business:string;slug:string;program?:Program;rewards:Reward[];demo?:boolean;nfcLimit?:number;branchId?:string;branchName:string;reviewCards?:Record<string,any>[];googleUrl?:string|null;giftCardUrl?:string|null;setupState?:SetupState}){
- const [editing,setEditing]=useState(false),[choosing,setChoosing]=useState(false),[selected,setSelected]=useState<null|"points"|"gift"|"reviews"|"pay">(null);
+ const [editing,setEditing]=useState(false),[choosing,setChoosing]=useState(false),[selected,setSelected]=useState<null|"points"|"reviews"|"pay">(null);
  const activeRewards=rewards.filter(r=>r.active!==false&&(!r.expires_at||new Date(r.expires_at).getTime()>Date.now())&&(r.stock==null||Number(r.stock)>0)),pointsActive=!!program&&program.card_enabled!==false;
  function editPoints(){setSelected('points');setEditing(true);}
  return <div className="cardCatalog">
@@ -20,13 +20,10 @@ export function CardCatalog({businessId,business,slug,program,rewards,demo=false
     <div className="cardSystemTop"><span className={pointsActive?"cardSystemStatus isOn":"cardSystemStatus"}>{pointsActive?"Activa":"Por configurar"}</span></div>
     <div className="cardCatalogMock pointsCatalogMock" style={{background:program?.color||'#173f32'}}><small>NIVAL · PUNTOS</small><strong>{business}</strong><span>{activeRewards[0]?.name||'Premio por configurar'}</span><i aria-hidden="true"><Icon name="points" size={23}/></i></div>
     </button>
-   <button type="button" id="gift-card" className="ownerCard cardSystemTile giftCardSystemTile" onClick={()=>setSelected("gift")} aria-label="Abrir tarjeta de regalo" style={{textAlign:"left",cursor:"pointer",width:"100%"}}>
-    <div className="cardSystemTop"><span className={giftCardUrl?"cardSystemStatus isOn":"cardSystemStatus"}>{giftCardUrl?"Activa":"Inactiva"}</span></div>
-    <div className="cardCatalogMock giftCatalogMock"><small>NIVAL · REGALO</small><strong>{business}</strong><span>Un detalle para compartir</span><i aria-hidden="true"><Icon name="gift" size={22}/></i></div>
-    </button>
+
   </div>}
   {selected==="points"&&!editing&&<section className="ownerCard cardCatalogDetail"><button type="button" className="workspaceSecondary" onClick={()=>setSelected(null)}>← Mis tarjetas</button><h2>Compartir sistema de puntos</h2><ShareTools slug={slug} name={business} demo={demo}/><button type="button" className="workspacePrimary" onClick={editPoints}>Editar</button></section>}
-  {selected==="gift"&&<section className="ownerCard cardCatalogDetail"><button type="button" className="workspaceSecondary" onClick={()=>setSelected(null)}>← Mis tarjetas</button><h2>Tarjeta de regalo</h2>{giftCardUrl?<a className="workspacePrimary" href={giftCardUrl} target="_blank" rel="noreferrer">Abrir tarjeta</a>:<p>Inactiva</p>}</section>}
+
   {selected==="pay"&&<section className="ownerCard"><button type="button" className="workspaceSecondary" onClick={()=>setSelected(null)}>← Mis tarjetas</button><h2>Nival Pay</h2><p>Configura Nival Pay desde tu cuenta.</p></section>}
   {demo&&<p className="cardCatalogDemoNote">Datos de ejemplo · los cambios no se guardan.</p>}
   {selected==="reviews"&&nfcLimit>0&&<section id="review-cards" className="cardCatalogNfc" aria-label="Tarjetas QR y NFC"><header className="cardCatalogNfcHeader"><div><button type="button" className="workspaceSecondary" onClick={()=>setSelected(null)}>← Mis tarjetas</button><h2>Reseñas</h2></div></header><ReviewCardManager businessId={businessId} branchId={branchId} branchName={branchName} cards={reviewCards} googleUrl={googleUrl} cardLimit={nfcLimit} demo={demo}/></section>}
