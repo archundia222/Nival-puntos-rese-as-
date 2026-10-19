@@ -8,7 +8,8 @@ const customerCard = readFileSync('lib/points/card-view.tsx', 'utf8');
 const migration = readFileSync('database/automation-ready-v7.sql', 'utf8');
 
 test('card designs edit live, accept owned image assets, and render on the customer card', () => {
-  for (const choice of ['nival', 'botanico', 'noche']) assert.ok(editor.includes(choice));
+  assert.ok(editor.includes('theme:"minimal"'),'the approved minimal design remains the default');
+  for (const key of ['secondaryColor','backgroundX','backgroundY','logoX','logoY','squareLogo','textColor']) assert.ok(editor.includes(key),'card visual customization remains: '+key);
   assert.ok(editor.includes('VISTA PREVIA · BORRADOR'));
   assert.ok(editor.includes('type="file"'));
   assert.ok(editor.includes('Recorte horizontal del fondo'));
