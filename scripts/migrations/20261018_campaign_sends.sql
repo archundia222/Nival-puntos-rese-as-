@@ -10,3 +10,8 @@ CREATE TABLE IF NOT EXISTS nival_pr.campaign_sends (
 );
 CREATE INDEX IF NOT EXISTS campaign_sends_business_date ON nival_pr.campaign_sends(business_id,sent_at DESC);
 GRANT SELECT,INSERT ON nival_pr.campaign_sends TO npr_app,npr_v2_owner;
+
+ALTER TABLE nival_pr.campaign_sends ENABLE ROW LEVEL SECURITY;
+CREATE POLICY campaign_owner ON nival_pr.campaign_sends TO npr_v2_owner USING (nival_pr.has_business(business_id)) WITH CHECK (nival_pr.has_business(business_id));
+CREATE POLICY campaign_admin ON nival_pr.campaign_sends TO npr_v2_admin USING (true) WITH CHECK (true);
+GRANT SELECT ON nival_pr.campaign_sends TO npr_v2_admin;
