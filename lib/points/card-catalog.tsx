@@ -24,7 +24,7 @@ export function CardCatalog({businessId,business,slug,program,rewards,demo=false
     <div className="cardSystemTop"><span className={giftCardUrl?"cardSystemStatus isOn":"cardSystemStatus"}>{giftCardUrl?"Activa":"Disponible"}</span></div>
     <div className="cardCatalogMock giftCatalogMock"><small>NIVAL · REGALO</small><strong>{business}</strong><span>Un detalle para compartir</span><i aria-hidden="true"><Icon name="gift" size={22}/></i></div>
     </button>
-  </div>
+  </div>}
   {selected==="points"&&!editing&&<section className="ownerCard cardCatalogDetail"><button type="button" className="workspaceSecondary" onClick={()=>setSelected(null)}>← Mis tarjetas</button><h2>Compartir sistema de puntos</h2><ShareTools slug={slug} name={business} demo={demo}/><button type="button" className="workspacePrimary" onClick={editPoints}>Editar</button></section>}
   {selected==="gift"&&<section className="ownerCard cardCatalogDetail"><button type="button" className="workspaceSecondary" onClick={()=>setSelected(null)}>← Mis tarjetas</button><h2>Tarjeta de regalo</h2><a className="workspacePrimary" href="#nival-pay">{giftCardUrl?"Abrir tarjeta":"Configurar"}</a></section>}
   {demo&&<p className="cardCatalogDemoNote">Datos de ejemplo · los cambios no se guardan.</p>}
