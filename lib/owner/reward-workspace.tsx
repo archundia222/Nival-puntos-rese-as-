@@ -21,7 +21,7 @@ export function RewardWorkspace({businessId,rewards}:{businessId:string;rewards:
     </button>)}</div>
   </>:<div className="ownerCard rewardEditorPanel"><header className="workspaceSectionHeader"><h2>{current?'Editar premio':'Nuevo premio'}</h2><button type="button" className="workspaceSecondary" onClick={()=>setExit(true)}>Salir</button></header>
    {exit&&<div className="ownerCard" role="group" aria-label="Guardar los cambios"><strong>¿Deseas guardar los cambios?</strong><div className="workspaceActionRow">
-    <button type="button" className="workspacePrimary" onClick={()=>{setExit(false);document.getElementById('reward-edit-form')?.querySelector<HTMLButtonElement>('button[type=submit],button:not([type])')?.click()}}>Guardar</button>
+    <button type="button" className="workspacePrimary" onClick={()=>{setExit(false);(document.getElementById('reward-edit-form') as HTMLFormElement|null)?.requestSubmit()}}>Guardar</button>
     <button type="button" className="workspaceSecondary" onClick={()=>{setSelected(null);setExit(false)}}>Salir sin guardar</button>
     <button type="button" className="workspaceSecondary" onClick={()=>setExit(false)}>Cancelar</button></div></div>}
    <ActionForm id="reward-edit-form" action={current?editReward:addReward} label={current?'Guardar cambios':'Crear premio'} onSuccess={leave}>
