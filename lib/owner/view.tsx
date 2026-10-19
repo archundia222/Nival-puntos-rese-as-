@@ -58,7 +58,7 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
  if(!demo&&!active&&!data.segments.length&&!data.last)return <DashboardShell name={b.name} owner={actor.name} status={status} demo={false} logout={<form action={logout}><button>Cerrar sesión</button></form>}><AccountState b={b}/></DashboardShell>;
  const responseLimit=limits.reviewLimit;
  const giftCardActive=!demo&&Boolean(b.pay_card_url);
- const planName=price>=549?'Plus':price>=399?'Esencial':'Puntos';
+ const planName=price>=549?'Plus':price>=399?'Esencial':'Básico';
  const paidUntil=Date.parse(String(b.paid_until||''));
  const periodStart=Number.isFinite(paidUntil)?paidUntil-30*86400000:Date.now();
  const periodDay=Math.max(1,Math.min(30,Math.floor((Date.now()-periodStart)/86400000)+1));
