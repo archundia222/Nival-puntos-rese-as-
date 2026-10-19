@@ -16,23 +16,22 @@ function component(path,overrides={}){
 }
 const tour=component('tour.tsx');
 const icons=component('icons.tsx');const {DashboardShell}=component('shell.tsx',{'./icons':icons,'./tour':tour});
-test('business shell shows the plan-aware workspace menu and cycle chip',()=>{
+test('business shell shows the approved operational menu, accessible navigation and account sections',()=>{
  const html=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null},React.createElement('p',null,'Solo datos de Negocio A')));
- for(const title of ['Inicio','Tarjetas','Clientes','Operación','Cuenta','Día 1 de 30'])assert.ok(html.includes(title),title);
- assert.ok(!html.includes('Tarjetas QR y NFC'));
- const reviewPlan=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null,responseLimit:20,initialSection:'nival-resenas'},React.createElement('p',null,'Contenido')));
- assert.ok(reviewPlan.includes('Tarjetas'));assert.ok(!reviewPlan.includes('Tarjetas QR y NFC'));
- const operation=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null,initialSection:'sucursales'},React.createElement('p',null,'Contenido')));
- for(const title of ['Sucursales','Equipo','Informes','Canjes'])assert.ok(operation.includes(title),title);
- const account=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null,initialSection:'plan'},React.createElement('p',null,'Contenido')));
- assert.ok(account.includes('Facturación'));
- assert.ok(html.includes('aria-controls="workspace-menu"'));assert.ok(html.includes('aria-current="page"'));assert.ok(html.includes('id="workspace-title"'));
- assert.ok(!html.includes('Incluido'));
- assert.ok(html.includes('Negocio A'));assert.ok(!html.includes('Negocio B'));assert.ok(!html.includes('Estás explorando la demo.'));
+ for(const title of ['Inicio','Tarjetas','Clientes','Canjes','Reseñas','Informes','Sucursales','Equipo','Cuenta'])assert.ok(html.includes(title),title);
+ assert.ok(!html.includes('Operación'),'duplicate group removed');
+ assert.ok(!html.includes('Tarjetas QR y NFC'),'old duplicate card menu removed');
+ const section=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null,initialSection:'sucursales'},'Contenido'));
+ for(const title of ['Sucursales','Equipo','Informes','Canjes'])assert.ok(section.includes(title),title);
+ const account=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null,initialSection:'plan'},'Contenido'));
+ assert.ok(account.includes('Plan y facturación'));
+ for(const token of ['aria-controls="workspace-menu"','aria-current="page"','id="workspace-title"'])assert.ok(html.includes(token),token);
+ assert.ok(html.includes('Negocio A')&&!html.includes('Negocio B')&&!html.includes('Estás explorando la demo.'));
  const shell=readFileSync(new URL('../lib/owner/shell.tsx',import.meta.url),'utf8');
  assert.match(shell,/onClick=\{\(\)=>toggle\(item\.id\)\}/);
  assert.match(shell,/aria-controls=\{'workspace-submenu-'\+item\.id\}/);
- assert.match(shell,/function groupForSection/);assert.match(shell,/if\(expanded===id\)\{setExpanded\(null\);return;\}/);assert.ok(!shell.includes('navigate(destination[id])'));
+ assert.match(shell,/function groupForSection/);
+ assert.match(shell,/if\(expanded===id\)\{setExpanded\(null\);return;\}/);
  assert.match(shell,/const normalized=normalizeSection\(key\)/);
 });
 test('demo and program settings reuse the same shell with explicit demo status and active configuration menu',()=>{
@@ -69,14 +68,13 @@ test('customer groups are filtered inside Customers and demo exit remains availa
  assert.ok(group.includes('Paso 3 de 5'));
 });
 
-test('sidebar accordion opens only the active group and keeps a single page title',()=>{
+test('sidebar accordion opens only the selected group and keeps a single page title',()=>{
  const html=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null,initialSection:'plan'},'Contenido'));
  const css=readFileSync(new URL('../lib/owner/workspace.css',import.meta.url),'utf8');
- assert.ok(html.includes('<h1 id="workspace-title" tabindex="-1">Facturación</h1>'));
+ assert.ok(html.includes('<h1 id="workspace-title" tabindex="-1">Plan y facturación</h1>'));
  assert.ok(html.includes('id="workspace-submenu-cuenta"'));
- assert.ok(!html.includes('id="workspace-submenu-programa"'));
  assert.ok(!html.includes('id="workspace-submenu-operacion"'));
- assert.ok(!html.includes('id="workspace-submenu-resenas"'));
+ assert.ok(!html.includes('id="workspace-submenu-equipo-menu"'));
  const dashboard=renderToStaticMarkup(React.createElement(DashboardShell,{name:'Negocio A',owner:'Ana',status:'Activo',demo:false,logout:null},'Contenido'));
  assert.ok(dashboard.includes('<h1 id="workspace-title" tabindex="-1">Inicio</h1>'));
  assert.ok(!dashboard.includes('breadcrumbSlash'));
@@ -89,26 +87,17 @@ test('selected owner menu destinations reveal their matching panel instead of le
  assert.match(css,/\[data-panel="compartir"\]\{display:block\}/);
  assert.ok(css.includes('@media(max-width:700px){.nivalShell .cardCatalogGrid{grid-template-columns:1fr}}'));
 });
-test('home prioritizes the active points and reviews products, while an empty account avoids zero metrics',()=>{
+test('Inicio is a short operational summary with drilldowns, not a duplicated card editor',()=>{
  const owner=readFileSync(new URL('../lib/owner/view.tsx',import.meta.url),'utf8');
- for(const label of ["<ProductHub","className=\"impactGoogleCard\""])assert.ok(owner.includes(label),label);assert.ok(readFileSync(new URL('../lib/points/card-catalog.tsx',import.meta.url),'utf8').includes('Tarjetas QR y NFC'));
- assert.ok(!owner.includes("name:'Tarjeta de regalo'"));
- assert.ok(!readFileSync(new URL('../lib/owner/shell.tsx',import.meta.url),'utf8').includes("label:'Complementos'"));
- assert.ok(owner.includes('nfcLimit={limits.nfcCards}'));assert.ok(owner.includes('REPUTACIÓN EN GOOGLE'));
+ const shell=readFileSync(new URL('../lib/owner/shell.tsx',import.meta.url),'utf8');
+ const catalog=readFileSync(new URL('../lib/points/card-catalog.tsx',import.meta.url),'utf8');
+ for(const token of ['homePending','homeQuickActions','homeCoreMetrics','ActivityChart','CustomerMix','Actividad reciente','Ver detalle','data-panel="reseñas"','data-panel="informes"'])assert.ok(owner.includes(token),token);
+ for(const token of ['data-panel="mis-tarjetas"','nfcLimit={limits.nfcCards}','reviewCards={data.reviewCards||[]}'])assert.ok(owner.includes(token),token);
  assert.ok(owner.includes('{emptyState&&<StartGuide state={startState||undefined}/>'));
- assert.ok(owner.includes('{!emptyState&&<div className="impactMasterMetrics">'));
- assert.ok(owner.includes("emptyState?'—':money(returningRevenue)"));
- assert.ok(owner.includes('<ProductHub data={data} reviewLimit={responseLimit} nfcLimit={limits.nfcCards}/>'));
- assert.ok(owner.includes('  <>'));
- assert.ok(owner.includes('El primer resumen de reseñas aparecerá cuando Nival prepare el reporte.'));assert.ok(owner.includes('Ver análisis y recomendaciones'));assert.ok(!owner.includes('data-panel="google"'));
- assert.ok(owner.includes('{demo&&mobilePreview&&<input type="hidden" name="mobile" value="1"/>}'));
- assert.ok(owner.includes("className={'returningRevenueCard'+(emptyState?' isAwaitingData':'')}"));
- assert.ok(owner.includes('Resumen del periodo'));
- assert.ok(owner.includes('className="impactGoogleCard"'));assert.ok(owner.includes('responseLimit>0?<>'));
- const shell=readFileSync(new URL('../lib/owner/shell.tsx',import.meta.url),'utf8');assert.ok(!shell.includes("{id:'complementos',label:'Complementos'"));assert.ok(readFileSync(new URL('../lib/points/card-catalog.tsx',import.meta.url),'utf8').includes('href="#nival-pay"'));
- assert.ok(owner.indexOf('className="impactFeatureGrid"')<owner.indexOf('className="impactMasterDetails"'));
+ assert.ok(!owner.includes('Ingresos de clientes recurrentes'),'no invented ticket values');
+ assert.ok(!shell.includes("label:'Complementos'"));
+ assert.ok(catalog.includes('Tarjeta de regalo'),'existing cards remain available');
 });
-
 test('onboarding steps are single clickable rows with one highlighted next step',async()=>{
  const guide=component('start-guide.tsx',{'./icons':icons,'../foundation/db':{query:async()=>[]}});
  const state={complete:false,completed:0,steps:[
@@ -145,38 +134,23 @@ test('review report displays grounded themes and actions, legacy report makes no
  assert.ok(legacy.includes('Pendiente de análisis'));assert.ok(legacy.includes('Consejo manual'));assert.ok(!legacy.includes('Servicio amable'));
 });
 
-test('catalog promotions can be created before card setup and selected in the editor',()=>{
+test('catalog promotions remain available before card creation and publish only in the final step',()=>{
  const owner=readFileSync(new URL('../lib/owner/view.tsx',import.meta.url),'utf8');
  const points=readFileSync(new URL('../app/panel/puntos/page.tsx',import.meta.url),'utf8');
  const catalog=readFileSync(new URL('../lib/points/card-catalog.tsx',import.meta.url),'utf8');
  const editor=readFileSync(new URL('../lib/points/program-editor.tsx',import.meta.url),'utf8');
- const cardWorkspace=readFileSync(new URL('../lib/points/card-workspace.tsx',import.meta.url),'utf8');
+ const workspace=readFileSync(new URL('../lib/points/card-workspace.tsx',import.meta.url),'utf8');
  const actions=readFileSync(new URL('../lib/foundation/actions.ts',import.meta.url),'utf8');
- assert.ok(!owner.includes('{startGuide}'));
- assert.ok(!points.includes('<StartGuide'));
+ assert.ok(owner.includes('data-panel="premios"')&&owner.includes('<RewardWorkspace'),'promotion gallery is a dedicated submenu');
+ assert.ok(owner.includes('data-panel="mis-tarjetas"')&&owner.includes('<CardCatalog'));
  assert.ok(catalog.includes('setupState={setupState}'));
- assert.ok(!points.includes('setupState={setupState||undefined}'));
- assert.ok(!editor.includes('editorSetupProgress'));
- assert.ok(editor.includes('Promoción para esta tarjeta'));
- assert.ok(editor.includes('tab!==4'));
- assert.ok(editor.includes('¿Cómo se mostrarán los premios?'));
- assert.ok(editor.includes('Al azar para cada cliente'));
- assert.ok(editor.includes('rewardOrder'));
- assert.ok(cardWorkspace.includes('initialEdit?"edit":"list"'));
- assert.ok(points.includes('initialEdit={params.edit===\'1\'}'));
- assert.ok(points.includes("view==='premios'"));
- assert.ok(points.includes('<h2>Premios y recompensas</h2>'));
- assert.ok(points.includes('Crear promoción'));
- assert.ok(points.includes('Crea y publica las promociones'));
- assert.ok(editor.includes('Crear promociones'));
- assert.ok(!editor.includes('firstCardGuide'));
-    assert.ok(actions.includes('catalog_only')&&actions.includes('primaryRewardId'));
- assert.ok(points.includes('<CardWorkspace')&&points.includes("view==='premios'"));
- assert.ok(!editor.includes('Tipo de recompensas'));
- assert.ok(actions.includes('"surprise"'));
+ assert.ok(editor.includes('tab!==3')&&editor.includes('tab===3&&<button type="submit"'),'publishing blocked until the final step');
+ assert.ok(editor.includes('primaryRewardId')&&editor.includes('rewardOrder'));
+ assert.ok(workspace.includes('initialEdit?"edit":"list"'));
+ assert.ok(points.includes("view==='premios'")&&points.includes('<CardWorkspace'));
+ assert.ok(actions.includes('catalog_only')&&actions.includes('primaryRewardId'));
  assert.ok(actions.includes('Promoción publicada en tu catálogo. Ya puedes elegirla al configurar la tarjeta.'));
 });
-
 test('menu destinations identify the matching screen and onboarding actions jump to their forms',()=>{
  const shell=readFileSync(new URL('../lib/owner/shell.tsx',import.meta.url),'utf8');
  const points=readFileSync(new URL('../app/panel/puntos/page.tsx',import.meta.url),'utf8');
