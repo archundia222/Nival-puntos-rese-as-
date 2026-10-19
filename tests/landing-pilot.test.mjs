@@ -79,7 +79,7 @@ test("sample metrics are labeled and real images replace upload placeholders", (
     assert.ok(existsSync(`public/assets/img/landing/${image}.webp`), image);
   for (const image of ["puntos", "resenas"])
     assert.ok(existsSync(`public/assets/img/landing/${image}.webp`), image);
-  assert.match(page, /abre tu ficha de Google con NFC o QR/i);
+  assert.match(page, /NFC y QR para abrir la ficha de Google/i);
   assert.match(page, /TU FICHA DE GOOGLE/);
   assert.match(page, /áreas de mejora/i);
   assert.match(page, /<OwnerView/);
