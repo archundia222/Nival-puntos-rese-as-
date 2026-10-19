@@ -2,7 +2,9 @@
 import {useState} from 'react';
 import {TeamWorkspace} from './team-workspace';
 type Row=Record<string,any>;
-export function TeamUnified({businessId,slug,staff,branches,ranking}:{businessId:string;slug:string;staff:Row[];branches:Row[];ranking:Row[]}){
+type Staff={id:string;name:string;active:boolean;branch_id?:string;branch_name?:string};
+type Branch={id:string;name:string;active?:boolean;is_primary?:boolean};
+export function TeamUnified({businessId,slug,staff,branches,ranking}:{businessId:string;slug:string;staff:Staff[];branches:Branch[];ranking:Row[]}){
  const [tab,setTab]=useState<'personal'|'actividad'>('personal');
  return <section>
   <div className="workspaceActionRow" role="tablist" aria-label="Equipo">
