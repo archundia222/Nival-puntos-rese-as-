@@ -215,7 +215,7 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
    </div>)}
   </div>}
   <p className="cardCaption">Las notificaciones automáticas de Google Wallet estarán disponibles cuando se active la integración de pases y se valide el consentimiento de tus clientes.</p>
- </section></>}
+ </>}</section>
  {!demo&&<section data-panel="asociados" className="ownerBlock"><TeamWorkspace businessId={b.id} slug={b.slug} staff={data.staff||[]} branches={data.branches||[]}/></section>}
  <section data-panel="equipo" className="ownerBlock"><TeamUnified businessId={b.id} slug={b.slug} staff={data.staff||[]} branches={data.branches||[]} ranking={data.ranking||[]}/></section>
  <section data-panel="compartir" className="ownerBlock"><div className="ownerSectionTitle"><small>MENOS PASOS. MÁS PARTICIPACIÓN.</small><h2>Compartir QR y tarjeta</h2><p>{demo?'Esta muestra abre una tarjeta ficticia y no guarda datos. En un negocio activo, el QR permite a cada cliente crear su tarjeta. Después de una compra, el empleado escanea el QR personal del cliente para sumar puntos.':'Este QR permite que tus clientes creen su tarjeta. Para sumar puntos, tu empleado escanea el QR personal que aparece en la tarjeta de cada cliente.'}</p></div><ShareTools slug={b.slug} name={b.name} demo={demo}/></section>
