@@ -11,7 +11,7 @@ test('first sale: registration → paid code → setup → enrollment → owner 
  try{
   await db.exec('create schema neon_auth;create table neon_auth."user"(id uuid primary key)');
   for(const name of ['foundation-neon','points-neon','points-lifecycle','points-legacy-phones','owner-panel','owner-report-scope','legal-pilot','registration-pilot','reputation-v6','lealtad-v6','points-only-plan-v1','activation-plan-v2','entitlements-v2','owner-tools-v2','service-access-v3','plan-review-pipeline-v8','plan-pricing-v9','promotions-redemption-value-v1','period-summary-v1','review-cards-v1','branches-v1','weekday-bonus-v1','card-publish-recovery-v1' ,'card-customization-v2','segment-reward-modes-v3','card-reward-history-v4','redeem-eligibility-scope-v1'])await db.exec(source('database/'+name+'.sql'));
-  await db.exec(`alter table nival_pr.generated_reports add column if not exists branch_id uuid;
+  await db.exec(`alter table nival_pr.branches add column if not exists campaign_rules jsonb;\n   alter table nival_pr.generated_reports add column if not exists branch_id uuid;
    alter table nival_pr.reviews add column if not exists branch_id uuid;
    create table nival_pr.branch_review_reports(
     id uuid primary key default gen_random_uuid(),business_id uuid not null,branch_id uuid not null,
