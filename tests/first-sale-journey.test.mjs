@@ -7,12 +7,10 @@ const source=p=>readFileSync(p,'utf8');
 const sql=(path,start,end)=>{const s=source(path),i=s.indexOf(start);assert.ok(i>=0,start);return s.slice(i,s.indexOf(end,i));};
 test('first sale: registration → paid code → setup → enrollment → owner visit → staff redemption → recovery → expiry',async()=>{
  const db=new PGlite();
- const rawQuery=db.query.bind(db),rawExec=db.exec.bind(db);
- db.query=async (...args)=>{try{return await rawQuery(...args);}catch(e){console.error('FIRST-SALE QUERY FAILED:',String(args[0]).slice(0,450));throw e;}};
- db.exec=async (...args)=>{try{return await rawExec(...args);}catch(e){console.error('FIRST-SALE EXEC FAILED:',String(args[0]).slice(0,450));throw e;}};
+
  try{
   await db.exec('create schema neon_auth;create table neon_auth."user"(id uuid primary key)');
-  for(const name of ['foundation-neon','points-neon','points-lifecycle','points-legacy-phones','owner-panel','owner-report-scope','legal-pilot','registration-pilot','reputation-v6','lealtad-v6','points-only-plan-v1','activation-plan-v2','entitlements-v2','owner-tools-v2','service-access-v3','plan-review-pipeline-v8','plan-pricing-v9','promotions-redemption-value-v1','period-summary-v1','review-cards-v1','branches-v1','weekday-bonus-v1','card-publish-recovery-v1','card-customization-v2'])await db.exec(source('database/'+name+'.sql'));
+  for(const name of ['foundation-neon','points-neon','points-lifecycle','points-legacy-phones','owner-panel','owner-report-scope','legal-pilot','registration-pilot','reputation-v6','lealtad-v6','points-only-plan-v1','activation-plan-v2','entitlements-v2','owner-tools-v2','service-access-v3','plan-review-pipeline-v8','plan-pricing-v9','promotions-redemption-value-v1','period-summary-v1','review-cards-v1','branches-v1','weekday-bonus-v1','card-publish-recovery-v1' ,'card-customization-v2','redeem-eligibility-scope-v1'])await db.exec(source('database/'+name+'.sql'));
   await db.exec(`alter table nival_pr.generated_reports add column if not exists branch_id uuid;
    alter table nival_pr.reviews add column if not exists branch_id uuid;
    create table nival_pr.branch_review_reports(
@@ -83,6 +81,7 @@ test('first sale: registration → paid code → setup → enrollment → owner 
   const path=b+'/'+c+'/cccccccc-cccc-4ccc-8ccc-cccccccccccc.png';
   await db.query('select nival_pr_private.store_photo($1,$2,$3,$4,$5)',[b,c,path,Buffer.from('1234567890123456').toString('base64'),'image/png']);
   await scope('npr_v2_staff',staff.id);
+  assert.equal((await db.query("select has_schema_privilege('npr_v2_staff','nival_pr_private','USAGE') allowed")).rows[0].allowed,false,'Staff must not gain private schema access');
   const redeem=sql('app/api/staff/movement/route.ts',"insert into nival_pr.point_ledger(business_id,customer_id,type,points,staff_id,reward_id,evidence_path,operation_id,redemption_value_mxn)",'";');
   const {rows:[redemption]}=await db.query(redeem,[b,c,staff.id,reward.id,path,'dddddddd-dddd-4ddd-8ddd-dddddddddddd',6.5]);
   const rid=(await db.query('select id from nival_pr.redemptions where ledger_id=$1',[redemption.id])).rows[0].id;
