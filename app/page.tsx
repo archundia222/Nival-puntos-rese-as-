@@ -13,7 +13,7 @@ const whatsapp = (plan?: string) =>
   `https://wa.me/525539044788?text=${encodeURIComponent(`Hola, quiero conocer Nival${plan ? ` ${plan}` : ""} para mi negocio.`)}`;
 
 const plans = [
-  { name: "Puntos", price: "$299", reviews: "10", branches: "1", nfc: "3", fit: "Para empezar a reconocer a quienes vuelven." },
+  { name: "Básico", price: "$299", reviews: "10", branches: "1", nfc: "3", fit: "Para empezar a reconocer a quienes vuelven." },
   { name: "Esencial", price: "$399", reviews: "30", branches: "5", nfc: "6", fit: "Para atender más reseñas y varios puntos de venta.", featured: true },
   { name: "Plus", price: "$549", reviews: "100", branches: "10", nfc: "12", fit: "Para ampliar la gestión y comparar tu zona." },
 ];
@@ -98,7 +98,7 @@ export default function Home() {
       <section className="nvPlansSection" id="planes" aria-labelledby="plans-title">
         <div className="nvContainer"><div className="nvPlansIntro" data-reveal><div><span className="nvEyebrow">PLANES NIVAL · 30 DÍAS</span><h2 id="plans-title">Elige cómo quieres crecer.</h2></div><p>Compara el alcance y elige el plan para tu negocio.</p></div>
           <div className="nvPlanGrid">{plans.map((plan) => <article className={`nvPlanCard${plan.featured ? " is-featured" : ""}`} key={plan.name} data-reveal>
-            <div className="nvPlanTop"><span className="nvPlanName">{plan.name === "Puntos" ? "BÁSICO · PUNTOS" : plan.name.toUpperCase()}</span>{plan.featured && <span className="nvPlanFlag">MÁS ELEGIDO</span>}</div>
+            <div className="nvPlanTop"><span className="nvPlanName">{plan.name.toUpperCase()}</span>{plan.featured && <span className="nvPlanFlag">MÁS ELEGIDO</span>}</div>
             <div className="nvPlanPrice"><strong>{plan.price}</strong><span>MXN <i>por 30 días</i></span></div>
             <ul className="nvPlanFullPerks">
               <li>Tarjeta digital de puntos y QR personal</li>
