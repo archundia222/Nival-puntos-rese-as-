@@ -1406,3 +1406,68 @@
  .nivalShell[data-section="informes"] .reportWorkspace>.workspaceSectionHeader{justify-content:flex-end;margin-top:-45px;margin-bottom:15px;min-height:37px}
 }
 @media(max-width:1024px){.nivalShell[data-section="inicio"] [data-panel="inicio"]>.impactMasterHeader{margin-top:0;justify-content:flex-start}.nivalShell[data-section="informes"] .reportWorkspace>.workspaceSectionHeader{margin-top:0}}
+
+/* Phase 2 — branded depth and glanceable decision making, no entitlement or rule changes */
+.nivalShell{--visual-ease:cubic-bezier(.2,.75,.22,1);background:radial-gradient(ellipse 70% 40% at 77% -20%,#d8ef7825,transparent 70%),#f6f8f3}
+.nivalShell .workspaceContent{background:transparent}
+.nivalShell .ownerBlock{animation:workspaceRise .33s var(--visual-ease) both}
+@keyframes workspaceRise{from{opacity:.5;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.nivalShell .ownerCard,.nivalShell .rewardEditorPanel,.nivalShell .reportWorkspace>.ownerCard{background:linear-gradient(152deg,#fffefa 2%,#fff 60%,#f8fbf5);border-color:#dce5da;box-shadow:0 8px 24px #1336210c,0 1px 2px #17392112;border-radius:17px}
+.nivalShell .ownerCard:hover{box-shadow:0 14px 30px #13362117,0 2px 4px #17392112}
+.nivalShell .ownerMetric{position:relative;overflow:hidden;padding:16px 18px!important;min-height:122px;border:1px solid #dfe9db}
+.nivalShell .ownerMetric:before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#1c6b4c,#b6d96b,#eaf2d8);opacity:.85}
+.nivalShell .ownerMetric>strong{font-size:clamp(26px,2.8vw,37px)!important;letter-spacing:-.06em;line-height:1.12;font-variant-numeric:tabular-nums}
+.nivalShell .ownerMetric>span{color:#597364;font-weight:650}
+.nivalShell .homePending .ownerMetric{background:linear-gradient(148deg,#f0f5e8,#fffefa)}
+.nivalShell .homePending .ownerMetric:nth-child(2){background:linear-gradient(148deg,#eff6ed,#fffefa)}
+.nivalShell .homePending .ownerMetric:nth-child(3){background:linear-gradient(148deg,#fff9e9,#fffefa)}
+.nivalShell .homePending .ownerMetric:nth-child(4){background:linear-gradient(148deg,#ebf3ef,#fffefa)}
+.nivalShell .homePending a.ownerMetric{transition:transform .2s var(--visual-ease),box-shadow .2s var(--visual-ease)}
+.nivalShell .homePending a.ownerMetric:hover{transform:translateY(-3px)}
+.nivalShell .homeCoreMetrics .ownerMetric{min-height:143px;padding-right:85px!important}
+.nivalShell .metricChange{display:inline-flex;align-items:center;border-radius:20px;padding:3px 9px;background:#e6f1d9;color:#25533b;font-size:11px!important;font-weight:750}
+.nivalShell .metricMiniChart{position:absolute;right:14px;bottom:16px;display:flex;align-items:flex-end;gap:5px;width:52px;height:57px;padding:5px}
+.nivalShell .metricMiniChart span{flex:1;min-height:7px;background:linear-gradient(180deg,#b8dc78,#2b7653);border-radius:4px 4px 1px 1px}
+.nivalShell .metricMiniChart span:first-child{opacity:.5}
+.nivalShell .homeQuickActions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0 18px}
+.nivalShell .quickActionCard{display:grid;grid-template-columns:38px minmax(0,1fr) 16px;align-items:center;gap:10px;padding:13px;border:1px solid #d9e6d8;background:linear-gradient(130deg,#fffefa,#f0f5e9);border-radius:14px;color:#204633;text-decoration:none;box-shadow:0 3px 12px #13362109;transition:transform .2s var(--visual-ease),box-shadow .2s var(--visual-ease),border-color .2s}
+.nivalShell .quickActionCard:hover{transform:translateY(-3px);border-color:#9bbd94;box-shadow:0 10px 22px #13362115}
+.nivalShell .quickActionIcon{display:grid;place-items:center;width:38px;height:38px;background:linear-gradient(135deg,#d8ef78,#c6e7b5);color:#1a4c36;border-radius:11px}
+.nivalShell .quickActionCard>span:nth-child(2){display:grid;gap:1px}
+.nivalShell .quickActionCard strong{font-size:12px;line-height:1.3}
+.nivalShell .quickActionCard small{font-size:10px;color:#61786a;line-height:1.35}
+.nivalShell .workspaceSectionHeader{gap:12px}
+.nivalShell .workspaceSectionHeader h3{font-size:16px;letter-spacing:-.02em}
+.nivalShell .clientStatusRow{position:relative;gap:8px;padding-block:9px}
+.nivalShell .clientStatusRow>b{display:flex;gap:5px;align-items:baseline;white-space:nowrap}
+.nivalShell .clientStatusRow>b small{color:#778b7b;font-size:10px;font-weight:600}
+.nivalShell .clientStatusRow>i{overflow:hidden;border-radius:20px;background:#e8efdf}
+.nivalShell .clientStatusRow>i>em{display:block;min-height:100%;background:linear-gradient(90deg,#3e916a,#bee073);border-radius:20px;transition:width .32s var(--visual-ease)}
+.nivalShell .clientStatusRow>.rankBar{flex-basis:100%;height:5px;margin:0 0 2px}
+.nivalShell .clientStatusRow>.rankBar em{height:100%}
+.nivalShell .replyProgress{overflow:hidden;height:10px;border-radius:100px;background:#e8efdf}
+.nivalShell .replyProgress i{display:block;height:100%;background:linear-gradient(90deg,#247355,#b9e06d);border-radius:100px;transition:width .3s}
+.nivalShell .impactMasterDetails{gap:12px}
+.nivalShell .cardCatalogGrid{max-width:650px}
+.nivalShell .cardSystemTile{padding:20px!important;border:1px solid #d3e4d4!important;border-radius:19px!important;background:linear-gradient(145deg,#fffefa,#eef6e8)!important;box-shadow:0 14px 26px #16382113!important}
+.nivalShell .cardCatalogMock{position:relative;overflow:hidden;border-radius:17px!important;box-shadow:0 14px 28px #0a201c38!important}
+.nivalShell .cardCatalogMock:after{content:"";position:absolute;pointer-events:none;inset:-80% -30% auto auto;width:90%;height:190%;transform:rotate(30deg);background:linear-gradient(90deg,transparent,#ffffff1d,transparent)}
+.nivalShell .cardCatalogDetail{max-width:780px;margin-inline:auto}
+.nivalShell .rewardWorkspace .campaignRewardStrip{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
+.nivalShell .rewardWorkspace .campaignRewardCard{min-width:0!important;overflow:hidden;border:1px solid #dce5dc!important;border-radius:17px!important;background:linear-gradient(150deg,#fffefa,#eff5e8)!important;box-shadow:0 6px 20px #1a3e240e;padding:14px!important;transition:transform .2s var(--visual-ease),box-shadow .2s var(--visual-ease)}
+.nivalShell .rewardWorkspace .campaignRewardCard:hover{transform:translateY(-3px);box-shadow:0 14px 28px #1a3e241c}
+.nivalShell .rewardWorkspace .campaignRewardCard img{aspect-ratio:1.4;object-fit:cover}
+.nivalShell .campaignCardArt{background:radial-gradient(circle at 25% 20%,#ebf8bc,#c8e7ae 60%,#8bc49f);color:#245c42;border-radius:12px}
+.nivalShell .reportWorkspace .workspaceActionRow{display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin:7px 0 15px}
+.nivalShell .reportWorkspace .workspaceActionRow[role="tablist"]{border:1px solid #dce6d9;padding:5px;border-radius:13px;background:#ecf3e7}
+.nivalShell .reportWorkspace .workspaceActionRow[role="tablist"] button{flex:1;min-width:74px;min-height:36px;border-radius:9px}
+.nivalShell .customerTable{border-spacing:0;border-collapse:separate;width:100%}
+.nivalShell .customerTable thead th{background:#eef5e9;color:#315846;font-size:11px;font-weight:800;white-space:nowrap;border-bottom:1px solid #d5e2d6}
+.nivalShell .customerTable tbody tr:nth-child(even){background:#f8fbf5}
+.nivalShell .customerTable tbody tr:hover{background:#edf6e8}
+.nivalShell .customerTable td{border-bottom:1px solid #e4ebe2}
+.nivalShell input:focus-visible,.nivalShell select:focus-visible,.nivalShell textarea:focus-visible,.nivalShell button:focus-visible,.nivalShell a:focus-visible{outline:2px solid #8cbf56;outline-offset:2px}
+@media(max-width:1100px){.nivalShell .homeQuickActions{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.nivalShell .homeQuickActions{grid-template-columns:repeat(2,minmax(0,1fr))}.nivalShell .quickActionCard{grid-template-columns:32px 1fr;gap:7px;padding:10px}.nivalShell .quickActionCard>svg{display:none}.nivalShell .quickActionIcon{width:32px;height:32px}.nivalShell .ownerMetric>strong{font-size:28px!important}.nivalShell .homeCoreMetrics .ownerMetric{padding-right:60px!important}.nivalShell .metricMiniChart{right:8px;width:40px;height:46px}.nivalShell .rewardWorkspace .campaignRewardStrip{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:390px){.nivalShell .homeQuickActions{grid-template-columns:1fr}.nivalShell .homeCoreMetrics,.nivalShell .homePending{grid-template-columns:repeat(2,minmax(0,1fr))}.nivalShell .rewardWorkspace .campaignRewardStrip{grid-template-columns:1fr 1fr}}
+@media(prefers-reduced-motion:reduce){.nivalShell .ownerBlock{animation:none}.nivalShell .quickActionCard,.nivalShell .rewardWorkspace .campaignRewardCard,.nivalShell .clientStatusRow>i>em{transition:none}.nivalShell .quickActionCard:hover,.nivalShell .rewardWorkspace .campaignRewardCard:hover{transform:none}}
