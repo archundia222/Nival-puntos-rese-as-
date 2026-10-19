@@ -4,8 +4,8 @@ import {readFileSync} from 'node:fs';
 const read=path=>readFileSync(new URL('../'+path,import.meta.url),'utf8');
 test('Inicio exposes a short operational summary and campaigns remain functional',()=>{
  const view=read('lib/owner/view.tsx');
- for(const key of ['homePending','homeQuickActions','homeCoreMetrics','data-panel="campañas-clientes"','markCampaignSent','data-panel="premios"','data-panel="mis-tarjetas"'])assert.ok(view.includes(key),key);
- assert.ok(view.includes('<RedemptionTable'));
+ for(const key of ['homePending','homeQuickActions','homeCoreMetrics','data-panel="campañas-clientes"','<CampaignFlow','data-panel="premios"','data-panel="mis-tarjetas"'])assert.ok(view.includes(key),key);
+ const flow=read('lib/owner/campaign-flow.tsx');assert.ok(flow.includes('markCampaignSent')&&flow.includes('saveMessageTemplate')&&flow.includes('returned_count')&&flow.includes('audience_count'));assert.ok(view.includes('<RedemptionTable'));
 });
 test('owner navigation matches the approved unified menu and keeps Cards unchanged',()=>{
  const shell=read('lib/owner/shell.tsx');
