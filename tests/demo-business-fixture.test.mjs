@@ -16,7 +16,7 @@ test('busy-business demo is fully labeled sample data with non-contactable mock 
  assert.equal(fixture.month.metrics[0].visits,fixture.month.activity.reduce((sum,day)=>sum+day.active_users,0));
 });
 
-test('demo showcases active points, gift, review cards, staff and Google usage',async()=>{
+test('demo showcases active points and review cards, staff and Google usage without gift cards',async()=>{
  for(const period of Object.values(fixture)){
   assert.equal(period.program.card_enabled,true);
   assert.equal(period.rewards.length,3);
@@ -28,4 +28,5 @@ test('demo showcases active points, gift, review cards, staff and Google usage',
  }
  const page=await readFile(new URL('../app/demo/panel/page.tsx',import.meta.url),'utf8');
  assert.match(page,/activeRewards:3/);
+ assert.doesNotMatch(page,/pay_card_url|giftCardUrl/,'demo must not seed gift card data');
 });
