@@ -72,7 +72,7 @@ test("prices and plan limits match the current entitlements", () => {
 
 test("sample metrics are labeled and real images replace upload placeholders", () => {
   assert.match(page, /EJEMPLO|ejemplo/);
-  assert.match(page, /datos de ejemplo/i);
+  assert.match(page, /CAFÉ DEMO · EJEMPLO/,'Illustrative metrics must be explicitly labeled on the landing');
   assert.match(ownerView, /periodDays/);
   assert.doesNotMatch(page, /Espacio para imagen|pendiente de recibir/);
   for (const image of ["6105", "6106", "6107", "6109", "6111", "6112", "6113", "6114"])
