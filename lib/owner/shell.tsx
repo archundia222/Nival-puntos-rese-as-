@@ -33,7 +33,7 @@ function makeItems(_reviewLimit:number,_nfcLimit:number):MenuItem[]{
    {id:'asociados',label:'Equipo'},
   ]},
   {id:'canjes',label:'Canjes',icon:'gift'},
-  {id:'informes',label:'Informes',icon:'file',href:'/panel/reportes'},
+  {id:'informes',label:'Informes',icon:'file'},
   {id:'cuenta',label:'Cuenta',icon:'settings',children:[
    {id:'plan',label:'Facturación'},
    {id:'configuracion',label:'Configuración'},
