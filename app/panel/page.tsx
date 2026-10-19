@@ -11,7 +11,7 @@ import {registerBusiness} from '../../lib/foundation/actions';
 import {ActionForm} from '../../lib/foundation/forms';
 import {Field} from '../../lib/foundation/fields';
 import {ownerData} from '../../lib/owner/data';
-import {rollingPeriodRange} from '../../lib/owner/domain.mjs';
+import {rollingPeriodRange,periodRange} from '../../lib/owner/domain.mjs';
 import Legacy from './legacy-page';
 export const dynamic='force-dynamic';
 export default async function Panel({searchParams}:{searchParams:Promise<{business?:string;branch?:string;kind?:string;period?:string;days?:string}>}){
@@ -23,6 +23,6 @@ export default async function Panel({searchParams}:{searchParams:Promise<{busine
  if(!b)return <main className="dashboard"><h1>Tu primer negocio</h1><p>Registra el negocio para empezar a recibir visitas.</p><ActionForm action={registerBusiness} label="Registrar mi negocio" preserveOnError><RegistrationFields/></ActionForm></main>;
  await requireBusiness(actor,b.id);
  if(!entitlements(b).active)return <DashboardShell name={b.name} owner={actor.name} status="Servicio inactivo" demo={false} logout={<form action={logout}><button>Cerrar sesión</button></form>}><AccountState b={b}/><section className="ownerCard"><h2>Servicio inactivo</h2><p>Los puntos, canjes, clientes y reportes están guardados. Renueva para consultar tus datos y volver a operar.</p></section></DashboardShell>;
- const range=params.days?rollingPeriodRange(Number(params.days)):rollingPeriodRange(30),data=await ownerData(actor,b.id,range,params.branch);
+ const range=params.kind&&['day','month','year'].includes(params.kind)?periodRange(params.kind,params.period):params.days?rollingPeriodRange(Number(params.days)):rollingPeriodRange(30),data=await ownerData(actor,b.id,range,params.branch);
  return <OwnerView actor={actor} b={b} businesses={businesses} range={range} data={data}/>;
 }
