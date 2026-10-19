@@ -15,6 +15,7 @@ export function RewardWorkspace({businessId,rewards}:{businessId:string;rewards:
  return <section className="rewardWorkspace">
   {selected===null?<><div className="workspaceSectionHeader"><h2>Premios y recompensas</h2><button type="button" className="workspacePrimary" onClick={()=>{setSelected('new');setNotice('')}}>+ Agregar</button></div>
    {notice&&<p role="status">{notice}</p>}
+   {!rewards.length&&<div className="starterRewardSample"><span className="workspaceExampleTag">Ejemplo</span><div className="campaignCardArt" aria-hidden="true">✦</div><strong>Tu primer premio</strong><small>6 puntos · Café de cortesía</small><button type="button" className="workspacePrimary" onClick={()=>setSelected('new')}>Crear primer premio →</button></div>}
    <div className="campaignRewardStrip">{rewards.map(r=><button type="button" key={r.id} className="campaignRewardCard" onClick={()=>{setSelected(r.id);setNotice('')}} style={{cursor:'pointer',textAlign:'left'}}>
      {r.photo_url?<img src={r.photo_url} alt="" style={{width:'100%',height:140,objectFit:'cover',borderRadius:12}}/>:<div className="campaignCardArt" aria-hidden="true">✦</div>}
      <strong>{r.name}</strong><small>{r.points_cost} puntos · {r.active?'Activo':'Inactivo'}</small>
