@@ -59,7 +59,7 @@ test('period utilities preserve inclusive Spanish dates while the dashboard show
  assert.equal(formatPeriodDate(inclusivePeriodEnd(periodRange('month','2024-02').end)),'29 de febrero de 2024');
  const ownerView=readFileSync('lib/owner/view.tsx','utf8');
  assert.ok(ownerView.includes('periodDay={periodDay}'));
- const shell=readFileSync('lib/owner/shell.tsx','utf8');assert.ok(shell.includes('Día {periodDay} de 30'));assert.ok(shell.includes('workspaceTopPeriod'));
+ assert.ok(ownerView.includes('Math.max(0,30-periodDay)'),'Inicio shows accurate days remaining in the 30-day cycle');assert.ok(ownerView.includes("'Días restantes'"),'cycle countdown remains visible in daily pending items');
  assert.ok(!ownerView.includes('(fin excluido)'));
 });
 test('Google rejects invented distribution and response totals; advice preserves count and variants',async()=>{
