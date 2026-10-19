@@ -11,30 +11,34 @@ function normalizeSection(section:string){
 function groupForSection(section:string):string|null{
  if(['mis-tarjetas','tus-tarjetas','programa','promociones','premios','compartir-programa','compartir','nival-resenas'].includes(section))return 'tarjetas';
  if(section==='nival-pay')return 'tarjetas';
- if(['equipo','usuarios','estadisticas','estadisticas-puntos','canjes','informes','sucursales'].includes(section))return 'operacion';
+ if(['clientes','campañas-clientes'].includes(section))return 'clientes-menu';
+ if(['equipo','asociados'].includes(section))return 'equipo-menu';
  if(['configuracion','ajustes','datos-negocio','plan'].includes(section))return 'cuenta';
  return null;
 }
-function makeItems(reviewLimit:number,nfcLimit:number):MenuItem[]{
- const items:MenuItem[]=[
+function makeItems(_reviewLimit:number,_nfcLimit:number):MenuItem[]{
+ return [
   {id:'inicio',label:'Inicio',icon:'inicio'},
   {id:'tarjetas',label:'Tarjetas',icon:'gift',children:[
-   {id:'mis-tarjetas',label:'Tarjeta de puntos',href:'/panel/puntos?view=programa'},
+   {id:'mis-tarjetas',label:'Mis tarjetas'},
    {id:'premios',label:'Premios y recompensas',href:'/panel/puntos?view=premios'},
   ]},
-  {id:'clientes',label:'Clientes',icon:'clientes'},
-  {id:'operacion',label:'Operación',icon:'file',children:[
-   {id:'sucursales',label:'Sucursales'},
-   {id:'equipo',label:'Equipo',href:'/panel/puntos?view=equipo'},
-   {id:'informes',label:'Informes',href:'/panel/reportes'},
-   {id:'canjes',label:'Canjes'},
+  {id:'clientes-menu',label:'Clientes',icon:'clientes',children:[
+   {id:'clientes',label:'Clientes'},
+   {id:'campañas-clientes',label:'Campañas'},
+  ]},
+  {id:'sucursales',label:'Sucursales',icon:'inicio'},
+  {id:'equipo-menu',label:'Equipo',icon:'clientes',children:[
+   {id:'equipo',label:'Administración de equipo'},
+   {id:'asociados',label:'Equipo',href:'/panel/puntos?view=equipo'},
+  ]},
+  {id:'canjes',label:'Canjes',icon:'gift'},
+  {id:'informes',label:'Informes',icon:'file',href:'/panel/reportes'},
+  {id:'cuenta',label:'Cuenta',icon:'settings',children:[
+   {id:'plan',label:'Facturación'},
+   {id:'configuracion',label:'Configuración'},
   ]},
  ];
- items.push({id:'cuenta',label:'Cuenta',icon:'settings',children:[
-  {id:'plan',label:'Facturación'},
-  {id:'configuracion',label:'Configuración'},
- ]});
- return items;
 }
 
 export function DashboardShell({name,owner,status,demo,logout,children,initialSection='inicio',homeUrl,mobilePreview=false,pointsOnly=false,planName='Puntos',price=299,responseLimit=0,nfcLimit=3,periodDay=1,branches=[],branchId}:{name:string;owner:string;status:string;demo:boolean;logout:React.ReactNode;children:React.ReactNode;initialSection?:string;homeUrl?:string;mobilePreview?:boolean;pointsOnly?:boolean;planName?:string;price?:number;responseLimit?:number;nfcLimit?:number;periodDay?:number;branches?:Record<string,any>[];branchId?:string}){
@@ -67,7 +71,7 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
   window.scrollTo({top:0,behavior:'smooth'});requestAnimationFrame(()=>document.getElementById('workspace-title')?.focus());
  }
  function render(item:MenuItem,depth=0){
-  const active=section===item.id||(item.id==='tarjetas'&&['mis-tarjetas','google','nival-resenas','compartir-programa','compartir','promociones','nival-pay','premios'].includes(section))||(item.id==='mis-tarjetas'&&['mis-tarjetas','google','nival-resenas','compartir-programa','compartir','promociones','nival-pay'].includes(section))||(item.id==='clientes'&&section.startsWith('clientes'))||(item.id==='operacion'&&(section==='equipo'||section==='usuarios'||section.startsWith('estadisticas')||section==='canjes'||section==='informes'||section==='sucursales'))||(item.id==='cuenta'&&(section==='plan'||section==='ajustes'||section==='configuracion'))||(item.id==='configuracion'&&section==='ajustes');
+  const active=section===item.id||(item.id==='tarjetas'&&['mis-tarjetas','google','nival-resenas','compartir-programa','compartir','promociones','nival-pay','premios'].includes(section))||(item.id==='mis-tarjetas'&&['mis-tarjetas','google','nival-resenas','compartir-programa','compartir','promociones','nival-pay'].includes(section))||(item.id==='clientes-menu'&&['clientes','campañas-clientes'].includes(section))||(item.id==='equipo-menu'&&['equipo','asociados'].includes(section))||(item.id==='cuenta'&&(section==='plan'||section==='ajustes'||section==='configuracion'))||(item.id==='configuracion'&&section==='ajustes');
   if(item.children)return <div className={'workspaceMenuGroup'+(depth?' isNested':'')} key={item.id}>
    <button className={'workspaceNavItem'+(active?' isActive':'')} aria-expanded={expanded===item.id} aria-controls={'workspace-submenu-'+item.id} onClick={()=>toggle(item.id)} aria-current={active?'page':undefined}>{item.icon&&<Icon name={item.icon}/>}<span><strong>{item.label}</strong></span><i aria-hidden="true"/></button>
    {expanded===item.id&&<div className="workspaceSubmenu" id={'workspace-submenu-'+item.id} aria-label={item.label}>{item.children.map(child=>render(child,depth+1))}</div>}
@@ -91,7 +95,7 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
   </aside>
   <div className="workspaceMain" inert={mobile&&open}>
    <header className="workspaceTopbar"><div className="topbarLocation"><button ref={trigger} className="hamburger" aria-label={mobile?(open?'Cerrar menú':'Abrir menú'):(collapsed?'Expandir menú':'Contraer menú')} aria-expanded={mobile?open:!collapsed} aria-controls="workspace-menu" onClick={()=>mobile?setOpen(v=>!v):setCollapsed(v=>!v)}><Icon name="menu"/></button>{branches.filter(x=>x.active).length>0&&<label className="branchPicker"><span>Sucursal</span><select aria-label="Sucursal seleccionada" value={branchId||branches.find(x=>x.is_primary)?.id||''} onChange={e=>{const url=new URL(window.location.href);url.searchParams.set('branch',e.target.value);window.location.assign(url.toString());}}>{branches.filter(x=>x.active).map(x=><option key={x.id} value={x.id}>{x.name}</option>)}</select></label>}</div><div className="topbarUser">{demo&&<a className="workspaceSecondary demoExit" href="/">Cerrar demo</a>}<span className={'workspaceStatus '+(status==='Activo'?'isActive':'')}>{demo?'Demo':status}</span><span className="userAvatar" title={owner}>{owner.slice(0,1).toUpperCase()}</span><span className="userName">{owner}</span>{!demo&&logout}</div></header>
-   <div className="workspaceContent"><div className="workspacePageHeading"><div>{demo&&<span className="workspaceExampleTag">Datos de ejemplo</span>}<span className="workspaceEyebrow">{demo?'DEMO NIVAL':'NIVAL · TU NEGOCIO'}</span><h1 id="workspace-title" tabIndex={-1}>{current.label}</h1></div><div className="workspacePlanChips"><span className="workspacePlanChip">Plan {planName}</span><span className="workspacePeriodChip">Día {periodDay} de 30<div className="workspaceTopPeriod"><i style={{width:(periodDay/30*100)+'%'}}/></div></span></div></div>{children}<footer className="workspaceFooter"><span>Nival Tech</span><span>{demo?'Datos de demostración':'Información de tu negocio'}</span></footer></div>
+   <div className="workspaceContent"><div className="workspacePageHeading"><div>{demo&&<span className="workspaceExampleTag">Datos de ejemplo</span>}<h1 id="workspace-title" tabIndex={-1}>{current.label}</h1></div></div>{children}<footer className="workspaceFooter"><span>Nival Tech</span><span>{demo?'Datos de demostración':'Información de tu negocio'}</span></footer></div>
   </div>
  </div>;
 }
