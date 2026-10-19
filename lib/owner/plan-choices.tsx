@@ -1,4 +1,16 @@
 import {quoteUrl} from '../foundation/registration.mjs';
 export function PlanChoices({b}:{b:Record<string,any>}){
- return <section className="ownerCard"><h3>Elige tu siguiente plan</h3><p>Solicita el plan por WhatsApp. Nival confirma el pago y la vigencia; el cambio conserva tus clientes, puntos y reportes.</p><div className="planChoices">{[[299,'Básico','10 respuestas a reseñas, 1 sucursal y 3 tarjetas NFC gratis.'],[399,'Esencial','30 respuestas a reseñas, 5 sucursales y 6 tarjetas NFC gratis.'],[549,'Plus','100 respuestas a reseñas, 10 sucursales, 12 tarjetas NFC gratis y comparación con tu zona.']].map(([price,name,description])=><article key={price}><h4>{name} · ${price}</h4><p>{description}</p><a className="workspaceSecondary" target="_blank" rel="noreferrer" href={quoteUrl(b,{name:name+' · $'+price})}>Solicitar este plan</a></article>)}</div></section>;
+ const plans=[
+  {price:299,name:'Básico',review:10,branches:1,nfc:3,wallet:false,zone:false},
+  {price:399,name:'Esencial',review:30,branches:5,nfc:6,wallet:true,zone:false},
+  {price:549,name:'Plus',review:100,branches:10,nfc:12,wallet:true,zone:true}
+ ];
+ return <section className="ownerCard"><h3>Planes</h3><div className="planChoices">
+  {plans.map(p=><article key={p.price}><h4>{p.name} · ${p.price} MXN</h4>
+   <p>{p.review} respuestas · {p.branches} {p.branches===1?'sucursal':'sucursales'} · {p.nfc} tarjetas NFC</p>
+   <p>Campañas y notificaciones por Wallet: {p.wallet?'Incluidas':'Disponible en Esencial'}</p>
+   <p>Comparación con tu zona: {p.zone?'Incluida':'Disponible en Plus'}</p>
+   <a className="workspaceSecondary" target="_blank" rel="noreferrer" href={quoteUrl(b,{name:p.name+' · $'+p.price})}>Elegir {p.name}</a>
+  </article>)}
+ </div></section>;
 }
