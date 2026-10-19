@@ -15,7 +15,7 @@ import {Field,Hidden} from '../foundation/fields';
 import {checklistLabels,periodRange,inclusivePeriodEnd,formatPeriodDate} from './domain.mjs';
 import {Bars,RatingLine} from './charts';
 import {defaultMessages} from './messages.mjs';
-import {saveMessageTemplate} from './actions';
+import {saveMessageTemplate,markCampaignSent} from './actions';
 import {saveSegments} from './actions';
 import {CardCatalog} from '../points/card-catalog';
 import {RewardWorkspace} from './reward-workspace';
@@ -187,6 +187,15 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
     </ActionForm>
    </div>)}
   </div>}
+  {!demo&&<article className="ownerCard"><h3>Registrar campañas enviadas</h3>
+   {(['new','risk','frequent','near_reward'] as const).map(key=><div className="workspaceActionRow" key={key} style={{alignItems:'center',marginBlock:12}}>
+    <strong>{({new:'Bienvenida',risk:'Te extrañamos',frequent:'Gracias por volver',near_reward:'Cerca del premio'} as Record<string,string>)[key]}</strong>
+    <ActionForm action={markCampaignSent} label="Marcar como enviada"><Hidden name="businessId" value={b.id}/><Hidden name="segment" value={key}/><Hidden name="channel" value="manual"/></ActionForm>
+   </div>)}
+   <h3>Resultados</h3>
+   {(data.campaignHistory||[]).map((c:Record<string,any>)=><div className="clientStatusRow" key={c.id}><span>{({new:'Bienvenida',risk:'Te extrañamos',frequent:'Gracias por volver',near_reward:'Cerca del premio'} as Record<string,string>)[c.segment]} · {new Date(c.sent_at).toLocaleDateString('es-MX')}</span><strong>Volvieron {c.returned_count} de {c.audience_count} ({c.audience_count?Math.round(c.returned_count/c.audience_count*100):0}%) en los 14 días siguientes</strong><small>{c.channel==='manual'?'Manual':'Wallet'}</small></div>)}
+   {!(data.campaignHistory||[]).length&&<p className="ownerEmpty">Sin campañas registradas</p>}
+  </article>}
   <p className="cardCaption">Las notificaciones automáticas de Google Wallet estarán disponibles cuando se active la integración de pases y se valide el consentimiento de tus clientes.</p>
  </>}</section>
  {!demo&&<section data-panel="asociados" className="ownerBlock"><TeamWorkspace businessId={b.id} slug={b.slug} staff={data.staff||[]} branches={data.branches||[]}/></section>}
