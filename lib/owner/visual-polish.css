@@ -1,0 +1,86 @@
+/* Visual pass: keep the same panel content while giving controls and cards clearer hierarchy. */
+.nivalShell[data-section="sucursales"] [data-panel="sucursales"]>.ownerSectionTitle,
+.nivalShell[data-section="equipo"] [data-panel="equipo"] .teamWorkspace>.workspaceSectionHeader>h2,
+.nivalShell[data-section="premios"] [data-panel="premios"] .rewardWorkspace>.workspaceSectionHeader>h2{display:none!important}
+.nivalShell[data-section="sucursales"] [data-panel="sucursales"]>.ownerSectionTitle{margin:0!important;padding:0!important;border:0!important;background:transparent!important}
+.nivalShell .cardCatalog{gap:16px}
+.nivalShell .cardCatalogHeading{display:flex;align-items:center;justify-content:flex-end;min-height:48px}
+.nivalShell .cardCatalogAddButton{display:inline-flex;width:auto;min-width:190px;min-height:48px;box-shadow:0 8px 18px #173f3222}
+.nivalShell .cardCatalogGrid{width:100%;max-width:none!important;grid-template-columns:minmax(0,1fr)!important}
+.nivalShell .cardSystemTile{width:100%;min-height:0;padding:14px!important;gap:12px;align-items:stretch}
+.nivalShell .cardSystemTop{min-height:32px}
+.nivalShell .cardSystemTile .cardCatalogMock{width:100%;height:auto;min-height:0;aspect-ratio:1.9/1;align-self:stretch;padding:clamp(17px,4vw,28px)!important}
+.nivalShell .cardSystemTile .cardCatalogMock strong{font-size:clamp(18px,4vw,24px)}
+.nivalShell .cardCatalogDetail{width:100%;max-width:none;margin:0;padding:clamp(16px,3vw,28px)!important}
+.nivalShell .cardCatalogDetail>h2{margin:22px 0 18px;font-size:clamp(22px,3vw,30px);letter-spacing:-.04em;color:#163b2d}
+.nivalShell .cardReturnButton{display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:9px 15px!important;border-color:#cfdbd0!important;border-radius:11px!important;font-size:14px!important;font-weight:700!important;color:#315c43!important;background:#fff!important}
+.nivalShell .cardReturnButton span{font-size:20px;line-height:1}
+.nivalShell .cardEditButton{display:inline-flex;align-items:center;gap:9px;min-height:46px;margin-top:18px;padding:10px 17px!important;font-size:14px!important;font-weight:750!important;box-shadow:0 6px 14px #173f3220}
+.nivalShell .cardCatalogNfcHeader>div{display:grid;justify-items:start;gap:12px}
+.nivalShell .cardCatalogNfcHeader h2{font-size:22px}
+.nivalShell .rewardWorkspace>.workspaceSectionHeader{align-items:center;margin-bottom:18px;padding:0 0 15px;border-bottom:1px solid #e7ece4}
+.nivalShell .rewardWorkspace>.workspaceSectionHeader .workspacePrimary{min-width:126px;min-height:44px;font-size:14px!important}
+.nivalShell .rewardWorkspace .campaignRewardStrip{grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));gap:14px}
+.nivalShell .rewardWorkspace .campaignRewardCard{display:grid;grid-template-columns:minmax(0,1fr) auto;align-content:start;align-items:start;gap:10px 12px;min-height:190px;padding:17px!important;text-align:left!important}
+.nivalShell .rewardWorkspace .campaignRewardCard>img,.nivalShell .rewardWorkspace .campaignRewardCard>.campaignCardArt{grid-column:1/-1;width:100%;height:auto;aspect-ratio:1.8/1;object-fit:cover;border-radius:12px}
+.nivalShell .rewardWorkspace .campaignRewardCard>.campaignCardArt{display:grid;place-items:center;font-size:32px}
+.nivalShell .rewardWorkspace .campaignRewardCard>.rewardStatus{grid-column:1/-1;grid-row:auto}
+.nivalShell .rewardWorkspace .campaignRewardCard>strong{grid-column:1;grid-row:auto;overflow-wrap:anywhere;font-size:17px;line-height:1.3;color:#173c2e}
+.nivalShell .rewardWorkspace .campaignRewardCard>small{grid-column:1/-1;grid-row:auto;font-size:12px;line-height:1.5;color:#5f7367}
+.nivalShell .rewardWorkspace .campaignRewardCard>.rewardEditHint{grid-column:2;grid-row:2;align-self:center;display:inline-flex;align-items:center;min-height:34px;padding:6px 10px;border:1px solid #d7e4d4;border-radius:9px;background:#fff;color:#286247;font-size:12px}
+.nivalShell .starterRewardSample{width:100%;max-width:none;grid-template-columns:84px minmax(0,1fr);gap:10px 16px;padding:20px;border:1px solid #dbe7d8;border-radius:16px;background:linear-gradient(135deg,#f2f7e9,#fffefa)}
+.nivalShell .starterRewardSample .campaignCardArt{width:84px;height:84px;box-shadow:none;transform:none}
+.nivalShell .starterRewardSample>strong{font-size:18px;color:#173c2e}
+.nivalShell .starterRewardSample>small{font-size:13px;color:#617468}
+.nivalShell .starterRewardSample>button{grid-column:1/-1;justify-self:stretch;min-height:44px;font-size:14px!important}
+.nivalShell .branchManagerHead{align-items:center;padding:16px 18px;margin-bottom:16px;border:1px solid #dfe8db;border-radius:15px;background:linear-gradient(135deg,#f0f5e7,#fffefa)}
+.nivalShell .branchManagerHead>div strong{font-size:34px}
+.nivalShell .branchManagerHead>div span{font-size:13px}
+.nivalShell .branchAdd summary{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:9px 14px;border:1px solid #c9ddca;border-radius:11px;background:#fff;color:#205d43;font-size:13px;font-weight:750;cursor:pointer}
+.nivalShell .branchAdd form{display:grid;gap:12px;margin-top:12px;padding:18px;border:1px solid #e1e9df;border-radius:14px;background:#fff}
+.nivalShell .branchAdd form label,.nivalShell .branchEdit form label{display:grid;gap:7px;color:#405b49;font-size:13px!important;font-weight:650}
+.nivalShell .branchItem{min-height:0;padding:18px!important}
+.nivalShell .branchStatGrid>div{min-height:64px;align-content:center}
+.nivalShell .teamWorkspace>.workspaceSectionHeader{align-items:center;margin:0 0 16px;padding:0 0 14px;border-bottom:1px solid #e5ebe3}
+.nivalShell .teamWorkspace>.workspaceSectionHeader .workspacePrimary{min-width:126px;min-height:44px;font-size:14px!important}
+.nivalShell .teamWorkspace .campaignRewardStrip{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:14px;overflow:visible}
+.nivalShell .teamWorkspace .campaignRewardStrip>.ownerCard{display:grid;gap:10px;align-content:start;padding:18px!important}
+.nivalShell .teamWorkspace .campaignRewardStrip>.ownerCard>strong{font-size:17px;color:#173c2e}
+.nivalShell .teamWorkspace .campaignRewardStrip>.ownerCard>small{color:#65786b;font-size:13px}
+.nivalShell .teamWorkspace .configGrid,.nivalShell .branchEdit .configGrid,.nivalShell .branchAdd .configGrid{display:grid;gap:16px;padding:20px;border:1px solid #dfe8dc;border-radius:15px;background:linear-gradient(145deg,#fffefa,#f4f8f1)}
+.nivalShell .ownerDashboard .configGrid>label,.nivalShell .ownerDashboard .branchEdit form label{display:grid;gap:7px;color:#3f5949;font-size:13px!important;font-weight:650;line-height:1.4}
+.nivalShell .ownerDashboard .configGrid input:not([type="checkbox"]):not([type="radio"]),.nivalShell .ownerDashboard .configGrid select,.nivalShell .ownerDashboard .configGrid textarea{min-height:46px;padding:11px 13px;border:1px solid #d5e1d4;border-radius:11px;background:#fff;color:#183c2e;font-size:15px;box-shadow:0 1px 2px #1b392606;transition:border-color .15s,box-shadow .15s}
+.nivalShell .ownerDashboard .configGrid textarea{min-height:120px;line-height:1.55}
+.nivalShell .ownerDashboard .configGrid input:focus,.nivalShell .ownerDashboard .configGrid select:focus,.nivalShell .ownerDashboard .configGrid textarea:focus{border-color:#70a479;box-shadow:0 0 0 4px #d8ead9}
+.nivalShell .ownerDashboard .configGrid input[type="checkbox"]{width:20px;height:20px;accent-color:#28684a}
+.nivalShell .ownerDashboard .configGrid button[type="submit"],.nivalShell .ownerDashboard .branchEdit form button,.nivalShell .ownerDashboard .branchAdd form button{min-height:46px;padding:10px 18px;border:0;border-radius:11px;background:linear-gradient(110deg,#174d37,#2b7351);color:#fff;font-size:14px;font-weight:750;box-shadow:0 6px 16px #19472d1f}
+.nivalShell .ownerDashboard .configGrid .wide{grid-column:1/-1}
+.nivalShell .ownerDashboard details>summary{list-style:none}
+.nivalShell .ownerDashboard details>summary::-webkit-details-marker{display:none}
+.nivalShell .branchEdit summary,.nivalShell .branchAdd summary,.nivalShell .ownerDashboard details>summary{color:#315843;font-size:13px!important;font-weight:700;cursor:pointer}
+.nivalShell .ownerDashboard details[open]>summary{margin-bottom:10px}
+.nivalShell .ownerDashboard :is(input,select,textarea,button,a):focus-visible{outline:3px solid #a4cc79;outline-offset:3px}
+@media(max-width:760px){
+ .nivalShell .cardCatalogHeading{align-items:stretch}
+ .nivalShell .cardCatalogAddButton{width:100%;min-width:0}
+ .nivalShell .cardSystemTile{padding:12px!important}
+ .nivalShell .cardSystemTile .cardCatalogMock{aspect-ratio:1.75/1}
+ .nivalShell .rewardWorkspace>.workspaceSectionHeader{align-items:stretch;flex-direction:column}
+ .nivalShell .rewardWorkspace>.workspaceSectionHeader .workspacePrimary{width:100%}
+ .nivalShell .rewardWorkspace .campaignRewardStrip{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .nivalShell .rewardWorkspace .campaignRewardCard{min-height:0;padding:12px!important}
+ .nivalShell .rewardWorkspace .campaignRewardCard>strong{font-size:14px}
+ .nivalShell .rewardWorkspace .campaignRewardCard>.rewardEditHint{grid-column:1/-1;grid-row:auto;justify-self:start}
+ .nivalShell .starterRewardSample{grid-template-columns:64px minmax(0,1fr);padding:15px;gap:9px 12px}
+ .nivalShell .starterRewardSample .campaignCardArt{width:64px;height:64px}
+ .nivalShell .branchManagerHead{align-items:flex-start;flex-direction:column;gap:14px;padding:15px}
+ .nivalShell .branchAdd,.nivalShell .branchAdd summary{width:100%}
+ .nivalShell .branchGrid{grid-template-columns:1fr}
+ .nivalShell .teamWorkspace .workspaceSectionHeader .workspacePrimary{width:100%}
+ .nivalShell .teamWorkspace .campaignRewardStrip{grid-template-columns:1fr}
+ .nivalShell .ownerDashboard .configGrid{grid-template-columns:minmax(0,1fr);padding:15px;gap:14px}
+ .nivalShell .ownerDashboard .configGrid .wide{grid-column:auto}
+ .nivalShell .ownerDashboard .configGrid button[type="submit"]{width:100%}
+}
+@media(prefers-reduced-motion:reduce){.nivalShell .ownerDashboard input,.nivalShell .ownerDashboard select,.nivalShell .ownerDashboard textarea{transition:none}}
+

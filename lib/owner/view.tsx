@@ -57,7 +57,16 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
  const risk=data.segments.filter((c:Record<string,any>)=>c.is_risk&&!c.is_lost).length;
  const pendingReviews=data.google&&data.google.answered!==null?Math.max(0,Number(data.google.fresh)-Number(data.google.answered)):null;
  const status=active||demo?'Activo':b.status==='pausado'?'Pausado':'Por activar';
- const startState=demo?null:await startGuideState(actor as Actor,b.id,data.reviewCards||[]);
+ const startState=demo?{
+  complete:false,
+  completed:2,
+  steps:[
+   {done:true,label:'Crear tu primera promoción',icon:'gift',href:'#premios'},
+   {done:true,label:'Configurar y publicar tu tarjeta',icon:'card',href:'#mis-tarjetas'},
+   {done:false,label:'Colocar QR de reseñas',icon:'google',href:'#reseñas'},
+   {done:false,label:'Registrar primer cliente',icon:'check',href:'#compartir'},
+  ],
+ }:await startGuideState(actor as Actor,b.id,data.reviewCards||[]);
  if(!demo&&!active&&!data.segments.length&&!data.last)return <DashboardShell name={b.name} owner={actor.name} status={status} demo={false} logout={<form action={logout}><button>Cerrar sesión</button></form>}><AccountState b={b}/></DashboardShell>;
  const responseLimit=limits.reviewLimit;
 
@@ -84,7 +93,7 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
  <section id="inicio" data-panel="inicio" className="ownerBlock">
   <header className="impactMasterHeader"><h2>Inicio</h2><form className="impactPeriodFilter" method="get" action={demo?'/demo/panel':'/panel'}>{!demo&&<input type="hidden" name="business" value={b.id}/>} {data.selectedBranch?.id&&<input type="hidden" name="branch" value={data.selectedBranch.id}/>}
   {[7,30,90].map(days=><button type="submit" name="days" value={days} key={days} aria-pressed={periodDays===days}>{days} días</button>)}</form></header>
-  {emptyState&&<><div className="ownerCard starterPreview"><span className="workspaceExampleTag">Ejemplo · así se verá con visitas</span><div className="starterPreviewVisual" aria-hidden="true"><span style={{height:"42%"}}/><span style={{height:"74%"}}/><span style={{height:"58%"}}/><span style={{height:"86%"}}/><span style={{height:"69%"}}/><span style={{height:"100%"}}/></div><div><strong>Tu actividad aparecerá aquí</strong><p>Registra la primera visita y empieza a ver cómo vuelven tus clientes.</p><a href="#equipo" className="workspacePrimary">Preparar mi equipo →</a></div></div><StartGuide state={startState||undefined}/></>}
+  {(emptyState||demo)&&<StartGuide state={startState||undefined}/>}
   <div className="ownerMetrics homePending">
     {[
       ['En riesgo',riskCount,'clientes-risk'],
