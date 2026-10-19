@@ -92,11 +92,13 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
       ['Días restantes',Math.max(0,30-periodDay),'plan']
     ].map(([label,value,target])=><a className="ownerCard ownerMetric" key={String(label)} href={'#'+target}><span>{label}</span><strong>{number(Number(value))}</strong><small>Ver detalle →</small></a>)}
   </div>
-  <div className="workspaceActionRow homeQuickActions">
-   <a className="workspacePrimary" href="#premios">Crear promoción</a>
-   <a className="workspaceSecondary" href="#mis-tarjetas">Ver QR del mostrador</a>
-   <a className="workspaceSecondary" href="#equipo">Agregar trabajador</a>
-   <a className="workspaceSecondary" href={'/panel/reportes?business='+b.id}>Descargar informe</a>
+  <div className="homeQuickActions" aria-label="Acciones rápidas">
+   {[
+    {label:'Crear promoción',hint:'Elige tu siguiente premio',icon:'gift',href:'#premios'},
+    {label:'QR del mostrador',hint:'Compártelo con tus clientes',icon:'compartir',href:'#mis-tarjetas'},
+    {label:'Agregar trabajador',hint:'Prepara a tu equipo',icon:'equipo',href:'#equipo'},
+    {label:'Descargar informe',hint:'Tu resumen del periodo',icon:'download',href:'/panel/reportes?business='+b.id}
+   ].map(action=><a className="quickActionCard" href={action.href} key={action.label}><span className="quickActionIcon"><Icon name={action.icon} size={21}/></span><span><strong>{action.label}</strong><small>{action.hint}</small></span><Icon name="arrow" size={17}/></a>)}
   </div>
   <div className="ownerMetrics homeCoreMetrics">
    {[
@@ -104,7 +106,7 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
      ['Clientes nuevos',Number(current.new_customers||0),Number(prev.new_customers||0)],
      ['Premios canjeados',Number(current.redeemed||0),Number(prev.redeemed||0)],
      ['Clientes recurrentes',Number(current.returning_customers||0),Number(prev.returning_customers||0)]
-   ].map(([label,value,previous])=><article className="ownerCard ownerMetric" key={String(label)}><span>{label}</span><strong>{number(Number(value))}</strong><small>{percentChange(Number(value),Number(previous))} vs. anterior</small></article>)}
+   ].map(([label,value,previous])=><article className="ownerCard ownerMetric" key={String(label)}><span>{label}</span><strong>{number(Number(value))}</strong><small className="metricChange">{percentChange(Number(value),Number(previous))} vs. anterior</small><div className="metricMiniChart" aria-hidden="true"><span style={{height:(Math.max(14,Math.min(95,Number(previous)/Math.max(1,Number(previous),Number(value))*92)))+"%"}}/><span style={{height:(Math.max(14,Math.min(95,Number(value)/Math.max(1,Number(previous),Number(value))*92)))+"%"}}/></div></article>)}
   </div>
   <div className="impactMasterDetails">
    <ActivityChart items={activityRows} days={periodDays}/>
