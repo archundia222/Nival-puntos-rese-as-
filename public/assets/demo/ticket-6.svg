@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="560" viewBox="0 0 420 560">
+ <defs><filter id="grain"><feTurbulence baseFrequency=".45" numOctaves="3" seed="6" result="noise"/><feColorMatrix in="noise" type="saturate" values="0"/><feBlend in="SourceGraphic" mode="multiply"/></filter>
+ <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#ada69b"/><stop offset="1" stop-color="#595f59"/></linearGradient>
+ <filter id="shadow"><feGaussianBlur stdDeviation="13"/></filter></defs>
+ <rect width="420" height="560" fill="url(#bg)"/><rect x="87" y="42" width="272" height="468" fill="#262c29" opacity=".48" filter="url(#shadow)"/>
+ <g transform="rotate(2 210 280)"><path d="M70 25H352V524L338 519L324 524L310 520L296 525L282 520L268 525L254 520L240 526L226 520L212 525L198 520L184 525L170 520L156 526L142 520L128 525L114 520L100 525L86 519L70 524Z" fill="#f7f4eb" stroke="#ddd9cd"/>
+ <g font-family="monospace" fill="#282c2b" text-anchor="middle"><text x="210" y="81" font-size="25" font-weight="bold">CAFÉ DEMO</text>
+ <text x="210" y="105" font-size="13">SUCURSAL MIXCOAC</text>
+ <text x="210" y="128" font-size="12">TICKET DE EJEMPLO</text>
+ <text x="210" y="166" font-size="12">05 / 10 / 2026 · 13:42</text>
+ <text x="210" y="190" font-size="12">----------------------------</text>
+ <text x="210" y="221" font-size="16">PAN DULCE</text>
+ <text x="210" y="250" font-size="16">1 x $42.00</text>
+ <text x="210" y="279" font-size="12">----------------------------</text>
+ <text x="210" y="312" font-size="21" font-weight="bold">TOTAL $42.00</text>
+ <text x="210" y="356" font-size="12">GRACIAS POR TU COMPRA</text>
+ <text x="210" y="395" font-size="15">NIVAL · DEMOSTRACIÓN</text>
+ <text x="210" y="420" font-size="11">NO ES COMPROBANTE FISCAL</text>
+ <text x="210" y="460" font-size="12">| ||| | || ||| || |</text></g></g>
+ <rect width="420" height="560" fill="#000" opacity=".025" filter="url(#grain)"/></svg>
