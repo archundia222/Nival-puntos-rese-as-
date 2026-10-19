@@ -30,7 +30,7 @@ function makeItems(_reviewLimit:number,_nfcLimit:number):MenuItem[]{
   {id:'sucursales',label:'Sucursales',icon:'inicio'},
   {id:'equipo-menu',label:'Equipo',icon:'clientes',children:[
    {id:'equipo',label:'Administración de equipo'},
-   {id:'asociados',label:'Equipo',href:'/panel/puntos?view=equipo'},
+   {id:'asociados',label:'Equipo'},
   ]},
   {id:'canjes',label:'Canjes',icon:'gift'},
   {id:'informes',label:'Informes',icon:'file',href:'/panel/reportes'},
