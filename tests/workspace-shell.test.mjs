@@ -93,7 +93,7 @@ test('Inicio is a short operational summary with drilldowns, not a duplicated ca
  const catalog=readFileSync(new URL('../lib/points/card-catalog.tsx',import.meta.url),'utf8');
  for(const token of ['homePending','homeQuickActions','homeCoreMetrics','ActivityChart','CustomerMix','Actividad reciente','Ver detalle','data-panel="reseñas"','data-panel="informes"'])assert.ok(owner.includes(token),token);
  for(const token of ['data-panel="mis-tarjetas"','nfcLimit={limits.nfcCards}','reviewCards={data.reviewCards||[]}'])assert.ok(owner.includes(token),token);
- assert.ok(owner.includes('{emptyState&&<StartGuide state={startState||undefined}/>'));
+ assert.ok(owner.includes('starterPreview')&&owner.includes('<StartGuide state={startState||undefined}/>'),'new accounts have an illustrative preview and retain interactive onboarding');
  assert.ok(!owner.includes('Ingresos de clientes recurrentes'),'no invented ticket values');
  assert.ok(!shell.includes("label:'Complementos'"));
  assert.ok(!catalog.includes('Tarjeta de regalo')&&!catalog.includes('id="gift-card"'),'gift card is removed from every business');
