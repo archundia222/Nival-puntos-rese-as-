@@ -22,6 +22,7 @@ import {RewardWorkspace} from './reward-workspace';
 import {TeamWorkspace} from './team-workspace';
 import {TeamUnified} from './team-unified';
 import {RedemptionTable} from './redemption-table';
+import {ReportWorkspace} from './report-workspace';
 import {BranchManager} from './branch-manager';
 import {NextActions} from './next-actions';
 import {CampaignOverview} from './campaign-overview';
@@ -166,35 +167,8 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
  {!demo&&<section id="canjes" data-panel="canjes" className="ownerBlock"><h2>Canjes</h2><RedemptionTable items={data.redemptions||[]} staff={data.staff||[]} branches={data.branches||[]}/></section>}
  {demo&&<section id="canjes" data-panel="canjes" className="ownerBlock"><div className="ownerSectionTitle"><small>MUESTRA DEL PANEL</small><h2>Historial de canjes</h2><p>En un negocio activo, aquí puedes revisar los premios que canjeó cada cliente.</p></div><article className="ownerCard"><h3>Movimientos de ejemplo</h3><p className="ownerEmpty">La demo no guarda canjes reales. Los canjes de tu negocio aparecerán aquí con su fecha, cliente y premio.</p></article></section>}
  {!demo&&<section id="informes" data-panel="informes" className="ownerBlock">
-  <div className="workspaceSectionHeader"><h2>Informes</h2><a className="workspaceSecondary" href={'/panel/reportes?business='+b.id}>PDF del periodo <Icon name="arrow" size={16}/></a></div>
-  <div className="ownerMetrics">
-   <Metric label="Visitas por puntos" value={Number(current.visits||0)}/>
-   <Metric label="Canjes" value={Number(current.redeemed||0)}/>
-   <Metric label="Clientes" value={registered}/>
-   <Metric label="Clientes recurrentes" value={Number(current.returning_customers||0)}/>
-  </div>
-  <details className="ownerCard" open><summary><strong>Sistema de puntos</strong></summary><div className="ownerMetrics">
-   <Metric label="Puntos emitidos" value={Number(current.points||0)}/>
-   <Metric label="Ingresos registrados" value={money(Number(current.ticket_revenue||0))}/>
-   <RetentionMetric current={current} previous={prev}/>
-  </div></details>
-  <details className="ownerCard"><summary><strong>Tarjeta de regalo</strong></summary><p>{giftCardActive?'Tarjeta configurada.':'Tarjeta inactiva.'}</p><p>Los movimientos de regalo aparecerán cuando esté habilitado su registro.</p></details>
-  <details className="ownerCard"><summary><strong>Google y reseñas</strong></summary><div className="ownerMetrics">
-   <Metric label="Reseñas totales" value={Number(last?.total_reviews||0)}/>
-   <Metric label="Calificación Google" value={last?Number(last.rating).toFixed(1):'—'}/>
-   <Metric label="Respuestas usadas" value={reviewed}/>
-  </div></details>
-  <details className="ownerCard"><summary><strong>Equipo</strong></summary>
-   {data.ranking.length?<div className="ownerMetrics">{data.ranking.map((r:Record<string,any>)=><article className="ownerCard ownerMetric" key={r.staff_id}><span>{r.name}</span><strong>{number(r.visits||0)} visitas</strong><small>{number(r.redemptions||0)} canjes</small></article>)}</div>:<p className="ownerEmpty">Sin actividad registrada</p>}
-  </details>
-  <details className="ownerCard"><summary><strong>Clientes</strong></summary><div className="ownerMetrics">
-   <Metric label="Nuevos" value={newCount}/><Metric label="Frecuentes" value={frequentCount}/><Metric label="En riesgo" value={riskCount}/><Metric label="Sin visita" value={absentCount}/>
-  </div></details>
-  <details className="ownerCard"><summary><strong>Recomendaciones</strong></summary><div className="workspaceActionRow">
-   {riskCount>0?<a className="workspacePrimary" href="#campañas-clientes">Recuperar {riskCount} clientes</a>:registered>0?<a className="workspacePrimary" href="#campañas-clientes">Crear una campaña</a>:<a className="workspacePrimary" href="#mis-tarjetas">Compartir tarjeta de puntos</a>}
-   {pendingReviews!==null&&pendingReviews>0&&<a className="workspaceSecondary" href="#google">Revisar reseñas pendientes: {pendingReviews}</a>}
-  </div></details>
- </section>}
+   <ReportWorkspace businessId={b.id} start={range.start} rangeKind={range.kind==='day'&&'days' in range?'month':range.kind} metrics={data.metrics||[]} activity={data.activity||[]} segments={data.segments||[]} reports={data.reports||[]} ranking={data.ranking||[]} branchStats={data.branchStats||[]} branches={data.branches||[]} branchId={data.selectedBranch?.id} rewards={data.rewards||[]} redemptions={data.redemptions||[]} review={last||null} google={data.google||null} zone={data.zoneComparison||null} plus={planName==='Plus'}/>
+  </section>}
  {demo&&<section id="informes" data-panel="informes" className="ownerBlock"><div className="ownerSectionTitle"><small>MUESTRA DEL PANEL</small><h2>Informes</h2><p>Resumen del periodo de ejemplo. Los informes reales de tu negocio se preparan con sus datos registrados.</p></div><article className="ownerCard periodReportCard"><h3>Informe del periodo</h3><p>Este ejemplo muestra el avance del periodo. En una cuenta activa podrás consultar el PDF al cierre de cada ciclo.</p><div className="periodProgressLabels"><span>Día {periodDay}</span><span>Día 30</span></div><div className="periodProgress"><i style={{width:(periodDay/30*100)+'%'}}/></div></article></section>}
  <section data-panel="campañas-clientes" className="ownerBlock">{price<399?<div className="ownerCard"><h2>Campañas</h2><p>Disponible en Esencial</p><a className="workspaceSecondary" href="#plan">Ver planes</a></div>:<>
   <div className="ownerSectionTitle"><h2>Campañas</h2></div>
