@@ -84,3 +84,28 @@
 }
 @media(prefers-reduced-motion:reduce){.nivalShell .ownerDashboard input,.nivalShell .ownerDashboard select,.nivalShell .ownerDashboard textarea{transition:none}}
 
+/* Keep loyalty cards and reward cards legible in narrow mobile panels. */
+.nivalShell .cardCatalogGrid{display:grid;grid-template-columns:minmax(0,1fr)!important;width:100%;max-width:none!important;}
+.nivalShell .cardCatalogGrid>.cardSystemTile{display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:auto auto!important;justify-items:stretch;align-items:stretch;width:100%!important;min-width:0;}
+.nivalShell .cardCatalogGrid>.cardSystemTile>.cardCatalogMock{grid-column:1/-1;width:100%!important;max-width:none!important;min-width:0;min-height:0!important;height:auto!important;aspect-ratio:1.82/1;}
+.nivalShell .rewardWorkspace{width:100%;min-width:0;}
+.nivalShell .rewardWorkspace .campaignRewardStrip{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr))!important;width:100%;min-width:0;overflow:visible;}
+.nivalShell .rewardWorkspace .campaignRewardCard{width:100%;min-width:0!important;min-height:0;grid-template-columns:minmax(0,1fr) auto;align-content:start;}
+.nivalShell .rewardWorkspace .campaignRewardCard>img,.nivalShell .rewardWorkspace .campaignRewardCard>.campaignCardArt{grid-column:1/-1;width:100%!important;height:auto!important;min-width:0;aspect-ratio:1.8/1;object-fit:cover;}
+.nivalShell .rewardWorkspace .campaignRewardCard>strong,.nivalShell .rewardWorkspace .campaignRewardCard>small{min-width:0;overflow-wrap:anywhere;}
+.nivalShell .rewardWorkspace .campaignRewardCard>.rewardEditHint{grid-column:2;grid-row:auto;white-space:nowrap;}
+.nivalShell .rewardWorkspace .starterRewardSample{display:grid;width:100%;max-width:none;grid-template-columns:72px minmax(0,1fr);align-items:center;}
+.nivalShell .rewardWorkspace .starterRewardSample .campaignCardArt{grid-row:span 2;width:72px;height:72px;}
+.nivalShell .rewardWorkspace .starterRewardSample>strong,.nivalShell .rewardWorkspace .starterRewardSample>small{min-width:0;overflow-wrap:anywhere;}
+@media(max-width:760px){
+ .nivalShell .cardCatalogGrid>.cardSystemTile{padding:16px!important;}
+ .nivalShell .cardCatalogGrid>.cardSystemTile>.cardCatalogMock{aspect-ratio:1.72/1;}
+ .nivalShell .rewardWorkspace .campaignRewardStrip{grid-template-columns:minmax(0,1fr)!important;gap:12px;}
+ .nivalShell .rewardWorkspace .campaignRewardCard{grid-template-columns:minmax(0,1fr) auto;padding:14px!important;}
+ .nivalShell .rewardWorkspace .campaignRewardCard>strong{font-size:16px;}
+ .nivalShell .rewardWorkspace .campaignRewardCard>small{font-size:13px;}
+ .nivalShell .rewardWorkspace .starterRewardSample{grid-template-columns:64px minmax(0,1fr);gap:10px 13px;padding:16px;}
+ .nivalShell .rewardWorkspace .starterRewardSample .campaignCardArt{width:64px;height:64px;}
+ .nivalShell .rewardWorkspace .starterRewardSample>button{grid-column:1/-1;width:100%;}
+}
+
