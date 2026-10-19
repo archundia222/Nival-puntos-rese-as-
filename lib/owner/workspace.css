@@ -1312,3 +1312,15 @@
 .nivalShell .payCardCopyFeedback{flex-basis:100%;color:#52665a;font-size:12px}
 @media(max-width:700px){.nivalShell .impactGoogleMore .ownerChartGrid{grid-template-columns:minmax(0,1fr)}.nivalShell .impactGoogleMore .chartBar{grid-template-columns:minmax(82px,1fr) minmax(45px,1.4fr) 42px 34px;gap:5px}.nivalShell .impactGoogleMore .chartBar>small{font-size:10px}}
 .rewardDisplayList{border:1px solid #dfe7e1;border-radius:16px;padding:18px;background:#f7f9f6}.rewardDisplayList h3{margin:0 0 12px}.rewardDisplayList ol{list-style:none;margin:0;padding:0;display:grid;gap:8px}.rewardDisplayList li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;border-radius:12px;background:white;border:1px solid #e7ece8}.rewardDisplayList li>span:first-child{display:grid;gap:3px}.rewardDisplayList li small{color:#64736a}.rewardDisplayList li>span:last-child{display:flex;gap:6px}.rewardDisplayList button{width:34px;height:34px;border:1px solid #dce5de;border-radius:9px;background:#fff;color:#164d3b;font-size:18px;cursor:pointer}.rewardDisplayList button:disabled{opacity:.4;cursor:not-allowed}
+
+/* Unified owner workspace: expose the new inline sections. */
+.nivalShell[data-section="premios"] [data-panel="premios"],
+.nivalShell[data-section="asociados"] [data-panel="asociados"],
+.nivalShell[data-section="campañas-clientes"] [data-panel="campañas-clientes"],
+.nivalShell[data-section="informes"] [data-panel="informes"]{display:block}
+.nivalShell .cardSystemTile:focus-visible,.nivalShell .campaignRewardCard:focus-visible{outline:3px solid #72aa85;outline-offset:3px}
+.nivalShell .cardSystemTile{font:inherit;color:inherit}
+.nivalShell .rewardWorkspace .campaignRewardCard{min-width:min(100%,240px);background:#fff;border:1px solid #e2e7dd;border-radius:18px;padding:14px;display:grid;gap:12px}
+.nivalShell .cardCatalogDetail>.workspacePrimary{margin-top:18px}
+.nivalShell .cardCatalogHeading{align-items:center}
+@media(max-width:640px){.nivalShell .rewardWorkspace .campaignRewardStrip{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.nivalShell .rewardWorkspace .campaignRewardCard{min-width:0}.nivalShell .teamWorkspace .campaignRewardStrip{display:grid;grid-template-columns:1fr}}
