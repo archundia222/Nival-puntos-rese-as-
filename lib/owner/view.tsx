@@ -76,33 +76,56 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
  const DashboardContent=embedded?'div':'main';
  return <DashboardShell pointsOnly={pointsOnly} name={b.name} owner={actor.name} status={status} demo={demo} mobilePreview={mobilePreview} homeUrl={demo?'/demo/panel':'/panel?business='+b.id+(data.selectedBranch?.id?'&branch='+data.selectedBranch.id:'')} planName={planName} price={price} responseLimit={responseLimit} nfcLimit={limits.nfcCards} periodDay={periodDay} branches={data.branches||[]} branchId={data.selectedBranch?.id} logout={<form action={logout}><button className="logoutButton" aria-label="Cerrar sesión" title="Cerrar sesión"><Icon name="logout" size={18}/></button></form>}><DashboardContent className="ownerDashboard">
  {!demo&&!active&&<AccountState b={b}/>}
+
  <section id="inicio" data-panel="inicio" className="ownerBlock">
+  <header className="impactMasterHeader"><h2>Inicio</h2><form className="impactPeriodFilter" method="get" action={demo?'/demo/panel':'/panel'}>{!demo&&<input type="hidden" name="business" value={b.id}/>} {data.selectedBranch?.id&&<input type="hidden" name="branch" value={data.selectedBranch.id}/>}
+  {[7,30,90].map(days=><button type="submit" name="days" value={days} key={days} aria-pressed={periodDays===days}>{days} días</button>)}</form></header>
   {emptyState&&<StartGuide state={startState||undefined}/>}
-  <>
-  <section className="impactMaster" aria-labelledby="impact-master-title">
-   <header className="impactMasterHeader"><div><span className="workspaceEyebrow">ACTIVIDAD · ÚLTIMOS {periodDays} DÍAS</span><h2 id="impact-master-title">Resumen del periodo</h2></div><form className="impactPeriodFilter" method="get" action={demo?'/demo/panel':'/panel'} aria-label="Seleccionar periodo">{!demo&&<input type="hidden" name="business" value={b.id}/>}{data.selectedBranch?.id&&<input type="hidden" name="branch" value={data.selectedBranch.id}/>}{demo&&mobilePreview&&<input type="hidden" name="mobile" value="1"/>}<span>Ver</span>{[7,30,90].map(days=><button key={days} type="submit" name="days" value={days} aria-pressed={periodDays===days}>{days} días</button>)}</form></header>
-   <div className="impactFeatureGrid">
-    <article className={'returningRevenueCard'+(emptyState?' isAwaitingData':'')}><div className="returningRevenueCopy"><span>INGRESOS DE CLIENTES RECURRENTES</span><strong>{emptyState?'—':money(returningRevenue)}</strong>{!emptyState&&<small>Tickets de clientes que ya habían visitado.</small>}</div>{!emptyState&&<div className="returningRevenueFoot"><span className="revenueTag">{number(current.returning_customers||0)} recurrentes</span><span className="revenueChange">{percentChange(returningRevenue,previousReturningRevenue)} <i>vs. anterior</i></span></div>}<span className="revenueOrb" aria-hidden="true"/></article>
-    <CustomerMix current={current}/>
-   </div>
-   {!emptyState&&<div className="impactMasterMetrics">
-    <article className="impactMetric"><small>VISITAS</small><strong>{number(current.visits)}</strong><span className={'metricChange '+(Number(current.visits||0)>Number(prev.visits||0)?'isPositive':Number(current.visits||0)<Number(prev.visits||0)?'isNegative':'isNeutral')}>{percentChange(Number(current.visits||0),Number(prev.visits||0))} vs. anterior</span></article>
-    <article className="impactMetric"><small>CLIENTES NUEVOS</small><strong>{number(current.new_customers||0)}</strong><span className={'metricChange '+(Number(current.new_customers||0)>Number(prev.new_customers||0)?'isPositive':Number(current.new_customers||0)<Number(prev.new_customers||0)?'isNegative':'isNeutral')}>{percentChange(Number(current.new_customers||0),Number(prev.new_customers||0))} vs. anterior</span></article>
-    <article className="impactMetric"><small>PREMIOS CANJEADOS</small><strong>{number(current.redeemed||0)}</strong><span className={'metricChange '+(Number(current.redeemed||0)>Number(prev.redeemed||0)?'isPositive':Number(current.redeemed||0)<Number(prev.redeemed||0)?'isNegative':'isNeutral')}>{percentChange(Number(current.redeemed||0),Number(prev.redeemed||0))} vs. anterior</span></article>
-   </div>}
-  </section>
-  <article id="google" className="impactGoogleCard">
-   {responseLimit>0?<>
-    <div className="impactGoogleStatus"><span className="workspaceEyebrow">REPUTACIÓN EN GOOGLE</span><strong>{last?Number(last.rating).toFixed(1)+' / 5':'Ficha pendiente'}</strong><div className="impactGoogleActions">{data.selectedBranch?.google_maps_url?<a className="workspacePrimary" href={data.selectedBranch.google_maps_url} target="_blank" rel="noopener noreferrer">Abrir ficha <Icon name="arrow" size={14}/></a>:<span className="impactGooglePending">Agrega el enlace de tu ficha para abrirla aquí.</span>}</div>{!demo&&data.selectedBranch&&<details className="impactGoogleEdit"><summary>Editar ficha de Google</summary><BranchGoogleSettings businessId={b.id} branchId={data.selectedBranch.id} branchName={data.selectedBranch.name} url={data.selectedBranch.google_maps_url||''}/></details>}<p className="impactReviewSummary">{last?.manual_summary|| (last?'El resumen escrito de este reporte aún no está disponible.':'El primer resumen de reseñas aparecerá cuando Nival prepare el reporte.')}</p></div>
-    <div className="impactGoogleStats"><div className="impactGoogleFacts"><span><b>{last?number(last.total_reviews):'—'}</b> reseñas</span><span><b>{data.google?.answered!==null&&data.google?number(data.google.answered):'—'}</b> respondidas en el periodo</span><span><b>{data.google?.answered!==null&&data.google?number(Math.max(0,data.google.fresh-data.google.answered)):'—'}</b> por responder</span></div><div className="impactReplyProgress"><div className="replyProgress"><i style={{width:(responseLimit?Math.min(100,Math.round(reviewed/responseLimit*100)):0)+'%'}}/></div><small className="impactReplyQuota">{reviewed} de {responseLimit} respuestas incluidas en tu plan</small></div></div>
-    {last&&<details className="impactGoogleMore"><summary>Ver análisis y recomendaciones</summary><p className="cardCaption">Corte: {String(last.period).slice(0,10)} · nuevas del periodo: {data.google?number(data.google.fresh):'—'} · respuestas registradas: {data.google?.answered!==null&&data.google?number(data.google.answered):'—'}</p><div className="ownerChartGrid">{hasDistribution?<><Bars title="Reseñas por calificación" unit="Reseñas" items={[5,4,3,2,1].map(n=>({label:n===1?'1 estrella':n+' estrellas',value:Number(distribution[n]||0),color:'#175d47'}))}/><RatingLine reports={data.reports}/></>:<p className="ownerEmpty">El detalle de este periodo aún no está disponible.</p>}</div>{last.notes&&<ReviewInsights notes={last.notes}/>}</details>}
-   </>:<div className="impactGoogleStatus isLocked"><span className="workspaceEyebrow">GOOGLE Y RESEÑAS</span><strong>Reseñas de Google</strong><p className="impactReviewSummary">Consulta aquí el estado de tu ficha y tus reseñas cuando esta herramienta esté habilitada para tu plan.</p><div className="impactGoogleActions"><a href="#plan">Ver opciones del plan <Icon name="arrow" size={14}/></a></div></div>}
+  <div className="ownerMetrics homePending">
+    {[
+      ['En riesgo',riskCount,'clientes-risk'],
+      ['Reseñas pendientes',pendingReviews??0,'reseñas'],
+      ['Canjes por revisar',Number(current.pending||0),'canjes'],
+      ['Días restantes',Math.max(0,30-periodDay),'plan']
+    ].map(([label,value,target])=><a className="ownerCard ownerMetric" key={String(label)} href={'#'+target}><span>{label}</span><strong>{number(Number(value))}</strong><small>Ver detalle →</small></a>)}
+  </div>
+  <div className="workspaceActionRow homeQuickActions">
+   <a className="workspacePrimary" href="#premios">Crear promoción</a>
+   <a className="workspaceSecondary" href="#mis-tarjetas">Ver QR del mostrador</a>
+   <a className="workspaceSecondary" href="#equipo">Agregar trabajador</a>
+   <a className="workspaceSecondary" href={'/panel/reportes?business='+b.id}>Descargar informe</a>
+  </div>
+  <div className="ownerMetrics homeCoreMetrics">
+   {[
+     ['Visitas',Number(current.visits||0),Number(prev.visits||0)],
+     ['Clientes nuevos',Number(current.new_customers||0),Number(prev.new_customers||0)],
+     ['Premios canjeados',Number(current.redeemed||0),Number(prev.redeemed||0)],
+     ['Clientes recurrentes',Number(current.returning_customers||0),Number(prev.returning_customers||0)]
+   ].map(([label,value,previous])=><article className="ownerCard ownerMetric" key={String(label)}><span>{label}</span><strong>{number(Number(value))}</strong><small>{percentChange(Number(value),Number(previous))} vs. anterior</small></article>)}
+  </div>
+  <div className="impactMasterDetails">
+   <ActivityChart items={activityRows} days={periodDays}/>
+   <CustomerMix current={current}/>
+  </div>
+  <article className="ownerCard homeGoogle">
+   <header className="workspaceSectionHeader"><h3>Google</h3><a href="#reseñas">Ver detalle →</a></header>
+   <div className="ownerMetrics"><Metric label="Calificación" value={last?Number(last.rating).toFixed(1)+' ★':'—'}/><Metric label="Reseñas" value={Number(last?.total_reviews||0)}/><Metric label="Respondidas" value={data.google?.answered??0}/><Metric label="Pendientes" value={pendingReviews??0}/></div>
+   <div className="replyProgress"><i style={{width:(responseLimit?Math.min(100,100*reviewed/responseLimit):0)+'%'}}/></div>
+   <small>{reviewed} de {responseLimit} respuestas del plan</small>
   </article>
-   {!emptyState&&<details className="impactDetailsDisclosure"><summary>Ver actividad y grupos de clientes</summary><div className="impactMasterDetails"><ActivityChart items={activityRows} days={periodDays}/><article className="ownerCard clientStatusCard"><header><div><span className="workspaceEyebrow">CLIENTES</span><h3>Estado de tus clientes</h3></div><a href="#clientes">Ver clientes <Icon name="arrow" size={14}/></a></header><p className="clientStatusAdvice">Empieza por quienes tienen más tiempo sin volver.</p>{groupRows.map(([id,label,count,color])=><a className="clientStatusRow" href={'#'+id} key={id}><span>{label}</span><b>{count}</b><i><em style={{width:(registered?Math.min(100,count/registered*100):0)+'%',background:color}}/></i></a>)}</article></div></details>}
-   {planName==='Plus'&&<article className="impactZoneBench"><div><span className="workspaceEyebrow">PLUS · COMPARACIÓN CON TU ZONA{data.zoneComparison?.sample?' · EJEMPLO':''}</span><h3>Frente a cafeterías cercanas</h3><p>Comparación con negocios de la misma categoría en la zona.</p></div>{data.zoneComparison?<div className="zoneValues"><span>Tu ficha <b>{Number(data.zoneComparison.rating??data.zoneComparison.business_rating).toFixed(1)} · {number(data.zoneComparison.reviews??data.zoneComparison.business_reviews)} reseñas</b></span><span>Promedio de la zona <b>{Number(data.zoneComparison.average_rating??data.zoneComparison.zone_average_rating).toFixed(1)} · {number(data.zoneComparison.average_reviews??data.zoneComparison.zone_average_reviews)} reseñas</b></span><strong>Diferencia: {Number(data.zoneComparison.difference)>0?'+':''}{Number(data.zoneComparison.difference).toFixed(1)} estrellas</strong>{data.zoneComparison.sample&&<small className="impactExampleNote">Datos ilustrativos; se reemplazan al consultar los datos reales de tu zona.</small>}</div>:<p>La comparación aparecerá cuando Nival cargue datos de negocios similares en tu zona.</p>}</article>}
-  <ProductHub data={data} reviewLimit={responseLimit} nfcLimit={limits.nfcCards}/>
-  {!emptyState&&<NextActions riskCount={riskCount} frequentCount={frequentCount} newCount={newCount} activePromotions={Number(data.activeRewards||0)} pendingReviews={pendingReviews} reviewLimit={responseLimit} branchName={data.selectedBranch?.name||b.name}/>}
-  </>
+  <article className="ownerCard"><header className="workspaceSectionHeader"><h3>Clientes</h3><a href="#clientes">Ver detalle →</a></header>
+   {groupRows.map(([id,label,count,color])=><a className="clientStatusRow" href={'#'+id} key={id}><span>{label}</span><b>{count}</b><i><em style={{width:(registered?Math.min(100,count/registered*100):0)+'%',background:color}}/></i></a>)}
+  </article>
+  <div className="impactMasterDetails">
+   <article className="ownerCard"><header className="workspaceSectionHeader"><h3>Actividad reciente</h3><a href="#canjes">Ver detalle →</a></header>
+    {(data.recentMovements||[]).length?(data.recentMovements||[]).map((m:Record<string,any>)=><div className="clientStatusRow" key={m.id}><span>{m.type==='visit'?'Visita':'Canje'} · {m.customer}</span><small>{new Date(m.created_at).toLocaleString('es-MX',{timeZone:'America/Mexico_City',hour:'2-digit',minute:'2-digit'})}</small></div>):<p className="ownerEmpty">Sin movimientos</p>}
+   </article>
+   <article className="ownerCard"><header className="workspaceSectionHeader"><h3>Top sucursales</h3><a href="#sucursales">Ver detalle →</a></header>{(data.branchStats||[]).slice().sort((a:Record<string,any>,b:Record<string,any>)=>Number(b.visits||0)-Number(a.visits||0)).slice(0,3).map((branch:Record<string,any>,i:number)=><div className="clientStatusRow" key={branch.branch_id}><span>{i+1}. {branch.name}</span><b>{branch.visits} visitas</b></div>)}
+    <h3>Top trabajadores</h3>{data.ranking.slice(0,3).map((r:Record<string,any>,i:number)=><div className="clientStatusRow" key={r.staff_id}><span>{i+1}. {r.name}</span><b>{r.visits} visitas · {r.redemptions} canjes</b></div>)}
+   </article>
+  </div>
+  {planName==='Plus'&&<article className="ownerCard"><header className="workspaceSectionHeader"><h3>Tu zona</h3><a href="#reseñas">Ver detalle →</a></header>{data.zoneComparison&&!data.zoneComparison.sample?<strong>{Number(data.zoneComparison.business_rating).toFixed(1)} ★ vs {Number(data.zoneComparison.zone_average_rating).toFixed(1)} ★ · {Number(data.zoneComparison.difference)>0?'+':''}{Number(data.zoneComparison.difference).toFixed(1)} ★</strong>:<p>Próximamente</p>}</article>}
+  <a href="#mis-tarjetas" className="workspaceSecondary">Tus tarjetas →</a>
  </section>
  <section data-panel="premios" className="ownerBlock"><RewardWorkspace businessId={b.id} rewards={data.rewards||[]}/></section>
  <section data-panel="mis-tarjetas" className="ownerBlock"><CardCatalog businessId={b.id} business={b.name} slug={b.slug} program={data.program} rewards={data.rewards||[]} demo={demo} nfcLimit={limits.nfcCards} branchId={data.selectedBranch?.id} branchName={data.selectedBranch?.name||b.name} reviewCards={data.reviewCards||[]} googleUrl={data.selectedBranch?.google_maps_url||null} giftCardUrl={giftCardActive?b.pay_card_url:null} setupState={startState||undefined}/></section>
