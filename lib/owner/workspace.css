@@ -1535,3 +1535,11 @@
 @media(max-width:1050px){.nivalShell .campaignGoalGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:650px){.nivalShell .campaignMessageGrid{grid-template-columns:1fr}.nivalShell .campaignGoalGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.nivalShell .campaignGoalCard{min-height:154px;padding:12px}.nivalShell .campaignHistoryRow{grid-template-columns:1fr auto}.nivalShell .campaignHistoryRow>small{grid-column:1/-1}.nivalShell .campaignComposerHeader{align-items:flex-start;flex-wrap:wrap}}
 @media(prefers-reduced-motion:reduce){.nivalShell .campaignGoalCard{transition:none}.nivalShell .campaignGoalCard:hover{transform:none}}
+
+.nivalShell .redemptionTrend{display:grid;gap:9px;padding:13px 17px;background:linear-gradient(140deg,#f0f6e9,#fffefa);border:1px solid #dce7d5;border-radius:14px}
+.nivalShell .redemptionTrend header{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.nivalShell .redemptionTrend header strong{font-size:14px}.nivalShell .redemptionTrend header small{font-size:11px;color:#5b7365}
+.nivalShell .redemptionTrendBars{display:flex;justify-content:stretch;gap:7px;align-items:end;height:105px}
+.nivalShell .redemptionTrendDay{display:flex;flex:1;min-width:0;height:100%;flex-direction:column;align-items:center;justify-content:end;gap:6px}
+.nivalShell .redemptionTrendDay>span{display:block;width:100%;max-width:48px;border-radius:7px 7px 3px 3px;background:linear-gradient(180deg,#bee578,#267351);box-shadow:0 2px 4px #2050351c;min-height:5px}
+.nivalShell .redemptionTrendDay>small{font-size:9px;color:#5b7365;white-space:nowrap}
