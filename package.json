@@ -11,7 +11,7 @@
     "db:migrate": "node --env-file=.env.local scripts/migrate.mjs --apply",
     "db:seed": "node --env-file=.env.local scripts/seed-demo.mjs",
     "db:admin": "node --env-file=.env.local scripts/bootstrap-admin.mjs --grant",
-    "prebuild": "node scripts/prepare-ocr.mjs"
+    "prebuild": "node scripts/prepare-ocr.mjs && npm test"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1146.0",
