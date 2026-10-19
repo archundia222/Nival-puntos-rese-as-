@@ -112,7 +112,7 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
    <header className="workspaceSectionHeader"><h3>Google</h3><a href="#reseñas">Ver detalle →</a></header>
    <div className="ownerMetrics"><Metric label="Calificación" value={last?Number(last.rating).toFixed(1)+' ★':'—'}/><Metric label="Reseñas" value={Number(last?.total_reviews||0)}/><Metric label="Respondidas" value={data.google?.answered??0}/><Metric label="Pendientes" value={pendingReviews??0}/></div>
    <div className="replyProgress"><i style={{width:(responseLimit?Math.min(100,100*reviewed/responseLimit):0)+'%'}}/></div>
-   <small>{reviewed} de {responseLimit} respuestas del plan</small>
+   <small>{reviewed} de {responseLimit} respuestas del plan</small>{responseLimit>0&&reviewed/responseLimit>=.8&&<p className="cardCaption">Quedan {Math.max(0,responseLimit-reviewed)} respuestas. {planName==='Básico'?'Esencial incluye 30 respuestas y campañas Wallet.':planName==='Esencial'?'Plus incluye 100 respuestas y comparación con tu zona.':'Consulta con Nival si necesitas más respuestas.'}</p>}
   </article>
   <article className="ownerCard"><header className="workspaceSectionHeader"><h3>Clientes</h3><a href="#clientes">Ver detalle →</a></header>
    {groupRows.map(([id,label,count,color])=><a className="clientStatusRow" href={'#'+id} key={id}><span>{label}</span><b>{count}</b><i><em style={{width:(registered?Math.min(100,count/registered*100):0)+'%',background:color}}/></i></a>)}
@@ -197,7 +197,7 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
   </div></details>
  </section>}
  {demo&&<section id="informes" data-panel="informes" className="ownerBlock"><div className="ownerSectionTitle"><small>MUESTRA DEL PANEL</small><h2>Informes</h2><p>Resumen del periodo de ejemplo. Los informes reales de tu negocio se preparan con sus datos registrados.</p></div><article className="ownerCard periodReportCard"><h3>Informe del periodo</h3><p>Este ejemplo muestra el avance del periodo. En una cuenta activa podrás consultar el PDF al cierre de cada ciclo.</p><div className="periodProgressLabels"><span>Día {periodDay}</span><span>Día 30</span></div><div className="periodProgress"><i style={{width:(periodDay/30*100)+'%'}}/></div></article></section>}
- <section data-panel="campañas-clientes" className="ownerBlock">
+ <section data-panel="campañas-clientes" className="ownerBlock">{price<399?<div className="ownerCard"><h2>Campañas</h2><p>Disponible en Esencial</p><a className="workspaceSecondary" href="#plan">Ver planes</a></div>:<>
   <div className="ownerSectionTitle"><h2>Campañas</h2></div>
   <div className="campaignRewardStrip">
    {[
@@ -215,7 +215,7 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
    </div>)}
   </div>}
   <p className="cardCaption">Las notificaciones automáticas de Google Wallet estarán disponibles cuando se active la integración de pases y se valide el consentimiento de tus clientes.</p>
- </section>
+ </section></>}
  {!demo&&<section data-panel="asociados" className="ownerBlock"><TeamWorkspace businessId={b.id} slug={b.slug} staff={data.staff||[]} branches={data.branches||[]}/></section>}
  <section data-panel="equipo" className="ownerBlock"><TeamUnified businessId={b.id} slug={b.slug} staff={data.staff||[]} branches={data.branches||[]} ranking={data.ranking||[]}/></section>
  <section data-panel="compartir" className="ownerBlock"><div className="ownerSectionTitle"><small>MENOS PASOS. MÁS PARTICIPACIÓN.</small><h2>Compartir QR y tarjeta</h2><p>{demo?'Esta muestra abre una tarjeta ficticia y no guarda datos. En un negocio activo, el QR permite a cada cliente crear su tarjeta. Después de una compra, el empleado escanea el QR personal del cliente para sumar puntos.':'Este QR permite que tus clientes creen su tarjeta. Para sumar puntos, tu empleado escanea el QR personal que aparece en la tarjeta de cada cliente.'}</p></div><ShareTools slug={b.slug} name={b.name} demo={demo}/></section>
