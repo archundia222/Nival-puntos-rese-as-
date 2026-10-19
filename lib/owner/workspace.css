@@ -1333,3 +1333,38 @@
 .nivalShell .homeQuickActions{margin:16px 0;display:flex;gap:8px;flex-wrap:wrap}
 .nivalShell .homeGoogle{margin:16px 0}
 @media(max-width:850px){.nivalShell .homePending,.nivalShell .homeCoreMetrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Phase 1 — compact navigation, title hierarchy and depth; inherited Nival palette */
+.nivalShell .workspaceTopbar{display:none!important}
+.nivalShell .workspaceFloatingMenu{position:fixed;z-index:30;top:12px;left:calc(var(--ws-sidebar) + 12px);width:40px;height:40px;border:1px solid #dce7de;border-radius:12px;background:#fffdf6;color:#173f32;box-shadow:0 4px 18px #122d211c;cursor:pointer}
+.nivalShell[data-collapsed="true"] .workspaceFloatingMenu{left:70px}
+.nivalShell .workspaceContent{padding-top:18px!important}
+.nivalShell .workspacePageHeading{display:flex;align-items:center;gap:12px;padding-left:52px;margin:0 0 14px!important;min-height:44px}
+.nivalShell .workspacePageHeading h1{margin:0;font-size:clamp(21px,2vw,27px);line-height:1.2}
+.nivalShell [data-panel]>.ownerSectionTitle>h2,
+.nivalShell [data-panel="inicio"]>.impactMasterHeader h2,
+.nivalShell [data-panel="reseñas"]>.workspaceSectionHeader>h2,
+.nivalShell [data-panel="informes"] .reportWorkspace>.workspaceSectionHeader>h2,
+.nivalShell [data-panel="canjes"]>h2,
+.nivalShell [data-panel="premios"]>h2,
+.nivalShell [data-panel="campañas-clientes"]>h2,
+.nivalShell [data-panel="tarjetas-nfc"]>h2{display:none!important}
+.nivalShell .workspaceSidebarBottom{display:grid;gap:12px}
+.nivalShell .sidebarIdentity{display:grid;gap:11px;border:1px solid #426b52;border-radius:13px;padding:12px;background:linear-gradient(145deg,#f9fbef15,#d8ef7812)}
+.nivalShell .sidebarIdentityRow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.nivalShell .sidebarIdentityRow>strong{font-size:12px;color:#fbfef8;overflow-wrap:anywhere}
+.nivalShell .sidebarIdentity .branchPicker{display:grid;gap:5px;color:#dce6d5}
+.nivalShell .sidebarIdentity .branchPicker select{width:100%;max-width:100%;min-height:38px;border-radius:9px;background:#f7faee;color:#193b2e;padding:6px}
+.nivalShell .sidebarIdentity form button,.nivalShell .sidebarIdentity>a{display:inline-flex;align-items:center;justify-content:center;min-height:34px;padding:6px 10px;border:1px solid #607d68;border-radius:9px;background:transparent;color:#eff8e8}
+.nivalShell .workspaceSubmenu{border-left:2px solid #b8e66b!important;background:#edf6dd18!important;border-radius:0 10px 10px 0;padding-block:5px}
+.nivalShell .workspaceNavItem.isSubItem{color:#f1fae6!important;opacity:1!important;border-radius:8px}
+.nivalShell .workspaceNavItem.isSubItem.isActive{background:#d8ef78!important;color:#173b2e!important;box-shadow:inset 3px 0 #fafdf2}
+.nivalShell .workspaceNavItem.isSubItem:hover{background:#ffffff22}
+.nivalShell [data-panel]>.ownerBlock,.nivalShell .ownerBlock{margin-top:0!important}
+.nivalShell .ownerCard{box-shadow:0 4px 16px #1334210b}
+.nivalShell .ownerCard:hover{box-shadow:0 8px 26px #13342114}
+.nivalShell .cardCatalogGrid{grid-template-columns:minmax(0,1fr)!important;max-width:580px}
+.nivalShell .cardSystemTile{transition:transform .18s ease,box-shadow .18s ease}
+.nivalShell .cardSystemTile:hover{transform:translateY(-3px);box-shadow:0 12px 25px #12382620}
+@media(max-width:960px){.nivalShell .workspaceFloatingMenu{left:12px;top:10px}.nivalShell .workspacePageHeading{padding-left:52px}}
+@media(prefers-reduced-motion:reduce){.nivalShell .cardSystemTile{transition:none}.nivalShell .cardSystemTile:hover{transform:none}}
