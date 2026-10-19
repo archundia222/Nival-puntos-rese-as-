@@ -1324,3 +1324,12 @@
 .nivalShell .cardCatalogDetail>.workspacePrimary{margin-top:18px}
 .nivalShell .cardCatalogHeading{align-items:center}
 @media(max-width:640px){.nivalShell .rewardWorkspace .campaignRewardStrip{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.nivalShell .rewardWorkspace .campaignRewardCard{min-width:0}.nivalShell .teamWorkspace .campaignRewardStrip{display:grid;grid-template-columns:1fr}}
+
+/* Phase A unified navigation sections */
+.nivalShell[data-section="reseñas"] [data-panel="reseñas"],
+.nivalShell[data-section="tarjetas-nfc"] [data-panel="tarjetas-nfc"]{display:block}
+.nivalShell .homePending,.nivalShell .homeCoreMetrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:14px 0}
+.nivalShell .homePending .ownerMetric,.nivalShell .homeCoreMetrics .ownerMetric{min-height:105px}
+.nivalShell .homeQuickActions{margin:16px 0;display:flex;gap:8px;flex-wrap:wrap}
+.nivalShell .homeGoogle{margin:16px 0}
+@media(max-width:850px){.nivalShell .homePending,.nivalShell .homeCoreMetrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
