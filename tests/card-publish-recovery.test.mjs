@@ -16,7 +16,7 @@ test('card editor keeps edits in a local draft until explicit publish',()=>{
  assert.ok(editor.includes('rewardName')&&editor.includes('rewardCost'));
  assert.ok(editor.includes('rewardOrder')&&editor.includes('setRewardOrder(next)'),'ordering stays a draft until publish');
  assert.ok(editor.includes('QR PERSONAL')&&editor.includes('00000000'));
- for(const word of ['Promociones','Diseño','Detalles','campaignRules','at_risk','Elegir uno al azar','secondaryColor','askBirthday','squareLogo','autoWelcome','autoMissYou'])assert.ok(editor.includes(word),word);
+ for(const word of ['Premios y promociones','Diseño','Detalles','campaignRules','at_risk','Al azar para cada cliente','secondaryColor','askBirthday','squareLogo','autoWelcome','autoMissYou'])assert.ok(editor.includes(word),word);
  assert.ok(editor.includes('accept="image/*"')&&editor.includes('optimizeCardImage'));
  assert.ok(editor.includes('Un punto por visita completada')&&!editor.includes('Horas mínimas entre visitas')&&!editor.includes('Máximo de visitas por día'));
  assert.ok(editor.includes('tab===1&&<aside className="liveCardPreview">'),'live preview stays in design step');
