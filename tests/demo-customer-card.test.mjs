@@ -43,6 +43,7 @@ test("public landing explains Nival plans, points, and review support without un
   assert.ok(landing.includes('nfc: "6"'));
   assert.ok(landing.includes('nfc: "12"'));
   assert.ok(landing.includes("Comparación con negocios similares de tu zona"));
-  assert.ok(landing.includes('<span>Puntos, reseñas y regalos.</span><span>Desde tu mostrador.</span>'));
+  assert.ok(landing.includes('<h1 id="hero-title">Puntos, reseñas de Google y tarjetas digitales.</h1>'));
+  assert.ok(landing.includes('Una visita válida con compra suma un punto.'),'loyalty mechanic remains explicit');
   assert.ok(landing.includes("CAFÉ DEMO · EJEMPLO"));
 });
