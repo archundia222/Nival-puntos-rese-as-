@@ -18,7 +18,7 @@ function groupForSection(section:string):string|null{
 function makeItems(_reviewLimit:number,_nfcLimit:number):MenuItem[]{
  return [
   {id:'inicio',label:'Inicio',icon:'inicio'},
-  {id:'tarjetas',label:'Tarjetas',icon:'gift',children:[
+  {id:'tarjetas',label:'Tarjetas',icon:'card',children:[
    {id:'mis-tarjetas',label:'Mis tarjetas'},
    {id:'premios',label:'Premios y recompensas'},
   ]},
@@ -26,11 +26,11 @@ function makeItems(_reviewLimit:number,_nfcLimit:number):MenuItem[]{
    {id:'clientes',label:'Clientes'},
    {id:'campañas-clientes',label:'Campañas'},
   ]},
-  {id:'canjes',label:'Canjes',icon:'gift'},
-  {id:'reseñas',label:'Reseñas',icon:'file'},
-  {id:'informes',label:'Informes',icon:'file'},
-  {id:'sucursales',label:'Sucursales',icon:'inicio'},
-  {id:'equipo',label:'Equipo',icon:'clientes'},
+  {id:'canjes',label:'Canjes',icon:'check'},
+  {id:'reseñas',label:'Reseñas',icon:'google'},
+  {id:'informes',label:'Informes',icon:'trend'},
+  {id:'sucursales',label:'Sucursales',icon:'pin'},
+  {id:'equipo',label:'Equipo',icon:'equipo'},
   {id:'cuenta',label:'Cuenta',icon:'settings',children:[
    {id:'plan',label:'Plan y facturación'},
    {id:'tarjetas-nfc',label:'Mis tarjetas NFC'},
@@ -89,11 +89,11 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
    <nav className="workspaceNav" aria-label="Secciones del panel"><div className="workspaceNavCaption">TU NEGOCIO</div>
     {menu.map(item=>render(item))}
    </nav>
-   <div className="workspaceSidebarBottom"><div className="workspacePlanSummary"><strong>Plan {planName}</strong><small>${price} MXN · periodo de 30 días</small></div><a className="workspaceHelp" href="https://wa.me/525539044788?text=Hola%2C%20necesito%20ayuda%20con%20mi%20panel%20Nival" target="_blank" rel="noreferrer"><span>¿Necesitas una mano?</span><strong>Hablar con Nival <Icon name="arrow" size={16}/></strong></a><div className="workspaceLegal"><a href="/privacidad">Privacidad</a><a href="/terminos">Términos</a></div></div>
+   <div className="workspaceSidebarBottom"><div className="sidebarIdentity"><div className="sidebarIdentityRow"><span className={"workspaceStatus "+(status==="Activo"?"isActive":"")}>{demo?"Demo":status}</span><span className="userAvatar">{owner.slice(0,1).toUpperCase()}</span><strong>{owner}</strong></div>{branches.some(x=>x.active)&&<label className="branchPicker"><span>Sucursal</span><select aria-label="Sucursal seleccionada" value={branchId||branches.find(x=>x.is_primary)?.id||""} onChange={e=>{const url=new URL(window.location.href);url.searchParams.set("branch",e.target.value);window.location.assign(url.toString());}}>{branches.filter(x=>x.active).map(x=><option key={x.id} value={x.id}>{x.name}</option>)}</select></label>}{demo?<a href="/">Cerrar demo</a>:logout}</div><div className="workspacePlanSummary"><strong>Plan {planName}</strong><small>${price} MXN · periodo de 30 días</small></div><a className="workspaceHelp" href="https://wa.me/525539044788?text=Hola%2C%20necesito%20ayuda%20con%20mi%20panel%20Nival" target="_blank" rel="noreferrer"><span>¿Necesitas una mano?</span><strong>Hablar con Nival <Icon name="arrow" size={16}/></strong></a><div className="workspaceLegal"><a href="/privacidad">Privacidad</a><a href="/terminos">Términos</a></div></div>
   </aside>
   <div className="workspaceMain" inert={mobile&&open}>
-   <header className="workspaceTopbar"><div className="topbarLocation"><button ref={trigger} className="hamburger" aria-label={mobile?(open?'Cerrar menú':'Abrir menú'):(collapsed?'Expandir menú':'Contraer menú')} aria-expanded={mobile?open:!collapsed} aria-controls="workspace-menu" onClick={()=>mobile?setOpen(v=>!v):setCollapsed(v=>!v)}><Icon name="menu"/></button>{branches.filter(x=>x.active).length>0&&<label className="branchPicker"><span>Sucursal</span><select aria-label="Sucursal seleccionada" value={branchId||branches.find(x=>x.is_primary)?.id||''} onChange={e=>{const url=new URL(window.location.href);url.searchParams.set('branch',e.target.value);window.location.assign(url.toString());}}>{branches.filter(x=>x.active).map(x=><option key={x.id} value={x.id}>{x.name}</option>)}</select></label>}</div><div className="topbarUser">{demo&&<a className="workspaceSecondary demoExit" href="/">Cerrar demo</a>}<span className={'workspaceStatus '+(status==='Activo'?'isActive':'')}>{demo?'Demo':status}</span><span className="userAvatar" title={owner}>{owner.slice(0,1).toUpperCase()}</span><span className="userName">{owner}</span>{!demo&&logout}</div></header>
-   <div className="workspaceContent"><div className="workspacePageHeading"><div>{demo&&<span className="workspaceExampleTag">Datos de ejemplo</span>}<h1 id="workspace-title" tabIndex={-1}>{current.label}</h1></div></div>{children}<footer className="workspaceFooter"><span>Nival Tech</span><span>{demo?'Datos de demostración':'Información de tu negocio'}</span></footer></div>
+   <button ref={trigger} className="hamburger workspaceFloatingMenu" aria-label={mobile?(open?'Cerrar menú':'Abrir menú'):(collapsed?'Expandir menú':'Contraer menú')} aria-expanded={mobile?open:!collapsed} aria-controls="workspace-menu" onClick={()=>mobile?setOpen(v=>!v):setCollapsed(v=>!v)}><Icon name="menu"/></button>
+   <div className="workspaceContent"><div className="workspacePageHeading">{demo&&<span className="workspaceExampleTag">Datos de ejemplo</span>}<h1 id="workspace-title" tabIndex={-1}>{current.label}</h1></div>{children}<footer className="workspaceFooter"><span>Nival Tech</span><span>{demo?'Datos de demostración':'Información de tu negocio'}</span></footer></div>
   </div>
  </div>;
 }
