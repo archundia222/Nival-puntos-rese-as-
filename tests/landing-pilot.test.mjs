@@ -13,7 +13,7 @@ test("landing explains the products, business types, dashboard and plans", () =>
   for (const text of [
     "Que cada visita acerque el premio.",
     "De tu mostrador a Google.",
-    "Comparte algo que invita a volver.",
+    "Descubre quién vuelve y quién necesita un impulso.",
     "Esto es lo que ves en Inicio.",
     "Elige cómo quieres crecer.",
     "Lo esencial, sin vueltas.",
@@ -56,13 +56,14 @@ test("prices and plan limits match the current entitlements", () => {
     "MÁS ELEGIDO",
     "Comparación con negocios similares de tu zona",
   ]) assert.ok(page.includes(text), text);
-  assert.match(page, /tarjeta de regalo digital/i);
+  assert.doesNotMatch(page, /tarjeta de regalo digital/i,'gift cards must not be advertised');
+  assert.match(page, /Consultar visitas, clientes por grupo y premios canjeados|Consulta visitas, clientes por grupo y premios canjeados/i);
   assert.ok(page.includes('name: "Básico"')&&page.includes('Elegir {plan.name}'),"Básico label and plan selection stay consistent");
   assert.match(page, /Dar puntos por visitas y canjear premios/i);
   assert.match(page, /className="nvPlanFullPerks"/);
   assert.match(page, /por 30 días/);
   assert.match(page, /EN TODOS LOS PLANES/);
-  for (const feature of ["Dar puntos por visitas y canjear premios", "Consultar visitas y grupos de clientes", "Revisar calificación, reseñas y respuestas de Google en Inicio", "Compartir una tarjeta digital de regalo con Nival Pay", "Descargar el resumen mensual en PDF"])
+  for (const feature of ["Dar puntos por visitas y canjear premios", "Consultar visitas y grupos de clientes", "Revisar calificación, reseñas y respuestas de Google en Inicio", "Registrar visitas y consultar premios canjeados", "Descargar el resumen mensual en PDF"])
     assert.ok(page.includes(feature), feature);
   assert.match(page, /Nival gestiona las respuestas de forma manual y con tu permiso/);
   assert.match(page, /resumen mensual en PDF/i);
@@ -141,9 +142,4 @@ test("Google review charts explain counts and avoid a false one-point trend", ()
   assert.ok(workspaceCss.includes('.nivalShell[data-section="reseñas"] [data-panel="reseñas"]'));
 });
 
-test("demo Nival Pay is clearly illustrative and never requests a business QR", () => {
-  assert.match(ownerView, /const giftCardActive=!demo&&Boolean\(b\.pay_card_url\)/);
-  assert.match(ownerView, /demo\?'Ejemplo'/);
-  assert.match(ownerView, /La demo no tiene un enlace de regalo ni un QR para compartir/);
-  assert.match(ownerView, /giftCardUrl=\{giftCardActive\?b\.pay_card_url:null\}/);
-});
+test("no business or demo advertises a gift card after retirement", () => {const catalog=readFileSync("lib/points/card-catalog.tsx","utf8"),demo=readFileSync("app/demo/panel/page.tsx","utf8");assert.doesNotMatch(page,/tarjeta de regalo digital|tarjeta de regalo Nival Pay/i);assert.ok(!catalog.includes('id="gift-card"'));assert.ok(!demo.includes("pay_card_url"));assert.ok(!ownerView.includes('data-panel="nival-pay"'));assert.ok(ownerView.includes('<CardCatalog'),'points and review cards remain');});
