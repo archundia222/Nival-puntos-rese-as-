@@ -9,7 +9,7 @@ export default async function DemoOwner({searchParams}:{searchParams:Promise<{ki
  const data=params.days?demoRollingPeriod(fixture.month,range):fixture[range.kind as keyof typeof fixture];
  const exampleKey=range.kind==='day'?'2026-10-05':range.kind==='year'?'2026':'2026-10';
  const shown=params.days||range.key===exampleKey?data:{...data,metrics:data.metrics.map((r:Record<string,any>)=>({...r,visits:0,points:0,new_customers:0,redeemed:0,pending:0})),ranking:[],last:null,google:null,reports:[],changes:[]};
- const b={id:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',name:'Café Demo',slug:'cafe-demo',status:'activo',price_mxn:549,plan_name:'Plus',pay_card_url:'/demo/panel#nival-pay',pay_card_label:'Café Demo'};
+ const b={id:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',name:'Café Demo',slug:'cafe-demo',status:'activo',price_mxn:549,plan_name:'Plus'};
  const demoComparison={rating:4.8,reviews:1486,average_rating:4.5,average_reviews:1320,difference:0.3,sample:true};
  const branches=[{id:'demo-branch-1',business_id:b.id,name:'Condesa',active:true,is_primary:true},{id:'demo-branch-2',business_id:b.id,name:'Roma Norte',active:true},{id:'demo-branch-3',business_id:b.id,name:'Mixcoac',active:true}],selectedBranch=branches.find(branch=>branch.id===params.branch)||branches[0];
  const totalVisits=Number(shown.metrics?.find((row:Record<string,any>)=>row.period==='current')?.visits||0);
