@@ -46,3 +46,20 @@ export async function manageBranch(_:Result,f:FormData):Promise<Result>{
  try{await requireTool(actor,businessId);await query({role:'auth',id:actor.id},'select nival_pr_private.manage_branch($1,$2,$3,$4)',[businessId,branchId,name,active]);revalidatePath('/panel');return {success:branchId?'Sucursal actualizada.':'Sucursal agregada.'};}
  catch(e){const m=String((e as {message?:string})?.message||'');return {error:/Máximo 10/.test(m)?m:'No se pudo guardar la sucursal.'};}
 }
+
+export async function markCampaignSent(_:Result,f:FormData):Promise<Result>{
+ const actor=await guardAction(['owner'],f);
+ const businessId=String(f.get('businessId')||''),segment=String(f.get('segment')||''),channel=String(f.get('channel')||'manual');
+ if(!/^[0-9a-f-]{36}$/i.test(businessId)||!['new','risk','frequent','near_reward'].includes(segment)||channel!=='manual')return {error:'Campaña inválida.'};
+ try{
+  await requireTool(actor,businessId);
+  const [plan]=await query(actor,'select p.price_mxn from nival_pr.businesses b join nival_pr.plans p on p.id=b.plan_id where b.id=$1',[businessId]);
+  if(Number(plan?.price_mxn||0)<399)return {error:'Disponible en Esencial'};
+  const customers=await query(actor,'select * from nival_pr.customer_segments($1,CURRENT_DATE)',[businessId]);
+  const ids=customers.filter(c=>segment==='new'?c.is_new:segment==='risk'?c.is_risk&&!c.is_lost:segment==='frequent'?c.is_frequent:Number(c.balance||0)>0).map(c=>String(c.id));
+  if(!ids.length)return {error:'No hay clientes en este grupo.'};
+  await query(actor,'insert into nival_pr.campaign_sends(business_id,segment,channel,customer_ids,created_by) values($1,$2,$3,$4::uuid[],$5)',[businessId,segment,channel,ids,actor.id]);
+  revalidatePath('/panel');
+  return {success:'Envío manual registrado. Podrás consultar quién volvió en 14 días.'};
+ }catch{return {error:'No se pudo registrar el envío. Comprueba que la migración esté aplicada.'};}
+}
