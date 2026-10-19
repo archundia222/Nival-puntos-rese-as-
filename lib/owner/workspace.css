@@ -1388,3 +1388,13 @@
 .nivalShell .starterPreview p{margin:5px 0 14px;color:#526c5e}
 @media(max-width:970px){.nivalShell [data-panel="campañas-clientes"] .campaignRewardStrip{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.nivalShell .starterPreview{grid-template-columns:1fr}.nivalShell [data-panel="campañas-clientes"] .campaignRewardStrip{grid-template-columns:1fr 1fr}.nivalShell [data-panel="campañas-clientes"] .configGrid>button{width:100%!important}}
+
+.nivalShell [data-panel="premios"] .rewardWorkspace>.workspaceSectionHeader>h2,
+.nivalShell [data-panel="campañas-clientes"]>.ownerCard>h2:first-child{display:none!important}
+.nivalShell .starterRewardSample{display:grid;grid-template-columns:80px 1fr;align-items:center;gap:9px 16px;max-width:460px;padding:20px;border:1px dashed #acc8b4;border-radius:17px;background:linear-gradient(125deg,#fffefa,#eff6e9)}
+.nivalShell .starterRewardSample .workspaceExampleTag{grid-column:1/-1;justify-self:start}
+.nivalShell .starterRewardSample .campaignCardArt{grid-row:span 2;width:76px;height:76px;border-radius:16px;display:grid;place-items:center;font-size:29px;color:#21593f;background:linear-gradient(135deg,#d8ef78,#c7e7bb)}
+.nivalShell .starterRewardSample strong{font-size:17px}.nivalShell .starterRewardSample small{color:#607468}
+.nivalShell .starterRewardSample button{grid-column:1/-1;justify-self:start}
+.nivalShell .ownerEmpty{position:relative;padding:18px 20px;border:1px dashed #c6d9c9;border-radius:15px;background:linear-gradient(125deg,#fffefa,#f4f8ef);color:#4c6a59}
+.nivalShell .ownerEmpty:before{content:"◌";display:inline-grid;place-items:center;width:30px;height:30px;margin-right:10px;border-radius:10px;background:#e5efda;color:#2e7650;font-size:20px;vertical-align:middle}
