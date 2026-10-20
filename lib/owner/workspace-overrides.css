@@ -72,3 +72,7 @@
 .reviewCardShare span,.reviewCardShare p{margin:0;color:#617166;font-size:13px;overflow-wrap:anywhere}
 .reviewCardShare button{flex:none}
 @media(max-width:640px){.cardCatalogReviewList .reviewCatalogTile,.cardCatalogReviewActive .reviewCatalogTile{padding:12px!important}.reviewCardShare{align-items:stretch}.reviewCardShare button{width:100%}}
+
+.reviewCardShareActions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.reviewCardShareQr{display:block;width:112px;height:112px;object-fit:contain;padding:8px;border:1px solid #e1e8df;border-radius:14px;background:#fff}
+@media(max-width:640px){.reviewCardShareActions{width:100%}.reviewCardShareQr{width:96px;height:96px}.reviewCardShareActions button{flex:1}}
