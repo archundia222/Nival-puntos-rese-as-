@@ -12,8 +12,8 @@ test('owner navigation matches the approved unified menu and keeps Cards unchang
  const order=["{id:'caption-operation'","{id:'inicio'","{id:'tarjetas'","{id:'canjes'","{id:'reseñas'","{id:'informes'","{id:'caption-customers'","{id:'clientes-menu'","{id:'caption-settings'","{id:'sucursales'","{id:'equipo'","{id:'cuenta'"];
  const positions=order.map(key=>{const i=shell.indexOf(key);assert.ok(i>=0,key);return i;});
  assert.deepEqual(positions,[...positions].sort((a,b)=>a-b));
- assert.ok(shell.includes("label:"+String.fromCharCode(39)+"CLIENTES"+String.fromCharCode(39)+",kind:"+String.fromCharCode(39)+"caption"+String.fromCharCode(39)));
- assert.ok(shell.includes("label:"+String.fromCharCode(39)+"CONFIGURACIÓN"+String.fromCharCode(39)+",kind:"+String.fromCharCode(39)+"caption"+String.fromCharCode(39)));
+ assert.ok(shell.includes("label:'CLIENTES',kind:'caption'"));
+ assert.ok(shell.includes("label:'CONFIGURACIÓN',kind:'caption'"));
  assert.ok(shell.includes("label:'Mis tarjetas'"));
  assert.ok(shell.includes("label:'Premios y recompensas'"));
  assert.ok(shell.includes("label:'Mis tarjetas NFC'"));
