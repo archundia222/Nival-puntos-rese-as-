@@ -28,34 +28,20 @@ revoke all on function nival_pr.point_balance(uuid) from public;
 grant execute on function nival_pr.point_balance(uuid) to npr_v2_admin,npr_v2_owner,npr_v2_staff,npr_v2_customer;
 
 create or replace function nival_pr_private.apply_point_lot_movement() returns trigger language plpgsql security definer set search_path='' as $$
-declare remaining integer; lot record;
+declare remaining integer; lot record; expiry_months integer;
 begin
  if new.points>0 then
-  insert into nival_pr.point_lots(business_id,customer_id,source_ledger_id,earned_at,points_granted,points_remaining)
-  values(new.business_id,new.customer_id,new.id,new.created_at,new.points,new.points);
- elsif new.points<0 then
-  remaining:=-new.points;
-  for lot in
-   select l.id,l.points_remaining from nival_pr.point_lots l
-   where l.customer_id=new.customer_id and l.business_id=new.business_id and l.points_remaining>0
-    and (l.expires_at is null or l.expires_at>new.created_at)
-   order by l.earned_at,l.id for update of l
-  loop
-   exit when remaining<=0;
-   update nival_pr.point_lots set points_remaining=points_remaining-least(remaining,lot.points_remaining) where id=lot.id;
-   remaining:=remaining-least(remaining,lot.points_remaining);
-  end loop;
-  if remaining>0 then raise exception 'Saldo insuficiente'; end if;
- end if;
- return new;
-end $$;
-revoke all on function nival_pr_private.apply_point_lot_movement() from public;
-drop trigger if exists point_lots_apply on nival_pr.point_ledger;
-create trigger point_lots_apply after insert on nival_pr.point_ledger for each row execute function nival_pr_private.apply_point_lot_movement();
-
-insert into nival_pr.point_lots(business_id,customer_id,source_ledger_id,earned_at,points_granted,points_remaining,expires_at)
+  select case when (rules#>>'{card_design,expiryMonths}') ~ '^[0-9]{1,2}$'
+   then least(60,greatest(1,(rules#>>'{card_design,expiryMonths}')::integer)) else null end
+   into expiry_months from nival_pr.programs where business_id=new.business_id;
+  insert into nival_pr.point_lots(business_id,customer_id,source_ledger_id,earned_at,points_granted,points_remaining,expires_at)
 select l.business_id,l.customer_id,l.id,l.created_at,l.points,l.points,
- case when (p.rules#>>'{card_design,expiryMonths}') ~ '^[0-9]{1,2}
+ case when (p.rules#>>'{card_design,expiryMonths}') ~ '^[0-9]{1,2}$'
+  then l.created_at+make_interval(months=>least(60,greatest(1,(p.rules#>>'{card_design,expiryMonths}')::integer)))
+  else null end
+from nival_pr.point_ledger l join nival_pr.customers c on c.id=l.customer_id
+join nival_pr.programs p on p.business_id=c.business_id
+where l.points>0 on conflict(source_ledger_id) do nothing;
 do $backfill$
 declare debit record; lot record; remaining integer;
 begin
