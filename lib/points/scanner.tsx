@@ -138,14 +138,9 @@ export function Scanner({ businessId }: { businessId: string }) {
         setVisitRegistered(eligible);
         setCompleted(!eligible);
       }else setCompleted(true);
-      setSuccess(
-        d.success +
-          " · " +
-          d.customer.name +
-          " · " +
-          d.customer.balance +
-          " puntos",
-      );
+      const earned = Number(d.customer.balance) - Number(customer.balance);
+      const pointFeedback = type === "visit" && earned > 0 ? ` · +${earned} puntos sumados` : ` · saldo ${d.customer.balance} puntos`;
+      setSuccess(d.success + " · " + d.customer.name + pointFeedback);
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -158,44 +153,47 @@ export function Scanner({ businessId }: { businessId: string }) {
       <div className="scannerIntro">
         <small>ATENCIÓN AL CLIENTE</small>
         <h2 id="staff-scanner-heading">Registrar visita</h2>
-        <p>Escanea el QR del cliente o escribe su código de 8 dígitos.</p>
+        <p>Apunta la cámara al QR del cliente para encontrar su tarjeta.</p>
         <button
           className="scanButton"
           disabled={busy}
           onClick={camera ? stop : start}
         >
-          {camera ? "Cerrar cámara" : "Escanear QR con cámara"}
+          {camera ? "Cerrar cámara" : "⌗  Escanear QR"}
         </button>
       </div>
       <div hidden={!camera} className="cameraFrame">
         <video ref={video} muted playsInline />
         <span>Alinea el QR dentro de la cámara</span>
       </div>
-      <form
-        className="phoneSearch"
-        onSubmit={(e) => {
-          e.preventDefault();
-          void lookup();
-        }}
-      >
-        <label>
-          Código de tarjeta
-          <input
-            type="text"
-            inputMode="numeric"
-            autoComplete="off"
-            placeholder="Escribe los 8 dígitos"
-            pattern="[0-9]{8}"
-            maxLength={8}
-            value={code}
-            onChange={(e) => setCode(e.target.value.replace(/\D/g,'').slice(0,8))}
-            required
-          />
-        </label>
-        <button disabled={busy||code.length!==8}>
-          {busy ? "Buscando…" : "Consultar tarjeta"}
-        </button>
-      </form>
+      <details className="manualLookup">
+        <summary>¿No puedes escanear? Usa el código de 8 dígitos</summary>
+        <form
+          className="phoneSearch"
+          onSubmit={(e) => {
+            e.preventDefault();
+            void lookup();
+          }}
+        >
+          <label>
+            Código de tarjeta
+            <input
+              type="text"
+              inputMode="numeric"
+              autoComplete="off"
+              placeholder="Escribe los 8 dígitos"
+              pattern="[0-9]{8}"
+              maxLength={8}
+              value={code}
+              onChange={(e) => setCode(e.target.value.replace(/\D/g,'').slice(0,8))}
+              required
+            />
+          </label>
+          <button disabled={busy||code.length!==8}>
+            {busy ? "Buscando…" : "Consultar tarjeta"}
+          </button>
+        </form>
+      </details>
       {error && (
         <p className="error" role="alert">
           {error}
@@ -267,7 +265,7 @@ export function Scanner({ businessId }: { businessId: string }) {
           {completed&&<p className="staffVisitResult" role="status">{success||"Visita registrada. La pantalla volverá al escáner en un momento."}</p>}
         </article>
       )}
-      {!customer&&<p className="notice">Cada visita suma según las reglas del negocio. El total del ticket es obligatorio para guardar el registro.</p>}
+      {!customer&&<p className="notice">El total del ticket es obligatorio para registrar la visita.</p>}
     </section>
   );
 }
