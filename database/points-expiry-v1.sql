@@ -145,8 +145,9 @@ begin
  select nival_pr.point_balance(c) into balance;
  if balance<goal then return false; end if;
  if mode='validity' then return exists(select 1 from nival_pr.customer_available_rewards ar where ar.customer_id=c and ar.reward_id=r and ar.status='available' and ar.expires_at>now()); end if;
- unlock_at:=nival_pr_private.reward_unlock_time(c,goal);
- return unlock_at is not null and (unlock_at at time zone 'America/Mexico_City')::date=(now() at time zone 'America/Mexico_City')::date and exists(select 1 from nival_pr.point_ledger l where l.customer_id=c and l.type='visit' and l.created_at>=unlock_at);
+ return exists(select 1 from nival_pr.point_ledger l where l.customer_id=c and l.type='visit'
+  and (l.created_at at time zone 'America/Mexico_City')::date=(now() at time zone 'America/Mexico_City')::date
+  and l.created_at=(select max(v.created_at) from nival_pr.point_ledger v where v.customer_id=c and v.type='visit'));
 end $function$
 ;
 CREATE OR REPLACE FUNCTION nival_pr_private.staff_customer(b uuid, ph text, c uuid)
