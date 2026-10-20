@@ -38,3 +38,22 @@
 .customerRewardInventory{margin-top:18px}
 .rewardInventoryRow small{color:#52695b}
 @media(max-width:960px){.nivalShell .workspaceSidebar{height:100dvh;overflow-y:auto}.nivalShell .workspaceNav{flex:0 0 auto;overflow:visible}.nivalShell .workspaceSidebarBottom{margin-top:12px}.nivalShell .sidebarLogout{margin-top:10px}}
+
+
+/* Review cards use the same catalog tile and in-place edit flow as points cards. */
+.reviewCardManager.reviewCatalogGrid{display:contents}
+.reviewCatalogTile{display:block;width:100%;padding:16px!important;text-align:left;cursor:pointer;color:inherit;transition:transform .18s ease,box-shadow .18s ease}
+.reviewCatalogTile:hover{transform:translateY(-2px);box-shadow:0 16px 34px #173d3117}
+.reviewCatalogMock{position:relative;display:flex;flex-direction:column;justify-content:space-between;min-height:230px;aspect-ratio:1.9/1;padding:24px!important;overflow:hidden;border-radius:22px;background:#173d31;color:#f9f8ef}
+.reviewCatalogMock:after{position:absolute;inset:auto -10% -45% 38%;height:120%;border:1px solid #ffffff20;border-radius:50%;content:"";pointer-events:none}
+.reviewCatalogMock>small{position:relative;z-index:1;color:#c9d5c8;font-size:11px;font-weight:800;letter-spacing:.16em}
+.reviewCatalogMock>strong{position:relative;z-index:1;max-width:70%;color:#fffdf2;font-size:clamp(20px,3vw,28px);line-height:1.15}
+.reviewCatalogMock>span{position:relative;z-index:1;color:#cfdbd0;font-size:14px}
+.reviewCatalogMock>i{position:absolute;right:22px;bottom:22px;display:grid;width:48px;height:48px;place-items:center;border:1px solid #ffffff38;border-radius:14px;color:#d8ef78}
+.reviewCatalogMock>.reviewCardInlineQr{position:absolute;right:20px;top:50%;z-index:1;width:76px;height:76px;transform:translateY(-50%);padding:7px;border-radius:12px;background:#fff}
+.reviewCardFlow{grid-column:1/-1;width:100%;padding:24px;border:1px solid #dce6dc;border-radius:24px;background:#fffef9;box-shadow:0 12px 30px #173d3110}
+.reviewCardFlow>h2{margin:24px 0;color:#173d31}
+.reviewCardFlow>.reviewCatalogMock{margin:18px 0 24px}
+.reviewCardFlow .cardEditButton,.reviewCardFlow form{margin-top:16px}
+.reviewTryLink{display:inline-flex;margin:14px 0 0 12px}
+@media(max-width:640px){.reviewCardFlow{padding:18px}.reviewCatalogMock{min-height:190px;padding:18px!important}.reviewCatalogMock>.reviewCardInlineQr{right:14px;width:64px;height:64px}}

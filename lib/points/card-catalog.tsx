@@ -20,13 +20,12 @@ export function CardCatalog({businessId,business,slug,program,rewards,demo=false
     <div className="cardSystemTop"><span className={pointsActive?"cardSystemStatus isOn":"cardSystemStatus"}>{pointsActive?"Activa":"Por configurar"}</span></div>
     <div className="cardCatalogMock pointsCatalogMock" style={{background:program?.color||'#173f32'}}><small>NIVAL · PUNTOS</small><strong>{business}</strong><span>{activeRewards[0]?.name||'Premio por configurar'}</span><i aria-hidden="true"><Icon name="points" size={23}/></i></div>
     </button>
-
+   <ReviewCardManager businessId={businessId} branchId={branchId} branchName={branchName} cards={reviewCards} googleUrl={googleUrl} cardLimit={nfcLimit} demo={demo} hideAddButton addRequested={reviewAddRequested} onAddHandled={()=>setReviewAddRequested(false)}/> 
   </div>}
   {selected==="points"&&!editing&&<section className="ownerCard cardCatalogDetail"><button type="button" className="workspaceSecondary cardReturnButton" onClick={()=>setSelected(null)}><span aria-hidden="true">←</span> Regresar</button><h2>Compartir sistema de puntos</h2><ShareTools slug={slug} name={business} demo={demo}/><button type="button" className="workspacePrimary cardEditButton" onClick={editPoints}><Icon name="edit" size={17}/> Editar tarjeta</button></section>}
 
   {selected==="pay"&&<section className="ownerCard"><button type="button" className="workspaceSecondary cardReturnButton" onClick={()=>setSelected(null)}><span aria-hidden="true">←</span> Regresar</button><h2>Nival Pay</h2><p>Configura Nival Pay desde tu cuenta.</p></section>}
   {demo&&<p className="cardCatalogDemoNote">Datos de ejemplo · los cambios no se guardan.</p>}
-  {!selected&&nfcLimit>0&&<section id="review-cards" className="cardCatalogNfc" aria-label="Tarjetas de reseñas"><header className="cardCatalogNfcHeader"><h2>Reseñas</h2></header><ReviewCardManager businessId={businessId} branchId={branchId} branchName={branchName} cards={reviewCards} googleUrl={googleUrl} cardLimit={nfcLimit} demo={demo} hideAddButton addRequested={reviewAddRequested} onAddHandled={()=>setReviewAddRequested(false)}/></section>}
   {selected==="points"&&editing&&<section id="point-card-editor" className="cardCatalogEditor" tabIndex={-1}><header><h3>Editar tarjeta de puntos</h3><button type="button" className="workspaceSecondary" onClick={()=>{if(window.confirm("Salir sin guardar los cambios?"))setEditing(false)}}>Salir</button></header>
    {demo?<div className="cardCatalogNotice"><h4>Editar tarjeta de puntos</h4><p>Esta vista de muestra no guarda cambios. En tu negocio real podrás elegir las promociones, definir el diseño y publicar la tarjeta.</p></div>:<ProgramEditor businessId={businessId} business={business} program={program} reward={activeRewards[0]} promotions={activeRewards} setupState={setupState} onSaved={()=>{setEditing(false);setSelected(null)}}/>}
   </section>}
