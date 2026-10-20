@@ -119,7 +119,7 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
      ['Clientes nuevos',Number(current.new_customers||0),Number(prev.new_customers||0)],
      ['Premios canjeados',Number(current.redeemed||0),Number(prev.redeemed||0)],
      ['Clientes recurrentes',Number(current.returning_customers||0),Number(prev.returning_customers||0)]
-   ].map(([label,value,previous])=>{const delta=Number(value)-Number(previous);const trend=delta>0?"up":delta<0?"down":"steady";return <article className="ownerCard ownerMetric" key={String(label)}><span>{label}</span><strong>{number(Number(value))}</strong><small className={"metricChange metricChange-"+trend} aria-label={delta>0?"Aumentó":delta<0?"Disminuyó":"Sin cambio"}><b aria-hidden="true">{delta>0?"↑":delta<0?"↓":"→"}</b>{Number(previous)===0?'Sin datos previos':percentChange(Number(value),Number(previous))+' vs. periodo anterior'}</small></article>})}
+   ].map(([label,value,previous])=>{const delta=Number(value)-Number(previous);const trend=delta>0?"up":delta<0?"down":"steady";return <article className="ownerCard ownerMetric" key={String(label)}><span>{label}</span><strong>{number(Number(value))}</strong><small className={"metricChange metricChange-"+trend} aria-label={delta>0?"Aumentó":delta<0?"Disminuyó":"Sin cambio"}><b aria-hidden="true">{Number(previous)===0?"—":delta>0?"↑":delta<0?"↓":"→"}</b>{Number(previous)===0?'Sin datos previos':percentChange(Number(value),Number(previous))+' vs. periodo anterior'}</small></article>})}
   </div>
 
   <header className="homeSectionHeading homeDetailHeading"><small>DETALLE</small><h3>Resultados y actividad</h3></header>
