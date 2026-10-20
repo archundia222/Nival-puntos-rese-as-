@@ -1,0 +1,40 @@
+/* Side navigation and customer card polish */
+.nivalShell .workspaceSidebar{display:flex;flex-direction:column;background:#173d31;border-right:1px solid #285442;color:#f6f5e9;box-shadow:14px 0 38px #0d281b24}
+.nivalShell .brandMark{background:#d8ef78;color:#173d31}
+.nivalShell .brandWords{color:#f8f6e9}
+.nivalShell .brandWords>span{color:#c3d1c3}
+.nivalShell .workspaceSidebar .drawerClose{background:#244b3b;border-color:#41644f;color:#f8f6e9}
+.nivalShell .workspaceBusiness{background:#214838;border-color:#476a53;color:#f7f5e9}
+.nivalShell .workspaceBusiness strong{color:#fffdf2}
+.nivalShell .workspaceBusiness small,.nivalShell .workspaceBusiness .branchPicker{color:#d9e4d5}
+.nivalShell .workspaceBusiness .branchPicker select{background:#f8f8ee;border-color:#dce8d2;color:#183d31}
+.nivalShell .workspaceNav{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain}
+.nivalShell .workspaceNavCaption{color:#bdcbbb}
+.nivalShell .workspaceNav .workspaceNavItem{color:#e2eade}
+.nivalShell .workspaceNav .workspaceNavItem>svg{color:#d1dfd1}
+.nivalShell .workspaceNav .workspaceNavItem:hover:not(.isActive){background:#294f3e;color:#fffdf0}
+.nivalShell .workspaceNav .workspaceNavItem.isActive{background:#d8ef78!important;border-color:#d8ef78!important;color:#173d31!important;box-shadow:0 4px 12px #0c251c35}
+.nivalShell .workspaceNav .workspaceNavItem.isActive strong,.nivalShell .workspaceNav .workspaceNavItem.isActive>svg{color:#173d31!important}
+.nivalShell .workspaceMenuGroup>.workspaceSubmenu{margin:4px 0 9px 17px!important;padding:2px 0 2px 10px!important;border:0!important;border-left:2px solid #a9d45e!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
+.nivalShell .workspaceSubmenu .workspaceNavItem{background:transparent;color:#d6e3d5}
+.nivalShell .workspaceSubmenu .workspaceNavItem.isActive{background:#2c5945!important;border-color:transparent!important;color:#f8f6e9!important}
+.nivalShell .workspaceSubmenu .workspaceNavItem.isActive strong,.nivalShell .workspaceSubmenu .workspaceNavItem.isActive>svg{color:#f8f6e9!important}
+.nivalShell .workspaceSidebarBottom{margin-top:auto;padding-top:16px}
+.nivalShell .workspaceSidebarBottom .workspacePlanSummary,.nivalShell .sidebarIdentity,.nivalShell .workspaceSidebarBottom .workspaceHelp{background:#214838;border-color:#476a53;color:#f8f6e9}
+.nivalShell .workspaceSidebarBottom .workspacePlanSummary strong,.nivalShell .workspaceSidebarBottom .workspaceHelp strong{color:#fffdf1}
+.nivalShell .workspaceSidebarBottom .workspacePlanSummary small,.nivalShell .workspaceSidebarBottom .workspaceHelp>span,.nivalShell .sidebarIdentityRow>strong{color:#d9e4d5}
+.nivalShell .sidebarIdentityRow .userAvatar{background:#d8ef78;color:#173d31}
+.nivalShell .sidebarLogout{margin-top:12px;display:flex;justify-content:flex-start}
+.nivalShell .sidebarLogout .logoutButton,.nivalShell .sidebarLogout>a{display:inline-flex;align-items:center;justify-content:center;gap:9px;width:auto;min-width:118px;height:44px;padding:0 15px;border:1px solid #476a53;border-radius:12px;background:#214838;color:#fffdf1;font-size:14px;font-weight:700;text-decoration:none}
+.nivalShell .sidebarLogout .logoutButton:hover,.nivalShell .sidebarLogout>a:hover{background:#2c5945;border-color:#9ecb64}
+.nivalShell .workspaceLegal{color:#c2d1c1}
+.nivalShell .workspaceLegal a{color:#d9e4d5}
+.nivalShell .workspaceMenuGroup>.workspaceSubmenu .workspaceNavItem{border:0!important;box-shadow:none!important}
+.cardManualCode{display:block;color:inherit!important;text-decoration:none!important;font:inherit;font-weight:750;letter-spacing:.08em}
+.cardQrInside a,.cardQrInside b{color:inherit;text-decoration:none}
+.cardCatalogType{display:inline-flex;align-items:center;border-radius:999px;background:#eaf2df;color:#315940;padding:5px 10px;font-size:11px;font-weight:750;letter-spacing:.04em}
+.cardCatalogNfcHeader{display:none}
+.reviewCardHeading:has(.reviewCardHeadingActions:empty){display:none}
+.customerRewardInventory{margin-top:18px}
+.rewardInventoryRow small{color:#52695b}
+@media(max-width:960px){.nivalShell .workspaceSidebar{height:100dvh;overflow-y:auto}.nivalShell .workspaceNav{flex:0 0 auto;overflow:visible}.nivalShell .workspaceSidebarBottom{margin-top:12px}.nivalShell .sidebarLogout{margin-top:10px}}

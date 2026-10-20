@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import './globals.css';
 import './design-tokens.css';
 import '../lib/owner/workspace.css';
+import '../lib/owner/workspace-overrides.css';
 import '../lib/owner/visual-polish.css';
 
 export const metadata: Metadata = {

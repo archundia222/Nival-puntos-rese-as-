@@ -10,7 +10,7 @@ test('first sale: registration → paid code → setup → enrollment → owner 
 
  try{
   await db.exec('create schema neon_auth;create table neon_auth."user"(id uuid primary key)');
-  for(const name of ['foundation-neon','points-neon','points-lifecycle','points-legacy-phones','owner-panel','owner-report-scope','legal-pilot','registration-pilot','reputation-v6','lealtad-v6','points-only-plan-v1','activation-plan-v2','entitlements-v2','owner-tools-v2','service-access-v3','plan-review-pipeline-v8','plan-pricing-v9','promotions-redemption-value-v1','period-summary-v1','review-cards-v1','branches-v1','weekday-bonus-v1','card-publish-recovery-v1' ,'card-customization-v2','segment-reward-modes-v3','card-reward-history-v4','redeem-eligibility-scope-v1'])await db.exec(source('database/'+name+'.sql'));
+  for(const name of ['foundation-neon','points-neon','points-lifecycle','points-legacy-phones','owner-panel','owner-report-scope','legal-pilot','registration-pilot','reputation-v6','lealtad-v6','points-only-plan-v1','activation-plan-v2','entitlements-v2','owner-tools-v2','service-access-v3','plan-review-pipeline-v8','plan-pricing-v9','promotions-redemption-value-v1','period-summary-v1','review-cards-v1','branches-v1','weekday-bonus-v1','card-publish-recovery-v1' ,'card-customization-v2','segment-reward-modes-v3','card-reward-history-v4','redeem-eligibility-scope-v1','points-redemption-mode-v1'])await db.exec(source('database/'+name+'.sql'));
   await db.exec(`alter table nival_pr.branches add column if not exists campaign_rules jsonb;\n   alter table nival_pr.generated_reports add column if not exists branch_id uuid;
    alter table nival_pr.reviews add column if not exists branch_id uuid;
    create table nival_pr.branch_review_reports(
@@ -38,8 +38,8 @@ test('first sale: registration → paid code → setup → enrollment → owner 
   assert.equal((await db.query(activation,['NIV-ABCD-1234',b])).rows.length,1);
   assert.equal((await db.query(activation,['NIV-ABCD-1234',b])).rows.length,0,'Single use');
   await scope('npr_v2_owner',owner);
-  const programSql=source('lib/foundation/actions.ts').match(/text: "(insert into nival_pr\.programs\([\s\S]*?card_enabled=excluded\.card_enabled)"/)[1];
-  await db.query(programSql,[b,'Café Ana · recompensas','single',2,'#164d3b',JSON.stringify({min_hours_between_visits:4,max_visits_per_day:1}),null,true]);
+  const programSql=source('lib/foundation/actions.ts').match(/text: "(insert into nival_pr.programs[^"]*redemption_mode=excluded.redemption_mode[^"]*)"/)[1];
+  await db.query(programSql,[b,'Café Ana · recompensas','single',2,'#164d3b',JSON.stringify({min_hours_between_visits:4,max_visits_per_day:1}),null,true,'immediate',7]);
   const {rows:[reward]}=await db.query("insert into nival_pr.rewards(program_id,name,points_cost,position,photo_url) select id,$2,$3,$4,nullif($5,'') from nival_pr.programs where business_id=$1 returning id",[b,'Café gratis',2,0,'']);
   // Read exactly the server component SQL, preserving its normal indentation.
   const readiness=source('lib/owner/start-guide.tsx').match(/query\(actor,`([\s\S]*?)`,\[businessId\]/)[1];

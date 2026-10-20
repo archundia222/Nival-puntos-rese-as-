@@ -2,16 +2,17 @@ import {ActionForm} from '../foundation/forms';
 import {Hidden} from '../foundation/fields';
 import {manageReviewCard} from './actions';
 import {Icon} from './icons';
-import {useState} from 'react';
+import {useEffect,useState} from 'react';
 
-export function ReviewCardManager({businessId,branchId,branchName,cards,googleUrl,cardLimit=3,demo=false}:{businessId:string;branchId?:string;branchName:string;cards:Record<string,any>[];googleUrl?:string|null;cardLimit?:number;demo?:boolean}){
+export function ReviewCardManager({businessId,branchId,branchName,cards,googleUrl,cardLimit=3,demo=false,hideAddButton=false,addRequested=false,onAddHandled}:{businessId:string;branchId?:string;branchName:string;cards:Record<string,any>[];googleUrl?:string|null;cardLimit?:number;demo?:boolean;hideAddButton?:boolean;addRequested?:boolean;onAddHandled?:()=>void}){
  const [adding,setAdding]=useState(false),[demoCards,setDemoCards]=useState<string[]>([]);
+ useEffect(()=>{if(addRequested){setAdding(true);onAddHandled?.()}},[addRequested,onAddHandled]);
  const active=cards.filter(c=>c.active).length+demoCards.length,visible=cards.filter(c=>!branchId||c.branch_id===branchId);
  const canCreate=active<cardLimit&&(demo||Boolean(googleUrl&&branchId));
  function addDemoCard(){if(demo&&active<cardLimit){const label=`Tarjeta ${active+1}`;setDemoCards(current=>[...current,label]);}}
  return <div className="reviewCardManager">
   <header className="reviewCardHeading">
-   <div className="reviewCardHeadingActions">{canCreate&&(demo?<button type="button" className="workspacePrimary reviewAddButton" onClick={addDemoCard}>Agregar tarjeta QR <span aria-hidden="true">+</span></button>:<button type="button" className="workspacePrimary reviewAddButton" aria-expanded={adding} onClick={()=>setAdding(value=>!value)}>{adding?'Cancelar':'Agregar tarjeta QR'} {adding?<Icon name="close" size={16}/>:<span aria-hidden="true">+</span>}</button>)}</div>
+   <div className="reviewCardHeadingActions">{canCreate&&!hideAddButton&&(demo?<button type="button" className="workspacePrimary reviewAddButton" onClick={addDemoCard}>Agregar tarjeta QR <span aria-hidden="true">+</span></button>:<button type="button" className="workspacePrimary reviewAddButton" aria-expanded={adding} onClick={()=>setAdding(value=>!value)}>{adding?'Cancelar':'Agregar tarjeta QR'} {adding?<Icon name="close" size={16}/>:<span aria-hidden="true">+</span>}</button>)}</div>
   </header>
   {!googleUrl&&!demo?<article className="ownerCard reviewConnectCard">
    <span className="reviewConnectIcon"><Icon name="google" size={34}/></span>

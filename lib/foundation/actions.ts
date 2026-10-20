@@ -259,7 +259,7 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
     }
     if (activeReward.length && !campaignRules.targets.all.length) return { error: "Asigna al menos un premio a Todos. Los demás grupos son opcionales." };
     await transaction(actor, [
-      { text: "insert into nival_pr.programs(business_id,name,mode,points_per_visit,color,rules,logo_url,card_enabled) values($1,$2,$3,$4,$5,$6::jsonb,$7,$8) on conflict(business_id) do update set name=excluded.name,mode=excluded.mode,points_per_visit=excluded.points_per_visit,color=excluded.color,rules=(coalesce(programs.rules, '{}'::jsonb)-'catalog_only') || excluded.rules,logo_url=excluded.logo_url,card_enabled=excluded.card_enabled", values: [
+      { text: "insert into nival_pr.programs(business_id,name,mode,points_per_visit,color,rules,logo_url,card_enabled,redemption_mode,reward_validity_days) values($1,$2,$3,$4,$5,$6::jsonb,$7,$8,$9,$10) on conflict(business_id) do update set name=excluded.name,mode=excluded.mode,points_per_visit=excluded.points_per_visit,color=excluded.color,rules=(coalesce(programs.rules, '{}'::jsonb)-'catalog_only') || excluded.rules,logo_url=excluded.logo_url,card_enabled=excluded.card_enabled,redemption_mode=excluded.redemption_mode,reward_validity_days=excluded.reward_validity_days", values: [
         b,
         name,
         mode,
@@ -275,6 +275,8 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
         }),
         logo || null,
         cardEnabled,
+        cardDesign.rewardExpiryMode === "duration" ? "validity" : "immediate",
+        Math.min(365, Math.max(1, Number(cardDesign.rewardExpiryValue || 7) * (cardDesign.rewardExpiryUnit === "days" ? 1 : cardDesign.rewardExpiryUnit === "weeks" ? 7 : 30))),
       ] },
       ...(rewardOrder.length?[
         {text:"update nival_pr.rewards r set position=$3::int+ordered.ordinality::int from unnest($2::uuid[]) with ordinality ordered(id,ordinality),nival_pr.programs p where p.business_id=$1 and r.program_id=p.id and r.id=ordered.id",values:[b,rewardOrder,rewardPositionOffset]},

@@ -25,11 +25,12 @@ test('customer loyalty card has one shared scan code, automatic balance refresh,
   assert.equal((customerCard.match(/className="cardQrInside"/g) || []).length, 1);
   assert.equal((customerCard.match(/src=\{qr\}/g) || []).length, 1);
   assert.ok(customerCard.includes('setInterval(automatic, 6000)'));
-  assert.ok(customerCard.includes('UN SOLO CÓDIGO PARA PUNTOS Y PREMIOS'));
+  assert.ok(customerCard.includes('className="cardManualCode"'));
+  assert.ok(!customerCard.includes('UN SOLO CÓDIGO PARA PUNTOS Y PREMIOS'));
   assert.ok(!customerCard.includes('personalQr'));
   assert.ok(!customerCard.includes('Actualizar mis puntos'));
-  assert.ok(customerCard.includes('Por canjear') && customerCard.includes('Canjeados'));
-  assert.ok(customerCard.includes('Tu próximo premio') && customerCard.includes('customerGoalProgress'));
+  assert.ok(customerCard.includes('Premios disponibles') && customerCard.includes('Canjes'));
+  assert.ok(customerCard.includes('Tu próximo premio') && customerCard.includes('puntos restantes'));
 });
 
 test('automation groundwork only adds fields and review state storage', () => {
