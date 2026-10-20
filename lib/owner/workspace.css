@@ -1670,3 +1670,11 @@
 .nivalShell .configGrid .error,.nivalShell .configGrid [role="status"]{padding:10px 12px;border-radius:9px;background:#f1f6eb;color:#315c3d;font-size:12px}
 @media(max-width:760px){.nivalShell .cardCatalogHeading{align-items:stretch;flex-direction:column;padding:16px}.nivalShell .cardCatalogAddButton{width:100%}.nivalShell .cardTypeChooser{grid-template-columns:1fr;gap:14px;padding:16px}.nivalShell .cardTypeOption{grid-template-columns:36px minmax(0,1fr) auto;gap:9px;padding:10px}.nivalShell .cardTypeOptionIcon{width:36px;height:36px}.nivalShell .cardCatalogNfc .reviewCardActions{grid-template-columns:1fr}.nivalShell .cardCatalogNfc .reviewCreateCard{grid-template-columns:42px minmax(0,1fr);padding:13px}.nivalShell .reviewQrArt{width:40px;height:40px}}
 @media(prefers-reduced-motion:reduce){.nivalShell .cardTypeOption{transition:none}.nivalShell .cardTypeOption:hover:not(:disabled){transform:none}}
+
+/* Keep the global card catalog compact: the page title lives in the shell. */
+.nivalShell .cardCatalogHeading{display:flex;justify-content:stretch;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
+.nivalShell .cardCatalogHeading>div{display:none}
+.nivalShell .cardCatalogHeading .cardCatalogAddButton{width:100%;min-height:54px}
+.nivalShell .cardCatalogNfc{scroll-margin-top:24px}
+.nivalShell .cardCatalogNfcHeader{display:flex;align-items:center;justify-content:space-between;margin:26px 0 12px;padding-bottom:10px;border-bottom:1px solid #e1e8dd}
+.nivalShell .cardCatalogNfcHeader h2{margin:0;color:#173d31;font-size:21px;letter-spacing:-.03em}
