@@ -57,3 +57,18 @@
 .reviewCardFlow .cardEditButton,.reviewCardFlow form{margin-top:16px}
 .reviewTryLink{display:inline-flex;margin:14px 0 0 12px}
 @media(max-width:640px){.reviewCardFlow{padding:18px}.reviewCatalogMock{min-height:190px;padding:18px!important}.reviewCatalogMock>.reviewCardInlineQr{right:14px;width:64px;height:64px}}
+
+/* Keep every card type full width and use the same large card proportions. */
+.nivalShell .cardCatalog .cardCatalogGrid{grid-template-columns:minmax(0,1fr)!important}
+.cardCatalogReviewList,.cardCatalogReviewActive{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;width:100%;min-width:0}
+.cardCatalogReviewList .reviewCardManager,.cardCatalogReviewActive .reviewCardManager{display:contents}
+.cardCatalogReviewList .reviewCatalogTile,.cardCatalogReviewActive .reviewCatalogTile{display:block;width:100%;min-width:0;padding:14px!important}
+.cardCatalogReviewList .reviewCatalogMock,.cardCatalogReviewActive .reviewCatalogMock{width:100%;min-height:0;aspect-ratio:1.9/1}
+.cardCatalogReviewList .reviewCatalogMock>.reviewCardInlineQr,.cardCatalogReviewActive .reviewCatalogMock>.reviewCardInlineQr{width:clamp(58px,10vw,86px);height:clamp(58px,10vw,86px);right:clamp(14px,3vw,26px)}
+.cardCatalogReviewActive .reviewCardFlow>.reviewCatalogMock{min-height:0;aspect-ratio:1.9/1}
+.reviewCardShare{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:16px;padding:16px;border:1px solid #dce6dc;border-radius:14px;background:#f5f8f1}
+.reviewCardShare>div{display:grid;gap:4px;min-width:0}
+.reviewCardShare strong{font-size:14px;color:#173d31}
+.reviewCardShare span,.reviewCardShare p{margin:0;color:#617166;font-size:13px;overflow-wrap:anywhere}
+.reviewCardShare button{flex:none}
+@media(max-width:640px){.cardCatalogReviewList .reviewCatalogTile,.cardCatalogReviewActive .reviewCatalogTile{padding:12px!important}.reviewCardShare{align-items:stretch}.reviewCardShare button{width:100%}}
