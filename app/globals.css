@@ -1022,3 +1022,61 @@ body{background:var(--nival-cream);color:var(--nival-text)}
  .scanButton{min-height:68px!important;font-size:18px!important}
  .cameraFrame video{height:62vw;min-height:220px}
 }
+
+/* Customer points card: make business identity, reward progress and history memorable */
+.nivalCustomerFlow .cardTop{align-items:flex-start;gap:12px}
+.nivalCustomerFlow .customerBrand{display:flex;align-items:center;gap:11px;min-width:0}
+.nivalCustomerFlow .customerBrand .cardLogo,.nivalCustomerFlow .customerBrand .cardMonogram{width:52px;height:52px;flex:0 0 52px;border-radius:15px}
+.nivalCustomerFlow .customerBrandName{display:grid;gap:1px;min-width:0}
+.nivalCustomerFlow .customerBrandName small{font-size:9px;line-height:1.2;letter-spacing:.15em;font-weight:800;opacity:.78}
+.nivalCustomerFlow .customerBrandName strong{max-width:34ch;color:var(--card-text);font-size:clamp(18px,4vw,24px);font-weight:850;line-height:1.1;letter-spacing:-.035em;overflow-wrap:anywhere}
+.nivalCustomerFlow .customerRewardSummary{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;margin:18px 0;padding:20px;border:1px solid #cddbbf;border-radius:22px;background:radial-gradient(circle at 100% 0%,#edf5d7 0,#fbfcf5 48%,#fffefa 100%);box-shadow:0 12px 28px #26452a12}
+.nivalCustomerFlow .customerRewardHeading .customerSectionEyebrow{margin:0;color:#577a38;font-weight:850;letter-spacing:.14em}
+.nivalCustomerFlow .customerRewardHeading h2{margin:3px 0 0;color:#193d30;font-size:23px;letter-spacing:-.04em}
+.nivalCustomerFlow .customerRewardFeature{display:grid;grid-template-columns:92px minmax(0,1fr);align-items:center;gap:14px;padding:14px;border:1px solid #dfe8d2;border-radius:17px;background:#fffef9}
+.nivalCustomerFlow .customerRewardPhoto,.nivalCustomerFlow .customerRewardIcon{display:grid;width:92px;height:92px;place-items:center;border-radius:16px;object-fit:cover;background:#e9f1d7;color:#416b34;font-size:36px}
+.nivalCustomerFlow .customerRewardGoal{display:grid;gap:5px}
+.nivalCustomerFlow .customerRewardGoal>span{color:#57705c;font-size:12px;line-height:1.4}
+.nivalCustomerFlow .customerRewardGoal>b{color:#193e30;font-size:20px;line-height:1.15;letter-spacing:-.03em;overflow-wrap:anywhere}
+.nivalCustomerFlow .customerRewardGoal>small{width:max-content;padding:5px 9px;border-radius:99px;background:#e8f2d6;color:#416830;font-size:11px;font-weight:800}
+.nivalCustomerFlow .customerGoalProgress{display:grid;gap:8px}
+.nivalCustomerFlow .customerGoalProgress>div{display:flex;justify-content:space-between;align-items:center;gap:10px;color:#405b46;font-size:13px;font-weight:700}
+.nivalCustomerFlow .customerGoalProgress>div>b{display:grid;place-items:center;min-width:44px;height:30px;padding:0 8px;border-radius:999px;background:#d9ef86;color:#21452e;font-size:13px}
+.nivalCustomerFlow .customerGoalProgress progress{display:block;width:100%;height:14px;overflow:hidden;border:0;border-radius:99px;background:#e2e8d6;accent-color:#5d873b}
+.nivalCustomerFlow .customerGoalProgress progress::-webkit-progress-bar{border-radius:99px;background:#e2e8d6}
+.nivalCustomerFlow .customerGoalProgress progress::-webkit-progress-value{border-radius:99px;background:linear-gradient(90deg,#45734a,#b9df5e)}
+.nivalCustomerFlow .customerGoalProgress progress::-moz-progress-bar{border-radius:99px;background:linear-gradient(90deg,#45734a,#b9df5e)}
+.nivalCustomerFlow .rewardInventoryEmpty{display:grid;grid-template-columns:34px minmax(0,1fr);align-items:center;gap:2px 10px;min-height:66px;margin:6px 0 0;padding:12px;border:1px solid #dce7d7;border-radius:13px;background:linear-gradient(120deg,#eef5e5,#fbfcf6);color:#405a43}
+.nivalCustomerFlow .rewardInventoryEmpty>span{grid-row:span 2;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#d9edb4;color:#365e32;font-size:17px;font-weight:900}
+.nivalCustomerFlow .rewardInventoryEmpty strong{color:#294b35;font-size:12px}
+.nivalCustomerFlow .rewardInventoryEmpty small{color:#657765;font-size:10px;line-height:1.4}
+.nivalCustomerFlow .cardHistory{padding:18px;border-radius:20px}
+.nivalCustomerFlow .customerHistoryTimeline{position:relative;display:grid;gap:0;margin:14px 0 0;padding:0;list-style:none}
+.nivalCustomerFlow .customerHistoryTimeline:before{content:"";position:absolute;top:15px;bottom:15px;left:16px;width:2px;background:#dbe7d3}
+.nivalCustomerFlow .customerHistoryTimeline li{position:relative;display:grid;grid-template-columns:34px minmax(0,1fr) auto;align-items:center;gap:10px;min-height:66px;padding:9px 0;border-bottom:1px solid #e8eee5}
+.nivalCustomerFlow .customerHistoryTimeline li:last-child{border-bottom:0}
+.nivalCustomerFlow .customerHistoryIcon{z-index:1;display:grid;place-items:center;width:34px;height:34px;border:2px solid #fff;border-radius:50%;background:#d8efad;color:#315b36;font-size:15px;font-weight:900}
+.nivalCustomerFlow .customerHistoryTimeline li.isRedeemed .customerHistoryIcon{background:#e1eee2;color:#34734c}
+.nivalCustomerFlow .customerHistoryTimeline li>div{display:grid;gap:3px;min-width:0}
+.nivalCustomerFlow .customerHistoryTimeline li>div strong{color:#2c4938;font-size:12px}
+.nivalCustomerFlow .customerHistoryTimeline li>div small{color:#738075;font-size:10px;line-height:1.35}
+.nivalCustomerFlow .customerHistoryTimeline li>b{color:#32724b;font-size:13px;white-space:nowrap}
+.nivalCustomerFlow .customerHistoryTimeline li.isRedeemed>b{color:#748176}
+.nivalCustomerFlow .customerHistoryEmpty{display:grid;grid-template-columns:40px 1fr;align-items:center;gap:12px;margin:12px 0 0;padding:16px;border:1px solid #dce7d5;border-radius:16px;background:linear-gradient(120deg,#f0f6e8,#fbfcf6);color:#405c43}
+.nivalCustomerFlow .customerHistoryEmpty>span{display:grid;place-items:center;width:40px;height:40px;border-radius:13px;background:#dcedb9;color:#406a31;font-size:20px}
+.nivalCustomerFlow .customerHistoryEmpty strong{font-size:13px;color:#294a35}
+.nivalCustomerFlow .customerHistoryEmpty p{margin:3px 0 0;color:#657568;font-size:11px;line-height:1.5}
+@media(max-width:500px){
+ .nivalCustomerFlow .customerBrand{gap:8px}
+ .nivalCustomerFlow .customerBrand .cardLogo,.nivalCustomerFlow .customerBrand .cardMonogram{width:42px;height:42px;flex-basis:42px;border-radius:12px}
+ .nivalCustomerFlow .customerBrandName strong{font-size:17px}
+ .nivalCustomerFlow .customerBrandName small{font-size:8px}
+ .nivalCustomerFlow .customerRewardSummary{padding:15px;gap:12px}
+ .nivalCustomerFlow .customerRewardFeature{grid-template-columns:68px minmax(0,1fr);gap:10px;padding:10px}
+ .nivalCustomerFlow .customerRewardPhoto,.nivalCustomerFlow .customerRewardIcon{width:68px;height:68px;border-radius:13px;font-size:28px}
+ .nivalCustomerFlow .customerRewardGoal>b{font-size:16px}
+ .nivalCustomerFlow .customerGoalProgress progress{height:12px}
+ .nivalCustomerFlow .customerHistoryTimeline li{grid-template-columns:32px minmax(0,1fr) auto;gap:8px}
+ .nivalCustomerFlow .customerHistoryTimeline li>div small{font-size:9px}
+ .nivalCustomerFlow .customerHistoryTimeline li>b{font-size:11px}
+}
