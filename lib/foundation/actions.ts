@@ -122,7 +122,7 @@ export async function movement(_: Result, f: FormData): Promise<Result> {
     const statement =
       kind === "visit"
         ? {
-            text: "insert into nival_pr.point_ledger(business_id,customer_id,type,points,staff_id) select $1,$2,'visit',case when (p.rules->>'double_points_weekday') ~ '^[0-6]
+            text: "insert into nival_pr.point_ledger(business_id,customer_id,type,points,staff_id) select $1,$2,'visit',case when p.rules->>'double_points_weekday'=extract(dow from (now() at time zone 'America/Mexico_City'))::integer::text then p.points_per_visit*2 else p.points_per_visit end,$3 from nival_pr.programs p where p.business_id=$1 returning id",
             values: [b, c, actor.id],
           }
         : {
