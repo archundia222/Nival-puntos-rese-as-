@@ -1,4 +1,4 @@
-import {foundationEnabled,query,authScope} from '../../lib/foundation/db';
+import {foundationEnabled,query,authScope,systemQuery} from '../../lib/foundation/db';
 import {requireRole} from '../../lib/foundation/session';
 import {logout} from '../../lib/foundation/actions';
 import {entitlements} from '../../lib/foundation/entitlements.mjs';
@@ -15,7 +15,7 @@ export default async function Staff({searchParams}:{searchParams:Promise<{view?:
  const actor=await requireRole('staff');if(!actor.businessId)redirect('/staff/acceso');
  const params=await searchParams,history=params.view==='historial';
  const [business]=await query(actor,'select id,name,status from nival_pr.businesses where id=$1',[actor.businessId]);
- const [branch]=await query(authScope(actor.id),"select br.name from nival_pr.memberships m join nival_pr.branches br on br.id=m.branch_id and br.business_id=m.business_id where m.user_id=$1 and m.business_id=$2 and m.role='staff' and m.active limit 1",[actor.id,actor.businessId]);
+ const [branch]=await systemQuery("select br.name from nival_pr.memberships m join nival_pr.branches br on br.id=m.branch_id and br.business_id=m.business_id where m.user_id=$1 and m.business_id=$2 and m.role='staff' and m.active limit 1",[actor.id,actor.businessId]);
  const [context]=await query(authScope(actor.id),'select nival_pr_private.tool_context($1) data',[actor.businessId]);
  const active=entitlements(context?.data).active;
  const movements=active&&history?await query(actor,`select l.id,l.type,l.points,l.created_at,l.ticket_value_mxn,l.redemption_value_mxn,c.name customer,r.name reward,d.status from nival_pr.point_ledger l join nival_pr.customers c on c.id=l.customer_id left join nival_pr.rewards r on r.id=l.reward_id left join nival_pr.redemptions d on d.ledger_id=l.id where l.business_id=$1 and l.staff_id=$2 order by l.created_at desc limit 100`,[actor.businessId,actor.id]):[];
