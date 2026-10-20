@@ -185,7 +185,7 @@ export function CardView({
           🔒 Elegiste {card.reward.name}. Podrás cambiarlo después de canjear.
         </p>
       )}
-      <details className="cardHelp"><summary>¿Cómo guardo o recupero mi tarjeta?</summary><p>Guarda esta página en los favoritos de este navegador. En Android también puedes usar “Agregar a pantalla de inicio”. Si cambias de celular, borras los datos o abres otro navegador, vuelve al enlace de este negocio y recupera tu tarjeta con el teléfono registrado. Tus puntos e historial se conservan.</p><p>El saldo se actualiza automáticamente. El mismo QR y código sirven para registrar visitas y entregar premios.</p></details>
+      <details className="cardHelp"><summary>¿Cómo guardo o recupero mi tarjeta?</summary><p>Tu tarjeta queda guardada automáticamente en este navegador durante un año. Cuando vuelvas a abrir el enlace del negocio desde este dispositivo, verás tus puntos sin registrarte de nuevo. Si cambias de celular, borras los datos o usas otro navegador, recupérala con el teléfono registrado. Tus puntos e historial se conservan.</p><p>El saldo se actualiza automáticamente. El mismo QR y código sirven para registrar visitas y entregar premios.</p></details>
       <section className="cardHistory" aria-labelledby="customer-history-heading">
         <p className="customerEyebrow">TU AVANCE</p>
         <h2 id="customer-history-heading">Historial de puntos</h2>

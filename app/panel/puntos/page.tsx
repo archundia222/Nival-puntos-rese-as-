@@ -146,27 +146,13 @@ export default async function PointsPanel({
       {view==='equipo'&&<section className="reviewBox" id="personal">
         <h2>Tu equipo</h2><p>También puedes atender tú desde <a href={'/panel/operar?business='+b.id}>Puntos y canjes</a>. Crea un acceso solo para quienes van a registrar visitas o entregar premios.</p>
         <p>
-          Cada integrante tiene su propio PIN de 6 a 8 dígitos. Comparte su enlace de acceso y entrega el PIN por separado.
+          Cada integrante entra directamente desde su QR o enlace individual. Puedes desactivar el acceso al instante.
         </p>
         <ActionForm action={manageStaff} label="Crear acceso del empleado">
           <Hidden name="businessId" value={b.id} />
           <Field name="name" label="Nombre del integrante" />
           <label>Sucursal asignada<select name="branchId" required defaultValue={branches.find((x:any)=>x.is_primary)?.id||branches[0]?.id}>{branches.filter((x:any)=>x.active).map((x:any)=><option key={x.id} value={x.id}>{x.name} · {x.code}</option>)}</select></label>
-          <label>
-            PIN
-            <input
-              name="pin"
-              type="password"
-              pattern="[0-9]{6,8}"
-              minLength={6}
-              maxLength={8}
-              inputMode="numeric"
-              required
-              autoComplete="new-password"
-            />
-          </label>
         </ActionForm>
-        <p>Acceso: /staff/acceso · Negocio: {b.slug}</p>
         {staff.map((s) => (
           <article className="customerRow" key={s.id}>
             <strong>

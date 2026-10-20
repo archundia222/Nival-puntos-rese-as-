@@ -43,7 +43,7 @@ test('Turnstile gate cookie is HMAC signed, expires, and rejects forgery',()=>{
 
 test('all exported server mutations use the common action guard',()=>{
  const groups=[
-  ['lib/foundation/actions.ts',['loginStaff','logout','registerBusiness','addCustomer','movement','saveProgram','addReward','customerLink','setBusinessStatus','registerPayment','report','enroll','consentCard','chooseGoal']],
+  ['lib/foundation/actions.ts',['logout','registerBusiness','addCustomer','movement','saveProgram','addReward','customerLink','setBusinessStatus','registerPayment','report','enroll','consentCard','chooseGoal']],
   ['lib/admin/actions.ts',['changeBusinessStatus','setBusinessPlan','saveBusinessNotes','registerPayment30','generateActivationCode','redeemActivationCode','createTask','moveTask','saveContentDraft','publishContent','saveGoogleReport','createReviewTask','markReviewResponded','upsertShortLink']],
   ['lib/owner/actions.ts',['saveSegments']],
   ['lib/points/actions.ts',['manageStaff','reviewRedemption','editReward']],

@@ -1,15 +1,7 @@
 import type { Actor } from "./db";
 import { requireBusiness } from "./session";
 import { Scanner } from "../points/scanner";
-export async function MovementWorkspace({
-  actor,
-  businessId,
-  mode="visit",
-}: {
-  actor: Actor;
-  businessId: string;
-  mode?:"visit"|"redeem";
-}) {
+export async function MovementWorkspace({actor,businessId}:{actor:Actor;businessId:string}) {
   await requireBusiness(actor, businessId);
-  return <Scanner businessId={businessId} mode={mode}/>;
+  return <Scanner businessId={businessId}/>;
 }

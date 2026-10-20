@@ -45,7 +45,7 @@ export async function POST(req: Request) {
     const ticketValue=ticketRaw===''?null:Number(ticketRaw);
     const redemptionRaw=String(f.get('redemptionValue')||'').trim();
     const redemptionValue=redemptionRaw===''?null:Number(redemptionRaw);
-    if(type==='visit'&&ticketValue!==null&&(!Number.isFinite(ticketValue)||ticketValue<0||ticketValue>1000000))throw Error('Valor de ticket inválido');
+    if(type==='visit'&&(ticketValue===null||!Number.isFinite(ticketValue)||ticketValue<=0||ticketValue>1000000))throw Error('Indica el total del ticket en pesos.');
     if(type==='redeem'&&(redemptionValue===null||!Number.isFinite(redemptionValue)||redemptionValue<0||redemptionValue>1000000))throw Error('Indica el valor del premio en pesos.');
     const operation=String(f.get('operationId')||'');
     if(!uuid(operation))throw Error('Identificador de operación inválido');

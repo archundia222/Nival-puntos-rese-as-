@@ -1,4 +1,5 @@
 "use server";
+import {randomInt} from 'node:crypto';
 import {requireTool} from '../foundation/require-tool';
 import { kickWalletJobs } from "../wallet/server";
 import { revalidatePath } from "next/cache";
@@ -18,7 +19,7 @@ export async function manageStaff(_: Result, f: FormData): Promise<Result> {
     return { error: "Identificador inválido." };
   try {
     await requireTool(actor, b);
-    const hash = id ? null : await hashPin(val(f, "pin"));
+    const hash = id ? null : await hashPin(String(randomInt(0,100000000)).padStart(8,'0'));
     const [r] = await query(
       authScope(actor.id),
       "select nival_pr_private.manage_staff_branch($1,$2,$3,$4,$5,$6) id",

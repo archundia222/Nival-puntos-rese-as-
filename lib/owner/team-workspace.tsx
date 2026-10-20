@@ -14,7 +14,7 @@ export function TeamWorkspace({businessId,slug,staff,branches}:{businessId:strin
   {adding&&<div className="ownerCard"><ActionForm action={manageStaff} label="Agregar asociado" onSuccess={()=>setAdding(false)}>
     <Hidden name="businessId" value={businessId}/><Field name="name" label="Nombre"/>
     <label>Sucursal<select name="branchId" required defaultValue={branches.find(b=>b.is_primary&&b.active)?.id||branches.find(b=>b.active)?.id}>{branches.filter(b=>b.active).map(b=><option key={b.id} value={b.id}>{b.name}</option>)}</select></label>
-    <label>PIN personal<input name="pin" type="password" required inputMode="numeric" pattern="[0-9]{6,8}" minLength={6} maxLength={8} autoComplete="new-password"/></label>
+    <p className="cardCaption">El acceso se comparte con el QR o el enlace individual. No hace falta crear ni recordar un PIN.</p>
    </ActionForm></div>}
   <div className="campaignRewardStrip">{active.map(person=><article key={person.id} className="ownerCard">
     <strong>{person.name}</strong><small>{person.branch_name||branches.find(b=>b.id===person.branch_id)?.name||'Sucursal'} · Activo</small>

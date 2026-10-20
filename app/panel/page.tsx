@@ -14,7 +14,7 @@ import {ownerData} from '../../lib/owner/data';
 import {rollingPeriodRange,periodRange} from '../../lib/owner/domain.mjs';
 import Legacy from './legacy-page';
 export const dynamic='force-dynamic';
-export default async function Panel({searchParams}:{searchParams:Promise<{business?:string;branch?:string;kind?:string;period?:string;days?:string}>}){
+export default async function Panel({searchParams}:{searchParams:Promise<{business?:string;branch?:string;kind?:string;period?:string;days?:string;teamTab?:string}>}){
  if(!foundationEnabled())return <Legacy/>;
  const actor=await requireRole('owner'),params=await searchParams;
  const businesses=await query(actor,'select b.*,p.name plan_name,p.features,p.price_mxn from nival_pr.businesses b left join nival_pr.plans p on p.id=b.plan_id order by b.name');
@@ -24,5 +24,5 @@ export default async function Panel({searchParams}:{searchParams:Promise<{busine
  await requireBusiness(actor,b.id);
  if(!entitlements(b).active)return <DashboardShell name={b.name} owner={actor.name} status="Servicio inactivo" demo={false} logout={<form action={logout}><button>Cerrar sesión</button></form>}><AccountState b={b}/><section className="ownerCard"><h2>Servicio inactivo</h2><p>Los puntos, canjes, clientes y reportes están guardados. Renueva para consultar tus datos y volver a operar.</p></section></DashboardShell>;
  const range=params.kind&&['day','month','year'].includes(params.kind)?periodRange(params.kind,params.period):params.days?rollingPeriodRange(Number(params.days)):rollingPeriodRange(30),data=await ownerData(actor,b.id,range,params.branch);
- return <OwnerView actor={actor} b={b} businesses={businesses} range={range} data={data}/>;
+ return <OwnerView actor={actor} b={b} businesses={businesses} range={range} data={data} teamTab={params.teamTab==='actividad'?'actividad':'personal'}/>;
 }

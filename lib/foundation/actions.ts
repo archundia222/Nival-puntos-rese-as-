@@ -5,7 +5,7 @@ import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createHmac, randomUUID } from "node:crypto";
-import { query, transaction, authScope } from "./db";
+import { query, transaction, authScope, systemQuery } from "./db";
 import {
   requireRole,
   requireBusiness,
@@ -15,7 +15,7 @@ import {
   routeCookie,
   adminCookie,
 } from "./session";
-import { randomToken, sha256, verifyPin, signedHint } from "./security.mjs";
+import { randomToken, sha256, signedHint } from "./security.mjs";
 import { mexicoPhone } from "../points/security";
 import {guardAction,guardPublicAction} from "./action-guard";
 import { getAuth } from "../backend/auth";
@@ -41,51 +41,6 @@ function failure(error: unknown): Result {
               ? "Ese teléfono o identificador ya está registrado."
               : "No se pudo completar la operación. Revisa tus datos y permisos.",
   };
-}
-export async function loginStaff(_: Result, f: FormData): Promise<Result> {
-  await guardPublicAction();
-  const slug = val(f, "slug"),
-    id = val(f, "staffId"),
-    pin = val(f, "pin");
-  if (!uuid(id) || !/^\d{6,8}$/.test(pin) || !/^[a-z0-9-]{1,100}$/.test(slug))
-    return { error: "Revisa el negocio, tu identificador y el PIN." };
-  try {
-    const h = await headers();
-    const ip = trustedClientIp(h);
-    const hash = (v: string) =>
-      createHmac("sha256", secret()).update(v).digest("hex");
-    const limits = await transaction(authScope(), [
-      {
-        text: "select nival_pr_private.claim_pin_attempt($1) as accepted",
-        values: [hash("account:" + slug + ":" + id)],
-      },
-      {
-        text: "select nival_pr_private.claim_pin_attempt($1) as accepted",
-        values: [hash("ip:" + ip)],
-      },
-    ]);
-    if (limits.some((rows) => !rows[0]?.accepted))
-      return { error: "Demasiados intentos. Espera 15 minutos." };
-    const [staff] = await query(
-      authScope(),
-      "select * from nival_pr_private.pin_identity($1,$2)",
-      [slug, id],
-    );
-    if (!staff || !(await verifyPin(pin, staff.pin_hash)))
-      return { error: "No se pudo entrar con esos datos." };
-    const token = randomToken();
-    await query(
-      authScope(),
-      "select nival_pr_private.issue_staff_session($1,$2,$3)",
-      [staff.user_id, staff.business_id, sha256(token)],
-    );
-    const jar = await cookies();
-    jar.set(staffCookie, token, cookieOptions);
-    jar.set(routeCookie, signedHint("staff", secret()), cookieOptions);
-  } catch (error) {
-    return failure(error);
-  }
-  redirect("/staff");
 }
 export async function logout() {
   const actor=await guardAction(["superadmin","owner","staff"]);
@@ -546,7 +501,8 @@ export async function enroll(_: Result, f: FormData): Promise<Result> {
     );
     if (!b?.data?.active) return { error: "Este programa no está disponible." };
     if(!b.data.program?.id)return {error:"El negocio está preparando su programa. Inténtalo más tarde."};
-    const askBirthday=b.data.program?.rules?.card_design?.askBirthday===true;
+    const [programSettings]=await systemQuery("select p.rules->'card_design'->>'askBirthday' as ask_birthday from nival_pr.programs p where p.business_id=$1",[b.data.id]);
+    const askBirthday=programSettings?.ask_birthday==='true'||b.data.program?.rules?.card_design?.askBirthday===true;
     const parsedBirthday=birthDate?new Date(birthDate+"T00:00:00.000Z"):null;
     if(birthDate&&(!askBirthday||!/^\d{4}-\d{2}-\d{2}$/.test(birthDate)||!parsedBirthday||Number.isNaN(parsedBirthday.getTime())||parsedBirthday.toISOString().slice(0,10)!==birthDate||birthDate>new Date().toISOString().slice(0,10)))return {error:"Revisa el cumpleaños opcional."};
     await query(authScope(),askBirthday

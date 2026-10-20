@@ -7,7 +7,6 @@ import {
 import { query, authScope } from "../../../../lib/foundation/db";
 import {
   uuid,
-  mexicoPhone,
   assertSameOrigin,
   message,
 } from "../../../../lib/points/security";
@@ -28,21 +27,20 @@ export async function POST(req: Request) {
         { error: "Este QR no es una tarjeta de Nival." },
         { status: 400 },
       );
-    const manual=String(data.phone||'').replace(/\s/g,'');
+    const manual=String(data.code||'').replace(/\s/g,'');
     if(!id && /^\d{8}$/.test(manual)){
       const [r]=await query(authScope(actor.id),'select nival_pr_private.staff_customer_code($1,$2) data',[b,manual]);
       return NextResponse.json(r?.data?{customer:r.data}:{error:'Código no encontrado en este negocio.'},{status:r?.data?200:404,headers:{'Cache-Control':'private, no-store'}});
     }
-    const phone = mexicoPhone(String(data.phone || ""));
-    if (!id && !phone)
+    if (!id)
       return NextResponse.json(
-        { error: "Escribe 10 dígitos o escanea el QR personal." },
+        { error: "Escribe el código de 8 dígitos o escanea el QR personal." },
         { status: 400 },
       );
     const [r] = await query(
       authScope(actor.id),
       "select nival_pr_private.staff_customer($1,$2,$3) data",
-      [b, phone, id || null],
+      [b, null, id || null],
     );
     return NextResponse.json(
       r?.data

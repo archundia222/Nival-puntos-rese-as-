@@ -2,7 +2,7 @@
 import {compressPhoto} from "./compress-photo";
 import { useEffect, useRef, useState } from "react";
 import { BrowserQRCodeReader, type IScannerControls } from "@zxing/browser";
-export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:"visit"|"redeem" }) {
+export function Scanner({ businessId }: { businessId: string }) {
   const video = useRef<HTMLVideoElement>(null),
     controls = useRef<IScannerControls | null>(null),
     mounted = useRef(true),
@@ -11,7 +11,7 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
     operation = useRef<string|null>(null);
   const [camera, setCamera] = useState(false),
     [busy, setBusy] = useState(false),
-    [phone, setPhone] = useState(""),
+    [code, setCode] = useState(""),
     [customer, setCustomer] = useState<any>(null),
     [ticketValue,setTicketValue]=useState(''),
     [redemptionValue,setRedemptionValue]=useState(''),
@@ -20,7 +20,7 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
     [photo, setPhoto] = useState<File | null>(null),
     [photoPreview, setPhotoPreview] = useState(""),
     [confirmed, setConfirmed] = useState(false),
-    [whatsapp, setWhatsapp] = useState(""),[completed,setCompleted]=useState(false);
+    [visitRegistered,setVisitRegistered]=useState(false),[completed,setCompleted]=useState(false);
   useEffect(() => {
     mounted.current = true;
     return () => {
@@ -37,6 +37,11 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
     setPhotoPreview(preview);
     return () => URL.revokeObjectURL(preview);
   }, [photo]);
+  useEffect(()=>{
+    if(!completed)return;
+    const timer=window.setTimeout(()=>{setCustomer(null);setVisitRegistered(false);setCompleted(false);setSuccess('');setCode('');setPhoto(null);setRedemptionValue('');operation.current=null;},3200);
+    return ()=>window.clearTimeout(timer);
+  },[completed]);
   function stop() {
     cameraGeneration.current++;
     controls.current?.stop();
@@ -49,17 +54,16 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
     stop();
     setBusy(true);
     setError("");
-    setSuccess("");setCompleted(false);
+    setSuccess("");setVisitRegistered(false);setCompleted(false);
     setCustomer(null);
     operation.current=null;
-    setWhatsapp("");
     setPhoto(null);
     setConfirmed(false);
     try {
       const r = await fetch("/api/staff/customer", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ businessId, phone, customerId: id }),
+        body: JSON.stringify({ businessId, code, customerId: id }),
       });
       if(!r.headers.get('content-type')?.includes('application/json'))throw Error('Tu sesión venció. Vuelve a entrar para continuar.');
       const d = await r.json();
@@ -98,7 +102,7 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
     } catch {
       setCamera(false);
       setError(
-        "No se pudo abrir la cámara. Permite su uso en el navegador o usa el código manual o teléfono.",
+        "No se pudo abrir la cámara. Permite su uso en el navegador o escribe el código de 8 dígitos.",
       );
     }
   }
@@ -112,7 +116,7 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
     f.set("businessId", businessId);
     f.set("customerId", customer.id);
     f.set("type", type);
-    if(type==='visit'&&ticketValue)f.set('ticketValue',ticketValue);
+    if(type==='visit')f.set('ticketValue',ticketValue);
     if(type==='redeem')f.set('redemptionValue',redemptionValue);
     if(!operation.current)operation.current=crypto.randomUUID();
     f.set("operationId",operation.current);
@@ -124,11 +128,16 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
       if(!r.headers.get('content-type')?.includes('application/json'))throw Error('Tu sesión venció. Vuelve a entrar para continuar.');
       const d = await r.json();
       if (!r.ok) throw Error(d.error||'No pudimos completar la operación. Inténtalo de nuevo.');
-      setCustomer(d.customer);setCompleted(true);
+      setCustomer(d.customer);
       setTicketValue('');
       operation.current=null;
       setPhoto(null);
       setConfirmed(false);
+      if(type==='visit'){
+        const eligible=Boolean(d.customer.reward)&&Number(d.customer.balance)>=Number(d.customer.reward.points_cost);
+        setVisitRegistered(eligible);
+        setCompleted(!eligible);
+      }else setCompleted(true);
       setSuccess(
         d.success +
           " · " +
@@ -144,48 +153,18 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
       busyRef.current = false;
     }
   }
-  async function recover() {
-    if (
-      !customer || busyRef.current ||
-      !confirm(
-        "¿Verificaste que estás atendiendo al titular de esta tarjeta? Envíala únicamente al teléfono registrado.",
-      )
-    )
-      return;
-    busyRef.current=true;setBusy(true);
-    setError("");
-    try {
-      const r = await fetch("/api/staff/recovery", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          businessId,
-          customerId: customer.id,
-          confirm: true,
-        }),
-      });
-      if(!r.headers.get('content-type')?.includes('application/json'))throw Error('Tu sesión venció. Vuelve a entrar para continuar.');
-      const d = await r.json();
-      if (!r.ok) throw Error(d.error||'No pudimos completar la operación. Inténtalo de nuevo.');
-      setWhatsapp(d.whatsapp);
-    } catch (e) {
-      setError((e as Error).message);
-    } finally {
-      busyRef.current=false;setBusy(false);
-    }
-  }
   return (
     <section className="scannerWorkspace nivalStaffFlow" aria-labelledby="staff-scanner-heading">
       <div className="scannerIntro">
-        <small>OPERACIÓN DEL CLIENTE</small>
-        <h2 id="staff-scanner-heading">{mode==='visit'?'Sumar puntos':'Canjear premio'}</h2>
-        <p>{mode==='visit'?'Busca al cliente y registra su visita.':'Busca al cliente y confirma la entrega del premio.'}</p><p>Escanea el QR de la tarjeta personal o ingresa el código del cliente.</p>
+        <small>ATENCIÓN AL CLIENTE</small>
+        <h2 id="staff-scanner-heading">Registrar visita</h2>
+        <p>Escanea el QR del cliente o escribe su código de 8 dígitos.</p>
         <button
           className="scanButton"
           disabled={busy}
           onClick={camera ? stop : start}
         >
-          {camera ? "Cerrar cámara" : "Abrir escáner"}
+          {camera ? "Cerrar cámara" : "Escanear QR con cámara"}
         </button>
       </div>
       <div hidden={!camera} className="cameraFrame">
@@ -200,19 +179,21 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
         }}
       >
         <label>
-          O usa el código manual o teléfono (+52)
+          Código de tarjeta
           <input
             type="text"
             inputMode="numeric"
             autoComplete="off"
-            placeholder="Código de 8 dígitos o teléfono de 10"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            placeholder="Escribe los 8 dígitos"
+            pattern="[0-9]{8}"
+            maxLength={8}
+            value={code}
+            onChange={(e) => setCode(e.target.value.replace(/\D/g,'').slice(0,8))}
             required
           />
         </label>
-        <button disabled={busy}>
-          {busy ? "Consultando…" : "Buscar cliente"}
+        <button disabled={busy||code.length!==8}>
+          {busy ? "Buscando…" : "Consultar tarjeta"}
         </button>
       </form>
       {error && (
@@ -220,12 +201,6 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
           {error}
         </p>
       )}
-      {success && (
-        <p className="scanSuccess" role="status">
-          {success}
-        </p>
-      )}
-      {completed&&<button type="button" className="scanButton" onClick={()=>{setCustomer(null);setCompleted(false);setSuccess('');setPhone('');setPhoto(null);setWhatsapp('');setRedemptionValue('');operation.current=null;}}>Listo · atender al siguiente cliente</button>}
       {customer && (
         <article className="scannedCustomer">
           <small>CLIENTE IDENTIFICADO</small>
@@ -233,29 +208,32 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
           <p>
             <strong>{customer.balance}</strong> puntos actuales
           </p>
-          {!completed&&mode==='visit'&&<label className="ticketValueField">Valor del ticket (MXN)<input type="number" min="0" max="1000000" step="0.01" inputMode="decimal" value={ticketValue} onChange={e=>setTicketValue(e.target.value)} placeholder="Opcional"/></label>}
-          {!completed&&mode==='visit'&&<button
+          {!visitRegistered&&!completed&&<label className="ticketValueField">Total del ticket (MXN)<input type="number" min="0.01" max="1000000" step="0.01" inputMode="decimal" required value={ticketValue} onChange={e=>setTicketValue(e.target.value)} placeholder="Ej. 185.00"/></label>}
+          {!visitRegistered&&!completed&&<button
             className="primary"
-            disabled={busy}
+            disabled={busy||ticketValue===''||!Number.isFinite(Number(ticketValue))||Number(ticketValue)<=0||Number(ticketValue)>1000000}
             onClick={() => move("visit")}
           >
-            Sumar puntos por esta visita
+            {busy?"Registrando…":"Registrar visita"}
           </button>}
-          {!completed&&mode==='redeem'&&<div className="redeemBox">
+          {visitRegistered&&!completed&&<div className="redeemBox">
+            <small className="staffStepLabel">VISITA REGISTRADA</small>
+            {success&&<p className="staffVisitResult" role="status">{success}</p>}
+            <p>Saldo actualizado: <strong>{customer.balance} puntos</strong></p>
             <h3>{customer.reward?.name || "Premio por elegir"}</h3>
             <p>
               {customer.reward
                 ? Number(customer.balance) >= customer.reward.points_cost
                   ? "Premio disponible para entregar"
                   : `${Math.max(customer.reward.points_cost - Number(customer.balance), 0)} puntos para el premio`
-                : "El cliente debe elegir su premio desde su tarjeta."}
+                : "El cliente aún no tiene un premio seleccionado."}
             </p>
             {customer.reward &&
               Number(customer.balance) >= customer.reward.points_cost && (
                 <>
                   <label>
-                    Valor entregado (MXN)
-                    <input type="number" min="0" max="1000000" step="0.01" inputMode="decimal" required value={redemptionValue} onChange={e=>setRedemptionValue(e.target.value)} placeholder="Ej. 6.50"/>
+                    Valor del producto entregado (MXN)
+                    <input type="number" min="0.01" max="1000000" step="0.01" inputMode="decimal" required value={redemptionValue} onChange={e=>setRedemptionValue(e.target.value)} placeholder="Ej. 65.00"/>
                   </label>
                   <label>
                     Foto de evidencia · obligatoria
@@ -278,33 +256,18 @@ export function Scanner({ businessId,mode="visit" }: { businessId: string;mode?:
                     <span>Confirmo que entregué este premio al cliente.</span>
                   </label>
                   <button
-                    disabled={busy || !photo || !confirmed || redemptionValue==='' || !Number.isFinite(Number(redemptionValue))}
+                    disabled={busy || !photo || !confirmed || redemptionValue==='' || !Number.isFinite(Number(redemptionValue)) || Number(redemptionValue)<=0 || Number(redemptionValue)>1000000}
                     onClick={() => move("redeem")}
                   >
-                    {busy ? "Registrando…" : "Canjear premio"}
+                    {busy ? "Registrando…" : "Confirmar entrega del premio"}
                   </button>
                 </>
               )}
           </div>}
-          <button disabled={busy} onClick={recover}>
-            Reenviar tarjeta por WhatsApp
-          </button>
-          {whatsapp && (
-            <a
-              className="primary"
-              href={whatsapp}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Abrir WhatsApp con su tarjeta
-            </a>
-          )}
+          {completed&&<p className="staffVisitResult" role="status">{success||"Visita registrada. La pantalla volverá al escáner en un momento."}</p>}
         </article>
       )}
-      <p className="notice">
-        Los movimientos quedan registrados con tu identidad. Una segunda visita
-        se valida contra las reglas del negocio.
-      </p>
+      {!customer&&<p className="notice">Cada visita suma según las reglas del negocio. El total del ticket es obligatorio para guardar el registro.</p>}
     </section>
   );
 }

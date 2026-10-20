@@ -8,6 +8,7 @@ import {
   foundationEnabled,
   query,
   authScope,
+  systemQuery,
 } from "../../../lib/foundation/db";
 import { publicBusiness, card } from "../../../lib/points/security";
 import { sha256 } from "../../../lib/foundation/security.mjs";
@@ -32,6 +33,8 @@ export default async function Customer({
     );
   const b = await publicBusiness(slug);
   if (!b) notFound();
+  const [programSettings]=await systemQuery("select p.rules->'card_design'->>'askBirthday' as ask_birthday from nival_pr.programs p where p.business_id=$1",[b.id]);
+  const askBirthday=programSettings?.ask_birthday==='true'||b.program?.rules?.card_design?.askBirthday===true;
   const c = await card(b.id);
   const token = (await cookies()).get("nival_customer_" + b.id)?.value;
   const [valid] =
@@ -88,7 +91,7 @@ export default async function Customer({
                     maxLength={18}
                   />
                 </label>
-                {b.program?.rules?.card_design?.askBirthday===true&&<label className="wide">Cumpleaños (opcional)<input name="birthDate" type="date" max={new Date().toISOString().slice(0,10)}/></label>}
+                {askBirthday&&<label className="wide">Fecha de nacimiento (opcional)<input name="birthDate" type="date" autoComplete="bday" max={new Date().toISOString().slice(0,10)}/><small>Solo la usaremos si quieres compartirla con el negocio.</small></label>}
               </>
             )}
             <label className="wide consentLabel">
