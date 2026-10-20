@@ -206,6 +206,13 @@ export function Scanner({ businessId }: { businessId: string }) {
           <p>
             <strong>{customer.balance}</strong> puntos actuales
           </p>
+          {customer.reward ? <div className="staffRewardPreview" aria-live="polite">
+            <small>PRÓXIMO PREMIO</small>
+            <strong>{customer.reward.name}</strong>
+            <p>{Math.max(Number(customer.reward.points_cost) - Number(customer.balance), 0) > 0
+              ? `Le faltan ${Math.max(Number(customer.reward.points_cost) - Number(customer.balance), 0)} puntos`
+              : "Ya reúne los puntos de este premio"}</p>
+          </div> : <p className="staffRewardPreview"><small>PRÓXIMO PREMIO</small>El cliente aún no tiene un premio elegido o configurado.</p>}
           {!visitRegistered&&!completed&&<label className="ticketValueField">Total del ticket (MXN)<input type="number" min="0.01" max="1000000" step="0.01" inputMode="decimal" required value={ticketValue} onChange={e=>setTicketValue(e.target.value)} placeholder="Ej. 185.00"/></label>}
           {!visitRegistered&&!completed&&<button
             className="primary"
