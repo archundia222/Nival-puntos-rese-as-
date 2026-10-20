@@ -1080,3 +1080,272 @@ body{background:var(--nival-cream);color:var(--nival-text)}
  .nivalCustomerFlow .customerHistoryTimeline li>div small{font-size:9px}
  .nivalCustomerFlow .customerHistoryTimeline li>b{font-size:11px}
 }
+
+/* Customer card refresh: compact, high contrast, and one type family. */
+.nivalCustomerFlow,
+.nivalCustomerFlow :where(*){
+ font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;
+}
+.nivalCustomerFlow{
+ --loyalty-accent:#145c3d;
+ --loyalty-ink:#172b23;
+ --loyalty-muted:#66736d;
+ --loyalty-line:#e1e7e3;
+ --loyalty-surface:#fff;
+ gap:16px;
+}
+.nivalCustomerFlow .customerRewardSummary,
+.nivalCustomerFlow .customerRewardInventory,
+.nivalCustomerFlow .cardHistory,
+.nivalCustomerFlow .cardHelp{
+ margin:0;
+ padding:18px;
+ border:1px solid var(--loyalty-line);
+ border-radius:16px;
+ background:var(--loyalty-surface);
+ box-shadow:0 5px 18px #172b2310;
+ color:var(--loyalty-ink);
+}
+.nivalCustomerFlow .customerRewardSummary{
+ display:grid!important;
+ grid-template-columns:minmax(0,1fr);
+ align-items:initial;
+ gap:12px;
+}
+.nivalCustomerFlow .customerRewardHeading h2,
+.nivalCustomerFlow .customerInventoryHeading h2,
+.nivalCustomerFlow .cardHistory h2{
+ margin:3px 0 0!important;
+ color:var(--loyalty-ink);
+ font-size:20px!important;
+ font-weight:750;
+ line-height:1.2;
+ letter-spacing:-.025em;
+}
+.nivalCustomerFlow .customerSectionEyebrow,
+.nivalCustomerFlow .customerEyebrow{
+ margin:0;
+ color:var(--loyalty-muted);
+ font-size:10px;
+ font-weight:800;
+ letter-spacing:.13em;
+}
+.nivalCustomerFlow .customerRewardFeature{
+ display:grid;
+ grid-template-columns:56px minmax(0,1fr);
+ align-items:center;
+ gap:12px;
+ padding:0;
+ border:0;
+ border-radius:0;
+ background:transparent;
+}
+.nivalCustomerFlow .customerRewardPhoto,
+.nivalCustomerFlow .customerRewardIcon{
+ grid-column:1;
+ grid-row:1;
+ width:56px;
+ height:56px;
+ border:0;
+ border-radius:14px;
+ background:#f0f3f1;
+ color:var(--loyalty-accent);
+ font-size:24px;
+}
+.nivalCustomerFlow .customerRewardGoal{
+ grid-column:2;
+ display:grid;
+ justify-content:start;
+ gap:4px;
+ min-width:0;
+}
+.nivalCustomerFlow .customerRewardGoal>b{
+ order:0;
+ color:var(--loyalty-ink);
+ font-size:16px;
+ font-weight:750;
+ line-height:1.25;
+ letter-spacing:-.015em;
+}
+.nivalCustomerFlow .customerRewardGoal>span{
+ order:1;
+ color:var(--loyalty-muted);
+ font-size:13px;
+ line-height:1.4;
+}
+.nivalCustomerFlow .customerRewardSummary:not(:has(.customerRewardPhoto)) .customerRewardGoal{
+ grid-column:2;
+}
+.nivalCustomerFlow .customerGoalProgress{
+ display:grid;
+ grid-column:1/-1;
+ gap:8px;
+ margin:0;
+}
+.nivalCustomerFlow .customerGoalProgress>div{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:10px;
+ color:var(--loyalty-muted);
+ font-size:12px;
+ font-weight:700;
+}
+.nivalCustomerFlow .customerGoalProgress>div>b{
+ min-width:0;
+ height:auto;
+ padding:0;
+ background:transparent;
+ color:var(--loyalty-accent);
+ font-size:12px;
+}
+.nivalCustomerFlow .customerGoalProgress progress{
+ width:100%;
+ height:12px;
+ border:0;
+ border-radius:999px;
+ background:#e8edea;
+ accent-color:var(--loyalty-accent);
+}
+.nivalCustomerFlow .customerGoalProgress progress::-webkit-progress-bar{border-radius:999px;background:#e8edea}
+.nivalCustomerFlow .customerGoalProgress progress::-webkit-progress-value{border-radius:999px;background:var(--loyalty-accent)}
+.nivalCustomerFlow .customerGoalProgress progress::-moz-progress-bar{border-radius:999px;background:var(--loyalty-accent)}
+.nivalCustomerFlow .customerRewardInventory{gap:12px}
+.nivalCustomerFlow .customerInventoryHeading h2{font-size:19px!important}
+.nivalCustomerFlow .rewardInventoryTabs{display:grid;grid-template-columns:1fr;gap:14px}
+.nivalCustomerFlow .rewardInventoryTabs>section{
+ min-width:0;
+ padding:0;
+ border:0;
+ border-radius:0;
+ background:transparent;
+}
+.nivalCustomerFlow .rewardInventoryTabs h3{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:8px;
+ margin:0 0 4px;
+ color:var(--loyalty-ink);
+ font-size:13px;
+ font-weight:700;
+}
+.nivalCustomerFlow .rewardInventoryTabs h3 span{
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ min-width:22px;
+ height:22px;
+ padding:0 6px;
+ border-radius:999px;
+ background:#f0f3f1;
+ color:var(--loyalty-muted);
+ font-size:11px;
+}
+.nivalCustomerFlow .rewardInventoryEmpty{
+ display:flex;
+ align-items:center;
+ gap:7px;
+ min-height:0;
+ margin:0;
+ padding:7px 0 0;
+ border:0;
+ border-radius:0;
+ background:transparent;
+ color:var(--loyalty-muted);
+ font-size:12px;
+ line-height:1.4;
+}
+.nivalCustomerFlow .rewardInventoryEmpty>span:first-child{
+ display:grid;
+ flex:0 0 18px;
+ place-items:center;
+ width:18px;
+ height:18px;
+ border-radius:50%;
+ background:#f0f3f1;
+ color:var(--loyalty-accent);
+ font-size:10px;
+ font-weight:800;
+}
+.nivalCustomerFlow .rewardInventoryEmpty>span:last-child{color:var(--loyalty-muted)}
+.nivalCustomerFlow .rewardInventoryRow{min-height:54px;padding:8px 0;border-color:#edf0ee}
+.nivalCustomerFlow .rewardInventoryRow>img,
+.nivalCustomerFlow .rewardInventoryIcon{width:38px;height:38px;flex-basis:38px;border-radius:11px}
+.nivalCustomerFlow .rewardInventoryIcon{background:#f0f3f1;color:var(--loyalty-accent)}
+.nivalCustomerFlow .rewardInventoryRow b{color:var(--loyalty-ink);font-size:13px}
+.nivalCustomerFlow .rewardInventoryRow small{color:var(--loyalty-muted);font-size:11px}
+.nivalCustomerFlow .rewardInventoryRow>i{background:#edf4f0;color:var(--loyalty-accent)}
+.nivalCustomerFlow .cardHelp{
+ display:flex;
+ align-items:flex-start;
+ gap:10px;
+ padding:15px 16px;
+ background:#fafbfa;
+ box-shadow:none;
+}
+.nivalCustomerFlow .cardHelp summary{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:12px;
+ width:100%;
+ color:var(--loyalty-muted);
+ font-size:13px;
+ font-weight:650;
+ cursor:pointer;
+ list-style:none;
+}
+.nivalCustomerFlow .cardHelp summary::-webkit-details-marker{display:none}
+.nivalCustomerFlow .cardHelp summary::after{
+ content:"";
+ width:8px;
+ height:8px;
+ flex:0 0 8px;
+ border-top:2px solid var(--loyalty-accent);
+ border-right:2px solid var(--loyalty-accent);
+ transform:rotate(45deg);
+ transition:transform .18s ease;
+}
+.nivalCustomerFlow .cardHelp[open] summary::after{transform:rotate(135deg)}
+.nivalCustomerFlow .cardHelp p{color:var(--loyalty-muted);font-size:13px;line-height:1.55}
+.nivalCustomerFlow .cardHistory{padding:18px}
+.nivalCustomerFlow .cardHistory h2{font-size:20px!important}
+.nivalCustomerFlow .customerHistoryTimeline{margin:8px 0 0}
+.nivalCustomerFlow .customerHistoryTimeline:before{top:17px;bottom:17px;left:13px;width:1px;background:#d9e1dc}
+.nivalCustomerFlow .customerHistoryTimeline li{
+ grid-template-columns:28px minmax(0,1fr) auto;
+ gap:10px;
+ min-height:54px;
+ padding:7px 0;
+ border-color:#edf0ee;
+}
+.nivalCustomerFlow .customerHistoryIcon{
+ width:28px;
+ height:28px;
+ border:2px solid #fff;
+ background:#eaf1ed;
+ color:var(--loyalty-accent);
+ font-size:13px;
+}
+.nivalCustomerFlow .customerHistoryTimeline li.isRedeemed .customerHistoryIcon{background:#f0f3f1;color:var(--loyalty-muted)}
+.nivalCustomerFlow .customerHistoryTimeline li>div strong{color:var(--loyalty-ink);font-size:13px;font-weight:650}
+.nivalCustomerFlow .customerHistoryTimeline li>div small{color:var(--loyalty-muted);font-size:11px}
+.nivalCustomerFlow .customerHistoryTimeline li>b{color:var(--loyalty-accent);font-size:13px;font-weight:750}
+.nivalCustomerFlow .customerHistoryEmpty{grid-template-columns:22px minmax(0,1fr);gap:8px;margin:6px 0 0;padding:8px 0;border:0;border-radius:0;background:transparent;color:var(--loyalty-muted)}
+.nivalCustomerFlow .customerHistoryEmpty>span{width:20px;height:20px;border-radius:50%;background:#f0f3f1;color:var(--loyalty-accent);font-size:11px}
+.nivalCustomerFlow .customerHistoryEmpty strong{color:var(--loyalty-muted);font-size:12px;font-weight:550}
+.nivalCustomerFlow .customerHistoryEmpty p{display:none}
+@media(max-width:500px){
+ .nivalCustomerFlow .customerRewardSummary,
+ .nivalCustomerFlow .customerRewardInventory,
+ .nivalCustomerFlow .cardHistory{padding:16px}
+ .nivalCustomerFlow .customerRewardFeature{grid-template-columns:52px minmax(0,1fr);gap:10px}
+ .nivalCustomerFlow .customerRewardPhoto,
+ .nivalCustomerFlow .customerRewardIcon{width:52px;height:52px;border-radius:13px;font-size:22px}
+ .nivalCustomerFlow .customerRewardGoal>b{font-size:15px}
+ .nivalCustomerFlow .customerRewardGoal>span{font-size:12px}
+ .nivalCustomerFlow .customerHistoryTimeline li{grid-template-columns:28px minmax(0,1fr) auto;gap:8px}
+ .nivalCustomerFlow .customerHistoryTimeline li>div small{font-size:10px}
+ .nivalCustomerFlow .customerHistoryTimeline li>b{font-size:12px}
+}

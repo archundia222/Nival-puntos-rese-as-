@@ -85,7 +85,38 @@ export function CardView({
   const manualCode=card.manual_code||String(card.id).slice(-8).toUpperCase();
   const availableRewards=card.available_rewards||[], redeemedRewards=card.redeemed_rewards||[];
   const validityMode=(business.program?.redemption_mode|| (design.rewardExpiryMode==="duration"?"validity":"immediate"))==="validity";
-  const rewardInventory=<section className="customerRewardInventory" aria-labelledby="rewards-inventory-heading"><header className="customerInventoryHeading"><div><p className="customerSectionEyebrow">TU ACTIVIDAD</p><h2 id="rewards-inventory-heading">Historial de canjes</h2></div></header><div className="rewardInventoryTabs">{validityMode&&<section aria-labelledby="available-rewards-heading"><h3 id="available-rewards-heading">Premios disponibles <span>{availableRewards.length}</span></h3>{availableRewards.length?availableRewards.map((r:any)=><article key={r.id} className="rewardInventoryRow">{r.photo_url?<img src={r.photo_url} alt=""/>:<span className="rewardInventoryIcon" aria-hidden="true">✦</span>}<span><b>{r.name}</b><small>Vence {new Date(r.expires_at).toLocaleDateString("es-MX",{timeZone:"America/Mexico_City"})}</small></span><i>Disponible</i></article>):<div className="rewardInventoryEmpty"><span aria-hidden="true">✓</span><strong>Todo al día</strong><small>No tienes premios pendientes.</small></div>}</section>}<section aria-labelledby="redeemed-rewards-heading"><h3 id="redeemed-rewards-heading">Canjes <span>{redeemedRewards.length}</span></h3>{redeemedRewards.length?redeemedRewards.map((r:any,i:number)=><article key={r.id||i} className="rewardInventoryRow">{r.photo_url?<img src={r.photo_url} alt=""/>:<span className="rewardInventoryIcon isRedeemed" aria-hidden="true">✓</span>}<span><b>{r.name}</b><small>{r.status==="pendiente"?"Por canjear":"Canjeado"} · {new Date(r.created_at).toLocaleDateString("es-MX",{timeZone:"America/Mexico_City"})}{r.branch_name?" · "+r.branch_name:""}</small></span><i className={r.status==="pendiente"?"":"isRedeemed"}>{r.status==="pendiente"?"Por canjear":"Canjeado"}</i></article>):<div className="rewardInventoryEmpty"><span aria-hidden="true">✦</span><strong>Tu próxima recompensa empieza aquí</strong><small>Cuando canjees un premio, aparecerá en este historial.</small></div>}</section></div></section>;
+  const rewardInventory=(
+    <section className="customerRewardInventory" aria-labelledby="rewards-inventory-heading">
+      <header className="customerInventoryHeading">
+        <div>
+          <p className="customerSectionEyebrow">TU ACTIVIDAD</p>
+          <h2 id="rewards-inventory-heading">Historial de canjes</h2>
+        </div>
+      </header>
+      <div className="rewardInventoryTabs">
+        {validityMode&&<section aria-labelledby="available-rewards-heading">
+          <h3 id="available-rewards-heading">Premios disponibles <span>{availableRewards.length}</span></h3>
+          {availableRewards.length?availableRewards.map((r:any)=>(
+            <article key={r.id} className="rewardInventoryRow">
+              {r.photo_url?<img src={r.photo_url} alt=""/>:<span className="rewardInventoryIcon" aria-hidden="true">✦</span>}
+              <span><b>{r.name}</b><small>Vence {new Date(r.expires_at).toLocaleDateString("es-MX",{timeZone:"America/Mexico_City"})}</small></span>
+              <i>Disponible</i>
+            </article>
+          )):<p className="rewardInventoryEmpty"><span aria-hidden="true">✓</span><span>No tienes premios pendientes.</span></p>}
+        </section>}
+        <section aria-labelledby="redeemed-rewards-heading">
+          <h3 id="redeemed-rewards-heading">Canjes <span>{redeemedRewards.length}</span></h3>
+          {redeemedRewards.length?redeemedRewards.map((r:any,i:number)=>(
+            <article key={r.id||i} className="rewardInventoryRow">
+              {r.photo_url?<img src={r.photo_url} alt=""/>:<span className="rewardInventoryIcon isRedeemed" aria-hidden="true">✓</span>}
+              <span><b>{r.name}</b><small>{r.status==="pendiente"?"Por canjear":"Canjeado"} · {new Date(r.created_at).toLocaleDateString("es-MX",{timeZone:"America/Mexico_City"})}{r.branch_name?" · "+r.branch_name:""}</small></span>
+              <i className={r.status==="pendiente"?"":"isRedeemed"}>{r.status==="pendiente"?"Por canjear":"Canjeado"}</i>
+            </article>
+          )):<p className="rewardInventoryEmpty"><span aria-hidden="true">↗</span><span>Aún no tienes canjes.</span></p>}
+        </section>
+      </div>
+    </section>
+  );
   return (
     <div className="nivalCustomerFlow">
       <article
@@ -140,14 +171,13 @@ export function CardView({
         </div>
         <div className="customerRewardFeature">
           {card.reward?.photo_url?<img className="customerRewardPhoto" src={card.reward.photo_url} alt={`Premio: ${card.reward.name}`}/>:<span className="customerRewardIcon" aria-hidden="true">✦</span>}
-          <div className="customerRewardGoal">
-            <span>{ready?"Tu premio está disponible para canjear":card.reward?points>=goal?"Los puntos están completos, pero este premio ya no está vigente":`Te faltan ${Math.max(goal-points,0)} puntos para este premio`:"Meta pendiente de configuración"}</span>
+          <div className="customerRewardGoal" aria-label={card.reward?`${card.reward.name}, ${Math.max(goal-points,0)} puntos restantes`:"Premio por definir"}>
             <b>{card.reward?.name||"Premio por definir"}</b>
-            <small>{ready?"Disponible":goal>0?`${Math.max(goal-points,0)} puntos restantes`:"Consulta con el negocio"}</small>
+            <span>{ready?"Tu premio está disponible para canjear":card.reward?points>=goal?"Los puntos están completos, pero este premio ya no está vigente":`Te faltan ${Math.max(goal-points,0)} puntos para este premio`:"Meta pendiente de configuración"}</span>
           </div>
         </div>
         {goal>0&&<div className="customerGoalProgress" aria-label={`${points} de ${goal} puntos`}>
-          <div><span>{Math.min(points,goal)} de {goal} puntos</span><b>{progressPct}%</b></div>
+          <div><span>{Math.min(points,goal)}/{goal} pts</span><b>{progressPct}%</b></div>
           <progress max={goal} value={Math.min(points,goal)} aria-label={`${progressPct}% del progreso al premio`}/>
         </div>}
       </section>
