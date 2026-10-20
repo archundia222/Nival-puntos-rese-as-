@@ -116,33 +116,3 @@ export async function POST(req: Request) {
     );
   }
 }
- and (p.rules->>'double_points_weekday')::integer=extract(dow from (now() at time zone 'America/Mexico_City'))::integer then p.points_per_visit*2 else p.points_per_visit end,$3,$4,$5 from nival_pr.programs p where p.business_id=$1 returning id"
-        : "insert into nival_pr.point_ledger(business_id,customer_id,type,points,staff_id,reward_id,evidence_path,operation_id,redemption_value_mxn) select $1,$2,'redeem',-r.points_cost,$3,r.id,$5,$6,$7 from nival_pr.rewards r join nival_pr.programs p on p.id=r.program_id where r.id=$4 and p.business_id=$1 and r.active and nival_pr.reward_is_redeemable($2::uuid,r.id) returning id";
-    const [movement] = await query(
-      actor,
-      text,
-      type === "visit"
-        ? [b, c, actor.id,operation,ticketValue]
-        : [b, c, actor.id, customer.reward.id, uploaded,operation,redemptionValue],
-    );
-    if (!movement) throw Error("Programa no configurado");
-    kickWalletJobs();
-    const [updated] = await query(
-      authScope(actor.id),
-      "select nival_pr_private.staff_customer($1,null,$2) data",
-      [b, c],
-    );
-    return NextResponse.json({
-      success:
-        type === "visit"
-          ? "Visita registrada"
-          : "Premio entregado. Canje pendiente de revisión.",
-      customer: updated.data,
-    });
-  } catch (e) {
-    /* Never retry an uncertain insert or delete a possibly referenced evidence file. */ return NextResponse.json(
-      { error: message(e), refresh: true },
-      { status: 400 },
-    );
-  }
-}
