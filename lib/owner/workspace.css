@@ -1678,3 +1678,23 @@
 .nivalShell .cardCatalogNfc{scroll-margin-top:24px}
 .nivalShell .cardCatalogNfcHeader{display:flex;align-items:center;justify-content:space-between;margin:26px 0 12px;padding-bottom:10px;border-bottom:1px solid #e1e8dd}
 .nivalShell .cardCatalogNfcHeader h2{margin:0;color:#173d31;font-size:21px;letter-spacing:-.03em}
+
+/* Restore the branded sidebar with layered depth and readable submenu states. */
+.nivalShell .workspaceSidebar{background:linear-gradient(155deg,#173b30 0%,#1b4235 56%,#234838 100%)!important;border-right:1px solid #315745!important;color:#f7f5e9!important;box-shadow:16px 0 40px #10251b16}
+.nivalShell .workspaceSidebar .workspaceBrand strong,.nivalShell .workspaceSidebar .workspaceBrand span{color:#f7f5e9!important}
+.nivalShell .workspaceSidebar .workspaceBrand small,.nivalShell .workspaceSidebar .menuCaption,.nivalShell .workspaceSidebar .workspaceLegal,.nivalShell .workspaceSidebar .workspaceLegal a{color:#b8cabc!important}
+.nivalShell .workspaceSidebar .workspaceBusiness{background:linear-gradient(135deg,#294c3c,#254536)!important;border-color:#496855!important;color:#f7f5e9!important;box-shadow:inset 0 1px #ffffff0a}
+.nivalShell .workspaceSidebar .workspaceBusiness strong{color:#fffdf1!important}.nivalShell .workspaceSidebar .workspaceBusiness small{color:#d1dfd1!important}
+.nivalShell .workspaceSidebar .workspaceNavItem{color:#e8eee4!important;border-color:transparent!important}
+.nivalShell .workspaceSidebar .workspaceNavItem svg{color:#cad9cc!important}
+.nivalShell .workspaceSidebar .workspaceNavItem:hover:not(.isActive){background:#ffffff0c!important;color:#fffdf1!important}
+.nivalShell .workspaceSidebar .workspaceNavItem.isActive{background:#d8ef78!important;color:#193b2f!important;box-shadow:0 5px 16px #0e241b36}
+.nivalShell .workspaceSidebar .workspaceNavItem.isActive svg{color:#193b2f!important}
+.nivalShell .workspaceSidebar .workspaceSubmenu{background:#2b4b3c!important;border-left-color:#d8ef78!important;box-shadow:inset 0 0 0 1px #ffffff0a}
+.nivalShell .workspaceSidebar .workspaceSubmenu a{color:#dce7da!important}
+.nivalShell .workspaceSidebar .workspaceSubmenu a:hover{background:#ffffff12!important;color:#fffdf1!important}
+.nivalShell .workspaceSidebar .workspaceSubmenu a.isActive{background:#d8ef78!important;color:#193b2f!important;box-shadow:inset 3px 0 #fffdf1}
+.nivalShell .workspaceSidebar .sidebarIdentity,.nivalShell .workspaceSidebar .workspacePlanSummary,.nivalShell .workspaceSidebar .workspaceHelp{background:linear-gradient(135deg,#294b3b,#254536)!important;border-color:#496855!important;color:#f7f5e9!important}
+.nivalShell .workspaceSidebar .sidebarIdentity strong,.nivalShell .workspaceSidebar .workspacePlanSummary strong,.nivalShell .workspaceSidebar .workspaceHelp strong{color:#fffdf1!important}
+.nivalShell .workspaceSidebar .workspacePlanSummary small,.nivalShell .workspaceSidebar .workspaceHelp>span{color:#c6d7c8!important}
+.nivalShell .workspaceSidebar .sidebarLogout .logoutButton,.nivalShell .workspaceSidebar .sidebarLogout>a{background:#345845!important;border-color:#62806b!important;color:#fffdf1!important}

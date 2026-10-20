@@ -70,6 +70,15 @@ test('rate limiting uses the Vercel-overwritten x-forwarded-for header',()=>{
  for(const file of ['app/api/auth/[...path]/route.ts','app/api/security/turnstile/route.ts','lib/foundation/actions.ts'])assert.ok(!readFileSync(file,'utf8').includes('x-vercel-forwarded-for'));
 });
 
+test('employee magic links ignore stale owner role hints and open the staff identity flow',()=>{
+ const proxy=readFileSync('proxy.ts','utf8');
+ assert.ok(proxy.includes("const publicStaffEntry=path==='/staff/entrar'"));
+ assert.ok(proxy.includes("path.startsWith('/staff')&&path!=='/staff/acceso'&&!publicStaffEntry"));
+ const entry=readFileSync('app/staff/entrar/route.ts','utf8');
+ assert.ok(entry.includes('pin_identity'));
+ assert.ok(entry.includes("NextResponse.redirect(new URL('/staff'"));
+});
+
 
 test('administrator access cannot register or promote public users',()=>{
  const form=readFileSync('app/acceso-administrador/form.tsx','utf8');

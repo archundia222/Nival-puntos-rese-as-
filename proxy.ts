@@ -9,7 +9,10 @@ export async function proxy(request:NextRequest){
  if(process.env.VERCEL_ENV==='production'&&(path.startsWith('/admin')||path.startsWith('/acceso-administrador'))&&request.nextUrl.host!==canonical){const url=new URL(request.url);url.protocol='https:';url.host=canonical;return NextResponse.redirect(url,308);}
  const loginUrl=path.startsWith('/admin')?'/acceso-administrador':'/acceso';
  const foundation=foundationEnabled();const protectedEmail=path.startsWith('/panel')||path.startsWith('/admin')||path==='/entrar';
- const protectedStaff=path.startsWith('/staff')&&path!=='/staff/acceso';
+ // Shared employee links must reach their own identity check even if the
+ // browser currently carries an owner/admin role hint from another session.
+ const publicStaffEntry=path==='/staff/entrar';
+ const protectedStaff=path.startsWith('/staff')&&path!=='/staff/acceso'&&!publicStaffEntry;
  if(foundation&&(protectedEmail||protectedStaff)){
   // Solo orienta la navegación. Páginas y acciones vuelven a consultar permisos reales.
   const hint=hintRole(request.cookies.get('nival_route')?.value,process.env.SESSION_SECRET);
