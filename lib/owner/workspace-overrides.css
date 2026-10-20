@@ -76,3 +76,33 @@
 .reviewCardShareActions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .reviewCardShareQr{display:block;width:112px;height:112px;object-fit:contain;padding:8px;border:1px solid #e1e8df;border-radius:14px;background:#fff}
 @media(max-width:640px){.reviewCardShareActions{width:100%}.reviewCardShareQr{width:96px;height:96px}.reviewCardShareActions button{flex:1}}
+
+/* Owner home: clear hierarchy and daily-action grouping */
+.nivalShell .homeSectionHeading{display:flex;align-items:baseline;gap:8px 12px;flex-wrap:wrap;margin:28px 0 10px}
+.nivalShell .homeSectionHeading small,.nivalShell .homeQuickActionsHeading small{color:#557d36;font-size:10px;font-weight:850;letter-spacing:.13em}
+.nivalShell .homeSectionHeading h3,.nivalShell .homeQuickActionsHeading h3{margin:0;color:#193c2f;font-size:20px;font-weight:750;letter-spacing:-.035em}
+.nivalShell .homeSectionHeading p{flex-basis:100%;margin:0;color:#586c5e;font-size:13px}
+.nivalShell .homePending{margin-top:10px}
+.nivalShell .homeQuickActions{align-items:stretch}
+.nivalShell .homeQuickActionsHeading{grid-column:1/-1;display:flex;align-items:baseline;gap:10px;padding:0 2px}
+.nivalShell .homeQuickActionsHeading h3{font-size:17px}
+.nivalShell .homeQuickActions .quickActionCard{min-height:74px}
+.nivalShell .homeCoreMetrics{margin-top:10px}
+.nivalShell .homeDetailHeading{margin-top:30px}
+.nivalShell .workspaceNav{gap:5px}
+.nivalShell .workspaceNavCaption{margin:12px 0 3px;padding:0 12px;color:#d3e0cf;font-size:10px;font-weight:850;letter-spacing:.14em}
+.nivalShell .workspaceNavCaption:first-child{margin-top:0}
+.nivalShell .workspaceNav .workspaceNavItem{min-height:48px;padding:11px 13px;color:#f0f3e9}
+.nivalShell .workspaceNav .workspaceNavItem strong{font-size:14px;font-weight:700}
+.nivalShell .workspaceNav .workspaceNavItem>svg{width:20px;height:20px;color:#dce8d6}
+.nivalShell .workspaceNav .workspaceNavItem:hover:not(.isActive){background:#2d5945;color:#fff}
+.nivalShell .workspaceNav .workspaceNavItem.isActive{background:#d8ef78!important;color:#173d31!important;border-color:#d8ef78!important}
+.nivalShell .workspaceNav .workspaceNavItem.isActive strong,.nivalShell .workspaceNav .workspaceNavItem.isActive>svg{color:#173d31!important}
+.nivalShell .workspaceSubmenu .workspaceNavItem{min-height:42px;padding:9px 11px;color:#e8f0e4}
+.nivalShell .workspaceSubmenu .workspaceNavItem strong{font-size:13px}
+@media(max-width:760px){
+ .nivalShell .homeQuickActions{grid-template-columns:1fr}
+ .nivalShell .homeSectionHeading{margin-top:22px}
+ .nivalShell .homePending,.nivalShell .homeCoreMetrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .nivalShell .homeQuickActions .quickActionCard{min-height:68px}
+}
