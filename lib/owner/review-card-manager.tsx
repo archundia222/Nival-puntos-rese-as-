@@ -11,15 +11,15 @@ export function ReviewCardManager({businessId,branchId,branchName,cards,googleUr
  function addDemoCard(){if(demo&&active<cardLimit){const label=`Tarjeta ${active+1}`;setDemoCards(current=>[...current,label]);}}
  return <div className="reviewCardManager">
   <header className="reviewCardHeading">
-   <div className="reviewCardHeadingActions">{canCreate&&(demo?<button type="button" className="workspacePrimary reviewAddButton" onClick={addDemoCard}>Agregar tarjeta QR <span aria-hidden="true">+</span></button>:<button type="button" className="workspacePrimary reviewAddButton" aria-expanded={adding} onClick={()=>setAdding(value=>!value)}>{adding?'Cancelar':'Agregar tarjeta QR'} {adding&&<Icon name="close" size={16}/>}</button>)}</div>
+   <div className="reviewCardHeadingActions">{canCreate&&(demo?<button type="button" className="workspacePrimary reviewAddButton" onClick={addDemoCard}>Agregar tarjeta QR <span aria-hidden="true">+</span></button>:<button type="button" className="workspacePrimary reviewAddButton" aria-expanded={adding} onClick={()=>setAdding(value=>!value)}>{adding?'Cancelar':'Agregar tarjeta QR'} {adding?<Icon name="close" size={16}/>:<span aria-hidden="true">+</span>}</button>)}</div>
   </header>
   {!googleUrl&&!demo?<article className="ownerCard reviewConnectCard">
    <span className="reviewConnectIcon"><Icon name="google" size={34}/></span>
    <h3>Google</h3><a className="workspacePrimary" href="#google">Conectar ficha <Icon name="arrow" size={17}/></a>
   </article>:null}
   {canCreate&&adding&&!demo&&<article className="ownerCard reviewCreateCard">
-   <div className="reviewQrArt" aria-hidden="true"><Icon name="compartir" size={86}/></div>
-   <div className="reviewCreateContent"><div className="reviewPhysicalCard"><small>NIVAL · GOOGLE</small><strong>{branchName}</strong><span>Tu QR para reseñas</span></div>
+   <div className="reviewQrArt" aria-hidden="true"><Icon name="google" size={42}/></div>
+   <div className="reviewCreateContent"><header><span className="workspaceEyebrow">NUEVA TARJETA QR</span><h3>Invita a dejar una reseña</h3><p>El QR abre la ficha de Google de {branchName}. Puedes imprimirlo y colocarlo en tu mostrador.</p></header><div className="reviewPhysicalCard"><small>NIVAL · RESEÑAS</small><strong>{branchName}</strong><span>Escanea y comparte tu experiencia</span></div>
     <ActionForm action={manageReviewCard} label="Crear QR"><Hidden name="businessId" value={businessId}/><Hidden name="branchId" value={branchId||''}/><label className="reviewNameField"><span>Nombre del QR</span><input name="label" required maxLength={80} placeholder="Mostrador"/></label></ActionForm>
    </div>
   </article>}

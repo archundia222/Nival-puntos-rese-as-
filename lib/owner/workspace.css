@@ -1543,3 +1543,84 @@
 .nivalShell .redemptionTrendDay{display:flex;flex:1;min-width:0;height:100%;flex-direction:column;align-items:center;justify-content:end;gap:6px}
 .nivalShell .redemptionTrendDay>span{display:block;width:100%;max-width:48px;border-radius:7px 7px 3px 3px;background:linear-gradient(180deg,#bee578,#267351);box-shadow:0 2px 4px #2050351c;min-height:5px}
 .nivalShell .redemptionTrendDay>small{font-size:9px;color:#5b7365;white-space:nowrap}
+
+/* Owner workspace refinements: clear navigation, account controls and unified card forms. */
+.nivalShell .workspaceBusiness{display:grid;gap:12px;margin-bottom:18px;padding:13px;background:#244839;border-color:#56735d;border-radius:14px;color:#f8f7ea}
+.nivalShell .workspaceBusinessIdentity{display:flex;align-items:center;gap:11px}
+.nivalShell .workspaceBusinessIdentity>div{min-width:0}
+.nivalShell .workspaceBusinessIdentity strong{color:#fffdf1;font-size:14px}
+.nivalShell .workspaceBusinessIdentity small{color:#d3dfcf}
+.nivalShell .workspaceBusiness .branchPicker{display:grid;gap:5px;margin:0;color:#e5eddd;font-size:10px;font-weight:700;letter-spacing:.025em}
+.nivalShell .workspaceBusiness .branchPicker select{width:100%;min-height:40px;padding:7px 34px 7px 10px;border:1px solid #dce9d3;border-radius:10px;background:#f8faef;color:#183a2c;font-size:12px;font-weight:650}
+.nivalShell .workspaceBusiness .branchPicker select:focus-visible{outline:3px solid #d8ef78;outline-offset:2px}
+.nivalShell .workspaceSidebarBottom{gap:10px;padding-top:12px}
+.nivalShell .sidebarIdentity{padding:10px 11px;border-color:#456553;border-radius:12px;background:#254737}
+.nivalShell .sidebarIdentityRow{display:grid;grid-template-columns:30px minmax(0,1fr) auto;align-items:center;gap:8px}
+.nivalShell .sidebarIdentityRow .workspaceStatus{grid-column:2;grid-row:2;justify-self:start;padding:4px 8px;font-size:9px}
+.nivalShell .sidebarIdentityRow .userAvatar{grid-column:1;grid-row:1/3;width:30px;height:30px;background:#d8ef78;color:#173d31}
+.nivalShell .sidebarIdentityRow>strong{grid-column:2;grid-row:1;font-size:11px}
+.nivalShell .sidebarLogout{grid-column:3;grid-row:1/3;align-self:center}
+.nivalShell .sidebarLogout form{margin:0}
+.nivalShell .sidebarLogout .logoutButton,.nivalShell .sidebarLogout>a{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;min-height:36px;padding:0;border:1px solid #62806b;border-radius:10px;background:#2e5140;color:#f8f7ea}
+.nivalShell .workspaceSidebarBottom .workspacePlanSummary{display:grid;gap:1px;padding:10px 12px;border:1px solid #456553;border-radius:12px;background:#254737;color:#fffdf1}
+.nivalShell .workspaceSidebarBottom .workspacePlanSummary strong{font-size:13px;line-height:1.35}
+.nivalShell .workspaceSidebarBottom .workspacePlanSummary small{font-size:10px;color:#d4e0d0}
+.nivalShell .planActiveLabel{display:flex;align-items:center;gap:6px;margin-bottom:2px;color:#d9ef9a;font-size:8px;font-weight:800;letter-spacing:.11em}
+.nivalShell .planActiveLabel i{width:6px;height:6px;border-radius:50%;background:#d8ef78;box-shadow:0 0 0 3px #d8ef7822}
+.nivalShell .workspaceSubmenu{margin:5px 0 8px 12px!important;padding:6px 7px 6px 9px!important;border-left:2px solid #d8ef78!important;border-radius:0 11px 11px 0!important;background:#2b4b3b!important}
+.nivalShell .workspaceSubmenu .workspaceNavItem.isSubItem{min-height:40px;color:#f7f8ed!important;border-radius:8px!important}
+.nivalShell .workspaceSubmenu .workspaceNavItem.isSubItem strong{color:inherit!important;font-weight:650!important}
+.nivalShell .workspaceSubmenu .workspaceNavItem.isSubItem.isActive{background:#d8ef78!important;color:#183a2d!important;box-shadow:inset 3px 0 #fffef5!important}
+.nivalShell .workspaceSubmenu .workspaceNavItem.isSubItem.isActive strong{color:#183a2d!important;font-weight:750!important}
+.nivalShell .workspaceSubmenu .workspaceNavItem.isSubItem:hover:not(.isActive){background:#ffffff20!important;color:#fff!important}
+.nivalShell .cardCatalogHeading{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 20px;border:1px solid #dce5d9;border-radius:16px;background:linear-gradient(115deg,#fffef9,#f5f8ef);box-shadow:0 8px 24px #19392b08}
+.nivalShell .cardCatalogHeading>div small{color:#637b65;font-size:9px;font-weight:800;letter-spacing:.13em}
+.nivalShell .cardCatalogHeading h2{margin:2px 0;color:#173d31;font-size:23px;letter-spacing:-.04em}
+.nivalShell .cardCatalogHeading p{margin:0;color:#607468;font-size:12px}
+.nivalShell .cardCatalogAddButton{min-width:170px;min-height:46px;border-radius:11px;font-size:13px!important}
+.nivalShell .cardTypeChooser{display:grid;grid-template-columns:minmax(190px,.7fr) minmax(0,1.3fr);gap:20px;align-items:center;margin-top:14px;padding:20px;border:1px solid #dfe6da;border-radius:16px;background:#fffefa;box-shadow:0 8px 20px #173d3108}
+.nivalShell .cardTypeChooser>header .workspaceEyebrow{color:#667d61;font-size:9px}
+.nivalShell .cardTypeChooser>header h3{margin:4px 0;font-size:20px;color:#183d30;letter-spacing:-.03em}
+.nivalShell .cardTypeChooser>header p{margin:0;color:#697b6e;font-size:12px;line-height:1.5}
+.nivalShell .cardTypeOptions{display:grid;gap:8px}
+.nivalShell .cardTypeOption{display:grid;grid-template-columns:40px minmax(0,1fr) auto;align-items:center;gap:11px;min-height:68px;padding:10px 13px;border:1px solid #e1e7db;border-radius:12px;background:#fff;color:#193d30;text-align:left;cursor:pointer;transition:background .16s,border-color .16s,transform .16s}
+.nivalShell .cardTypeOption:hover:not(:disabled){transform:translateY(-1px);border-color:#a8c493;background:#fbfdf5}
+.nivalShell .cardTypeOptionIcon{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:#e7efd6;color:#214e38}
+.nivalShell .cardTypeOptionIcon.reviews{background:#e5eee4;color:#32634b}
+.nivalShell .cardTypeOptionIcon.pay{background:#f1e9d5;color:#77602c}
+.nivalShell .cardTypeOptionCopy{display:grid;gap:3px}
+.nivalShell .cardTypeOptionCopy strong{font-size:13px}
+.nivalShell .cardTypeOptionCopy small{color:#697b6e;font-size:11px;line-height:1.35}
+.nivalShell .cardTypeOptionArrow{display:flex;align-items:center;color:#3e6c4f;font-size:10px;font-weight:700;white-space:nowrap}
+.nivalShell .cardTypeOption.isComingSoon{background:#fafaf6;cursor:not-allowed}
+.nivalShell .cardTypeComingSoon{padding:5px 8px;border-radius:999px;background:#eef0e9;color:#657265;font-size:9px;font-weight:750;white-space:nowrap}
+.nivalShell .cardCatalogNfc{margin-top:0}
+.nivalShell .cardCatalogNfcHeader h2{margin:8px 0 0;font-size:24px;letter-spacing:-.04em}
+.nivalShell .cardCatalogNfc .cardReturnButton{min-height:37px;border-radius:10px}
+.nivalShell .cardCatalogNfc .reviewCardManager{grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));align-items:start}
+.nivalShell .cardCatalogNfc .reviewCardHeading{justify-content:flex-start}
+.nivalShell .cardCatalogNfc .reviewAddButton{min-height:44px;padding-inline:15px;border-radius:10px;font-size:12px!important}
+.nivalShell .cardCatalogNfc .reviewCreateCard{display:grid;grid-template-columns:52px minmax(0,1fr);gap:12px;padding:17px;background:linear-gradient(145deg,#fffef8,#f5f8f0)}
+.nivalShell .reviewQrArt{display:grid;place-items:center;width:48px;height:48px;border-radius:14px;background:#e5efdb;color:#26583e}
+.nivalShell .reviewCreateContent{display:grid;gap:12px;min-width:0}
+.nivalShell .reviewCreateContent header{grid-column:1/-1}
+.nivalShell .reviewCreateContent header .workspaceEyebrow{font-size:9px}
+.nivalShell .reviewCreateContent header h3{margin:3px 0;font-size:17px}
+.nivalShell .reviewCreateContent header p{margin:0;color:#66776a;font-size:11px;line-height:1.5}
+.nivalShell .reviewCreateContent .reviewPhysicalCard{grid-column:1/-1}
+.nivalShell .reviewCreateContent .configGrid{grid-column:1/-1;grid-template-columns:1fr;gap:10px;margin:0;padding:14px;border:1px solid #e1e7db;border-radius:12px;background:#fff}
+.nivalShell .reviewCreateContent .configGrid button{width:100%;min-height:42px;border-radius:10px;background:#214f3a;color:white;font-weight:700}
+.nivalShell .reviewCardActions{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px!important}
+.nivalShell .reviewCardActions .configGrid{grid-template-columns:1fr;gap:9px;margin:0;padding:12px;border:1px solid #e5e9e1;border-radius:12px;background:#fbfcf8}
+.nivalShell .reviewCardActions .configGrid label{display:grid;gap:6px;color:#3c5946;font-size:11px!important;font-weight:700}
+.nivalShell .reviewCardActions .configGrid button{width:100%;min-height:40px;border-radius:9px;background:#214f3a;color:white;font-size:12px;font-weight:700}
+.nivalShell .configGrid{gap:14px;margin:16px 0}
+.nivalShell .configGrid label{display:grid;gap:7px;color:#344f3e;font-size:12px!important;font-weight:700;line-height:1.4}
+.nivalShell .configGrid input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),.nivalShell .configGrid select,.nivalShell .configGrid textarea{width:100%;min-height:44px;margin:0;padding:10px 12px;border:1px solid #becdbd;border-radius:10px;background:#fffefa;color:#1b382c;font-size:14px}
+.nivalShell .configGrid textarea{min-height:112px;resize:vertical}
+.nivalShell .configGrid input:focus-visible,.nivalShell .configGrid select:focus-visible,.nivalShell .configGrid textarea:focus-visible{outline:3px solid #b6d99b70;border-color:#487957}
+.nivalShell .configGrid input[type="checkbox"]{width:18px;height:18px;accent-color:#246746}
+.nivalShell .configGrid>button{justify-self:start;min-height:43px;padding:10px 16px;border:1px solid #214f3a;border-radius:10px;background:#214f3a;color:#fff;font-size:13px;font-weight:750}
+.nivalShell .configGrid .error,.nivalShell .configGrid [role="status"]{padding:10px 12px;border-radius:9px;background:#f1f6eb;color:#315c3d;font-size:12px}
+@media(max-width:760px){.nivalShell .cardCatalogHeading{align-items:stretch;flex-direction:column;padding:16px}.nivalShell .cardCatalogAddButton{width:100%}.nivalShell .cardTypeChooser{grid-template-columns:1fr;gap:14px;padding:16px}.nivalShell .cardTypeOption{grid-template-columns:36px minmax(0,1fr) auto;gap:9px;padding:10px}.nivalShell .cardTypeOptionIcon{width:36px;height:36px}.nivalShell .cardCatalogNfc .reviewCardActions{grid-template-columns:1fr}.nivalShell .cardCatalogNfc .reviewCreateCard{grid-template-columns:42px minmax(0,1fr);padding:13px}.nivalShell .reviewQrArt{width:40px;height:40px}}
+@media(prefers-reduced-motion:reduce){.nivalShell .cardTypeOption{transition:none}.nivalShell .cardTypeOption:hover:not(:disabled){transform:none}}
