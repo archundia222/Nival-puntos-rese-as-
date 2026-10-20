@@ -9,7 +9,7 @@ type Reward={id:string;name:string;points_cost:number;active?:boolean;expires_at
 type Program={name?:string;color?:string;card_enabled?:boolean;points_per_visit?:number;mode?:string;rules?:Record<string,any>;logo_url?:string|null};
 type SetupState={steps:{done:boolean;label:string}[];complete:boolean;completed:number};
 export function CardCatalog({businessId,business,slug,program,rewards,demo=false,setupState,nfcLimit=0,branchId,branchName,reviewCards=[],googleUrl,giftCardUrl}:{businessId:string;business:string;slug:string;program?:Program;rewards:Reward[];demo?:boolean;nfcLimit?:number;branchId?:string;branchName:string;reviewCards?:Record<string,any>[];googleUrl?:string|null;giftCardUrl?:string|null;setupState?:SetupState}){
- const [editing,setEditing]=useState(false),[choosing,setChoosing]=useState(false),[reviewAddRequested,setReviewAddRequested]=useState(false),[selected,setSelected]=useState<null|"points"|"pay">(null);
+ const [editing,setEditing]=useState(false),[choosing,setChoosing]=useState(false),[reviewAddRequested,setReviewAddRequested]=useState(false),[selected,setSelected]=useState<null|"points"|"pay"|"review">(null);
  const activeRewards=rewards.filter(r=>r.active!==false&&(!r.expires_at||new Date(r.expires_at).getTime()>Date.now())&&(r.stock==null||Number(r.stock)>0)),pointsActive=!!program&&program.card_enabled!==false;
  function editPoints(){setSelected('points');setEditing(true);}
  return <div className="cardCatalog">
@@ -20,8 +20,8 @@ export function CardCatalog({businessId,business,slug,program,rewards,demo=false
     <div className="cardSystemTop"><span className={pointsActive?"cardSystemStatus isOn":"cardSystemStatus"}>{pointsActive?"Activa":"Por configurar"}</span></div>
     <div className="cardCatalogMock pointsCatalogMock" style={{background:program?.color||'#173f32'}}><small>NIVAL · PUNTOS</small><strong>{business}</strong><span>{activeRewards[0]?.name||'Premio por configurar'}</span><i aria-hidden="true"><Icon name="points" size={23}/></i></div>
     </button>
-   <ReviewCardManager businessId={businessId} branchId={branchId} branchName={branchName} cards={reviewCards} googleUrl={googleUrl} cardLimit={nfcLimit} demo={demo} hideAddButton addRequested={reviewAddRequested} onAddHandled={()=>setReviewAddRequested(false)}/> 
   </div>}
+  {(!selected||selected==="review")&&<div className={selected==="review"?"cardCatalogReviewActive":""}><ReviewCardManager businessId={businessId} branchId={branchId} branchName={branchName} cards={reviewCards} googleUrl={googleUrl} cardLimit={nfcLimit} demo={demo} hideAddButton addRequested={reviewAddRequested} onAddHandled={()=>setReviewAddRequested(false)} onFlowChange={inside=>setSelected(inside?"review":null)}/></div>}
   {selected==="points"&&!editing&&<section className="ownerCard cardCatalogDetail"><button type="button" className="workspaceSecondary cardReturnButton" onClick={()=>setSelected(null)}><span aria-hidden="true">←</span> Regresar</button><h2>Compartir sistema de puntos</h2><ShareTools slug={slug} name={business} demo={demo}/><button type="button" className="workspacePrimary cardEditButton" onClick={editPoints}><Icon name="edit" size={17}/> Editar tarjeta</button></section>}
 
   {selected==="pay"&&<section className="ownerCard"><button type="button" className="workspaceSecondary cardReturnButton" onClick={()=>setSelected(null)}><span aria-hidden="true">←</span> Regresar</button><h2>Nival Pay</h2><p>Configura Nival Pay desde tu cuenta.</p></section>}
