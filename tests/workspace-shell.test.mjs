@@ -61,7 +61,7 @@ test('customer groups are filtered inside Customers and demo exit remains availa
  assert.ok(html.includes('Clientes'));
  assert.ok(html.includes('Tarjetas'));
  assert.ok(html.includes('Cuenta'));
- assert.ok(html.includes('Cerrar demo'));
+ assert.ok(html.includes('Salir'));
  assert.ok(!html.includes('Frecuentes'));assert.ok(!html.includes('En riesgo'));
  }
  const group=renderToStaticMarkup(React.createElement(tour.DemoTour,{section:'clientes-risk',active:true,navigate:()=>{},setActive:()=>{}}));

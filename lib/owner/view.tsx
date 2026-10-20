@@ -67,7 +67,7 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
    {done:false,label:'Registrar primer cliente',icon:'check',href:'#compartir'},
   ],
  }:await startGuideState(actor as Actor,b.id,data.reviewCards||[]);
- if(!demo&&!active&&!data.segments.length&&!data.last)return <DashboardShell name={b.name} owner={actor.name} status={status} demo={false} logout={<form action={logout}><button>Cerrar sesión</button></form>}><AccountState b={b}/></DashboardShell>;
+ if(!demo&&!active&&!data.segments.length&&!data.last)return <DashboardShell name={b.name} owner={actor.name} status={status} demo={false} logout={<form action={logout}><button className="logoutButton" type="submit"><Icon name="logout" size={16}/><span>Salir</span></button></form>}><AccountState b={b}/></DashboardShell>;
  const responseLimit=limits.reviewLimit;
 
  const planName=price>=549?'Plus':price>=399?'Esencial':'Básico';
@@ -100,7 +100,7 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
       ['Reseñas pendientes',pendingReviews??0,'reseñas'],
       ['Canjes por revisar',Number(current.pending||0),'canjes'],
       ['Días restantes',Math.max(0,30-periodDay),'plan']
-    ].map(([label,value,target])=><a className="ownerCard ownerMetric" key={String(label)} href={'#'+target}><span>{label}</span><strong>{number(Number(value))}</strong><small>Ver detalle →</small></a>)}
+    ].map(([label,value,target])=><a className={"ownerCard ownerMetric "+(label==="En riesgo"?"ownerMetricRisk":"")} key={String(label)} href={'#'+target}><span>{label}</span><strong>{number(Number(value))}</strong><small>Ver detalle →</small></a>)}
   </div>
   <div className="homeQuickActions" aria-label="Acciones rápidas">
    {[
@@ -116,12 +116,9 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
      ['Clientes nuevos',Number(current.new_customers||0),Number(prev.new_customers||0)],
      ['Premios canjeados',Number(current.redeemed||0),Number(prev.redeemed||0)],
      ['Clientes recurrentes',Number(current.returning_customers||0),Number(prev.returning_customers||0)]
-   ].map(([label,value,previous])=><article className="ownerCard ownerMetric" key={String(label)}><span>{label}</span><strong>{number(Number(value))}</strong><small className="metricChange">{percentChange(Number(value),Number(previous))} vs. anterior</small><div className="metricMiniChart" aria-hidden="true"><span style={{height:(Math.max(14,Math.min(95,Number(previous)/Math.max(1,Number(previous),Number(value))*92)))+"%"}}/><span style={{height:(Math.max(14,Math.min(95,Number(value)/Math.max(1,Number(previous),Number(value))*92)))+"%"}}/></div></article>)}
+   ].map(([label,value,previous])=>{const delta=Number(value)-Number(previous);const trend=delta>0?"up":delta<0?"down":"steady";return <article className="ownerCard ownerMetric" key={String(label)}><span>{label}</span><strong>{number(Number(value))}</strong><small className={"metricChange metricChange-"+trend} aria-label={delta>0?"Aumentó":delta<0?"Disminuyó":"Sin cambio"}><b aria-hidden="true">{delta>0?"↑":delta<0?"↓":"→"}</b>{percentChange(Number(value),Number(previous))} vs. periodo anterior</small></article>})}
   </div>
-  <div className="impactMasterDetails">
-   <ActivityChart items={activityRows} days={periodDays}/>
-   <CustomerMix current={current}/>
-  </div>
+
   <article className="ownerCard homeGoogle">
    <header className="workspaceSectionHeader"><h3>Google</h3><a href="#reseñas">Ver detalle →</a></header>
    <div className="ownerMetrics"><Metric label="Calificación" value={last?Number(last.rating).toFixed(1)+' ★':'—'}/><Metric label="Reseñas" value={Number(last?.total_reviews||0)}/><Metric label="Respondidas" value={data.google?.answered??0}/><Metric label="Pendientes" value={pendingReviews??0}/></div>

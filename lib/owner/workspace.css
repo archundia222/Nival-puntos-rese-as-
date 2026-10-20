@@ -1698,3 +1698,30 @@
 .nivalShell .workspaceSidebar .sidebarIdentity strong,.nivalShell .workspaceSidebar .workspacePlanSummary strong,.nivalShell .workspaceSidebar .workspaceHelp strong{color:#fffdf1!important}
 .nivalShell .workspaceSidebar .workspacePlanSummary small,.nivalShell .workspaceSidebar .workspaceHelp>span{color:#c6d7c8!important}
 .nivalShell .workspaceSidebar .sidebarLogout .logoutButton,.nivalShell .workspaceSidebar .sidebarLogout>a{background:#345845!important;border-color:#62806b!important;color:#fffdf1!important}
+
+/* Dashboard: clearer priorities, consistent quick actions and a visible exit. */
+.nivalShell .ownerMetricRisk{background:linear-gradient(135deg,#eef7d8 0%,#f8fbef 100%);border-color:#b8d587;box-shadow:inset 4px 0 0 #8bb846,0 8px 22px #365a2412}
+.nivalShell .ownerMetricRisk>span{color:#345b35!important;font-weight:700}
+.nivalShell .ownerMetricRisk strong{color:#214c35}
+.nivalShell .homeQuickActions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:14px 0 20px}
+.nivalShell .quickActionCard{min-height:76px;grid-template-columns:42px minmax(0,1fr) 18px;gap:12px;padding:14px 16px;border:1px solid #d6e2d2;background:#fffefa;border-radius:15px;color:#214833;box-shadow:0 4px 12px #1e3a2a0b;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}
+.nivalShell .quickActionCard:hover,.nivalShell .quickActionCard:focus-visible{transform:translateY(-2px);border-color:#9dbb84;box-shadow:0 9px 20px #1e3a2a14}
+.nivalShell .quickActionCard:focus-visible{outline:3px solid #b8da68;outline-offset:2px}
+.nivalShell .quickActionIcon{width:42px;height:42px;border-radius:13px;background:#eaf4d3;color:#28573d}
+.nivalShell .quickActionCard strong{font-size:13px;line-height:1.25}
+.nivalShell .quickActionCard small{font-size:11px;line-height:1.35;color:#63756a}
+.nivalShell .metricMiniChart{display:none!important}
+.nivalShell .metricChange{display:inline-flex;align-items:center;gap:5px;width:max-content;max-width:100%;margin-top:2px;padding:4px 9px;border-radius:999px;background:#eef3e8;color:#56685a;font-size:10px!important;font-weight:650}
+.nivalShell .metricChange b{font-size:15px;line-height:1}
+.nivalShell .metricChange-up{background:#e7f4dc;color:#246340}
+.nivalShell .metricChange-down{background:#fff0e4;color:#8d512e}
+.nivalShell .metricChange-steady{background:#f0f2ed;color:#68756d}
+.nivalShell .sidebarTopActions{display:flex;justify-content:flex-end;align-items:center;margin:-14px 0 14px}
+.nivalShell .sidebarTopActions form{margin:0}
+.nivalShell .sidebarTopActions .logoutButton,.nivalShell .sidebarTopActions>a{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:38px;padding:0 13px;border:1px solid #c9d5c8;border-radius:11px;background:#fffefa;color:#294a38;font:inherit;font-size:12px;font-weight:700;text-decoration:none;box-shadow:0 3px 12px #122d2112;cursor:pointer}
+.nivalShell .sidebarTopActions .logoutButton:hover,.nivalShell .sidebarTopActions>a:hover{background:#eef6df;border-color:#a9c77a}
+.nivalShell .sidebarTopActions .logoutButton svg,.nivalShell .sidebarTopActions>a svg{width:16px;height:16px}
+.nivalShell .sidebarIdentityRow{display:flex;align-items:center;gap:10px}
+.nivalShell .sidebarIdentityRow>strong{overflow-wrap:anywhere}
+@media(max-width:850px){.nivalShell .homeQuickActions{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+@media(max-width:430px){.nivalShell .quickActionCard{grid-template-columns:36px minmax(0,1fr) 14px;gap:9px;padding:12px;min-height:70px}.nivalShell .quickActionIcon{width:36px;height:36px}.nivalShell .quickActionCard strong{font-size:12px}.nivalShell .quickActionCard small{font-size:10px}}
