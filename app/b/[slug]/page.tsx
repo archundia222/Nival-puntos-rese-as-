@@ -51,10 +51,6 @@ export default async function Customer({
     : "";
   return (
     <main className="loyaltyShell">
-      <header className="loyaltyHeader">
-        <a href={"/b/" + slug}>{b.name}</a>
-        <span>Tu lealtad tiene premio</span>
-      </header>
       {c ? (
         <>{!b.active&&<p role="status">El servicio está pausado. Puedes consultar tu tarjeta; tus puntos y premios se conservan. Nuevos puntos y canjes estarán disponibles al renovar.</p>}{b.program?.card_enabled===false&&<p role="status">Esta tarjeta está inactiva. Tus puntos e historial se conservan; el negocio no puede registrar nuevos puntos ni canjes.</p>}<CardView business={b} initial={c} qr={qr} walletAvailable={walletReady()} /></>
       ) : !b.active ? (

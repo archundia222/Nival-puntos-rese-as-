@@ -14,8 +14,8 @@ test("demo share link and QR open the clearly labeled sample customer card", asy
 
   assert.match(share, /demo\?'\/demo\/tarjeta'/);
   assert.match(qr, /url\.origin\+'\/demo\/tarjeta'/);
-  assert.match(page, /Vista de ejemplo/);
-  assert.match(page, /No crea una cuenta ni guarda visitas o puntos/);
+  assert.match(page, /Muestra de diseño/);
+  assert.match(page, /QR no registra visitas ni canjes/);
   assert.match(page, /href="\/demo\/panel"/);
   assert.match(
     owner,
@@ -30,7 +30,7 @@ test("sample customer card has no enrollment form or write action", async () => 
     /<form|VerifiedActionForm|ActionForm|enroll|fetch\s*\(|server action/i,
   );
   assert.match(page, /aria-valuenow=\{points\}/);
-  assert.match(page, /className="loyaltyCard"/);
+  assert.match(page, /className="loyaltyCard nivalConfiguredCard"/);
 });
 
 test("public landing explains Nival plans, points, and review support without unverified metrics", async () => {

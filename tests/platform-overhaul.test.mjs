@@ -21,6 +21,17 @@ test('card designs edit live, accept owned image assets, and render on the custo
   assert.ok(customerCard.includes('card_design?.footer'));
 });
 
+test('customer loyalty card has one shared scan code, automatic balance refresh, and reward status history', () => {
+  assert.equal((customerCard.match(/className="cardQrInside"/g) || []).length, 1);
+  assert.equal((customerCard.match(/src=\{qr\}/g) || []).length, 1);
+  assert.ok(customerCard.includes('setInterval(automatic, 6000)'));
+  assert.ok(customerCard.includes('UN SOLO CÓDIGO PARA PUNTOS Y PREMIOS'));
+  assert.ok(!customerCard.includes('personalQr'));
+  assert.ok(!customerCard.includes('Actualizar mis puntos'));
+  assert.ok(customerCard.includes('Por canjear') && customerCard.includes('Canjeados'));
+  assert.ok(customerCard.includes('Tu próximo premio') && customerCard.includes('customerGoalProgress'));
+});
+
 test('automation groundwork only adds fields and review state storage', () => {
   assert.match(migration, /create table if not exists nival_pr\.review_items/);
   for (const status of ['pending', 'drafted', 'approved', 'published']) assert.ok(migration.includes(status));

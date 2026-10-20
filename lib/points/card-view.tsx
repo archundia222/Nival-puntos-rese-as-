@@ -18,16 +18,15 @@ export function CardView({
 }) {
   const [card, setCard] = useState(initial),
     [pulse, setPulse] = useState(false),
-    [confetti, setConfetti] = useState(false),[pointMessage,setPointMessage]=useState(''),[syncMessage,setSyncMessage]=useState(''),[checking,setChecking]=useState(false);
-  const manualRefresh=useRef<(manual?:boolean)=>Promise<void>>(async()=>{});
+    [confetti, setConfetti] = useState(false),[pointMessage,setPointMessage]=useState('');
   const router = useRouter();
   const previous = useRef(initial);
   useEffect(() => {
     let stopped = false;
     let busy = false;
-    const refresh = async (manual=false) => {
+    const refresh = async () => {
       if (document.hidden || busy) return;
-      busy = true;if(manual){setChecking(true);setSyncMessage('');}
+      busy = true;
       try {
         const r = await fetch("/api/points/card?slug=" + business.slug, {
           cache: "no-store",
@@ -55,13 +54,13 @@ export function CardView({
           }
         }
         previous.current = d.card;
-        setCard(d.card);if(manual)setSyncMessage('Tarjeta actualizada.');
-      } catch {if(manual)setSyncMessage('No pudimos actualizar ahora. Tu último saldo se conserva; vuelve a intentar.');
+        setCard(d.card);
+      } catch {
       } finally {
-        busy = false;if(manual)setChecking(false);
+        busy = false;
       }
     };
-    manualRefresh.current=refresh;const automatic=()=>void refresh();
+    const automatic=()=>void refresh();
     const timer = setInterval(automatic, 6000);
     document.addEventListener("visibilitychange", automatic);
     return () => {
@@ -83,9 +82,11 @@ export function CardView({
   const visibleDots=Math.min(goal||10,20),filledDots=Math.min(Math.round((points/Math.max(goal,1))*visibleDots),visibleDots);
   const baseCardColor=design.theme==="minimal"?"#ffffff":design.theme==="noche"?"#17352f":design.theme==="botanico"?"#315641":cardColor(business.program?.color);
   const configuredStyle={"--card-color":baseCardColor,"--card-text":design.theme==="minimal"?(design.textColor||"#17352f"):readableCardText(design.textColor,baseCardColor),"--card-accent":design.secondaryColor||"#cfe87a","--point-active":design.pointActive||design.secondaryColor||"#cfe87a","--point-idle":design.pointInactive||"#ffffff35"} as React.CSSProperties;
+  const manualCode=card.manual_code||String(card.id).slice(-8).toUpperCase();
+  const availableRewards=card.available_rewards||[], redeemedRewards=card.redeemed_rewards||[];
+  const rewardInventory=<section className="customerRewardInventory" aria-labelledby="rewards-inventory-heading"><header className="customerInventoryHeading"><div><p className="customerSectionEyebrow">TUS PREMIOS</p><h2 id="rewards-inventory-heading">Recompensas</h2></div><span>{availableRewards.length+redeemedRewards.length} en total</span></header><div className="rewardInventoryTabs"><section aria-labelledby="available-rewards-heading"><h3 id="available-rewards-heading">Por canjear <span>{availableRewards.length}</span></h3>{availableRewards.length?availableRewards.map((r:any)=><article key={r.id} className="rewardInventoryRow">{r.photo_url?<img src={r.photo_url} alt=""/>:<span className="rewardInventoryIcon" aria-hidden="true">✦</span>}<span><b>{r.name}</b><small>{r.points_cost} puntos · disponible</small></span><i>Disponible</i></article>):<p className="rewardInventoryEmpty">Cuando desbloquees un premio aparecerá aquí.</p>}</section><section aria-labelledby="redeemed-rewards-heading"><h3 id="redeemed-rewards-heading">Canjeados <span>{redeemedRewards.length}</span></h3>{redeemedRewards.length?redeemedRewards.map((r:any,i:number)=><article key={r.id||i} className="rewardInventoryRow">{r.photo_url?<img src={r.photo_url} alt=""/>:<span className="rewardInventoryIcon isRedeemed" aria-hidden="true">✓</span>}<span><b>{r.name}</b><small>Entregado · {new Date(r.created_at).toLocaleDateString("es-MX",{timeZone:"America/Mexico_City"})}</small></span><i className="isRedeemed">Entregado</i></article>):<p className="rewardInventoryEmpty">Tus premios entregados aparecerán aquí.</p>}</section></div></section>;
   return (
     <div className="nivalCustomerFlow">
-      <p className="cardWelcome">Tu tarjeta está lista. Muéstrala después de tu compra para sumar puntos.</p>
       <article
         className={"loyaltyCard nivalConfiguredCard " + (pulse ? "cardPulse" : "")}
         data-theme={design.theme||"nival"}
@@ -106,18 +107,15 @@ export function CardView({
                 className="cardLogo"
                 src={design.squareLogo||business.program.logo_url}
                 alt={"Logo de " + business.name}
+                title={business.name}
               />
             ) : (
-              <span className="cardMonogram">{business.name.slice(0, 1)}</span>
+              <span className="cardMonogram" role="img" aria-label={business.name}>{business.name.slice(0, 1)}</span>
             )}
-            <small style={design.theme==="minimal"?{color:design.textColor||"#17352f"}:{color:"#fff",textShadow:"0 1px 4px #000"}}>{business.name}</small>
           </div>
           <span className="cardExpiry">{design.expiryMonths?`Puntos válidos ${design.expiryMonths} meses`:"Los puntos no caducan"}</span>
         </div>
-        <p className="cardProgram" style={design.theme==="minimal"?{color:design.textColor||"#17352f",textShadow:"none"}:{color:"#fff",textShadow:"0 1px 4px #000"}}>
-          Tarjeta de puntos
-        </p>
-        <h1>Tarjeta de: <span>{card.name}</span></h1>
+        <p className="cardMemberName">{card.name}</p>
         {design.pointView==="bar"?<><div className="cardNumbers compact"><strong aria-live="polite">{points}</strong><span>de {goal||"—"} puntos</span></div><div
           className="cardProgress"
           role="progressbar"
@@ -132,11 +130,8 @@ export function CardView({
             }}
           />
         </div></>:<div className="cardPointGrid" aria-label={`${points} de ${goal} puntos acumulados`}>{Array.from({length:visibleDots},(_,i)=><i key={i} className={i<filledDots?"isFilled":""}>{i<filledDots?(design.pointFilledIcon==="image"&&design.stampImage?<img src={design.stampImage} alt=""/>:design.pointFilledIcon==="star"?"★":"✓"):(design.pointIcon==="star"?"☆":design.pointIcon==="heart"?"♡":design.pointIcon==="coffee"?"☕":"○")}</i>)}</div>}
-        <div className="cardQrInside"><img src={qr} alt="QR personal para registrar tus puntos"/><span>QR PERSONAL<br/><b>{card.manual_code||String(card.id).slice(-8).toUpperCase()}</b></span></div>
-        <footer>
-          <span>{business.program?.rules?.card_design?.footer || "Un lugar al que vale la pena volver."}</span>
-          <small>•••• {card.id.slice(-4).toUpperCase()}</small>
-        </footer>
+        <div className="cardQrInside"><img src={qr} alt="QR para sumar visitas y registrar canjes"/><div><small>UN SOLO CÓDIGO PARA PUNTOS Y PREMIOS</small><span>El personal escanea este QR para registrar una visita o entregar un premio.</span><b>{manualCode}</b></div></div>
+        <footer><span>{business.program?.rules?.card_design?.footer || "Un lugar al que vale la pena volver."}</span></footer>
         {pointMessage&&<span className="pointCongrats" role="status" aria-live="polite">{pointMessage}</span>}
         {confetti && (
           <div className="confetti" aria-hidden="true">
@@ -154,25 +149,7 @@ export function CardView({
         )}
       </article>
       {walletAvailable&&<WalletButton slug={business.slug} />}
-      <section className="personalQr">
-        <div>
-          <small>TU QR PERSONAL</small>
-          <h2>Muéstralo al personal</h2>
-          <p>Para registrar tu visita o recibir tu premio.</p>
-        </div>
-        <img
-          src={qr}
-          alt="QR personal para registrar visitas"
-          width="210"
-          height="210"
-        />
-        <small>
-          Si no pueden escanearlo, dicta tu código manual.
-        </small>
-        <p className="manualCardCode">Código manual: <strong>{card.manual_code||card.id}</strong></p>
-        <button type="button" disabled={checking} onClick={()=>void manualRefresh.current(true)}>{checking?'Actualizando…':'Actualizar mis puntos'}</button>{syncMessage&&<p role="status">{syncMessage}</p>}
-      </section>
-      <section className="customerRewardSummary"><h2>Tu próximo premio</h2>{card.reward?.photo_url&&<img className="customerRewardPhoto" src={card.reward.photo_url} alt={`Premio: ${card.reward.name}`}/>}<div className="customerRewardGoal">
+      <section className="customerRewardSummary" aria-labelledby="next-reward-heading"><p className="customerSectionEyebrow">SIGUIENTE META</p><h2 id="next-reward-heading">Tu próximo premio</h2>{card.reward?.photo_url&&<img className="customerRewardPhoto" src={card.reward.photo_url} alt={`Premio: ${card.reward.name}`}/>}<div className="customerRewardGoal">
           <span>
             {ready
               ? "Tu premio está disponible para canjear"
@@ -181,8 +158,8 @@ export function CardView({
                 : "Meta pendiente de configuración"}
           </span>
           <b>{card.reward?.name || "Premio por definir"}</b>
-        </div>
-</section>
+        </div>{goal>0&&<><div className="customerGoalProgress" role="progressbar" aria-label="Avance hacia tu próximo premio" aria-valuemin={0} aria-valuemax={goal} aria-valuenow={Math.min(points,goal)}><i style={{width:`${Math.min(points/goal,1)*100}%`}}/></div><div className="customerGoalMeta"><strong>{Math.min(points,goal)} <span>de {goal} puntos</span></strong><small>{ready?"Meta alcanzada":`Te faltan ${Math.max(goal-points,0)} puntos`}</small></div></>}</section>
+      {rewardInventory}
       {(design.terms||design.whatsapp||design.address||design.instagram||design.facebook)&&<section className="customerCardDetails"><h2>Información del programa</h2>{design.terms&&<details><summary>Términos y condiciones</summary><p>{design.terms}</p></details>}{design.whatsapp&&<p>WhatsApp: <a href={`https://wa.me/${String(design.whatsapp).replace(/\D/g,"")}`} target="_blank" rel="noreferrer">{design.whatsapp}</a></p>}{design.address&&<p>Dirección: {design.address}</p>}{design.instagram&&<p>Instagram: {design.instagram}</p>}{design.facebook&&<p>Facebook: {design.facebook}</p>}</section>}
       {business.active && policyMode === "choose" && !card.reward && (
         <section className="reviewBox">
@@ -208,7 +185,7 @@ export function CardView({
           🔒 Elegiste {card.reward.name}. Podrás cambiarlo después de canjear.
         </p>
       )}
-      <section className="customerRewardInventory" aria-labelledby="rewards-inventory-heading"><h2 id="rewards-inventory-heading">Mis recompensas</h2><div className="rewardInventoryTabs"><div><h3>Disponibles para canjear</h3>{(card.available_rewards||[]).length?(card.available_rewards||[]).map((r:any)=><article key={r.id} className="rewardInventoryRow">{r.photo_url&&<img src={r.photo_url} alt={r.name}/>}<span><b>{r.name}</b><small>{r.points_cost} puntos · disponible</small></span></article>):<p>Aún no tienes premios disponibles para canjear.</p>}</div><div><h3>Historial de canjes</h3>{(card.redeemed_rewards||[]).length?(card.redeemed_rewards||[]).map((r:any,i:number)=><article key={r.id||i} className="rewardInventoryRow">{r.photo_url&&<img src={r.photo_url} alt={r.name}/>}<span><b>{r.name}</b><small>Canjeado · {new Date(r.created_at).toLocaleDateString("es-MX",{timeZone:"America/Mexico_City"})}</small></span></article>):<p>Aún no has canjeado premios.</p>}</div></div></section><details className="cardHelp"><summary>¿Cómo guardo o recupero mi tarjeta?</summary><p>Guarda esta página en los favoritos de este navegador. En Android también puedes usar “Agregar a pantalla de inicio”. Si cambias de celular, borras los datos o abres otro navegador, vuelve al enlace de este negocio y recupera tu tarjeta con el teléfono registrado. Tus puntos e historial se conservan.</p><p>Los puntos se suman por compras registradas por el negocio. Al entregar un premio se descuentan los puntos indicados; puedes revisar cada movimiento aquí.</p></details>
+      <details className="cardHelp"><summary>¿Cómo guardo o recupero mi tarjeta?</summary><p>Guarda esta página en los favoritos de este navegador. En Android también puedes usar “Agregar a pantalla de inicio”. Si cambias de celular, borras los datos o abres otro navegador, vuelve al enlace de este negocio y recupera tu tarjeta con el teléfono registrado. Tus puntos e historial se conservan.</p><p>El saldo se actualiza automáticamente. El mismo QR y código sirven para registrar visitas y entregar premios.</p></details>
       <section className="cardHistory" aria-labelledby="customer-history-heading">
         <p className="customerEyebrow">TU AVANCE</p>
         <h2 id="customer-history-heading">Historial de puntos</h2>
