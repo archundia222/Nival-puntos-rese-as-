@@ -2,7 +2,7 @@
 import {useEffect,useRef,useState} from 'react';
 import {Icon} from './icons';
 
-type MenuItem={id:string;label:string;icon?:string;href?:string;disabled?:boolean;children?:MenuItem[]};
+type MenuItem={id:string;label:string;icon?:string;href?:string;disabled?:boolean;kind?:'caption';children?:MenuItem[]};
 function normalizeSection(section:string){
  if(['tarjetas','tus-tarjetas','programa','compartir','compartir-programa','nival-resenas'].includes(section))return 'mis-tarjetas';
  if(section==='google')return 'reseñas';
@@ -17,18 +17,21 @@ function groupForSection(section:string):string|null{
 }
 function makeItems(_reviewLimit:number,_nfcLimit:number):MenuItem[]{
  return [
+  {id:'caption-operation',label:'OPERACIÓN DIARIA',kind:'caption'},
   {id:'inicio',label:'Inicio',icon:'inicio'},
   {id:'tarjetas',label:'Tarjetas',icon:'card',children:[
    {id:'mis-tarjetas',label:'Mis tarjetas'},
    {id:'premios',label:'Premios y recompensas'},
   ]},
+  {id:'canjes',label:'Canjes',icon:'check'},
+  {id:'reseñas',label:'Reseñas',icon:'google'},
+  {id:'informes',label:'Informes',icon:'trend'},
+  {id:'caption-customers',label:'CLIENTES',kind:'caption'},
   {id:'clientes-menu',label:'Clientes',icon:'clientes',children:[
    {id:'clientes',label:'Clientes'},
    {id:'campañas-clientes',label:'Campañas'},
   ]},
-  {id:'canjes',label:'Canjes',icon:'check'},
-  {id:'reseñas',label:'Reseñas',icon:'google'},
-  {id:'informes',label:'Informes',icon:'trend'},
+  {id:'caption-settings',label:'CONFIGURACIÓN',kind:'caption'},
   {id:'sucursales',label:'Sucursales',icon:'pin'},
   {id:'equipo',label:'Equipo',icon:'equipo'},
   {id:'cuenta',label:'Cuenta',icon:'settings',children:[
@@ -38,7 +41,6 @@ function makeItems(_reviewLimit:number,_nfcLimit:number):MenuItem[]{
   ]},
  ];
 }
-
 export function DashboardShell({name,owner,status,demo,logout,children,initialSection='inicio',homeUrl,mobilePreview=false,pointsOnly=false,planName='Puntos',price=299,responseLimit=0,nfcLimit=3,periodDay=1,branches=[],branchId}:{name:string;owner:string;status:string;demo:boolean;logout:React.ReactNode;children:React.ReactNode;initialSection?:string;homeUrl?:string;mobilePreview?:boolean;pointsOnly?:boolean;planName?:string;price?:number;responseLimit?:number;nfcLimit?:number;periodDay?:number;branches?:Record<string,any>[];branchId?:string}){
  const [section,setSection]=useState(()=>normalizeSection(initialSection)),[open,setOpen]=useState(false),[collapsed,setCollapsed]=useState(false),[mobile,setMobile]=useState(mobilePreview),[expanded,setExpanded]=useState<string|null>(()=>groupForSection(normalizeSection(initialSection)));
  const sidebar=useRef<HTMLElement>(null),trigger=useRef<HTMLButtonElement>(null);
@@ -69,6 +71,7 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
   window.scrollTo({top:0,behavior:'smooth'});requestAnimationFrame(()=>document.getElementById('workspace-title')?.focus());
  }
  function render(item:MenuItem,depth=0){
+  if(item.kind==='caption')return <div className="workspaceNavCaption" key={item.id}>{item.label}</div>;
   const active=section===item.id||(item.id==='tarjetas'&&['mis-tarjetas','google','nival-resenas','compartir-programa','compartir','promociones','nival-pay','premios'].includes(section))||(item.id==='mis-tarjetas'&&['mis-tarjetas','google','nival-resenas','compartir-programa','compartir','promociones','nival-pay'].includes(section))||(item.id==='clientes-menu'&&['clientes','campañas-clientes'].includes(section))||(item.id==='cuenta'&&(section==='plan'||section==='ajustes'||section==='configuracion'||section==='tarjetas-nfc'))||(item.id==='configuracion'&&section==='ajustes');
   if(item.children)return <div className={'workspaceMenuGroup'+(depth?' isNested':'')} key={item.id}>
    <button className={'workspaceNavItem'+(active?' isActive':'')} aria-expanded={expanded===item.id} aria-controls={'workspace-submenu-'+item.id} onClick={()=>toggle(item.id)} aria-current={active?'page':undefined}>{item.icon&&<Icon name={item.icon}/>}<span><strong>{item.label}</strong></span><i aria-hidden="true"/></button>
@@ -86,7 +89,7 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
   <aside className="workspaceSidebar" id="workspace-menu" ref={sidebar} role={mobile&&open?'dialog':undefined} aria-modal={mobile&&open?true:undefined} aria-label="Menú de tu negocio" inert={mobile&&!open}>
    <div className="workspaceBrand"><span className="brandMark">N</span><span className="brandWords">nival<span>ESPACIO DE NEGOCIOS</span></span><button className="drawerClose" aria-label="Cerrar menú" onClick={()=>{setOpen(false);trigger.current?.focus();}}><Icon name="close"/></button></div>
 <div className="workspaceBusiness"><div className="workspaceBusinessIdentity"><span className="businessAvatar">{name.slice(0,1).toUpperCase()}</span><div><strong>{name}</strong><small>{demo?'Negocio de demostración':'Mi negocio'}</small></div></div>{branches.some(x=>x.active)&&<label className="branchPicker"><span>Sucursal activa</span><select aria-label="Sucursal seleccionada" value={branchId||branches.find(x=>x.is_primary)?.id||""} onChange={e=>{const url=new URL(window.location.href);url.searchParams.set("branch",e.target.value);window.location.assign(url.toString());}}>{branches.filter(x=>x.active).map(x=><option key={x.id} value={x.id}>{x.name}</option>)}</select></label>}</div>
-   <nav className="workspaceNav" aria-label="Secciones del panel"><div className="workspaceNavCaption">TU NEGOCIO</div>
+   <nav className="workspaceNav" aria-label="Secciones del panel">
     {menu.map(item=>render(item))}
    </nav>
    <div className="workspaceSidebarBottom"><div className="workspacePlanSummary"><span className="planActiveLabel"><i aria-hidden="true"/>{demo?'DEMO':status==='Activo'?'PLAN ACTIVO':'ESTADO DEL PLAN'}</span><strong>{planName}</strong><small>${price} MXN <span>·</span> 30 días</small></div><div className="sidebarIdentity"><div className="sidebarIdentityRow"><span className="userAvatar">{owner.slice(0,1).toUpperCase()}</span><strong title={owner}>{owner}</strong></div></div><a className="workspaceHelp" href="https://wa.me/525539044788?text=Hola%2C%20necesito%20ayuda%20con%20mi%20panel%20Nival" target="_blank" rel="noreferrer"><span>¿Necesitas una mano?</span><strong>Hablar con Nival <Icon name="arrow" size={16}/></strong></a><div className="workspaceLegal"><a href="/privacidad">Privacidad</a><a href="/terminos">Términos</a></div></div>
