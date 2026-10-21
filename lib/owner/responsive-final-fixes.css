@@ -117,3 +117,10 @@
 .nivalShell [data-panel="equipo"] .teamRecentItem>div{min-width:0!important;display:grid!important;gap:3px!important}
 .nivalShell [data-panel="equipo"] .teamRecentItem strong{font-size:13px!important;color:#173f2b!important}
 .nivalShell [data-panel="equipo"] .teamRecentItem small{font-size:11px!important;color:#748277!important;line-height:1.4!important}
+
+.nivalShell [data-panel="campañas-clientes"] .campaignImpactSummary{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important;margin:16px 0 22px!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignImpactSummary article{display:grid!important;gap:5px!important;border:1px solid #dce6da!important;border-radius:14px!important;background:white!important;padding:15px!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignImpactSummary span{font-size:11px!important;color:#677d6e!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignImpactSummary strong{font-size:25px!important;color:#174b35!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignImpactSummary p{grid-column:1/-1!important;font-size:11px!important;color:#64776b!important;margin:0!important;line-height:1.5!important}
+@media(max-width:500px){.nivalShell [data-panel="campañas-clientes"] .campaignImpactSummary{grid-template-columns:1fr 1fr!important}.nivalShell [data-panel="campañas-clientes"] .campaignImpactSummary article:last-of-type{grid-column:1/-1!important}}
