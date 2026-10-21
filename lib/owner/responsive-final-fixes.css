@@ -81,3 +81,27 @@
  .nivalShell .liveCardPreview{order:2!important}
  .nivalShell .workspaceContent{overflow-x:clip!important}
 }
+
+@media(max-width:960px){
+.nivalShell [data-panel="mis-tarjetas"] .cardCatalogEditor{margin-inline:-10px!important;width:calc(100% + 20px)!important;padding:0!important;border:0!important;background:transparent!important}
+.nivalShell [data-panel="mis-tarjetas"] .nivalCardEditor form{padding:16px!important;background:#fff!important;border-radius:15px!important}
+.nivalShell [data-panel="mis-tarjetas"] .nivalCardEditor .cardEditorFields{padding:12px 2px!important}
+}
+.nivalShell .automaticBonusToggle input[type=checkbox]{appearance:none!important;-webkit-appearance:none!important;width:46px!important;height:26px!important;min-width:46px!important;min-height:26px!important;border:0!important;border-radius:40px!important;background:#bacbbf!important;position:relative!important;padding:0!important;box-shadow:none!important}
+.nivalShell .automaticBonusToggle input[type=checkbox]::before{content:""!important;position:absolute!important;top:3px!important;left:3px!important;width:20px!important;height:20px!important;border-radius:50%!important;background:white!important;box-shadow:0 1px 3px #0003!important;transition:transform .18s}
+.nivalShell .automaticBonusToggle input[type=checkbox]:checked{background:#164d3b!important}
+.nivalShell .automaticBonusToggle input[type=checkbox]:checked::before{transform:translateX(20px)!important}
+.nivalShell [data-panel="premios"] .rewardShowcaseIcon{display:flex!important;align-items:center!important;justify-content:center!important;overflow:hidden!important;padding:5px!important}
+.nivalShell [data-panel="premios"] .rewardGiftAsset{display:block!important;width:100%!important;height:100%!important;object-fit:contain!important;margin:0!important}
+.nivalShell .nivalCardEditor .cardPreviewCanvas>.loyaltyCard{width:100%!important;max-width:390px!important;min-height:0!important;aspect-ratio:auto!important;transform:none!important;padding:20px 16px!important}
+.nivalShell .nivalCardEditor .cardPreviewCanvas>.loyaltyCard .cardQrInside{display:flex!important}
+.nivalShell .nivalCardEditor .previewRewardCaption{display:none!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignGoalGrid{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr))!important;gap:12px!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignGoalCard{display:grid!important;align-content:start!important;gap:8px!important;min-height:184px!important;padding:16px!important;border:1px solid #dce6da!important;border-radius:16px!important;background:#fff!important;box-shadow:none!important;text-align:left!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignGoalCard strong{font-size:16px!important;color:#183f2c!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignComposer,.nivalShell [data-panel="campañas-clientes"] .campaignHistory{border:1px solid #dce6da!important;border-radius:16px!important;padding:18px!important;background:white!important}
+.nivalShell [data-panel="equipo"] .teamActivitySummary{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important;margin:16px 0!important}
+.nivalShell [data-panel="equipo"] .teamActivitySummary article{display:grid!important;gap:5px!important;padding:12px!important;border-radius:12px!important;background:#edf4e7!important}
+.nivalShell [data-panel="equipo"] .teamActivitySummary strong{font-size:24px!important;color:#174631!important}
+.nivalShell [data-panel="equipo"] .teamActivitySummary span{font-size:11px!important;color:#66786d!important}
+@media(max-width:520px){.nivalShell [data-panel="equipo"] .teamActivitySummary{grid-template-columns:1fr 1fr!important}}
