@@ -11,8 +11,6 @@
 .nivalShell [data-panel="campañas-clientes"] .campaignGoalCard>small{grid-column:2!important;grid-row:2!important;align-self:start!important;font-size:10px!important;line-height:1.2!important;white-space:normal!important}
 .nivalShell [data-panel="campañas-clientes"] .campaignGoalIcon{grid-column:1!important;grid-row:1/span 2!important;width:36px!important;height:36px!important}
 .nivalShell [data-panel="campañas-clientes"] .campaignAudienceCount{grid-column:3!important;grid-row:1/span 2!important;font-size:10px!important;white-space:nowrap!important}
-.nivalShell [data-panel="campañas-clientes"] .campaignAudienceCount:not(.isSelected){font-size:0!important}
-.nivalShell [data-panel="campañas-clientes"] .campaignGoalCard .campaignAudienceCount:after{content:" clientes";font-size:10px}
 .nivalShell [data-panel="campañas-clientes"] .campaignGoalCard .campaignAudienceCount{max-width:84px!important;overflow:hidden!important}
 .nivalShell [data-panel="campañas-clientes"] .campaignGoalCard .campaignGoalArrow{grid-column:4!important;grid-row:1/span 2!important}
 .nivalShell [data-panel="campañas-clientes"] .campaignHistory{order:2!important;margin:0 0 23px!important;padding:0!important;box-shadow:none!important;border:0!important;background:transparent!important}
