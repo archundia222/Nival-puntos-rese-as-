@@ -1,0 +1,7 @@
+export function ReviewSentimentPie({distribution,period}:{distribution:Record<string,number>;period:string}){
+ const positive=Number(distribution[4]||0)+Number(distribution[5]||0),neutral=Number(distribution[3]||0),negative=Number(distribution[1]||0)+Number(distribution[2]||0);
+ const total=positive+neutral+negative;
+ if(total===0)return <div className="reviewPieEmpty">Sin distribución de estrellas registrada. Agrega un reporte para ver los porcentajes.</div>;
+ const goodPct=positive/total*100,badPct=negative/total*100,neutralPct=neutral/total*100;
+ return <figure className="reviewSentiment"><figcaption>Reseñas positivas y negativas · {period}</figcaption><div className="reviewSentimentContent"><div className="reviewSentimentRing" role="img" aria-label={`Buenas ${Math.round(goodPct)}%, malas ${Math.round(badPct)}%, neutras ${Math.round(neutralPct)}%`} style={{background:`conic-gradient(#16613f 0% ${goodPct}%,#b9a561 ${goodPct}% ${goodPct+neutralPct}%,#a83e3e ${goodPct+neutralPct}% 100%)`}}><span><strong>{total.toLocaleString('es-MX')}</strong><small>reseñas</small></span></div><div className="reviewSentimentLegend"><div><i className="reviewLegendGood"/><span>Buenas (4–5 ★)</span><strong>{Math.round(goodPct)}%</strong></div><div><i className="reviewLegendBad"/><span>Malas (1–2 ★)</span><strong>{Math.round(badPct)}%</strong></div><div><i className="reviewLegendNeutral"/><span>Neutras (3 ★)</span><strong>{Math.round(neutralPct)}%</strong></div></div></div></figure>;
+}
