@@ -1,0 +1,83 @@
+/* Compartir y editar tarjeta: referencia móvil. Solo estilos, conserva QR y acciones existentes. */
+.nivalShell [data-panel="mis-tarjetas"] .cardCatalogDetail{
+ display:flex!important;flex-direction:column!important;gap:0!important;
+ width:100%!important;max-width:760px!important;margin:0 auto!important;
+ padding:0!important;border:0!important;border-radius:0!important;
+ background:transparent!important;box-shadow:none!important;
+}
+.nivalShell [data-panel="mis-tarjetas"] .cardCatalogDetail>.cardReturnButton{
+ align-self:flex-start!important;display:inline-flex!important;align-items:center!important;
+ gap:6px!important;min-height:34px!important;margin:0 0 13px!important;
+ padding:5px 2px!important;border:0!important;background:transparent!important;
+ box-shadow:none!important;color:#315e4b!important;font-size:12px!important;font-weight:800!important;
+}
+.nivalShell [data-panel="mis-tarjetas"] .cardCatalogDetail>.cardReturnButton span{font-size:21px!important;font-weight:500!important}
+.nivalShell [data-panel="mis-tarjetas"] .cardCatalogDetail>h2{
+ margin:0 0 17px!important;color:#122e22!important;font-size:23px!important;
+ font-weight:850!important;line-height:1.16!important;letter-spacing:-.04em!important;
+}
+.nivalShell [data-panel="mis-tarjetas"] .cardCatalogDetail .shareWorkspace{
+ display:flex!important;flex-direction:column!important;gap:17px!important;
+ width:100%!important;max-width:none!important;margin:0!important;padding:0!important;
+}
+.nivalShell [data-panel="mis-tarjetas"] .cardCatalogDetail .qrShowcase{
+ display:flex!important;flex-direction:column!important;align-items:center!important;
+ gap:12px!important;padding:20px 14px 17px!important;border:1px solid #e0e5da!important;
+ border-radius:19px!important;background:#fff!important;box-shadow:none!important;
+}
+.nivalShell [data-panel="mis-tarjetas"] .cardCatalogDetail .qrFrame{
+ display:grid!important;place-items:center!important;max-width:100%!important;
+ padding:10px!important;border:1px solid #e5e9df!important;
+ border-radius:15px!important;background:#fff!important;
+}
+.nivalShell [data-panel="mis-tarjetas"] .cardCatalogDetail .qrFrame img{
+ display:block!important;width:175px!important;height:175px!important;
+ max-width:100%!important;object-fit:contain!important;image-rendering:auto!important;
+}
+.nivalShell [data-panel="mis-tarjetas"] .cardCatalogDetail .qrShowcase>a{
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;
+ gap:8px!important;min-height:43px!important;margin:0!important;padding:10px 18px!important;
+ border:1px solid #e0e6dc!important;border-radius:13px!important;
+ background:#fff!important;color:#284e3e!important;text-decoration:none!important;
+ font-size:12px!important;font-weight:850!important;box-shadow:none!important;
+}
+.nivalShell [data-panel="mis-tarjetas"] .cardCatalogDetail .shareLinkCard{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ align-content:start!important;gap:9px!important;
+ padding:0 0 16px!important;border-bottom:1px solid #e1e6dd!important;
+ background:transparent!important;box-shadow:none!important;
+}
+.nivalShell [data-panel="mis-tarjetas"] .cardCatalogDetail .shareLinkCard>label{
+ display:grid!important;grid-column:1/-1!important;gap:7px!important;
+ margin:0!important;color:#52685b!important;font-size:11px!important;font-weight:700!important;
+}
+.nivalShell [data-panel="mis-tarjetas"] .cardCatalogDetail .shareLinkCard input{
+ display:block!important;width:100%!important;min-width:0!important;min-height:43px!important;
+ padding:11px 12px!important;border:1px solid #dde5d9!important;border-radius:12px!important;
+ background:#fff!important;color:#3b5145!important;font-size:12px!important;box-shadow:none!important;
+}
+.nivalShell [data-panel="mis-tarjetas"] .cardCatalogDetail .shareLinkCard>button,
+.nivalShell [data-panel="mis-tarjetas"] .cardCatalogDetail .shareLinkCard>a{
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;
+ gap:9px!important;min-width:0!important;min-height:44px!important;margin:0!important;
+ padding:9px 11px!important;border-radius:12px!important;
+ font-size:12px!important;font-weight:850!important;text-decoration:none!important;box-shadow:none!important;
+}
+.nivalShell [data-panel="mis-tarjetas"] .cardCatalogDetail .shareLinkCard>button{
+ border:1px solid #194735!important;background:#194735!important;color:#fff!important;
+}
+.nivalShell [data-panel="mis-tarjetas"] .cardCatalogDetail .shareLinkCard>a{
+ border:1px solid #dbe3d8!important;background:#fff!important;color:#2d503f!important;
+}
+.nivalShell [data-panel="mis-tarjetas"] .cardCatalogDetail .shareLinkCard>small{grid-column:1/-1!important;color:#1b6847!important}
+.nivalShell [data-panel="mis-tarjetas"] .cardCatalogDetail>.cardEditButton{
+ display:flex!important;align-items:center!important;justify-content:center!important;gap:10px!important;
+ width:100%!important;min-height:44px!important;margin:16px 0 35px!important;
+ padding:10px 14px!important;border:1px solid #335d4c!important;border-radius:12px!important;
+ background:transparent!important;color:#2f5645!important;font-size:12px!important;
+ font-weight:850!important;box-shadow:none!important;
+}
+@media(max-width:600px){
+ .nivalShell [data-panel="mis-tarjetas"] .cardCatalogDetail>h2{font-size:22px!important}
+ .nivalShell [data-panel="mis-tarjetas"] .cardCatalogDetail .qrShowcase{padding:19px 13px!important}
+}
