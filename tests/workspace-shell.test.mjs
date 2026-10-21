@@ -91,7 +91,7 @@ test('Inicio is a short operational summary with drilldowns, not a duplicated ca
  const owner=readFileSync(new URL('../lib/owner/view.tsx',import.meta.url),'utf8');
  const shell=readFileSync(new URL('../lib/owner/shell.tsx',import.meta.url),'utf8');
  const catalog=readFileSync(new URL('../lib/points/card-catalog.tsx',import.meta.url),'utf8');
- for(const token of ['homePending','homeQuickActions','homeCoreMetrics','ActivityChart','CustomerMix','Actividad reciente','Ver detalle','data-panel="reseñas"','data-panel="informes"'])assert.ok(owner.includes(token),token);
+ for(const token of ['homePending','homeQuickActions','homeCoreMetrics','ActivityChart','CustomerMix','Últimas visitas y canjes','Ver detalle','data-panel="reseñas"','data-panel="informes"'])assert.ok(owner.includes(token),token);
  for(const token of ['data-panel="mis-tarjetas"','nfcLimit={limits.nfcCards}','reviewCards={data.reviewCards||[]}'])assert.ok(owner.includes(token),token);
  assert.ok(owner.includes('(emptyState||demo)&&<StartGuide state={startState||undefined}/>')&&owner.includes('completed:2'),'new accounts and the demo share the four-step onboarding without a fake chart preview');
  assert.ok(!owner.includes('Ingresos de clientes recurrentes'),'no invented ticket values');
