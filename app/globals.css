@@ -1824,3 +1824,70 @@ body{background:var(--nival-cream);color:var(--nival-text)}
     font-size:10px!important;
   }
 }
+
+
+/* Block 3: visual consistency of existing non-campaign screens. */
+.nivalShell[data-section="premios"] .rewardWorkspace,
+.nivalShell[data-section="informes"] .reportWorkspace,
+.nivalShell[data-section="clientes"] .customerExplorer{
+  width:100%;min-width:0;max-width:100%;margin-inline:0;
+}
+.nivalShell[data-section="premios"] .rewardWorkspace .workspaceSectionHeader,
+.nivalShell[data-section="informes"] .reportWorkspace .workspaceSectionHeader{
+  gap:12px;
+}
+.nivalShell[data-section="premios"] .rewardWorkspace .rewardShowcaseCard,
+.nivalShell[data-section="clientes"] .customerExplorer .customerProfileCard,
+.nivalShell[data-section="reseñas"] .reviewReferenceLayout .ownerCard,
+.nivalShell[data-section="informes"] .reportWorkspace .ownerCard{
+  box-shadow:none!important;border:1px solid #e1e8df;
+}
+.nivalShell[data-section="clientes"] .customerExplorer .customerProfileCard{
+  width:100%;margin-inline:0;min-width:0;
+}
+.nivalShell[data-section="clientes"] .customerExplorer .customerListIdentity{
+  text-align:left;min-width:0;
+}
+.nivalShell[data-section="clientes"] .customerExplorer .customerCardFacts{
+  width:100%;min-width:0;
+}
+.nivalShell[data-section="clientes"] .customerExplorer .customerCardActions{
+  display:flex;align-items:center;gap:9px;width:100%;
+}
+.nivalShell[data-section="clientes"] .customerExplorer .customerCardActions .customerListOpen{
+  flex:1;min-height:48px;
+}
+.nivalShell[data-section="clientes"] .customerExplorer .explorerSearch{
+  min-width:0;max-width:100%;
+}
+.nivalShell[data-section="clientes"] .customerExplorer .explorerFilters{
+  min-width:0;max-width:100%;
+}
+.nivalShell[data-section="informes"] .reportWorkspace .workspaceActionRow{
+  width:100%;min-width:0;
+}
+.nivalShell[data-section="informes"] .reportWorkspace .ownerMetrics>.ownerMetric{
+  background:#fff;box-shadow:none!important;border-top:1px solid #e1e8df!important;
+}
+.nivalShell[data-section="reseñas"] .reviewReferenceLayout :is(input,textarea,select){
+  box-shadow:none!important;
+}
+.nivalShell[data-section="reseñas"] .reviewReferenceLayout :is(.reviewNoData,.reviewSentiment){
+  box-shadow:none!important;
+}
+.nivalShell[data-section="tarjetas-nfc"] .ownerMetrics>.ownerMetric{
+  box-shadow:none!important;border-top:1px solid #e1e8df!important;
+}
+@media(max-width:700px){
+  .nivalShell[data-section="premios"] .rewardWorkspace .workspaceSectionHeader,
+  .nivalShell[data-section="informes"] .reportWorkspace .workspaceSectionHeader{
+    align-items:stretch;flex-direction:column;
+  }
+  .nivalShell[data-section="premios"] .rewardWorkspace .workspacePrimary,
+  .nivalShell[data-section="informes"] .reportWorkspace .workspacePrimary{
+    min-height:48px;width:100%;justify-content:center;
+  }
+  .nivalShell[data-section="clientes"] .customerExplorer .customerCardActions{
+    justify-content:stretch;
+  }
+}
