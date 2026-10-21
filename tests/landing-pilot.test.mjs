@@ -91,7 +91,8 @@ test("sample metrics are labeled and real images replace upload placeholders", (
   assert.match(ownerView, /Nuevos y recurrentes/);
   assert.match(ownerView, /data-panel="reseñas"/);
   assert.match(ownerView, /Tarjetas NFC de reseñas/);
-  assert.doesNotMatch(ownerView, /Qué mejorar en las reseñas|Comparación con la zona/);
+  assert.match(ownerView, /Qué mejorar en las reseñas/);
+  assert.doesNotMatch(ownerView, /Comparación con la zona/);
   for (const image of ["industry-cafe.webp", "industry-taqueria.webp", "industry-restaurant.webp", "industry-clinic.webp", "industry-ice-cream.webp"])
     assert.ok(existsSync(`public/assets/img/${image}`), image);
 });
