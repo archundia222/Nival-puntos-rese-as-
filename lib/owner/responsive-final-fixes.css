@@ -107,3 +107,13 @@
 @media(max-width:520px){.nivalShell [data-panel="equipo"] .teamActivitySummary{grid-template-columns:1fr 1fr!important}}
 
 .nivalShell .customerPhoneButton{display:inline-flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;text-align:center!important;padding:0!important;font-size:18px!important}
+
+.nivalShell [data-panel="equipo"] .teamRecentActivity{margin-top:23px!important;padding-top:17px!important;border-top:1px solid #e2e8e1!important}
+.nivalShell [data-panel="equipo"] .teamRecentActivity h4{font-size:16px!important;margin:0 0 6px!important;color:#173f2b!important}
+.nivalShell [data-panel="equipo"] .teamRecentList{display:grid!important;gap:0!important;margin-top:12px!important;border:1px solid #e5ebe2!important;border-radius:14px!important;overflow:hidden!important;background:#fff!important}
+.nivalShell [data-panel="equipo"] .teamRecentItem{display:flex!important;align-items:center!important;gap:14px!important;padding:14px!important;border-bottom:1px solid #edf0eb!important}
+.nivalShell [data-panel="equipo"] .teamRecentItem:last-child{border-bottom:0!important}
+.nivalShell [data-panel="equipo"] .teamRecentType{min-width:55px!important;border-radius:8px!important;background:#e9f1dc!important;padding:7px!important;text-align:center!important;font-size:11px!important;font-weight:800!important;color:#1a4b36!important}
+.nivalShell [data-panel="equipo"] .teamRecentItem>div{min-width:0!important;display:grid!important;gap:3px!important}
+.nivalShell [data-panel="equipo"] .teamRecentItem strong{font-size:13px!important;color:#173f2b!important}
+.nivalShell [data-panel="equipo"] .teamRecentItem small{font-size:11px!important;color:#748277!important;line-height:1.4!important}
