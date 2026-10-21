@@ -1506,3 +1506,34 @@ body{background:var(--nival-cream);color:var(--nival-text)}
 .nivalShell .campaignTemplateChip.isSelected{border-color:#155d3d;background:#e6f2e8;color:#123c27;box-shadow:inset 0 0 0 1px #155d3d}
 .nivalShell .campaignMessageEditLabel{display:block;font-size:13px;font-weight:800;color:#253d2d;margin:0 0 8px}
 .nivalShell .campaignMessageGrid textarea{min-height:125px}
+
+/* Panel visual stage 2: hierarchy and responsive composition only. */
+.nivalShell{--ws-canvas:#f3f5f0;--ws-depth:#e2e9e0;--ws-accent:#19583c;--ws-ink:#183127;background:var(--ws-canvas)!important;color:var(--ws-ink)}
+.nivalShell .workspaceContent{max-width:1600px;margin-inline:auto}
+.nivalShell .workspacePageHeadingWithBack{background:linear-gradient(115deg,#173d2e,#245940 75%,#2f674a);border:1px solid #1d5038;border-radius:20px;padding:25px 28px!important;margin-bottom:22px!important;box-shadow:0 14px 35px #173d2e26;display:flex;align-items:center;gap:20px}
+.nivalShell .workspacePageHeadingWithBack h1{color:#fff!important;font-size:clamp(25px,3vw,34px)!important;letter-spacing:-.035em;line-height:1.18}
+.nivalShell .workspacePageIntro{color:#ebf5eb!important;font-weight:550;font-size:14px;margin:8px 0 0!important;max-width:650px;line-height:1.45}
+.nivalShell .workspacePageHeadingWithBack .workspaceReturnHome{background:#fff!important;color:#17422e!important;border:1px solid #fff!important;box-shadow:none!important;padding:11px 16px!important;position:static!important;white-space:nowrap}
+.nivalShell .workspacePageHeadingWithBack .workspaceExampleTag{background:#f2f6d8;color:#1d432f;border-radius:999px;padding:4px 9px;margin-bottom:8px;display:inline-flex}
+.nivalShell .ownerBlock{position:relative}
+.nivalShell .ownerBlock>.ownerSectionTitle,.nivalShell .ownerBlock>.workspaceSectionHeader,.nivalShell .ownerBlock>.campaignFlow>.campaignGoalGrid{margin-top:4px}
+.nivalShell .ownerBlock>.ownerSectionTitle h2,.nivalShell .ownerBlock>.workspaceSectionHeader h2{font-weight:850;letter-spacing:-.025em;color:#193c2d}
+.nivalShell .ownerCard{border:1px solid #d5dfd6;border-radius:18px;background:#fff;box-shadow:0 5px 17px #193a2710}
+.nivalShell .ownerMetrics>.ownerMetric,.nivalShell .ownerMetrics>.metric,.nivalShell .homeCoreMetrics>.ownerMetric{border-top:3px solid #27714b;border-radius:15px;box-shadow:0 5px 16px #1b473213}
+.nivalShell .ownerMetric strong,.nivalShell .ownerMetrics strong{letter-spacing:-.03em}
+.nivalShell .ownerCard h3{letter-spacing:-.02em}
+.nivalShell .workspaceSectionHeader{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.nivalShell .workspaceSectionHeader>a{min-height:38px;display:inline-flex;align-items:center;font-weight:750;color:#1a583b}
+.nivalShell .homeQuickActions .quickActionCard{border-left:4px solid #317550;border-top:1px solid #d4e1d7;box-shadow:0 6px 18px #183d2514}
+.nivalShell .homeQuickActions .quickActionCard:hover{transform:translateY(-3px);box-shadow:0 12px 24px #19392522}
+.nivalShell .workspaceSidebar{box-shadow:10px 0 30px #10261b1b}
+.nivalShell .workspaceNavCaption{padding-top:18px;padding-bottom:7px;color:#d9e4cf!important;letter-spacing:.13em}
+.nivalShell .workspaceBusiness{border:1px solid #55725d!important;background:#203e30!important;border-radius:16px!important}
+.nivalShell .workspaceBusiness strong,.nivalShell .workspaceBusiness small,.nivalShell .workspaceBusiness .branchPicker span{color:#f7faf3!important}
+.nivalShell .workspaceBusiness .businessAvatar{background:#d9ecc3;color:#1b4b2e}
+.nivalShell .workspaceNavItem:focus-visible,.nivalShell .workspaceSectionHeader a:focus-visible,.nivalShell .quickActionCard:focus-visible{outline:3px solid #c9e696;outline-offset:2px}
+.nivalShell .workspaceNavItem.isActive,.nivalShell .workspaceNavItem[aria-current="page"]{font-weight:800}
+.nivalShell .workspaceSubmenu{border-left:2px solid #5f816a;margin-left:16px;padding-left:10px}
+.nivalShell .workspacePageHeadingWithBack+*{scroll-margin-top:16px}
+@media(max-width:700px){.nivalShell .workspacePageHeadingWithBack{padding:19px!important;border-radius:16px;flex-wrap:wrap}.nivalShell .workspacePageHeadingWithBack .workspaceReturnHome{margin-left:0!important}.nivalShell .workspacePageIntro{font-size:13px}.nivalShell .ownerCard{border-radius:15px}}
+@media(prefers-reduced-motion:reduce){.nivalShell .quickActionCard{transition:none!important}}
