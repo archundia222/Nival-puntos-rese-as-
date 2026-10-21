@@ -42,9 +42,11 @@ function makeItems(_reviewLimit:number,_nfcLimit:number):MenuItem[]{
  ];
 }
 export function DashboardShell({name,owner,status,demo,logout,children,initialSection='inicio',homeUrl,mobilePreview=false,pointsOnly=false,planName='Puntos',price=299,responseLimit=0,nfcLimit=3,periodDay=1,branches=[],branchId}:{name:string;owner:string;status:string;demo:boolean;logout:React.ReactNode;children:React.ReactNode;initialSection?:string;homeUrl?:string;mobilePreview?:boolean;pointsOnly?:boolean;planName?:string;price?:number;responseLimit?:number;nfcLimit?:number;periodDay?:number;branches?:Record<string,any>[];branchId?:string}){
+ const [fromHomeCard,setFromHomeCard]=useState(false);
  const [section,setSection]=useState(()=>normalizeSection(initialSection)),[open,setOpen]=useState(false),[collapsed,setCollapsed]=useState(false),[mobile,setMobile]=useState(mobilePreview),[expanded,setExpanded]=useState<string|null>(()=>groupForSection(normalizeSection(initialSection)));
  const sidebar=useRef<HTMLElement>(null),trigger=useRef<HTMLButtonElement>(null);
  const items=makeItems(responseLimit,nfcLimit);
+ useEffect(()=>{const capture=(event:MouseEvent)=>{const link=(event.target as Element)?.closest?.('a[data-from-home="true"]');if(link)setFromHomeCard(true);};document.addEventListener('click',capture);return()=>document.removeEventListener('click',capture);},[]);
  useEffect(()=>{const m=window.matchMedia('(max-width: 960px)');const sync=()=>{setMobile(m.matches||mobilePreview);setOpen(false);};sync();m.addEventListener('change',sync);const hash=()=>{const key=window.location.hash.slice(1);if(key){if(key==='google'){setSection('reseñas');setExpanded(null);return;}if(key.startsWith('mensaje-')){setSection('campañas-clientes');setExpanded('clientes-menu');requestAnimationFrame(()=>document.getElementById(key)?.scrollIntoView({behavior:'smooth',block:'center'}));return;}const normalized=normalizeSection(key);if(normalized==='card-editor'){setSection('mis-tarjetas');setExpanded('fidelidad');return;}setSection(normalized);setExpanded(groupForSection(normalized));if(normalized!==key)window.history.replaceState(null,'',window.location.pathname+window.location.search+'#'+normalized);}};hash();window.addEventListener('hashchange',hash);return()=>{m.removeEventListener('change',sync);window.removeEventListener('hashchange',hash);};},[mobilePreview]);
  useEffect(()=>{if(!open||!mobile)return;const previous=document.body.style.overflow;document.body.style.overflow='hidden';sidebar.current?.querySelector<HTMLButtonElement>('button')?.focus();const key=(e:KeyboardEvent)=>{if(e.key==='Escape'){setOpen(false);trigger.current?.focus();}if(e.key==='Tab'){const nodes=Array.from(sidebar.current?.querySelectorAll<HTMLElement>('button,a[href]')||[]);const first=nodes[0],last=nodes.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus();}}};document.addEventListener('keydown',key);return()=>{document.body.style.overflow=previous;document.removeEventListener('keydown',key);};},[open,mobile]);
  function hrefFor(path:string){const target=new URL(path,window.location.origin);if(homeUrl){const base=new URL(homeUrl,window.location.origin);if(base.searchParams.has('business')&&!target.searchParams.has('business'))target.searchParams.set('business',base.searchParams.get('business')!);if(base.searchParams.has('branch')&&!target.searchParams.has('branch'))target.searchParams.set('branch',base.searchParams.get('branch')!);}return target.pathname+(target.searchParams.size?'?'+target.searchParams.toString():'')+target.hash;}
@@ -53,6 +55,7 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
   setExpanded(id);
  }
  function navigate(item:MenuItem){
+  setFromHomeCard(false);
   if(item.href){
    if(demo){
     const target=item.id==='canjes'?'canjes':item.id==='informes'?'informes':item.id==='usuarios'?'equipo':item.id;
@@ -97,7 +100,7 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
   </aside>
   <div className="workspaceMain" inert={mobile&&open}>
    <button ref={trigger} className="hamburger workspaceFloatingMenu" aria-label={mobile?(open?'Cerrar menú':'Abrir menú'):(collapsed?'Expandir menú':'Contraer menú')} aria-expanded={mobile?open:!collapsed} aria-controls="workspace-menu" onClick={()=>mobile?setOpen(v=>!v):setCollapsed(v=>!v)}><Icon name="menu"/></button>
-   <div className="workspaceContent"><div className="workspacePageHeading">{demo&&<span className="workspaceExampleTag">Datos de ejemplo</span>}<h1 id="workspace-title" tabIndex={-1}>{current.label}</h1></div>{children}<footer className="workspaceFooter"><span>Nival Tech</span><span>{demo?'Datos de demostración':'Información de tu negocio'}</span></footer></div>
+   <div className="workspaceContent">{fromHomeCard&&section!=='inicio'&&<button className="workspaceReturnHome" type="button" onClick={()=>{setFromHomeCard(false);setSection('inicio');setExpanded(null);window.history.replaceState(null,'',window.location.pathname+window.location.search+'#inicio');window.scrollTo({top:0,behavior:'smooth'});}}>← Regresar a inicio</button>}<div className="workspacePageHeading">{demo&&<span className="workspaceExampleTag">Datos de ejemplo</span>}<h1 id="workspace-title" tabIndex={-1}>{current.label}</h1></div>{children}<footer className="workspaceFooter"><span>Nival Tech</span><span>{demo?'Datos de demostración':'Información de tu negocio'}</span></footer></div>
   </div>
  </div>;
 }
