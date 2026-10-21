@@ -1570,3 +1570,43 @@ body{background:var(--nival-cream);color:var(--nival-text)}
 .nivalShell .campaignLibraryEditor textarea{display:block;width:100%;min-height:125px;border:1px solid #a8bcb0;border-radius:10px;padding:12px;color:#183b2b;background:white}
 .nivalShell .campaignFinalMessage{white-space:pre-wrap;border:1px solid #ceded3;border-radius:12px;padding:16px;background:#f5faf5;color:#1b3528;margin:14px 0;font-size:15px;line-height:1.55}
 @media(max-width:650px){.nivalShell .campaignLibraryNavigation{align-items:flex-start;flex-direction:column}.nivalShell .campaignLibraryStandalone{padding:15px}}
+
+
+/* Visual polish / block 1 (2026-10-21).
+   Presentation-only overrides. Campaigns intentionally excluded. */
+.nivalShell{
+  --nival-page-gutter:20px;
+  --nival-card-border:#e0e8df;
+  --nival-muted-zero:#899b90;
+  --nival-primary:#1b4332;
+  --nival-lime:#d8f66b;
+}
+.nivalShell .ownerBlock:not([data-panel="campanas"]) .ownerCard,
+.nivalShell .ownerBlock:not([data-panel="campanas"]) .ownerChart{
+  border:1px solid var(--nival-card-border);
+  box-shadow:none!important;
+}
+.nivalShell .ownerBlock:not([data-panel="campanas"]) .ownerMetrics>.ownerMetric,
+.nivalShell .ownerBlock:not([data-panel="campanas"]) .homeCoreMetrics>.ownerMetric{
+  border-top:1px solid var(--nival-card-border)!important;
+  box-shadow:none!important;
+}
+.nivalShell .ownerBlock:not([data-panel="campanas"]) .ownerMetric{
+  font-variant-numeric:tabular-nums;
+}
+.nivalShell .ownerBlock:not([data-panel="campanas"]) :is(button,a,input,select,textarea):focus-visible{
+  outline:2px solid #2d7250;
+  outline-offset:2px;
+}
+.nivalShell .ownerBlock:not([data-panel="campanas"]) :is(.ownerCard,.ownerChart) :is(input,select,textarea){
+  max-width:100%;
+}
+@media(max-width:600px){
+  .nivalShell .ownerBlock:not([data-panel="campanas"]) :is(.ownerCard,.ownerChart){
+    border-radius:16px;
+  }
+  .nivalShell .ownerBlock:not([data-panel="campanas"]) .ownerMetrics,
+  .nivalShell .ownerBlock:not([data-panel="campanas"]) .homeCoreMetrics{
+    min-width:0;
+  }
+}
