@@ -1,0 +1,53 @@
+
+/* Nival responsive QA 2026-10-21 */
+.nivalShell .workspaceContent,.nivalShell .workspaceMain,.nivalShell .ownerDashboard{min-width:0;max-width:none}
+.nivalShell [data-panel="reseñas"] .reviewDashboardReference{width:100%;max-width:760px;margin-inline:auto;display:grid;gap:15px}
+.nivalShell [data-panel="reseñas"] .reviewDashboardReference>*{min-width:0}
+.nivalShell [data-panel="reseñas"] .reviewStatsCard{background:white;border:1px solid #e1e8df;border-radius:17px;overflow:hidden}
+.nivalShell [data-panel="reseñas"] .reviewStatsGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.nivalShell [data-panel="reseñas"] .reviewStatsGrid>div{padding:13px 15px;border-bottom:1px solid #eef0e8;display:grid;gap:5px}
+.nivalShell [data-panel="reseñas"] .reviewStatsGrid>div:nth-child(odd){border-right:1px solid #eef0e8}
+.nivalShell [data-panel="reseñas"] .reviewStatsGrid span{font-size:11px;color:#6b7b70}
+.nivalShell [data-panel="reseñas"] .reviewStatsGrid strong{font-size:23px;line-height:1;color:#91a397}
+.nivalShell [data-panel="reseñas"] .reviewPlanUsage{display:grid;grid-template-columns:1fr auto;gap:6px;padding:12px 15px;font-size:11px}
+.nivalShell [data-panel="reseñas"] .reviewPlanUsage strong{font-size:11px}
+.nivalShell [data-panel="reseñas"] .reviewUsageTrack{height:6px;grid-column:1/-1;border-radius:99px;background:#e2e9df}
+.nivalShell [data-panel="reseñas"] .reviewImproveCard{margin:0!important;padding:17px!important;border-radius:16px!important}
+.nivalShell [data-panel="reseñas"] .reviewImproveCard h3{margin:0 0 5px!important;font-size:15px!important}
+.nivalShell [data-panel="reseñas"] .reviewImproveCard p{margin:0!important;font-size:12px!important;color:#6b7b70!important}
+.nivalShell [data-panel="reseñas"] .reviewNfcRow{display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:12px;align-items:center;margin:0!important;padding:12px 14px!important;border-radius:16px!important}
+.nivalShell [data-panel="reseñas"] .reviewNfcIcon{display:grid;place-items:center;width:36px;height:36px;border-radius:9px;background:#e7f0d9;color:#204b39}
+.nivalShell [data-panel="reseñas"] .reviewNfcRow strong{display:block;font-size:12px;line-height:1.2}
+.nivalShell [data-panel="reseñas"] .reviewNfcRow small{display:block;font-size:11px;color:#65776c}
+.nivalShell [data-panel="reseñas"] .reviewNfcRow a{font-size:11px;color:#194f37;font-weight:750;max-width:100px;line-height:1.2}
+.nivalShell [data-panel="reseñas"] #configuracion-resenas .branchGoogleSettings{margin:0!important;padding:18px!important;border-radius:16px!important}
+.nivalShell [data-panel="reseñas"] #configuracion-resenas .branchGoogleSettings h3{font-size:16px!important;line-height:1.35}
+.nivalShell .pointAdjustmentOptions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:10px}
+.nivalShell .pointAdjustmentOptions button{font-size:16px!important;min-height:45px!important;border-radius:10px!important}
+.nivalShell .nivalPagination{display:flex!important;justify-content:center!important;align-items:center!important;gap:7px!important;flex-wrap:wrap!important;padding:15px 0!important;margin-top:15px!important;max-width:none!important}
+.nivalShell .nivalPagination button{border:0!important;background:transparent!important;color:#285f44!important;min-width:34px!important;min-height:35px!important;padding:5px 8px!important;border-radius:8px!important;font-size:13px!important}
+.nivalShell .nivalPagination button[aria-current="page"]{background:#194b36!important;color:white!important}
+.nivalShell .nivalPagination button:disabled{opacity:.3}
+.nivalShell .customerMovementHead{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.nivalShell .customerMovementHead time{font-size:11px;color:#738279}
+.nivalShell .settingsHubGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.nivalShell .settingsHubLink{display:grid;gap:8px;text-decoration:none;align-content:start;min-height:165px;color:#1c4030;padding:22px!important}
+.nivalShell .settingsHubLink strong{font-size:17px}
+.nivalShell .settingsHubLink span{font-size:13px;color:#75857b}
+.nivalShell .settingsHubLink b{font-size:12px;margin-top:10px;color:#1c694b}
+@media(min-width:961px){
+ .nivalShell .workspaceSidebar{overflow-y:auto!important;overflow-x:hidden!important;max-width:290px!important}
+ .nivalShell .workspaceSidebar .workspaceNav{overflow:visible!important;flex-shrink:0!important;max-height:none!important}
+ .nivalShell .workspaceSidebar .workspaceNavItem{min-height:38px!important}
+ .nivalShell .workspacePageHeading{padding-left:78px!important}
+ .nivalShell .workspaceContent{max-width:1360px!important;padding:24px 32px 56px!important}
+ .nivalShell [data-panel="premios"] .rewardWorkspace{margin-top:42px!important}
+ .nivalShell .ownerDashboard [data-panel="inicio"]{width:100%!important}
+}
+@media(max-width:960px){
+ .nivalShell [data-panel="reseñas"] .reviewDashboardReference{max-width:100%!important}
+ .nivalShell .settingsHubGrid{grid-template-columns:1fr}
+ .nivalShell .workspaceContent{width:100%!important;padding:20px 14px 40px!important}
+ .nivalShell .workspacePageHeading{padding-left:56px!important}
+ .nivalShell .reviewNfcRow{gap:8px!important}
+}
