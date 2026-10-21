@@ -86,6 +86,23 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
  const sectionAlias=section==='ajustes'?'configuracion':section.startsWith('clientes-')?'clientes':section==='programa'||section==='promociones'||section==='google'||section==='nival-resenas'||section==='compartir-programa'||section==='nival-pay'?'mis-tarjetas':section;
  const flatten=(list:MenuItem[]):MenuItem[]=>list.flatMap(x=>[x,...(x.children?flatten(x.children):[])]);
  const current=flatten(menu).find(x=>x.id===sectionAlias)||items[0];
+ const pageIntros:Record<string,string>={
+  inicio:'Lo importante de tu negocio, de un vistazo.',
+  'mis-tarjetas':'Crea, consulta y administra las tarjetas de tu negocio.',
+  premios:'Configura las recompensas que tus clientes pueden conseguir.',
+  clientes:'Encuentra clientes y consulta su actividad.',
+  'campañas-clientes':'Elige a quién contactar y prepara un mensaje.',
+  canjes:'Consulta y da seguimiento a los premios canjeados.',
+  reseñas:'Revisa la reputación de tu negocio y las respuestas pendientes.',
+  informes:'Consulta cómo cambia tu negocio en cada periodo.',
+  sucursales:'Gestiona las ubicaciones de tu negocio.',
+  equipo:'Consulta y administra a tu personal.',
+  plan:'Consulta el estado y los límites de tu servicio.',
+  configuracion:'Ajusta el funcionamiento de tu negocio.',
+  ajustes:'Consulta y edita los datos del negocio.',
+  'tarjetas-nfc':'Consulta las tarjetas disponibles para tus sucursales.'
+ };
+ const pageIntro=pageIntros[sectionAlias]||'Administra esta sección de tu negocio.';
  return <div className="nivalShell" data-section={section} data-open={open} data-collapsed={collapsed}>
   <a className="workspaceSkip" href="#workspace-title">Ir al contenido</a>
   {mobile&&open&&<button className="workspaceBackdrop" tabIndex={-1} aria-label="Cerrar menú" onClick={()=>{setOpen(false);trigger.current?.focus();}}/>}
@@ -100,7 +117,7 @@ export function DashboardShell({name,owner,status,demo,logout,children,initialSe
   </aside>
   <div className="workspaceMain" inert={mobile&&open}>
    <button ref={trigger} className="hamburger workspaceFloatingMenu" aria-label={mobile?(open?'Cerrar menú':'Abrir menú'):(collapsed?'Expandir menú':'Contraer menú')} aria-expanded={mobile?open:!collapsed} aria-controls="workspace-menu" onClick={()=>mobile?setOpen(v=>!v):setCollapsed(v=>!v)}><Icon name="menu"/></button>
-   <div className="workspaceContent"><div className="workspacePageHeading workspacePageHeadingWithBack"><div>{demo&&<span className="workspaceExampleTag">Datos de ejemplo</span>}<h1 id="workspace-title" tabIndex={-1}>{current.label}</h1></div>{fromHomeCard&&section!=='inicio'&&<button className="workspaceReturnHome" type="button" onClick={()=>{setFromHomeCard(false);setSection('inicio');setExpanded(null);window.history.replaceState(null,'',window.location.pathname+window.location.search+'#inicio');window.scrollTo({top:0,behavior:'smooth'});}}>← Regresar a inicio</button>}</div>{children}<footer className="workspaceFooter"><span>Nival Tech</span><span>{demo?'Datos de demostración':'Información de tu negocio'}</span></footer></div>
+   <div className="workspaceContent"><div className="workspacePageHeading workspacePageHeadingWithBack"><div>{demo&&<span className="workspaceExampleTag">Datos de ejemplo</span>}<h1 id="workspace-title" tabIndex={-1}>{current.label}</h1><p className="workspacePageIntro">{pageIntro}</p></div>{fromHomeCard&&section!=='inicio'&&<button className="workspaceReturnHome" type="button" onClick={()=>{setFromHomeCard(false);setSection('inicio');setExpanded(null);window.history.replaceState(null,'',window.location.pathname+window.location.search+'#inicio');window.scrollTo({top:0,behavior:'smooth'});}}>← Regresar a inicio</button>}</div>{children}<footer className="workspaceFooter"><span>Nival Tech</span><span>{demo?'Datos de demostración':'Información de tu negocio'}</span></footer></div>
   </div>
  </div>;
 }
