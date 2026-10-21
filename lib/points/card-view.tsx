@@ -144,7 +144,7 @@ export function CardView({
           <span className="cardExpiry">{design.expiryMonths?`Puntos válidos ${design.expiryMonths} meses`:"Los puntos no caducan"}</span>
         </div>
         <p className="cardMemberName">{card.name}</p>
-        <div className="cardPointGrid" aria-label={points + " de " + goal + " puntos acumulados"}>{Array.from({length:visibleDots},(_,i)=><i key={i} className={i<filledDots?"isFilled":""}>{i<filledDots?(design.pointFilledIcon==="image"&&design.stampImage?<img src={design.stampImage} alt=""/>:design.pointFilledIcon==="star"?"★":"✓"):(design.pointIcon==="star"?"☆":design.pointIcon==="heart"?"♡":design.pointIcon==="coffee"?"☕":"○")}</i>)}</div>
+        {design.pointView==="bar"?<div className="cardNumbers compact"><strong>points puntos</strong><div className="cardProgress"><i style={{width:`progressPct%`}}/></div><span>Progreso de la tarjeta</span></div>:<div className="cardPointGrid" aria-label={points + " de " + goal + " puntos acumulados"}>{Array.from({length:visibleDots},(_,i)=><i key={i} className={i<filledDots?"isFilled":""}>{i<filledDots?(design.pointFilledIcon==="image"&&design.stampImage?<img src={design.stampImage} alt=""/>:design.pointFilledIcon==="star"?"★":"✓"):(design.pointIcon==="star"?"☆":design.pointIcon==="heart"?"♡":design.pointIcon==="coffee"?"☕":"○")}</i>)}</div>}
         <div className="cardQrInside"><img src={qr} alt="QR para sumar visitas y canjear premios"/><div><span>Tu código</span><span className="cardManualCode">{manualCode}</span></div></div>
         <footer><span>{business.program?.rules?.card_design?.footer || "Un lugar al que vale la pena volver."}</span></footer>
         {pointMessage&&<span className="pointCongrats" role="status" aria-live="polite">{pointMessage}</span>}
