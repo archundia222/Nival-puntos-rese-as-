@@ -23,3 +23,34 @@
 .nivalShell [data-panel="canjes"] .explorerFilters select,.nivalShell [data-panel="canjes"] .explorerFilters input{width:100%!important;min-height:24px!important;padding:0!important;border:0!important;background:transparent!important;color:#2c4637!important;font-size:12px!important;text-transform:none!important}
 .nivalShell [data-panel="canjes"] .ownerEmpty{max-width:230px!important;min-height:145px!important;margin:25px auto 0!important;padding:65px 0 10px!important;border:0!important;background:transparent!important;color:#75877a!important;text-align:center!important;font-size:13px!important;line-height:1.45!important}
 .nivalShell [data-panel="canjes"] .ownerEmpty:before{content:"✓";display:grid;place-items:center;width:42px;height:42px;margin:-62px auto 12px;border-radius:13px;background:#e9f0d8;color:#24543f;font-size:22px}
+
+
+/* 2026-10-21: desktop shell + exact Premios reference. Mobile remains the source of truth. */
+.nivalShell [data-panel="premios"] .rewardWorkspace{max-width:none!important;width:100%!important;margin:0!important}
+.nivalShell [data-panel="premios"] .rewardShowcaseCard>.campaignCardArt,
+.nivalShell [data-panel="premios"] .rewardShowcaseCard>img{grid-column:1!important;grid-row:1/span 2!important}
+@media(min-width:961px){
+ .nivalShell{--ws-sidebar:290px!important}
+ .nivalShell[data-collapsed="true"]{--ws-sidebar:0px!important}
+ .nivalShell[data-collapsed="true"] .workspaceSidebar{transform:translateX(-100%)!important;visibility:hidden!important;width:290px!important}
+ .nivalShell .workspaceMain{width:auto!important;min-width:0!important;margin-left:var(--ws-sidebar)!important}
+ .nivalShell .workspaceContent{width:100%!important;max-width:1180px!important;margin:0 auto!important;padding:24px 28px 40px!important}
+ .nivalShell .workspacePageHeading{min-height:76px!important;margin:0 0 26px!important;padding:16px 28px 16px 72px!important;border:1px solid #d9e2d8!important;border-radius:18px!important;background:#fff!important}
+ .nivalShell .workspacePageHeading h1{margin:0!important;font-size:30px!important;line-height:1.1!important}
+ .nivalShell .workspacePageIntro{display:none!important}
+ .nivalShell .workspaceFloatingMenu{position:fixed!important;top:18px!important;left:calc(var(--ws-sidebar) + 18px)!important;z-index:70!important;width:44px!important;height:44px!important}
+ .nivalShell[data-collapsed="true"] .workspaceFloatingMenu{left:18px!important}
+ .nivalShell [data-panel="premios"] .rewardWorkspace{max-width:920px!important;margin:128px auto 0!important}
+ .nivalShell [data-panel="premios"] .rewardWorkspace>.workspaceSectionHeader{margin-bottom:24px!important}
+ .nivalShell [data-panel="premios"] .rewardWorkspace>.workspaceSectionHeader>button{min-height:48px!important;border-radius:13px!important;font-size:14px!important}
+ .nivalShell [data-panel="premios"] .rewardShowcaseCard{grid-template-columns:62px minmax(0,1fr) auto!important;grid-template-rows:31px 31px 1fr!important;min-height:142px!important;padding:17px!important;border-radius:19px!important;gap:0 14px!important}
+ .nivalShell [data-panel="premios"] .rewardShowcaseCard>.campaignCardArt,
+ .nivalShell [data-panel="premios"] .rewardShowcaseCard>img{width:54px!important;height:54px!important;border-radius:13px!important;font-size:27px!important}
+ .nivalShell [data-panel="premios"] .rewardShowcaseCard>strong{font-size:18px!important}
+ .nivalShell [data-panel="premios"] .rewardShowcaseCard>.rewardPointsBadge{padding:9px 14px!important;font-size:12px!important}
+ .nivalShell [data-panel="premios"] .rewardShowcaseCard>small{padding-top:14px!important;font-size:12px!important}
+ .nivalShell [data-panel="premios"] .rewardShowcaseCard>.rewardEditHint{padding:10px 13px!important;font-size:12px!important}
+}
+@media(max-width:960px){
+ .nivalShell [data-panel="premios"] .rewardWorkspace{max-width:760px!important;margin:0 auto!important}
+}
