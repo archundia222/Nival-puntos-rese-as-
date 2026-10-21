@@ -1465,3 +1465,31 @@ body{background:var(--nival-cream);color:var(--nival-text)}
 .nivalShell .campaignContactItem form{margin:0;display:block}
 .nivalShell .campaignContactItem form button{white-space:nowrap}
 @media(max-width:760px){.nivalShell .campaignContactGroups{grid-template-columns:1fr}.nivalShell .campaignContactItem{align-items:flex-start;flex-direction:column}}
+
+/* Navigation and Google reviews: scoped visual corrections. */
+.nivalShell .workspacePageHeadingWithBack{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.nivalShell .workspacePageHeadingWithBack>div{min-width:0;flex:1 1 180px}
+.nivalShell .workspacePageHeadingWithBack h1{margin:0}
+.nivalShell .workspacePageHeadingWithBack .workspaceReturnHome{flex:0 0 auto;margin:0;position:static;white-space:nowrap}
+@media(max-width:540px){.nivalShell .workspacePageHeadingWithBack{align-items:flex-start}.nivalShell .workspacePageHeadingWithBack .workspaceReturnHome{margin-left:auto}}
+.nivalShell .workspaceSidebar{background:#102a22!important}
+.nivalShell .workspaceNav{padding-top:18px}
+.nivalShell .workspaceNavCaption{font-size:10px!important;letter-spacing:.12em!important}
+.nivalShell .workspaceSidebar .workspaceNavItem{border-radius:12px!important;min-height:45px!important;margin:2px 0!important;transition:background .16s ease,box-shadow .16s ease}
+.nivalShell .workspaceSidebar .workspaceNavItem.isActive,.nivalShell .workspaceSidebar .workspaceNavItem[aria-current="page"]{box-shadow:inset 4px 0 0 #d9ed9b,0 3px 12px #071a1233!important;background:#f3f7eb!important;color:#12362a!important}
+.nivalShell .workspaceSidebar .workspaceNavItem:not(.isActive):hover{background:#2c503f!important}
+.nivalShell .reviewNoData{padding:20px;border:1px solid #c5d9cb;border-left:4px solid #275b3d;background:#f4f8f4;border-radius:14px}
+.nivalShell .reviewNoData h3{font-size:18px;margin:0 0 8px;color:#172c21}
+.nivalShell .reviewNoData p{color:#294636;margin:0 0 14px}
+.nivalShell .reviewPieEmpty{padding:18px;margin-top:14px;border:1px dashed #9bb8a4;border-radius:12px;background:#f5faf6;color:#294331;font-size:14px}
+.nivalShell .reviewSentiment{margin:18px 0;padding:18px;border:1px solid #d8e4dc;border-radius:15px;background:#fff}
+.nivalShell .reviewSentiment figcaption{margin-bottom:14px;color:#183329;font-weight:800}
+.nivalShell .reviewSentimentContent{display:flex;align-items:center;gap:26px;flex-wrap:wrap}
+.nivalShell .reviewSentimentRing{width:156px;height:156px;border-radius:50%;display:grid;place-items:center;flex-shrink:0}
+.nivalShell .reviewSentimentRing>span{width:112px;height:112px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#17392a}
+.nivalShell .reviewSentimentRing strong{font-size:26px}.nivalShell .reviewSentimentRing small{font-size:12px}
+.nivalShell .reviewSentimentLegend{display:flex;flex-direction:column;gap:12px;flex:1;min-width:190px}
+.nivalShell .reviewSentimentLegend>div{display:flex;align-items:center;gap:9px;color:#183328}
+.nivalShell .reviewSentimentLegend i{width:13px;height:13px;border-radius:4px;flex-shrink:0}
+.nivalShell .reviewSentimentLegend strong{margin-left:auto}
+.nivalShell .reviewLegendGood{background:#16613f}.nivalShell .reviewLegendBad{background:#a83e3e}.nivalShell .reviewLegendNeutral{background:#b9a561}
