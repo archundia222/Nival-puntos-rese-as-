@@ -103,7 +103,7 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
     {label:'Crear promoción',hint:'Elige tu siguiente premio',icon:'gift',href:'#premios'},
     {label:'QR del mostrador',hint:'Compártelo con tus clientes',icon:'compartir',href:'#mis-tarjetas'},
     {label:'Agregar trabajador',hint:'Prepara a tu equipo',icon:'equipo',href:'#equipo'},
-    {label:'Descargar informe',hint:'Tu resumen del periodo',icon:'download',href:'/panel/reportes?business='+b.id}
+    {label:'Descargar informe',hint:'Tu resumen del periodo',icon:'download',href:'#informes'}
    ].map(action=><a className="quickActionCard" href={action.href} key={action.label}><span className="quickActionIcon"><Icon name={action.icon} size={21}/></span><span><strong>{action.label}</strong><small>{action.hint}</small></span><Icon name="arrow" size={17}/></a>)}
   </div>
   <header className="homeSectionHeading"><small>ESTE PERIODO</small><h3>Visitas, clientes y premios</h3></header>
@@ -118,7 +118,7 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
 
   <header className="workspaceSectionHeader homeFrequencyHeading"><h3>Clientes por frecuencia de visita</h3><a href="#clientes">Ver detalle →</a></header>
   <article className="ownerCard homeFrequencyCard"><div className="homeStackedBar" aria-hidden="true">{groupRows.map(([id,label,count,color])=><span key={id} style={{width:(registered?100*count/registered:0)+"%",background:color}}/>)}</div>
-   {groupRows.map(([id,label,count,color])=><a className="clientStatusRow" href={'#'+id} key={id}><span className="frequencyLabel"><i className="frequencyDot" style={{background:color}}/>{label}</span><b>{count} <small>{registered?Math.round(100*count/registered):0}%</small></b></a>)}
+   {groupRows.map(([id,label,count,color])=><a className="clientStatusRow" href={(demo?'/demo/panel?':'/panel?business='+encodeURIComponent(b.id)+'&')+'segment='+encodeURIComponent(id.replace('clientes-',''))+'#clientes'} key={id}><span className="frequencyLabel"><i className="frequencyDot" style={{background:color}}/>{label}</span><b>{count} <small>{registered?Math.round(100*count/registered):0}%</small></b></a>)}
   </article>
   <div className="impactMasterDetails">
    <div className="homeDetailGroup"><header className="workspaceSectionHeader"><h3>Últimas visitas y canjes</h3><a href="#canjes">Ver detalle →</a></header><article className="ownerCard homeMovementsCard">
