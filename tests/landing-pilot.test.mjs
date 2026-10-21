@@ -129,9 +129,10 @@ test("business review screens manage review cards without exposing administrator
   const reportWorkspace = readFileSync("lib/owner/report-workspace.tsx", "utf8");
   const workspaceCss = readFileSync("lib/owner/workspace.css", "utf8");
   assert.match(ownerView, /data-panel="reseñas"/);
-  assert.match(ownerView, /Tarjetas para pedir reseñas/);
-  assert.match(ownerView, /Invita a tus clientes a dejar una reseña/);
-  assert.doesNotMatch(ownerView, /Qué mejorar en las reseñas|Reseñas por calificación|Calificación y reseñas de Google/);
+  assert.match(ownerView, /reviewStatsCard/);
+  assert.match(ownerView, /Tarjetas NFC de reseñas/);
+  assert.match(ownerView, /Qué mejorar en las reseñas/);
+  assert.doesNotMatch(ownerView, /Reseñas por calificación|Calificación y reseñas de Google/);
   assert.doesNotMatch(reportWorkspace, /\['reseñas','Reseñas'\]|Evolución de calificación/);
   assert.ok(workspaceCss.includes('.nivalShell[data-section="reseñas"] [data-panel="reseñas"]'));
 });
