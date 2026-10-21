@@ -1,0 +1,316 @@
+/* Rediseño visual del Inicio basado en la referencia móvil recibida.
+   Solo presentación: no altera consultas, datos, acciones ni flujos. */
+
+.nivalShell [data-panel="inicio"]{
+  --home-green:#174b38;
+  --home-green-2:#225f49;
+  --home-lime:#d9e9a7;
+  --home-bg:#f4f6ef;
+  --home-card:#fff;
+  --home-border:#d9dfd5;
+  --home-muted:#66746b;
+  max-width:760px;
+  margin:0 auto;
+  padding:0 0 34px!important;
+  background:var(--home-bg);
+}
+.nivalShell .workspaceContent:has([data-panel="inicio"].isVisible),
+.nivalShell .workspaceContent:has([data-panel="inicio"]:not([hidden])){background:var(--home-bg)}
+.nivalShell [data-panel="inicio"] .impactMasterHeader{
+  display:grid!important;
+  grid-template-columns:1fr auto;
+  gap:16px;
+  align-items:center;
+  margin:0 0 18px!important;
+}
+.nivalShell [data-panel="inicio"] .impactMasterHeader h2{
+  margin:0!important;
+  color:#0b2119;
+  font-size:27px!important;
+  font-weight:850;
+  letter-spacing:-.04em;
+}
+.nivalShell [data-panel="inicio"] .impactPeriodFilter{
+  grid-column:1/-1;
+  display:grid!important;
+  grid-template-columns:repeat(3,1fr);
+  gap:0!important;
+  width:100%;
+  padding:4px!important;
+  border:0!important;
+  border-radius:14px!important;
+  background:#e7ebdf!important;
+}
+.nivalShell [data-panel="inicio"] .impactPeriodFilter button{
+  min-height:42px!important;
+  padding:8px 10px!important;
+  border:0!important;
+  border-radius:11px!important;
+  background:transparent!important;
+  color:#244335!important;
+  font-size:14px!important;
+  font-weight:650!important;
+  box-shadow:none!important;
+}
+.nivalShell [data-panel="inicio"] .impactPeriodFilter button[aria-pressed="true"]{
+  background:#fff!important;
+  color:#071b13!important;
+  font-weight:850!important;
+  box-shadow:0 1px 3px #173d2414!important;
+}
+
+/* La referencia no muestra el onboarding ni los cuatro pendientes en Inicio. Se conservan en DOM/lógica. */
+.nivalShell [data-panel="inicio"]>.startGuide,
+.nivalShell [data-panel="inicio"]>.homePending{display:none!important}
+.nivalShell [data-panel="inicio"]>.homeSectionHeading:first-of-type{
+  display:flex!important;
+  align-items:center!important;
+  width:100%;
+  min-height:44px;
+  margin:8px 0 20px!important;
+  padding:0 22px!important;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--home-green) 0 64%,var(--home-green-2) 64%);
+}
+.nivalShell [data-panel="inicio"]>.homeSectionHeading:first-of-type small{
+  color:#d8eee3!important;
+  font-size:12px!important;
+  font-weight:850!important;
+  letter-spacing:.14em!important;
+}
+.nivalShell [data-panel="inicio"]>.homeSectionHeading:first-of-type h3{display:none!important}
+
+.nivalShell [data-panel="inicio"] .homeQuickActions{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:10px!important;
+  margin:0 0 28px!important;
+}
+.nivalShell [data-panel="inicio"] .homeQuickActionsHeading,
+.nivalShell [data-panel="inicio"] .homeQuickActions>.quickActionCard:first-of-type{display:none!important}
+.nivalShell [data-panel="inicio"] .homeQuickActions .quickActionCard{
+  display:flex!important;
+  min-height:110px!important;
+  padding:15px 13px!important;
+  flex-direction:column!important;
+  align-items:flex-start!important;
+  justify-content:flex-start!important;
+  gap:10px!important;
+  border:1px solid var(--home-border)!important;
+  border-radius:17px!important;
+  background:#fff!important;
+  color:#0b2119!important;
+  box-shadow:none!important;
+  transform:none!important;
+}
+.nivalShell [data-panel="inicio"] .homeQuickActions .quickActionCard>svg,
+.nivalShell [data-panel="inicio"] .homeQuickActions .quickActionCard small{display:none!important}
+.nivalShell [data-panel="inicio"] .quickActionIcon{
+  display:grid!important;
+  width:36px!important;height:36px!important;
+  place-items:center;
+  border-radius:12px!important;
+  background:#e9f0d8!important;
+  color:var(--home-green)!important;
+}
+.nivalShell [data-panel="inicio"] .quickActionCard strong{
+  display:block;
+  max-width:110px;
+  color:#0a2018!important;
+  font-size:14px!important;
+  line-height:1.2!important;
+  font-weight:800!important;
+}
+
+.nivalShell [data-panel="inicio"]>.homeSectionHeading:not(:first-of-type){
+  display:block!important;
+  margin:28px 0 11px!important;
+}
+.nivalShell [data-panel="inicio"]>.homeSectionHeading:not(:first-of-type) small{display:none!important}
+.nivalShell [data-panel="inicio"]>.homeSectionHeading:not(:first-of-type) h3{
+  margin:0!important;
+  color:#081f16!important;
+  font-size:21px!important;
+  line-height:1.2!important;
+  font-weight:850!important;
+  letter-spacing:-.035em!important;
+}
+.nivalShell [data-panel="inicio"]>.homeDetailHeading{display:none!important}
+
+.nivalShell [data-panel="inicio"] .homeCoreMetrics{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:0!important;
+  overflow:hidden;
+  margin:0 0 36px!important;
+  border:1px solid var(--home-border)!important;
+  border-radius:20px!important;
+  background:#fff!important;
+}
+.nivalShell [data-panel="inicio"] .homeCoreMetrics .ownerMetric{
+  min-height:106px!important;
+  padding:17px 20px!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  background:#fff!important;
+}
+.nivalShell [data-panel="inicio"] .homeCoreMetrics .ownerMetric:nth-child(odd){border-right:1px solid #e3e7df!important}
+.nivalShell [data-panel="inicio"] .homeCoreMetrics .ownerMetric:nth-child(-n+2){border-bottom:1px solid #e3e7df!important}
+.nivalShell [data-panel="inicio"] .ownerMetric>span{color:#4c6155!important;font-size:13px!important}
+.nivalShell [data-panel="inicio"] .homeCoreMetrics .ownerMetric>strong{margin-top:5px;color:#102b20!important;font-size:32px!important;line-height:1!important}
+.nivalShell [data-panel="inicio"] .metricChange{margin-top:6px!important;color:#758279!important;font-size:11px!important}
+.nivalShell [data-panel="inicio"] .metricChange b{display:none!important}
+
+/* Títulos de las tarjetas con enlace fuera del contenedor, como la referencia. */
+.nivalShell [data-panel="inicio"] .homeGoogle,
+.nivalShell [data-panel="inicio"] .homeGoogle+article,
+.nivalShell [data-panel="inicio"] .impactMasterDetails>article{
+  position:relative;
+  margin-top:50px!important;
+  padding:20px!important;
+  border:1px solid var(--home-border)!important;
+  border-radius:20px!important;
+  background:#fff!important;
+  box-shadow:none!important;
+}
+.nivalShell [data-panel="inicio"] .homeGoogle>.workspaceSectionHeader,
+.nivalShell [data-panel="inicio"] .homeGoogle+article>.workspaceSectionHeader,
+.nivalShell [data-panel="inicio"] .impactMasterDetails>article>.workspaceSectionHeader{
+  position:absolute;
+  left:0;right:0;top:-43px;
+  min-height:32px;
+  padding:0!important;
+}
+.nivalShell [data-panel="inicio"] .workspaceSectionHeader h3{
+  margin:0!important;
+  color:#071f16!important;
+  font-size:20px!important;
+  font-weight:850!important;
+  letter-spacing:-.03em!important;
+}
+.nivalShell [data-panel="inicio"] .workspaceSectionHeader a{
+  min-height:0!important;
+  color:#173d2f!important;
+  font-size:12px!important;
+  font-weight:800!important;
+  text-decoration:none!important;
+}
+.nivalShell [data-panel="inicio"] .workspaceSectionHeader a::first-letter{}
+
+/* Google */
+.nivalShell [data-panel="inicio"] .homeGoogle{margin-bottom:34px!important}
+.nivalShell [data-panel="inicio"] .homeGoogle .ownerMetrics{
+  display:grid!important;
+  grid-template-columns:repeat(4,1fr)!important;
+  gap:0!important;
+  margin:0!important;
+}
+.nivalShell [data-panel="inicio"] .homeGoogle .ownerMetric{
+  min-width:0!important;
+  padding:0 7px 14px!important;
+  border:0!important;
+  box-shadow:none!important;
+  text-align:center!important;
+}
+.nivalShell [data-panel="inicio"] .homeGoogle .ownerMetric span{font-size:11px!important}
+.nivalShell [data-panel="inicio"] .homeGoogle .ownerMetric strong{font-size:27px!important;color:#87988e!important}
+.nivalShell [data-panel="inicio"] .reviewPieEmpty{
+  margin:4px 0 14px!important;
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
+  color:#6b796f!important;
+  font-size:12px!important;
+  line-height:1.45!important;
+}
+.nivalShell [data-panel="inicio"] .homeGoogle>.replyProgress{height:8px!important;margin:8px 0!important;border-radius:999px!important;background:#e2e7dd!important}
+.nivalShell [data-panel="inicio"] .homeGoogle>.replyProgress+small{display:block;text-align:right;color:#0f261d;font-size:12px}
+
+/* Frecuencia */
+.nivalShell [data-panel="inicio"] .homeGoogle+article{margin-bottom:34px!important}
+.nivalShell [data-panel="inicio"] .homeGoogle+article:before{
+  content:"";display:block;height:12px;margin:-1px 0 18px;border-radius:999px;background:var(--home-green);
+}
+.nivalShell [data-panel="inicio"] .homeGoogle+article .clientStatusRow{
+  display:grid!important;
+  grid-template-columns:1fr auto!important;
+  gap:3px 12px!important;
+  padding:11px 0!important;
+  border-top:1px solid #e8ebe5!important;
+  color:#254236!important;
+  text-decoration:none!important;
+}
+.nivalShell [data-panel="inicio"] .homeGoogle+article .clientStatusRow:first-of-type{border-top:0!important}
+.nivalShell [data-panel="inicio"] .homeGoogle+article .clientStatusRow>i{display:none!important}
+.nivalShell [data-panel="inicio"] .homeGoogle+article .clientStatusRow>b{font-size:13px!important}
+.nivalShell [data-panel="inicio"] .homeGoogle+article .clientStatusRow>b small{margin-left:16px;color:#66776d;font-weight:500}
+
+/* Actividad + sucursales/equipo */
+.nivalShell [data-panel="inicio"] .impactMasterDetails{
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  gap:34px!important;
+  margin:0!important;
+}
+.nivalShell [data-panel="inicio"] .impactMasterDetails>article{margin-bottom:0!important}
+.nivalShell [data-panel="inicio"] .impactMasterDetails .clientStatusRow{
+  display:grid!important;
+  grid-template-columns:1fr auto!important;
+  gap:4px 12px!important;
+  padding:11px 0!important;
+  border-top:1px solid #e5e9e2!important;
+}
+.nivalShell [data-panel="inicio"] .impactMasterDetails .clientStatusRow:first-of-type{border-top:0!important}
+.nivalShell [data-panel="inicio"] .impactMasterDetails .clientStatusRow>span{font-size:14px!important;color:#173a2c!important}
+.nivalShell [data-panel="inicio"] .impactMasterDetails .clientStatusRow>b,
+.nivalShell [data-panel="inicio"] .impactMasterDetails .clientStatusRow>small{font-size:12px!important;color:#405b4d!important}
+.nivalShell [data-panel="inicio"] .impactMasterDetails .clientStatusRow>i{
+  grid-column:1/-1;
+  display:block!important;
+  height:6px!important;
+  border-radius:99px!important;
+  background:#e6eadf!important;
+  overflow:hidden!important;
+}
+.nivalShell [data-panel="inicio"] .impactMasterDetails .clientStatusRow>i em{display:block;height:100%;border-radius:99px;background:#2c815d!important}
+.nivalShell [data-panel="inicio"] .impactMasterDetails article:last-child>h3{
+  margin:24px 0 8px!important;
+  padding-top:18px!important;
+  border-top:1px solid #e4e8e1!important;
+  color:#476052!important;
+  font-size:11px!important;
+  font-weight:850!important;
+  letter-spacing:.13em!important;
+  text-transform:uppercase!important;
+}
+.nivalShell [data-panel="inicio"]>a.workspaceSecondary{
+  display:flex!important;
+  min-height:52px!important;
+  margin-top:34px!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border:1.5px solid #214f3b!important;
+  border-radius:14px!important;
+  background:transparent!important;
+  color:#0f3426!important;
+  font-size:14px!important;
+  font-weight:850!important;
+  box-shadow:none!important;
+}
+
+/* El bloque Plus se mantiene funcional pero sigue la misma tarjeta limpia. */
+.nivalShell [data-panel="inicio"]>.ownerCard:not(.homeGoogle):not(.homeGoogle+article){box-shadow:none}
+
+@media(max-width:600px){
+  .nivalShell [data-panel="inicio"]{padding-inline:2px!important}
+  .nivalShell [data-panel="inicio"] .impactMasterHeader h2{font-size:25px!important}
+  .nivalShell [data-panel="inicio"] .homeQuickActions{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .nivalShell [data-panel="inicio"] .homeQuickActions .quickActionCard{min-height:110px!important;padding:14px 12px!important}
+  .nivalShell [data-panel="inicio"] .quickActionCard strong{font-size:13px!important}
+  .nivalShell [data-panel="inicio"] .homeCoreMetrics .ownerMetric{padding:16px 18px!important}
+  .nivalShell [data-panel="inicio"] .homeGoogle,
+  .nivalShell [data-panel="inicio"] .homeGoogle+article,
+  .nivalShell [data-panel="inicio"] .impactMasterDetails>article{padding:18px!important}
+  .nivalShell [data-panel="inicio"] .workspaceSectionHeader h3{font-size:19px!important}
+}
