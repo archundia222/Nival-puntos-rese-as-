@@ -1,0 +1,148 @@
+/* Menú lateral Nival · réplica visual de las referencias de octubre.
+   Se preservan rutas, desplegables, selector de sucursal, cuenta y cierre de sesión. */
+.nivalShell{
+ --sidebar-ink:#f5fff7;
+ --sidebar-deep:#173b2d;
+ --sidebar-panel:#204d3d;
+ --sidebar-lime:#d8f16c;
+}
+.nivalShell .workspaceSidebar{
+ background:#173a2c!important;
+ color:var(--sidebar-ink)!important;
+ border-right:1px solid #27614b!important;
+ box-shadow:none!important;
+ padding:18px 13px 20px!important;
+}
+.nivalShell .workspaceBrand{
+ display:flex!important;align-items:center!important;gap:10px!important;
+ margin:0 0 18px!important;padding:0!important;
+}
+.nivalShell .workspaceBrand .brandMark{
+ display:grid!important;place-items:center!important;
+ width:33px!important;height:33px!important;min-width:33px!important;
+ border-radius:10px!important;
+ background:var(--sidebar-lime)!important;color:#153728!important;
+ font-size:22px!important;font-weight:900!important;
+}
+.nivalShell .workspaceBrand .brandWords{
+ display:grid!important;gap:2px!important;
+ color:#fff!important;font-size:22px!important;line-height:1!important;font-weight:850!important;letter-spacing:-.06em!important;
+}
+.nivalShell .workspaceBrand .brandWords>span{
+ color:#9ed0b8!important;font-size:8px!important;
+ font-weight:800!important;letter-spacing:.14em!important;
+}
+.nivalShell .workspaceBrand .drawerClose{
+ margin-left:auto!important;display:grid!important;place-items:center!important;
+ width:35px!important;height:35px!important;padding:0!important;
+ background:#225442!important;color:#eaf6eb!important;border:0!important;border-radius:11px!important;
+}
+.nivalShell .workspaceBusiness{
+ display:flex!important;align-items:center!important;gap:8px!important;
+ min-height:51px!important;margin:0 0 13px!important;padding:10px!important;
+ border:0!important;border-radius:13px!important;
+ background:#214e3e!important;box-shadow:none!important;
+}
+.nivalShell .workspaceBusinessIdentity{display:flex!important;align-items:center!important;gap:10px!important;min-width:0!important}
+.nivalShell .workspaceBusiness .businessAvatar{
+ display:grid!important;place-items:center!important;
+ width:30px!important;height:30px!important;min-width:30px!important;
+ border-radius:9px!important;background:var(--sidebar-lime)!important;color:#173b2b!important;
+ font-weight:850!important;font-size:14px!important;
+}
+.nivalShell .workspaceBusinessIdentity strong{color:#fff!important;font-size:13px!important;font-weight:800!important}
+.nivalShell .workspaceBusinessIdentity small{color:#b3e6ca!important;font-size:10px!important}
+.nivalShell .workspaceBusiness .branchPicker{margin-left:auto!important;min-width:0!important}
+.nivalShell .workspaceBusiness .branchPicker span{display:none!important}
+.nivalShell .workspaceBusiness .branchPicker select{
+ max-width:35px!important;min-width:25px!important;
+ overflow:hidden!important;text-overflow:clip!important;
+ color:#d5ebdd!important;background:transparent!important;
+ border:0!important;padding:4px 0!important;font-size:10px!important;
+}
+.nivalShell .workspaceNav{
+ display:flex!important;flex-direction:column!important;
+ gap:1px!important;padding:0!important;margin:0!important;
+}
+.nivalShell .workspaceNavCaption,
+.nivalShell .workspaceNavCaption:first-child{
+ margin:14px 0 6px!important;padding:0 9px!important;
+ color:#7fc8a9!important;
+ font-size:9px!important;font-weight:850!important;letter-spacing:.13em!important;
+}
+.nivalShell .workspaceSidebar .workspaceNavItem{
+ width:100%!important;min-height:36px!important;
+ display:flex!important;align-items:center!important;gap:12px!important;
+ padding:8px 10px!important;margin:0!important;
+ border:0!important;border-radius:10px!important;
+ box-shadow:none!important;background:transparent!important;
+ color:#f8fff8!important;text-align:left!important;
+}
+.nivalShell .workspaceSidebar .workspaceNavItem>svg{width:16px!important;height:16px!important;flex:none!important;color:#cce7d7!important}
+.nivalShell .workspaceSidebar .workspaceNavItem strong{font-size:12px!important;font-weight:750!important;line-height:1.35!important}
+.nivalShell .workspaceSidebar .workspaceNavItem>i{margin-left:auto!important;color:#a8d6c1!important}
+.nivalShell .workspaceSidebar .workspaceNavItem:hover:not(.isActive){background:#24513f!important}
+.nivalShell .workspaceSidebar .workspaceMenuGroup:has(.workspaceSubmenu){
+ background:#204c3b!important;border-radius:13px!important;padding:4px!important;
+}
+.nivalShell .workspaceSidebar .workspaceMenuGroup:has(.workspaceSubmenu)>.workspaceNavItem,
+.nivalShell .workspaceSidebar .workspaceMenuGroup:has(.workspaceSubmenu)>.workspaceNavItem.isActive{
+ background:transparent!important;box-shadow:none!important;color:#fff!important;
+}
+.nivalShell .workspaceSidebar .workspaceSubmenu{
+ display:grid!important;gap:2px!important;
+ border:0!important;margin:0!important;padding:0 0 1px 13px!important;
+}
+.nivalShell .workspaceSidebar .workspaceSubmenu .workspaceNavItem{
+ position:relative!important;min-height:34px!important;
+ padding:8px 10px 8px 24px!important;border-radius:9px!important;
+ color:#f2fff3!important;
+}
+.nivalShell .workspaceSidebar .workspaceSubmenu .workspaceNavItem:before{
+ content:"";position:absolute;left:10px;top:50%;transform:translateY(-50%);
+ width:5px;height:5px;border-radius:50%;background:#648d78;
+}
+.nivalShell .workspaceSidebar .workspaceSubmenu .workspaceNavItem.isActive{
+ background:var(--sidebar-lime)!important;color:#10291d!important;
+ box-shadow:none!important;border:0!important;
+}
+.nivalShell .workspaceSidebar .workspaceSubmenu .workspaceNavItem.isActive strong{color:#10291d!important}
+.nivalShell .workspaceSidebar .workspaceSubmenu .workspaceNavItem.isActive:before{background:#143d2c!important}
+.nivalShell .workspaceSidebar .workspaceNavItem.isActive:not(.isSubItem):not(:has(+ .workspaceSubmenu)){
+ background:#245440!important;color:#fff!important;box-shadow:none!important;
+}
+.nivalShell .workspaceSidebarBottom{margin-top:18px!important;padding:0!important}
+.nivalShell .workspacePlanSummary{
+ display:grid!important;grid-template-columns:1fr auto!important;
+ gap:2px 8px!important;min-height:45px!important;
+ padding:9px 12px!important;border:0!important;
+ border-radius:12px!important;background:#21513f!important;box-shadow:none!important;
+}
+.nivalShell .workspacePlanSummary .planActiveLabel{
+ grid-column:1!important;color:#88cdb0!important;font-size:9px!important;font-weight:850!important;letter-spacing:.12em!important;
+}
+.nivalShell .workspacePlanSummary .planActiveLabel i{background:var(--sidebar-lime)!important}
+.nivalShell .workspacePlanSummary strong{
+ grid-column:1!important;color:#fff!important;font-size:12px!important;font-weight:850!important;
+}
+.nivalShell .workspacePlanSummary>small{
+ grid-column:2!important;grid-row:1/span 2!important;
+ display:block!important;text-align:right!important;
+ color:#d5f0df!important;font-size:11px!important;line-height:1.4!important;
+}
+.nivalShell .workspaceHelp{
+ display:flex!important;flex-wrap:wrap!important;justify-content:center!important;
+ gap:4px!important;padding:17px 2px!important;
+ text-decoration:none!important;text-align:center!important;
+}
+.nivalShell .workspaceHelp span{color:#d8f2e4!important;font-size:11px!important}
+.nivalShell .workspaceHelp strong{color:var(--sidebar-lime)!important;font-size:11px!important;font-weight:850!important}
+.nivalShell .workspaceHelp strong svg{display:none!important}
+.nivalShell .workspaceLegal{padding:10px 0!important;border-top:1px solid #315e4c!important}
+.nivalShell .workspaceLegal a{color:#a4cab6!important;font-size:10px!important}
+.nivalShell .sidebarIdentity{border-top:1px solid #315e4c!important;padding-top:12px!important}
+.nivalShell .sidebarLogout{margin-top:10px!important}
+.nivalShell .sidebarLogout .logoutButton{color:#fff!important}
+@media(max-width:960px){
+ .nivalShell .workspaceSidebar{width:260px!important;max-width:82vw!important}
+}
