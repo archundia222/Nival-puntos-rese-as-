@@ -1762,3 +1762,65 @@ body{background:var(--nival-cream);color:var(--nival-text)}
     max-width:100%;
   }
 }
+
+
+/* Home composition: retain every metric label, value, link and ordering. */
+.nivalShell[data-section="inicio"] .homePending{
+  background:#1b4332;border:1px solid #1b4332;border-radius:19px;
+  padding:16px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:1px;overflow:hidden;
+}
+.nivalShell[data-section="inicio"] .homePending>.ownerMetric{
+  min-height:108px!important;padding:12px 8px!important;border:0!important;
+  box-shadow:none!important;background:transparent!important;color:#fff!important;
+  border-radius:0!important;align-items:flex-start;transform:none!important;
+}
+.nivalShell[data-section="inicio"] .homePending>.ownerMetric span,
+.nivalShell[data-section="inicio"] .homePending>.ownerMetric strong,
+.nivalShell[data-section="inicio"] .homePending>.ownerMetric small{
+  color:#f3f9f2!important;
+}
+.nivalShell[data-section="inicio"] .homePending>.ownerMetric strong{
+  font-size:clamp(25px,5vw,38px)!important;margin:4px 0!important;
+}
+.nivalShell[data-section="inicio"] .homePending>.ownerMetric small{
+  text-decoration:none!important;font-size:11px!important;
+}
+.nivalShell[data-section="inicio"] .homeCoreMetrics{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0!important;overflow:hidden;background:#fff;border:1px solid #e1e8df;
+  border-radius:17px;margin-bottom:22px;
+}
+.nivalShell[data-section="inicio"] .homeCoreMetrics>.ownerMetric{
+  margin:0!important;padding:15px!important;background:transparent!important;
+  border:0!important;border-radius:0!important;min-height:120px!important;
+  box-shadow:none!important;
+}
+.nivalShell[data-section="inicio"] .homeCoreMetrics>.ownerMetric:nth-child(odd){
+  border-right:1px solid #e1e8df!important;
+}
+.nivalShell[data-section="inicio"] .homeCoreMetrics>.ownerMetric:nth-child(-n+2){
+  border-bottom:1px solid #e1e8df!important;
+}
+.nivalShell[data-section="inicio"] .homeCoreMetrics .metricChange{
+  border:0!important;border-radius:0!important;background:transparent!important;
+  padding:0!important;box-shadow:none!important;
+}
+.nivalShell[data-section="inicio"] .homeSectionHeading{
+  display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+}
+.nivalShell[data-section="inicio"] .homeQuickActions .quickActionCard{
+  box-shadow:none!important;border:1px solid #e1e8df!important;transform:none!important;
+}
+@media(max-width:540px){
+  .nivalShell[data-section="inicio"] .homePending{padding:10px}
+  .nivalShell[data-section="inicio"] .homePending>.ownerMetric{
+    padding:12px 6px!important;
+  }
+  .nivalShell[data-section="inicio"] .homePending>.ownerMetric span{
+    font-size:11px!important;
+  }
+  .nivalShell[data-section="inicio"] .homePending>.ownerMetric small{
+    font-size:10px!important;
+  }
+}
