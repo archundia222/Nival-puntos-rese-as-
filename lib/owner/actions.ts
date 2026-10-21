@@ -63,3 +63,22 @@ export async function markCampaignSent(_:Result,f:FormData):Promise<Result>{
   return {success:'Envío manual registrado. Podrás consultar quién volvió en 14 días.'};
  }catch{return {error:'No se pudo registrar el envío. Comprueba que la migración esté aplicada.'};}
 }
+
+export async function markCampaignContact(_:Result,f:FormData):Promise<Result>{
+ const actor=await guardAction(['owner'],f);
+ const businessId=String(f.get('businessId')||''),customerId=String(f.get('customerId')||''),segment=String(f.get('segment')||'');
+ const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+ if(!uuid.test(businessId)||!uuid.test(customerId)||!['new','risk','frequent','near_reward'].includes(segment))return {error:'Contacto inválido.'};
+ try{
+  await requireTool(actor,businessId);
+  const [plan]=await query(actor,'select p.price_mxn from nival_pr.businesses b join nival_pr.plans p on p.id=b.plan_id where b.id=$1',[businessId]);
+  if(Number(plan?.price_mxn||0)<399)return {error:'Disponible en Esencial'};
+  const [customer]=await query(actor,'select id from nival_pr.customers where id=$1 and business_id=$2',[customerId,businessId]);
+  if(!customer)return {error:'Cliente no encontrado.'};
+  const rows=await query(actor,'select s.id from nival_pr.customer_segments($1,CURRENT_DATE) s where s.id=$2 and '+(segment==='new'?'s.is_new':segment==='risk'?'s.is_risk and not s.is_lost':segment==='frequent'?'s.is_frequent':'true'),[businessId,customerId]);
+  if(!rows.length)return {error:'El cliente ya no pertenece a este grupo.'};
+  await query(actor,'insert into nival_pr.campaign_sends(business_id,segment,channel,customer_ids,created_by) values($1,$2,$3,$4::uuid[],$5)',[businessId,segment,'manual',[customerId],actor.id]);
+  revalidatePath('/panel');
+  return {success:'Contactado registrado.'};
+ }catch{return {error:'No se pudo registrar el contacto.'};}
+}
