@@ -13,6 +13,7 @@ import '../lib/owner/card-share-reference-redesign.css';
 import '../lib/owner/reviews-reference-redesign.css';
 import '../lib/owner/reports-reference-redesign.css';
 import '../lib/owner/final-reference-redesign.css';
+import '../lib/owner/campaigns-reference-redesign.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://nival-puntos-resenas.vercel.app'),
