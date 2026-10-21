@@ -105,3 +105,5 @@
 .nivalShell [data-panel="equipo"] .teamActivitySummary strong{font-size:24px!important;color:#174631!important}
 .nivalShell [data-panel="equipo"] .teamActivitySummary span{font-size:11px!important;color:#66786d!important}
 @media(max-width:520px){.nivalShell [data-panel="equipo"] .teamActivitySummary{grid-template-columns:1fr 1fr!important}}
+
+.nivalShell .customerPhoneButton{display:inline-flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;text-align:center!important;padding:0!important;font-size:18px!important}
