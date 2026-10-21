@@ -91,7 +91,7 @@ test("sample metrics are labeled and real images replace upload placeholders", (
   assert.match(ownerView, /Nuevos y recurrentes/);
   assert.match(ownerView, /data-panel="reseñas"/);
   assert.match(ownerView, /<Metric label="Calificación"/);
-  assert.match(ownerView, /Análisis y recomendaciones/);
+  assert.match(ownerView, /Qué mejorar en las reseñas/);
   assert.match(ownerView, /Comparación con la zona/);
   for (const image of ["industry-cafe.webp", "industry-taqueria.webp", "industry-restaurant.webp", "industry-clinic.webp", "industry-ice-cream.webp"])
     assert.ok(existsSync(`public/assets/img/${image}`), image);
@@ -130,10 +130,10 @@ test("Google review charts explain counts and avoid a false one-point trend", ()
   const charts = readFileSync("lib/owner/charts.tsx", "utf8");
   const workspaceCss = readFileSync("lib/owner/workspace.css", "utf8");
   assert.match(ownerView, /Reseñas por calificación/);
-  assert.match(charts, /La barra muestra la cantidad\. A la derecha: número de reseñas y porcentaje del total/);
-  assert.match(charts, /total\?Math\.round\(x\.value\/total\*100\)/);
-  assert.match(charts, /data\.length===1/);
-  assert.match(charts, /Solo hay una medición guardada/);
+  assert.match(charts, /AxisChart/);
+  assert.match(readFileSync("lib/owner/axis-chart.tsx","utf8"), /Toca una barra o punto/);
+  assert.match(charts, /data\.length/);
+  assert.match(charts, /Calificación de Google/);
   assert.match(charts, /new Map\(reports\.map/);
   assert.match(ownerView, /\[5,4,3,2,1\]/);
   assert.match(ownerView, /data-panel="reseñas"/);
