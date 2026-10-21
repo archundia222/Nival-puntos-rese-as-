@@ -152,7 +152,7 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
      <Metric label="Por responder" value={pendingReviews??0}/>
    </div>
    <article className="ownerCard"><strong>{reviewed} de {responseLimit} respuestas del plan</strong><div className="replyProgress"><i style={{width:(responseLimit?Math.min(100,100*reviewed/responseLimit):0)+'%'}}/></div></article>
-   {last&&hasDistribution&&<Bars title="Reseñas por calificación" unit="Reseñas" items={[5,4,3,2,1].map(n=>({label:n+' ★',value:Number(distribution[n]||0),color:'#175d47'}))}/>}
+   {last&&hasDistribution&&<Bars title="Reseñas por calificación" period={String(range.start).slice(0,10)+" · periodo seleccionado"} unit="número de reseñas" items={[5,4,3,2,1].map(n=>({label:n+' ★',value:Number(distribution[n]||0),color:'#175d47'}))}/>}
    <article className="ownerCard"><h3>Qué mejorar en las reseñas</h3>{last?.notes?<ReviewInsights notes={last.notes}/>:<p>El análisis estará disponible con el siguiente reporte.</p>}</article>
    <article className="ownerCard"><h3>Tarjetas NFC de reseñas</h3><strong>{(data.reviewCards||[]).filter((c:Record<string,any>)=>c.active).length} de {limits.nfcCards} activas</strong><div className="workspaceActionRow"><a className="workspaceSecondary" href="#tarjetas-nfc">Ver tarjetas NFC</a></div></article>
    {planName==='Plus'&&<article className="ownerCard"><h3>Comparación con la zona</h3>
