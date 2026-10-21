@@ -115,11 +115,11 @@ test('onboarding steps are single clickable rows with one highlighted next step'
  assert.ok(html.includes('0 / 4'));
 });
 
-const {CustomerExplorer}=component('customer-explorer.tsx',{'./icons':icons,'./explorer.mjs':explorer});
+const {CustomerExplorer}=component('customer-explorer.tsx',{'./icons':icons,'./explorer.mjs':explorer,'./customer-phone-button':{CustomerPhoneButton:()=>React.createElement('button',{'aria-label':'Contactar cliente'},'📞')}});
 test('large customer directory bounds rendered rows and segment pages do not offer other group filters',()=>{
  const customers=Array.from({length:43},(_,i)=>({id:String(i),name:'Cliente '+i,visits:1,is_risk:true}));
  const html=renderToStaticMarkup(React.createElement(CustomerExplorer,{customers,fixedSegment:'risk'}));
- assert.equal((html.match(/class="customerListRow"/g)||[]).length,20);
+ assert.equal((html.match(/class="customerListRow customerProfileCard"/g)||[]).length,20);
  assert.ok(html.includes('Página 1 de 3'));assert.ok(html.includes('43 clientes'));
  assert.ok(!html.includes('Tipo de cliente'));
  const empty=renderToStaticMarkup(React.createElement(CustomerExplorer,{customers:[],fixedSegment:'risk'}));
