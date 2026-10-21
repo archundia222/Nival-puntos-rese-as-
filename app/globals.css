@@ -1537,3 +1537,13 @@ body{background:var(--nival-cream);color:var(--nival-text)}
 .nivalShell .workspacePageHeadingWithBack+*{scroll-margin-top:16px}
 @media(max-width:700px){.nivalShell .workspacePageHeadingWithBack{padding:19px!important;border-radius:16px;flex-wrap:wrap}.nivalShell .workspacePageHeadingWithBack .workspaceReturnHome{margin-left:0!important}.nivalShell .workspacePageIntro{font-size:13px}.nivalShell .ownerCard{border-radius:15px}}
 @media(prefers-reduced-motion:reduce){.nivalShell .quickActionCard{transition:none!important}}
+
+/* Compact panel heading: keeps hamburger unobstructed. */
+.nivalShell .workspacePageHeadingWithBack{background:#fff!important;border:1px solid #d6e3d7!important;box-shadow:0 4px 14px #123c2510!important;border-radius:14px!important;padding:13px 20px!important;margin:0 0 16px!important;min-height:68px!important}
+.nivalShell .workspacePageHeadingWithBack h1{font-size:clamp(20px,2.3vw,26px)!important;color:#183b2c!important;line-height:1.2!important}
+.nivalShell .workspacePageIntro{color:#385a46!important;font-size:12px!important;margin:3px 0 0!important}
+.nivalShell .workspacePageHeadingWithBack .workspaceReturnHome{background:#eaf3e9!important;color:#154b32!important;border:1px solid #a9c6af!important}
+.nivalShell .workspaceFloatingMenu{z-index:60!important}
+@media(min-width:961px){.nivalShell .workspacePageHeadingWithBack{padding-left:66px!important}}
+@media(max-width:960px){.nivalShell .workspacePageHeadingWithBack{padding-left:68px!important;min-height:64px!important}}
+@media(max-width:540px){.nivalShell .workspacePageHeadingWithBack{padding:12px 13px 12px 60px!important}.nivalShell .workspacePageIntro{font-size:11px!important}}
