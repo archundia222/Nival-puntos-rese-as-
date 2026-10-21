@@ -1421,3 +1421,33 @@ body{background:var(--nival-cream);color:var(--nival-text)}
 .nivalShell .axisChartScroll{width:100%;overflow-x:auto}
 .nivalShell .axisChartScroll svg{display:block;width:100%;min-width:320px;height:auto;touch-action:manipulation}
 .nivalShell .axisChartInstruction{font-size:12px;font-weight:650;color:#2b4938}
+
+/* Bloque 4: directorio en tarjetas y ajustes de puntos. */
+.nivalShell .customerCardList{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:14px}
+.nivalShell .customerProfileCard{display:flex;flex-direction:column;gap:16px;align-items:stretch;padding:20px;border:1px solid #c8d8ce;border-radius:16px;background:#fff;box-shadow:0 5px 15px rgba(14,49,29,.075)}
+.nivalShell .customerProfileCard .customerListIdentity{display:flex;align-items:center;gap:12px}
+.nivalShell .customerProfileCard .customerListIdentity>div{display:flex;flex-direction:column;gap:5px}
+.nivalShell .customerProfileCard .customerListIdentity strong{font-size:18px;color:#152a21}
+.nivalShell .customerNewPill{display:inline-block;align-self:flex-start;background:#dceee0;color:#17482f;border-radius:999px;padding:3px 9px;font-size:12px;font-weight:800}
+.nivalShell .customerCardFacts{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:10px;padding:13px;background:#f2f6f3;border-radius:12px}
+.nivalShell .customerCardFacts>div{display:flex;flex-direction:column;gap:6px;min-width:0}
+.nivalShell .customerCardFacts small{font-size:12px;color:#375243}
+.nivalShell .customerCardFacts strong{color:#132f20;font-size:16px;overflow-wrap:anywhere}
+.nivalShell .customerCardActions{display:flex;justify-content:flex-end;align-items:center;gap:12px;margin-top:auto}
+.nivalShell .customerCardActions .customerListOpen{display:inline-flex;align-items:center;gap:9px;padding:12px 18px;font-weight:800;border-radius:10px;color:#163e2d;background:#fff;border:1px solid #254e37;text-decoration:none}
+.nivalShell .customerPhoneControl{position:relative;display:inline-flex}
+.nivalShell .customerPhoneButton{width:46px;height:46px;display:grid;place-items:center;border:1px solid #254e37;border-radius:12px;background:#e7f1e9;font-size:22px}
+.nivalShell .customerPhoneButton:disabled{opacity:.45;cursor:not-allowed}
+.nivalShell .customerPhoneConfirm{position:absolute;z-index:20;right:0;bottom:calc(100% + 8px);width:min(290px,85vw);padding:16px;border-radius:13px;border:1px solid #afc4b5;background:#fff;box-shadow:0 10px 28px rgba(0,0,0,.16);display:flex;flex-direction:column;gap:13px;color:#152a21}
+.nivalShell .customerPhoneActions{display:flex;gap:10px}
+.nivalShell .customerPhoneActions a,.nivalShell .customerPhoneActions button{padding:9px 15px;border-radius:9px;font-weight:750;text-decoration:none}
+.nivalShell .customerDetailBack{display:inline-flex;gap:10px;align-items:center;padding:13px 19px;border:1px solid #254e37;border-radius:11px;background:#fff;color:#173e2b;font-size:15px;font-weight:800;text-decoration:none}
+.nivalShell .adjustmentChoice{border:0;padding:0;margin:0;min-width:0}
+.nivalShell .adjustmentChoice legend{margin-bottom:10px;color:#162d22;font-weight:750}
+.nivalShell .adjustmentQuantity{display:flex;align-items:center;gap:16px;margin-bottom:12px}
+.nivalShell .adjustmentQuantity button{width:46px;height:46px;background:#fff;color:#183e2c;border:1px solid #254e37;border-radius:10px;font-size:25px;font-weight:800}
+.nivalShell .adjustmentQuantity strong{min-width:45px;text-align:center;font-size:26px}
+.nivalShell .adjustmentConfirmation{border:2px solid #275d40;background:#f2f8f4;padding:16px;border-radius:12px}
+.nivalShell .adjustmentConfirmation p{margin:5px 0;overflow-wrap:anywhere}
+.nivalShell .adjustmentConfirmation .workspaceActionRow{margin-top:15px}
+@media(max-width:520px){.nivalShell .customerCardFacts{grid-template-columns:1.35fr 1fr 1fr}.nivalShell .customerProfileCard{padding:15px}}
