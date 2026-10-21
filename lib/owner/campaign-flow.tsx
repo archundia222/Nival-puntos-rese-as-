@@ -45,7 +45,7 @@ export function CampaignFlow({businessId,customers,counts,messages,defaults,hist
  return <section className="campaignFlow">
   {step===0&&<div className="campaignIntro"><strong>¿Qué quieres lograr hoy?</strong><p>Elige un objetivo para preparar el mensaje y ver los clientes a quienes aplica.</p></div>}
   {step===0&&<><div className="campaignGoalGrid" role="group" aria-label="Objetivo de tu campaña">{goals.map(g=><button type="button" className={"campaignGoalCard"+(selected===g.key&&step>0?' isSelected':'')} key={g.goal} aria-pressed={selected===g.key&&step>0} onClick={()=>choose(g.key,g.label)}>
-   <span className="campaignGoalIcon"><Icon name={g.icon} size={24}/></span><strong>{g.goal}</strong><small>{g.label}</small><span className="campaignAudienceType">{campaignHelp[g.key].audience}</span><span className="campaignAudienceCount">{customers.filter(c=>g.key==='new'?c.is_new:g.key==='risk'?c.is_risk&&!c.is_lost:g.key==='frequent'?c.is_frequent:Number(c.balance||0)>0).length} clientes aplican</span><span className="campaignWhen">{campaignHelp[g.key].when}</span><span className="campaignGoalArrow">Configurar →</span>
+   <span className="campaignGoalIcon"><Icon name={g.icon} size={24}/></span><strong>{g.goal}</strong><small>{g.label}</small><span className="campaignAudienceType">{campaignHelp[g.key].audience}</span><span className="campaignAudienceCount">{customers.filter(c=>g.key==='new'?c.is_new:g.key==='risk'?c.is_risk&&!c.is_lost:g.key==='frequent'?c.is_frequent:Number(c.balance||0)>0).length} clientes</span><span className="campaignWhen">{campaignHelp[g.key].when}</span><span className="campaignGoalArrow">Configurar →</span>
   </button>)}</div>
   </>}
   {step>0&&<div className="ownerCard campaignComposer">
