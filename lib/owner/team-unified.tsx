@@ -4,7 +4,7 @@ import {TeamWorkspace} from './team-workspace';
 type Row=Record<string,any>;
 type Staff={id:string;name:string;active:boolean;branch_id?:string;branch_name?:string};
 type Branch={id:string;name:string;active?:boolean;is_primary?:boolean};
-export function TeamUnified({businessId,slug,staff,branches,ranking,initialTab='personal'}:{businessId:string;slug:string;staff:Staff[];branches:Branch[];ranking:Row[];initialTab?:'personal'|'actividad'}){
+export function TeamUnified({businessId,slug,staff,branches,ranking,movements=[],initialTab='personal'}:{businessId:string;slug:string;staff:Staff[];branches:Branch[];ranking:Row[];movements?:Row[];initialTab?:'personal'|'actividad'}){
  const [tab,setTab]=useState<'personal'|'actividad'>(initialTab);
  function selectTab(next:'personal'|'actividad'){
   setTab(next);
@@ -23,6 +23,7 @@ export function TeamUnified({businessId,slug,staff,branches,ranking,initialTab='
    {ranking.map(r=>{const person=staff.find(x=>x.id===r.staff_id);const peers=ranking.filter(x=>x.staff_id!==r.staff_id);const mean=peers.length?peers.reduce((sum,x)=>sum+Number(x.visits||0),0)/peers.length:0;const high=peers.length>0&&r.visits>=10&&r.visits>mean*2;return <tr key={String(r.staff_id)}><td>{person?.name||r.name}</td><td>{person?.branch_name||branches.find(x=>x.id===person?.branch_id)?.name||'—'}</td><td>{r.visits||0}</td><td>{r.redemptions||0}</td><td>{r.customers||0}</td><td>{high?'Revisar registros':r.reversed>0?'Canjes revertidos':'Sin incidencias registradas'}</td></tr>})}
    </tbody></table></div>
    {!ranking.length&&<p className="ownerEmpty">Sin actividad registrada</p>}
+   <div className="teamRecentActivity"><h4>Últimos movimientos del equipo</h4><p className="cardCaption">Visitas y canjes registrados, ordenados desde el más reciente. Se conservan los movimientos incluso si se desactiva al empleado.</p>{movements.length?<div className="teamRecentList">{movements.slice(0,10).map(m=><article className="teamRecentItem" key={String(m.id)}><span className="teamRecentType">{m.type==='redeem'?'Canje':'Visita'}</span><div><strong>{m.customer||'Cliente'}</strong><small>{staff.find(p=>p.id===m.staff_id)?.name||'Operador anterior'} · {new Date(m.created_at).toLocaleString('es-MX',{timeZone:'America/Mexico_City'})}</small></div></article>)}</div>:<p className="ownerEmpty">Aún no hay visitas ni canjes registrados.</p>}</div>
   </div>}
  </section>;
 }
