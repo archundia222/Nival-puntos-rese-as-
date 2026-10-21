@@ -24,3 +24,26 @@
 .nivalShell [data-panel="reseñas"].reviewReferenceLayout>#configuracion-resenas .branchGoogleSettings{padding:17px!important}
 .nivalShell [data-panel="reseñas"].reviewReferenceLayout>.workspaceSectionHeader>a{min-height:36px!important;font-size:11px!important}
 }
+
+/* Reseñas para el negocio: tareas propias y configuración; los reportes los carga Nival. */
+.nivalShell .reviewReferenceLayout>.reviewOwnerIntro,
+.nivalShell .reviewReferenceLayout>.reviewOwnerCards,
+.nivalShell .reviewReferenceLayout>#configuracion-resenas{margin:0 0 16px!important}
+.nivalShell .reviewReferenceLayout>.reviewOwnerIntro,
+.nivalShell .reviewReferenceLayout>.reviewOwnerCards{padding:20px!important;border:1px solid #dfe6dd!important;border-radius:16px!important;background:#fff!important;box-shadow:0 4px 14px #193b2710!important}
+.nivalShell .reviewReferenceLayout>.reviewOwnerIntro h3,
+.nivalShell .reviewReferenceLayout>.reviewOwnerCards h3{margin:0 0 8px!important;color:#193b2c!important;font:750 16px/1.35 'Plus Jakarta Sans',sans-serif!important;letter-spacing:-.02em}
+.nivalShell .reviewReferenceLayout>.reviewOwnerIntro p,
+.nivalShell .reviewReferenceLayout>.reviewOwnerCards p{margin:0 0 14px!important;color:#5f7064!important;font-size:13px!important;line-height:1.55!important}
+.nivalShell .reviewReferenceLayout>.reviewOwnerIntro .workspaceSecondary,
+.nivalShell .reviewReferenceLayout>.reviewOwnerCards .workspacePrimary{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 14px;border-radius:10px;text-decoration:none;font-size:13px;font-weight:750}
+.nivalShell .reviewReferenceLayout>.reviewOwnerIntro .workspaceSecondary{border:1px solid #cbd8cc;background:#f8faf6;color:#244a37}
+.nivalShell .reviewReferenceLayout>.reviewOwnerCards .workspacePrimary{border:1px solid #214f3a;background:#214f3a;color:#fff}
+.nivalShell .reviewReferenceLayout .branchGoogleSettings{margin:0!important;padding:19px!important;border:1px solid #dfe6dd!important;border-radius:16px!important;background:#fff!important;box-shadow:0 4px 14px #193b2710!important}
+.nivalShell .reviewReferenceLayout .branchGoogleSettings p{margin:0 0 14px!important;color:#5f7064!important;font-size:13px!important;line-height:1.55!important}
+.nivalShell .reviewReferenceLayout .ownerMetric::before{display:none!important;content:none!important}
+@media(max-width:960px){
+ .nivalShell .reviewReferenceLayout>.reviewOwnerIntro,
+ .nivalShell .reviewReferenceLayout>.reviewOwnerCards{order:initial!important}
+ .nivalShell .reviewReferenceLayout>#configuracion-resenas{order:initial!important}
+}

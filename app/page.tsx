@@ -113,7 +113,7 @@ export default function Home() {
             </ul>
             <a className="nvButton" href={whatsapp(plan.name)} target="_blank" rel="noreferrer">Elegir {plan.name}<LandingIcon name="arrow" /></a>
           </article>)}</div>
-          <aside className="nvPlanIncludes" data-reveal><div><span>EN TODOS LOS PLANES</span><b>Lo que puedes hacer con Nival</b></div><ul><li><LandingIcon name="check"/>Dar puntos por visitas y canjear premios</li><li><LandingIcon name="check"/>Consultar visitas y grupos de clientes</li><li><LandingIcon name="check"/>Revisar calificación, reseñas y respuestas de Google en Inicio</li><li><LandingIcon name="check"/>Registrar visitas y consultar premios canjeados</li><li><LandingIcon name="check"/>Descargar el resumen mensual en PDF</li></ul></aside>
+          <aside className="nvPlanIncludes" data-reveal><div><span>EN TODOS LOS PLANES</span><b>Lo que puedes hacer con Nival</b></div><ul><li><LandingIcon name="check"/>Dar puntos por visitas y canjear premios</li><li><LandingIcon name="check"/>Consultar visitas y grupos de clientes</li><li><LandingIcon name="check"/>Compartir tarjetas QR y NFC para abrir Google</li><li><LandingIcon name="check"/>Registrar visitas y consultar premios canjeados</li><li><LandingIcon name="check"/>Descargar el resumen mensual en PDF</li></ul></aside>
           <small className="nvPlanFoot">Nival gestiona las respuestas de forma manual y con tu permiso. Las cuotas se renuevan cada 30 días. Precios en MXN.</small>
         </div>
       </section>

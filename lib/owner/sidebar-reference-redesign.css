@@ -146,3 +146,4 @@
 @media(max-width:960px){
  .nivalShell .workspaceSidebar{width:260px!important;max-width:82vw!important}
 }
+.nivalShell[data-open="true"] .workspaceFloatingMenu{display:none!important}

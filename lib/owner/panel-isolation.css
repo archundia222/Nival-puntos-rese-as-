@@ -19,3 +19,24 @@
 .nivalShell[data-section="compartir"] .ownerDashboard > [data-panel="compartir"],
 .nivalShell[data-section="programa"] .ownerDashboard > [data-panel="programa"],
 .nivalShell[data-section="ajustes"] .ownerDashboard > [data-panel="ajustes"]{display:block!important}
+.nivalShell .nivalCardEditor,
+.nivalShell .nivalCardEditor :is(h2,h3,h4,p,label,button,input,select,textarea,small,span){font-family:'Plus Jakarta Sans',sans-serif!important}
+.nivalShell .ownerMetrics.homePending{grid-template-columns:repeat(3,minmax(0,1fr))}
+.nivalShell .cardCatalogEditor{padding:20px!important;border:1px solid #dfe6dd!important;border-radius:18px!important;background:#fff!important;box-shadow:0 5px 18px #1738260d!important}
+.nivalShell .cardCatalogEditor>header{align-items:center!important;gap:14px!important;margin-bottom:14px!important}
+.nivalShell .cardCatalogEditor>header h3{margin:0!important;color:#183b2c!important;font:800 18px/1.3 'Plus Jakarta Sans',sans-serif!important;letter-spacing:-.025em!important}
+.nivalShell .nivalCardEditor .editorHeading{align-items:center!important;margin:8px 0 14px!important;padding:0!important}
+.nivalShell .nivalCardEditor .editorHeading h2{margin:4px 0!important;color:#183b2c!important;font:800 clamp(23px,3vw,30px)/1.2 'Plus Jakarta Sans',sans-serif!important;letter-spacing:-.04em!important}
+.nivalShell .nivalCardEditor .editorHeading p{margin:4px 0 0!important;color:#637468!important;font-size:13px!important;line-height:1.5!important}
+.nivalShell .nivalCardEditor .editorStatus{flex:0 0 auto;border:1px solid #dce7d8;background:#f5f8f1;color:#355c40;font-size:12px!important;font-weight:750}
+.nivalShell .nivalCardEditor .cardEditorTabs button{font-size:12px!important;line-height:1.35!important}
+.nivalShell .nivalCardEditor .cardEditorFields{border-color:#e0e7df!important;border-radius:14px!important;box-shadow:0 4px 16px #183d2508!important}
+.adminAccessLink{display:inline-flex;align-items:center;min-height:38px;padding:8px 12px;border:1px solid #cbd8cc;border-radius:10px;color:#244a37;font-weight:700;text-decoration:none}
+.adminAccessLink:hover{background:#f1f6ed}
+@media(max-width:850px){.nivalShell .ownerMetrics.homePending{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){
+ .nivalShell .cardCatalogEditor{padding:15px!important}
+ .nivalShell .cardCatalogEditor>header h3{font-size:16px!important}
+ .nivalShell .nivalCardEditor .editorHeading{align-items:flex-start!important;flex-direction:column!important;gap:10px!important}
+ .nivalShell .nivalCardEditor .editorStatus{align-self:flex-start}
+}

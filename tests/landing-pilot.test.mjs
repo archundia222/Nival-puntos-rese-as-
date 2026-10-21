@@ -63,7 +63,7 @@ test("prices and plan limits match the current entitlements", () => {
   assert.match(page, /className="nvPlanFullPerks"/);
   assert.match(page, /por 30 días/);
   assert.match(page, /EN TODOS LOS PLANES/);
-  for (const feature of ["Dar puntos por visitas y canjear premios", "Consultar visitas y grupos de clientes", "Revisar calificación, reseñas y respuestas de Google en Inicio", "Registrar visitas y consultar premios canjeados", "Descargar el resumen mensual en PDF"])
+  for (const feature of ["Dar puntos por visitas y canjear premios", "Consultar visitas y grupos de clientes", "Compartir tarjetas QR y NFC para abrir Google", "Registrar visitas y consultar premios canjeados", "Descargar el resumen mensual en PDF"])
     assert.ok(page.includes(feature), feature);
   assert.match(page, /Nival gestiona las respuestas de forma manual y con tu permiso/);
   assert.match(page, /resumen mensual en PDF/i);
@@ -90,9 +90,8 @@ test("sample metrics are labeled and real images replace upload placeholders", (
   assert.match(page, /nvLivePanelBody/);
   assert.match(ownerView, /Nuevos y recurrentes/);
   assert.match(ownerView, /data-panel="reseñas"/);
-  assert.match(ownerView, /<Metric label="Calificación"/);
-  assert.match(ownerView, /Qué mejorar en las reseñas/);
-  assert.match(ownerView, /Comparación con la zona/);
+  assert.match(ownerView, /Tarjetas NFC de reseñas/);
+  assert.doesNotMatch(ownerView, /Qué mejorar en las reseñas|Comparación con la zona/);
   for (const image of ["industry-cafe.webp", "industry-taqueria.webp", "industry-restaurant.webp", "industry-clinic.webp", "industry-ice-cream.webp"])
     assert.ok(existsSync(`public/assets/img/${image}`), image);
 });
@@ -126,19 +125,14 @@ test("business carousel loops automatically and has no visible controls", () => 
   assert.match(page, /Acerca el teléfono o escanea el QR/);
 });
 
-test("Google review charts explain counts and avoid a false one-point trend", () => {
-  const charts = readFileSync("lib/owner/charts.tsx", "utf8");
+test("business review screens manage review cards without exposing administrator reports", () => {
+  const reportWorkspace = readFileSync("lib/owner/report-workspace.tsx", "utf8");
   const workspaceCss = readFileSync("lib/owner/workspace.css", "utf8");
-  assert.match(ownerView, /Reseñas por calificación/);
-  assert.match(charts, /AxisChart/);
-  assert.match(readFileSync("lib/owner/axis-chart.tsx","utf8"), /Toca una barra o punto/);
-  assert.match(charts, /data\.length/);
-  assert.match(charts, /Calificación de Google/);
-  assert.match(charts, /new Map\(reports\.map/);
-  assert.match(ownerView, /\[5,4,3,2,1\]/);
   assert.match(ownerView, /data-panel="reseñas"/);
-  assert.match(ownerView, /<Bars title="Reseñas por calificación"/);
-  assert.match(ownerView, /<ReviewInsights/);
+  assert.match(ownerView, /Tarjetas para pedir reseñas/);
+  assert.match(ownerView, /Invita a tus clientes a dejar una reseña/);
+  assert.doesNotMatch(ownerView, /Qué mejorar en las reseñas|Reseñas por calificación|Calificación y reseñas de Google/);
+  assert.doesNotMatch(reportWorkspace, /\['reseñas','Reseñas'\]|Evolución de calificación/);
   assert.ok(workspaceCss.includes('.nivalShell[data-section="reseñas"] [data-panel="reseñas"]'));
 });
 
