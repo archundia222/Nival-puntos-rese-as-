@@ -43,7 +43,7 @@ test('points and review QR cards share the Cards workspace with plan limits',()=
  assert.ok(!workspace.includes('Tarjetas QR de reseñas'));
  assert.ok(page.includes('CardWorkspace')&&!page.includes('list_branch_review_cards'));
  assert.ok(owner.includes('data-panel="mis-tarjetas"')&&owner.includes('reviewCards={data.reviewCards||[]}'));assert.ok(catalog.includes('<ReviewCardManager')&&catalog.includes('cardLimit={nfcLimit}'));assert.ok(catalog.includes('Compartir sistema de puntos')&&catalog.includes('<ShareTools'),'the single share panel keeps QR and link');
- const manager=read('lib/owner/review-card-manager.tsx');assert.ok(manager.includes('className="reviewCardInlineQr"'));assert.ok(manager.includes("/api/reviews/qr?code='+encodeURIComponent(code)"),'review card QR stays in its visual card preview');
+ const manager=read('lib/owner/review-card-manager.tsx');assert.ok(!manager.includes('className="reviewCardInlineQr"'),'review QR must be hidden in the list');assert.ok(manager.includes('className="reviewCardShareQr"')&&manager.includes('/api/reviews/qr?code='),'review QR appears on opening the card');
  assert.ok(!catalog.includes('giftCardSystemTile')&&!catalog.includes('Tarjeta de regalo'),'gift card must be absent while points and review QR remain');
  assert.ok(!owner.includes('data-panel="nival-pay"'),'retired gift page must not appear');
  assert.ok(exportRoute.includes('requireRole("owner")')&&exportRoute.includes('requireBusiness'));
