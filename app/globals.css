@@ -1349,3 +1349,38 @@ body{background:var(--nival-cream);color:var(--nival-text)}
  .nivalCustomerFlow .customerHistoryTimeline li>div small{font-size:10px}
  .nivalCustomerFlow .customerHistoryTimeline li>b{font-size:12px}
 }
+
+/* Bloque 1: contraste del menú y prioridad de Inicio. No modifica Equipo. */
+.nivalShell .workspaceSidebar{background:#142b24!important;color:#fff!important}
+.nivalShell .workspaceSidebar .workspaceNavCaption{color:#d7e4dc!important;opacity:1!important;font-weight:750!important}
+.nivalShell .workspaceSidebar .workspaceNavItem{color:#f5f8f6!important;opacity:1!important}
+.nivalShell .workspaceSidebar .workspaceNavItem strong,
+.nivalShell .workspaceSidebar .workspaceNavItem svg{color:inherit!important;opacity:1!important}
+.nivalShell .workspaceSidebar .workspaceNavItem.isActive,
+.nivalShell .workspaceSidebar .workspaceNavItem[aria-current="page"]{background:#fff!important;color:#152b24!important;border-radius:12px!important;box-shadow:inset 4px 0 0 #142b24!important}
+.nivalShell .workspaceSidebar .workspaceNavItem:not(.isActive):hover{background:#315244!important;color:#fff!important}
+.nivalShell .workspaceSidebar .workspaceSubmenu .workspaceNavItem.isSubItem.isActive{background:#fff!important;color:#152b24!important}
+.nivalShell .workspaceSidebar .workspaceBusiness,
+.nivalShell .workspaceSidebar .workspaceBusiness *,
+.nivalShell .workspaceSidebar .workspacePlanSummary,
+.nivalShell .workspaceSidebar .workspacePlanSummary *,
+.nivalShell .workspaceSidebar .workspaceSidebarBottom,
+.nivalShell .workspaceSidebar .workspaceSidebarBottom *,
+.nivalShell .workspaceSidebar .workspaceBrand,
+.nivalShell .workspaceSidebar .workspaceBrand *{color:#f4f8f5!important}
+.nivalShell .workspaceSidebar .workspaceBusiness select{background:#fff!important;color:#172a23!important}
+.nivalShell .ownerBlock[data-panel="inicio"] .homeSectionHeading{margin-top:26px;margin-bottom:14px}
+.nivalShell .ownerBlock[data-panel="inicio"] .homeSectionHeading h3{color:#172a23;font-weight:800}
+.nivalShell .ownerBlock[data-panel="inicio"] .homePending{gap:15px;margin-bottom:26px}
+.nivalShell .ownerBlock[data-panel="inicio"] .homePending .ownerMetric{position:relative;display:flex;flex-direction:column;align-items:flex-start;min-height:170px;background:#fff;border:1px solid #b6c9bd;border-radius:17px;padding:20px;box-shadow:0 8px 22px rgba(11,35,24,.12);color:#172a23;text-decoration:none;transition:transform .16s ease,box-shadow .16s ease}
+.nivalShell .ownerBlock[data-panel="inicio"] .homePending .ownerMetric:first-child{border:2px solid #8b4a24;background:#fff6ed}
+.nivalShell .ownerBlock[data-panel="inicio"] .homePending .ownerMetric strong{font-size:clamp(34px,4vw,46px);line-height:1.1;color:#172a23;margin:12px 0}
+.nivalShell .ownerBlock[data-panel="inicio"] .homePending .ownerMetric span{font-size:14px;color:#172a23;font-weight:750}
+.nivalShell .ownerBlock[data-panel="inicio"] .homePending .ownerMetric small{margin-top:auto;font-size:13px;color:#173d2e;font-weight:750;text-decoration:underline;text-underline-offset:3px}
+.nivalShell .ownerBlock[data-panel="inicio"] .homePending .ownerMetric:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(11,35,24,.2);border-color:#173d2e}
+.nivalShell .ownerBlock[data-panel="inicio"] .homePending .ownerMetric:focus-visible,.nivalShell .workspaceReturnHome:focus-visible{outline:3px solid #9b5a12;outline-offset:3px}
+.nivalShell .ownerBlock[data-panel="inicio"] .homeCoreMetrics .ownerMetric{box-shadow:0 3px 10px rgba(11,35,24,.055);background:#fff}
+.nivalShell .ownerBlock[data-panel="inicio"] .homeCoreMetrics .ownerMetric strong{font-size:30px}
+.nivalShell .workspaceReturnHome{display:inline-flex;align-items:center;gap:7px;margin:14px 0 0;padding:10px 15px;border:1px solid #173d2e;border-radius:10px;background:#fff;color:#173d2e;font:inherit;font-size:14px;font-weight:750;cursor:pointer}
+.nivalShell .workspaceReturnHome:hover{background:#e9f1eb}
+@media(max-width:600px){.nivalShell .ownerBlock[data-panel="inicio"] .homePending .ownerMetric{min-height:145px;padding:16px}}
