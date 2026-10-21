@@ -1891,3 +1891,93 @@ body{background:var(--nival-cream);color:var(--nival-text)}
     justify-content:stretch;
   }
 }
+
+
+/* Reference match, 21 October: scoped four-screen presentation. */
+.nivalShell[data-section="inicio"] .homeFrequencyHeading,
+.nivalShell[data-section="inicio"] .homeDetailGroup>.workspaceSectionHeader{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;margin:26px 0 12px;
+}
+.nivalShell[data-section="inicio"] .homeFrequencyHeading h3,
+.nivalShell[data-section="inicio"] .homeDetailGroup>.workspaceSectionHeader h3{font-size:19px;margin:0;line-height:1.25}
+.nivalShell[data-section="inicio"] .homeFrequencyHeading a,
+.nivalShell[data-section="inicio"] .homeDetailGroup>.workspaceSectionHeader a{font-size:12px;flex-shrink:0;text-decoration:none}
+.nivalShell[data-section="inicio"] .homeFrequencyCard{padding:18px!important}
+.nivalShell[data-section="inicio"] .homeStackedBar{width:100%;height:11px;border-radius:999px;background:#e5e9e0;display:flex;overflow:hidden;margin-bottom:16px}
+.nivalShell[data-section="inicio"] .homeStackedBar>span{height:100%;flex-shrink:0}
+.nivalShell[data-section="inicio"] .homeFrequencyCard .clientStatusRow{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 0!important;
+  border-bottom:1px solid #e6ebe3!important;
+}
+.nivalShell[data-section="inicio"] .homeFrequencyCard .clientStatusRow:last-child{border-bottom:0!important}
+.nivalShell[data-section="inicio"] .homeFrequencyCard .frequencyLabel{display:flex;align-items:center;gap:10px;min-width:0}
+.nivalShell[data-section="inicio"] .homeFrequencyCard .frequencyDot{display:inline-block;width:9px;height:9px;min-width:9px;border-radius:50%}
+.nivalShell[data-section="inicio"] .homeFrequencyCard .clientStatusRow>b{white-space:nowrap;font-weight:700}
+.nivalShell[data-section="inicio"] .homeMovementsCard{padding:12px 18px!important}
+.nivalShell[data-section="inicio"] .movementRow{display:flex!important;align-items:center;gap:11px;padding:12px 0!important;border-bottom:1px solid #e6ebe3}
+.nivalShell[data-section="inicio"] .movementRow:last-child{border-bottom:0}
+.nivalShell[data-section="inicio"] .movementAvatar{width:34px;height:34px;border-radius:50%;background:#e8efd8;display:grid;place-items:center;font-weight:700;flex-shrink:0}
+.nivalShell[data-section="inicio"] .movementIdentity{display:flex;flex-direction:column;min-width:0;flex:1;gap:3px}
+.nivalShell[data-section="inicio"] .movementIdentity strong{font-size:13px;line-height:1.25}
+.nivalShell[data-section="inicio"] .movementIdentity span{font-size:12px;color:#64756a}
+.nivalShell[data-section="inicio"] .movementRow>small{margin-left:auto;white-space:nowrap;font-size:11px}
+.nivalShell[data-section="inicio"] .homeBranchCard{padding:18px!important}
+.nivalShell[data-section="inicio"] .homeBranchCard .clientStatusRow{padding:12px 0}
+.nivalShell[data-section="premios"] .rewardWorkspace>.workspaceSectionHeader{display:flex;flex-direction:column;align-items:stretch;gap:12px;margin:0 0 20px}
+.nivalShell[data-section="premios"] .rewardWorkspace>.workspaceSectionHeader>h2{display:none}
+.nivalShell[data-section="premios"] .rewardWorkspace>.workspaceSectionHeader>.workspacePrimary{display:flex;width:100%;min-height:50px;align-items:center;justify-content:center;background:#1b4332;color:#fff;border-radius:13px;font-weight:750}
+.nivalShell[data-section="premios"] .rewardShowcase{display:grid!important;grid-template-columns:minmax(0,1fr)!important;width:100%;gap:12px}
+.nivalShell[data-section="premios"] .rewardShowcaseCard{
+  width:100%;min-width:0;display:grid!important;
+  grid-template-columns:66px minmax(0,1fr) auto;grid-template-rows:auto auto;
+  align-items:center;gap:10px 12px;padding:16px!important;background:#fff!important;
+  border:1px solid #e1e5db!important;border-radius:19px;box-shadow:none!important;
+}
+.nivalShell[data-section="premios"] .rewardShowcaseIcon{grid-column:1;grid-row:1;min-height:60px!important;height:60px;width:60px;margin:0;background:#ebf1d9!important;border-radius:14px!important;font-size:27px!important}
+.nivalShell[data-section="premios"] .rewardShowcaseCard>strong{grid-column:2;grid-row:1;align-self:start;font-size:19px!important}
+.nivalShell[data-section="premios"] .rewardShowcaseCard>.rewardStatus{grid-column:2;grid-row:1;align-self:end;justify-self:start;margin-top:28px}
+.nivalShell[data-section="premios"] .rewardPointsBadge{grid-column:3;grid-row:1;justify-self:end;white-space:nowrap}
+.nivalShell[data-section="premios"] .rewardShowcaseCard>small{grid-column:1/span 2;grid-row:2;border-top:1px solid #e5e9e2;padding-top:15px;margin-top:6px;font-size:13px}
+.nivalShell[data-section="premios"] .rewardEditHint{grid-column:3;grid-row:2;justify-self:end;padding:12px;border:1px solid #dce5da;border-radius:12px;background:#fff}
+.nivalShell[data-section="informes"] .reportWorkspace .workspaceActionRow[role="tablist"]{
+ display:flex!important;flex-wrap:nowrap!important;gap:20px!important;overflow-x:auto;width:100%;max-width:100%;border:0!important;
+ background:transparent!important;padding:0!important;margin:18px 0!important;scrollbar-width:thin;justify-content:flex-start!important;
+}
+.nivalShell[data-section="informes"] .reportWorkspace [role="tablist"] button{
+  flex:0 0 auto!important;border:0!important;border-radius:0!important;background:transparent!important;
+  box-shadow:none!important;color:#5b6d61!important;min-height:46px!important;padding:10px 1px!important;font-size:14px;
+}
+.nivalShell[data-section="informes"] .reportWorkspace [role="tablist"] button[aria-selected="true"]{
+ border-bottom:3px solid #1b4332!important;color:#183a2b!important;
+}
+.nivalShell[data-section="informes"] .reportWorkspace .ownerMetrics{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:0!important;
+ background:#fff;border:1px solid #e1e8df;border-radius:18px;overflow:hidden;margin:0 0 18px;
+}
+.nivalShell[data-section="informes"] .reportWorkspace .ownerMetrics>.ownerMetric{
+ min-width:0;min-height:135px!important;margin:0!important;padding:16px!important;
+ border:0!important;border-radius:0!important;border-right:1px solid #e1e8df!important;
+ border-bottom:1px solid #e1e8df!important;box-shadow:none!important;
+}
+.nivalShell[data-section="informes"] .reportWorkspace .ownerMetrics>.ownerMetric:nth-child(even){border-right:0!important}
+.nivalShell[data-section="informes"] .reportWorkspace .ownerMetrics>.ownerMetric:nth-last-child(-n+2){border-bottom:0!important}
+.nivalShell[data-section="informes"] .reportWorkspace .ownerMetrics>.ownerMetric strong{font-size:32px}
+.nivalShell[data-section="informes"] .reportWorkspace>a.workspaceSecondary{display:flex;width:100%;min-height:50px;align-items:center;justify-content:center;background:#1b4332!important;color:#fff!important;border-radius:13px}
+.nivalShell[data-section="clientes"] .customerExplorer{border:0!important;background:transparent!important;padding:0!important}
+.nivalShell[data-section="clientes"] .customerExplorer .workspaceCardHead{position:relative;min-height:0;margin:0 0 18px}
+.nivalShell[data-section="clientes"] .customerExplorer .workspaceCardHead>div{display:none}
+.nivalShell[data-section="clientes"] .customerExplorer .workspaceCardHead>button{margin-left:auto}
+.nivalShell[data-section="clientes"] .customerExplorer .explorerFilters .explorerSearch{grid-column:1/-1;grid-row:1;width:100%;margin:0}
+.nivalShell[data-section="clientes"] .customerExplorer .explorerFilters .explorerSearch>div{position:relative}
+.nivalShell[data-section="clientes"] .customerExplorer .explorerFilters .explorerSearch svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);z-index:1;pointer-events:none}
+.nivalShell[data-section="clientes"] .customerExplorer .explorerFilters .explorerSearch input{padding-left:48px!important}
+.nivalShell[data-section="clientes"] .customerExplorer .customerListRow{width:100%;margin:0 0 12px;box-shadow:none!important}
+.nivalShell[data-section="clientes"] .customerExplorer .customerListIdentity{justify-content:flex-start!important;text-align:left!important}
+.nivalShell[data-section="clientes"] .customerCampaigns>summary{display:flex;align-items:center;gap:12px;text-align:left}
+.nivalShell[data-section="clientes"] .customerCampaigns>summary strong{margin-right:auto}
+@media(max-width:700px){
+  .nivalShell[data-section="premios"] .ownerDashboard,
+  .nivalShell[data-section="informes"] .ownerDashboard,
+  .nivalShell[data-section="clientes"] .ownerDashboard{padding-inline:20px!important}
+  .nivalShell[data-section="informes"] .reportWorkspace>.workspaceSectionHeader{margin-top:0!important}
+}
