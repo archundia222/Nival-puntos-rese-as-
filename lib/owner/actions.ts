@@ -33,6 +33,19 @@ export async function saveBranchGoogleUrl(_:Result,f:FormData):Promise<Result>{
  if(!/^[0-9a-f-]{36}$/i.test(businessId)||!/^[0-9a-f-]{36}$/i.test(branchId)||url.length>2000||(url&&!/^https:\/\//.test(url)))return {error:'Introduce una URL HTTPS válida.'};
  try{await requireTool(actor,businessId);await query({role:'auth',id:actor.id},'select nival_pr_private.save_branch_google_url($1,$2,$3)',[businessId,branchId,url||null]);revalidatePath('/panel');return {success:'Ficha de Google guardada para esta sucursal.'};}catch{return {error:'No se pudo guardar el enlace.'};}
 }
+export async function saveReviewCardSettings(_:Result,f:FormData):Promise<Result>{
+ const actor=await guardAction(['owner'],f);
+ const businessId=String(f.get('businessId')||''),branchId=String(f.get('branchId')||''),code=String(f.get('code')||''),label=String(f.get('label')||'').trim(),url=String(f.get('googleUrl')||'').trim(),active=f.get('active')==='true';
+ const uuid=/^[0-9a-f-]{36}$/i;
+ if(!uuid.test(businessId)||!uuid.test(branchId)||!/^[a-f0-9]{18}$/.test(code)||!label||label.length>80||!url||url.length>2000||!/^https:\/\//i.test(url))return {error:'Revisa nombre y enlace HTTPS de Google.'};
+ try{
+  await requireTool(actor,businessId);
+  await query({role:'auth',id:actor.id},'select nival_pr_private.save_branch_google_url($1,$2,$3)',[businessId,branchId,url]);
+  await query({role:'auth',id:actor.id},'select nival_pr_private.manage_review_card_branch($1,$2,$3,$4,$5)',[businessId,branchId,code,label,active]);
+  revalidatePath('/panel');
+  return {success:'Nombre, enlace y estado guardados.'};
+ }catch{return {error:'No se pudieron guardar los cambios. Comprueba los datos de la sucursal.'};}
+}
 export async function manageReviewCard(_:Result,f:FormData):Promise<Result>{
  const actor=await guardAction(['owner'],f),businessId=String(f.get('businessId')||''),code=String(f.get('code')||'').trim()||null,label=String(f.get('label')||'').trim(),branchId=String(f.get('branchId')||''),active=f.get('active')!=='false';
  if(!/^[0-9a-f-]{36}$/i.test(businessId)||!/^[0-9a-f-]{36}$/i.test(branchId)||code&&!/^[a-f0-9]{18}$/.test(code)||label.length>80)return {error:'Revisa el nombre de la tarjeta.'};
