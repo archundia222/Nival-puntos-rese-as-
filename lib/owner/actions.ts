@@ -16,7 +16,7 @@ export async function saveSegments(_:Result,f:FormData):Promise<Result>{
 
 export async function saveMessageTemplate(_:Result,f:FormData):Promise<Result>{
  const actor=await guardAction(['owner'],f),businessId=String(f.get('businessId')||''),segment=String(f.get('segment')||''),body=String(f.get('body')||'').trim();
- if(!['new','active','frequent','risk','lost','absent','near_reward'].includes(segment)||!body||body.length>1500)return {error:'Escribe una plantilla de hasta 1500 caracteres.'};
+ if(!['new','active','frequent','risk','lost','near_reward'].includes(segment)||!body||body.length>1500)return {error:'Escribe una plantilla de hasta 1500 caracteres.'};
  try{await requireTool(actor,businessId);await query(actor,'insert into nival_pr.message_templates(business_id,segment,body) values($1,$2,$3) on conflict(business_id,segment) do update set body=excluded.body',[businessId,segment,body]);revalidatePath('/panel');return {success:'Plantilla guardada. Revisa cada mensaje antes de enviarlo.'};}catch{return {error:'No se pudo guardar. Comprueba la vigencia de tu plan.'};}
 }
 
@@ -63,13 +63,13 @@ export async function manageBranch(_:Result,f:FormData):Promise<Result>{
 export async function markCampaignSent(_:Result,f:FormData):Promise<Result>{
  const actor=await guardAction(['owner'],f);
  const businessId=String(f.get('businessId')||''),segment=String(f.get('segment')||''),channel=String(f.get('channel')||'manual');
- if(!/^[0-9a-f-]{36}$/i.test(businessId)||!['new','risk','lost','absent','frequent','near_reward'].includes(segment)||channel!=='manual')return {error:'Campaña inválida.'};
+ if(!/^[0-9a-f-]{36}$/i.test(businessId)||!['new','risk','frequent','near_reward'].includes(segment)||channel!=='manual')return {error:'Campaña inválida.'};
  try{
   await requireTool(actor,businessId);
   const [plan]=await query(actor,'select p.price_mxn from nival_pr.businesses b join nival_pr.plans p on p.id=b.plan_id where b.id=$1',[businessId]);
   if(Number(plan?.price_mxn||0)<399)return {error:'Disponible en Esencial'};
   const customers=await query(actor,`select s.*,coalesce((select sum(l.points) from nival_pr.point_ledger l where l.customer_id=s.id and l.business_id=$1),0)::int balance from nival_pr.customer_segments($1,CURRENT_DATE) s`,[businessId]);
-  const ids=customers.filter(c=>segment==='new'?c.is_new:segment==='risk'?c.is_risk&&!c.is_lost:segment==='lost'?c.is_lost:segment==='absent'?c.absent_month:segment==='frequent'?c.is_frequent:Number(c.balance||0)>0).map(c=>String(c.id));
+  const ids=customers.filter(c=>segment==='new'?c.is_new:segment==='risk'?c.is_risk&&!c.is_lost:segment==='frequent'?c.is_frequent:Number(c.balance||0)>0).map(c=>String(c.id));
   if(!ids.length)return {error:'No hay clientes en este grupo.'};
   await query(actor,'insert into nival_pr.campaign_sends(business_id,segment,channel,customer_ids,created_by) values($1,$2,$3,$4::uuid[],$5)',[businessId,segment,channel,ids,actor.id]);
   revalidatePath('/panel');
@@ -81,14 +81,14 @@ export async function markCampaignContact(_:Result,f:FormData):Promise<Result>{
  const actor=await guardAction(['owner'],f);
  const businessId=String(f.get('businessId')||''),customerId=String(f.get('customerId')||''),segment=String(f.get('segment')||'');
  const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
- if(!uuid.test(businessId)||!uuid.test(customerId)||!['new','risk','lost','absent','frequent','near_reward'].includes(segment))return {error:'Contacto inválido.'};
+ if(!uuid.test(businessId)||!uuid.test(customerId)||!['new','risk','frequent','near_reward'].includes(segment))return {error:'Contacto inválido.'};
  try{
   await requireTool(actor,businessId);
   const [plan]=await query(actor,'select p.price_mxn from nival_pr.businesses b join nival_pr.plans p on p.id=b.plan_id where b.id=$1',[businessId]);
   if(Number(plan?.price_mxn||0)<399)return {error:'Disponible en Esencial'};
   const [customer]=await query(actor,'select id from nival_pr.customers where id=$1 and business_id=$2',[customerId,businessId]);
   if(!customer)return {error:'Cliente no encontrado.'};
-  const rows=await query(actor,'select s.id from nival_pr.customer_segments($1,CURRENT_DATE) s where s.id=$2 and '+(segment==='new'?'s.is_new':segment==='risk'?'s.is_risk and not s.is_lost':segment==='lost'?'s.is_lost':segment==='absent'?'s.absent_month':segment==='frequent'?'s.is_frequent':'true'),[businessId,customerId]);
+  const rows=await query(actor,'select s.id from nival_pr.customer_segments($1,CURRENT_DATE) s where s.id=$2 and '+(segment==='new'?'s.is_new':segment==='risk'?'s.is_risk and not s.is_lost':segment==='frequent'?'s.is_frequent':'true'),[businessId,customerId]);
   if(!rows.length)return {error:'El cliente ya no pertenece a este grupo.'};
   await query(actor,'insert into nival_pr.campaign_sends(business_id,segment,channel,customer_ids,created_by) values($1,$2,$3,$4::uuid[],$5)',[businessId,segment,'manual',[customerId],actor.id]);
   revalidatePath('/panel');
