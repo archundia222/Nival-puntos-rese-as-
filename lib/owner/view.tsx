@@ -145,17 +145,22 @@ export async function OwnerView({actor,b,businesses,range,data,demo=false,mobile
   {planName==='Plus'&&<article className="ownerCard"><header className="workspaceSectionHeader"><h3>Tu calificación frente a la zona</h3><a href="#reseñas">Ver detalle →</a></header>{data.zoneComparison&&!data.zoneComparison.sample?<strong>{Number(data.zoneComparison.business_rating).toFixed(1)} ★ vs {Number(data.zoneComparison.zone_average_rating).toFixed(1)} ★ · {Number(data.zoneComparison.difference)>0?'+':''}{Number(data.zoneComparison.difference).toFixed(1)} ★</strong>:<p>Próximamente</p>}</article>}
   <a href="#mis-tarjetas" className="workspaceSecondary">Tus tarjetas →</a>
  </section>
- <section data-panel="reseñas" className="ownerBlock">
+ <section data-panel="reseñas" className="ownerBlock reviewReferenceLayout">
    <header className="workspaceSectionHeader"><h2>Consulta y responde reseñas</h2>{data.selectedBranch?.google_maps_url?<a className="workspaceSecondary" target="_blank" rel="noreferrer" href={data.selectedBranch.google_maps_url}>Abrir Google</a>:<a href="#sucursales">Agregar ficha de Google</a>}</header>
-   <div className="ownerMetrics">
+   {!last&&<article className="ownerCard reviewNoData"><h3>Aún no hay un reporte de reseñas</h3><p>Agrega la ficha de Google de esta sucursal y registra el primer reporte para ver calificación, pendientes y recomendaciones. Las respuestas no se importan automáticamente.</p><a className="workspaceSecondary" href="#configuracion-resenas">Configurar enlace de Google Maps →</a></article>}
+ <div className="reviewReferenceStats">   <div className="ownerMetrics">
      <Metric label="Calificación" value={last?Number(last.rating).toFixed(1)+' ★':'—'}/>
      <Metric label="Reseñas" value={Number(last?.total_reviews||0)}/>
      <Metric label="Respondidas" value={data.google?.answered??0}/>
      <Metric label="Por responder" value={pendingReviews??0}/>
    </div>
-   {!last&&<article className="ownerCard reviewNoData"><h3>Aún no hay un reporte de reseñas</h3><p>Agrega la ficha de Google de esta sucursal y registra el primer reporte para ver calificación, pendientes y recomendaciones. Las respuestas no se importan automáticamente.</p><a className="workspaceSecondary" href="#configuracion-resenas">Configurar enlace de Google Maps →</a></article>}
+ <div className="reviewReferenceQuota"><span>Respuestas del plan</span><b>{reviewed} de {responseLimit}</b><div className="replyProgress"><i style={{width:(responseLimit?Math.min(100,100*reviewed/responseLimit):0)+'%'}}/></div></div></div>
+
+
+
+
    {pendingReviews===0&&last&&<article className="ownerCard reviewNoData"><h3>Sin reseñas pendientes registradas</h3><p>No hay pendientes en el último reporte. Esto no confirma que todas las reseñas estén respondidas en Google.</p><a href={data.selectedBranch?.google_maps_url||"#configuracion-resenas"} target={data.selectedBranch?.google_maps_url?"_blank":undefined} rel="noreferrer" className="workspaceSecondary">Revisar ficha de Google →</a></article>}
-   <article className="ownerCard"><strong>{reviewed} de {responseLimit} respuestas del plan</strong><div className="replyProgress"><i style={{width:(responseLimit?Math.min(100,100*reviewed/responseLimit):0)+'%'}}/></div></article>
+
    {last&&hasDistribution&&<Bars title="Reseñas por calificación" period={String(range.start).slice(0,10)+" · periodo seleccionado"} unit="número de reseñas" items={[5,4,3,2,1].map(n=>({label:n+' ★',value:Number(distribution[n]||0),color:'#175d47'}))}/>}
    <article className="ownerCard"><h3>Qué mejorar en las reseñas</h3>{last?.notes?<ReviewInsights notes={last.notes}/>:<p>El análisis estará disponible con el siguiente reporte.</p>}</article>
    <article className="ownerCard"><h3>Tarjetas NFC de reseñas</h3><strong>{(data.reviewCards||[]).filter((c:Record<string,any>)=>c.active).length} de {limits.nfcCards} activas</strong><div className="workspaceActionRow"><a className="workspaceSecondary" href="#tarjetas-nfc">Ver tarjetas NFC</a></div></article>
