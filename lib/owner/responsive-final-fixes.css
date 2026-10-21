@@ -51,3 +51,33 @@
  .nivalShell .workspacePageHeading{padding-left:56px!important}
  .nivalShell .reviewNfcRow{gap:8px!important}
 }
+
+/* Card setup: full available phone width, no lateral scroll or sticky preview overlay */
+.nivalShell .cardCatalogEditor,.nivalShell .nivalCardEditor,.nivalShell .nivalCardEditor form,.nivalShell .cardEditorBody,.nivalShell .cardEditorFields{min-width:0!important;max-width:100%!important;width:100%!important}
+.nivalShell .cardEditorBody{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:20px!important}
+.nivalShell .nivalCardEditor .configGrid{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:16px!important}
+.nivalShell .nivalCardEditor .configGrid>*{min-width:0!important;max-width:100%!important}
+.nivalShell .nivalCardEditor .configGrid input,.nivalShell .nivalCardEditor .configGrid select,.nivalShell .nivalCardEditor .configGrid textarea{max-width:100%!important}
+.nivalShell .cardEditorTabs{width:100%!important;min-width:0!important;max-width:100%!important;overflow-x:visible!important;display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:5px!important}
+.nivalShell .cardEditorTabs button{min-width:0!important;width:100%!important;overflow-wrap:anywhere!important;padding:9px 4px!important;font-size:10px!important}
+.nivalShell .cardEditorTabs button small{display:none!important}
+.nivalShell .liveCardPreview{position:static!important;inset:auto!important;transform:none!important;max-height:none!important;overflow:visible!important;width:100%!important;max-width:100%!important;min-width:0!important;margin:0!important}
+.nivalShell .cardPreviewCanvas{padding:12px!important;overflow:visible!important}
+.nivalShell .cardPreviewCanvas .loyaltyCard{width:100%!important;max-width:100%!important;min-width:0!important;transform:none!important;aspect-ratio:auto!important}
+.nivalShell .cardPreviewCanvas .loyaltyCard .cardMemberName,.nivalShell .cardPreviewCanvas .loyaltyCard .customerBrandName{color:var(--card-text)!important}
+.nivalShell .cardEditorFooter,.nivalShell .editorFooter{position:static!important;width:100%!important;max-width:100%!important;min-width:0!important;transform:none!important;flex-wrap:wrap!important}
+.nivalShell .cardCatalogEditor,.nivalShell .cardEditorBody,.nivalShell .nivalCardEditor{overflow-x:clip!important}
+.nivalShell .reviewCardEditor{max-width:650px;margin-inline:auto}
+.nivalShell .reviewCardEditor .reviewEditorHeader{padding:15px 0}
+.nivalShell .reviewCardEditor .reviewEditorHeader h2{font-size:24px;line-height:1.2;margin:8px 0}
+.nivalShell .reviewCardEditor .reviewEditorHeader p{font-size:13px;color:#6f7e72;line-height:1.5}
+.nivalShell .reviewCardEditor .reviewNameField{display:grid;gap:8px;margin-bottom:17px;color:#183e2e;font-weight:700}
+.nivalShell .reviewCardEditor .reviewNameField input,.nivalShell .reviewCardEditor .reviewNameField select{width:100%;min-width:0;min-height:47px;padding:10px 12px;border:1px solid #dae4d9;border-radius:12px;background:#fff;font-size:14px}
+.nivalShell .reviewCardEditor .reviewNameField small{font-weight:400;font-size:12px;color:#768477}
+.nivalShell .reviewCatalogTile .reviewCatalogMock small{font-weight:850!important}
+@media(max-width:960px){
+ .nivalShell .cardCatalogEditor{padding:0!important;margin:0!important}
+ .nivalShell .nivalCardEditor .cardEditorFields{padding:12px!important}
+ .nivalShell .liveCardPreview{order:2!important}
+ .nivalShell .workspaceContent{overflow-x:clip!important}
+}
