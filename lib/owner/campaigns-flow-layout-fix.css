@@ -1,0 +1,31 @@
+/* Campañas: compacta, alineada a referencia; editor de plantillas dentro del flujo. */
+@media(max-width:960px){
+.nivalShell[data-section="campañas-clientes"] .workspacePageHeadingWithBack{margin-bottom:16px!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignFlow{display:flex!important;flex-direction:column!important;gap:0!important;width:100%!important;max-width:100%!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignIntro{order:0!important;margin:0 0 13px!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignIntro>strong{font-size:17px!important;line-height:1.2!important;color:#1c392d!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignIntro>p{font-size:11px!important;line-height:1.5!important;color:#778778!important;margin:4px 0 0!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignGoalGrid{order:1!important;display:grid!important;grid-template-columns:1fr!important;gap:7px!important;margin:0 0 21px!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignGoalCard{display:grid!important;grid-template-columns:37px minmax(0,1fr) auto 10px!important;grid-template-rows:auto auto!important;gap:1px 10px!important;min-height:60px!important;padding:10px 11px!important;border:1px solid #e1e7de!important;border-radius:14px!important;background:#fff!important;box-shadow:none!important;transform:none!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignGoalCard>strong{grid-column:2!important;grid-row:1!important;align-self:end!important;font-size:12px!important;line-height:1.15!important;white-space:normal!important;overflow-wrap:normal!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignGoalCard>small{grid-column:2!important;grid-row:2!important;align-self:start!important;font-size:10px!important;line-height:1.2!important;white-space:normal!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignGoalIcon{grid-column:1!important;grid-row:1/span 2!important;width:36px!important;height:36px!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignAudienceCount{grid-column:3!important;grid-row:1/span 2!important;font-size:10px!important;white-space:nowrap!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignAudienceCount:not(.isSelected){font-size:0!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignGoalCard .campaignAudienceCount:after{content:" clientes";font-size:10px}
+.nivalShell [data-panel="campañas-clientes"] .campaignGoalCard .campaignAudienceCount{max-width:84px!important;overflow:hidden!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignGoalCard .campaignGoalArrow{grid-column:4!important;grid-row:1/span 2!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignHistory{order:2!important;margin:0 0 23px!important;padding:0!important;box-shadow:none!important;border:0!important;background:transparent!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignHistory>h3{font-size:16px!important;margin:0 0 10px!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignHistoryRow{padding:12px 14px!important;border:0!important;border-bottom:1px solid #e6ebe4!important;border-radius:0!important;background:#fff!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignHistoryRow:first-of-type{border-radius:16px 16px 0 0!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignHistoryRow:last-of-type{border-radius:0 0 16px 16px!important;border-bottom:0!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignSavedMessages{order:3!important;margin:0 0 16px!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignSavedMessages>h3{margin:0 0 9px!important;font-size:16px!important;font-weight:850!important;color:#1b3a2b!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignSavedCard{padding:15px!important;margin-bottom:12px!important;border:1px solid #e1e7df!important;border-radius:16px!important;background:#fff!important;box-shadow:none!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignSavedCard>h4{font-size:12px!important;margin:0 0 8px!important;color:#203b2d!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignSavedCard textarea,.nivalShell [data-panel="campañas-clientes"] .campaignComposer textarea{display:block!important;width:100%!important;min-height:96px!important;padding:12px!important;border:1px solid #dde4da!important;border-radius:11px!important;background:#fff!important;color:#234232!important;font-size:12px!important;line-height:1.5!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignSavedCard button[type=submit],.nivalShell [data-panel="campañas-clientes"] .campaignComposer button[type=submit]{width:100%!important;min-height:42px!important;margin-top:10px!important;border:0!important;border-radius:11px!important;background:#1a4533!important;color:#fff!important;font-size:12px!important;font-weight:850!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignComposer{order:1!important;margin:0 0 16px!important;padding:16px!important;border-radius:16px!important}
+.nivalShell [data-panel="campañas-clientes"] .campaignTemplateChoices{display:flex!important;flex-wrap:wrap!important;gap:8px!important;margin:12px 0!important}
+}
