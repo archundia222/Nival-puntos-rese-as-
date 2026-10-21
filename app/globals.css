@@ -1409,3 +1409,15 @@ body{background:var(--nival-cream);color:var(--nival-text)}
 .nivalShell .rewardShowcaseCard .rewardPointsBadge{align-self:flex-start;padding:7px 12px;border-radius:999px;background:#173f32;color:#fff;font-weight:800;font-size:14px}
 .nivalShell .rewardShowcaseCard>small,.nivalShell .rewardShowcaseCard .rewardEditHint{color:#254037;font-weight:650}
 .nivalShell .rewardShowcaseCard:hover{transform:translateY(-2px);box-shadow:0 12px 22px rgba(16,56,36,.16)}
+
+/* Bloque 3: configuración compacta y ejes legibles. */
+.nivalShell .branchGoogleSettings{padding:18px 20px}
+.nivalShell .branchGoogleSettings .googleSettingsInline{display:flex;align-items:center;gap:9px;margin-bottom:12px}
+.nivalShell .branchGoogleSettings h3{margin:0;font-size:18px;color:#172a23}
+.nivalShell .branchGoogleSettings .googleHelp{display:inline-grid;place-items:center;border:1.5px solid #204d37;border-radius:50%;width:22px;height:22px;font-size:16px;color:#204d37;font-weight:800;cursor:help}
+.nivalShell .branchGoogleSettings p{display:none}
+.nivalShell .axisChart{margin:12px 0;width:100%;max-width:100%;padding:12px 4px}
+.nivalShell .axisChart figcaption{font-size:16px;font-weight:800;color:#152a21;margin-bottom:9px}
+.nivalShell .axisChartScroll{width:100%;overflow-x:auto}
+.nivalShell .axisChartScroll svg{display:block;width:100%;min-width:320px;height:auto;touch-action:manipulation}
+.nivalShell .axisChartInstruction{font-size:12px;font-weight:650;color:#2b4938}
