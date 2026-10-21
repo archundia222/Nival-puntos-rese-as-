@@ -1610,3 +1610,75 @@ body{background:var(--nival-cream);color:var(--nival-text)}
     min-width:0;
   }
 }
+
+
+/* Block 1: consistent page rhythm / mobile-safe visual primitives.
+   Campaign sections deliberately excluded; existing content and actions remain intact. */
+.nivalShell:not([data-section="campañas-clientes"]) .ownerDashboard{
+  width:100%;
+  max-width:1160px;
+  margin-inline:auto;
+  padding:20px 20px 80px!important;
+  background:transparent;
+}
+.nivalShell:not([data-section="campañas-clientes"]) .ownerDashboard > .ownerBlock{
+  width:100%;
+  min-width:0;
+  padding-inline:0!important;
+  margin-inline:0!important;
+}
+.nivalShell:not([data-section="campañas-clientes"]) .ownerBlock > :is(.ownerSectionTitle,.workspaceSectionHeader){
+  margin-inline:0;
+}
+.nivalShell:not([data-section="campañas-clientes"]) .workspacePageHeadingWithBack{
+  box-shadow:none!important;
+}
+.nivalShell:not([data-section="campañas-clientes"]) .ownerBlock .ownerCard,
+.nivalShell:not([data-section="campañas-clientes"]) .ownerBlock .ownerChart{
+  box-shadow:none!important;
+}
+.nivalShell:not([data-section="campañas-clientes"]) .ownerBlock .ownerMetric > strong{
+  font-variant-numeric:tabular-nums;
+  line-height:1.12;
+  text-align:left;
+}
+.nivalShell:not([data-section="campañas-clientes"]) .ownerBlock .ownerMetric :is(strong,span,small){
+  align-self:flex-start;
+}
+.nivalShell:not([data-section="campañas-clientes"]) .ownerBlock :is(button,a){
+  -webkit-tap-highlight-color:transparent;
+}
+.nivalShell:not([data-section="campañas-clientes"]) .ownerBlock :is(button,a,input,select,textarea){
+  box-sizing:border-box;
+}
+.nivalShell:not([data-section="campañas-clientes"]) .ownerBlock :is(input,select,textarea){
+  min-width:0;
+}
+.nivalShell:not([data-section="campañas-clientes"]) .ownerBlock .ownerMetric :is(strong,span,small){
+  max-width:100%;
+}
+@media(max-width:960px){
+  .nivalShell:not([data-section="campañas-clientes"]) .workspaceContent{
+    min-width:0;
+  }
+  .nivalShell:not([data-section="campañas-clientes"]) .ownerDashboard{
+    padding-inline:20px!important;
+  }
+  .nivalShell:not([data-section="campañas-clientes"]) .workspacePageHeadingWithBack{
+    padding-left:68px!important;
+  }
+}
+@media(max-width:540px){
+  .nivalShell:not([data-section="campañas-clientes"]) .ownerDashboard{
+    padding:16px 20px 72px!important;
+  }
+  .nivalShell:not([data-section="campañas-clientes"]) .ownerBlock :is(.ownerMetrics,.homeCoreMetrics){
+    max-width:100%;
+  }
+  .nivalShell:not([data-section="campañas-clientes"]) .ownerBlock :is(.ownerMetric,.ownerCard,.ownerChart){
+    min-width:0;
+  }
+  .nivalShell:not([data-section="campañas-clientes"]) .ownerBlock :is(input,select,textarea){
+    width:100%;
+  }
+}
