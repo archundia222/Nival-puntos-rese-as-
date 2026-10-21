@@ -16,5 +16,5 @@ export function Icon({name,size=20}:{name:string;size?:number}){
   search:<><circle cx="10" cy="10" r="6"/><path d="m15 15 5 5"/></>,download:<><path d="M12 3v12m-4-4 4 4 4-4M4 16v5h16v-5"/></>,check:<path d="m5 12 4 4L19 6"/>,link:<><path d="m9 15 6-6M8 16l-2 2a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0M16 8l2-2a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0"/></>,
   trend:<><path d="m3 17 6-6 4 4 8-10M15 5h6v6"/></>,edit:<><path d="m14 5 5 5M4 20l4.2-.8L19 8.4a2.1 2.1 0 0 0-3-3L5.2 16.2 4 20Z"/></>,clock:<><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></>,logout:<><path d="M9 3H3v18h6M10 12h11m-4-4 4 4-4 4"/></>
  };
- return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name]||paths.inicio}</svg>;
+ return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name]||paths.inicio}</svg>;
 }
