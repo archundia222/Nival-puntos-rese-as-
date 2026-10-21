@@ -1,0 +1,61 @@
+/* Correcciones de fidelidad frente a capturas: jerarquía, posicionamiento, ritmo y tarjetas. */
+@media(max-width:960px){
+ .nivalShell .workspaceContent{padding:15px 17px 34px!important;background:#f4f6ef!important}
+ .nivalShell .workspacePageHeadingWithBack,
+ .nivalShell .workspacePageHeading{
+  display:flex!important;align-items:center!important;gap:12px!important;
+  min-height:40px!important;margin:0 0 16px!important;
+  padding:0 0 0 44px!important;border:0!important;border-radius:0!important;
+  background:transparent!important;box-shadow:none!important;
+ }
+ .nivalShell .workspacePageHeadingWithBack>div{display:flex!important;align-items:center!important;justify-content:space-between!important;min-width:0!important;flex:1!important;gap:6px!important}
+ .nivalShell .workspacePageHeadingWithBack h1{margin:0!important;color:#142d22!important;font-size:23px!important;line-height:1.1!important;font-weight:850!important;letter-spacing:-.04em!important}
+ .nivalShell .workspacePageIntro{display:none!important}
+ .nivalShell .workspaceFloatingMenu{position:fixed!important;left:17px!important;top:15px!important;width:35px!important;height:35px!important;padding:8px!important;border:1px solid #dde5db!important;border-radius:11px!important;background:#fff!important;box-shadow:none!important;z-index:60!important}
+ .nivalShell .ownerBlock{padding:0!important;margin:0!important;max-width:100%!important}
+ .nivalShell .workspacePlanDays{display:none}
+ .nivalShell[data-section="inicio"] .workspacePlanDays{display:inline-flex!important;align-items:center!important;justify-content:center!important;flex:none!important;min-height:30px;padding:6px 12px;border-radius:99px;background:#e5edd0;color:#28452e;font-size:11px;font-weight:750}
+ .nivalShell [data-panel="inicio"]>.impactMasterHeader{display:block!important;height:auto!important;min-height:0!important;position:static!important;pointer-events:auto!important;margin:0 0 25px!important}
+ .nivalShell [data-panel="inicio"]>.impactMasterHeader>h2{display:none!important}
+ .nivalShell [data-panel="inicio"] .impactPeriodFilter{display:grid!important;width:100%!important;grid-template-columns:repeat(3,1fr)!important;position:static!important;margin:0!important;pointer-events:auto!important}
+ .nivalShell [data-panel="inicio"]>.homeSectionHeading:has(+ .homePending){display:flex!important;align-items:center!important;min-height:42px!important;margin:0 0 19px!important;padding:0 16px!important;border-radius:99px!important;background:linear-gradient(100deg,#194534 0 64%,#22533f 64%)!important}
+ .nivalShell [data-panel="inicio"]>.homeSectionHeading:has(+ .homePending) small{display:inline!important;color:#d5eadd!important;letter-spacing:.11em!important;font-size:10px!important}
+ .nivalShell [data-panel="inicio"]>.homeSectionHeading:has(+ .homePending) h3{display:none!important}
+ .nivalShell [data-panel="inicio"]>.homePending,.nivalShell [data-panel="inicio"]>.homeDetailHeading{display:none!important}
+ .nivalShell [data-panel="inicio"]>.homeSectionHeading:not(:has(+ .homePending)):not(.homeDetailHeading){margin:25px 0 10px!important}
+ .nivalShell [data-panel="inicio"] .homeQuickActions{margin-bottom:26px!important}
+ .nivalShell [data-panel="inicio"] .homeCoreMetrics{margin-bottom:30px!important}
+ .nivalShell [data-panel="inicio"] .homeGoogle,
+ .nivalShell [data-panel="inicio"] .homeGoogle+article,
+ .nivalShell [data-panel="inicio"] .impactMasterDetails>article{
+  position:relative!important;margin-top:47px!important;padding:17px!important;overflow:visible!important;border:1px solid #e1e6dd!important;border-radius:20px!important
+ }
+ .nivalShell [data-panel="inicio"] .homeGoogle>.workspaceSectionHeader,
+ .nivalShell [data-panel="inicio"] .homeGoogle+article>.workspaceSectionHeader,
+ .nivalShell [data-panel="inicio"] .impactMasterDetails>article>.workspaceSectionHeader{
+  position:absolute!important;top:-40px!important;left:0!important;right:0!important;
+  display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;
+  align-items:center!important;gap:12px!important;min-height:30px!important;
+  padding:0!important;margin:0!important;border:0!important;background:transparent!important;
+ }
+ .nivalShell [data-panel="inicio"] .workspaceSectionHeader h3{font-size:18px!important;line-height:1.14!important;max-width:none!important;overflow-wrap:normal!important;letter-spacing:-.03em!important}
+ .nivalShell [data-panel="inicio"] .workspaceSectionHeader>a{white-space:nowrap!important;font-size:11px!important;font-weight:800!important}
+ .nivalShell [data-panel="inicio"] .homeGoogle .ownerMetrics{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:0!important}
+ .nivalShell [data-panel="inicio"] .homeGoogle .ownerMetric{min-width:0!important;padding:0 2px 12px!important;overflow:visible!important}
+ .nivalShell [data-panel="inicio"] .homeGoogle .ownerMetric>span{font-size:10px!important;line-height:1.2!important;white-space:nowrap!important;letter-spacing:-.02em!important}
+ .nivalShell [data-panel="inicio"] .homeGoogle .ownerMetric>strong{font-size:25px!important}
+ .nivalShell [data-panel="inicio"] .homeGoogle .reviewPieEmpty{margin-top:12px!important}
+ .nivalShell [data-panel="inicio"] .homeGoogle .replyProgress{margin:10px 0!important}
+ .nivalShell [data-panel="premios"] .rewardWorkspace>.workspaceSectionHeader{display:flex!important;align-items:stretch!important;min-height:0!important;margin:0 0 15px!important;padding:0!important}
+ .nivalShell [data-panel="premios"] .rewardWorkspace>.workspaceSectionHeader>button{width:100%!important;min-height:43px!important;margin:0!important}
+ .nivalShell [data-panel="premios"] .rewardWorkspace>.rewardShowcase{margin:0!important}
+ .nivalShell [data-panel="premios"] .rewardShowcaseCard{width:100%!important;min-height:129px!important;margin:0!important;grid-template-columns:46px minmax(0,1fr) auto!important;grid-template-rows:29px 27px 1fr!important;gap:0 10px!important;align-items:center!important;padding:13px!important}
+ .nivalShell [data-panel="premios"] .rewardShowcaseCard>.campaignCardArt{display:grid!important;grid-column:1!important;grid-row:1/span 2!important;width:46px!important;height:46px!important;min-height:0!important;place-items:center!important;transform:none!important}
+ .nivalShell [data-panel="premios"] .rewardShowcaseCard>.rewardShowcaseIcon{font-size:0!important;color:transparent!important}
+ .nivalShell [data-panel="premios"] .rewardShowcaseCard>.rewardShowcaseIcon:before{content:"♔";font-size:27px!important;line-height:1;color:#275642!important}
+ .nivalShell [data-panel="premios"] .rewardShowcaseCard>strong{grid-column:2!important;grid-row:1!important;font-size:15px!important}
+ .nivalShell [data-panel="premios"] .rewardShowcaseCard>.rewardStatus{grid-column:2!important;grid-row:2!important}
+ .nivalShell [data-panel="premios"] .rewardShowcaseCard>.rewardPointsBadge{grid-column:3!important;grid-row:1/span 2!important;white-space:nowrap!important;font-size:11px!important}
+ .nivalShell [data-panel="premios"] .rewardShowcaseCard>small{grid-column:1/span 2!important;grid-row:3!important;align-self:end!important;margin:0!important}
+ .nivalShell [data-panel="premios"] .rewardShowcaseCard>.rewardEditHint{grid-column:3!important;grid-row:3!important;align-self:end!important;margin:0!important}
+}
