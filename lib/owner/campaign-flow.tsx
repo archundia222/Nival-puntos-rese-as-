@@ -2,7 +2,7 @@
 import {useMemo,useState} from 'react';
 import {ActionForm} from '../foundation/forms';
 import {Hidden} from '../foundation/fields';
-import {saveMessageTemplate,markCampaignSent} from './actions';
+import {saveMessageTemplate,markCampaignSent,markCampaignContact} from './actions';
 import {Icon} from './icons';
 type Segment='new'|'risk'|'frequent'|'near_reward';
 type Customer=Record<string,any>;
@@ -20,6 +20,10 @@ export function CampaignFlow({businessId,customers,counts,messages,defaults,hist
  const initial=(k:Segment)=>messages.find(x=>x.segment===k)?.body||defaults[k]||'';
  const [texts,setTexts]=useState<Record<string,string>>(()=>Object.fromEntries(goals.map(g=>[g.key,initial(g.key)])));
  const msg=texts[selected]||'';
+ const contacted=new Map<string,string>();for(const entry of history.filter(h=>h.segment===selected))for(const id of (entry.customer_ids||[])){const previous=contacted.get(String(id));if(!previous||previous<String(entry.sent_at))contacted.set(String(id),String(entry.sent_at));}
+ const pending=eligible.filter(c=>!contacted.has(String(c.id))),done=eligible.filter(c=>contacted.has(String(c.id)));
+ const daysSince=(c:Customer)=>c.last_visit?Math.max(0,Math.floor((Date.now()-new Date(c.last_visit).getTime())/86400000)):null;
+ const reason=(c:Customer)=>selected==='risk'?('Inactivo '+(daysSince(c)??30)+' días'):selected==='new'?'Cliente nuevo':selected==='frequent'?'Cliente frecuente':'Premio pendiente';
  function choose(key:Segment){setSelected(key);setStep(1);setCopied(false);}
  async function copy(){try{await navigator.clipboard.writeText(msg);setCopied(true);}catch{setCopied(false);}}
  return <section className="campaignFlow">
@@ -34,6 +38,7 @@ export function CampaignFlow({businessId,customers,counts,messages,defaults,hist
    {step===3&&<><div className="campaignSendSummary"><Icon name="check" size={28}/><strong>Tu mensaje está listo</strong><p>Cópialo y envíalo por el canal que elijas. Nival no lo envía automáticamente.</p><button type="button" className="workspaceSecondary" onClick={copy}>{copied?'Mensaje copiado ✓':'Copiar mensaje'}</button></div>
     <div className="campaignFooter"><button type="button" className="workspaceSecondary" onClick={()=>setStep(2)}>← Editar</button>{demo?<span className="workspaceExampleTag">Ejemplo · no se guardan envíos</span>:<ActionForm action={markCampaignSent} label="Marcar como enviada"><Hidden name="businessId" value={businessId}/><Hidden name="segment" value={selected}/><Hidden name="channel" value="manual"/></ActionForm>}</div></>}
   </div>}
+  {step>0&&<div className="campaignContactGroups"><section className="ownerCard campaignContactGroup"><h3>Pendientes · {pending.length}</h3>{pending.length?pending.map(c=><article className="campaignContactItem" key={c.id}><div><strong>{c.name}</strong><small>{daysSince(c)===null?'Sin visitas':daysSince(c)+' días sin venir'} · {reason(c)}</small></div>{!demo&&(()=>{const digits=String(c.phone||'').replace(/\\D/g,'');const number=digits.length===10?'52'+digits:digits;return c.marketing_consent===true&&/^52\\d{10}$/.test(number)?<ActionForm action={markCampaignContact} label="Enviar por WhatsApp" onSuccess={()=>window.location.assign('https://wa.me/'+number+'?text='+encodeURIComponent(msg))}><Hidden name="businessId" value={businessId}/><Hidden name="customerId" value={String(c.id)}/><Hidden name="segment" value={selected}/></ActionForm>:<small>Sin WhatsApp autorizado</small>})()}</article>):<p className="ownerEmpty">Sin pendientes</p>}</section><section className="ownerCard campaignContactGroup"><h3>Contactados · {done.length}</h3>{done.length?done.map(c=><article className="campaignContactItem" key={c.id}><div><strong>{c.name}</strong><small>{daysSince(c)===null?'Sin visitas':daysSince(c)+' días sin venir'} · {reason(c)}</small><small>Contactado: {new Date(contacted.get(String(c.id))!).toLocaleDateString('es-MX',{day:'numeric',month:'short',year:'numeric'})}</small></div></article>):<p className="ownerEmpty">Aún no hay contactos</p>}</section></div>}
   <article className="ownerCard campaignHistory"><h3>Resultados registrados</h3>{history.length?history.map(h=><div className="campaignHistoryRow" key={h.id}><span><strong>{goals.find(g=>g.key===h.segment)?.label||h.segment}</strong><small>{new Date(h.sent_at).toLocaleDateString('es-MX')} · {h.channel==='manual'?'Manual':'Wallet'}</small></span><strong>{h.audience_count?Math.round(100*Number(h.returned_count||0)/Number(h.audience_count)):0}%</strong><small>Volvieron {h.returned_count} de {h.audience_count} en 14 días</small></div>):<p className="ownerEmpty">Tus campañas enviadas aparecerán aquí con cuántos clientes volvieron.</p>}</article>
   {!demo&&<details className="campaignExtraTemplates"><summary>Otros mensajes guardados</summary>{(['active','lost'] as const).map(key=><div key={key} className="ownerCard"><h4>{key==='active'?'Clientes activos':'Clientes inactivos'}</h4><ActionForm action={saveMessageTemplate} label="Guardar mensaje"><Hidden name="businessId" value={businessId}/><Hidden name="segment" value={key}/><textarea name="body" aria-label={key==='active'?'Mensaje para activos':'Mensaje para inactivos'} required maxLength={1500} defaultValue={messages.find(m=>m.segment===key)?.body||defaults[key]||''}/></ActionForm></div>)}</details>}
  </section>;
