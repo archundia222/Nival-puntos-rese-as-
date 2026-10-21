@@ -1682,3 +1682,83 @@ body{background:var(--nival-cream);color:var(--nival-text)}
     width:100%;
   }
 }
+
+
+/* Visual polish blocks 2–3: presentation only. No campaign selectors. */
+.nivalShell{
+  --nival-premium-ink:#193b2d;
+  --nival-premium-paper:#f5f7f1;
+  --nival-premium-line:#e1e8df;
+}
+.nivalShell .workspaceSidebar{background:#153c2e!important;box-shadow:none!important}
+.nivalShell .workspaceSidebar .workspaceNavItem,
+.nivalShell .workspaceSidebar .workspaceNavItem strong{color:#e4efe8!important;opacity:1}
+.nivalShell .workspaceSidebar .workspaceNavItem.isActive:not(.isSubItem){
+  background:#1f4a39!important;color:#fff!important;border-radius:12px
+}
+.nivalShell .workspaceSidebar .workspaceNavItem.isActive:not(.isSubItem) strong{color:#fff!important}
+.nivalShell .workspaceSidebar .workspaceSubmenu .workspaceNavItem.isSubItem.isActive{
+  background:#d8f66b!important;color:#183628!important;border-radius:11px;
+}
+.nivalShell .workspaceSidebar .workspaceSubmenu .workspaceNavItem.isSubItem.isActive strong{color:#183628!important}
+.nivalShell .workspaceBusinessIdentity{min-width:0;width:100%;display:flex;align-items:center}
+.nivalShell .workspaceBusinessIdentity>div{min-width:0;flex:1}
+.nivalShell .workspaceBusinessIdentity strong{display:block;overflow-wrap:anywhere;white-space:normal}
+.nivalShell .workspaceBusiness{min-width:0}
+.nivalShell .workspacePlanSummary{box-shadow:none!important}
+.nivalShell .workspaceSidebar .workspaceHelp{box-shadow:none!important}
+.nivalShell .workspaceContent{min-width:0}
+.nivalShell .workspacePageHeadingWithBack{box-shadow:none!important}
+.nivalShell:not([data-section="campañas-clientes"]) .ownerBlock .ownerCard,
+.nivalShell:not([data-section="campañas-clientes"]) .ownerBlock .ownerMetric,
+.nivalShell:not([data-section="campañas-clientes"]) .ownerBlock .ownerChart{
+  box-shadow:none!important;
+}
+.nivalShell:not([data-section="campañas-clientes"]) .ownerBlock .ownerMetric{
+  border-top:1px solid var(--nival-premium-line)!important;
+}
+.nivalShell:not([data-section="campañas-clientes"]) .ownerBlock .ownerPrimary{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:48px;background:#1b4332;border-radius:12px;font-weight:750;
+}
+.nivalShell:not([data-section="campañas-clientes"]) .ownerBlock :is(.rewardManagerHeader,.workspaceSectionHeader){
+  min-width:0;
+}
+.nivalShell:not([data-section="campañas-clientes"]) .ownerBlock :is(.rewardInventoryIcon,.rewardShowcaseIcon,.productHubSymbol){
+  display:inline-flex;align-items:center;justify-content:center;
+}
+.nivalShell:not([data-section="campañas-clientes"]) .ownerBlock :is(.reviewCatalogTile,.reviewCatalogMock){
+  box-shadow:none!important;
+}
+.nivalShell:not([data-section="campañas-clientes"]) .ownerBlock :is(.ownerMetric,.rewardInventoryRow,.customerProfileCard){
+  font-variant-numeric:tabular-nums;
+}
+.nivalShell:not([data-section="campañas-clientes"]) .ownerBlock :is(.ownerMetric,.ownerCard,.ownerChart){
+  max-width:100%;
+}
+.nivalShell:not([data-section="campañas-clientes"]) .ownerBlock .reviewNoData{
+  box-shadow:none!important;
+}
+.nivalShell:not([data-section="campañas-clientes"]) .ownerBlock :is(.ownerMetric,.ownerCard) :where(strong,span,small){
+  overflow-wrap:anywhere;
+}
+@media(max-width:700px){
+  .nivalShell:not([data-section="campañas-clientes"]) .ownerDashboard{
+    padding-inline:20px!important;
+  }
+  .nivalShell:not([data-section="campañas-clientes"]) .ownerBlock .rewardManagerHeader{
+    display:flex;flex-direction:column;align-items:stretch;gap:12px;
+  }
+  .nivalShell:not([data-section="campañas-clientes"]) .ownerBlock .rewardManagerHeader :is(button,a){
+    width:100%;min-height:48px;
+  }
+  .nivalShell:not([data-section="campañas-clientes"]) .ownerBlock .ownerPrimary{
+    min-height:48px;
+  }
+  .nivalShell:not([data-section="campañas-clientes"]) .ownerBlock .reportMetricGrid{
+    min-width:0;
+  }
+  .nivalShell:not([data-section="campañas-clientes"]) .ownerBlock :is(.ownerCard,.ownerChart){
+    max-width:100%;
+  }
+}
