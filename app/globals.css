@@ -1384,3 +1384,28 @@ body{background:var(--nival-cream);color:var(--nival-text)}
 .nivalShell .workspaceReturnHome{display:inline-flex;align-items:center;gap:7px;margin:14px 0 0;padding:10px 15px;border:1px solid #173d2e;border-radius:10px;background:#fff;color:#173d2e;font:inherit;font-size:14px;font-weight:750;cursor:pointer}
 .nivalShell .workspaceReturnHome:hover{background:#e9f1eb}
 @media(max-width:600px){.nivalShell .ownerBlock[data-panel="inicio"] .homePending .ownerMetric{min-height:145px;padding:16px}}
+
+/* Bloque 2: presentación diferenciada sin alterar la lógica de tarjetas. */
+.nivalShell .cardCatalogGrid #points-card{border:2px solid #256047;border-radius:18px;background:#edf5ef;box-shadow:0 6px 18px rgba(16,61,39,.12)}
+.nivalShell #points-card .pointsCatalogMock{min-height:180px;border-radius:16px;position:relative}
+.nivalShell #points-card .pointsCatalogMock i{display:grid;place-items:center;width:48px;height:48px;border-radius:12px;background:#fff;color:#174632}
+.nivalShell .reviewCatalogGrid .reviewCatalogTile{border:2px solid #a9b8d4;border-radius:18px;background:#f4f7fc;box-shadow:0 6px 18px rgba(32,57,98,.09);text-align:left}
+.nivalShell .reviewCatalogTile .reviewCatalogMock{min-height:180px;border-radius:16px;background:#214a77!important;color:#fff!important;position:relative}
+.nivalShell .reviewCatalogTile .reviewCatalogMock small,.nivalShell .reviewCatalogTile .reviewCatalogMock strong,.nivalShell .reviewCatalogTile .reviewCatalogMock span{color:#fff!important}
+.nivalShell .reviewCatalogTile .reviewCatalogMock i{display:grid;place-items:center;width:48px;height:48px;background:#fff;border-radius:50%;color:#214a77}
+.nivalShell .cardTypeOption:has(.cardTypeOptionIcon.pay){background:#fff6e7;border:1px solid #b87826;border-radius:15px}
+.nivalShell .cardTypeOption:has(.cardTypeOptionIcon.pay) .cardTypeOptionIcon{background:#a05c14;color:#fff}
+.nivalShell .cardTypeOption:has(.cardTypeOptionIcon.reviews){background:#edf3fc;border:1px solid #9eafcd;border-radius:15px}
+.nivalShell .cardTypeOption:has(.cardTypeOptionIcon.reviews) .cardTypeOptionIcon{background:#214a77;color:#fff}
+.nivalShell .cardTypeOption:has(.cardTypeOptionIcon:not(.reviews):not(.pay)){background:#ecf5ee;border:1px solid #9fbeaa;border-radius:15px}
+.nivalShell .cardCatalogEditor>header{display:flex;align-items:center;gap:15px;flex-wrap:wrap}
+.nivalShell .cardCatalogEditor>header .cardReturnButton{order:-1}
+.nivalShell .rewardShowcase{gap:16px}
+.nivalShell .rewardShowcaseCard{display:flex;flex-direction:column;gap:11px;padding:18px;border:2px solid #c0d3c4;border-radius:18px;background:#f6faf6;box-shadow:0 8px 19px rgba(16,56,36,.1);min-width:200px}
+.nivalShell .rewardShowcaseCard:nth-child(3n+2){background:#fff8ec;border-color:#d5b98e}
+.nivalShell .rewardShowcaseCard:nth-child(3n+3){background:#f1f5fd;border-color:#aabfdd}
+.nivalShell .rewardShowcaseCard .rewardShowcaseIcon{font-size:54px;display:grid;place-items:center;min-height:120px;background:#e4eee6;border-radius:14px;color:#164e32}
+.nivalShell .rewardShowcaseCard>strong{font-size:18px;line-height:1.25;color:#172a23}
+.nivalShell .rewardShowcaseCard .rewardPointsBadge{align-self:flex-start;padding:7px 12px;border-radius:999px;background:#173f32;color:#fff;font-weight:800;font-size:14px}
+.nivalShell .rewardShowcaseCard>small,.nivalShell .rewardShowcaseCard .rewardEditHint{color:#254037;font-weight:650}
+.nivalShell .rewardShowcaseCard:hover{transform:translateY(-2px);box-shadow:0 12px 22px rgba(16,56,36,.16)}
