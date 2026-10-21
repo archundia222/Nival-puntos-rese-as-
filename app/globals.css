@@ -1451,3 +1451,17 @@ body{background:var(--nival-cream);color:var(--nival-text)}
 .nivalShell .adjustmentConfirmation p{margin:5px 0;overflow-wrap:anywhere}
 .nivalShell .adjustmentConfirmation .workspaceActionRow{margin-top:15px}
 @media(max-width:520px){.nivalShell .customerCardFacts{grid-template-columns:1.35fr 1fr 1fr}.nivalShell .customerProfileCard{padding:15px}}
+
+/* Bloque 5: estados de contacto por campaña. */
+.nivalShell .campaignContactGroups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:18px 0}
+.nivalShell .campaignContactGroup{padding:20px;border:1px solid #c9d9cc;border-radius:16px;background:#fff}
+.nivalShell .campaignContactGroup:first-child{border-top:4px solid #95601d}
+.nivalShell .campaignContactGroup:last-child{border-top:4px solid #245f41}
+.nivalShell .campaignContactGroup h3{font-size:19px;color:#172d22;margin:0 0 12px}
+.nivalShell .campaignContactItem{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 0;border-top:1px solid #e2e9e3}
+.nivalShell .campaignContactItem>div{display:flex;flex-direction:column;gap:5px}
+.nivalShell .campaignContactItem strong{color:#182f22}
+.nivalShell .campaignContactItem small{display:block;color:#355445;font-size:12px}
+.nivalShell .campaignContactItem form{margin:0;display:block}
+.nivalShell .campaignContactItem form button{white-space:nowrap}
+@media(max-width:760px){.nivalShell .campaignContactGroups{grid-template-columns:1fr}.nivalShell .campaignContactItem{align-items:flex-start;flex-direction:column}}
