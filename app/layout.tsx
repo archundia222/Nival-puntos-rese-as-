@@ -5,6 +5,7 @@ import './design-tokens.css';
 import '../lib/owner/workspace.css';
 import '../lib/owner/workspace-overrides.css';
 import '../lib/owner/visual-polish.css';
+import '../lib/owner/home-reference-redesign.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://nival-puntos-resenas.vercel.app'),
