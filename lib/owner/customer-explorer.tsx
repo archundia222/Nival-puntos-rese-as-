@@ -9,7 +9,7 @@ type Customer=Record<string,any>;
 function segmentFor(c:Customer){if(c.is_risk)return 'En riesgo';if(c.is_frequent)return 'Frecuente';if(c.is_new)return 'Nuevo';if(c.absent_month)return 'Sin visita este mes';if(!c.last_visit)return 'Sin visitas';return 'Cliente';}
 function metric(value:unknown){return value===null||value===undefined||value===''?'—':Number(value).toLocaleString('es-MX');}
 export function CustomerExplorer({customers,demo=false,fixedSegment,businessId}:{customers:Customer[];demo?:boolean;fixedSegment?:string;businessId?:string}){
- const [search,setSearch]=useState(''),[segment,setSegment]=useState(fixedSegment||'all'),[sort,setSort]=useState('visits'),[page,setPage]=useState(1);
+ const [search,setSearch]=useState(''),[segment,setSegment]=useState(fixedSegment||(typeof window!=='undefined'?new URLSearchParams(window.location.search).get('segment')||'all':'all')),[sort,setSort]=useState('visits'),[page,setPage]=useState(1);
  const shown=filterCustomers(customers,search,segment,sort),pages=Math.max(1,Math.ceil(shown.length/20)),currentPage=Math.min(page,pages),pageRows=shown.slice((currentPage-1)*20,currentPage*20);
  function download(){const url=URL.createObjectURL(new Blob([customerCsv(shown)],{type:'text/csv;charset=utf-8;'}));const a=document.createElement('a');a.href=url;a.download=demo?'clientes-demo.csv':'clientes-nival.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
  const customerHref=(c:Customer)=>businessId&&!demo?'/panel/clientes/'+c.id+'?business='+businessId:undefined;
