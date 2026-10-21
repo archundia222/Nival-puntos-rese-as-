@@ -22,7 +22,8 @@ near_reward:{audience:'Cerca del próximo premio',when:'Cuando están próximos 
 export function CampaignFlow({businessId,customers,counts,messages,defaults,history,demo=false}:{businessId:string;customers:Customer[];counts:Record<Segment,number>;messages:History[];defaults:Record<string,string>;history:History[];demo?:boolean}){
  const [selected,setSelected]=useState<Segment>('risk'),[step,setStep]=useState(0),[copied,setCopied]=useState(false);
  const def=goals.find(x=>x.key===selected)!;
- const [templateChoice,setTemplateChoice]=useState<Record<Segment,string>>({new:'saved',risk:'saved',frequent:'saved',near_reward:'saved'});
+ const [templateChoice,setTemplateChoice]=useState<Record<Segment,string>>({new:'',risk:'',frequent:'',near_reward:''});
+ const [savedMessage,setSavedMessage]=useState<Record<Segment,string>>({new:'',risk:'',frequent:'',near_reward:''});
  const eligible=useMemo(()=>customers.filter(c=>selected==='new'?c.is_new:selected==='risk'?c.is_risk&&!c.is_lost:selected==='frequent'?c.is_frequent:Number(c.balance||0)>0),[customers,selected]);
  const initial=(k:Segment)=>messages.find(x=>x.segment===k)?.body||defaults[k]||'';
  const [texts,setTexts]=useState<Record<string,string>>(()=>Object.fromEntries(goals.map(g=>[g.key,initial(g.key)])));
@@ -32,7 +33,7 @@ export function CampaignFlow({businessId,customers,counts,messages,defaults,hist
  const daysSince=(c:Customer)=>c.last_visit?Math.max(0,Math.floor((Date.now()-new Date(c.last_visit).getTime())/86400000)):null;
  const reason=(c:Customer)=>selected==='risk'?('Inactivo '+(daysSince(c)??30)+' días'):selected==='new'?'Cliente nuevo':selected==='frequent'?'Cliente frecuente':'Premio pendiente';
  function choose(key:Segment){setSelected(key);setStep(1);setCopied(false);}
- function applyTemplate(choice:string){setTemplateChoice(old=>({...old,[selected]:choice}));const text=choice==='saved'?initial(selected):campaignHelp[selected].templates[Number(choice)]?.body||'';setTexts(old=>({...old,[selected]:text}));setCopied(false);}
+ function applyTemplate(choice:string){setTemplateChoice(old=>({...old,[selected]:choice}));const text=choice==='saved'?initial(selected):campaignHelp[selected].templates[Number(choice)]?.body||'';setTexts(old=>({...old,[selected]:text}));setSavedMessage(old=>({...old,[selected]:''}));setCopied(false);}
  async function copy(){try{await navigator.clipboard.writeText(msg);setCopied(true);}catch{setCopied(false);}}
  return <section className="campaignFlow">
   <div className="campaignGoalGrid" role="group" aria-label="Objetivo de tu campaña">{goals.map(g=><button type="button" className={"campaignGoalCard"+(selected===g.key&&step>0?' isSelected':'')} key={g.key} aria-pressed={selected===g.key&&step>0} onClick={()=>choose(g.key)}>
