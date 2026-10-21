@@ -29,7 +29,7 @@ export async function ownerData(actor:Actor,businessId:string,range:ReturnType<t
   query(actor,'select amount,method,reference,paid_at,period_start,period_end from nival_pr.payments where business_id=$1 order by paid_at desc limit 20',[businessId]),
  ]);
  let campaignHistory:Record<string,any>[]=[];
- try{campaignHistory=await query(actor,`select s.id,s.segment,s.channel,s.sent_at,cardinality(s.customer_ids) audience_count,
+ try{campaignHistory=await query(actor,`select s.id,s.segment,s.channel,s.sent_at,s.customer_ids,cardinality(s.customer_ids) audience_count,
  (select count(*)::int from unnest(s.customer_ids) ids(customer_id) where exists(select 1 from nival_pr.point_ledger l where l.customer_id=ids.customer_id and l.business_id=s.business_id and l.type='visit' and l.created_at>s.sent_at and l.created_at<=s.sent_at+interval '14 days')) returned_count
  from nival_pr.campaign_sends s where s.business_id=$1 order by s.sent_at desc limit 60`,[businessId]);}catch{}
  let recentMovements:Record<string,any>[]=[];
