@@ -10,7 +10,6 @@
   color:var(--editor-ink);
   font-family:'Plus Jakarta Sans',Arial,sans-serif;
 }
-.nivalShell:has(#card-editor) .workspaceMain{margin:0}
 .nivalShell:has(#card-editor) .workspaceTopbar,
 .nivalShell:has(#card-editor) .workspaceFloatingMenu,
 .nivalShell:has(#card-editor) .workspacePageHeading,
@@ -77,7 +76,7 @@
 .nivalShell:has(#card-editor) .automaticBonusToggle{min-height:86px;padding:15px 18px}
 .nivalShell:has(#card-editor) .automaticBonusToggle b{color:var(--editor-ink);font-size:18px}
 .nivalShell:has(#card-editor) .automaticBonusToggle small{margin-top:3px;font-size:14px}
-.nivalShell:has(#card-editor) .editorFooter{position:fixed;right:0;bottom:0;left:0;z-index:35;display:grid;grid-template-columns:minmax(130px,.62fr) minmax(0,1.38fr);gap:12px;margin:0;padding:16px max(24px,calc((100vw - 1080px)/2)) 10px;border-top:1px solid #e0e2dc;background:#fff}
+.nivalShell:has(#card-editor) .editorFooter{position:fixed;right:0;bottom:0;left:var(--ws-sidebar);z-index:35;display:grid;grid-template-columns:minmax(130px,.62fr) minmax(0,1.38fr);gap:12px;margin:0;padding:16px max(24px,calc((100vw - 1080px)/2)) 10px;border-top:1px solid #e0e2dc;background:#fff}
 .nivalShell:has(#card-editor) .editorFooter button{min-height:64px;padding:12px 16px;border-radius:22px;font-size:18px;font-weight:800}
 .nivalShell:has(#card-editor) .editorFooter .workspaceSecondary{border:1px solid #dce1d8;background:#fff;color:var(--editor-green)}
 .nivalShell:has(#card-editor) .editorFooter .workspacePrimary{border:0;background:var(--editor-green);color:#fff}
@@ -138,7 +137,7 @@
   .nivalShell:has(#card-editor) .promotionEditor .campaignSegment>label{min-height:82px;padding:14px;border-radius:20px;font-size:16px}
   .nivalShell:has(#card-editor) .pointsStepper{grid-template-columns:68px minmax(0,1fr) 68px;gap:10px}
   .nivalShell:has(#card-editor) .pointsStepper button,.nivalShell:has(#card-editor) .pointsStepper input{height:68px!important;min-height:68px!important}
-  .nivalShell:has(#card-editor) .editorFooter{grid-template-columns:minmax(105px,.65fr) minmax(0,1.35fr);gap:10px;padding:14px 16px 10px}
+  .nivalShell:has(#card-editor) .editorFooter{left:0;grid-template-columns:minmax(105px,.65fr) minmax(0,1.35fr);gap:10px;padding:14px 16px calc(10px + env(safe-area-inset-bottom))}
   .nivalShell:has(#card-editor) .editorFooter button{min-height:58px;border-radius:20px;font-size:16px}
   .nivalShell:has(#card-editor) .editorFooter span{font-size:12px}
   .nivalShell:has(#card-editor) .liveCardPreview{padding:16px 20px 22px}
