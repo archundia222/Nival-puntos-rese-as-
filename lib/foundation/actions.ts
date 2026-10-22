@@ -192,7 +192,7 @@ export async function saveProgram(_: Result, f: FormData): Promise<Result> {
         pointIcon: ["nival","star","heart","coffee"].includes(parsed.pointIcon) ? parsed.pointIcon : "nival",
         pointActive: /^#[a-f0-9]{6}$/i.test(String(parsed.pointActive||"")) ? String(parsed.pointActive) : "#cfe87a",
         pointInactive: /^#[a-f0-9]{6}$/i.test(String(parsed.pointInactive||"")) ? String(parsed.pointInactive) : "#dbe4dc",
-        pointView: parsed.pointView === "bar" ? "bar" : "grid",
+        pointView: ["bar","stamps"].includes(parsed.pointView) ? parsed.pointView : "grid",
         expiryMonths: parsed.expiryMonths === "" || parsed.expiryMonths == null ? "" : String(Math.max(1,Math.min(60,Number(parsed.expiryMonths)||6))),
         rewardExpiryMode: ["none","same_visit","duration"].includes(parsed.rewardExpiryMode) ? parsed.rewardExpiryMode : "none",
         rewardExpiryValue: String(Math.max(1,Math.min(365,Math.trunc(Number(parsed.rewardExpiryValue)||1)))),

@@ -667,6 +667,152 @@
 @media(max-width:900px){.nivalCardEditor .cardEditorBody{grid-template-columns:minmax(0,1fr)}.nivalCardEditor .liveCardPreview{position:sticky;top:8px;z-index:30;grid-row:1;padding:10px;background:#fff;box-shadow:0 6px 22px #1735261a}.nivalCardEditor .previewHeading{margin-bottom:7px}.nivalCardEditor .previewHeading p,.nivalCardEditor .previewFootnote,.nivalCardEditor .previewCanvasMeta{display:none}.nivalCardEditor .cardPreviewCanvas{padding:6px;background:none;border:0}.nivalCardEditor .cardPreviewCanvas>.loyaltyCard{width:min(100%,400px);aspect-ratio:1.9;padding:12px 14px;border-radius:12px}.nivalCardEditor .cardPreviewCanvas .loyaltyCard h1{font-size:15px}.nivalCardEditor .cardPreviewCanvas .cardPointGrid{margin:6px 0;gap:4px}.nivalCardEditor .cardPreviewCanvas .cardPointGrid i{width:20px;height:20px;font-size:10px}.nivalCardEditor .cardPreviewCanvas .cardQrInside{display:none}.nivalCardEditor .cardPreviewCanvas .loyaltyCard footer{margin-top:5px;padding-top:4px}}
 @media(max-width:640px){.nivalCardEditor .liveCardPreview{top:4px}.nivalCardEditor .cardEditorFields{padding:14px}.nivalCardEditor .editorFooter{position:sticky;bottom:8px;z-index:20;padding:10px;background:#fff;border:1px solid #e1e7df;border-radius:12px;box-shadow:0 5px 18px #20372920}.nivalCardEditor .editorFooter .workspacePrimary{flex:1}.nivalCardEditor .cardEditorTabs{overflow-x:auto;grid-template-columns:repeat(4,minmax(105px,1fr))}.nivalCardEditor .segmentOverrides .campaignSegment{padding:10px}.nivalCardEditor .promotionEditor .automaticPromotionSwitches{grid-template-columns:1fr}}
 
+/* Four-step points-card editor, aligned with the reward setup reference. */
+.nivalShell .nivalCardEditor{max-width:980px;margin:0 auto;padding:0 0 24px;color:#20382e;font-family:'Plus Jakarta Sans',sans-serif}
+.nivalShell .nivalCardEditor form{display:flex;flex-direction:column}
+.nivalShell .nivalCardEditor .editorTopbar{height:78px;display:grid;grid-template-columns:64px 1fr 145px;align-items:center;gap:12px;margin:0 -20px;padding:0 24px;background:#f3f2ed;border-bottom:1px solid #e2e3dc}
+.nivalShell .nivalCardEditor .editorTopbar h2{margin:0;text-align:center;color:#20382e;font-size:clamp(20px,3vw,29px);font-weight:800;letter-spacing:-.04em}
+.nivalShell .nivalCardEditor .editorBack{display:grid;width:58px;height:58px;place-items:center;border:1px solid #dfe1d9;border-radius:20px;background:#fff;color:#214d3e;font-size:40px;line-height:1;cursor:pointer}
+.nivalShell .nivalCardEditor .editorStatus{justify-self:end;display:flex;align-items:center;gap:9px;padding:10px 16px;border:0;border-radius:30px;background:#ecefe2;color:#4e5d53;font-size:14px;font-weight:700}
+.nivalShell .nivalCardEditor .editorStatus i{width:10px;height:10px;border-radius:50%;background:#929b91}
+.nivalShell .nivalCardEditor .cardEditorTabs{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:12px!important;margin:28px 0 18px!important;padding:0 6px}
+.nivalShell .nivalCardEditor .cardEditorTabs button{height:12px;min-width:0!important;padding:0!important;border:0!important;border-radius:99px!important;background:#d8ddcf!important;box-shadow:none!important;overflow:hidden;cursor:pointer}
+.nivalShell .nivalCardEditor .cardEditorTabs button span{display:block;width:100%;height:100%;font-size:0;line-height:0}
+.nivalShell .nivalCardEditor .cardEditorTabs button[aria-current=step],.nivalShell .nivalCardEditor .cardEditorTabs button[aria-current=step]~button{background:#d8ddcf!important}
+.nivalShell .nivalCardEditor .cardEditorTabs button[aria-current=step]{background:#214d3e!important}
+.nivalShell .nivalCardEditor .cardEditorTabs:has(button:nth-child(2)[aria-current=step]) button:first-child,.nivalShell .nivalCardEditor .cardEditorTabs:has(button:nth-child(3)[aria-current=step]) button:nth-child(-n+2),.nivalShell .nivalCardEditor .cardEditorTabs:has(button:nth-child(4)[aria-current=step]) button:nth-child(-n+3){background:#214d3e!important}
+.nivalShell .nivalCardEditor .editorStepIntro{margin:0 0 28px;padding:0 6px}
+.nivalShell .nivalCardEditor .editorStepIntro h3{margin:0;color:#1d342b;font-size:clamp(28px,4vw,38px);line-height:1.15;font-weight:800;letter-spacing:-.045em}
+.nivalShell .nivalCardEditor .editorStepIntro p{margin:8px 0 0;color:#68756e;font-size:clamp(15px,2vw,19px);line-height:1.4}
+.nivalShell .nivalCardEditor .cardEditorBody{display:block!important}
+.nivalShell .nivalCardEditor .cardEditorFields{padding:28px 26px 38px!important;border:0!important;border-radius:28px 28px 0 0!important;background:#fff!important;box-shadow:none!important}
+.nivalShell .nivalCardEditor .cardEditorFields>.configGrid{display:grid;grid-template-columns:minmax(0,1fr);gap:28px 22px}
+.nivalShell .nivalCardEditor .cardEditorFields>.configGrid:has(.designSectionTitle){grid-template-columns:repeat(3,minmax(0,1fr));gap:22px 14px}
+.nivalShell .nivalCardEditor .cardEditorFields .wide{grid-column:1/-1}
+.nivalShell .nivalCardEditor .cardEditorFields label{gap:9px;color:#46594f;font-size:15px;font-weight:700;line-height:1.4}
+.nivalShell .nivalCardEditor .cardEditorFields input:not([type=checkbox]):not([type=radio]),.nivalShell .nivalCardEditor .cardEditorFields select,.nivalShell .nivalCardEditor .cardEditorFields textarea{min-height:58px;padding:15px 17px;border:1px solid #d9ddd5;border-radius:17px;background:#fff;color:#23392f;font-size:16px;font-weight:500;box-shadow:none}
+.nivalShell .nivalCardEditor .cardEditorFields textarea{min-height:155px;resize:vertical}
+.nivalShell .nivalCardEditor .cardEditorFields small{font-size:13px;line-height:1.5;color:#738078}
+.nivalShell .nivalCardEditor .promotionEditor{gap:20px;padding:0;border:0;border-radius:0;background:transparent}
+.nivalShell .nivalCardEditor .promotionEditor h3{margin:0;color:#20382e;font-size:24px;font-weight:800}
+.nivalShell .nivalCardEditor .promotionEditor>p{display:none;margin:-10px 0 0;color:#718078;font-size:14px;line-height:1.5}
+.nivalShell .nivalCardEditor .promotionEditor .campaignSegment{display:grid;gap:12px;margin:0;padding:0;border:0}
+.nivalShell .nivalCardEditor .promotionEditor .campaignSegment legend{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.nivalShell .nivalCardEditor .promotionEditor .campaignSegment>label{display:grid;grid-template-columns:34px 1fr;align-items:center;gap:12px;min-height:90px;padding:16px 18px;border:1px solid #dfe2db;border-radius:23px;background:#fff;color:#20382e;font-size:17px;font-weight:750}
+.nivalShell .nivalCardEditor .promotionEditor .campaignSegment>label span{display:grid;gap:4px}
+.nivalShell .nivalCardEditor .promotionEditor .campaignSegment>label b{font-size:17px}
+.nivalShell .nivalCardEditor .promotionEditor .campaignSegment>label small{color:#718078;font-size:14px;font-weight:500}
+.nivalShell .nivalCardEditor .promotionEditor .campaignSegment>label:has(input:checked){border:2px solid #214d3e;background:#f4f6ef}
+.nivalShell .nivalCardEditor .promotionEditor .campaignSegment>label input[type=radio]{width:26px;height:26px;margin:0;accent-color:#214d3e}
+.nivalShell .nivalCardEditor .pointsVisitControl{padding:25px 0 0;border-top:1px solid #e4e6df}
+.nivalShell .nivalCardEditor .pointsVisitControl h3{margin:0 0 16px;color:#20382e;font-size:22px;font-weight:800}
+.nivalShell .nivalCardEditor .pointsStepper{display:grid;grid-template-columns:76px minmax(0,1fr) 76px;gap:15px;align-items:center}
+.nivalShell .nivalCardEditor .pointsStepper button{height:76px;border:1px solid #dfe2da;border-radius:22px;background:#fff;color:#214d3e;font-size:32px;font-weight:500;cursor:pointer}
+.nivalShell .nivalCardEditor .pointsStepper button:last-child{border-color:#214d3e;background:#214d3e;color:#fff}
+.nivalShell .nivalCardEditor .pointsStepper input{height:76px!important;min-height:76px!important;padding:8px!important;border:0!important;border-radius:24px!important;background:#f3f2ed!important;text-align:center;font-size:36px!important;font-weight:800!important;appearance:textfield}
+.nivalShell .nivalCardEditor .pointsStepper input::-webkit-inner-spin-button,.nivalShell .nivalCardEditor .pointsStepper input::-webkit-outer-spin-button{appearance:none;margin:0}
+.nivalShell .nivalCardEditor .visitRuleNote{padding:18px 20px;border:0;border-radius:20px;background:#f1f4eb}
+.nivalShell .nivalCardEditor .visitRuleNote span{color:#40574a;font-size:15px;line-height:1.55}
+.nivalShell .nivalCardEditor .automaticBonusField{display:grid;gap:14px;margin:0;padding:0;border:0;background:transparent}
+.nivalShell .nivalCardEditor .automaticBonusToggle{min-height:86px;padding:15px 18px;border:1px solid #dfe2db;border-radius:22px;background:#fff}
+.nivalShell .nivalCardEditor .automaticBonusToggle b{color:#20382e;font-size:18px}
+.nivalShell .nivalCardEditor .automaticBonusToggle small{margin-top:3px;font-size:14px}
+.nivalShell .nivalCardEditor .automaticBonusToggle input[type=checkbox]{appearance:none;position:relative;width:58px;height:34px;border:0;border-radius:30px;background:#c8cdbf;cursor:pointer}
+.nivalShell .nivalCardEditor .automaticBonusToggle input[type=checkbox]::after{position:absolute;top:4px;left:4px;width:26px;height:26px;border-radius:50%;background:white;box-shadow:0 2px 5px #0002;content:"";transition:transform .18s}
+.nivalShell .nivalCardEditor .automaticBonusToggle input[type=checkbox]:checked{background:#214d3e}
+.nivalShell .nivalCardEditor .automaticBonusToggle input[type=checkbox]:checked::after{transform:translateX(24px)}
+.nivalShell .nivalCardEditor .assignmentModeLabel{padding:25px 0 0;border-top:1px solid #e4e6df;color:#20382e!important;font-size:22px!important}
+.nivalShell .nivalCardEditor .rewardDisplayList{padding:0;border:0;background:transparent}
+.nivalShell .nivalCardEditor .rewardDisplayList h3{margin:0 0 16px;color:#20382e;font-size:22px;font-weight:800}
+.nivalShell .nivalCardEditor .rewardDisplayList ol{display:grid;gap:12px;padding:0;margin:0;list-style:none}
+.nivalShell .nivalCardEditor .rewardDisplayList li{min-height:94px;padding:16px 18px;border:1px solid #dfe2db;border-radius:22px;background:#fff}
+.nivalShell .nivalCardEditor .rewardDisplayList li b{color:#20382e;font-size:18px}
+.nivalShell .nivalCardEditor .rewardDisplayList li small{margin-top:4px;font-size:14px}
+.nivalShell .nivalCardEditor .editorFooter{position:sticky;bottom:0;z-index:35;display:grid;grid-template-columns:minmax(120px,.65fr) minmax(0,1.35fr);gap:12px;margin:0 -20px;padding:16px 22px 12px;border-top:1px solid #e0e2dc;background:#fff}
+.nivalShell .nivalCardEditor .editorFooter button{min-height:64px;padding:12px 16px;border-radius:22px;font-size:18px;font-weight:800}
+.nivalShell .nivalCardEditor .editorFooter .workspaceSecondary{border:1px solid #dce1d8;background:#fff;color:#214d3e}
+.nivalShell .nivalCardEditor .editorFooter .workspacePrimary{border:0;background:#214d3e;color:#fff}
+.nivalShell .nivalCardEditor .editorFooter button:disabled{opacity:.55}
+.nivalShell .nivalCardEditor .editorFooter span{grid-column:1/-1;flex-basis:auto;text-align:center;font-size:13px}
+.nivalShell .nivalCardEditor .liveCardPreview{position:static;margin:-28px -26px 0;padding:18px 26px 22px;background:#f3f2ed}
+.nivalShell .nivalCardEditor .previewHeading{margin-bottom:12px}
+.nivalShell .nivalCardEditor .previewHeading small{font-size:12px;letter-spacing:.12em}
+.nivalShell .nivalCardEditor .previewHeading p,.nivalShell .nivalCardEditor .previewCanvasMeta,.nivalShell .nivalCardEditor .previewFootnote{display:none}
+.nivalShell .nivalCardEditor .previewLive{font-size:13px}
+.nivalShell .nivalCardEditor .cardPreviewCanvas{min-height:0;padding:0;border:0;background:transparent}
+.nivalShell .nivalCardEditor .cardPreviewCanvas>.loyaltyCard{width:100%;max-width:620px;min-height:0;aspect-ratio:1.72;padding:24px 26px;border-radius:25px}
+.nivalShell .nivalCardEditor .cardPreviewCanvas>.loyaltyCard h1{font-size:22px}
+.nivalShell .nivalCardEditor .cardPreviewCanvas .cardPointGrid{margin:14px 0;gap:8px}
+.nivalShell .nivalCardEditor .cardPreviewCanvas .cardQrInside{display:none}
+.nivalShell .nivalCardEditor .cardPreviewCanvas>.loyaltyCard footer{margin-top:8px;padding-top:8px}
+.nivalShell .nivalCardEditor .previewRewardCaption{display:none}
+.nivalShell .nivalCardEditor .detailsStep{display:grid;gap:0!important}
+.nivalShell .nivalCardEditor .detailsGroup{display:grid;gap:20px;padding:8px 0 28px;border-bottom:1px solid #e5e7e1}
+.nivalShell .nivalCardEditor .detailsGroup+.detailsGroup{padding-top:28px}
+.nivalShell .nivalCardEditor .detailsGroup h3{margin:0;color:#20382e;font-size:23px;font-weight:800}
+.nivalShell .nivalCardEditor .detailsGroup>p{margin:-14px 0 0;color:#737e77;font-size:14px;line-height:1.5}
+.nivalShell .nivalCardEditor .detailsChoice{display:grid;gap:10px;color:#46594f;font-size:15px;font-weight:700}
+.nivalShell .nivalCardEditor .choicePills{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;padding:5px;border-radius:20px;background:#f0f1e9}
+.nivalShell .nivalCardEditor .choicePills button{min-height:52px;padding:10px;border:0;border-radius:15px;background:transparent;color:#4d5b53;font:inherit;font-size:15px;font-weight:750;cursor:pointer}
+.nivalShell .nivalCardEditor .choicePills button[aria-pressed=true]{background:#214d3e;color:#fff}
+.nivalShell .nivalCardEditor .requiredData{display:flex;gap:10px;flex-wrap:wrap}
+.nivalShell .nivalCardEditor .requiredData span{padding:11px 16px;border-radius:30px;background:#eff4d7;color:#3f5938;font-size:14px;font-weight:750}
+.nivalShell .nivalCardEditor .detailSwitch{min-height:78px;padding:15px 18px;border:1px solid #dfe2db;border-radius:19px;background:#fff}
+.nivalShell .nivalCardEditor .detailSwitch b{display:block;color:#20382e;font-size:16px}
+.nivalShell .nivalCardEditor .detailSwitch small{display:block;margin-top:3px;font-size:13px}
+.nivalShell .nivalCardEditor .detailSwitch input[type=checkbox]{appearance:none;position:relative;width:58px;height:34px;border:0;border-radius:30px;background:#c8cdbf;cursor:pointer}
+.nivalShell .nivalCardEditor .detailSwitch input[type=checkbox]::after{position:absolute;top:4px;left:4px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 2px 5px #0002;content:"";transition:transform .18s}
+.nivalShell .nivalCardEditor .detailSwitch input[type=checkbox]:checked{background:#214d3e}
+.nivalShell .nivalCardEditor .detailSwitch input[type=checkbox]:checked::after{transform:translateX(24px)}
+.nivalShell .nivalCardEditor .expiryDuration,.nivalShell .nivalCardEditor .detailsTwoCol{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.nivalShell .nivalCardEditor .designSectionTitle{margin:0;color:#20382e;font-size:21px;font-weight:800}
+.nivalShell .nivalCardEditor .designHint{margin:-18px 0 0;color:#737e77;font-size:14px}
+.nivalShell .nivalCardEditor .visualChoiceField{display:grid;gap:10px;color:#20382e;font-size:15px;font-weight:750}
+.nivalShell .nivalCardEditor .visualChoiceGroup{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:5px;border-radius:18px;background:#f0f1e9}
+.nivalShell .nivalCardEditor .visualChoiceGroup button{min-height:52px;padding:8px;border:0;border-radius:14px;background:transparent;color:#4d5b53;font:inherit;font-size:14px;font-weight:750;cursor:pointer}
+.nivalShell .nivalCardEditor .visualChoiceGroup button[aria-pressed=true]{background:#214d3e;color:#fff}
+.nivalShell .nivalCardEditor .iconChoiceGroup{display:flex;gap:10px;flex-wrap:wrap}
+.nivalShell .nivalCardEditor .iconChoiceGroup button{display:grid;width:58px;height:58px;place-items:center;border:1px solid #dfe2db;border-radius:18px;background:#fff;color:#63756b;font-size:25px;cursor:pointer}
+.nivalShell .nivalCardEditor .iconChoiceGroup button[aria-pressed=true]{border:2px solid #214d3e;background:#f3f6ee;color:#214d3e}
+.nivalShell .nivalCardEditor .colorPick{min-height:145px;align-content:center;justify-items:center;padding:12px;border:1px solid #e0e3dc;border-radius:20px;background:#fff;text-align:center}
+.nivalShell .nivalCardEditor .colorPick input[type=color]{width:64px!important;height:64px!important;min-height:64px!important;padding:5px!important;border:2px solid #e2e4dc!important;border-radius:50%!important;background:#fff!important;cursor:pointer}
+.nivalShell .nivalCardEditor .designContrast{margin:0;padding:13px 16px;border-radius:14px;background:#eff4d7;color:#45613d;font-size:14px;font-weight:650}
+.nivalShell .nivalCardEditor .pointColorLegend{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.nivalShell .nivalCardEditor .pointColorLegend span{padding:14px;border:1px solid #e0e3dc;border-radius:15px;color:#40564a;font-size:14px;font-weight:700}
+.nivalShell .nivalCardEditor .pointColorLegend b{display:block;margin-top:4px;color:#718078;font-size:12px;font-weight:500}
+.nivalShell .nivalCardEditor .logoUpload{min-height:135px;align-content:center;justify-items:center;padding:18px;border:1px dashed #bfc8b8;border-radius:20px;background:#fafbf7;text-align:center}
+.nivalShell .nivalCardEditor .logoUpload input[type=file]{max-width:100%;font-size:12px}
+.nivalShell .nivalCardEditor .logoUpload img{max-height:64px}
+@media(max-width:760px){
+ .nivalShell .nivalCardEditor{margin:0 -16px;padding:0 0 12px}
+ .nivalShell .nivalCardEditor .editorTopbar{height:76px;grid-template-columns:58px 1fr 112px;margin:0;padding:0 14px;gap:8px}
+ .nivalShell .nivalCardEditor .editorBack{width:52px;height:52px;border-radius:18px}
+ .nivalShell .nivalCardEditor .editorTopbar h2{font-size:20px}
+ .nivalShell .nivalCardEditor .editorStatus{padding:9px 12px;font-size:12px}
+ .nivalShell .nivalCardEditor .cardEditorTabs{gap:9px!important;margin:24px 20px 18px!important;padding:0}
+ .nivalShell .nivalCardEditor .cardEditorTabs button{height:10px}
+ .nivalShell .nivalCardEditor .editorStepIntro{margin:0 20px 24px;padding:0}
+ .nivalShell .nivalCardEditor .editorStepIntro h3{font-size:clamp(27px,7vw,36px)}
+ .nivalShell .nivalCardEditor .cardEditorFields{padding:26px 20px 34px!important;border-radius:28px 28px 0 0!important}
+ .nivalShell .nivalCardEditor .cardEditorFields>.configGrid{gap:24px}
+ .nivalShell .nivalCardEditor .promotionEditor .campaignSegment>label{min-height:82px;padding:14px;border-radius:20px;font-size:16px}
+ .nivalShell .nivalCardEditor .pointsStepper{grid-template-columns:68px minmax(0,1fr) 68px;gap:10px}
+ .nivalShell .nivalCardEditor .pointsStepper button,.nivalShell .nivalCardEditor .pointsStepper input{height:68px!important;min-height:68px!important}
+ .nivalShell .nivalCardEditor .editorFooter{margin:0;padding:14px 16px 10px;grid-template-columns:minmax(105px,.65fr) minmax(0,1.35fr);gap:10px}
+ .nivalShell .nivalCardEditor .editorFooter button{min-height:58px;border-radius:20px;font-size:16px}
+ .nivalShell .nivalCardEditor .liveCardPreview{margin:-26px -20px 0;padding:16px 20px 22px}
+ .nivalShell .nivalCardEditor .cardPreviewCanvas>.loyaltyCard{aspect-ratio:1.53;padding:20px 18px;border-radius:22px}
+ .nivalShell .nivalCardEditor .cardPreviewCanvas>.loyaltyCard h1{font-size:19px}
+ .nivalShell .nivalCardEditor .cardPreviewCanvas .cardPointGrid{gap:5px;margin:10px 0}
+ .nivalShell .nivalCardEditor .detailsGroup{gap:17px;padding-bottom:24px}
+ .nivalShell .nivalCardEditor .detailsGroup+.detailsGroup{padding-top:24px}
+ .nivalShell .nivalCardEditor .detailsGroup h3,.nivalShell .nivalCardEditor .designSectionTitle{font-size:20px}
+ .nivalShell .nivalCardEditor .colorPick{min-height:120px;font-size:14px}
+ .nivalShell .nivalCardEditor .colorPick input[type=color]{width:56px!important;height:56px!important;min-height:56px!important}
+ .nivalShell .nivalCardEditor .cardEditorFields>.configGrid:has(.designSectionTitle){grid-template-columns:repeat(3,minmax(0,1fr));gap:17px 9px}
+ .nivalShell .nivalCardEditor .detailsTwoCol{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+}
+
 /* Dashboard refinements: one surface per block, with quiet rows inside. */
 .nivalShell .startGuide{margin:0 0 18px;padding:clamp(22px,4vw,38px);border:1px solid #dce6dc;border-radius:20px;background:linear-gradient(145deg,#fff 0%,#f6f9f4 100%);box-shadow:0 12px 32px #1d3b2a0a}
 .startGuideHeading{align-items:center;margin-bottom:0}
