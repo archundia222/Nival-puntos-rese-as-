@@ -1,163 +1,162 @@
-/* Four-step card editor: visual system based on the supplied mobile references. */
-.nivalShell:has(#card-editor){
-  --editor-ink:#20362d;
-  --editor-muted:#68756e;
-  --editor-green:#214d3e;
-  --editor-paper:#f3f2ed;
-  --editor-line:#dfe2da;
-  --editor-soft:#f1f4eb;
-  background:var(--editor-paper);
-  color:var(--editor-ink);
-  font-family:'Plus Jakarta Sans',Arial,sans-serif;
-}
-.nivalShell:has(#card-editor) .workspaceTopbar,
-.nivalShell:has(#card-editor) .workspaceFloatingMenu,
-.nivalShell:has(#card-editor) .workspacePageHeading,
-.nivalShell:has(#card-editor) .workspaceFooter{display:none!important}
-.nivalShell:has(#card-editor) .workspaceContent{width:100%;max-width:none;margin:0;padding:0;background:var(--editor-paper)}
-.nivalShell:has(#card-editor) .ownerDashboard{margin:0;padding:0}
-.nivalShell:has(#card-editor) .ownerDashboard>[data-panel="mis-tarjetas"]{margin:0;padding:0}
-.nivalShell:has(#card-editor) .cardCatalog{display:block;margin:0}
-.nivalShell:has(#card-editor) .cardCatalogEditor{position:relative;margin:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
-.nivalShell:has(#card-editor) .cardCatalogEditor>header{position:absolute;z-index:5;top:10px;left:16px;margin:0;padding:0}
-.nivalShell:has(#card-editor) .cardCatalogEditor>header h3{display:none}
-.nivalShell:has(#card-editor) .cardCatalogEditor>header .cardReturnButton{width:58px;height:58px;min-height:58px;padding:0;border:1px solid var(--editor-line);border-radius:20px;background:#fff;color:var(--editor-green);font-size:0;box-shadow:none}
-.nivalShell:has(#card-editor) .cardCatalogEditor>header .cardReturnButton span{font-size:0}
+/* Reference-led visual system for the points card editor. */
+.nivalShell:has(#card-editor){--editor-ink:#20352c;--editor-muted:#6e7972;--editor-green:#214d3e;--editor-paper:#f3f2ed;--editor-line:#dfe2da;--editor-soft:#f1f4eb;background:var(--editor-paper)!important;color:var(--editor-ink)!important;font-family:'Plus Jakarta Sans',Arial,sans-serif!important}
+.nivalShell:has(#card-editor) .workspaceSidebar,.nivalShell:has(#card-editor) .workspaceTopbar,.nivalShell:has(#card-editor) .workspaceFloatingMenu,.nivalShell:has(#card-editor) .workspacePageHeading,.nivalShell:has(#card-editor) .workspaceFooter{display:none!important}
+.nivalShell:has(#card-editor) .workspaceMain{width:100%!important;margin:0!important}
+.nivalShell:has(#card-editor) .workspaceContent{width:100%!important;max-width:none!important;margin:0!important;padding:0!important;background:var(--editor-paper)!important}
+.nivalShell:has(#card-editor) .ownerDashboard,.nivalShell:has(#card-editor) .ownerDashboard>[data-panel="mis-tarjetas"],.nivalShell:has(#card-editor) .cardCatalog{display:block!important;width:100%!important;max-width:none!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
+.nivalShell:has(#card-editor) .cardCatalogEditor{position:static!important;width:100%!important;max-width:none!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
+/* Keep the catalog's guarded back action as the single back button. */
+.nivalShell:has(#card-editor) .cardCatalogEditor>header{position:absolute!important;top:10px!important;left:26px!important;z-index:80!important;display:block!important;width:58px!important;height:58px!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important}
+.nivalShell:has(#card-editor) .cardCatalogEditor>header h3{display:none!important}
+.nivalShell:has(#card-editor) .cardCatalogEditor>header .cardReturnButton{display:grid!important;place-items:center!important;width:58px!important;height:58px!important;min-height:58px!important;margin:0!important;padding:0!important;border:1px solid var(--editor-line)!important;border-radius:20px!important;background:#fff!important;color:var(--editor-green)!important;font-size:0!important;box-shadow:none!important}
+.nivalShell:has(#card-editor) .cardCatalogEditor>header .cardReturnButton span{font-size:0!important}
 .nivalShell:has(#card-editor) .cardCatalogEditor>header .cardReturnButton span:after{content:'‹';font-size:40px;line-height:1}
-.nivalShell:has(#card-editor) .nivalCardEditor{width:100%;max-width:none;margin:0;padding:0 0 110px;color:var(--editor-ink);font-family:'Plus Jakarta Sans',Arial,sans-serif}
-.nivalShell:has(#card-editor) .nivalCardEditor form{display:flex;flex-direction:column;margin:0}
-.nivalShell:has(#card-editor) .editorTopbar{height:78px;display:grid;grid-template-columns:72px minmax(0,1fr) 132px;align-items:center;gap:10px;margin:0;padding:0 26px;background:var(--editor-paper);border-bottom:1px solid #e1e2db}
-.nivalShell:has(#card-editor) .editorTopbar h2{margin:0;text-align:center;color:var(--editor-ink);font-size:27px;font-weight:800;letter-spacing:-.045em}
-.nivalShell:has(#card-editor) .editorTopbar .editorBack{visibility:hidden;width:58px;height:58px}
-.nivalShell:has(#card-editor) .editorStatus{justify-self:end;display:flex;align-items:center;gap:8px;padding:10px 16px;border:0;border-radius:99px;background:#e9ecdf;color:#4e5b52;font-size:15px;font-weight:700;white-space:nowrap}
-.nivalShell:has(#card-editor) .editorStatus i{width:10px;height:10px;border-radius:50%;background:#919b92}
-.nivalShell:has(#card-editor) .cardEditorTabs{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:14px!important;margin:28px 26px 22px!important;padding:0!important;border:0!important;overflow:visible!important}
-.nivalShell:has(#card-editor) .cardEditorTabs button{display:block;width:100%;height:12px;min-height:12px!important;padding:0!important;border:0!important;border-radius:99px!important;background:#d7dccf!important;box-shadow:none!important;overflow:hidden;cursor:pointer}
-.nivalShell:has(#card-editor) .cardEditorTabs button>span{display:block;width:100%;height:100%;padding:0;background:transparent!important;color:transparent!important;font-size:0!important;line-height:0!important}
+.nivalShell:has(#card-editor) .nivalCardEditor{display:block!important;width:100%!important;max-width:none!important;margin:0!important;padding:0 0 108px!important;color:var(--editor-ink)!important;font-family:'Plus Jakarta Sans',Arial,sans-serif!important}
+.nivalShell:has(#card-editor) .nivalCardEditor form{display:flex!important;flex-direction:column!important;width:100%!important;margin:0!important;padding:0!important}
+.nivalShell:has(#card-editor) .editorTopbar{display:grid!important;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)!important;align-items:center!important;gap:10px!important;width:100%!important;height:78px!important;margin:0!important;padding:0 26px!important;border:0!important;border-bottom:1px solid #e1e2db!important;background:var(--editor-paper)!important}
+.nivalShell:has(#card-editor) .editorTopbar h2{grid-column:2!important;margin:0!important;color:var(--editor-ink)!important;text-align:center!important;font-size:27px!important;font-weight:800!important;line-height:1.2!important;letter-spacing:-.045em!important}
+.nivalShell:has(#card-editor) .editorBack{visibility:hidden!important;width:58px!important;height:58px!important;min-height:58px!important;padding:0!important;border:0!important;background:transparent!important;font-size:0!important}
+.nivalShell:has(#card-editor) .editorStatus{grid-column:3!important;display:flex!important;align-items:center!important;justify-self:end!important;gap:8px!important;padding:10px 16px!important;border:0!important;border-radius:99px!important;background:#e9ecdf!important;color:#4e5b52!important;font-size:15px!important;font-weight:700!important;white-space:nowrap!important}
+.nivalShell:has(#card-editor) .editorStatus i{width:10px!important;height:10px!important;border-radius:50%!important;background:#919b92!important}
+.nivalShell:has(#card-editor) .cardEditorTabs{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:14px!important;width:auto!important;margin:28px 26px 22px!important;padding:0!important;border:0!important;overflow:visible!important}
+.nivalShell:has(#card-editor) .cardEditorTabs button{display:block!important;width:100%!important;height:12px!important;min-width:0!important;min-height:12px!important;padding:0!important;border:0!important;border-radius:99px!important;background:#d7dccf!important;box-shadow:none!important;overflow:hidden!important}
+.nivalShell:has(#card-editor) .cardEditorTabs button>span{display:block!important;width:100%!important;height:100%!important;padding:0!important;background:transparent!important;color:transparent!important;font-size:0!important;line-height:0!important}
 .nivalShell:has(#card-editor) .cardEditorTabs button[aria-current="step"]{background:var(--editor-green)!important}
-.nivalShell:has(#card-editor) .cardEditorTabs:has(button:nth-child(2)[aria-current="step"]) button:first-child,
-.nivalShell:has(#card-editor) .cardEditorTabs:has(button:nth-child(3)[aria-current="step"]) button:nth-child(-n+2),
-.nivalShell:has(#card-editor) .cardEditorTabs:has(button:nth-child(4)[aria-current="step"]) button:nth-child(-n+3){background:var(--editor-green)!important}
-.nivalShell:has(#card-editor) .editorStepIntro{margin:0 26px 27px;padding:0}
-.nivalShell:has(#card-editor) .editorStepIntro h3{margin:0;color:#1d342b;font-size:38px;line-height:1.15;font-weight:800;letter-spacing:-.05em}
-.nivalShell:has(#card-editor) .editorStepIntro p{margin:8px 0 0;color:var(--editor-muted);font-size:19px;line-height:1.4}
-.nivalShell:has(#card-editor) .cardEditorBody{display:block!important}
-.nivalShell:has(#card-editor) .cardEditorFields{padding:34px 26px 40px!important;border:0!important;border-radius:30px 30px 0 0!important;background:#fff!important;box-shadow:none!important}
-.nivalShell:has(#card-editor) .cardEditorFields>.configGrid{display:grid;grid-template-columns:minmax(0,1fr);gap:28px 22px}
-.nivalShell:has(#card-editor) .cardEditorFields>.configGrid:has(.designSectionTitle){grid-template-columns:repeat(3,minmax(0,1fr));gap:22px 14px}
-.nivalShell:has(#card-editor) .cardEditorFields .wide{grid-column:1/-1}
-.nivalShell:has(#card-editor) .cardEditorFields label{gap:9px;color:#46594f;font-size:15px;font-weight:700;line-height:1.4}
-.nivalShell:has(#card-editor) .cardEditorFields input:not([type=checkbox]):not([type=radio]),
-.nivalShell:has(#card-editor) .cardEditorFields select,
-.nivalShell:has(#card-editor) .cardEditorFields textarea{min-height:58px;padding:15px 17px;border:1px solid #d9ddd5;border-radius:17px;background:#fff;color:#23392f;font-size:16px;font-weight:500;box-shadow:none}
-.nivalShell:has(#card-editor) .cardEditorFields textarea{min-height:155px;resize:vertical}
-.nivalShell:has(#card-editor) .cardEditorFields small{font-size:13px;line-height:1.5;color:#738078}
-.nivalShell:has(#card-editor) .promotionEditor{gap:20px;padding:0;border:0;border-radius:0;background:transparent}
-.nivalShell:has(#card-editor) .promotionEditor h3{margin:0;color:var(--editor-ink);font-size:24px;font-weight:800}
-.nivalShell:has(#card-editor) .promotionEditor>p{display:none}
-.nivalShell:has(#card-editor) .promotionEditor .campaignSegment{display:grid;gap:13px;margin:0;padding:0;border:0}
-.nivalShell:has(#card-editor) .promotionEditor .campaignSegment legend{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
-.nivalShell:has(#card-editor) .promotionEditor .campaignSegment>label{display:grid;grid-template-columns:34px minmax(0,1fr);align-items:center;gap:14px;min-height:90px;padding:16px 18px;border:1px solid var(--editor-line);border-radius:23px;background:#fff;color:var(--editor-ink);font-size:17px;font-weight:750}
-.nivalShell:has(#card-editor) .promotionEditor .campaignSegment>label span{display:grid;gap:4px}
-.nivalShell:has(#card-editor) .promotionEditor .campaignSegment>label b{font-size:17px}
-.nivalShell:has(#card-editor) .promotionEditor .campaignSegment>label small{color:#718078;font-size:14px;font-weight:500}
-.nivalShell:has(#card-editor) .promotionEditor .campaignSegment>label:has(input:checked){border:2px solid var(--editor-green);background:#f4f6ef}
-.nivalShell:has(#card-editor) .promotionEditor .campaignSegment>label input[type=radio]{width:28px;height:28px;margin:0;accent-color:var(--editor-green)}
-.nivalShell:has(#card-editor) .pointsVisitControl{padding:32px 0 0;border-top:1px solid #e4e6df}
-.nivalShell:has(#card-editor) .pointsVisitControl h3{margin:0 0 18px;color:var(--editor-ink);font-size:22px;font-weight:800}
-.nivalShell:has(#card-editor) .pointsStepper{display:grid;grid-template-columns:76px minmax(0,1fr) 76px;gap:15px;align-items:center}
-.nivalShell:has(#card-editor) .pointsStepper button{height:76px;border:1px solid var(--editor-line);border-radius:22px;background:#fff;color:var(--editor-green);font-size:32px;font-weight:500;cursor:pointer}
-.nivalShell:has(#card-editor) .pointsStepper button:last-child{border-color:var(--editor-green);background:var(--editor-green);color:#fff}
-.nivalShell:has(#card-editor) .pointsStepper input{height:76px!important;min-height:76px!important;padding:8px!important;border:0!important;border-radius:24px!important;background:#f3f2ed!important;text-align:center;font-size:36px!important;font-weight:800!important;appearance:textfield}
+.nivalShell:has(#card-editor) .cardEditorTabs:has(button:nth-child(2)[aria-current="step"]) button:first-child,.nivalShell:has(#card-editor) .cardEditorTabs:has(button:nth-child(3)[aria-current="step"]) button:nth-child(-n+2),.nivalShell:has(#card-editor) .cardEditorTabs:has(button:nth-child(4)[aria-current="step"]) button:nth-child(-n+3){background:var(--editor-green)!important}
+.nivalShell:has(#card-editor) .editorStepIntro{margin:0 26px!important;padding:0!important}
+.nivalShell:has(#card-editor) .editorStepIntro h3{margin:0!important;color:#1d342b!important;font-size:38px!important;line-height:1.15!important;font-weight:800!important;letter-spacing:-.05em!important}
+.nivalShell:has(#card-editor) .editorStepIntro p{margin:8px 0 0!important;color:var(--editor-muted)!important;font-size:19px!important;line-height:1.4!important}
+.nivalShell:has(#card-editor) .cardEditorBody{display:block!important;width:100%!important;margin:30px 0 0!important;padding:0!important}
+.nivalShell:has(#card-editor) .cardEditorFields{display:block!important;width:100%!important;max-width:none!important;margin:0!important;padding:34px 26px 42px!important;border:0!important;border-radius:30px 30px 0 0!important;background:#fff!important;box-shadow:none!important}
+.nivalShell:has(#card-editor) .cardEditorFields>.configGrid{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:26px 22px!important;width:100%!important;margin:0!important;padding:0!important}
+.nivalShell:has(#card-editor) .cardEditorFields>.configGrid:has(.designSectionTitle){grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:22px 14px!important}
+.nivalShell:has(#card-editor) .cardEditorFields .wide{grid-column:1/-1!important}
+.nivalShell:has(#card-editor) .cardEditorFields label{display:grid!important;gap:9px!important;color:#46594f!important;font-size:15px!important;font-weight:700!important;line-height:1.4!important}
+.nivalShell:has(#card-editor) .cardEditorFields input:not([type=checkbox]):not([type=radio]),.nivalShell:has(#card-editor) .cardEditorFields select,.nivalShell:has(#card-editor) .cardEditorFields textarea{width:100%!important;min-height:58px!important;padding:15px 17px!important;border:1px solid #d9ddd5!important;border-radius:17px!important;background:#fff!important;color:#23392f!important;font-size:16px!important;font-weight:500!important;box-shadow:none!important}
+.nivalShell:has(#card-editor) .cardEditorFields textarea{min-height:155px!important;resize:vertical}
+.nivalShell:has(#card-editor) .cardEditorFields small{font-size:13px!important;line-height:1.5!important;color:#737e77!important}
+.nivalShell:has(#card-editor) .promotionEditor{display:grid!important;justify-items:stretch!important;gap:20px!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;text-align:left!important}
+.nivalShell:has(#card-editor) .promotionEditor h3{justify-self:start!important;margin:0!important;color:var(--editor-ink)!important;font-size:24px!important;line-height:1.25!important;font-weight:800!important}
+.nivalShell:has(#card-editor) .promotionEditor>p{display:none!important}
+.nivalShell:has(#card-editor) .promotionEditor .campaignSegment{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:13px!important;margin:0!important;padding:0!important;border:0!important}
+.nivalShell:has(#card-editor) .promotionEditor .campaignSegment legend{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important}
+.nivalShell:has(#card-editor) .promotionEditor .campaignSegment>label{display:grid!important;grid-template-columns:34px minmax(0,1fr)!important;align-items:center!important;gap:14px!important;min-height:90px!important;margin:0!important;padding:16px 18px!important;border:1px solid var(--editor-line)!important;border-radius:23px!important;background:#fff!important;color:var(--editor-ink)!important;font-size:17px!important;font-weight:750!important}
+.nivalShell:has(#card-editor) .promotionEditor .campaignSegment>label span{display:grid!important;gap:4px!important}
+.nivalShell:has(#card-editor) .promotionEditor .campaignSegment>label b{font-size:17px!important;line-height:1.3!important}
+.nivalShell:has(#card-editor) .promotionEditor .campaignSegment>label small{color:#718078!important;font-size:14px!important;font-weight:500!important}
+.nivalShell:has(#card-editor) .promotionEditor .campaignSegment>label:has(input:checked){border:2px solid var(--editor-green)!important;background:#f4f6ef!important}
+.nivalShell:has(#card-editor) .promotionEditor .campaignSegment>label input[type=radio]{width:28px!important;height:28px!important;margin:0!important;accent-color:var(--editor-green)!important}
+.nivalShell:has(#card-editor) .pointsVisitControl{display:grid!important;gap:18px!important;margin:2px 0 0!important;padding:32px 0 0!important;border:0!important;border-top:1px solid #e4e6df!important}
+.nivalShell:has(#card-editor) .pointsVisitControl h3,.nivalShell:has(#card-editor) .rewardDisplayList h3{margin:0!important;color:var(--editor-ink)!important;font-size:22px!important;font-weight:800!important}
+.nivalShell:has(#card-editor) .pointsStepper{display:grid!important;grid-template-columns:76px minmax(0,1fr) 76px!important;gap:15px!important;align-items:center!important}
+.nivalShell:has(#card-editor) .pointsStepper button{width:100%!important;height:76px!important;min-height:76px!important;padding:0!important;border:1px solid var(--editor-line)!important;border-radius:22px!important;background:#fff!important;color:var(--editor-green)!important;font-size:32px!important;font-weight:500!important}
+.nivalShell:has(#card-editor) .pointsStepper button:last-child{border-color:var(--editor-green)!important;background:var(--editor-green)!important;color:#fff!important}
+.nivalShell:has(#card-editor) .pointsStepper input{height:76px!important;min-height:76px!important;padding:8px!important;border:0!important;border-radius:24px!important;background:var(--editor-paper)!important;text-align:center!important;font-size:36px!important;font-weight:800!important;appearance:textfield}
 .nivalShell:has(#card-editor) .pointsStepper input::-webkit-inner-spin-button,.nivalShell:has(#card-editor) .pointsStepper input::-webkit-outer-spin-button{appearance:none;margin:0}
-.nivalShell:has(#card-editor) .visitRuleNote{padding:18px 20px;border:0;border-radius:20px;background:#f1f4eb}
-.nivalShell:has(#card-editor) .visitRuleNote span{color:#40574a;font-size:15px;line-height:1.55}
-.nivalShell:has(#card-editor) .automaticBonusToggle,.nivalShell:has(#card-editor) .rewardDisplayList li,.nivalShell:has(#card-editor) .detailSwitch{border:1px solid var(--editor-line);border-radius:21px;background:#fff}
-.nivalShell:has(#card-editor) .automaticBonusToggle{min-height:86px;padding:15px 18px}
-.nivalShell:has(#card-editor) .automaticBonusToggle b{color:var(--editor-ink);font-size:18px}
-.nivalShell:has(#card-editor) .automaticBonusToggle small{margin-top:3px;font-size:14px}
-.nivalShell:has(#card-editor) .editorFooter{position:fixed;right:0;bottom:0;left:var(--ws-sidebar);z-index:35;display:grid;grid-template-columns:minmax(130px,.62fr) minmax(0,1.38fr);gap:12px;margin:0;padding:16px max(24px,calc((100vw - 1080px)/2)) 10px;border-top:1px solid #e0e2dc;background:#fff}
-.nivalShell:has(#card-editor) .editorFooter button{min-height:64px;padding:12px 16px;border-radius:22px;font-size:18px;font-weight:800}
-.nivalShell:has(#card-editor) .editorFooter .workspaceSecondary{border:1px solid #dce1d8;background:#fff;color:var(--editor-green)}
-.nivalShell:has(#card-editor) .editorFooter .workspacePrimary{border:0;background:var(--editor-green);color:#fff}
-.nivalShell:has(#card-editor) .editorFooter button:disabled{opacity:.5}
-.nivalShell:has(#card-editor) .editorFooter span{grid-column:1/-1;flex-basis:auto;text-align:center;font-size:13px;color:var(--editor-muted)}
-.nivalShell:has(#card-editor) .liveCardPreview{position:static;margin:0;padding:18px 26px 24px;background:var(--editor-paper)}
-.nivalShell:has(#card-editor) .previewHeading{margin-bottom:12px}
-.nivalShell:has(#card-editor) .previewHeading small{font-size:12px;letter-spacing:.12em}
-.nivalShell:has(#card-editor) .previewHeading p,.nivalShell:has(#card-editor) .previewCanvasMeta,.nivalShell:has(#card-editor) .previewFootnote{display:none}
-.nivalShell:has(#card-editor) .previewLive{font-size:13px}
-.nivalShell:has(#card-editor) .cardPreviewCanvas{min-height:0;padding:0;border:0;background:transparent}
-.nivalShell:has(#card-editor) .cardPreviewCanvas>.loyaltyCard{width:100%;max-width:840px;min-height:0;aspect-ratio:1.55;padding:24px 26px;border-radius:25px}
-.nivalShell:has(#card-editor) .cardPreviewCanvas>.loyaltyCard h1{font-size:22px}
-.nivalShell:has(#card-editor) .cardPreviewCanvas .cardPointGrid{margin:14px 0;gap:8px}
-.nivalShell:has(#card-editor) .cardPreviewCanvas .cardQrInside,.nivalShell:has(#card-editor) .previewRewardCaption{display:none}
-.nivalShell:has(#card-editor) .detailsStep{display:grid;gap:0!important}
-.nivalShell:has(#card-editor) .detailsGroup{display:grid;gap:20px;padding:8px 0 28px;border-bottom:1px solid #e5e7e1}
-.nivalShell:has(#card-editor) .detailsGroup+.detailsGroup{padding-top:28px}
-.nivalShell:has(#card-editor) .detailsGroup h3{margin:0;color:var(--editor-ink);font-size:23px;font-weight:800}
-.nivalShell:has(#card-editor) .detailsGroup>p{margin:-14px 0 0;color:#737e77;font-size:14px;line-height:1.5}
-.nivalShell:has(#card-editor) .choicePills,.nivalShell:has(#card-editor) .visualChoiceGroup{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;padding:5px;border-radius:20px;background:#f0f1e9}
-.nivalShell:has(#card-editor) .choicePills button,.nivalShell:has(#card-editor) .visualChoiceGroup button{min-height:52px;padding:10px;border:0;border-radius:15px;background:transparent;color:#4d5b53;font:inherit;font-size:15px;font-weight:750;cursor:pointer}
-.nivalShell:has(#card-editor) .choicePills button[aria-pressed="true"],.nivalShell:has(#card-editor) .visualChoiceGroup button[aria-pressed="true"]{background:var(--editor-green);color:#fff}
-.nivalShell:has(#card-editor) .requiredData{display:flex;gap:10px;flex-wrap:wrap}
-.nivalShell:has(#card-editor) .requiredData span{padding:11px 16px;border-radius:30px;background:#eff4d7;color:#3f5938;font-size:14px;font-weight:750}
-.nivalShell:has(#card-editor) .detailSwitch{min-height:78px;padding:15px 18px}
-.nivalShell:has(#card-editor) .designSectionTitle{margin:0;color:var(--editor-ink);font-size:21px;font-weight:800}
-.nivalShell:has(#card-editor) .designHint{margin:-18px 0 0;color:#737e77;font-size:14px}
-.nivalShell:has(#card-editor) .visualChoiceGroup{grid-template-columns:repeat(3,minmax(0,1fr))}
-.nivalShell:has(#card-editor) .iconChoiceGroup{display:flex;gap:10px;flex-wrap:wrap}
-.nivalShell:has(#card-editor) .iconChoiceGroup button{display:grid;width:58px;height:58px;place-items:center;border:1px solid var(--editor-line);border-radius:18px;background:#fff;color:#63756b;font-size:25px;cursor:pointer}
-.nivalShell:has(#card-editor) .iconChoiceGroup button[aria-pressed="true"]{border:2px solid var(--editor-green);background:#f3f6ee;color:var(--editor-green)}
-.nivalShell:has(#card-editor) .colorPick{min-height:145px;align-content:center;justify-items:center;padding:12px;border:1px solid #e0e3dc;border-radius:20px;background:#fff;text-align:center}
-.nivalShell:has(#card-editor) .colorPick input[type=color]{width:64px!important;height:64px!important;min-height:64px!important;padding:5px!important;border:2px solid #e2e4dc!important;border-radius:50%!important;background:#fff!important;cursor:pointer}
-.nivalShell:has(#card-editor) .designContrast{margin:0;padding:13px 16px;border-radius:14px;background:#eff4d7;color:#45613d;font-size:14px;font-weight:650}
-.nivalShell:has(#card-editor) .pointColorLegend{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.nivalShell:has(#card-editor) .pointColorLegend span{padding:14px;border:1px solid #e0e3dc;border-radius:15px;color:#40564a;font-size:14px;font-weight:700}
-.nivalShell:has(#card-editor) .pointColorLegend b{display:block;margin-top:4px;color:#718078;font-size:12px;font-weight:500}
-.nivalShell:has(#card-editor) .logoUpload{min-height:135px;align-content:center;justify-items:center;padding:18px;border:1px dashed #bfc8b8;border-radius:20px;background:#fafbf7;text-align:center}
-.nivalShell:has(#card-editor) .logoUpload input[type=file]{max-width:100%;font-size:12px}
-.nivalShell:has(#card-editor) .logoUpload img{max-height:64px}
-.nivalShell:has(#card-editor) :is(button,input,select,textarea):focus-visible{outline:3px solid #aacb78;outline-offset:3px}
+.nivalShell:has(#card-editor) .visitRuleNote{display:block!important;margin:0!important;padding:18px 20px!important;border:0!important;border-radius:20px!important;background:var(--editor-soft)!important}
+.nivalShell:has(#card-editor) .visitRuleNote span{color:#40574a!important;font-size:15px!important;line-height:1.55!important}
+.nivalShell:has(#card-editor) .automaticBonusField{display:grid!important;gap:14px!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important}
+.nivalShell:has(#card-editor) .automaticBonusToggle,.nivalShell:has(#card-editor) .rewardDisplayList li,.nivalShell:has(#card-editor) .detailSwitch{border:1px solid var(--editor-line)!important;border-radius:21px!important;background:#fff!important}
+.nivalShell:has(#card-editor) .automaticBonusToggle,.nivalShell:has(#card-editor) .detailSwitch{display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:space-between!important;gap:16px!important;min-height:86px!important;margin:0!important;padding:15px 18px!important}
+.nivalShell:has(#card-editor) .automaticBonusToggle>span,.nivalShell:has(#card-editor) .detailSwitch>span{display:grid!important;gap:3px!important}
+.nivalShell:has(#card-editor) .automaticBonusToggle b{color:var(--editor-ink)!important;font-size:18px!important}
+.nivalShell:has(#card-editor) .automaticBonusToggle small,.nivalShell:has(#card-editor) .detailSwitch small{margin:0!important}
+.nivalShell:has(#card-editor) .automaticBonusToggle input[type=checkbox],.nivalShell:has(#card-editor) .detailSwitch input[type=checkbox]{appearance:none!important;position:relative!important;flex:0 0 58px!important;width:58px!important;height:34px!important;min-width:58px!important;min-height:34px!important;margin:0!important;padding:0!important;border:0!important;border-radius:30px!important;background:#c8cdbf!important;cursor:pointer}
+.nivalShell:has(#card-editor) .automaticBonusToggle input[type=checkbox]:after,.nivalShell:has(#card-editor) .detailSwitch input[type=checkbox]:after{position:absolute!important;top:4px!important;left:4px!important;width:26px!important;height:26px!important;border-radius:50%!important;background:#fff!important;box-shadow:0 2px 5px #0002!important;content:""!important;transition:transform .18s!important}
+.nivalShell:has(#card-editor) .automaticBonusToggle input[type=checkbox]:checked,.nivalShell:has(#card-editor) .detailSwitch input[type=checkbox]:checked{background:var(--editor-green)!important}
+.nivalShell:has(#card-editor) .automaticBonusToggle input[type=checkbox]:checked:after,.nivalShell:has(#card-editor) .detailSwitch input[type=checkbox]:checked:after{transform:translateX(24px)!important}
+.nivalShell:has(#card-editor) .assignmentModeLabel{display:grid!important;gap:10px!important;margin:0!important;padding:32px 0 0!important;border:0!important;border-top:1px solid #e4e6df!important;color:var(--editor-ink)!important;font-size:22px!important;font-weight:800!important}
+.nivalShell:has(#card-editor) .assignmentModeLabel select{font-size:16px!important;font-weight:500!important}
+.nivalShell:has(#card-editor) .rewardDisplayList{display:grid!important;gap:16px!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important}
+.nivalShell:has(#card-editor) .rewardDisplayList ol{display:grid!important;gap:12px!important;margin:0!important;padding:0!important;list-style:none!important}
+.nivalShell:has(#card-editor) .rewardDisplayList li{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:16px!important;min-height:94px!important;margin:0!important;padding:16px 18px!important}
+.nivalShell:has(#card-editor) .rewardDisplayList li span{display:grid!important;gap:4px!important}
+.nivalShell:has(#card-editor) .rewardDisplayList li b{color:var(--editor-ink)!important;font-size:18px!important}
+.nivalShell:has(#card-editor) .rewardDisplayList li small{margin:0!important;font-size:14px!important}
+.nivalShell:has(#card-editor) .editorFooter{position:fixed!important;right:0!important;bottom:0!important;left:0!important;z-index:70!important;display:grid!important;grid-template-columns:minmax(120px,.62fr) minmax(0,1.38fr)!important;gap:12px!important;width:100%!important;margin:0!important;padding:16px max(24px,calc((100vw - 1080px)/2)) max(10px,env(safe-area-inset-bottom))!important;border:0!important;border-top:1px solid #e0e2dc!important;border-radius:0!important;background:#fff!important;box-shadow:none!important}
+.nivalShell:has(#card-editor) .editorFooter button{min-height:64px!important;padding:12px 16px!important;border-radius:22px!important;font-size:18px!important;font-weight:800!important}
+.nivalShell:has(#card-editor) .editorFooter .workspaceSecondary{border:1px solid #dce1d8!important;background:#fff!important;color:var(--editor-green)!important}
+.nivalShell:has(#card-editor) .editorFooter .workspacePrimary{border:0!important;background:var(--editor-green)!important;color:#fff!important}
+.nivalShell:has(#card-editor) .editorFooter button:disabled{opacity:.48!important}
+.nivalShell:has(#card-editor) .editorFooter>span{grid-column:1/-1!important;text-align:center!important;font-size:13px!important;color:var(--editor-muted)!important}
+.nivalShell:has(#card-editor) .liveCardPreview{position:static!important;margin:0!important;padding:18px 26px 24px!important;background:var(--editor-paper)!important}
+.nivalShell:has(#card-editor) .previewHeading{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:16px!important;margin:0 0 12px!important}
+.nivalShell:has(#card-editor) .previewHeading small{font-size:12px!important;letter-spacing:.12em!important}
+.nivalShell:has(#card-editor) .previewHeading p,.nivalShell:has(#card-editor) .previewCanvasMeta,.nivalShell:has(#card-editor) .previewFootnote,.nivalShell:has(#card-editor) .previewRewardCaption{display:none!important}
+.nivalShell:has(#card-editor) .previewLive{font-size:13px!important}
+.nivalShell:has(#card-editor) .cardPreviewCanvas{display:block!important;min-height:0!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important}
+.nivalShell:has(#card-editor) .cardPreviewCanvas>.loyaltyCard{width:100%!important;max-width:840px!important;min-height:0!important;aspect-ratio:1.55!important;margin:0 auto!important;padding:24px 26px!important;border-radius:25px!important}
+.nivalShell:has(#card-editor) .cardPreviewCanvas>.loyaltyCard h1{font-size:22px!important}
+.nivalShell:has(#card-editor) .cardPreviewCanvas .cardPointGrid{margin:14px 0!important;gap:8px!important}
+.nivalShell:has(#card-editor) .cardPreviewCanvas .cardQrInside{display:none!important}
+.nivalShell:has(#card-editor) .cardPreviewCanvas>.loyaltyCard footer{margin-top:8px!important;padding-top:8px!important}
+.nivalShell:has(#card-editor) .detailsStep{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:0!important}
+.nivalShell:has(#card-editor) .detailsGroup{display:grid!important;gap:20px!important;margin:0!important;padding:8px 0 28px!important;border:0!important;border-bottom:1px solid #e5e7e1!important;background:transparent!important}
+.nivalShell:has(#card-editor) .detailsGroup+.detailsGroup{padding-top:28px!important}
+.nivalShell:has(#card-editor) .detailsGroup h3{margin:0!important;color:var(--editor-ink)!important;font-size:23px!important;font-weight:800!important}
+.nivalShell:has(#card-editor) .detailsGroup>p{margin:-14px 0 0!important;color:#737e77!important;font-size:14px!important;line-height:1.5!important}
+.nivalShell:has(#card-editor) .choicePills,.nivalShell:has(#card-editor) .visualChoiceGroup{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:4px!important;padding:5px!important;border-radius:20px!important;background:#f0f1e9!important}
+.nivalShell:has(#card-editor) .choicePills button,.nivalShell:has(#card-editor) .visualChoiceGroup button{min-height:52px!important;padding:10px!important;border:0!important;border-radius:15px!important;background:transparent!important;color:#4d5b53!important;font:inherit!important;font-size:15px!important;font-weight:750!important}
+.nivalShell:has(#card-editor) .choicePills button[aria-pressed="true"],.nivalShell:has(#card-editor) .visualChoiceGroup button[aria-pressed="true"]{background:var(--editor-green)!important;color:#fff!important}
+.nivalShell:has(#card-editor) .requiredData{display:flex!important;gap:10px!important;flex-wrap:wrap!important}
+.nivalShell:has(#card-editor) .requiredData span{padding:11px 16px!important;border-radius:30px!important;background:#eff4d7!important;color:#3f5938!important;font-size:14px!important;font-weight:750!important}
+.nivalShell:has(#card-editor) .detailSwitch{min-height:78px!important}
+.nivalShell:has(#card-editor) .detailSwitch b{color:var(--editor-ink)!important;font-size:16px!important}
+.nivalShell:has(#card-editor) .expiryDuration,.nivalShell:has(#card-editor) .detailsTwoCol{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
+.nivalShell:has(#card-editor) .designSectionTitle{margin:0!important;color:var(--editor-ink)!important;font-size:21px!important;font-weight:800!important}
+.nivalShell:has(#card-editor) .designHint{margin:-18px 0 0!important;color:#737e77!important;font-size:14px!important}
+.nivalShell:has(#card-editor) .visualChoiceField{display:grid!important;gap:10px!important;color:var(--editor-ink)!important;font-size:15px!important;font-weight:750!important}
+.nivalShell:has(#card-editor) .visualChoiceGroup{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+.nivalShell:has(#card-editor) .iconChoiceGroup{display:flex!important;gap:10px!important;flex-wrap:wrap!important}
+.nivalShell:has(#card-editor) .iconChoiceGroup button{display:grid!important;width:58px!important;height:58px!important;place-items:center!important;border:1px solid var(--editor-line)!important;border-radius:18px!important;background:#fff!important;color:#63756b!important;font-size:25px!important}
+.nivalShell:has(#card-editor) .iconChoiceGroup button[aria-pressed="true"]{border:2px solid var(--editor-green)!important;background:#f3f6ee!important;color:var(--editor-green)!important}
+.nivalShell:has(#card-editor) .colorPick{display:grid!important;justify-items:center!important;align-content:center!important;gap:10px!important;min-height:145px!important;padding:12px!important;border:1px solid #e0e3dc!important;border-radius:20px!important;background:#fff!important;text-align:center!important}
+.nivalShell:has(#card-editor) .colorPick input[type=color]{width:64px!important;height:64px!important;min-height:64px!important;padding:5px!important;border:2px solid #e2e4dc!important;border-radius:50%!important;background:#fff!important}
+.nivalShell:has(#card-editor) .designContrast{margin:0!important;padding:13px 16px!important;border-radius:14px!important;background:#eff4d7!important;color:#45613d!important;font-size:14px!important;font-weight:650!important}
+.nivalShell:has(#card-editor) .pointColorLegend{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important}
+.nivalShell:has(#card-editor) .pointColorLegend span{padding:14px!important;border:1px solid #e0e3dc!important;border-radius:15px!important;color:#40564a!important;font-size:14px!important;font-weight:700!important}
+.nivalShell:has(#card-editor) .pointColorLegend b{display:block!important;margin-top:4px!important;color:#718078!important;font-size:12px!important;font-weight:500!important}
+.nivalShell:has(#card-editor) .logoUpload{display:grid!important;justify-items:center!important;align-content:center!important;gap:10px!important;min-height:135px!important;padding:18px!important;border:1px dashed #bfc8b8!important;border-radius:20px!important;background:#fafbf7!important;text-align:center!important}
+.nivalShell:has(#card-editor) .logoUpload input[type=file]{max-width:100%!important;font-size:12px!important}
+.nivalShell:has(#card-editor) .logoUpload img{max-height:64px!important}
+.nivalShell:has(#card-editor) :is(button,input,select,textarea):focus-visible{outline:3px solid #aacb78!important;outline-offset:3px!important}
 @media(max-width:760px){
-  .nivalShell:has(#card-editor) .workspaceSidebar{display:none}
-  .nivalShell:has(#card-editor) .workspaceMain{margin:0}
-  .nivalShell:has(#card-editor) .editorTopbar{height:76px;grid-template-columns:58px minmax(0,1fr) 112px;gap:8px;padding:0 14px}
-  .nivalShell:has(#card-editor) .editorTopbar h2{font-size:20px}
-  .nivalShell:has(#card-editor) .editorStatus{padding:9px 12px;font-size:12px}
-  .nivalShell:has(#card-editor) .cardCatalogEditor>header{top:10px;left:14px}
-  .nivalShell:has(#card-editor) .cardCatalogEditor>header .cardReturnButton{width:52px;height:52px;min-height:52px;border-radius:18px}
-  .nivalShell:has(#card-editor) .cardEditorTabs{gap:9px!important;margin:24px 26px 18px!important}
-  .nivalShell:has(#card-editor) .cardEditorTabs button{height:10px;min-height:10px!important}
-  .nivalShell:has(#card-editor) .editorStepIntro{margin:0 26px 24px}
-  .nivalShell:has(#card-editor) .editorStepIntro h3{font-size:clamp(27px,7vw,36px)}
-  .nivalShell:has(#card-editor) .editorStepIntro p{font-size:16px}
-  .nivalShell:has(#card-editor) .cardEditorFields{padding:28px 20px 38px!important;border-radius:28px 28px 0 0!important}
-  .nivalShell:has(#card-editor) .cardEditorFields>.configGrid{gap:24px}
-  .nivalShell:has(#card-editor) .promotionEditor .campaignSegment>label{min-height:82px;padding:14px;border-radius:20px;font-size:16px}
-  .nivalShell:has(#card-editor) .pointsStepper{grid-template-columns:68px minmax(0,1fr) 68px;gap:10px}
-  .nivalShell:has(#card-editor) .pointsStepper button,.nivalShell:has(#card-editor) .pointsStepper input{height:68px!important;min-height:68px!important}
-  .nivalShell:has(#card-editor) .editorFooter{left:0;grid-template-columns:minmax(105px,.65fr) minmax(0,1.35fr);gap:10px;padding:14px 16px calc(10px + env(safe-area-inset-bottom))}
-  .nivalShell:has(#card-editor) .editorFooter button{min-height:58px;border-radius:20px;font-size:16px}
-  .nivalShell:has(#card-editor) .editorFooter span{font-size:12px}
-  .nivalShell:has(#card-editor) .liveCardPreview{padding:16px 20px 22px}
-  .nivalShell:has(#card-editor) .cardPreviewCanvas>.loyaltyCard{aspect-ratio:1.53;padding:20px 18px;border-radius:22px}
-  .nivalShell:has(#card-editor) .cardPreviewCanvas>.loyaltyCard h1{font-size:19px}
-  .nivalShell:has(#card-editor) .cardPreviewCanvas .cardPointGrid{gap:5px;margin:10px 0}
-  .nivalShell:has(#card-editor) .detailsGroup{gap:17px;padding-bottom:24px}
-  .nivalShell:has(#card-editor) .detailsGroup+.detailsGroup{padding-top:24px}
-  .nivalShell:has(#card-editor) .detailsGroup h3,.nivalShell:has(#card-editor) .designSectionTitle{font-size:20px}
-  .nivalShell:has(#card-editor) .colorPick{min-height:120px;font-size:14px}
-  .nivalShell:has(#card-editor) .colorPick input[type=color]{width:56px!important;height:56px!important;min-height:56px!important}
-  .nivalShell:has(#card-editor) .cardEditorFields>.configGrid:has(.designSectionTitle){grid-template-columns:repeat(3,minmax(0,1fr));gap:17px 9px}
-  .nivalShell:has(#card-editor) .detailsTwoCol{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .nivalShell:has(#card-editor) .editorTopbar{height:76px!important;padding:0 14px!important}
+ .nivalShell:has(#card-editor) .editorTopbar h2{font-size:20px!important}
+ .nivalShell:has(#card-editor) .editorBack{width:52px!important;height:52px!important;min-height:52px!important}
+ .nivalShell:has(#card-editor) .editorStatus{padding:9px 12px!important;font-size:12px!important}
+ .nivalShell:has(#card-editor) .cardCatalogEditor>header{left:14px!important;width:52px!important;height:52px!important}
+ .nivalShell:has(#card-editor) .cardCatalogEditor>header .cardReturnButton{width:52px!important;height:52px!important;min-height:52px!important;border-radius:18px!important}
+ .nivalShell:has(#card-editor) .cardEditorTabs{gap:9px!important;margin:24px 26px 18px!important}
+ .nivalShell:has(#card-editor) .cardEditorTabs button{height:10px!important;min-height:10px!important}
+ .nivalShell:has(#card-editor) .editorStepIntro{margin-inline:26px!important}
+ .nivalShell:has(#card-editor) .editorStepIntro h3{font-size:clamp(27px,7vw,36px)!important}
+ .nivalShell:has(#card-editor) .editorStepIntro p{font-size:16px!important}
+ .nivalShell:has(#card-editor) .cardEditorBody{margin-top:30px!important}
+ .nivalShell:has(#card-editor) .cardEditorFields{padding:28px 26px 38px!important;border-radius:28px 28px 0 0!important}
+ .nivalShell:has(#card-editor) .cardEditorFields>.configGrid{gap:24px!important}
+ .nivalShell:has(#card-editor) .promotionEditor .campaignSegment>label{min-height:82px!important;padding:14px!important;border-radius:20px!important;font-size:16px!important}
+ .nivalShell:has(#card-editor) .pointsStepper{grid-template-columns:68px minmax(0,1fr) 68px!important;gap:10px!important}
+ .nivalShell:has(#card-editor) .pointsStepper button,.nivalShell:has(#card-editor) .pointsStepper input{height:68px!important;min-height:68px!important}
+ .nivalShell:has(#card-editor) .editorFooter{grid-template-columns:minmax(105px,.65fr) minmax(0,1.35fr)!important;gap:10px!important;padding:14px 16px max(10px,env(safe-area-inset-bottom))!important}
+ .nivalShell:has(#card-editor) .editorFooter button{min-height:58px!important;border-radius:20px!important;font-size:16px!important}
+ .nivalShell:has(#card-editor) .liveCardPreview{padding:16px 20px 22px!important}
+ .nivalShell:has(#card-editor) .cardPreviewCanvas>.loyaltyCard{aspect-ratio:1.53!important;padding:20px 18px!important;border-radius:22px!important}
+ .nivalShell:has(#card-editor) .cardPreviewCanvas>.loyaltyCard h1{font-size:19px!important}
+ .nivalShell:has(#card-editor) .cardPreviewCanvas .cardPointGrid{gap:5px!important;margin:10px 0!important}
+ .nivalShell:has(#card-editor) .detailsGroup{gap:17px!important;padding-bottom:24px!important}
+ .nivalShell:has(#card-editor) .detailsGroup+.detailsGroup{padding-top:24px!important}
+ .nivalShell:has(#card-editor) .detailsGroup h3,.nivalShell:has(#card-editor) .designSectionTitle{font-size:20px!important}
+ .nivalShell:has(#card-editor) .colorPick{min-height:120px!important;font-size:14px!important}
+ .nivalShell:has(#card-editor) .colorPick input[type=color]{width:56px!important;height:56px!important;min-height:56px!important}
+ .nivalShell:has(#card-editor) .cardEditorFields>.configGrid:has(.designSectionTitle){grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:17px 9px!important}
+ .nivalShell:has(#card-editor) .detailsTwoCol{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}
 }
-@media(max-width:390px){
-  .nivalShell:has(#card-editor) .editorTopbar{grid-template-columns:48px minmax(0,1fr) 94px;padding-inline:10px}
-  .nivalShell:has(#card-editor) .editorTopbar h2{font-size:18px}
-  .nivalShell:has(#card-editor) .editorStatus{gap:6px;padding:8px 9px;font-size:11px}
-  .nivalShell:has(#card-editor) .cardEditorTabs{margin-inline:18px!important}
-  .nivalShell:has(#card-editor) .editorStepIntro{margin-inline:18px}
-  .nivalShell:has(#card-editor) .editorStepIntro h3{font-size:27px}
-  .nivalShell:has(#card-editor) .editorFooter{padding-inline:10px}
+@media(max-width:420px){
+ .nivalShell:has(#card-editor) .editorTopbar{padding-inline:10px!important}
+ .nivalShell:has(#card-editor) .editorTopbar h2{font-size:18px!important}
+ .nivalShell:has(#card-editor) .cardCatalogEditor>header{left:10px!important;width:46px!important;height:46px!important}
+ .nivalShell:has(#card-editor) .cardCatalogEditor>header .cardReturnButton{width:46px!important;height:46px!important;min-height:46px!important;border-radius:16px!important}
+ .nivalShell:has(#card-editor) .editorStepIntro,.nivalShell:has(#card-editor) .cardEditorTabs{margin-inline:20px!important}
+ .nivalShell:has(#card-editor) .cardEditorFields{padding-inline:20px!important}
 }
