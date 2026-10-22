@@ -813,6 +813,19 @@
  .nivalShell .nivalCardEditor .detailsTwoCol{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
 }
 
+/* Keep the card editor itself as the mobile page, matching the supplied screens. */
+@media(max-width:760px){
+ .nivalShell:has(.nivalCardEditor) .workspaceContent{max-width:none!important;margin:0!important;padding:0!important;background:#f3f2ed!important}
+ .nivalShell:has(.nivalCardEditor) .workspacePageHeading,
+ .nivalShell:has(.nivalCardEditor) .workspaceFloatingMenu,
+ .nivalShell:has(.nivalCardEditor) .workspaceFooter{display:none!important}
+ .nivalShell:has(.nivalCardEditor) .cardWorkspace{margin:0!important;padding:0!important}
+ .nivalShell:has(.nivalCardEditor) .cardWorkspace>button{display:none!important}
+ .nivalShell .nivalCardEditor{max-width:none!important;margin:0!important;padding:0!important}
+ .nivalShell .nivalCardEditor .editorTopbar{margin:0!important}
+ .nivalShell .nivalCardEditor .editorFooter{margin:0!important;border-right:0!important;border-bottom:0!important;border-left:0!important;border-radius:0!important;box-shadow:none!important}
+}
+
 /* Dashboard refinements: one surface per block, with quiet rows inside. */
 .nivalShell .startGuide{margin:0 0 18px;padding:clamp(22px,4vw,38px);border:1px solid #dce6dc;border-radius:20px;background:linear-gradient(145deg,#fff 0%,#f6f9f4 100%);box-shadow:0 12px 32px #1d3b2a0a}
 .startGuideHeading{align-items:center;margin-bottom:0}
