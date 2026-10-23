@@ -1673,11 +1673,11 @@ body{background:var(--nival-cream);color:var(--nival-text)}
 .nivalCustomerFlow .customerStampProgress{display:grid;gap:8px;padding-top:2px}
 .nivalCustomerFlow .customerStampLegend{margin:0;color:var(--card-text);font-size:12px;font-weight:600;line-height:1.35;text-align:center;opacity:.9}
 .nivalCustomerFlow .customerStampGrid{
- display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;
- width:min(100%,340px);margin:0 auto!important
+ display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;
+ width:min(calc(100% + 24px),380px);margin:0 0 0 -12px!important
 }
 .nivalCustomerFlow .customerStampGrid i{
- min-width:0;max-width:64px;width:100%;font-size:18px
+ min-width:0;max-width:72px;width:100%;font-size:20px;transform:scale(1.1)
 }
 .nivalCustomerFlow .customerStampProgress{display:grid;gap:8px;padding-top:2px}
 .nivalCustomerFlow .customerStampLegend{margin:0;color:var(--card-text);font-size:12px;font-weight:600;line-height:1.35;text-align:center;opacity:.9}
