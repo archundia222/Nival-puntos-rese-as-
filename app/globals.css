@@ -1681,7 +1681,7 @@ body{background:var(--nival-cream);color:var(--nival-text)}
 .nivalCustomerFlow .customerLoyaltyCard.cardPulse .customerStampGrid i.isFilled{animation:nivalStampPop .38s ease both}
 @keyframes nivalStampPop{50%{transform:scale(1.14)}}
 .nivalCustomerFlow .customerQrPanel{
- display:grid;grid-template-columns:minmax(88px,112px) minmax(0,1fr);align-items:center;
+ display:grid;grid-template-columns:minmax(116px,140px) minmax(0,1fr);align-items:center;
  gap:12px;padding:12px;border:1px solid #e6e9e5;border-radius:16px;background:#fff;color:#18251f
 }
 .nivalCustomerFlow .customerQrPanel>img{
@@ -1689,7 +1689,7 @@ body{background:var(--nival-cream);color:var(--nival-text)}
 }
 .nivalCustomerFlow .customerQrCode{display:grid;justify-items:start;gap:7px;min-width:0}
 .nivalCustomerFlow .customerQrCode>span{color:#68736d;font-size:11px;font-weight:650}
-.nivalCustomerFlow .customerQrCode>strong{color:#15221b;font-size:clamp(17px,5vw,22px);font-weight:850;letter-spacing:.12em;overflow-wrap:anywhere}
+.nivalCustomerFlow .customerQrCode>strong{color:#15221b;font-size:clamp(20px,6vw,26px);font-weight:850;letter-spacing:.06em;overflow-wrap:anywhere}
 .nivalCustomerFlow .customerQrCode>button{
  min-height:38px;padding:7px 14px;border:0;border-radius:10px;
  background:var(--card-color,#164d3b);color:var(--card-text,#fff);font-size:13px;font-weight:800
@@ -1756,7 +1756,7 @@ body{background:var(--nival-cream);color:var(--nival-text)}
  .nivalCustomerFlow .customerLoyaltyCard{padding:16px;border-radius:20px;gap:13px}
  .nivalCustomerFlow .customerBrand .cardLogo,.nivalCustomerFlow .customerBrand .cardMonogram{width:40px;height:40px;flex-basis:40px}
  .nivalCustomerFlow .customerLoyaltyCard .cardExpiry{max-width:45%;font-size:9px;padding:6px 7px}
- .nivalCustomerFlow .customerQrPanel{grid-template-columns:minmax(78px,92px) minmax(0,1fr);gap:9px;padding:9px}
+ .nivalCustomerFlow .customerQrPanel{grid-template-columns:minmax(100px,112px) minmax(0,1fr);gap:9px;padding:9px}
  .nivalCustomerFlow .customerActivityPanel{padding:14px}
  .nivalCustomerFlow .customerActivityTabs button{font-size:11px}
 }
