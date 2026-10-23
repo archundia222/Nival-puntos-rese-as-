@@ -17,20 +17,27 @@ test('card designs edit live, accept owned image assets, and render on the custo
   assert.ok(!editor.includes('Guardar ahora'));
   assert.ok(action.includes('card_design: cardDesign'));
   assert.ok(action.includes("(coalesce(programs.rules, '{}'::jsonb)-'catalog_only') || excluded.rules"));
-  assert.ok(customerCard.includes('card_design?.background'));
-  assert.ok(customerCard.includes('card_design?.footer'));
+  assert.ok(customerCard.includes('business.program?.color'));
+  assert.ok(customerCard.includes('readableCardText'));
+  assert.ok(customerCard.includes('design.background'));
+  assert.ok(customerCard.includes('design.footer'));
 });
 
 test('customer loyalty card has one shared scan code, automatic balance refresh, and reward status history', () => {
-  assert.equal((customerCard.match(/className="cardQrInside"/g) || []).length, 1);
+  assert.equal((customerCard.match(/className="customerQrPanel"/g) || []).length, 1);
   assert.equal((customerCard.match(/src=\{qr\}/g) || []).length, 1);
   assert.ok(customerCard.includes('setInterval(automatic, 6000)'));
-  assert.ok(customerCard.includes('className="cardManualCode"'));
+  assert.ok(customerCard.includes('className="customerQrCode"'));
+  assert.ok(customerCard.includes('onClick={copyCode}>Copiar'));
   assert.ok(!customerCard.includes('UN SOLO CÓDIGO PARA PUNTOS Y PREMIOS'));
   assert.ok(!customerCard.includes('personalQr'));
   assert.ok(!customerCard.includes('Actualizar mis puntos'));
-  assert.ok(customerCard.includes('Premios disponibles') && customerCard.includes('Canjes'));
-  assert.ok(customerCard.includes('Tu próximo premio') && customerCard.includes('puntos restantes'));
+  assert.ok(customerCard.includes('activityTab==="points"'));
+  assert.ok(customerCard.includes('activityTab==="redemptions"'));
+  assert.ok(customerCard.includes('activityTab==="rewards"'));
+  assert.ok(customerCard.includes('customerProgressCount'));
+  assert.ok(customerCard.includes('Te faltan '));
+  assert.ok(!customerCard.includes('customerRewardSummary'));
 });
 
 test('automation groundwork only adds fields and review state storage', () => {
