@@ -1673,21 +1673,21 @@ body{background:var(--nival-cream);color:var(--nival-text)}
 .nivalCustomerFlow .customerStampProgress{display:grid;gap:8px;padding-top:2px}
 .nivalCustomerFlow .customerStampLegend{margin:0;color:var(--card-text);font-size:12px;font-weight:600;line-height:1.35;text-align:center;opacity:.9}
 .nivalCustomerFlow .customerStampGrid{
- display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;
- width:min(100%,360px);margin:0 auto!important
+ display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;
+ width:min(100%,400px);margin:0 auto!important
 }
 .nivalCustomerFlow .customerStampGrid i{
- min-width:0;max-width:64px;width:100%;font-size:19px
+ min-width:0;max-width:84px;width:100%;font-size:23px
 }
 .nivalCustomerFlow .customerStampGrid i.isFilled{animation:none}
 .nivalCustomerFlow .customerLoyaltyCard.cardPulse .customerStampGrid i.isFilled{animation:nivalStampPop .38s ease both}
 @keyframes nivalStampPop{50%{transform:scale(1.14)}}
 .nivalCustomerFlow .customerQrPanel{
  display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;text-align:center;
- gap:10px;padding:16px;border:1px solid #e6e9e5;border-radius:16px;background:#fff;color:#18251f
+ gap:10px;padding:8px;border:1px solid #e6e9e5;border-radius:16px;background:#fff;color:#18251f
 }
 .nivalCustomerFlow .customerQrPanel>img{
- display:block;width:min(100%,204px);max-width:204px;aspect-ratio:1;object-fit:contain;padding:7px;justify-self:center;border-radius:10px;background:#fff
+ display:block;width:min(100%,204px);max-width:204px;aspect-ratio:1;object-fit:contain;padding:2px;justify-self:center;border-radius:10px;background:#fff
 }
 .nivalCustomerFlow .customerQrCode{display:grid;justify-items:center;gap:7px;min-width:0;width:100%;text-align:center}
 .nivalCustomerFlow .customerQrCode>span{color:#68736d;font-size:11px;font-weight:650}
@@ -1754,11 +1754,14 @@ body{background:var(--nival-cream);color:var(--nival-text)}
 .nivalCustomerFlow .cardHelp summary{font-size:13px;color:#5f6c64}
 .nivalCustomerFlow .customerCardDetails{margin:0;padding:16px}
 .nivalCustomerFlow .customerLoading{margin:0;padding:20px;color:#68736d}
+@media(min-width:700px){
+ .nivalCustomerFlow .customerStampGrid{grid-template-columns:repeat(5,minmax(0,1fr))}
+}
 @media(max-width:380px){
  .nivalCustomerFlow .customerLoyaltyCard{padding:16px;border-radius:20px;gap:13px}
  .nivalCustomerFlow .customerBrand .cardLogo,.nivalCustomerFlow .customerBrand .cardMonogram{width:40px;height:40px;flex-basis:40px}
  .nivalCustomerFlow .customerLoyaltyCard .cardExpiry{max-width:45%;font-size:9px;padding:6px 7px}
- .nivalCustomerFlow .customerQrPanel{grid-template-columns:minmax(0,1fr);gap:10px;padding:14px}
+ .nivalCustomerFlow .customerQrPanel{grid-template-columns:minmax(0,1fr);gap:10px;padding:8px}
  .nivalCustomerFlow .customerQrPanel>img{width:min(100%,190px);max-width:190px}
  .nivalCustomerFlow .customerActivityPanel{padding:14px}
  .nivalCustomerFlow .customerActivityTabs button{font-size:11px}
