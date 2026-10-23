@@ -1670,6 +1670,8 @@ body{background:var(--nival-cream);color:var(--nival-text)}
  font-size:14px;font-weight:800
 }
 .nivalCustomerFlow .customerRedeemNotice{margin:0;color:var(--card-text);font-size:12px;line-height:1.4}
+.nivalCustomerFlow .customerStampProgress{display:grid;gap:8px;padding-top:2px}
+.nivalCustomerFlow .customerStampLegend{margin:0;color:var(--card-text);font-size:12px;font-weight:600;line-height:1.35;text-align:center;opacity:.9}
 .nivalCustomerFlow .customerStampGrid{
  display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;
  width:min(100%,340px);margin:0 auto!important
