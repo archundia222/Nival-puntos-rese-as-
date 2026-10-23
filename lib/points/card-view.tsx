@@ -137,7 +137,7 @@ export function CardView({
 
         {card.name&&<p className="cardMemberName">{card.name}</p>}
 
-        <section className="customerProgressBlock" aria-labelledby="customer-progress-heading">
+        {design.pointView==="bar"&&<section className="customerProgressBlock" aria-labelledby="customer-progress-heading">
           <div className="customerProgressHeader">
             <div>
               <p id="customer-progress-heading" className="customerCardEyebrow">TU PROGRESO</p>
@@ -147,7 +147,7 @@ export function CardView({
             </div>
             {goal>0&&<span className="customerProgressPercent">{progressPct}%</span>}
           </div>
-          {design.pointView==="bar"&&goal>0&&<progress className="customerProgressBar" max={goal} value={Math.min(points,goal)} aria-label={Math.min(points,goal)+" de "+goal+" puntos"} />}
+          {goal>0&&<progress className="customerProgressBar" max={goal} value={Math.min(points,goal)} aria-label={Math.min(points,goal)+" de "+goal+" puntos"} />}
           <p className="customerNextRewardText">
             {!card.reward?"Premio pendiente de configuración"
               :ready?"Premio disponible: "+card.reward.name
@@ -156,15 +156,29 @@ export function CardView({
           </p>
           {ready&&<button className="customerRedeemButton" type="button" onClick={goToRedeem}>Canjear</button>}
           {redeemNotice&&<p className="customerRedeemNotice" role="status">Muestra tu QR o código al personal para completar el canje.</p>}
-        </section>
+        </section>}
 
-        {design.pointView!=="bar"&&goal>0&&<div className="cardPointGrid customerStampGrid" aria-label={filledDots+" de "+visibleDots+" indicadores visuales; "+Math.min(points,goal)+" de "+goal+" puntos reales"}>
-          {Array.from({length:visibleDots},(_,i)=><i key={i} className={i<filledDots?"isFilled":""}>
-            {i<filledDots
-              ? design.pointFilledIcon==="image"&&design.stampImage?<img src={design.stampImage} alt=""/>:design.pointFilledIcon==="star"?"★":"✓"
-              : design.pointIcon==="star"?"☆":design.pointIcon==="heart"?"♡":design.pointIcon==="coffee"?"☕":"○"}
-          </i>)}
-        </div>}
+        {design.pointView!=="bar"&&goal>0&&<section className="customerStampProgress" aria-label="Tu progreso con sellos">
+          <div className="cardPointGrid customerStampGrid" aria-label={filledDots+" de "+visibleDots+" indicadores visuales; "+Math.min(points,goal)+" de "+goal+" puntos reales"}>
+            {Array.from({length:visibleDots},(_,i)=><i key={i} className={i<filledDots?"isFilled":""}>
+              {i<filledDots
+                ? design.pointFilledIcon==="image"&&design.stampImage?<img src={design.stampImage} alt=""/>:design.pointFilledIcon==="star"?"★":"✓"
+                : design.pointIcon==="star"?"☆":design.pointIcon==="heart"?"♡":design.pointIcon==="coffee"?"☕":"○"}
+            </i>)}
+          </div>
+          <p className="customerStampLegend">
+            {ready?"Premio disponible: "+card.reward.name
+              :complete?"Meta alcanzada; este premio ya no está vigente"
+              :"Te faltan "+Math.max(goal-points,0)+" puntos para: "+(card.reward?.name||"tu premio")}
+          </p>
+          {ready&&<button className="customerRedeemButton" type="button" onClick={goToRedeem}>Canjear</button>}
+          {redeemNotice&&<p className="customerRedeemNotice" role="status">Muestra tu QR o código al personal para completar el canje.</p>}
+        </section>}
+
+        {goal===0&&design.pointView!=="bar"&&<section className="customerProgressBlock" aria-label="Progreso pendiente">
+          <strong className="customerProgressPending">Meta pendiente</strong>
+        </section>}
+
 
         {(hasQr||manualCode)&&<section className="customerQrPanel" id="customer-card-qr" aria-label="Tu código de cliente">
           {hasQr&&<img src={qr} alt="QR para sumar visitas y canjear premios"/>}
