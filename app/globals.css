@@ -1672,7 +1672,8 @@ body{background:var(--nival-cream);color:var(--nival-text)}
 .nivalCustomerFlow .customerRedeemNotice{margin:0;color:var(--card-text);font-size:12px;line-height:1.4}
 .nivalCustomerFlow .customerStampProgress{display:grid;gap:8px;padding-top:2px}
 .nivalCustomerFlow .customerStampLegend{margin:0;color:var(--card-text);font-size:12px;font-weight:600;line-height:1.35;text-align:center;opacity:.9}
-.nivalCustomerFlow .customerStampGrid{
+.nivalCustomerFlow .customerStampGrid,
+.nivalCustomerFlow .nivalConfiguredCard .cardPointGrid{
  display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;
  width:100%;max-width:none;margin:0!important
 }
