@@ -1673,96 +1673,33 @@ body{background:var(--nival-cream);color:var(--nival-text)}
 .nivalCustomerFlow .customerStampProgress{display:grid;gap:8px;padding-top:2px}
 .nivalCustomerFlow .customerStampLegend{margin:0;color:var(--card-text);font-size:12px;font-weight:600;line-height:1.35;text-align:center;opacity:.9}
 .nivalCustomerFlow .customerStampGrid{
- display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;
- width:min(100%,400px);margin:0 auto!important
+ display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;
+ width:min(calc(100% + 24px),420px);margin:0 0 0 -12px!important
 }
 .nivalCustomerFlow .customerStampGrid i{
- min-width:0;max-width:84px;width:100%;font-size:23px
+ min-width:0;max-width:78px;width:100%;font-size:24px
 }
 .nivalCustomerFlow .customerStampGrid i.isFilled{animation:none}
 .nivalCustomerFlow .customerLoyaltyCard.cardPulse .customerStampGrid i.isFilled{animation:nivalStampPop .38s ease both}
 @keyframes nivalStampPop{50%{transform:scale(1.14)}}
+.nivalCustomerFlow .customerStampProgress{display:grid;gap:8px;padding-top:2px}
+.nivalCustomerFlow .customerStampLegend{margin:0;color:var(--card-text);font-size:12px;font-weight:600;line-height:1.35;text-align:center;opacity:.9}
 .nivalCustomerFlow .customerQrPanel{
  display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;text-align:center;
- gap:10px;padding:8px;border:1px solid #e6e9e5;border-radius:16px;background:#fff;color:#18251f
+ gap:10px;padding:12px;border:1px solid #e6e9e5;border-radius:16px;background:#fff;color:#18251f
 }
 .nivalCustomerFlow .customerQrPanel>img{
- display:block;width:min(100%,204px);max-width:204px;aspect-ratio:1;object-fit:contain;padding:2px;justify-self:center;border-radius:10px;background:#fff
+ display:block;width:min(100%,204px);max-width:204px;aspect-ratio:1;object-fit:contain;padding:4px;justify-self:center;border-radius:10px;background:#fff
 }
 .nivalCustomerFlow .customerQrCode{display:grid;justify-items:center;gap:7px;min-width:0;width:100%;text-align:center}
 .nivalCustomerFlow .customerQrCode>span{color:#68736d;font-size:11px;font-weight:650}
 .nivalCustomerFlow .customerQrCode>strong{color:#15221b;font-size:clamp(20px,5.8vw,25px);font-weight:850;letter-spacing:.04em;overflow-wrap:anywhere}
-.nivalCustomerFlow .customerQrCode>button{
- min-height:38px;padding:7px 14px;border:0;border-radius:10px;
- background:var(--card-color,#164d3b);color:var(--card-text,#fff);font-size:13px;font-weight:800
-}
-.nivalCustomerFlow .customerQrCode>small{color:#53625a;font-size:11px;line-height:1.35}
-.nivalCustomerFlow .customerLoyaltyCard .customerCardFooter{
- display:block;margin:0;padding:10px 0 0;border-top:1px solid color-mix(in srgb,var(--card-text,#fff) 22%,transparent);
- color:var(--card-text);font-size:11px;line-height:1.4;text-align:left
-}
-.nivalCustomerFlow .customerActivityPanel{display:grid;gap:14px;margin:0;padding:16px;border:1px solid #e1e7e3;border-radius:20px;background:#fff;color:#172b23;box-shadow:0 5px 18px #172b2310}
-.nivalCustomerFlow .customerActivityHeading{display:flex;align-items:center;justify-content:space-between}
-.nivalCustomerFlow .customerActivityHeading h2{margin:3px 0 0;color:#172b23;font-size:20px;line-height:1.2;letter-spacing:-.025em}
-.nivalCustomerFlow .customerActivityTabs{
- display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:4px;
- border-radius:13px;background:#f0f3f1
-}
-.nivalCustomerFlow .customerActivityTabs button{
- display:flex;align-items:center;justify-content:center;gap:5px;min-height:40px;padding:7px 5px;
- border:0;border-radius:10px;background:transparent;color:#58665e;font-size:12px;font-weight:700
-}
-.nivalCustomerFlow .customerActivityTabs button[aria-selected="true"]{background:#fff;color:#173f2d;box-shadow:0 1px 4px #172b2315}
-.nivalCustomerFlow .customerActivityTabs button span{
- display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 4px;border-radius:99px;
- background:#edf1ed;color:#66736d;font-size:10px
-}
-.nivalCustomerFlow .customerActivityContent{min-width:0}
-.nivalCustomerFlow .customerActivityList{display:grid}
-.nivalCustomerFlow .customerActivityItem{
- display:grid;grid-template-columns:36px minmax(0,1fr) auto;align-items:center;gap:10px;
- min-height:58px;padding:9px 0;border-bottom:1px solid #edf0ee
-}
-.nivalCustomerFlow .customerActivityItem:last-child{border-bottom:0}
-.nivalCustomerFlow .customerActivityItem>img,
-.nivalCustomerFlow .customerActivityItem>span{
- display:grid;width:36px;height:36px;place-items:center;border-radius:11px;object-fit:cover;
- background:#f0f3f1;color:#145c3d;font-size:16px;font-weight:800
-}
-.nivalCustomerFlow .customerActivityItem>div{display:grid;gap:3px;min-width:0}
-.nivalCustomerFlow .customerActivityItem>div strong{color:#20352a;font-size:13px;line-height:1.3;overflow-wrap:anywhere}
-.nivalCustomerFlow .customerActivityItem>div small{color:#6b7770;font-size:10px;line-height:1.35}
-.nivalCustomerFlow .customerActivityItem>b{color:#53665a;font-size:10px;text-align:right}
-.nivalCustomerFlow .customerActivityItem.isAvailable{margin:0 -8px;padding:10px 8px;border:1px solid #d8e9b6;border-radius:13px;background:#f5f9e9}
-.nivalCustomerFlow .customerActivityItem.isAvailable>button{
- min-height:36px;padding:7px 10px;border:0;border-radius:9px;background:#173f2d;color:#fff;font-size:12px;font-weight:800
-}
-.nivalCustomerFlow .customerHistoryEmpty{
- display:grid;grid-template-columns:28px minmax(0,1fr);align-items:center;gap:9px;
- margin:0;padding:12px 0;border:0;background:transparent;color:#65736b;font-size:12px;line-height:1.4
-}
-.nivalCustomerFlow .customerHistoryEmpty>span{
- display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#edf3e8;color:#49723a;font-size:14px
-}
-.nivalCustomerFlow .customerHistoryEmpty strong{font-size:12px;font-weight:600}
-.nivalCustomerFlow .customerActivityPanel .customerHistoryTimeline{margin:0}
-.nivalCustomerFlow .customerActivityPanel .customerHistoryTimeline li:last-child{border-bottom:0}
-.nivalCustomerFlow .cardHelp{
- display:block;margin:0;padding:14px 16px;border:1px solid #e1e7e3;border-radius:14px;
- background:#fafbfa;box-shadow:none
-}
-.nivalCustomerFlow .cardHelp summary{font-size:13px;color:#5f6c64}
-.nivalCustomerFlow .customerCardDetails{margin:0;padding:16px}
-.nivalCustomerFlow .customerLoading{margin:0;padding:20px;color:#68736d}
-@media(min-width:700px){
- .nivalCustomerFlow .customerStampGrid{grid-template-columns:repeat(5,minmax(0,1fr))}
-}
 @media(max-width:380px){
  .nivalCustomerFlow .customerLoyaltyCard{padding:16px;border-radius:20px;gap:13px}
  .nivalCustomerFlow .customerBrand .cardLogo,.nivalCustomerFlow .customerBrand .cardMonogram{width:40px;height:40px;flex-basis:40px}
  .nivalCustomerFlow .customerLoyaltyCard .cardExpiry{max-width:45%;font-size:9px;padding:6px 7px}
- .nivalCustomerFlow .customerQrPanel{grid-template-columns:minmax(0,1fr);gap:10px;padding:8px}
- .nivalCustomerFlow .customerQrPanel>img{width:min(100%,190px);max-width:190px}
+ .nivalCustomerFlow .customerQrPanel{grid-template-columns:minmax(0,1fr);gap:10px;padding:12px}
+ .nivalCustomerFlow .customerQrPanel>img{width:min(100%,204px);max-width:204px}
  .nivalCustomerFlow .customerActivityPanel{padding:14px}
  .nivalCustomerFlow .customerActivityTabs button{font-size:11px}
 }
