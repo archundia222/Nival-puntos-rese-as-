@@ -1591,7 +1591,7 @@ body{background:var(--nival-cream);color:var(--nival-text)}
 .nivalCustomerFlow .customerLoyaltyCard{
  display:grid;
  align-content:start;
- gap:16px;
+ gap:22px;
  width:100%;
  min-height:0!important;
  padding:20px;
@@ -1611,7 +1611,7 @@ body{background:var(--nival-cream);color:var(--nival-text)}
  display:flex;
  align-items:flex-start;
  justify-content:space-between;
- gap:10px;
+ gap:14px;
  min-height:0;
 }
 .nivalCustomerFlow .customerBrand{display:flex;align-items:center;gap:10px;min-width:0}
@@ -1674,13 +1674,13 @@ body{background:var(--nival-cream);color:var(--nival-text)}
 .nivalCustomerFlow .customerStampLegend{margin:0;color:var(--card-text);font-size:12px;font-weight:600;line-height:1.35;text-align:center;opacity:.9}
 .nivalCustomerFlow .customerStampGrid,
 .nivalCustomerFlow .nivalConfiguredCard .cardPointGrid{
- display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;
+ display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr));row-gap:18px;column-gap:12px;
  width:100%;max-width:none;margin:0!important
 }
 .nivalCustomerFlow .customerStampGrid i{
  min-width:0;max-width:none;width:82%;aspect-ratio:1;justify-self:center;font-size:clamp(20px,5vw,30px);transform:none
 }
-.nivalCustomerFlow .customerStampProgress{display:grid;gap:8px;padding-top:2px}
+.nivalCustomerFlow .customerStampProgress{display:grid;gap:14px;padding-top:2px}
 .nivalCustomerFlow .customerStampLegend{margin:0;color:var(--card-text);font-size:12px;font-weight:600;line-height:1.35;text-align:center;opacity:.9}
 .nivalCustomerFlow .customerQrPanel{
  display:grid;grid-template-columns:minmax(140px,1fr) minmax(0,1fr);align-items:center;
