@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { WalletButton } from "../wallet/button";
 import { ActionForm } from "../foundation/forms";
 import { Hidden } from "../foundation/fields";
-import {cardColor,readableCardText} from "./card-color";
+import {cardColor} from "./card-color";
 import { chooseGoal } from "../foundation/actions";
 export function CardView({
   business,
@@ -81,7 +81,7 @@ export function CardView({
     ready = goal > 0 && points >= goal && card.reward_redeemable !== false;
   const visibleDots=Math.min(goal||10,20),filledDots=Math.min(Math.round((points/Math.max(goal,1))*visibleDots),visibleDots),progressPct=goal>0?Math.min(100,Math.round(points/goal*100)):0;
   const baseCardColor=design.theme==="minimal"?"#ffffff":design.theme==="noche"?"#17352f":design.theme==="botanico"?"#315641":cardColor(business.program?.color);
-  const configuredStyle={"--card-color":baseCardColor,"--card-text":design.theme==="minimal"?(design.textColor||"#17352f"):readableCardText(design.textColor,baseCardColor),"--card-accent":design.secondaryColor||"#cfe87a","--point-active":design.pointActive||design.secondaryColor||"#cfe87a","--point-idle":design.pointInactive||"#ffffff35"} as React.CSSProperties;
+  const configuredStyle={"--card-color":baseCardColor,"--card-text":design.textColor||"#17352f","--card-accent":design.secondaryColor||"#cfe87a","--point-active":design.pointActive||design.secondaryColor||"#cfe87a","--point-idle":design.pointInactive||"#ffffff35"} as React.CSSProperties;
   const manualCode=card.manual_code||String(card.id).slice(-8).toUpperCase();
   const availableRewards=card.available_rewards||[], redeemedRewards=card.redeemed_rewards||[];
   const validityMode=(business.program?.redemption_mode|| (design.rewardExpiryMode==="duration"?"validity":"immediate"))==="validity";
@@ -144,7 +144,7 @@ export function CardView({
           <span className="cardExpiry">{design.expiryMonths?`Puntos válidos ${design.expiryMonths} meses`:"Los puntos no caducan"}</span>
         </div>
         <p className="cardMemberName">{card.name}</p>
-        <div className="cardPointGrid" aria-label={points + " de " + goal + " puntos acumulados"}>{Array.from({length:visibleDots},(_,i)=><i key={i} className={i<filledDots?"isFilled":""}>{i<filledDots?(design.pointFilledIcon==="image"&&design.stampImage?<img src={design.stampImage} alt=""/>:design.pointFilledIcon==="star"?"★":"✓"):(design.pointIcon==="star"?"☆":design.pointIcon==="heart"?"♡":design.pointIcon==="coffee"?"☕":"○")}</i>)}</div>
+        {design.pointView==="bar"?<div className="cardNumbers compact progressView" role="progressbar" aria-label="Avance para el próximo premio" aria-valuemin={0} aria-valuemax={Math.max(goal,1)} aria-valuenow={Math.min(points,Math.max(goal,1))}><strong>{points}</strong><span>de {goal} puntos</span><div className="cardProgress"><i style={{width:progressPct+"%"}}/></div></div>:<div className="cardPointGrid" aria-label={points + " de " + goal + " puntos acumulados"}>{Array.from({length:visibleDots},(_,i)=><i key={i} className={i<filledDots?"isFilled":""}>{i<filledDots?(design.pointFilledIcon==="image"&&design.stampImage?<img src={design.stampImage} alt=""/>:design.pointFilledIcon==="star"?"★":"✓"):(design.pointIcon==="star"?"☆":design.pointIcon==="heart"?"♡":design.pointIcon==="coffee"?"☕":"○")}</i>)}</div>}
         <div className="cardQrInside"><img src={qr} alt="QR para sumar visitas y canjear premios"/><div><span>Tu código</span><span className="cardManualCode">{manualCode}</span></div></div>
         <footer><span>{business.program?.rules?.card_design?.footer || "Un lugar al que vale la pena volver."}</span></footer>
         {pointMessage&&<span className="pointCongrats" role="status" aria-live="polite">{pointMessage}</span>}
