@@ -114,7 +114,6 @@
 .nivalShell:has(#card-editor) .iconChoiceGroup button[aria-pressed="true"]{border:2px solid var(--editor-green)!important;background:#f3f6ee!important;color:var(--editor-green)!important}
 .nivalShell:has(#card-editor) .colorPick{display:grid!important;justify-items:center!important;align-content:center!important;gap:10px!important;min-height:145px!important;padding:12px!important;border:1px solid #e0e3dc!important;border-radius:20px!important;background:#fff!important;text-align:center!important}
 .nivalShell:has(#card-editor) .colorPick input[type=color]{width:64px!important;height:64px!important;min-height:64px!important;padding:5px!important;border:2px solid #e2e4dc!important;border-radius:50%!important;background:#fff!important}
-.nivalShell:has(#card-editor) .designContrast{margin:0!important;padding:13px 16px!important;border-radius:14px!important;background:#eff4d7!important;color:#45613d!important;font-size:14px!important;font-weight:650!important}
 .nivalShell:has(#card-editor) .pointColorLegend{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important}
 .nivalShell:has(#card-editor) .pointColorLegend span{padding:14px!important;border:1px solid #e0e3dc!important;border-radius:15px!important;color:#40564a!important;font-size:14px!important;font-weight:700!important}
 .nivalShell:has(#card-editor) .pointColorLegend b{display:block!important;margin-top:4px!important;color:#718078!important;font-size:12px!important;font-weight:500!important}
@@ -224,3 +223,6 @@
   max-width:100%!important;
  }
 }
+
+/* Apply the selected card text color to labels with their own default ink. */
+#card-editor .cardPreviewCanvas .nivalConfiguredCard :is(.cardTop small,.cardProgram,footer small){color:var(--card-text,#fff)!important}
