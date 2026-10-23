@@ -1670,7 +1670,7 @@ body{background:var(--nival-cream);color:var(--nival-text)}
  font-size:14px;font-weight:800
 }
 .nivalCustomerFlow .customerRedeemNotice{margin:0;color:var(--card-text);font-size:12px;line-height:1.4}
-.nivalCustomerFlow .customerStampProgress{display:grid;gap:8px;padding-top:2px}
+.nivalCustomerFlow .customerStampProgress{display:grid;gap:12px;width:100%;max-width:none;min-width:0;margin:0!important;padding:2px 0!important;justify-self:stretch}
 .nivalCustomerFlow .customerStampLegend{margin:0;color:var(--card-text);font-size:12px;font-weight:600;line-height:1.35;text-align:center;opacity:.9}
 .nivalCustomerFlow .customerStampGrid,
 .nivalCustomerFlow .nivalConfiguredCard .cardPointGrid{
@@ -1678,7 +1678,7 @@ body{background:var(--nival-cream);color:var(--nival-text)}
  width:100%;max-width:none;margin:0!important
 }
 .nivalCustomerFlow .customerStampGrid i{
- min-width:0;max-width:none;width:100%;font-size:22px;transform:none
+ min-width:0;max-width:none;width:82%;aspect-ratio:1;justify-self:center;font-size:clamp(20px,5vw,30px);transform:none
 }
 .nivalCustomerFlow .customerStampProgress{display:grid;gap:8px;padding-top:2px}
 .nivalCustomerFlow .customerStampLegend{margin:0;color:var(--card-text);font-size:12px;font-weight:600;line-height:1.35;text-align:center;opacity:.9}
