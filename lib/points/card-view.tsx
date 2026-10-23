@@ -147,7 +147,7 @@ export function CardView({
             </div>
             {goal>0&&<span className="customerProgressPercent">{progressPct}%</span>}
           </div>
-          {goal>0&&<progress className="customerProgressBar" max={goal} value={Math.min(points,goal)} aria-label={Math.min(points,goal)+" de "+goal+" puntos"} />}
+          {design.pointView==="bar"&&goal>0&&<progress className="customerProgressBar" max={goal} value={Math.min(points,goal)} aria-label={Math.min(points,goal)+" de "+goal+" puntos"} />}
           <p className="customerNextRewardText">
             {!card.reward?"Premio pendiente de configuración"
               :ready?"Premio disponible: "+card.reward.name
