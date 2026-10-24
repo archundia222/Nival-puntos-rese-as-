@@ -87,11 +87,13 @@
 .nivalShell:has(#card-editor) .previewHeading p,.nivalShell:has(#card-editor) .previewCanvasMeta,.nivalShell:has(#card-editor) .previewFootnote,.nivalShell:has(#card-editor) .previewRewardCaption{display:none!important}
 .nivalShell:has(#card-editor) .previewLive{font-size:13px!important}
 .nivalShell:has(#card-editor) .cardPreviewCanvas{display:block!important;min-height:0!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important}
-.nivalShell:has(#card-editor) .cardPreviewCanvas>.loyaltyCard{width:100%!important;max-width:840px!important;min-height:0!important;aspect-ratio:1.55!important;margin:0 auto!important;padding:24px 26px!important;border-radius:25px!important}
-.nivalShell:has(#card-editor) .cardPreviewCanvas>.loyaltyCard h1{font-size:22px!important}
-.nivalShell:has(#card-editor) .cardPreviewCanvas .cardPointGrid{margin:14px 0!important;gap:8px!important}
-.nivalShell:has(#card-editor) .cardPreviewCanvas .cardQrInside{display:none!important}
-.nivalShell:has(#card-editor) .cardPreviewCanvas>.loyaltyCard footer{margin-top:8px!important;padding-top:8px!important}
+.nivalShell:has(#card-editor) .cardPreviewCanvas>.nivalCustomerFlow{display:block!important;width:100%!important;max-width:840px!important;margin:0 auto!important}
+.nivalShell:has(#card-editor) .cardPreviewCanvas .customerLoyaltyCard{width:100%!important;max-width:none!important;min-height:0!important;aspect-ratio:auto!important;margin:0 auto!important;padding:34px 32px!important;border-radius:34px!important}
+.nivalShell:has(#card-editor) .cardPreviewCanvas .customerLoyaltyCard h1{font-size:clamp(26px,4vw,40px)!important}
+.nivalShell:has(#card-editor) .cardPreviewCanvas .customerStampGrid{margin:24px 0!important;gap:18px!important}
+.nivalShell:has(#card-editor) .cardPreviewCanvas .customerQrPanel{display:grid!important}
+.nivalShell:has(#card-editor) .cardPreviewCanvas .customerActivityPanel{display:block!important;max-width:840px!important;margin:28px auto 0!important}
+.nivalShell:has(#card-editor) .cardPreviewCanvas>.nivalCustomerFlow>.customerCardDetails,.nivalShell:has(#card-editor) .cardPreviewCanvas>.nivalCustomerFlow>.cardHelp{display:none!important}
 .nivalShell:has(#card-editor) .detailsStep{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:0!important}
 .nivalShell:has(#card-editor) .detailsGroup{display:grid!important;gap:20px!important;margin:0!important;padding:8px 0 28px!important;border:0!important;border-bottom:1px solid #e5e7e1!important;background:transparent!important}
 .nivalShell:has(#card-editor) .detailsGroup+.detailsGroup{padding-top:28px!important}
