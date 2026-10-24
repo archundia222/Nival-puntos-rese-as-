@@ -11,10 +11,11 @@ export function CardView({
   initial,
   qr,
   walletAvailable=false,
+  previewOnly=false,
 }: {
   business: any;
   initial: any;
-  qr: string;walletAvailable?:boolean;
+  qr: string;walletAvailable?:boolean;previewOnly?:boolean;
 }) {
   const [card, setCard] = useState(initial),
     [pulse, setPulse] = useState(false),
@@ -25,6 +26,7 @@ export function CardView({
   const [redeemNotice,setRedeemNotice]=useState(false);
   const previous = useRef(initial);
   useEffect(() => {
+    if (previewOnly) return;
     let stopped = false;
     let busy = false;
     const refresh = async () => {
@@ -71,7 +73,7 @@ export function CardView({
       clearInterval(timer);
       document.removeEventListener("visibilitychange", automatic);
     };
-  }, [business.slug, router]);
+  }, [business.slug, router, previewOnly]);
   useEffect(() => {
     previous.current = initial;
     setCard(initial);
