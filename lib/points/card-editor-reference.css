@@ -91,7 +91,6 @@
 .nivalShell:has(#card-editor) .cardPreviewCanvas .customerLoyaltyCard{width:100%!important;max-width:none!important;min-height:0!important;aspect-ratio:auto!important}
 .nivalShell:has(#card-editor) .cardPreviewCanvas .customerQrPanel{display:grid!important}
 .nivalShell:has(#card-editor) .cardPreviewCanvas .customerActivityPanel{display:block!important}
-.nivalShell:has(#card-editor) .cardPreviewCanvas>.nivalCustomerFlow>.customerCardDetails,.nivalShell:has(#card-editor) .cardPreviewCanvas>.nivalCustomerFlow>.cardHelp{display:none!important}
 .nivalShell:has(#card-editor) .detailsStep{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:0!important}
 .nivalShell:has(#card-editor) .detailsGroup{display:grid!important;gap:20px!important;margin:0!important;padding:8px 0 28px!important;border:0!important;border-bottom:1px solid #e5e7e1!important;background:transparent!important}
 .nivalShell:has(#card-editor) .detailsGroup+.detailsGroup{padding-top:28px!important}
