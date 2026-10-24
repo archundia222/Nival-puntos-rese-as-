@@ -33,7 +33,7 @@ export function ProgramEditor({businessId,business,program,reward,promotions=[],
  const [logo,setLogo]=useState(program?.logo_url||"");
  const [tab,setTab]=useState(0),[status,setStatus]=useState(""),[saving,setSaving]=useState(false),[qr,setQr]=useState("");
  const [logoError,setLogoError]=useState("");const formRef=useRef<HTMLFormElement>(null),revision=useRef(0),savedRevision=useRef(0);
- useEffect(()=>{void QRCode.toDataURL("NIVAL:00000000-0000-4000-8000-000000000000",{width:88,margin:1}).then(setQr).catch(()=>{});},[]);
+ useEffect(()=>{void QRCode.toDataURL("NIVAL:00000000-0000-4000-8000-000000000000",{width:320,margin:2}).then(setQr).catch(()=>{});},[]);
  const dirty=revision.current!==savedRevision.current;
  function change<K extends keyof typeof draft>(key:K,value:(typeof draft)[K]){revision.current++;setDraft(d=>({...d,[key]:value}));setStatus("Borrador actualizado. Publícalo cuando esté listo.");}
  function designChange<K extends keyof Design>(key:K,value:Design[K]){revision.current++;setDesign(d=>({...d,[key]:value}));setStatus("Borrador actualizado. Publícalo cuando esté listo.");}
